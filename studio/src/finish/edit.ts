@@ -31,9 +31,13 @@ export function autoTransition(prev: FinishShot, next: FinishShot, steps: StepSp
   return "cut";
 }
 
-const covers = (m: PlatesManifest, id: string, a: number, b: number) => {
-  const fr = new Set(m[id]?.frames ?? []);
-  for (let k = a; k < b; k++) if (!fr.has(k)) return false;
+// re-cut shots (factory/shorts) read plates of `plate` from source frame `src` on
+export const plateId = (s: FinishShot) => s.plate ?? s.id;
+export const srcFrame = (s: FinishShot, f: number) => f - s.from + (s.src ?? s.from);
+
+const covers = (m: PlatesManifest, s: FinishShot, a: number, b: number) => {
+  const fr = new Set(m[plateId(s)]?.frames ?? []);
+  for (let k = a; k < b; k++) if (!fr.has(srcFrame(s, k))) return false;
   return true;
 };
 
@@ -50,7 +54,7 @@ export function buildCuts(shots: FinishShot[], steps: StepSpan[], captions: Capt
       if (d >= best || o <= out.from + 4 || o >= inn.to - 4) continue;
       // moving the cut shows the outgoing shot past its end (or the incoming before its start): only
       // when those handle frames were rendered, otherwise the picture would freeze
-      const ok = o > inn.from ? covers(manifest, out.id, inn.from, o) : covers(manifest, inn.id, o, inn.from);
+      const ok = o > inn.from ? covers(manifest, out, inn.from, o) : covers(manifest, inn, o, inn.from);
       if (ok) { best = d; at = o; }
     }
     cuts.push({ at, type: autoTransition(out, inn, steps), out, in: inn });
@@ -61,9 +65,9 @@ export function buildCuts(shots: FinishShot[], steps: StepSpan[], captions: Capt
 // nearest rendered plate at or before film frame f, else the shot's first plate (handles outside
 // [from, to) are used when they were rendered; otherwise the edge plate holds)
 export function plateFor(shot: FinishShot, f: number, manifest: PlatesManifest): number | null {
-  const fr = manifest[shot.id]?.frames;
+  const fr = manifest[plateId(shot)]?.frames;
   if (!fr || fr.length === 0) return null;
-  const want = f;
+  const want = srcFrame(shot, f);
   let lo = 0, hi = fr.length - 1, ans = -1;
   while (lo <= hi) {
     const m = (lo + hi) >> 1;
@@ -74,7 +78,7 @@ export function plateFor(shot: FinishShot, f: number, manifest: PlatesManifest):
 
 export function layersAt(f: number, shots: FinishShot[], cuts: Cut[], manifest: PlatesManifest, width: number): Layer[] {
   if (shots.length === 0) return [];
-  const plain = (s: FinishShot): Layer => ({ shot: s, plateFrame: plateFor(s, f, manifest), opacity: 1, scale: 1, tx: 0, streak: 0, blur: 0 });
+  const plain = (s: FinishShot): Layer => ({ shot: s, plateFrame: plateFor(s, f, manifest), opacity: 1, scale: s.zoom ?? 1, tx: 0, streak: 0, blur: 0 });
   for (const c of cuts) {
     const h = TRANSITION_HALF[c.type];
     if (h === 0 || f < c.at - h || f >= c.at + h) continue;

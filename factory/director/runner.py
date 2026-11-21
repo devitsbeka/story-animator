@@ -133,7 +133,7 @@ class Runner:
             rep = checks.check_shotplan(plan, story, bd, man, words)
             if rep.ok:
                 ep = comp.compile_episode(plan, story, man, self.out)
-                erep = checks.check_episode(ep)
+                erep = checks.check_episode(ep, plan.get("overrides"))
                 for i in erep.issues:
                     rep.issues.append(i)
                 rep.passed += erep.passed

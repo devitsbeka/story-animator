@@ -86,6 +86,11 @@ def caption_checks(ep):
     bad = [r for r in rows if not r["inside_safe"]]
     out.append(check("C-1.captions", "CAPTIONS", not bad, f"{len(rows) - len(bad)}/{len(rows)} pages inside", f"all caption boxes inside safe rect {safe}",
                      [{"from": r["from"], "text": r["text"], "box": r["box"]} for r in bad[:12]]))
+    # >>> docuseries/shorts hook: a hook title ({"kind": "title"}) is checked by C-1 and C-6, not as a word page
+    allcaps, allrows = caps, rows
+    caps = [c for c in allcaps if c.get("kind") != "title"] or allcaps
+    rows = [r for c, r in zip(allcaps, allrows) if c.get("kind") != "title"] or allrows
+    # <<< hook title
     words = [r["words"] for r in rows]
     out.append(check("C-2.words_per_page", "CAPTIONS", max(words) <= 4 and sum(words) / len(words) <= 3,
                      {"max": max(words), "mean": rnd(sum(words) / len(words), 2)}, "max <= 4, mean <= 3"))
@@ -117,14 +122,14 @@ def caption_checks(ep):
     else:
         out.append(skip("C-5.sync", "CAPTIONS", "no word timings"))
     # C-6 hook title in the hook band over [0, >= 2 s], not overlapping the caption band
-    hook = [(c, r) for c, r in zip(caps, rows) if c["from"] <= 1 and c["to"] >= 2.0 * fps]
+    hook = [(c, r) for c, r in zip(allcaps, allrows) if c["from"] <= 1 and c["to"] >= 2.0 * fps]
     if hook:
         c, r = hook[0]
         b = r["box"]
         ok = b[1] >= HOOK_BAND[0] * sy and b[3] <= HOOK_BAND[1] * sy
         out.append(check("C-6.hook_title", "CAPTIONS", ok, b, f"title box inside the hook band y {HOOK_BAND}"))
     else:
-        first = rows[0]
+        first = allrows[0]
         out.append(rule("C-6.hook_title", "CAPTIONS", FAIL, f"first page {first['from']}-{first['to']} f", "a hook title visible from frame 0 to >= 2.0 s",
                         "no caption covers [0, 2.0 s]"))
-    return out, rows
+    return out, allrows

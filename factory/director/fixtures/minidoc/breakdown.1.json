@@ -1,0 +1,906 @@
+{
+ "id": "minidoc",
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Cold open / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L001",
+    "L002",
+    "L003"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ]
+  },
+  {
+   "id": "S02",
+   "title": "Cold open / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L004",
+    "L005",
+    "L006"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ]
+  },
+  {
+   "id": "S03",
+   "title": "CH1 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L007",
+    "L008",
+    "L009"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH1"
+  },
+  {
+   "id": "S04",
+   "title": "CH1 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L010",
+    "L011",
+    "L012"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH1"
+  },
+  {
+   "id": "S05",
+   "title": "CH1 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L013",
+    "L014",
+    "L015"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH1"
+  },
+  {
+   "id": "S06",
+   "title": "CH1 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L016",
+    "L017",
+    "L018"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH1"
+  },
+  {
+   "id": "S07",
+   "title": "CH1 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L019",
+    "L020",
+    "L021"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH1"
+  },
+  {
+   "id": "S08",
+   "title": "CH2 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L022",
+    "L023",
+    "L024"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "S09",
+   "title": "CH2 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L025",
+    "L026",
+    "L027"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "S10",
+   "title": "CH2 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L028",
+    "L029",
+    "L030"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "S11",
+   "title": "CH2 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L031",
+    "L032",
+    "L033"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "S12",
+   "title": "CH2 / open_sea",
+   "location": "open_sea",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L034",
+    "L035"
+   ],
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "elements": [
+    "open_sea",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "S13",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L036",
+    "L037",
+    "L038"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S14",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L039",
+    "L040",
+    "L041"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S15",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L042",
+    "L043",
+    "L044"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S16",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L045",
+    "L046",
+    "L047"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S17",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L048",
+    "L049",
+    "L050"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S18",
+   "title": "CH3 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L051"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig"
+   ],
+   "chapter": "CH3"
+  },
+  {
+   "id": "S19",
+   "title": "CH4 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L052",
+    "L053",
+    "L054"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH4"
+  },
+  {
+   "id": "S20",
+   "title": "CH4 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L055",
+    "L056",
+    "L057"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH4"
+  },
+  {
+   "id": "S21",
+   "title": "CH4 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L058",
+    "L059",
+    "L060"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH4"
+  },
+  {
+   "id": "S22",
+   "title": "CH4 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L061",
+    "L062",
+    "L063"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH4"
+  },
+  {
+   "id": "S23",
+   "title": "CH4 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L064",
+    "L065",
+    "L066"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH4"
+  },
+  {
+   "id": "S24",
+   "title": "CH5 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L067",
+    "L068",
+    "L069"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH5"
+  },
+  {
+   "id": "S25",
+   "title": "CH5 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L070",
+    "L071",
+    "L072"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH5"
+  },
+  {
+   "id": "S26",
+   "title": "CH5 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L073",
+    "L074",
+    "L075"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH5"
+  },
+  {
+   "id": "S27",
+   "title": "CH5 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L076",
+    "L077",
+    "L078"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH5"
+  },
+  {
+   "id": "S28",
+   "title": "CH5 / north_sentinel",
+   "location": "north_sentinel",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L079"
+   ],
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "elements": [
+    "north_sentinel",
+    "night_sky",
+    "hdri_night",
+    "yacht",
+    "hero",
+    "helm",
+    "deck_lamp",
+    "acting_rig",
+    "face_engine",
+    "camera_rig",
+    "fires"
+   ],
+   "chapter": "CH5"
+  }
+ ],
+ "elements": [
+  {
+   "id": "open_sea",
+   "kind": "location",
+   "name": "Open Andaman Sea at night",
+   "must_do": [
+    "swell",
+    "carry moon glitter",
+    "foam at the hull"
+   ],
+   "search_terms": [
+    "ocean",
+    "sea",
+    "water"
+   ]
+  },
+  {
+   "id": "north_sentinel",
+   "kind": "location",
+   "name": "North Sentinel Island and its reef",
+   "must_do": [
+    "silhouette against the sky",
+    "show the reef foam ring",
+    "host fires in the trees"
+   ],
+   "search_terms": [
+    "island",
+    "sentinel",
+    "reef"
+   ],
+   "story_specific": true
+  },
+  {
+   "id": "night_sky",
+   "kind": "world",
+   "name": "Night sky with moon",
+   "must_do": [
+    "light the scene with moonlight",
+    "brighten to dawn"
+   ],
+   "search_terms": [
+    "sky",
+    "moon",
+    "night"
+   ]
+  },
+  {
+   "id": "hdri_night",
+   "kind": "hdri",
+   "name": "Moonlit night HDRI",
+   "must_do": [
+    "give reflections and ambient night light"
+   ],
+   "search_terms": [
+    "moon",
+    "night"
+   ]
+  },
+  {
+   "id": "yacht",
+   "kind": "vehicle",
+   "name": "14 m sailing yacht",
+   "must_do": [
+    "float",
+    "lights on then off",
+    "hit the reef and tilt",
+    "float free on the tide"
+   ],
+   "search_terms": [
+    "yacht",
+    "sailboat",
+    "boat"
+   ],
+   "solves_climax": true
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "name": "The sailor (series hero)",
+   "must_do": [
+    "steer",
+    "flip a switch",
+    "shout into a radio",
+    "pull a beacon tab",
+    "shake head",
+    "sneeze",
+    "sit and hold on",
+    "shush",
+    "tie a bag"
+   ],
+   "search_terms": [
+    "hero",
+    "sailor"
+   ]
+  },
+  {
+   "id": "helm",
+   "kind": "prop",
+   "name": "Cockpit helm console with gauges",
+   "must_do": [
+    "glow, then go dark"
+   ],
+   "search_terms": [
+    "helm",
+    "wheel"
+   ]
+  },
+  {
+   "id": "deck_lamp",
+   "kind": "prop",
+   "name": "Warm deck lamp",
+   "must_do": [
+    "switch off on cue"
+   ],
+   "search_terms": [
+    "lamp",
+    "light"
+   ]
+  },
+  {
+   "id": "fires",
+   "kind": "fx",
+   "name": "Fires and torches in the trees",
+   "must_do": [
+    "light one by one",
+    "flicker"
+   ],
+   "search_terms": [
+    "fire",
+    "torch"
+   ]
+  },
+  {
+   "id": "acting_rig",
+   "kind": "system",
+   "name": "Acting rig (stances, poses, verbs)",
+   "must_do": [
+    "perform every hero action"
+   ],
+   "search_terms": [
+    "acting"
+   ]
+  },
+  {
+   "id": "face_engine",
+   "kind": "system",
+   "name": "Face and eye engine",
+   "must_do": [
+    "emote",
+    "blink",
+    "look"
+   ],
+   "search_terms": [
+    "face"
+   ]
+  },
+  {
+   "id": "camera_rig",
+   "kind": "system",
+   "name": "Camera rig",
+   "must_do": [
+    "eased continuous moves"
+   ],
+   "search_terms": [
+    "camera"
+   ]
+  }
+ ]
+}

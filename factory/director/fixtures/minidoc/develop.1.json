@@ -1,0 +1,1059 @@
+{
+ "id": "minidoc",
+ "format": "docuseries",
+ "title": "The forbidden reef: one night off North Sentinel",
+ "logline": "A solo sailor's yacht drifts onto the reef of the world's most isolated island at night and must survive without going ashore.",
+ "essence": "Surviving the forbidden reef means never stepping onto the beach.",
+ "style": "pixar_night_survival",
+ "duration_s": 360.0,
+ "hero": {
+  "name": "the sailor",
+  "description": "A solo sailor on a small yacht",
+  "flaw": "Alone, without power, and forbidden to go ashore."
+ },
+ "hook": {
+  "format": "IMR",
+  "line_ids": [
+   "L001"
+  ],
+  "text_overlay": {
+   "text": "THE DARK REEF",
+   "start": 0,
+   "end": 2.5
+  },
+  "visual": "The yacht heels on the reef at night; torches move on the beach behind the hero at the helm."
+ },
+ "core_question": {
+  "text": "How do you survive the night without going ashore?",
+  "answer_line": "L070"
+ },
+ "stakes": {
+  "physical": "A grounded hull on a falling tide.",
+  "legal_ethical": "Contact with the island is forbidden.",
+  "mortal": "The island's people turn every visitor back."
+ },
+ "time_pressure": false,
+ "spine": {
+  "once_upon_a_time": "A solo sailor crosses the Andaman Sea.",
+  "every_day": "The yacht holds its course far from the island.",
+  "one_day": "The engine dies at dusk.",
+  "because_of_that": [
+   "Because of that, the current drags the yacht to the reef.",
+   "Because of that, the sailor must wait aboard in the dark."
+  ],
+  "until_finally": "The beacon brings a patrol boat at dawn.",
+  "ever_since": "The sailor gives the island a wide berth."
+ },
+ "beats": [
+  {
+   "id": "B0",
+   "name": "COLD_OPEN",
+   "t0": 0.0,
+   "t1": 27.0,
+   "link": null,
+   "stakes": 7,
+   "visual_scale": 8,
+   "summary": "In medias res: the yacht on the reef, torches on the beach."
+  },
+  {
+   "id": "B1",
+   "name": "TITLE",
+   "t0": 27.0,
+   "t1": 31.0,
+   "link": "THEREFORE",
+   "stakes": 6,
+   "visual_scale": 6,
+   "summary": "Title card over the dark island."
+  },
+  {
+   "id": "B2",
+   "name": "CHAPTER",
+   "t0": 31.0,
+   "t1": 96.8,
+   "link": "BUT",
+   "stakes": 5.0,
+   "visual_scale": 5,
+   "summary": "The engine dies",
+   "chapter": "CH1"
+  },
+  {
+   "id": "B3",
+   "name": "CHAPTER",
+   "t0": 96.8,
+   "t1": 162.6,
+   "link": "THEREFORE",
+   "stakes": 5.8,
+   "visual_scale": 6,
+   "summary": "The current",
+   "chapter": "CH2"
+  },
+  {
+   "id": "B4",
+   "name": "CHAPTER",
+   "t0": 162.6,
+   "t1": 228.4,
+   "link": "BUT",
+   "stakes": 6.6,
+   "visual_scale": 7,
+   "summary": "The reef",
+   "chapter": "CH3"
+  },
+  {
+   "id": "B5",
+   "name": "CHAPTER",
+   "t0": 228.4,
+   "t1": 294.2,
+   "link": "THEREFORE",
+   "stakes": 7.4,
+   "visual_scale": 8,
+   "summary": "The beach",
+   "chapter": "CH4"
+  },
+  {
+   "id": "B6",
+   "name": "CHAPTER",
+   "t0": 294.2,
+   "t1": 360.0,
+   "link": "BUT",
+   "stakes": 8.2,
+   "visual_scale": 9,
+   "summary": "The beacon",
+   "chapter": "CH5"
+  },
+  {
+   "id": "B8",
+   "name": "CLIMAX",
+   "t0": 300.78,
+   "t1": 316.8,
+   "link": "BUT",
+   "stakes": 9.5,
+   "visual_scale": 9,
+   "summary": "The beacon pulses while the beach watches.",
+   "chapter": "CH5"
+  },
+  {
+   "id": "B9",
+   "name": "RESOLUTION",
+   "t0": 316.8,
+   "t1": 355.11,
+   "link": "THEREFORE",
+   "stakes": 8,
+   "visual_scale": 7,
+   "summary": "A patrol boat at dawn; never going ashore is the answer.",
+   "chapter": "CH5"
+  },
+  {
+   "id": "B10",
+   "name": "TEASE",
+   "t0": 355.11,
+   "t1": 360.0,
+   "link": "BUT",
+   "stakes": 7,
+   "visual_scale": 6,
+   "summary": "Tease of the next episode.",
+   "chapter": "CH5"
+  }
+ ],
+ "narration": [
+  {
+   "id": "L001",
+   "tag": "excited",
+   "text": "You are drifting onto the forbidden reef. In the dark.",
+   "t0": 0.0,
+   "t1": 3.57,
+   "beat": "B0"
+  },
+  {
+   "id": "L002",
+   "tag": "serious",
+   "text": "The hull grinds on coral. Water slaps against the keel, louder every second.",
+   "t0": 3.87,
+   "t1": 8.51,
+   "beat": "B0"
+  },
+  {
+   "id": "L003",
+   "tag": "whispers",
+   "text": "On the beach, torches move. Someone is watching you.",
+   "t0": 8.81,
+   "t1": 12.02,
+   "beat": "B0"
+  },
+  {
+   "id": "L004",
+   "tag": "dramatic",
+   "text": "But this is not where the story starts. It starts before dusk.",
+   "t0": 12.32,
+   "t1": 16.61,
+   "beat": "B0",
+   "rehook": true
+  },
+  {
+   "id": "L005",
+   "tag": "serious",
+   "text": "You had one rule out here. Never come near this island.",
+   "t0": 16.91,
+   "t1": 20.84,
+   "beat": "B0"
+  },
+  {
+   "id": "L006",
+   "tag": "serious",
+   "text": "The hull grinds on coral. Water slaps against the keel, louder every second.",
+   "t0": 21.14,
+   "t1": 25.78,
+   "beat": "B0"
+  },
+  {
+   "id": "L007",
+   "tag": "dramatic",
+   "text": "But the engine coughs once and stops. The silence is sudden and total.",
+   "t0": 31.0,
+   "t1": 35.64,
+   "beat": "B2",
+   "chapter": "CH1",
+   "rehook": true
+  },
+  {
+   "id": "L008",
+   "tag": "serious",
+   "text": "You check the fuel. You check the battery. Nothing works.",
+   "t0": 35.94,
+   "t1": 39.51,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L009",
+   "tag": "storytelling",
+   "text": "The sea is calm around you, almost kind. That calm is the problem.",
+   "t0": 39.81,
+   "t1": 44.45,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L010",
+   "tag": "whispers",
+   "text": "No lights. No power. Only the moon on the water.",
+   "t0": 44.75,
+   "t1": 48.32,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L011",
+   "tag": "serious",
+   "text": "You try the radio before panic sets in. Static answers you.",
+   "t0": 48.62,
+   "t1": 52.55,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L012",
+   "tag": "dramatic",
+   "text": "But the current has already taken hold of the yacht.",
+   "t0": 52.85,
+   "t1": 56.42,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L013",
+   "tag": "dramatic",
+   "text": "But the engine coughs once and stops. The silence is sudden and total.",
+   "t0": 56.72,
+   "t1": 61.36,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L014",
+   "tag": "serious",
+   "text": "You check the fuel. You check the battery. Nothing works.",
+   "t0": 61.66,
+   "t1": 65.23,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L015",
+   "tag": "storytelling",
+   "text": "The sea is calm around you, almost kind. That calm is the problem.",
+   "t0": 65.53,
+   "t1": 70.17,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L016",
+   "tag": "whispers",
+   "text": "No lights. No power. Only the moon on the water.",
+   "t0": 70.47,
+   "t1": 74.04,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L017",
+   "tag": "serious",
+   "text": "You try the radio before panic sets in. Static answers you.",
+   "t0": 74.34,
+   "t1": 78.27,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L018",
+   "tag": "dramatic",
+   "text": "But the current has already taken hold of the yacht.",
+   "t0": 78.57,
+   "t1": 82.14,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L019",
+   "tag": "dramatic",
+   "text": "But the engine coughs once and stops. The silence is sudden and total.",
+   "t0": 82.44,
+   "t1": 87.08,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L020",
+   "tag": "serious",
+   "text": "You check the fuel. You check the battery. Nothing works.",
+   "t0": 87.38,
+   "t1": 90.95,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L021",
+   "tag": "storytelling",
+   "text": "The sea is calm around you, almost kind. That calm is the problem.",
+   "t0": 91.25,
+   "t1": 95.89,
+   "beat": "B2",
+   "chapter": "CH1"
+  },
+  {
+   "id": "L022",
+   "tag": "dramatic",
+   "text": "But the current does not drift. It pulls you toward the reef.",
+   "t0": 96.8,
+   "t1": 101.09,
+   "beat": "B3",
+   "chapter": "CH2",
+   "rehook": true
+  },
+  {
+   "id": "L023",
+   "tag": "serious",
+   "text": "You brace at the rail and read the water. It is moving fast.",
+   "t0": 101.39,
+   "t1": 106.03,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L024",
+   "tag": "storytelling",
+   "text": "Sailors warned you about this stretch. They call it the wrong side.",
+   "t0": 106.33,
+   "t1": 110.62,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L025",
+   "tag": "whispers",
+   "text": "Ahead, a dark line of trees rises out of the sea.",
+   "t0": 110.92,
+   "t1": 114.85,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L026",
+   "tag": "serious",
+   "text": "You know that shape from the charts. You were told never to go near it.",
+   "t0": 115.15,
+   "t1": 120.51,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L027",
+   "tag": "dramatic",
+   "text": "But there is no anchor that can hold you here.",
+   "t0": 120.81,
+   "t1": 124.38,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L028",
+   "tag": "dramatic",
+   "text": "But the current does not drift. It pulls you toward the reef.",
+   "t0": 124.68,
+   "t1": 128.97,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L029",
+   "tag": "serious",
+   "text": "You brace at the rail and read the water. It is moving fast.",
+   "t0": 129.27,
+   "t1": 133.91,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L030",
+   "tag": "storytelling",
+   "text": "Sailors warned you about this stretch. They call it the wrong side.",
+   "t0": 134.21,
+   "t1": 138.5,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L031",
+   "tag": "whispers",
+   "text": "Ahead, a dark line of trees rises out of the sea.",
+   "t0": 138.8,
+   "t1": 142.73,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L032",
+   "tag": "serious",
+   "text": "You know that shape from the charts. You were told never to go near it.",
+   "t0": 143.03,
+   "t1": 148.39,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L033",
+   "tag": "dramatic",
+   "text": "But there is no anchor that can hold you here.",
+   "t0": 148.69,
+   "t1": 152.26,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L034",
+   "tag": "dramatic",
+   "text": "But the current does not drift. It pulls you toward the reef.",
+   "t0": 152.56,
+   "t1": 156.85,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L035",
+   "tag": "serious",
+   "text": "You brace at the rail and read the water. It is moving fast.",
+   "t0": 157.15,
+   "t1": 161.79,
+   "beat": "B3",
+   "chapter": "CH2"
+  },
+  {
+   "id": "L036",
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 162.6,
+   "t1": 166.53,
+   "beat": "B4",
+   "chapter": "CH3",
+   "rehook": true
+  },
+  {
+   "id": "L037",
+   "tag": "serious",
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 166.83,
+   "t1": 170.76,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L038",
+   "tag": "whispers",
+   "text": "The hull holds. For now, the hull holds.",
+   "t0": 171.06,
+   "t1": 173.92,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L039",
+   "tag": "storytelling",
+   "text": "The tide is falling. Every minute, the coral rises around you.",
+   "t0": 174.22,
+   "t1": 178.15,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L040",
+   "tag": "serious",
+   "text": "You are stuck at the edge of an island nobody is allowed to visit.",
+   "t0": 178.45,
+   "t1": 183.45,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L041",
+   "tag": "dramatic",
+   "text": "But the reef is not the real danger tonight.",
+   "t0": 183.75,
+   "t1": 186.96,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L042",
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 187.26,
+   "t1": 191.19,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L043",
+   "tag": "serious",
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 191.49,
+   "t1": 195.42,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L044",
+   "tag": "whispers",
+   "text": "The hull holds. For now, the hull holds.",
+   "t0": 195.72,
+   "t1": 198.58,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L045",
+   "tag": "storytelling",
+   "text": "The tide is falling. Every minute, the coral rises around you.",
+   "t0": 198.88,
+   "t1": 202.81,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L046",
+   "tag": "serious",
+   "text": "You are stuck at the edge of an island nobody is allowed to visit.",
+   "t0": 203.11,
+   "t1": 208.11,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L047",
+   "tag": "dramatic",
+   "text": "But the reef is not the real danger tonight.",
+   "t0": 208.41,
+   "t1": 211.62,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L048",
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 211.92,
+   "t1": 215.85,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L049",
+   "tag": "serious",
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 216.15,
+   "t1": 220.08,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L050",
+   "tag": "whispers",
+   "text": "The hull holds. For now, the hull holds.",
+   "t0": 220.38,
+   "t1": 223.24,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L051",
+   "tag": "storytelling",
+   "text": "The tide is falling. Every minute, the coral rises around you.",
+   "t0": 223.54,
+   "t1": 227.47,
+   "beat": "B4",
+   "chapter": "CH3"
+  },
+  {
+   "id": "L052",
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 228.4,
+   "t1": 231.61,
+   "beat": "B5",
+   "chapter": "CH4",
+   "rehook": true
+  },
+  {
+   "id": "L053",
+   "tag": "whispers",
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 231.91,
+   "t1": 235.12,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L054",
+   "tag": "serious",
+   "text": "The people here have lived alone for a very long time. They want it that way.",
+   "t0": 235.42,
+   "t1": 241.13,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L055",
+   "tag": "storytelling",
+   "text": "Every visitor before you was turned back. Some never left.",
+   "t0": 241.43,
+   "t1": 245.0,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L056",
+   "tag": "serious",
+   "text": "Your instinct says swim for help. That instinct is the mistake.",
+   "t0": 245.3,
+   "t1": 249.23,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L057",
+   "tag": "dramatic",
+   "text": "But staying aboard means waiting in the dark until dawn.",
+   "t0": 249.53,
+   "t1": 253.1,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L058",
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 253.4,
+   "t1": 256.61,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L059",
+   "tag": "whispers",
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 256.91,
+   "t1": 260.12,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L060",
+   "tag": "serious",
+   "text": "The people here have lived alone for a very long time. They want it that way.",
+   "t0": 260.42,
+   "t1": 266.13,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L061",
+   "tag": "storytelling",
+   "text": "Every visitor before you was turned back. Some never left.",
+   "t0": 266.43,
+   "t1": 270.0,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L062",
+   "tag": "serious",
+   "text": "Your instinct says swim for help. That instinct is the mistake.",
+   "t0": 270.3,
+   "t1": 274.23,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L063",
+   "tag": "dramatic",
+   "text": "But staying aboard means waiting in the dark until dawn.",
+   "t0": 274.53,
+   "t1": 278.1,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L064",
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 278.4,
+   "t1": 281.61,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L065",
+   "tag": "whispers",
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 281.91,
+   "t1": 285.12,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L066",
+   "tag": "serious",
+   "text": "The people here have lived alone for a very long time. They want it that way.",
+   "t0": 285.42,
+   "t1": 291.13,
+   "beat": "B5",
+   "chapter": "CH4"
+  },
+  {
+   "id": "L067",
+   "tag": "dramatic",
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 294.2,
+   "t1": 298.49,
+   "beat": "B6",
+   "chapter": "CH5",
+   "rehook": true
+  },
+  {
+   "id": "L068",
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 298.79,
+   "t1": 304.15,
+   "beat": "B6",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L069",
+   "tag": "whispers",
+   "text": "Now you wait. You do not shout. You do not wave at the beach.",
+   "t0": 304.45,
+   "t1": 309.45,
+   "beat": "B8",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L070",
+   "tag": "serious",
+   "text": "You survive because you never set foot on that beach.",
+   "t0": 309.75,
+   "t1": 313.32,
+   "beat": "B8",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L071",
+   "tag": "storytelling",
+   "text": "Then a patrol boat appears on the horizon, slow and careful.",
+   "t0": 313.62,
+   "t1": 317.55,
+   "beat": "B8",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L072",
+   "tag": "dramatic",
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 317.85,
+   "t1": 322.14,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L073",
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 322.44,
+   "t1": 327.8,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L074",
+   "tag": "whispers",
+   "text": "Now you wait. You do not shout. You do not wave at the beach.",
+   "t0": 328.1,
+   "t1": 333.1,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L075",
+   "tag": "serious",
+   "text": "The night crawls by you before the sky turns grey over the water.",
+   "t0": 333.4,
+   "t1": 338.04,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L076",
+   "tag": "storytelling",
+   "text": "Then a patrol boat appears on the horizon, slow and careful.",
+   "t0": 338.34,
+   "t1": 342.27,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L077",
+   "tag": "dramatic",
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 342.57,
+   "t1": 346.86,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L078",
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 347.16,
+   "t1": 352.52,
+   "beat": "B9",
+   "chapter": "CH5"
+  },
+  {
+   "id": "L079",
+   "tag": "whispers",
+   "text": "Next time: the sailors who did go ashore, and what they found.",
+   "t0": 355.11,
+   "t1": 359.4,
+   "beat": "B10",
+   "chapter": "CH5"
+  }
+ ],
+ "steps": [],
+ "facts": [],
+ "suspense_devices": [
+  {
+   "type": "threat_reveal",
+   "desc": "Torches on the beach in the cold open, before the story rewinds.",
+   "beat": "B0"
+  }
+ ],
+ "attempts": [
+  {
+   "action": "Restart the engine.",
+   "outcome": "fail"
+  },
+  {
+   "action": "Radio for help.",
+   "outcome": "fail"
+  },
+  {
+   "action": "Raise the emergency beacon and wait aboard.",
+   "outcome": "success"
+  }
+ ],
+ "resolution": {
+  "hero_action": "The sailor raises the beacon and stays aboard until the patrol boat arrives.",
+  "outcome": "Rescued at dawn."
+ },
+ "loop_back": {
+  "method": "reverse_question",
+  "desc": "Would you have stayed aboard?"
+ },
+ "open_loops": [
+  {
+   "id": "CQ",
+   "desc": "How do you survive without going ashore?",
+   "opened_t": 0.0,
+   "closed_t": 313.32,
+   "primary": true
+  },
+  {
+   "id": "OL1",
+   "desc": "Who is watching from the beach?",
+   "opened_t": 5.0,
+   "closed_t": 30.0,
+   "primary": false
+  },
+  {
+   "id": "OL2",
+   "desc": "Will help come?",
+   "opened_t": 144.0,
+   "closed_t": 164.0,
+   "primary": false
+  },
+  {
+   "id": "OL3",
+   "desc": "What happened to the sailors who went ashore?",
+   "opened_t": 309.75,
+   "closed_t": 360.0,
+   "primary": false
+  }
+ ],
+ "overrides": [
+  {
+   "rule": "INTEGRITY.duration",
+   "reason": "mini-doc test fixture: a 6-minute scale model of the 15-25 min docuseries format"
+  }
+ ],
+ "cold_open": {
+  "t0": 0.0,
+  "t1": 27.0
+ },
+ "tease_next": "Next time: the sailors who did go ashore, and what they found.",
+ "chapters": [
+  {
+   "id": "CH1",
+   "title": "The engine dies",
+   "t0": 31.0,
+   "t1": 96.8,
+   "spine": {
+    "hook": "But the engine coughs once and stops. The silence is sudden and total.",
+    "escalation": [
+     "You check the fuel. You check the battery. Nothing works.",
+     "No lights. No power. Only the moon on the water."
+    ],
+    "payoff": "But the current has already taken hold of the yacht."
+   },
+   "short_candidate": {
+    "id": "SC1",
+    "in": 35.94,
+    "out": 95.89,
+    "hook_line": "Would you survive the engine dies alone at night?",
+    "setup": "You check the fuel. You check the battery. Nothing works.",
+    "turn": "But the engine coughs once and stops. The silence is sudden and total.",
+    "payoff": "But the current has already taken hold of the yacht."
+   }
+  },
+  {
+   "id": "CH2",
+   "title": "The current",
+   "t0": 96.8,
+   "t1": 162.6,
+   "spine": {
+    "hook": "But the current does not drift. It pulls you toward the reef.",
+    "escalation": [
+     "You brace at the rail and read the water. It is moving fast.",
+     "Ahead, a dark line of trees rises out of the sea."
+    ],
+    "payoff": "But there is no anchor that can hold you here."
+   },
+   "short_candidate": {
+    "id": "SC2",
+    "in": 101.39,
+    "out": 161.79,
+    "hook_line": "Would you survive the current alone at night?",
+    "setup": "You brace at the rail and read the water. It is moving fast.",
+    "turn": "But the current does not drift. It pulls you toward the reef.",
+    "payoff": "But there is no anchor that can hold you here."
+   }
+  },
+  {
+   "id": "CH3",
+   "title": "The reef",
+   "t0": 162.6,
+   "t1": 228.4,
+   "spine": {
+    "hook": "Then the keel hits the reef. The whole boat lurches sideways.",
+    "escalation": [
+     "You are thrown against the helm. Your hands find the wheel.",
+     "The tide is falling. Every minute, the coral rises around you."
+    ],
+    "payoff": "But the reef is not the real danger tonight."
+   },
+   "short_candidate": {
+    "id": "SC3",
+    "in": 166.83,
+    "out": 227.47,
+    "hook_line": "Would you survive the reef alone at night?",
+    "setup": "You are thrown against the helm. Your hands find the wheel.",
+    "turn": "Then the keel hits the reef. The whole boat lurches sideways.",
+    "payoff": "But the reef is not the real danger tonight."
+   }
+  },
+  {
+   "id": "CH4",
+   "title": "The beach",
+   "t0": 228.4,
+   "t1": 294.2,
+   "spine": {
+    "hook": "But then you see the fires on the beach.",
+    "escalation": [
+     "Shapes move between the trees. They are watching you.",
+     "Every visitor before you was turned back. Some never left."
+    ],
+    "payoff": "But staying aboard means waiting in the dark until dawn."
+   },
+   "short_candidate": {
+    "id": "SC4",
+    "in": 231.91,
+    "out": 291.13,
+    "hook_line": "Would you survive the beach alone at night?",
+    "setup": "Shapes move between the trees. They are watching you.",
+    "turn": "But then you see the fires on the beach.",
+    "payoff": "But staying aboard means waiting in the dark until dawn."
+   }
+  },
+  {
+   "id": "CH5",
+   "title": "The beacon",
+   "t0": 294.2,
+   "t1": 360.0,
+   "spine": {
+    "hook": "But you have one thing left. The emergency beacon in the cabin.",
+    "escalation": [
+     "You pull the tab and raise it over your head. The light starts to pulse.",
+     "The night crawls by you before the sky turns grey over the water."
+    ],
+    "payoff": "Then a patrol boat appears on the horizon, slow and careful."
+   },
+   "short_candidate": {
+    "id": "SC5",
+    "in": 298.79,
+    "out": 352.52,
+    "hook_line": "Would you survive the beacon alone at night?",
+    "setup": "You pull the tab and raise it over your head. The light starts to pulse.",
+    "turn": "But you have one thing left. The emergency beacon in the cabin.",
+    "payoff": "Then a patrol boat appears on the horizon, slow and careful."
+   }
+  }
+ ]
+}

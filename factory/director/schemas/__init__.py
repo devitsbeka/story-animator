@@ -58,8 +58,31 @@ def render_contract():
         s = copy.deepcopy(json.load(fh))
     s["$defs"]["actor"]["properties"]["perf"] = PERF
     s["$defs"]["shot"]["properties"]["props"] = {"type": "array", "items": PROP}
+    _docuseries_contract(s)
     Draft202012Validator.check_schema(s)
     return s
+
+
+# >>> docuseries: 16:9 masters, dual-frame shots (cameras.main / cameras.vertical) and the shorts plan
+def _docuseries_contract(s):
+    s["properties"]["width"] = {"enum": [1080, 1920, 3840], "description": "1080 (9:16 short) or 1920/3840 (16:9 master)"}
+    s["properties"]["height"] = {"enum": [1920, 1080, 2160]}
+    s["properties"]["format"] = {"enum": ["short", "docuseries"]}
+    s["properties"]["vertical"] = {"type": "object", "additionalProperties": False, "required": ["width", "height"],
+                                   "description": "frame of cameras.vertical (render_episode.py --camera vertical)",
+                                   "properties": {"width": {"const": 1080}, "height": {"const": 1920}}}
+    s["properties"]["shorts"] = {"type": "array", "items": {
+        "type": "object", "additionalProperties": False, "required": ["id", "chapter", "from", "to", "hook_line", "shots"],
+        "description": "story short_candidate beats in film frames [from, to), with the dual-frame shots that cover them",
+        "properties": {"id": {"type": "string"}, "chapter": {"type": "string"}, "from": {"type": "integer"}, "to": {"type": "integer"},
+                       "hook_line": {"type": "string"}, "setup": {"type": "string"}, "turn": {"type": "string"},
+                       "payoff": {"type": "string"}, "shots": {"type": "array", "items": {"type": "string"}}}}}
+    sh = s["$defs"]["shot"]["properties"]
+    sh["short_candidate"] = {"type": "string"}
+    sh["cameras"] = {"type": "object", "additionalProperties": False, "required": ["main", "vertical"],
+                     "properties": {"main": {"$ref": "#/$defs/camera"}, "vertical": {"$ref": "#/$defs/camera"}}}
+    sh["vertical"] = {"type": "object", "description": "shotplan staging hints for the vertical camera (subject, tighten, aim)"}
+# <<< docuseries
 
 
 def _fmt(e):

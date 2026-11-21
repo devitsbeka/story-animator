@@ -39,8 +39,10 @@ def video_rules(m, ep=None):
     pr = m["probe"]
     fps_e = ep.fps if ep else 30.0
     W, H = (ep.width, ep.height) if ep else (1080, 1920)
-    out.append(check("TQ-VIDEO-RES", "TECH", (pr.get("width"), pr.get("height")) == (1080, 1920) and (W, H) == (1080, 1920),
-                     f"{pr.get('width')}x{pr.get('height')}", "1080x1920 (9:16)"))
+    # docuseries hook: a long-form master is checked against its declared 16:9 frame; everything else is a 9:16 short
+    want = (W, H) if ep and ep.data.get("format") == "docuseries" and (W, H) in ((1920, 1080), (3840, 2160)) else (1080, 1920)
+    out.append(check("TQ-VIDEO-RES", "TECH", (pr.get("width"), pr.get("height")) == want and (W, H) == want,
+                     f"{pr.get('width')}x{pr.get('height')}", f"{want[0]}x{want[1]} ({'16:9 master' if want[0] > want[1] else '9:16'})"))
     out.append(check("TQ-VIDEO-FPS", "TECH", abs(pr.get("fps", 0) - fps_e) < 0.01, rnd(pr.get("fps")), f"{fps_e} fps (episode)"))
     if ep:
         D = ep.duration
