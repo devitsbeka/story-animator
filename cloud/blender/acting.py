@@ -294,7 +294,7 @@ class Puppet:
         self.arm, self.holder = arm, holder
         fix_bone_lengths(arm)
         bpy.context.view_layer.update()
-        self.A = arm.matrix_world.copy()          # char-local <- armature space (incl. 0.01 scale + axis fix)
+        self.A = holder.matrix_world.inverted() @ arm.matrix_world  # char-local <- armature space (0.01 scale + axis fix)
         self.Ainv = self.A.inverted()
         self.Rq = self.A.to_quaternion()
         self.s = self.A.to_scale()[0]

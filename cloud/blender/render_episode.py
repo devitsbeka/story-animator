@@ -32,6 +32,11 @@ LOG_PREFIX = "[render_episode]"
 WARNINGS = []
 
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import acting  # noqa: E402
+import props as propkit  # noqa: E402
+
+
 def log(*a):
     print(LOG_PREFIX, *a, flush=True)
 
@@ -1015,6 +1020,9 @@ def axis_toward(bone, direction):
     return name
 
 
+ACTORS = {}
+
+
 def build_actor(idx, a, yacht_root, camera, shot, fps):
     key = SPEC["assets"]["characters"].get(a["asset"], f"assets/characters/{a['asset']}/{a['asset']}.glb")
     path = resolve(key)
@@ -1053,10 +1061,41 @@ def build_actor(idx, a, yacht_root, camera, shot, fps):
         bottom = min(feet) if feet else 0.0
         h = (top - bottom) * 1.04 if top > bottom else 1.8
         sc = float(a.get("height", 1.8)) / h
+    perf = a.get("perf")
+    pup = None
+    if arm and perf:
+        if arm.animation_data:
+            arm.animation_data.action = None
+        bpy.context.view_layer.update()
+        pup = acting.Puppet(arm, holder)
     holder.matrix_basis = obj_mat(trans(a["local"]) @ rot_y(a.get("rotY", 0))) @ Matrix.Scale(sc, 4)
     if not arm:
         warn(f"character '{a['asset']}' has no armature; tracks ignored")
-        return
+        return None
+    if pup is not None:
+        pup.bake(perf, shot["from"] - 1, shot["to"] + 1)
+        # GAFFER 'moonlight portrait' preset: cool soft key front-left-high, strong rim behind, faint warm bounce.
+        # Parented to the hero so his face always reads against the night sea, whatever the camera does.
+        aimt = bpy.data.objects.new(f"aim_{idx}", None)
+        link_obj(aimt)
+        aimt.parent = holder
+        aimt.location = (0, 0, 1.35)
+        rig = a.get("lightRig", {})
+        for nm, loc, energy, size, col in (
+            ("key", (0.9, -1.7, 2.3), rig.get("key", 90.0), 1.6, (0.72, 0.82, 1.0)),
+            ("rim", (-0.9, 1.5, 2.1), rig.get("rim", 160.0), 0.8, (0.62, 0.74, 1.0)),
+            ("bounce", (0.0, -1.2, 0.3), rig.get("bounce", 12.0), 2.0, (0.55, 0.62, 0.8)),
+        ):
+            ld = bpy.data.lights.new(f"hero_{nm}_{idx}", "AREA")
+            ld.energy, ld.size, ld.color = energy, size, col
+            lo = bpy.data.objects.new(f"hero_{nm}_{idx}", ld)
+            link_obj(lo)
+            lo.parent = holder
+            lo.location = loc
+            c = lo.constraints.new("TRACK_TO")
+            c.target, c.track_axis, c.up_axis = aimt, "TRACK_NEGATIVE_Z", "UP_Y"
+        ACTORS[a.get("name", "hero")] = arm
+        return arm
     if arm.animation_data:
         arm.animation_data.action = None
     else:
@@ -1115,6 +1154,88 @@ def build_actor(idx, a, yacht_root, camera, shot, fps):
 
 
 # ---------------- render settings ----------------
+
+BONE_OF = {"handR": "RightHand", "handL": "LeftHand", "head": "Head", "chest": "Spine"}
+
+
+def _hide_keys(root, show_keys, f0, f1):
+    objs = [root] + list(root.children_recursive)
+    for f in range(f0, f1 + 1):
+        vis = keyed(show_keys, f, 1.0) > 0.5
+        for o in objs:
+            o.hide_render = not vis
+            o.hide_viewport = not vis
+            o.keyframe_insert("hide_render", frame=f)
+
+
+def build_props(shot, yacht_root, frames):
+    """shot.props: [{prop, attach: 'yacht'|'handR'|'handL'|'world', local, rot (deg xyz) | rotY, scale, show: keys,
+    strobe: f_on, light: keys (0..1 lamp/gauge/led intensity)}]"""
+    f0, f1 = frames[0] - 1, frames[-1] + 1
+    for i, p in enumerate(shot.get("props") or []):
+        b = propkit.BUILDERS.get(p["prop"])
+        if not b:
+            warn(f"unknown prop {p['prop']}")
+            continue
+        root = b(f"{p['prop']}_{i}")
+        att = p.get("attach", "yacht")
+        if att in BONE_OF:
+            arm = ACTORS.get(p.get("actor", "hero"))
+            if arm is None:
+                warn(f"prop {p['prop']}: no actor to attach to")
+                continue
+            root.parent = arm
+            root.parent_type = "BONE"
+            root.parent_bone = next((bn.name for bn in arm.data.bones if bn.name.lower() == BONE_OF[att].lower()), BONE_OF[att])
+            root.matrix_parent_inverse = Matrix.Identity(4)
+            s_arm = arm.matrix_world.to_scale()[0] or 1.0
+            root.location = Vector(p.get("local", (0, 0, 0))) / s_arm
+            r = p.get("rot", (0, 0, 0))
+            root.rotation_euler = tuple(math.radians(x) for x in r)
+            root.scale = (p.get("scale", 1.0) / s_arm,) * 3
+        else:
+            if att == "yacht" and yacht_root is not None:
+                root.parent = yacht_root
+            root.matrix_basis = obj_mat(trans(p.get("local", (0, 0, 0))) @ rot_y(p.get("rotY", 0.0))) @ Matrix.Scale(p.get("scale", 1.0), 4)
+        if p.get("show") is not None:
+            _hide_keys(root, p["show"], f0, f1)
+        kids = list(root.children_recursive)
+        if p.get("strobe") is not None:
+            for o in kids:
+                if o.type == "LIGHT":
+                    for f in range(f0, f1 + 1):
+                        on = f >= p["strobe"] and ((f - p["strobe"]) % 24) < 2
+                        o.data.energy = 40.0 if on else 0.0
+                        o.data.keyframe_insert("energy", frame=f)
+                for slot in getattr(o, "material_slots", []):
+                    m = slot.material
+                    if m and m.name.startswith("epirb_dome"):
+                        m = m.copy(); slot.material = m
+                        nd = m.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"]
+                        for f in range(f0, f1 + 1):
+                            on = f >= p["strobe"] and ((f - p["strobe"]) % 24) < 2
+                            nd.default_value = 60.0 if on else 0.0
+                            nd.keyframe_insert("default_value", frame=f)
+        if p.get("light") is not None:
+            for o in kids:
+                if o.type == "LIGHT":
+                    base = o.data.energy
+                    for f in range(f0, f1 + 1):
+                        o.data.energy = base * keyed(p["light"], f, 1.0)
+                        o.data.keyframe_insert("energy", frame=f)
+                for slot in getattr(o, "material_slots", []):
+                    m = slot.material
+                    if m and m.node_tree and m.node_tree.nodes.get("Principled BSDF"):
+                        es = m.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"]
+                        if es.default_value > 0 or m.name.startswith(("helm_gauge", "panel_led")):
+                            base = es.default_value or 5.0
+                            m = m.copy(); slot.material = m
+                            es = m.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"]
+                            for f in range(f0, f1 + 1):
+                                es.default_value = base * keyed(p["light"], f, 1.0)
+                                es.keyframe_insert("default_value", frame=f)
+
+
 def egl_available():
     for lib in ("libEGL.so.1", "libEGL.so"):
         try:
@@ -1317,12 +1438,15 @@ def build_shot(shot, frames, args):
                 hatch.rotation_euler[0] = -keyed(y.get("hatch"), f, 0.0) * 1.9
                 hatch.keyframe_insert("rotation_euler", index=0, frame=f)
 
+    ACTORS.clear()
     # actors (parented to the yacht)
     for i, a in enumerate(shot.get("actors") or []):
         if yacht_root is None:
             warn("actor without a yacht in this shot; skipped")
             continue
         build_actor(i, a, yacht_root, cam, shot, fps)
+
+    build_props(shot, yacht_root, frames)
 
     # per-frame: buoyancy -> yacht matrix; camera rig
     ck = shot["camera"]
