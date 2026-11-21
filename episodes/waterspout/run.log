@@ -33,3 +33,7 @@
 22:51:18 [waterspout] [library] PASS - REUSE 7, SOURCE 1, BUILD 22 (to_fetch 1, to_build 22); catalog gaps: ['int:hero']
 22:51:18 [waterspout] stage library: done in 1.5s ($0.000)
 22:51:18 [waterspout] stage 4 direct: start
+22:59:31 [waterspout] [direct] attempt 1: FAIL - 264 checks passed, 3 blocking, 0 overridden (493.2s, claude-opus-5-5)
+22:59:31 [waterspout]     [HARD D-line-shown.L13] L13 must be carried by >= 1 shot whose scene pictures it
+22:59:31 [waterspout]     [HEUR C-distribution] EWS+WS share 20/38 outside ~25-40%
+22:59:31 [waterspout]     [HEUR P-3] 13/37 cuts within +-2 frames of a word start (need >= 80%)
