@@ -1,0 +1,1024 @@
+{
+ "$schema": "../../factory/sound/sound.schema.json",
+ "version": 1,
+ "episode": "waterspout",
+ "fps": 30,
+ "durationFrames": 2250,
+ "sampleRate": 48000,
+ "source": {
+  "episode": "episodes/waterspout/episode.json",
+  "words": "episodes/waterspout/audio/narration.words.json",
+  "generator": "factory/sound/designer.py"
+ },
+ "loudness": {
+  "integratedLUFS": -14.0,
+  "toleranceLU": 1.0,
+  "truePeakDBTP": -1.0,
+  "limiterCeilingDBFS": -2.0,
+  "shortTermRangeLUFS": [
+   -17.0,
+   -10.0
+  ],
+  "musicUnderVoiceDB": [
+   18.0,
+   22.0
+  ],
+  "ambienceUnderVoiceDB": [
+   24.0,
+   30.0
+  ]
+ },
+ "voice": {
+  "file": "episodes/waterspout/audio/narration.mp3",
+  "words": "episodes/waterspout/audio/narration.words.json",
+  "offsetFrames": 0,
+  "gainDB": 0.0,
+  "leveler": {
+   "maxBoostDB": 6.0,
+   "maxCutDB": 4.0,
+   "smoothS": 1.2
+  }
+ },
+ "ducking": {
+  "mode": "envelope",
+  "attackMs": 75,
+  "releaseMs": 320,
+  "bridgeGapS": 0.8,
+  "musicSpeechDB": -20.0,
+  "musicGapDB": -8.0,
+  "musicOutroDB": -1.0,
+  "ambienceSpeechDB": -27.0,
+  "ambienceGapDB": -21.0
+ },
+ "beds": [
+  {
+   "id": "bed_ocean",
+   "sfx": "ocean_waves",
+   "from": 0,
+   "to": 2250,
+   "relDB": 0.0,
+   "fadeIn": 0,
+   "fadeOut": 0,
+   "bus": "ambience",
+   "shots": [
+    "*"
+   ],
+   "reason": "S-6 continuous world bed"
+  },
+  {
+   "id": "bed_wind",
+   "sfx": "wind_sea",
+   "from": 0,
+   "to": 2250,
+   "relDB": -4.0,
+   "fadeIn": 0,
+   "fadeOut": 0,
+   "bus": "ambience",
+   "shots": [
+    "*"
+   ],
+   "reason": "S-6 night wind"
+  },
+  {
+   "id": "bed_radio",
+   "sfx": "radio_static",
+   "from": 740,
+   "to": 849,
+   "relDB": -2.0,
+   "fadeIn": 3,
+   "fadeOut": 12,
+   "bus": "ambience",
+   "shots": [
+    "H14",
+    "H15"
+   ],
+   "reason": "VHF static under the radio scene"
+  },
+  {
+   "id": "bed_jungle_0",
+   "sfx": "jungle_night",
+   "from": 1628,
+   "to": 1669,
+   "relDB": -3.0,
+   "fadeIn": 8,
+   "fadeOut": 8,
+   "bus": "ambience",
+   "shots": [
+    "H29"
+   ],
+   "reason": "island jungle at night (insects)"
+  }
+ ],
+ "cues": [
+  {
+   "id": "impact_000",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 0,
+   "anchor": "onset",
+   "relDB": 0.0,
+   "transient": true,
+   "shot": "H01",
+   "reveal": "hook",
+   "reason": "impact on hook"
+  },
+  {
+   "id": "ui_001",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 6,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "H01",
+   "reason": "caption emphasis 'dark'"
+  },
+  {
+   "id": "whoosh_002",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 42,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H02",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H01->H02"
+  },
+  {
+   "id": "whoosh_003",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 102,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H03",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H02->H03"
+  },
+  {
+   "id": "whoosh_004",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 160,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H04",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H03->H04"
+  },
+  {
+   "id": "whoosh_005",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 204,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H05",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H04->H05"
+  },
+  {
+   "id": "whoosh_006",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 252,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H06",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H05->H06"
+  },
+  {
+   "id": "ui_007",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 288,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "H06",
+   "reason": "caption emphasis 'found'"
+  },
+  {
+   "id": "whoosh_008",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 338,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H07",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H06->H07"
+  },
+  {
+   "id": "whoosh_009",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 411,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H08",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H07->H08"
+  },
+  {
+   "id": "whoosh_010",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 478,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H09",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H08->H09"
+  },
+  {
+   "id": "whoosh_011",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 524,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H10",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H09->H10"
+  },
+  {
+   "id": "whoosh_012",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 571,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H11",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H10->H11"
+  },
+  {
+   "id": "whoosh_013",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 639,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H12",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H11->H12"
+  },
+  {
+   "id": "spot_014",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 652,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "H12",
+   "reason": "press on H12"
+  },
+  {
+   "id": "spot_015",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 676,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "H12",
+   "reason": "press on H12"
+  },
+  {
+   "id": "whoosh_016",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 706,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H13",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H12->H13"
+  },
+  {
+   "id": "whoosh_017",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 740,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H14",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H13->H14"
+  },
+  {
+   "id": "spot_018",
+   "type": "spot",
+   "sfx": "radio_static",
+   "at": 742,
+   "anchor": "start",
+   "relDB": -13.0,
+   "transient": true,
+   "shot": "H14",
+   "dur": 0.22,
+   "fadeOutMs": 30,
+   "reason": "PTT squelch"
+  },
+  {
+   "id": "spot_019",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 750,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "H14",
+   "reason": "press on H14"
+  },
+  {
+   "id": "whoosh_020",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 807,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H15",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H14->H15"
+  },
+  {
+   "id": "spot_021",
+   "type": "spot",
+   "sfx": "radio_static",
+   "at": 813,
+   "anchor": "start",
+   "relDB": -13.0,
+   "transient": true,
+   "shot": "H15",
+   "dur": 0.22,
+   "fadeOutMs": 30,
+   "reason": "PTT squelch"
+  },
+  {
+   "id": "whoosh_022",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 849,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H16",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H15->H16"
+  },
+  {
+   "id": "whoosh_023",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 917,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H17",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H16->H17"
+  },
+  {
+   "id": "whoosh_024",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 953,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H18",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H17->H18"
+  },
+  {
+   "id": "whoosh_025",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1022,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H19",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H18->H19"
+  },
+  {
+   "id": "whoosh_026",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1065,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H20",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H19->H20"
+  },
+  {
+   "id": "whoosh_027",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1169,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H21",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H20->H21"
+  },
+  {
+   "id": "whoosh_028",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1227,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H22",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H21->H22"
+  },
+  {
+   "id": "whoosh_029",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1283,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H23",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H22->H23"
+  },
+  {
+   "id": "whoosh_030",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1316,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H24",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H23->H24"
+  },
+  {
+   "id": "whoosh_031",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1385,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H25",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H24->H25"
+  },
+  {
+   "id": "impact_032",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1454,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "H25",
+   "reveal": "step_one",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_033",
+   "type": "riser",
+   "sfx": "riser_reverse",
+   "at": 1454,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "H25",
+   "dur": 2.5,
+   "reveal": "step_one",
+   "reason": "riser into step_one"
+  },
+  {
+   "id": "whoosh_034",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1457,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H26",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H25->H26"
+  },
+  {
+   "id": "whoosh_035",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1517,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H27",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H26->H27"
+  },
+  {
+   "id": "whoosh_036",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1577,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H28",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H27->H28"
+  },
+  {
+   "id": "impact_037",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1607,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "H28",
+   "reveal": "step_two",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_038",
+   "type": "riser",
+   "sfx": "riser_noise",
+   "at": 1607,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "H28",
+   "dur": 2.5,
+   "reveal": "step_two",
+   "reason": "riser into step_two"
+  },
+  {
+   "id": "whoosh_039",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1628,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H29",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H28->H29"
+  },
+  {
+   "id": "whoosh_040",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1669,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H30",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H29->H30"
+  },
+  {
+   "id": "whoosh_041",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1734,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H31",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H30->H31"
+  },
+  {
+   "id": "whoosh_042",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1794,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H32",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H31->H32"
+  },
+  {
+   "id": "whoosh_043",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1836,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H33",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H32->H33"
+  },
+  {
+   "id": "spot_044",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 1873,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "H33",
+   "reason": "press_twice on H33"
+  },
+  {
+   "id": "spot_045",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 1878,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "H33",
+   "reason": "press_twice on H33"
+  },
+  {
+   "id": "impact_046",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1899,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "H33",
+   "reveal": "step_three",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_047",
+   "type": "riser",
+   "sfx": "riser_reverse",
+   "at": 1899,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "H33",
+   "dur": 2.5,
+   "reveal": "step_three",
+   "reason": "riser into step_three"
+  },
+  {
+   "id": "whoosh_048",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1931,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H34",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H33->H34"
+  },
+  {
+   "id": "impact_049",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1938,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "H34",
+   "reveal": "step_three",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_050",
+   "type": "riser",
+   "sfx": "riser_noise",
+   "at": 1938,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "H34",
+   "dur": 1.2,
+   "reveal": "step_three",
+   "reason": "riser into step_three"
+  },
+  {
+   "id": "whoosh_051",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2007,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H35",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H34->H35"
+  },
+  {
+   "id": "whoosh_052",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2099,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H36",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H35->H36"
+  },
+  {
+   "id": "riser_053",
+   "type": "riser",
+   "sfx": "riser_reverse",
+   "at": 2135,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "H36",
+   "dur": 2.5,
+   "reveal": "payoff",
+   "reason": "riser into payoff"
+  },
+  {
+   "id": "impact_054",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 2150,
+   "anchor": "onset",
+   "relDB": 0.0,
+   "transient": true,
+   "shot": "H37",
+   "reveal": "payoff",
+   "reason": "impact on payoff"
+  },
+  {
+   "id": "whoosh_055",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 2150,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "H37",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H36->H37"
+  },
+  {
+   "id": "whoosh_056",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2179,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "H38",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut H37->H38"
+  }
+ ],
+ "music": {
+  "engine": "procedural",
+  "bpm": 110,
+  "key": "D minor",
+  "sections": [
+   {
+    "id": "m00_hook",
+    "from": 0,
+    "to": 102,
+    "energy": 4,
+    "label": "hook",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m01_context",
+    "from": 102,
+    "to": 440,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m02_context",
+    "from": 440,
+    "to": 778,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 1,
+    "mood": "tense"
+   },
+   {
+    "id": "m03_context",
+    "from": 778,
+    "to": 1116,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 2,
+    "mood": "tense"
+   },
+   {
+    "id": "m04_context",
+    "from": 1116,
+    "to": 1454,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 3,
+    "mood": "tense"
+   },
+   {
+    "id": "m05_escalation_2",
+    "from": 1454,
+    "to": 1607,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m06_escalation_2",
+    "from": 1607,
+    "to": 1899,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m07_escalation_2",
+    "from": 1899,
+    "to": 1938,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m08_escalation_2",
+    "from": 1938,
+    "to": 2135,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m09_pre_payoff",
+    "from": 2135,
+    "to": 2150,
+    "energy": 0,
+    "label": "pre_payoff",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m10_payoff",
+    "from": 2150,
+    "to": 2250,
+    "energy": 5,
+    "label": "payoff",
+    "hit": true,
+    "layer": 0,
+    "mood": "resolve"
+   }
+  ],
+  "style": "pixar_night_survival",
+  "moods": [
+   "tense",
+   "dark",
+   "resolve"
+  ],
+  "instrumentation": [
+   "minor triad pad",
+   "sub drone",
+   "kick on the beat",
+   "off-beat hats",
+   "8th bass pulse",
+   "accent toms"
+  ]
+ },
+ "silences": [
+  {
+   "from": 2135,
+   "to": 2150,
+   "buses": [
+    "music",
+    "ambience",
+    "sfx"
+   ],
+   "reason": "P-5 hard silence before the payoff reveal"
+  }
+ ],
+ "reveals": [
+  {
+   "id": "hook",
+   "kind": "hook",
+   "at": 0,
+   "riserEnd": 0
+  },
+  {
+   "id": "step_one",
+   "kind": "step",
+   "at": 1454,
+   "word": "Step one:",
+   "riserEnd": 1454
+  },
+  {
+   "id": "step_two",
+   "kind": "step",
+   "at": 1607,
+   "word": "Step two:",
+   "riserEnd": 1607
+  },
+  {
+   "id": "step_three",
+   "kind": "step",
+   "at": 1899,
+   "word": "step three",
+   "riserEnd": 1899
+  },
+  {
+   "id": "step_three",
+   "kind": "step",
+   "at": 1938,
+   "word": "Step three:",
+   "riserEnd": 1938
+  },
+  {
+   "id": "payoff",
+   "kind": "payoff",
+   "at": 2150,
+   "word": "a",
+   "riserEnd": 2135
+  }
+ ],
+ "notes": [
+  "whoosh on 37/37 cuts (100%)"
+ ]
+}

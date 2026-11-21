@@ -44,9 +44,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "running",
+ "status": "awaiting_approval",
  "created": "2026-11-21T22:35:32+00:00",
- "updated": "2026-11-21T22:51:18+00:00",
+ "updated": "2026-11-21T23:04:54+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -128,16 +128,70 @@
    }
   },
   "direct": {
-   "status": "running",
+   "status": "done",
    "started": "2026-11-21T22:51:18",
    "attempts": 1,
-   "error": null
+   "error": null,
+   "costUSD": 2.1609,
+   "seconds": 787.45,
+   "finished": "2026-11-21T23:04:25",
+   "artifacts": [
+    "episodes/waterspout/episode.json",
+    "episodes/waterspout/shotplan.json"
+   ],
+   "info": {
+    "tokens": {
+     "input": 61869,
+     "output": 90570
+    },
+    "llmAttempts": 2,
+    "shots": 38,
+    "durationFrames": 2250,
+    "storyId": "ep_waterspout_bermuda_night"
+   }
   },
   "sound": {
-   "status": "pending"
+   "status": "done",
+   "started": "2026-11-21T23:04:25",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.0,
+   "seconds": 28.76,
+   "finished": "2026-11-21T23:04:54",
+   "artifacts": [
+    "episodes/waterspout/sound.json",
+    "episodes/waterspout/audio/mix_v1.m4a",
+    "episodes/waterspout/audio/mix_v1.report.json"
+   ],
+   "info": {
+    "mix": "ffmpeg",
+    "cues": 57,
+    "soundQC": true,
+    "underSpeechDB": {
+     "music": -20.1,
+     "ambience": -27.0
+    }
+   }
   },
   "previs": {
-   "status": "pending"
+   "status": "awaiting_approval",
+   "started": "2026-11-21T23:04:25",
+   "attempts": 1,
+   "error": null,
+   "info": {
+    "contact_sheet": "/home/user/story-animator/episodes/waterspout/boards/contact_sheet.png",
+    "animatic": "/home/user/story-animator/episodes/waterspout/boards/animatic.mp4",
+    "keys": 38,
+    "missing": [],
+    "failed": [],
+    "stub": true
+   },
+   "artifacts": [
+    "episodes/waterspout/boards/contact_sheet.png",
+    "episodes/waterspout/boards/animatic.mp4"
+   ],
+   "costUSD": 0.0,
+   "seconds": 3.5
   },
   "render": {
    "status": "pending"
@@ -154,13 +208,13 @@
   "iterations": []
  },
  "cost": {
-  "totalUSD": 2.8785,
+  "totalUSD": 5.0394,
   "byStage": {
    "develop": 2.0086,
    "breakdown": 0.5054,
    "library": 0.0,
    "voice": 0.3645,
-   "direct": 0.0,
+   "direct": 2.1609,
    "sound": 0.0,
    "previs": 0.0,
    "render": 0.0,
@@ -170,15 +224,15 @@
   "budgetUSD": 15.0
  },
  "time": {
-  "totalSeconds": 967.6,
+  "totalSeconds": 1787.31,
   "byStage": {
    "develop": 800.72,
    "breakdown": 143.52,
    "library": 1.46,
    "voice": 21.9,
-   "direct": 0.0,
-   "sound": 0.0,
-   "previs": 0.0,
+   "direct": 787.45,
+   "sound": 28.76,
+   "previs": 3.5,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0

@@ -37,3 +37,15 @@
 22:59:31 [waterspout]     [HARD D-line-shown.L13] L13 must be carried by >= 1 shot whose scene pictures it
 22:59:31 [waterspout]     [HEUR C-distribution] EWS+WS share 20/38 outside ~25-40%
 22:59:31 [waterspout]     [HEUR P-3] 13/37 cuts within +-2 frames of a word start (need >= 80%)
+23:04:25 [waterspout] [direct] attempt 2: PASS - 414 checks passed, 0 blocking, 1 overridden (294.1s, claude-opus-5-5)
+23:04:25 [waterspout] [direct] wrote /home/user/story-animator/episodes/waterspout/episode.json: 38 shots, 2250 frames
+23:04:25 [waterspout] stage direct: done in 787.5s ($2.161)
+23:04:25 [waterspout] stage 5b sound: start
+23:04:25 [waterspout] stage 6 previs: start
+23:04:28 [waterspout] voice leveler: ref S -16.9 LUFS, gain -2.0..+5.1 dB
+23:04:29 [waterspout] voice loudness over speech -17.00 LUFS
+23:04:42 [waterspout] under speech: music -20.10 dB, ambience -27.00 dB vs voice
+23:04:49 [waterspout] master pass 0: gain +2.50 dB ceiling -2.0 dBFS -> wav I -14.10 TP -2.00; m4a I -14.10 TP -1.60
+23:04:54 [waterspout] stage sound: done in 28.8s ($0.000)
+23:04:54 [waterspout] AWAITING APPROVAL: review /home/user/story-animator/episodes/waterspout/boards/contact_sheet.png and /home/user/story-animator/episodes/waterspout/boards/animatic.mp4, then `python -m factory.run approve --episode-id waterspout` and `--resume`
+23:04:54 [waterspout] run status: awaiting_approval  cost $5.04  time 1787s
