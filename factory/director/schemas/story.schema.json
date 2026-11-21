@@ -1,0 +1,161 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://story-animator.local/factory/director/schemas/story.schema.json",
+ "title": "story.json (stage 1 Develop)",
+ "description": "Logline, hook, stakes, story spine, beat sheet, narration with performance tags and timing, suspense devices, sourced facts. Times are seconds from the start of the narration audio (stage 4 places the audio at shotplan.audio_offset_frames); duration_s is the planned film runtime. Format 'docuseries' adds chapters, a cold open and short_candidate tags (factory/ARCHITECTURE.md).",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["id", "format", "title", "logline", "essence", "style", "duration_s", "hero", "hook", "core_question", "stakes",
+  "time_pressure", "spine", "beats", "narration", "steps", "facts", "suspense_devices", "attempts", "resolution", "loop_back", "open_loops", "overrides"],
+ "properties": {
+  "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"},
+  "format": {"enum": ["short", "docuseries"]},
+  "title": {"type": "string", "minLength": 1, "description": "Platform title (T-3: <= 60 chars for shorts)."},
+  "logline": {"type": "string", "minLength": 1},
+  "essence": {"type": "string", "minLength": 1, "description": "Coats #14/#22: the essence in <= 20 words."},
+  "style": {"type": "string", "minLength": 1},
+  "duration_s": {"type": "number", "exclusiveMinimum": 0, "description": "Planned runtime D in seconds (film)."},
+  "hero": {
+   "type": "object", "additionalProperties": false, "required": ["name", "description", "flaw"],
+   "properties": {"name": {"type": "string"}, "description": {"type": "string"}, "flaw": {"type": "string", "minLength": 1}}
+  },
+  "hook": {
+   "type": "object", "additionalProperties": false, "required": ["format", "line_ids", "text_overlay", "visual"],
+   "properties": {
+    "format": {"enum": ["IMR", "STK", "QST", "SHK", "MYT"]},
+    "line_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "Narration lines that form the hook."},
+    "text_overlay": {
+     "type": "object", "additionalProperties": false, "required": ["text", "start", "end"],
+     "properties": {"text": {"type": "string"}, "start": {"type": "number"}, "end": {"type": "number"}}
+    },
+    "visual": {"type": "string", "minLength": 1, "description": "Frame-0 picture: hero, threat, motion."}
+   }
+  },
+  "core_question": {
+   "type": "object", "additionalProperties": false, "required": ["text", "answer_line"],
+   "properties": {"text": {"type": "string", "minLength": 1}, "answer_line": {"type": "string", "description": "Narration line id that answers the CQ."}}
+  },
+  "stakes": {
+   "type": "object", "additionalProperties": false, "required": ["physical", "legal_ethical", "mortal"],
+   "properties": {"physical": {"type": "string"}, "legal_ethical": {"type": "string"}, "mortal": {"type": "string"}}
+  },
+  "time_pressure": {"type": "boolean"},
+  "ticking_clock": {
+   "type": "object", "additionalProperties": false, "required": ["what", "readings"],
+   "properties": {
+    "what": {"type": "string"},
+    "readings": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["t", "value", "severity"],
+      "properties": {"t": {"type": "number"}, "value": {"type": "string"}, "severity": {"type": "number", "description": "Higher = worse."}}}}
+   }
+  },
+  "spine": {
+   "type": "object", "additionalProperties": false,
+   "required": ["once_upon_a_time", "every_day", "one_day", "because_of_that", "until_finally", "ever_since"],
+   "properties": {
+    "once_upon_a_time": {"type": "string", "minLength": 1},
+    "every_day": {"type": "string", "minLength": 1},
+    "one_day": {"type": "string", "minLength": 1},
+    "because_of_that": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 2},
+    "until_finally": {"type": "string", "minLength": 1},
+    "ever_since": {"type": "string", "minLength": 1}
+   }
+  },
+  "beats": {
+   "type": "array", "minItems": 1,
+   "items": {
+    "type": "object", "additionalProperties": false, "required": ["id", "name", "t0", "t1", "link", "stakes", "visual_scale", "summary"],
+    "properties": {
+     "id": {"type": "string"},
+     "name": {"enum": ["HOOK", "CONTEXT", "ESCALATION_1", "MIDPOINT", "ESCALATION_2", "PAYOFF", "STING",
+                       "COLD_OPEN", "TITLE", "CHAPTER", "CLIMAX", "RESOLUTION", "TEASE"]},
+     "t0": {"type": "number"}, "t1": {"type": "number"},
+     "link": {"enum": ["BUT", "THEREFORE", null], "description": "Link from the previous beat (R-3). null only on the first beat."},
+     "stakes": {"type": "number", "minimum": 0, "maximum": 10},
+     "visual_scale": {"type": "number", "minimum": 0, "maximum": 10},
+     "summary": {"type": "string"},
+     "chapter": {"type": "string"}
+    }
+   }
+  },
+  "narration": {
+   "type": "array", "minItems": 1,
+   "items": {
+    "type": "object", "additionalProperties": false, "required": ["id", "beat", "tag", "text", "t0", "t1"],
+    "properties": {
+     "id": {"type": "string", "pattern": "^L[0-9]{2,4}$"},
+     "beat": {"type": "string", "description": "beats[].id"},
+     "tag": {"type": "string", "description": "ElevenLabs-style delivery tag without brackets, e.g. excited, whispers."},
+     "text": {"type": "string", "minLength": 1},
+     "t0": {"type": "number"}, "t1": {"type": "number"},
+     "rehook": {"type": "boolean"},
+     "step": {"type": ["integer", "null"]},
+     "facts": {"type": "array", "items": {"type": "string"}},
+     "chapter": {"type": "string"}
+    }
+   }
+  },
+  "steps": {
+   "type": "array",
+   "items": {"type": "object", "additionalProperties": false, "required": ["n", "instruction", "because", "line_id"],
+    "properties": {"n": {"type": "integer"}, "instruction": {"type": "string"}, "because": {"type": "string"}, "line_id": {"type": "string"}}}
+  },
+  "facts": {
+   "type": "array",
+   "items": {"type": "object", "additionalProperties": false, "required": ["id", "claim", "source_url", "source_title", "surprise"],
+    "properties": {"id": {"type": "string"}, "claim": {"type": "string"}, "source_url": {"type": "string", "pattern": "^https?://"},
+      "source_title": {"type": "string"}, "surprise": {"type": "number", "minimum": 1, "maximum": 10},
+      "numbers": {"type": "array", "items": {"type": "string"}, "description": "Numbers as spoken in the narration (digits or words) that this fact backs."}}}
+  },
+  "suspense_devices": {
+   "type": "array",
+   "items": {"type": "object", "additionalProperties": false, "required": ["type", "desc", "beat"],
+    "properties": {"type": {"enum": ["threat_reveal", "dramatic_irony", "ticking_clock", "reveal", "plant_payoff", "open_loop"]},
+      "desc": {"type": "string"}, "beat": {"type": "string"}}}
+  },
+  "attempts": {
+   "type": "array",
+   "items": {"type": "object", "additionalProperties": false, "required": ["action", "outcome"],
+    "properties": {"action": {"type": "string"}, "outcome": {"enum": ["fail", "success", "partial"]}}}
+  },
+  "resolution": {
+   "type": "object", "additionalProperties": false, "required": ["hero_action", "outcome"],
+   "properties": {"hero_action": {"type": "string", "minLength": 1}, "outcome": {"type": "string"}}
+  },
+  "loop_back": {
+   "type": "object", "additionalProperties": false, "required": ["method", "desc"],
+   "properties": {"method": {"enum": ["text_join", "frame_match", "reverse_question"]}, "desc": {"type": "string"}}
+  },
+  "open_loops": {
+   "type": "array",
+   "items": {"type": "object", "additionalProperties": false, "required": ["id", "desc", "opened_t", "closed_t", "primary"],
+    "properties": {"id": {"type": "string"}, "desc": {"type": "string"}, "opened_t": {"type": "number"}, "closed_t": {"type": "number"},
+      "primary": {"type": "boolean"}}}
+  },
+  "overrides": {
+   "type": "array", "description": "Logged override_reason for HEUR checks that are deliberately not met (PIXAR_RECIPE section 8).",
+   "items": {"type": "object", "additionalProperties": false, "required": ["rule", "reason"],
+    "properties": {"rule": {"type": "string"}, "reason": {"type": "string", "minLength": 10}}}
+  },
+  "cold_open": {
+   "type": "object", "additionalProperties": false, "required": ["t0", "t1"],
+   "properties": {"t0": {"type": "number"}, "t1": {"type": "number"}}
+  },
+  "tease_next": {"type": "string"},
+  "chapters": {
+   "type": "array",
+   "items": {
+    "type": "object", "additionalProperties": false, "required": ["id", "title", "t0", "t1", "spine", "short_candidate"],
+    "properties": {
+     "id": {"type": "string"}, "title": {"type": "string"}, "t0": {"type": "number"}, "t1": {"type": "number"},
+     "spine": {"type": "object", "additionalProperties": false, "required": ["hook", "escalation", "payoff"],
+       "properties": {"hook": {"type": "string"}, "escalation": {"type": "array", "items": {"type": "string"}, "minItems": 1}, "payoff": {"type": "string"}}},
+     "short_candidate": {
+      "type": ["object", "null"], "additionalProperties": false, "required": ["id", "in", "out", "hook_line", "setup", "turn", "payoff"],
+      "properties": {"id": {"type": "string"}, "in": {"type": "number"}, "out": {"type": "number"}, "hook_line": {"type": "string"},
+        "setup": {"type": "string"}, "turn": {"type": "string"}, "payoff": {"type": "string"}}
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,6 @@
+{
+ "_doc": "Render contract bindings: which internal library ids the Blender renderer loads from a GLB, under which episode.json assets key. int:hero is an existing asset that factory/library/catalog.json does not list yet (catalog gap, reported by the librarian).",
+ "int:hero": {"render_key": "characters/hero", "file": "assets/characters/hero/hero.glb", "kind": "character", "name": "Series hero (sailor) rig with face and eye engine", "tags": ["hero", "sailor", "character"], "uncatalogued": true},
+ "int:yacht_14m": {"render_key": "props/yacht", "file": "assets/props/yacht.glb"},
+ "int:island_sentinel": {"render_key": "props/island", "file": "assets/props/island_sentinel.glb"}
+}

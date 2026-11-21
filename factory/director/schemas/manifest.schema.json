@@ -1,0 +1,37 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://story-animator.local/factory/director/schemas/manifest.schema.json",
+ "title": "manifest.json (stage 3 Library)",
+ "description": "For each breakdown element exactly one decision: REUSE (internal catalog id), SOURCE (provider, asset id, licence) or BUILD (procedural recipe), with hashes and licences. Gate: nothing unlicensed, nothing missing.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["id", "entries", "attributions", "summary"],
+ "properties": {
+  "id": {"type": "string"},
+  "entries": {
+   "type": "array",
+   "items": {
+    "type": "object", "additionalProperties": false, "required": ["element", "kind", "decision", "licence", "status", "reason"],
+    "properties": {
+     "element": {"type": "string"},
+     "kind": {"type": "string"},
+     "decision": {"enum": ["REUSE", "SOURCE", "BUILD"]},
+     "catalog_id": {"type": "string"},
+     "provider": {"type": "string"},
+     "asset_id": {"type": "string"},
+     "url": {"type": "string"},
+     "authors": {"type": "array", "items": {"type": "string"}},
+     "licence": {"type": "string", "minLength": 1},
+     "recipe": {"type": "string", "description": "BUILD: code entry point (module:function) or proc:<id> for a recipe still to write."},
+     "files": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+       "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "role": {"type": "string"}}}},
+     "render_key": {"type": "string", "description": "episode.json assets key this element binds to (e.g. props/yacht)."},
+     "status": {"enum": ["ready", "to_fetch", "to_build"]},
+     "reason": {"type": "string"}
+    }
+   }
+  },
+  "attributions": {"type": "array", "items": {"type": "string"}},
+  "summary": {"type": "object", "additionalProperties": {"type": "integer"}}
+ }
+}
