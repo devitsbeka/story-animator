@@ -201,6 +201,7 @@ def test_submit_uploads_inputs_writes_manifests_and_creates_pods(aws, tmp_path):
     api = runpod_api()
     f = farm(aws, tmp_path, api)
     aws.put_object(Bucket=BUCKET, Key="library_store/polyhaven/x/x.gltf", Body=b"{}")   # already synced
+    aws.put_object(Bucket=BUCKET, Key="library_store/lod/x/lod.json", Body=b"{}")       # its LOD cache, S3 only
     res = f.submit(spec_path, "preview", workers=2, budget=10, gpu="RTX4090", run_id="r1", code_mode="worktree",
                    library="none", extra_library=["polyhaven/x/x.gltf"], price=0.69)
     assert res["status"] == "RUNNING" and len(res["pods"]) == 2
@@ -222,7 +223,9 @@ def test_submit_uploads_inputs_writes_manifests_and_creates_pods(aws, tmp_path):
     st = json.loads(aws.get_object(Bucket=BUCKET, Key="farm/test/runs/r1/state.json")["Body"].read())
     code_key = st["inputs"]["code"]["key"]
     assert code_key in keys and "farm/test/runs/r1/inputs/episode.json" in keys
-    assert st["inputs"]["library"][0]["key"] == "library_store/polyhaven/x/x.gltf"   # reused, not re-uploaded
+    assert [f["key"] for f in st["inputs"]["library"]] == ["library_store/lod/x/lod.json",
+                                                         "library_store/polyhaven/x/x.gltf"]  # reused, not uploaded
+    assert sorted(c["json"]["name"] for c in posts) == ["story-farm-r1-p0-rtx4090-0", "story-farm-r1-p1-rtx4090-0"]
     assert not any(k.startswith("farm/test/library") for k in keys)
     mans = [json.loads(aws.get_object(Bucket=BUCKET, Key=p["manifestKey"])["Body"].read()) for p in st["pods"]]
     frames = sorted((j["shot"], int(fr)) for m in mans for j in m["jobs"] for fr in j["plates"])
@@ -231,7 +234,7 @@ def test_submit_uploads_inputs_writes_manifests_and_creates_pods(aws, tmp_path):
     plate = next(iter(m["jobs"][0]["plates"].values()))
     assert plate["method"] == "PUT" and plate["headers"] == {"Content-Type": "image/png"}
     assert "/farm/test/plates/r1/" in plate["url"] and m["heartbeat"]["method"] == "PUT"
-    assert m["code"]["sha256"] == st["inputs"]["code"]["sha256"] and m["library"][0]["path"] == "polyhaven/x/x.gltf"
+    assert m["code"]["sha256"] == st["inputs"]["code"]["sha256"] and m["library"][1]["path"] == "polyhaven/x/x.gltf"
     assert m["blender"]["sha256"].startswith("3a64efd1")
     assert "testing" not in json.dumps(m).replace("X-Amz-Credential=testing", "")  # only the signature's key id
 
@@ -255,7 +258,8 @@ def test_dry_run_prints_redacted_payload_and_uploads_nothing(aws, tmp_path):
     assert res["dryRun"] and not api.calls
     req = res["pods"][0]["createRequest"]
     assert req["method"] == "POST" and req["url"] == "https://api.runpod.io/v2/pods"
-    assert req["body"]["env"]["MANIFEST_URL"].endswith("manifest.json?REDACTED")
+    assert req["body"]["env"]["MANIFEST_URL"].endswith("/runs/dr/pods/dr-p0/manifest.json?REDACTED")
+    assert req["body"]["name"] == "story-farm-dr-p0-rtx4090-0"
     assert "X-Amz-Signature" not in json.dumps(res)
     assert not P.s3_list(aws, BUCKET, "farm/test/")
 

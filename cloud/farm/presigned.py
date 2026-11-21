@@ -569,9 +569,9 @@ def make_provider(name, cfg, env=None, transport=None):
     return prov.make(name, cfg, env if env is not None else provider_env(name), **kw)
 
 
-def create_payload(name, cfg, gpu, env, startup):
+def create_payload(name, cfg, gpu, env, startup, pod=None):
     """The exact create body the provider would send for one pod (dry run / review)."""
-    p = make_provider(name, cfg, env={"RUNPOD_API_KEY": "x", "VAST_API_KEY": "x"})
+    p = make_provider(name, {**cfg, **({"name": pod} if pod else {})}, env={"RUNPOD_API_KEY": "x", "VAST_API_KEY": "x"})
     if name == "runpod":
         return {"method": "POST", "url": f"{p.http.base}/v2/pods",
                 "body": p.pod_payload(0, gpu, "SECURE", env, startup)}
@@ -647,6 +647,13 @@ class PresignedFarm:
                     remote.setdefault(k[len(pre):], (k, size))
             except Exception as e:  # noqa: BLE001 - dry run without network: plan uploads for everything
                 log("library listing failed", prefix=pre, error=str(e)[:200])
+        # scatter LOD caches that exist only in S3 (synced from another machine) ride along like local ones
+        dirs = {(v.get("asset"), r.split("/")[1]) for r, v in chosen.items() if r.count("/") >= 2
+                and not r.startswith("lod/")}
+        for cid, d in sorted(dirs):
+            for rel in remote:
+                if rel.startswith(f"lod/{d}/"):
+                    chosen.setdefault(rel, {"asset": cid, "why": "lod", "sha256": None})
         lib, uploaded, reused, missing = [], 0, 0, []
         for rel in sorted(chosen):
             local = os.path.join(lib_root, rel)
@@ -771,7 +778,7 @@ class PresignedFarm:
                "frames": sum(j["frames"] for j in jobs), "manifestKey": mkey, "status": "PLANNED",
                "launchedAt": None, "endedAt": None, "providerId": None, "price": st["usdPerHour"]}
         if dry_run:
-            rec["payload"] = redact_payload(create_payload(self.provider_name, self.cfg, st["gpu"], env, startup))
+            rec["payload"] = redact_payload(create_payload(self.provider_name, self.cfg, st["gpu"], env, startup, pod))
             rec["urls"] = {"total": sum(len(j["plates"]) + 2 for j in man["jobs"]) + 4 + len(man["library"]),
                            "expiresAt": man["expiresAt"]}
             return rec
