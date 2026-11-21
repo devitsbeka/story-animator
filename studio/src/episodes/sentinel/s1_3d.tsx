@@ -66,6 +66,15 @@ export const S1_3D: React.FC<{ f: number; push: number }> = ({ f, push }) => {
       lookAt: { target: camW, weight: f > CUE.died + 4 ? Math.min(1, (f - CUE.died - 4) / 10) * 0.8 : 0 },
     }];
   }
+  // operator tracking: the camera rides the boat's heave and keeps the hero centred once he's the subject
+  {
+    const boatY = yachtWorld(shot, [0, 0, 0])[1];
+    const heroW = yachtWorld(shot, [0.2, 2.75, -4.7]);
+    const k = Math.min(1, Math.max(0, (f - (CUE.died - 8)) / 10));
+    const kw = 0.35 + 0.65 * k; // early: follow the boat loosely; late: lock on the hero
+    shot.cam = [shot.cam[0], shot.cam[1] + boatY * 0.85, shot.cam[2]];
+    shot.look = [shot.look[0] + (heroW[0] - shot.look[0]) * k * 0.9, shot.look[1] + (heroW[1] - shot.look[1]) * kw, shot.look[2] + (heroW[2] - shot.look[2]) * k * 0.9];
+  }
   // project helpers
   const P = (local: V3) => project(shot, W, H, yachtWorld(shot, local));
   // hero: a 1.8 m person standing on the starboard side deck aft of the cabin, waist at the rail
