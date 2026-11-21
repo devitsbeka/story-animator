@@ -1,0 +1,1656 @@
+{
+  "$schema": "../../cloud/spec/episode.schema.json",
+  "version": 1,
+  "id": "sentinel",
+  "title": "North Sentinel: what to do if your engine dies",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "durationFrames": 2416,
+  "audio": {
+    "narration": "episodes/sentinel/audio/narration.mp3",
+    "wordsJson": "episodes/sentinel/audio/narration.words.json",
+    "offsetFrames": 15
+  },
+  "world": {
+    "moonDir": [
+      0.12,
+      0.3,
+      1
+    ],
+    "seaState": 1.6,
+    "dawn": 0,
+    "island": {
+      "asset": "island",
+      "x": -300,
+      "z": 900,
+      "rotY": 0.6,
+      "scale": 0.2
+    }
+  },
+  "assets": {
+    "characters": {
+      "hero": "assets/characters/hero/hero.glb"
+    },
+    "motions": {
+      "brace_loop": "assets/motions/brace_loop.glb",
+      "startle": "assets/motions/startle.glb",
+      "panic_arms": "assets/motions/panic_arms.glb"
+    },
+    "props": {
+      "yacht": "assets/props/yacht.glb",
+      "island": "assets/props/island_sentinel.glb"
+    }
+  },
+  "shots": [
+    {
+      "id": "S01",
+      "title": "Alone. Engine dies.",
+      "scene": "yacht",
+      "from": 0,
+      "to": 238,
+      "keyFrame": 160,
+      "camera": {
+        "space": "world",
+        "keys": [
+          {
+            "f": 0,
+            "cam": [
+              -2,
+              2.2,
+              -46
+            ],
+            "look": [
+              -0.5,
+              2,
+              0
+            ],
+            "fov": 30
+          },
+          {
+            "f": 104,
+            "cam": [
+              -1.5,
+              2.6,
+              -27
+            ],
+            "look": [
+              -1,
+              2.2,
+              0
+            ],
+            "fov": 30,
+            "ease": "arrive"
+          },
+          {
+            "f": 129,
+            "cam": [
+              -2.6,
+              2.7,
+              -24
+            ],
+            "look": [
+              0,
+              2.3,
+              0
+            ],
+            "fov": 29,
+            "ease": "move"
+          },
+          {
+            "f": 135,
+            "cam": [
+              -4.9,
+              2.9,
+              -23.4
+            ],
+            "look": [
+              -5.3,
+              2.5,
+              0
+            ],
+            "fov": 15,
+            "ease": "crashIn"
+          },
+          {
+            "f": 228,
+            "cam": [
+              -5.2,
+              3,
+              -21.6
+            ],
+            "look": [
+              -5.5,
+              2.7,
+              0
+            ],
+            "fov": 13.5,
+            "ease": "arrive"
+          },
+          {
+            "f": 252,
+            "cam": [
+              0,
+              26,
+              -12
+            ],
+            "look": [
+              0,
+              0,
+              4
+            ],
+            "fov": 40,
+            "ease": "exit"
+          }
+        ],
+        "handheld": [
+          [
+            0,
+            0.18
+          ],
+          [
+            105,
+            0.18
+          ],
+          [
+            106,
+            0.43
+          ],
+          [
+            237,
+            0.43
+          ]
+        ],
+        "drift": 0.25,
+        "shakes": [
+          {
+            "at": 135,
+            "px": 14,
+            "tau": 1.8
+          },
+          {
+            "at": 109,
+            "px": 5,
+            "tau": 2.2
+          },
+          {
+            "at": 118,
+            "px": 5,
+            "tau": 2.2
+          },
+          {
+            "at": 127,
+            "px": 6,
+            "tau": 2.2
+          }
+        ]
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.570796,
+        "lights": [
+          [
+            0,
+            1
+          ],
+          [
+            107,
+            1
+          ],
+          [
+            108,
+            0.15
+          ],
+          [
+            117,
+            0.15
+          ],
+          [
+            118,
+            1
+          ],
+          [
+            119,
+            1
+          ],
+          [
+            120,
+            0.15
+          ],
+          [
+            134,
+            0.15
+          ],
+          [
+            135,
+            0
+          ],
+          [
+            237,
+            0
+          ]
+        ],
+        "pitch": [
+          [
+            0,
+            0
+          ],
+          [
+            109,
+            0
+          ],
+          [
+            110,
+            0.01744
+          ],
+          [
+            111,
+            0.02541
+          ],
+          [
+            112,
+            0.02343
+          ],
+          [
+            113,
+            0.01434
+          ],
+          [
+            114,
+            0.00264
+          ],
+          [
+            115,
+            -0.00732
+          ],
+          [
+            116,
+            -0.01272
+          ],
+          [
+            117,
+            -0.01283
+          ],
+          [
+            118,
+            -0.00878
+          ],
+          [
+            119,
+            0.01464
+          ],
+          [
+            120,
+            0.02816
+          ],
+          [
+            121,
+            0.02962
+          ],
+          [
+            122,
+            0.02122
+          ],
+          [
+            123,
+            0.00784
+          ],
+          [
+            124,
+            -0.0051
+          ],
+          [
+            125,
+            -0.01354
+          ],
+          [
+            126,
+            -0.01575
+          ],
+          [
+            127,
+            -0.0124
+          ],
+          [
+            128,
+            0.01165
+          ],
+          [
+            129,
+            0.02662
+          ],
+          [
+            130,
+            0.02971
+          ],
+          [
+            131,
+            0.02255
+          ],
+          [
+            132,
+            0.0097
+          ],
+          [
+            133,
+            -0.00342
+          ],
+          [
+            134,
+            -0.01254
+          ],
+          [
+            135,
+            -0.01561
+          ],
+          [
+            136,
+            0.02192
+          ],
+          [
+            137,
+            0.04408
+          ],
+          [
+            138,
+            0.04714
+          ],
+          [
+            139,
+            0.03434
+          ],
+          [
+            140,
+            0.01331
+          ],
+          [
+            141,
+            -0.00735
+          ],
+          [
+            142,
+            -0.02108
+          ],
+          [
+            143,
+            -0.02498
+          ],
+          [
+            144,
+            -0.01997
+          ],
+          [
+            145,
+            -0.00964
+          ],
+          [
+            146,
+            0.00151
+          ],
+          [
+            147,
+            0.00971
+          ],
+          [
+            148,
+            0.01297
+          ],
+          [
+            149,
+            0.01133
+          ],
+          [
+            150,
+            0.0064
+          ],
+          [
+            151,
+            0.0005
+          ],
+          [
+            152,
+            -0.00425
+          ],
+          [
+            153,
+            -0.00659
+          ],
+          [
+            154,
+            -0.00628
+          ],
+          [
+            155,
+            -0.00402
+          ],
+          [
+            156,
+            -0.00097
+          ],
+          [
+            157,
+            0.00172
+          ],
+          [
+            158,
+            0.00326
+          ],
+          [
+            159,
+            0.00341
+          ],
+          [
+            160,
+            0.00243
+          ],
+          [
+            162,
+            -0.00061
+          ],
+          [
+            163,
+            -0.00157
+          ],
+          [
+            164,
+            -0.00182
+          ],
+          [
+            165,
+            -0.00142
+          ],
+          [
+            167,
+            0.00015
+          ],
+          [
+            168,
+            0.00073
+          ],
+          [
+            169,
+            0.00095
+          ],
+          [
+            170,
+            0.00081
+          ],
+          [
+            173,
+            -0.00032
+          ],
+          [
+            175,
+            -0.00045
+          ],
+          [
+            179,
+            0.00024
+          ],
+          [
+            237,
+            0
+          ]
+        ],
+        "roll": [
+          [
+            0,
+            0
+          ],
+          [
+            109,
+            0
+          ],
+          [
+            110,
+            0.01046
+          ],
+          [
+            111,
+            0.01524
+          ],
+          [
+            112,
+            0.01406
+          ],
+          [
+            113,
+            0.0086
+          ],
+          [
+            114,
+            0.00159
+          ],
+          [
+            115,
+            -0.00439
+          ],
+          [
+            116,
+            -0.00763
+          ],
+          [
+            117,
+            -0.0077
+          ],
+          [
+            118,
+            -0.00527
+          ],
+          [
+            119,
+            0.00878
+          ],
+          [
+            120,
+            0.0169
+          ],
+          [
+            121,
+            0.01777
+          ],
+          [
+            122,
+            0.01273
+          ],
+          [
+            123,
+            0.0047
+          ],
+          [
+            124,
+            -0.00306
+          ],
+          [
+            125,
+            -0.00813
+          ],
+          [
+            126,
+            -0.00945
+          ],
+          [
+            127,
+            -0.00744
+          ],
+          [
+            128,
+            0.00699
+          ],
+          [
+            129,
+            0.01597
+          ],
+          [
+            130,
+            0.01783
+          ],
+          [
+            131,
+            0.01353
+          ],
+          [
+            133,
+            -0.00205
+          ],
+          [
+            134,
+            -0.00753
+          ],
+          [
+            135,
+            -0.00936
+          ],
+          [
+            136,
+            0.01315
+          ],
+          [
+            137,
+            0.02645
+          ],
+          [
+            138,
+            0.02828
+          ],
+          [
+            139,
+            0.02061
+          ],
+          [
+            140,
+            0.00799
+          ],
+          [
+            141,
+            -0.00441
+          ],
+          [
+            142,
+            -0.01265
+          ],
+          [
+            143,
+            -0.01499
+          ],
+          [
+            144,
+            -0.01198
+          ],
+          [
+            145,
+            -0.00578
+          ],
+          [
+            146,
+            0.00091
+          ],
+          [
+            147,
+            0.00583
+          ],
+          [
+            148,
+            0.00778
+          ],
+          [
+            149,
+            0.0068
+          ],
+          [
+            150,
+            0.00384
+          ],
+          [
+            151,
+            0.0003
+          ],
+          [
+            152,
+            -0.00255
+          ],
+          [
+            153,
+            -0.00395
+          ],
+          [
+            154,
+            -0.00377
+          ],
+          [
+            155,
+            -0.00241
+          ],
+          [
+            156,
+            -0.00058
+          ],
+          [
+            157,
+            0.00103
+          ],
+          [
+            158,
+            0.00196
+          ],
+          [
+            159,
+            0.00205
+          ],
+          [
+            160,
+            0.00146
+          ],
+          [
+            162,
+            -0.00037
+          ],
+          [
+            163,
+            -0.00094
+          ],
+          [
+            164,
+            -0.00109
+          ],
+          [
+            165,
+            -0.00085
+          ],
+          [
+            168,
+            0.00044
+          ],
+          [
+            169,
+            0.00057
+          ],
+          [
+            174,
+            -0.00029
+          ],
+          [
+            180,
+            0.00015
+          ],
+          [
+            237,
+            0
+          ]
+        ]
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.320796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": -200,
+              "loop": true
+            },
+            {
+              "clip": "startle",
+              "from": 132,
+              "loop": false,
+              "fade": 4
+            },
+            {
+              "clip": "panic_arms",
+              "from": 152,
+              "loop": true,
+              "fade": 7
+            }
+          ],
+          "lookAt": "camera",
+          "lookWeight": [
+            [
+              0,
+              0
+            ],
+            [
+              139,
+              0
+            ],
+            [
+              149,
+              0.8
+            ],
+            [
+              237,
+              0.8
+            ]
+          ]
+        }
+      ],
+      "island": {
+        "asset": "island",
+        "x": -900,
+        "z": 2600,
+        "rotY": 0.6,
+        "scale": 0.35
+      },
+      "env": {
+        "seaState": 1.75,
+        "moonDir": [
+          0.12,
+          0.3,
+          1
+        ]
+      }
+    },
+    {
+      "id": "S02",
+      "title": "Drifting to the island",
+      "scene": "chart",
+      "from": 238,
+      "to": 452,
+      "keyFrame": 400,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 238,
+            "cam": [
+              60,
+              140,
+              -40
+            ],
+            "look": [
+              0,
+              0,
+              20
+            ],
+            "fov": 40
+          }
+        ],
+        "handheld": 0.05,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            238,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S03",
+      "title": "Firelight in the trees",
+      "scene": "shore",
+      "from": 452,
+      "to": 668,
+      "keyFrame": 600,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 452,
+            "cam": [
+              8,
+              3.5,
+              -10
+            ],
+            "look": [
+              -800,
+              30,
+              600
+            ],
+            "fov": 22
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            452,
+            0
+          ]
+        ]
+      },
+      "fires": [
+        [
+          452,
+          [
+            1,
+            1,
+            1,
+            1,
+            0.8,
+            0.9
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "CRUNCH on the reef",
+      "scene": "reef",
+      "from": 668,
+      "to": 830,
+      "keyFrame": 700,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 668,
+            "cam": [
+              18,
+              1.2,
+              6
+            ],
+            "look": [
+              0,
+              1.4,
+              2
+            ],
+            "fov": 26,
+            "roll": -4
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            668,
+            0
+          ]
+        ],
+        "pitch": -0.12,
+        "roll": 0.18,
+        "sink": 0.25
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.570796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "startle",
+              "from": 658,
+              "loop": false
+            }
+          ]
+        }
+      ],
+      "fires": [
+        [
+          668,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "Step 1 · MAYDAY on CH 16",
+      "scene": "radio",
+      "from": 830,
+      "to": 1085,
+      "keyFrame": 880,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 830,
+            "cam": [
+              4.5,
+              3.2,
+              -5.2
+            ],
+            "look": [
+              -0.2,
+              3,
+              -4.7
+            ],
+            "fov": 30
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            830,
+            0
+          ]
+        ],
+        "roll": 0.12,
+        "sink": 0.25
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.870796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": 530,
+              "loop": true
+            }
+          ],
+          "lookAt": "camera",
+          "lookWeight": 0.8
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "title": "Step 2 · do NOT go ashore",
+      "scene": "ashore",
+      "from": 1085,
+      "to": 1388,
+      "keyFrame": 1150,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 1085,
+            "cam": [
+              3,
+              3.4,
+              -9
+            ],
+            "look": [
+              -400,
+              10,
+              900
+            ],
+            "fov": 34
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            1085,
+            0
+          ]
+        ],
+        "roll": 0.12,
+        "sink": 0.25
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": -0.2,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": 785,
+              "loop": true
+            }
+          ]
+        }
+      ],
+      "fires": [
+        [
+          1085,
+          [
+            0.8,
+            0.8,
+            0.8,
+            0.8,
+            0.8,
+            0.8
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "Step 3 · stay with the boat",
+      "scene": "stay",
+      "from": 1388,
+      "to": 1520,
+      "keyFrame": 1430,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 1388,
+            "cam": [
+              14,
+              6,
+              -10
+            ],
+            "look": [
+              0,
+              2.5,
+              -2
+            ],
+            "fov": 26
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            1388,
+            0
+          ]
+        ],
+        "roll": 0.12,
+        "sink": 0.25
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.570796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": 1088,
+              "loop": true
+            }
+          ],
+          "lookAt": "camera",
+          "lookWeight": 0.8
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "title": "1981 · the Primrose",
+      "scene": "primrose",
+      "from": 1520,
+      "to": 1928,
+      "keyFrame": 1600,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 1520,
+            "cam": [
+              40,
+              8,
+              -60
+            ],
+            "look": [
+              0,
+              4,
+              0
+            ],
+            "fov": 30
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            1520,
+            0
+          ]
+        ],
+        "roll": 0.12,
+        "sink": 0.25
+      },
+      "fires": [
+        [
+          1520,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "S09",
+      "title": "Step 4 · kill the lights",
+      "scene": "quiet",
+      "from": 1928,
+      "to": 2070,
+      "keyFrame": 1975,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 1928,
+            "cam": [
+              4.2,
+              3,
+              -5
+            ],
+            "look": [
+              -0.2,
+              3.1,
+              -4.7
+            ],
+            "fov": 28
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            1928,
+            0
+          ]
+        ],
+        "roll": 0.12,
+        "sink": 0.25
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.570796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": 1628,
+              "loop": true
+            }
+          ],
+          "lookAt": "camera",
+          "lookWeight": 0.8
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "title": "Tide lifts · get gone",
+      "scene": "tide",
+      "from": 2070,
+      "to": 2196,
+      "keyFrame": 2160,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 2070,
+            "cam": [
+              30,
+              9,
+              -30
+            ],
+            "look": [
+              0,
+              1.5,
+              4
+            ],
+            "fov": 30
+          }
+        ],
+        "handheld": 0.2,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            2070,
+            0
+          ]
+        ]
+      },
+      "actors": [
+        {
+          "asset": "hero",
+          "space": "yacht",
+          "local": [
+            0.2,
+            1.42,
+            -4.7
+          ],
+          "rotY": 1.570796,
+          "height": 1.8,
+          "tracks": [
+            {
+              "clip": "brace_loop",
+              "from": 1770,
+              "loop": true
+            },
+            {
+              "clip": "panic_arms",
+              "from": 2010,
+              "loop": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "title": "Never be there at all",
+      "scene": "outro",
+      "from": 2196,
+      "to": 2416,
+      "keyFrame": 2360,
+      "camera": {
+        "space": "yacht",
+        "keys": [
+          {
+            "f": 2196,
+            "cam": [
+              2000,
+              40,
+              -2600
+            ],
+            "look": [
+              300,
+              20,
+              900
+            ],
+            "fov": 18
+          }
+        ],
+        "handheld": 0.05,
+        "drift": 0.25
+      },
+      "yacht": {
+        "x": 0,
+        "z": 0,
+        "heading": 1.5707963267948966,
+        "lights": [
+          [
+            2196,
+            0
+          ]
+        ]
+      },
+      "env": {
+        "moonDir": [
+          0.1,
+          0.06,
+          1
+        ],
+        "dawn": 0.75
+      }
+    }
+  ],
+  "captions": [
+    {
+      "from": 18,
+      "to": 100,
+      "small": "alone on a",
+      "big": "yacht",
+      "at": "top"
+    },
+    {
+      "from": 103,
+      "to": 157,
+      "small": "your engine just",
+      "big": "died.",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 158,
+      "to": 236,
+      "small": "no lights · no power",
+      "big": "nothing.",
+      "at": "top"
+    },
+    {
+      "from": 245,
+      "to": 330,
+      "small": "the current is",
+      "big": "dragging you",
+      "at": "top"
+    },
+    {
+      "from": 332,
+      "to": 402,
+      "small": "the one island you're",
+      "big": "not allowed",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 404,
+      "to": 455,
+      "small": "island",
+      "big": "North Sentinel",
+      "at": "low",
+      "tone": "blue"
+    },
+    {
+      "from": 494,
+      "to": 602,
+      "small": "no contact for",
+      "big": "thousands of years",
+      "at": "top"
+    },
+    {
+      "from": 606,
+      "to": 668,
+      "small": "and they defend that",
+      "big": "hard.",
+      "at": "top"
+    },
+    {
+      "from": 690,
+      "to": 735,
+      "big": "CRUNCH.",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 736,
+      "to": 784,
+      "small": "you hit the reef",
+      "big": "stuck.",
+      "at": "top"
+    },
+    {
+      "from": 786,
+      "to": 832,
+      "small": "so what do you",
+      "big": "actually do?",
+      "at": "top"
+    },
+    {
+      "from": 834,
+      "to": 870,
+      "small": "step one",
+      "big": "MAYDAY",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 900,
+      "to": 988,
+      "small": "radio · channel",
+      "big": "16",
+      "at": "top",
+      "tone": "blue"
+    },
+    {
+      "from": 989,
+      "to": 1084,
+      "small": "fire your",
+      "big": "emergency beacon",
+      "at": "top"
+    },
+    {
+      "from": 1087,
+      "to": 1166,
+      "small": "step two",
+      "big": "do NOT go ashore",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 1167,
+      "to": 1232,
+      "small": "not for a photo",
+      "big": "not to say hi",
+      "at": "top"
+    },
+    {
+      "from": 1236,
+      "to": 1310,
+      "small": "almost no",
+      "big": "immunity",
+      "at": "top"
+    },
+    {
+      "from": 1312,
+      "to": 1388,
+      "small": "a common cold could be",
+      "big": "deadly",
+      "at": "top",
+      "tone": "red"
+    },
+    {
+      "from": 1390,
+      "to": 1462,
+      "small": "step three",
+      "big": "stay with your boat",
+      "at": "top"
+    },
+    {
+      "from": 1462,
+      "to": 1520,
+      "small": "this has actually",
+      "big": "happened before",
+      "at": "top"
+    },
+    {
+      "from": 1524,
+      "to": 1590,
+      "small": "in",
+      "big": "1981",
+      "at": "top",
+      "tone": "blue"
+    },
+    {
+      "from": 1590,
+      "to": 1660,
+      "small": "a cargo ship called the",
+      "big": "Primrose",
+      "at": "top"
+    },
+    {
+      "from": 1662,
+      "to": 1730,
+      "small": "armed islanders",
+      "big": "on the beach",
+      "at": "top"
+    },
+    {
+      "from": 1732,
+      "to": 1836,
+      "small": "they stayed inside and waited",
+      "big": "for days",
+      "at": "top"
+    },
+    {
+      "from": 1838,
+      "to": 1926,
+      "small": "helicopters lifted",
+      "big": "every single one",
+      "at": "top",
+      "tone": "blue"
+    },
+    {
+      "from": 1930,
+      "to": 1990,
+      "small": "step four",
+      "big": "kill the lights",
+      "at": "top"
+    },
+    {
+      "from": 1993,
+      "to": 2026,
+      "big": "stay quiet.",
+      "at": "top"
+    },
+    {
+      "from": 2028,
+      "to": 2070,
+      "small": "leave",
+      "big": "nothing behind",
+      "at": "top"
+    },
+    {
+      "from": 2076,
+      "to": 2122,
+      "small": "if the tide",
+      "big": "lifts your boat",
+      "at": "top"
+    },
+    {
+      "from": 2122,
+      "to": 2196,
+      "small": "drift past the reef and",
+      "big": "get gone!",
+      "at": "top",
+      "tone": "blue"
+    },
+    {
+      "from": 2244,
+      "to": 2300,
+      "small": "the smartest way to survive",
+      "big": "is…",
+      "at": "top"
+    },
+    {
+      "from": 2302,
+      "to": 2416,
+      "small": "to",
+      "big": "never be there at all.",
+      "at": "top"
+    }
+  ],
+  "source": {
+    "exporter": "cloud/spec/cli.mjs",
+    "adapter": "cloud/spec/adapters/sentinel.ts",
+    "exportedAt": "2026-11-21T18:51:33.716Z"
+  }
+}

@@ -12,3 +12,10 @@ style-lock/trace/layers/
 studio/out/
 studio/public/audio/
 assets/motions/raw/
+**/node_modules/
+**/.venv/
+**/.next/
+cloud/**/out/
+cloud/**/dist/
+cloud/**/.cache/
+*.blend1

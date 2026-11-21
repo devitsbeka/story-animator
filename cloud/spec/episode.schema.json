@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://story-animator.local/cloud/spec/episode.schema.json",
+  "title": "Episode spec",
+  "description": "One episode as data: everything a Blender (bpy) renderer needs to build and animate every shot. Frame numbers are ABSOLUTE film frames at `fps`. Yacht-local axes: +z bow, +x starboard, y up, metres (three.js / glTF convention, Y-up). Storage paths are keys relative to the storage root (local FS in dev, R2 in cloud). Keyframe lists ([[f, v], ...]) interpolate linearly between keys and hold the first/last value outside them; a step is written as two keys on consecutive frames.",
+  "type": "object",
+  "required": ["id", "title", "fps", "width", "height", "durationFrames", "audio", "world", "assets", "shots", "captions"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1, "description": "Spec format version (extension). Currently 1." },
+    "source": { "type": "object", "description": "Provenance (extension): exporter name, source files, export time.", "additionalProperties": true },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "fps": { "const": 30 },
+    "width": { "const": 1080 },
+    "height": { "const": 1920 },
+    "durationFrames": { "type": "integer", "minimum": 1 },
+    "audio": {
+      "type": "object",
+      "required": ["narration", "wordsJson"],
+      "additionalProperties": false,
+      "properties": {
+        "narration": { "$ref": "#/$defs/storageKey", "description": "Narration audio, e.g. episodes/<id>/audio/narration.mp3" },
+        "wordsJson": { "$ref": "#/$defs/storageKey", "description": "Word timings [{w, s, e}] in seconds from the start of the narration file." },
+        "mix": { "$ref": "#/$defs/storageKey", "description": "Optional final mix (music + sfx + narration). If present it replaces narration in the final encode." },
+        "offsetFrames": { "type": "integer", "minimum": 0, "description": "Extension: film frame at which the narration file starts (word at t s lands on frame offsetFrames + round(t*fps)). Default 0." }
+      }
+    },
+    "world": {
+      "type": "object",
+      "required": ["moonDir", "seaState", "dawn", "island"],
+      "additionalProperties": false,
+      "properties": {
+        "moonDir": { "$ref": "#/$defs/vec3", "description": "Direction TO the moon (not normalised). Also sets the glitter path." },
+        "seaState": { "type": "number", "minimum": 0, "description": "1 = reference sea, 1.6 = rough, 2.2 = storm." },
+        "dawn": { "type": "number", "minimum": 0, "maximum": 1, "description": "0 = night, 1 = full dawn." },
+        "island": { "oneOf": [{ "$ref": "#/$defs/island" }, { "type": "null" }] }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "required": ["characters", "motions", "props"],
+      "additionalProperties": false,
+      "properties": {
+        "characters": { "type": "object", "additionalProperties": { "$ref": "#/$defs/glbKey" }, "description": "name -> rigged character GLB (e.g. hero -> assets/characters/hero/hero.glb)." },
+        "motions": { "type": "object", "additionalProperties": { "$ref": "#/$defs/glbKey" }, "description": "clip name -> assets/motions/<name>.glb (hero mesh + one action 'retarget_clip', 30 fps)." },
+        "props": { "type": "object", "additionalProperties": { "$ref": "#/$defs/glbKey" }, "description": "prop name -> GLB (yacht, island, ...)." }
+      }
+    },
+    "shots": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/shot" } },
+    "captions": { "type": "array", "items": { "$ref": "#/$defs/caption" } }
+  },
+  "$defs": {
+    "storageKey": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[^\\s].*$", "description": "Storage-root-relative key, no leading slash, no '..'." },
+    "glbKey": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.).+\\.glb$" },
+    "frame": { "type": "integer" },
+    "vec3": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+    "scalarKeys": {
+      "type": "array", "minItems": 1,
+      "description": "[[frame, value], ...] sorted by frame. Linear between keys, hold outside.",
+      "items": { "type": "array", "prefixItems": [{ "$ref": "#/$defs/frame" }, { "type": "number" }], "minItems": 2, "maxItems": 2 }
+    },
+    "scalarOrKeys": { "oneOf": [{ "type": "number" }, { "$ref": "#/$defs/scalarKeys" }] },
+    "ease": { "enum": ["arrive", "move", "exit", "anticipate", "overshoot", "crashIn", "linear"] },
+    "island": {
+      "type": "object",
+      "required": ["asset", "x", "z", "rotY", "scale"],
+      "additionalProperties": false,
+      "properties": {
+        "asset": { "type": "string", "description": "Key in assets.props (preferred, e.g. 'island') or a storage key ending .glb." },
+        "x": { "type": "number", "description": "World metres." },
+        "z": { "type": "number", "description": "World metres (+z = south in the OSM data)." },
+        "rotY": { "type": "number", "description": "Radians about world +y." },
+        "scale": { "type": "number", "exclusiveMinimum": 0, "description": "Uniform scale applied to the (scale 1, true-size) island GLB." }
+      }
+    },
+    "camKey": {
+      "type": "object",
+      "required": ["f", "cam", "look", "fov"],
+      "additionalProperties": false,
+      "properties": {
+        "f": { "$ref": "#/$defs/frame" },
+        "cam": { "$ref": "#/$defs/vec3" },
+        "look": { "$ref": "#/$defs/vec3" },
+        "fov": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 180, "description": "VERTICAL field of view, degrees (three.js PerspectiveCamera). Interpolated in log space." },
+        "roll": { "type": "number", "description": "Degrees, positive = clockwise on screen." },
+        "ease": { "$ref": "#/$defs/ease", "description": "Ease used for the segment ARRIVING at this key (default 'move'). Bezier: arrive(.16,1,.3,1) move(.65,0,.35,1) exit(.7,0,.84,0) anticipate(.5,-.32,.25,1) overshoot(.34,1.45,.64,1); crashIn = t^3." }
+      }
+    },
+    "shake": {
+      "type": "object", "required": ["at", "px", "tau"], "additionalProperties": false,
+      "properties": {
+        "at": { "$ref": "#/$defs/frame" },
+        "px": { "type": "number", "description": "Peak amplitude in screen px at 1080 wide." },
+        "tau": { "type": "number", "exclusiveMinimum": 0, "description": "Decay constant in frames: amp = px*exp(-t/tau), active for 6*tau frames." }
+      }
+    },
+    "camera": {
+      "type": "object",
+      "required": ["space", "keys"],
+      "additionalProperties": false,
+      "properties": {
+        "space": { "enum": ["yacht", "world"], "description": "world: cam/look are world metres. yacht: cam/look are yacht-local metres; cam position follows the yacht's x/z/heading and 0.6 x its heave but NOT its pitch/roll (a human operator); look follows the full yacht matrix (buoyancy pitch/roll included)." },
+        "keys": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/camKey" } },
+        "handheld": { "$ref": "#/$defs/scalarOrKeys", "description": "Handheld amplitude (degrees-ish): jx = h*(sin(f*.31)+.6 sin(f*.83+1.7)), jy = h*(sin(f*.47+.9)+.5 sin(f*1.13+3.1)), applied to look at ~1deg/m-at-distance. Number or [[f,v]] keys. Default 0.2." },
+        "drift": { "type": "number", "minimum": 0, "description": "Extension: slow positional drift amplitude in metres so holds never freeze (default 0.25)." },
+        "shakes": { "type": "array", "items": { "$ref": "#/$defs/shake" } }
+      }
+    },
+    "yacht": {
+      "type": "object",
+      "required": ["x", "z", "heading", "lights"],
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number" },
+        "z": { "type": "number" },
+        "heading": { "type": "number", "description": "Radians about world +y; heading pi/2 points the bow along world +x." },
+        "lights": { "$ref": "#/$defs/scalarKeys", "description": "0..1 multiplier on cabin glow, cabin point light and nav lights (the GLB stores the lights-on = 1 values)." },
+        "hatch": { "$ref": "#/$defs/scalarOrKeys", "description": "0..1 foredeck hatch open (node hatch_pivot, rotation.x = -hatch*1.9 rad)." },
+        "pitch": { "$ref": "#/$defs/scalarOrKeys", "description": "Radians added to buoyancy pitch (bow up positive)." },
+        "roll": { "$ref": "#/$defs/scalarOrKeys", "description": "Radians added to buoyancy roll." },
+        "sink": { "$ref": "#/$defs/scalarOrKeys", "description": "Metres the hull sits lower than its buoyant height (aground / flooding)." }
+      }
+    },
+    "track": {
+      "type": "object", "required": ["clip", "from"], "additionalProperties": false,
+      "properties": {
+        "clip": { "type": "string", "description": "Key in assets.motions." },
+        "from": { "$ref": "#/$defs/frame", "description": "Absolute film frame at which the clip's frame 0 plays. Later tracks blend over earlier ones." },
+        "loop": { "type": "boolean" },
+        "fade": { "type": "number", "minimum": 0, "description": "Crossfade-in frames over the tracks below." },
+        "speed": { "type": "number", "exclusiveMinimum": 0 },
+        "offset": { "type": "number", "description": "Extension: start offset into the clip, frames." }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "required": ["asset", "space", "local", "rotY", "tracks"],
+      "additionalProperties": false,
+      "properties": {
+        "asset": { "type": "string", "description": "Key in assets.characters." },
+        "space": { "const": "yacht" },
+        "local": { "$ref": "#/$defs/vec3", "description": "Feet position, yacht-local metres." },
+        "rotY": { "type": "number", "description": "Radians about yacht +y; 0 faces the bow (+z), pi/2 faces starboard (+x)." },
+        "height": { "type": "number", "exclusiveMinimum": 0, "description": "Extension: world height in metres the character is scaled to (default 1.8)." },
+        "tracks": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/track" } },
+        "lookAt": { "oneOf": [{ "const": "camera" }, { "$ref": "#/$defs/vec3" }], "description": "Head aim target: the camera, or a yacht-local point." },
+        "lookWeight": { "$ref": "#/$defs/scalarOrKeys", "description": "Extension: 0..1 head-aim weight (default 0.8 when lookAt is set)." }
+      }
+    },
+    "fireKeys": {
+      "type": "array", "minItems": 1,
+      "description": "[[frame, [v0..v5]], ...]: per-fire intensity 0..1 for the island's six fires (nodes fire_0..fire_5 / fire_light_0..5). Linear between keys.",
+      "items": {
+        "type": "array", "minItems": 2, "maxItems": 2,
+        "prefixItems": [{ "$ref": "#/$defs/frame" }, { "type": "array", "items": { "type": "number", "minimum": 0 }, "minItems": 6, "maxItems": 6 }]
+      }
+    },
+    "shot": {
+      "type": "object",
+      "required": ["id", "from", "to", "camera"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "from": { "$ref": "#/$defs/frame", "description": "First frame (inclusive)." },
+        "to": { "$ref": "#/$defs/frame", "description": "End frame (exclusive)." },
+        "title": { "type": "string", "description": "Extension: human title." },
+        "scene": { "type": "string", "description": "Extension: scene name from the cue table." },
+        "keyFrame": { "$ref": "#/$defs/frame", "description": "Extension: the representative frame for storyboards / QC stills." },
+        "camera": { "$ref": "#/$defs/camera" },
+        "yacht": { "$ref": "#/$defs/yacht" },
+        "actors": { "type": "array", "items": { "$ref": "#/$defs/actor" } },
+        "fires": { "$ref": "#/$defs/fireKeys" },
+        "island": { "oneOf": [{ "$ref": "#/$defs/island" }, { "type": "null" }], "description": "Extension: per-shot override of world.island (null hides it)." },
+        "env": {
+          "type": "object", "additionalProperties": false,
+          "description": "Extension: per-shot overrides of world.moonDir / seaState / dawn.",
+          "properties": {
+            "moonDir": { "$ref": "#/$defs/vec3" },
+            "seaState": { "type": "number", "minimum": 0 },
+            "dawn": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    },
+    "caption": {
+      "type": "object",
+      "required": ["from", "to", "big"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "$ref": "#/$defs/frame" },
+        "to": { "$ref": "#/$defs/frame" },
+        "small": { "type": "string", "description": "Context words (sans)." },
+        "big": { "type": "string", "minLength": 1, "description": "Anchor (serif italic)." },
+        "at": { "enum": ["top", "low", "mid"] },
+        "tone": { "enum": ["warm", "blue", "red"] }
+      }
+    }
+  }
+}

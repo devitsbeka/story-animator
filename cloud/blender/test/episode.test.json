@@ -1,0 +1,31 @@
+{
+  "id": "blendertest",
+  "title": "Blender scene test (S01 + S04 of Sentinel)",
+  "fps": 30, "width": 1080, "height": 1920, "durationFrames": 830,
+  "audio": { "narration": "episodes/sentinel/audio/narration.mp3", "wordsJson": "episodes/sentinel/audio/narration.words.json" },
+  "world": { "moonDir": [0.12, 0.3, 1], "seaState": 1.6, "dawn": 0,
+             "island": { "asset": "island", "x": -900, "z": 2600, "rotY": 0.6, "scale": 0.35 } },
+  "assets": {
+    "characters": { "hero": "assets/characters/hero/hero.glb" },
+    "motions": { "brace_loop": "assets/motions/brace_loop.glb", "startle": "assets/motions/startle.glb", "panic_arms": "assets/motions/panic_arms.glb" },
+    "props": { "yacht": "assets/props/yacht.glb", "island": "assets/props/island_sentinel.glb" }
+  },
+  "shots": [
+    { "id": "S01", "from": 0, "to": 238,
+      "camera": { "space": "yacht", "keys": [ { "f": 0, "cam": [25, 2.8, -4], "look": [0, 2.4, -4.4], "fov": 16 } ], "handheld": 0.2 },
+      "yacht": { "x": 0, "z": 0, "heading": 1.5708, "lights": [[0, 1], [134, 1], [136, 0]] },
+      "actors": [ { "asset": "hero", "space": "yacht", "local": [0.2, 1.42, -4.7], "rotY": 1.3208,
+                    "tracks": [ { "clip": "brace_loop", "from": -300, "loop": true }, { "clip": "panic_arms", "from": -60, "loop": true } ],
+                    "lookAt": "camera" } ] },
+    { "id": "S04", "from": 668, "to": 830,
+      "camera": { "space": "yacht", "keys": [ { "f": 668, "cam": [18, 1.2, 6], "look": [0, 1.4, 2], "fov": 26, "roll": -4 },
+                                             { "f": 700, "cam": [14, 1.6, 4], "look": [0, 1.6, 0], "fov": 30, "ease": "arrive" } ],
+                  "shakes": [ { "at": 694, "px": 14, "tau": 1.8 } ] },
+      "yacht": { "x": 0, "z": 0, "heading": 1.5708, "lights": [[668, 0]], "pitch": -0.12, "roll": 0.18, "sink": 0.25 },
+      "island": { "asset": "island", "x": -300, "z": 900, "rotY": 0.6, "scale": 0.2 },
+      "fires": [[668, [1, 1, 1, 1, 1, 1]]],
+      "actors": [ { "asset": "hero", "space": "yacht", "local": [0.2, 1.42, -4.7], "rotY": 1.5708,
+                    "tracks": [ { "clip": "startle", "from": 690, "loop": false } ] } ] }
+  ],
+  "captions": [ { "from": 18, "to": 100, "small": "alone on a", "big": "yacht", "at": "top" } ]
+}
