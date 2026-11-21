@@ -1,6 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { Ocean3D, SeaShot, V3, project, yachtWorld } from "../../kit/ocean3d";
+import * as THREE from "three";
+import { Ocean3D, SeaShot, V3, project, yachtMatrix, yachtWorld } from "../../kit/ocean3d";
+import { characterUrl, motionUrl, useAssets } from "../../kit/actors";
 import { CamKey3, EASE, rigAt } from "../../kit/camrig";
 import { Hero, STREET } from "../../kit/character";
 import { Smoke, makePuffs } from "../../kit/sea";
@@ -15,12 +17,13 @@ import { LightCtx } from "../../kit/render";
 // ---------------------------------------------------------------------------
 const YACHT = { x: 0, z: 0, heading: Math.PI / 2 };
 const MOON: V3 = [0.12, 0.3, 1];
+const CLIPS = ["brace_loop", "startle", "panic_arms"];
 const KEYS: CamKey3[] = [
-  { f: 0, cam: [-9, 2.0, -44], look: [0, 1.8, 0], fov: 34 },
-  { f: 104, cam: [-3, 2.6, -25], look: [0, 2.1, 0], fov: 30, ease: "arrive" },
+  { f: 0, cam: [-2, 2.2, -46], look: [-0.5, 2.0, 0], fov: 30 },
+  { f: 104, cam: [-1.5, 2.6, -27], look: [-1.0, 2.2, 0], fov: 30, ease: "arrive" },
   { f: CUE.died - 6, cam: [-2.6, 2.7, -24], look: [0, 2.3, 0], fov: 29, ease: "move" },
-  { f: CUE.died, cam: [-3.4, 2.8, -23.4], look: [-3.2, 2.9, -1.6], fov: 17, ease: "crashIn" },
-  { f: 228, cam: [-3.9, 3.0, -21.6], look: [-4.0, 3.0, -1.7], fov: 15.5, ease: "arrive" },
+  { f: CUE.died, cam: [-4.2, 2.9, -23.4], look: [-4.5, 2.7, 0], fov: 15, ease: "crashIn" },
+  { f: 228, cam: [-4.4, 3.0, -21.6], look: [-4.6, 2.85, 0], fov: 13.5, ease: "arrive" },
   { f: 252, cam: [0, 26, -12], look: [0, 0, 4], fov: 40, ease: "exit" },
 ];
 
@@ -44,8 +47,25 @@ export const S1_3D: React.FC<{ f: number; push: number }> = ({ f, push }) => {
   const shot: SeaShot = {
     time: t, ...rig, fov: rig.fov! / push,
     moonDir: MOON, seaState: 1.75,
+    island: { x: -900, z: 2600, rotY: 0.6, scale: 0.35 },
     yacht: { ...YACHT, lights: flick(f), pitch: kick, roll: kick * 0.6 },
   };
+  // the hero stands on the aft deck, facing out to starboard (toward camera)
+  const assetsOk = useAssets([characterUrl("hero"), ...CLIPS.map(motionUrl)]);
+  if (assetsOk) {
+    const place = new THREE.Matrix4().makeTranslation(0.2, 1.42, -4.7).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 2 - 0.25));
+    const camW = new THREE.Vector3(...shot.cam);
+    shot.actors = [{
+      asset: "hero", frame: f, scale: 1.8,
+      matrix: yachtMatrix(shot).multiply(place),
+      tracks: [
+        { clip: "brace_loop", from: -200, loop: true },
+        { clip: "startle", from: CUE.died - 3, loop: false, fade: 4 },
+        { clip: "panic_arms", from: CUE.noLights - 8, loop: true, fade: 7 },
+      ],
+      lookAt: { target: camW, weight: f > CUE.died + 4 ? Math.min(1, (f - CUE.died - 4) / 10) * 0.8 : 0 },
+    }];
+  }
   // project helpers
   const P = (local: V3) => project(shot, W, H, yachtWorld(shot, local));
   // hero: a 1.8 m person standing on the starboard side deck aft of the cabin, waist at the rail
@@ -81,18 +101,7 @@ export const S1_3D: React.FC<{ f: number; push: number }> = ({ f, push }) => {
         <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
           <Smoke puffs={puffs} f={f} />
         </svg>
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0, clipPath: clip }}>
-          {pop > 0 && (
-            <Hero p={{
-              x: waist[0], y: waist[1] + rise, s: hs, lean, outfit: STREET,
-              ...hands, handPoseL: "open", handPoseR: "open",
-              handAbsL: panic ? -12 + Math.sin(f * 0.9) * 8 : undefined, handAbsR: panic ? 12 - Math.sin(f * 0.9) * 8 : undefined,
-              expr: panic ? "scared" : "surprised",
-              blink: f > CUE.nothing + 2 && f < CUE.nothing + 7 ? 1 : 0,
-              look: [0.15, -0.1], headTilt: panic ? Math.sin(f * 0.25) * 5 : 0,
-            }} />
-          )}
-        </svg>
+
       </Ocean3D>
       </LightCtx.Provider>
     </AbsoluteFill>

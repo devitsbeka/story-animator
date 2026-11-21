@@ -6,10 +6,12 @@ import { DURATION } from "./episodes/sentinel/cues";
 import { HeroSheet } from "./scenes/HeroSheet";
 import { SeaTest } from "./scenes/SeaTest";
 import { Hero3DSheet } from "./scenes/Hero3DSheet";
+import { BoardFrame } from "./episodes/sentinel/beats3d";
 
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Sentinel" component={SentinelFilm} width={1080} height={1920} fps={30} durationInFrames={DURATION} />
+    <Composition id="Board3D" component={BoardFrame} width={1080} height={1920} fps={30} durationInFrames={11} />
     <Composition id="Hero3DSheet" component={Hero3DSheet} width={1920} height={1080} fps={30} durationInFrames={1} />
     <Composition id="SeaTest" component={SeaTest} width={1080} height={1920} fps={30} durationInFrames={120} />
     <Composition id="HeroSheet" component={HeroSheet} width={1920} height={1080} fps={30} durationInFrames={1} />

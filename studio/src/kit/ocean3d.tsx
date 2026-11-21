@@ -8,6 +8,8 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 // @ts-expect-error untyped vendored module
 import { createWaves, bakeOceanDetail, createOcean } from "../vendor/ocean/ocean.mjs";
 import { YachtRig, buildYacht, yachtPose } from "./yacht3d";
+import { ActorInstance, ActorState, instantiate, poseActor } from "./actors";
+import { IslandRig, buildIsland } from "./island3d";
 
 // ============================================================================
 // OCEAN 3D: a real Three.js sea (Gerstner spectrum shaded per pixel, Fresnel sky
@@ -25,6 +27,8 @@ export type SeaShot = {
   seaState?: number; // 1 = the reference sea, 1.6 = rough, 2.2 = storm
   dawn?: number;
   yacht?: YachtState;
+  actors?: ActorState[];
+  island?: { x: number; z: number; rotY?: number; scale?: number; fires?: number[] };
 };
 export type YachtState = { x: number; z: number; heading: number; lights?: number; hatch?: number; pitch?: number; roll?: number; heave?: number; sink?: number };
 
@@ -140,7 +144,7 @@ vec3 oceanHaze(vec3 d){ return hazeColor(d); }
 type GL = {
   renderer: THREE.WebGLRenderer; scene: THREE.Scene; skyScene: THREE.Scene; composer: EffectComposer; bloom: UnrealBloomPass;
   cubeRT: THREE.WebGLCubeRenderTarget; cubeCam: THREE.CubeCamera; ocean: ReturnType<typeof createOcean>; skyU: Record<string, THREE.IUniform>;
-  renderPass: RenderPass; yacht: YachtRig; moon: THREE.DirectionalLight;
+  renderPass: RenderPass; yacht: YachtRig; moon: THREE.DirectionalLight; actors: Map<string, ActorInstance>; island: IslandRig | null; islandScale: number;
 };
 
 export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [number, number][]; children?: React.ReactNode; debug?: string }> = ({ shot, w, h, front, children, debug }) => {
@@ -177,7 +181,7 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       const ocean = createOcean(THREE, {
         waves, detailTexture: bakeOceanDetail(THREE, renderer), skyCube: cubeRT.texture,
         hazeGLSL: SKY_GLSL, hazeUniforms: skyU,
-        sunColor: new THREE.Vector3(0.42, 0.48, 0.62),
+        sunColor: new THREE.Vector3(0.2, 0.23, 0.3),
         ambient: new THREE.Vector3(0.07, 0.09, 0.16),
         deepColor: new THREE.Vector3(0.004, 0.011, 0.024),
         scatterColor: new THREE.Vector3(0.012, 0.07, 0.1),
@@ -197,7 +201,7 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       const bloom = new UnrealBloomPass(new THREE.Vector2(w / 2, h / 2), 0.32, 0.35, 1.6);
       composer.addPass(bloom);
       composer.addPass(new OutputPass());
-      gl.current = { renderer, scene, skyScene, composer, bloom, cubeRT, cubeCam, ocean, skyU, renderPass, yacht, moon };
+      gl.current = { renderer, scene, skyScene, composer, bloom, cubeRT, cubeCam, ocean, skyU, renderPass, yacht, moon, actors: new Map(), island: null, islandScale: 0 };
     }
     const g = gl.current;
     const seaState = shot.seaState ?? 1.6;
@@ -220,6 +224,24 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       const fill = g.scene.getObjectByName("fill") as THREE.DirectionalLight;
       fill.intensity = 0.9; fill.position.set(shot.cam[0], shot.cam[1] + 6, shot.cam[2]); fill.target.position.set(shot.yacht.x, 1.5, shot.yacht.z); fill.target.updateMatrixWorld();
     } else g.yacht.group.visible = false;
+    if (shot.island) {
+      const sc = shot.island.scale ?? 1;
+      if (!g.island || g.islandScale !== sc) {
+        if (g.island) g.scene.remove(g.island.group);
+        g.island = buildIsland(g.cubeRT.texture, { scale: sc }); g.islandScale = sc; g.scene.add(g.island.group);
+      }
+      g.island.group.visible = true;
+      g.island.group.position.set(shot.island.x, 0, shot.island.z);
+      g.island.group.rotation.y = shot.island.rotY ?? 0;
+      g.island.setFires(shot.island.fires ?? [], shot.time);
+    } else if (g.island) g.island.group.visible = false;
+    (shot.actors ?? []).forEach((a, i) => {
+      const key = `${a.asset}#${i}`;
+      let inst = g.actors.get(key);
+      if (!inst) { const made = instantiate(a.asset); if (!made) return; inst = made; g.actors.set(key, inst); g.scene.add(inst.root); }
+      inst.root.visible = true;
+      poseActor(inst, a);
+    });
     const cam = makeCamera(shot, w, h);
     g.cubeCam.update(g.renderer, g.skyScene);
     void waves;
