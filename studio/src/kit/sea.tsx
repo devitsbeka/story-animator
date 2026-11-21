@@ -1,7 +1,7 @@
 import React from "react";
 import { P, add, ellipse, lerpP, qcurve, rng, rot, rr, rrect, tube } from "./geom";
 import { Contact, Line, Shape } from "./render";
-import { INK, Material, WEIGHT } from "./theme";
+import { INK, Material, WEIGHT, envAt } from "./theme";
 
 // ============================================================================
 // SEA KIT: night sky, ocean, island, yacht, smoke, fire, ships, rescue gear.
@@ -54,10 +54,20 @@ export const Sky: React.FC<{ x0: number; y0: number; w: number; h: number; horiz
         <radialGradient id={`moonGlow${seed}`}><stop offset="0" stopColor="#dfe8ff" stopOpacity="0.55" /><stop offset="0.3" stopColor="#b9c8ff" stopOpacity="0.18" /><stop offset="1" stopColor="#b9c8ff" stopOpacity="0" /></radialGradient>
       </defs>
       <rect x={x0} y={y0} width={w} height={horizon - y0 + 4} fill={`url(#skyG${seed})`} />
-      {stars.map(([sx, sy, r, ph], i) => <circle key={i} cx={sx} cy={sy} r={r} fill="#fff6dc" opacity={(0.35 + 0.45 * (0.5 + 0.5 * Math.sin(f * 0.06 + ph))) * (1 - dawn)} />)}
+      {stars.map(([sx, sy, r, ph], i) => {
+        const tw = 0.35 + 0.45 * (0.5 + 0.5 * Math.sin(f * 0.06 + ph));
+        const big = r > 2.2;
+        return (
+          <g key={i} opacity={tw * (1 - dawn)}>
+            <circle cx={sx} cy={sy} r={r} fill="#fff6dc" />
+            {big && <path d={`M ${sx - r * 4},${sy} L ${sx + r * 4},${sy} M ${sx},${sy - r * 4} L ${sx},${sy + r * 4}`} stroke="#fff6dc" strokeWidth={1.2} opacity={0.7} />}
+          </g>
+        );
+      })}
       {moon && (
         <g opacity={1 - dawn * 0.8}>
           <circle cx={moon[0]} cy={moon[1]} r={moonR * 5} fill={`url(#moonGlow${seed})`} />
+          {[1.5, 2.1].map((k, i) => <circle key={i} cx={moon[0]} cy={moon[1]} r={moonR * k} fill="none" stroke="#dfe8ff" strokeWidth={moonR * 0.18} opacity={0.08 - i * 0.03} />)}
           <Shape pts={ellipse(moon[0], moon[1], moonR, moonR, 40)} mat={m("#fff6d8", "#eedca8", "#ffffff", "#d9c48a")} ink={0} shade={0.18} lit={0} lightFrom={[moon[0] - 200, moon[1] - 150]} seed={seed}>
             {[[-22, -10, 14], [18, 16, 10], [8, -28, 7], [-10, 26, 8]].map(([cx, cy, r], i) => <circle key={i} cx={moon[0] + cx} cy={moon[1] + cy} r={r} fill="#e9d6a0" opacity={0.6} />)}
           </Shape>
@@ -67,14 +77,14 @@ export const Sky: React.FC<{ x0: number; y0: number; w: number; h: number; horiz
       {[0, 1, 2].map((i) => {
         const cy = y0 + (horizon - y0) * (0.35 + i * 0.17), cx = x0 + ((f * (0.25 + i * 0.1) + i * 400) % (w + 600)) - 300;
         const pts: P[] = [[cx - 160, cy], ...qcurve([cx - 120, cy - 30], [cx - 40, cy - 50], [cx + 20, cy - 26], 6), ...qcurve([cx + 60, cy - 46], [cx + 140, cy - 30], [cx + 170, cy], 6)];
-        return <Shape key={i} pts={pts} mat={m(lerpC("#1c2654", "#e7a487", dawn), lerpC("#141c42", "#c98673", dawn), lerpC("#36427a", "#ffd3a8", dawn), "#0f1533")} ink={0} shade={0.12} lit={0.18} litOpacity={0.6} seed={seed + i} />;
+        return <Shape key={i} pts={pts} mat={m(lerpC("#1e2a5c", "#e7a487", dawn), lerpC("#151d46", "#c98673", dawn), lerpC("#4a5aa0", "#ffd3a8", dawn), "#0f1533")} ink={2.5} inkColor="#0c1230" shade={0.14} lit={0.22} litOpacity={0.85} seed={seed + i} lightFrom={moon} />;
       })}
     </g>
   );
 };
 
 // ---------- sea ----------
-export const Sea: React.FC<{ x0: number; w: number; horizon: number; bottom: number; f: number; glitterX?: number; dawn?: number; seed?: number; rows?: number }> = ({ x0, w, horizon, bottom, f, glitterX, dawn = 0, seed = 1, rows = 26 }) => {
+export const Sea: React.FC<{ x0: number; w: number; horizon: number; bottom: number; f: number; glitterX?: number; dawn?: number; seed?: number; rows?: number; edge?: boolean; tint?: number }> = ({ x0, w, horizon, bottom, f, glitterX, dawn = 0, seed = 1, rows = 26, edge = true, tint = 0 }) => {
   const g = rng(`sea${seed}`);
   const deep = lerpC("#0b1230", "#2c3a6e", dawn), far = lerpC("#1f2b5c", "#9a7a9a", dawn);
   const lines: React.ReactNode[] = [];
@@ -110,7 +120,8 @@ export const Sea: React.FC<{ x0: number; w: number; horizon: number; bottom: num
         </linearGradient>
       </defs>
       <rect x={x0} y={horizon} width={w} height={bottom - horizon} fill={`url(#seaG${seed})`} />
-      <Line pts={[[x0, horizon], [x0 + w, horizon]]} w={2.5} color={lerpC("#5468aa", "#ffd0a0", dawn)} opacity={0.8} wob={0} />
+      {edge && <Line pts={[[x0, horizon], [x0 + w, horizon]]} w={2.5} color={lerpC("#5468aa", "#ffd0a0", dawn)} opacity={0.8} wob={0} />}
+      {tint > 0 && <rect x={x0} y={horizon} width={w} height={bottom - horizon} fill="#070b20" opacity={tint} />}
       {lines}
       {glit}
     </g>
@@ -183,14 +194,14 @@ export const Island: React.FC<{ cx: number; base: number; w: number; h: number; 
       {/* fires: warm light among the trees (the islanders are never shown) */}
       {fires.map((fi, i) => fi.on > 0 && (
         <g key={i}>
-          <circle cx={fi.x} cy={fi.y} r={70 * (fi.s ?? 1) * fi.on} fill="#ff9a3c" opacity={0.18 * fi.on} />
+          <FireGlow x={fi.x} y={fi.y - 14} r={90 * (fi.s ?? 1) * Math.min(1.4, fi.on)} o={0.55 * Math.min(1, fi.on)} />
           <Flame x={fi.x} y={fi.y} s={(fi.s ?? 1) * fi.on} f={f} seed={i} />
         </g>
       ))}
       {/* front canopy layer, lower and darker */}
       <Shape pts={canopy(1)} mat={SM.jungle2} ink={WEIGHT.outline} round={0.7} shade={0} lit={0.05} litOpacity={0.6} seed={seed + 2} wob={0.4} />
       {/* beach */}
-      <Shape pts={[[x0 - 60, base + 2], ...qcurve([x0 + w * 0.3, base - 12], [x0 + w * 0.7, base - 8], [x0 + w + 60, base + 2], 12), [x0 + w + 80, base + 26], [x0 - 80, base + 26]]} mat={m(lerpC("#5d6276", "#d8b48e", dawn), "#454a5d", "#8a90a6", "#3a3e50")} ink={WEIGHT.small} round={0.6} shade={0} lit={0.1} seed={seed + 3} />
+      <Shape pts={[[x0 - 60, base + 2], ...qcurve([x0 + w * 0.3, base - 8], [x0 + w * 0.7, base - 6], [x0 + w + 60, base + 2], 12), [x0 + w + 80, base + 14], [x0 - 80, base + 14]]} mat={m(lerpC("#3d4256", "#c9a27e", dawn), "#2c3042", "#6a7090", "#2a2e40")} ink={WEIGHT.small} round={0.6} shade={0} lit={0.25} litOpacity={0.8} seed={seed + 3} />
       {reef && [0, 1, 2].map((k) => {
         const yy = base + 40 + k * 22;
         const pts: P[] = Array.from({ length: 30 }, (_, i) => [x0 - 80 + (i * (w + 160)) / 29, yy + Math.sin(i * 0.9 + f * 0.1 + k) * 4]);
@@ -199,6 +210,16 @@ export const Island: React.FC<{ cx: number; base: number; w: number; h: number; 
     </g>
   );
 };
+
+// Soft warm light pool around a flame (radial falloff, never a flat disc)
+export const FireGlow: React.FC<{ x: number; y: number; r: number; o?: number }> = ({ x, y, r, o = 0.5 }) => (
+  <g>
+    <defs>
+      <radialGradient id="fireGlowG"><stop offset="0" stopColor="#ffb055" stopOpacity="0.85" /><stop offset="0.35" stopColor="#ff8a2a" stopOpacity="0.35" /><stop offset="1" stopColor="#ff7a1a" stopOpacity="0" /></radialGradient>
+    </defs>
+    <circle cx={x} cy={y} r={r} fill="url(#fireGlowG)" opacity={o} />
+  </g>
+);
 
 export const Flame: React.FC<{ x: number; y: number; s?: number; f: number; seed?: number }> = ({ x, y, s = 1, f, seed = 0 }) => {
   const k = 1 + 0.12 * Math.sin(f * 0.6 + seed * 3) + 0.08 * Math.sin(f * 1.7 + seed);
@@ -248,6 +269,10 @@ export const Yacht: React.FC<{ x: number; y: number; s?: number; r?: number; f: 
       <Shape pts={roof} mat={SM.hull} ink={WEIGHT.outline} round={0.5} shade={0.15} lit={0.1} seed={seed + 9} />
       <Shape pts={tube(mast, () => 9 * s)} mat={SM.hull} ink={WEIGHT.small} round={0.3} shade={0.2} lit={0.2} seed={seed + 10} />
       <Shape pts={tube(Pt([[-76, -262], [14, -262]]), () => 7 * s)} mat={SM.hull} ink={WEIGHT.small} round={0.3} shade={0.2} lit={0.2} seed={seed + 11} />
+      {/* hull portholes + cleats + a rub rail */}
+      {[-200, -150, -100].map((px, i) => <Shape key={`ph${i}`} pts={Pt(ellipse(px, -30, 9, 9, 14))} mat={lit ? SM.glassLit : SM.glass} ink={3 * s} shade={0} lit={0.2} seed={seed + 30 + i} />)}
+      <Line pts={Pt([[-266, -48], [-60, -56], [140, -68], [268, -86]])} w={5 * s} color={SM.hull.shade} opacity={0.9} />
+      {[-230, 200].map((cx, i) => <Shape key={`cl${i}`} pts={Pt(rrect(cx - 14, -64, 28, 8, 3))} mat={m("#c9ccd3", "#9aa0aa", "#f1f3f6", "#7b818c")} ink={2.4 * s} round={0.5} shade={0.2} lit={0.3} seed={seed + 40 + i} />)}
       {/* life ring */}
       <Shape pts={Pt(ellipse(118, -110, 20, 20, 24))} mat={SM.orange} ink={WEIGHT.small} shade={0.15} lit={0.1} seed={seed + 12} />
       <Shape pts={Pt(ellipse(118, -110, 9, 9, 16))} mat={SM.hull} ink={WEIGHT.small} shade={0} lit={0} seed={seed + 13} />
@@ -258,8 +283,8 @@ export const Yacht: React.FC<{ x: number; y: number; s?: number; r?: number; f: 
       {posts.map((p, i) => <Line key={i} pts={p} w={3 * s} color={INK} />)}
       {/* hatch: frame, the lid swings open; children (the hero) emerge through it */}
       <Shape pts={Pt(rrect(-44, -186, 88, 12, 3))} mat={SM.stripe} ink={WEIGHT.small} round={0.3} shade={0} lit={0.1} seed={seed + 16} />
-      {children}
       <Shape pts={hatchLid} mat={SM.hull} ink={WEIGHT.small} round={0.3} shade={0.2} lit={0.1} seed={seed + 17} />
+      {children}
       {/* nav lights (their glow is drawn in the emissive pass, see YachtGlow) */}
       <circle cx={Pt([[262, -96]])[0][0]} cy={Pt([[262, -96]])[0][1]} r={7 * s} fill={lit ? "#5dff8a" : "#1d3a28"} stroke={INK} strokeWidth={2} />
       <circle cx={Pt([[-30, -292]])[0][0]} cy={Pt([[-30, -292]])[0][1]} r={7 * s} fill={lit ? "#ffffff" : "#3a3f50"} stroke={INK} strokeWidth={2} />
@@ -426,6 +451,118 @@ export const Germ: React.FC<{ x: number; y: number; r?: number; f: number; seed?
       <circle cx={x - e * 1.4} cy={y - e * 0.4} r={e * 0.7} fill={INK} />
       <circle cx={x + e * 1.4} cy={y - e * 0.4} r={e * 0.7} fill={INK} />
       <path d={`M ${x - e},${y + e * 1.2} Q ${x},${y + e * 2.2 + rr(g, 0, 2)} ${x + e},${y + e * 1.2}`} stroke={INK} strokeWidth={3} fill="none" strokeLinecap="round" />
+    </g>
+  );
+};
+
+// ============================================================================
+// OCEAN v2: layered cartoon water.
+// Rows of scalloped wave bands, far → near. Each band has an inked crest line, a moonlit
+// highlight just under the crest (brightest in the moon's column, which builds the moon path),
+// darker body, and moves at its own speed (parallax). Near bands get foam caps.
+// ============================================================================
+export const Ocean: React.FC<{ x0: number; w: number; horizon: number; bottom: number; f: number; moonX?: number; dawn?: number; rows?: number; seed?: number; calm?: number; foamAt?: { x: number; w: number; y: number } }> = ({
+  x0, w, horizon, bottom, f, moonX = 840, dawn = 0, rows = 16, seed = 1, calm = 1, foamAt,
+}) => {
+  const far = lerpC("#33467e", "#b08aa6", dawn), near = lerpC("#0a112c", "#3a3f6e", dawn);
+  const hiCol = lerpC("#9fb4ff", "#ffe0b8", dawn);
+  const bands: React.ReactNode[] = [];
+  for (let i = 0; i < rows; i++) {
+    const t = i / (rows - 1); // 0 far → 1 near
+    const y = horizon + (bottom - horizon) * Math.pow(t, 1.9) + 4;
+    const amp = (2 + t * 16) * calm;
+    const lambda = 40 + t * 260;
+    const speed = (0.3 + t * 2.2) * (i % 2 ? 1 : -0.7);
+    const ph = f * speed * 0.02 + i * 1.7 + seed;
+    const fill = lerpC(far, near, Math.pow(t, 0.8));
+    const pts: P[] = [];
+    const step = Math.max(6, lambda / 10);
+    for (let x = x0 - lambda; x <= x0 + w + lambda; x += step) {
+      // scalloped crest: rounded troughs, sharper peaks (cartoon water)
+      const u = (x / lambda) * Math.PI * 2 + ph;
+      const yy = y - amp * (Math.pow(Math.abs(Math.sin(u / 2)), 1.6) * 2 - 1) + Math.sin(x * 0.011 + ph * 0.6) * amp * 0.25;
+      pts.push([x, yy]);
+    }
+    const body: P[] = [...pts, [x0 + w + lambda, bottom + 400], [x0 - lambda, bottom + 400]];
+    const d = "M" + body.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join("L") + "Z";
+    const crest = "M" + pts.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join("L");
+    // moon path: crest highlight strength by distance from the moon's column
+    const hl = pts.map((q) => Math.exp(-Math.pow((q[0] - moonX) / (60 + t * 260), 2)));
+    const segs: React.ReactNode[] = [];
+    for (let k = 1; k < pts.length; k++) {
+      const s0 = hl[k];
+      if (s0 < 0.08) continue;
+      const tw = 0.6 + 0.4 * Math.sin(f * 0.3 + k * 1.3 + i);
+      segs.push(<line key={k} x1={pts[k - 1][0]} y1={pts[k - 1][1] + 2 + t * 3} x2={pts[k][0]} y2={pts[k][1] + 2 + t * 3} stroke="#fff4d6" strokeWidth={1.5 + t * 4} strokeLinecap="round" opacity={s0 * tw * (0.5 + 0.5 * (1 - t))} />);
+    }
+    bands.push(
+      <g key={i}>
+        <path d={d} fill={fill} />
+        <path d={crest} fill="none" stroke={hiCol} strokeWidth={1 + t * 3} opacity={0.18 + t * 0.25} transform={`translate(0,${3 + t * 4})`} />
+        <path d={crest} fill="none" stroke={lerpC("#0b1230", "#2a2440", dawn)} strokeWidth={0.8 + t * 2.6} opacity={0.55 + t * 0.35} strokeLinejoin="round" />
+        {segs}
+        {t > 0.55 && pts.filter((_, k) => k % 7 === (i * 3) % 7).map((q, k) => (
+          <path key={`fm${k}`} d={`M ${q[0] - 10 - t * 18},${q[1] + 3} q ${8 + t * 12},${-8 - t * 6} ${20 + t * 36},0`} fill="none" stroke="#dfe7ff" strokeWidth={2 + t * 3} strokeLinecap="round" opacity={0.55 * t} />
+        ))}
+      </g>,
+    );
+  }
+  return (
+    <g>
+      <rect x={x0} y={horizon - 2} width={w} height={bottom - horizon + 600} fill={far} />
+      <line x1={x0} x2={x0 + w} y1={horizon} y2={horizon} stroke={lerpC("#7c90d6", "#ffd8a8", dawn)} strokeWidth={3} opacity={0.7} />
+      {bands}
+      {foamAt && (
+        <g>
+          {Array.from({ length: 9 }, (_, k) => {
+            const x = foamAt.x - foamAt.w / 2 + (k / 8) * foamAt.w;
+            const yy = foamAt.y + Math.sin(f * 0.15 + k) * 4;
+            return <ellipse key={k} cx={x} cy={yy} rx={22 + (k % 3) * 8} ry={8} fill="#e6edff" stroke="#0b1230" strokeWidth={2.5} opacity={0.9} />;
+          })}
+        </g>
+      )}
+    </g>
+  );
+};
+
+// Water in FRONT of a hull: one inked, moonlit wave band with foam hugging the hull and a
+// rippled, darkened reflection of the hull below it.
+export const HullWater: React.FC<{ x0: number; w: number; y: number; f: number; hullX: number; hullW: number; bottom?: number; dawn?: number; seed?: number }> = ({ x0, w, y, f, hullX, hullW, bottom = 3000, dawn = 0, seed = 1 }) => {
+  const pts: P[] = [];
+  for (let x = x0; x <= x0 + w; x += 10) {
+    const u = x * 0.018 + f * 0.08 + seed;
+    pts.push([x, y + Math.sin(u) * 7 + Math.sin(x * 0.041 - f * 0.05) * 3]);
+  }
+  const strip = 150; // only a band at the hull: the GPU ocean shows below it
+  const body: P[] = [...pts, [x0 + w, y + strip], [x0, y + strip]];
+  const d = "M" + body.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join("L") + "Z";
+  const crest = "M" + pts.map((q) => `${q[0].toFixed(1)},${q[1].toFixed(1)}`).join("L");
+  const pal = envAt(dawn);
+  void bottom;
+  const fill = lerpC(pal.shallow, pal.deep, 0.45);
+  return (
+    <g>
+      <defs>
+        <linearGradient id={`hw${seed}`} gradientUnits="userSpaceOnUse" x1="0" y1={y} x2="0" y2={y + strip}>
+          <stop offset="0" stopColor={fill} stopOpacity="0.95" /><stop offset="0.55" stopColor={fill} stopOpacity="0.55" /><stop offset="1" stopColor={pal.deep} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={d} fill={`url(#hw${seed})`} />
+      {/* hull reflection: broken horizontal strokes, shimmering */}
+      {Array.from({ length: 10 }, (_, k) => {
+        const yy = y + 18 + k * 13;
+        const ww = hullW * (0.9 - k * 0.07) * (0.85 + 0.15 * Math.sin(f * 0.2 + k));
+        return <line key={k} x1={hullX - ww / 2 + Math.sin(f * 0.17 + k * 2) * 10} x2={hullX + ww / 2 + Math.sin(f * 0.13 + k) * 10} y1={yy} y2={yy} stroke={pal.moon} strokeWidth={5 - k * 0.35} strokeLinecap="round" opacity={0.28 - k * 0.022} strokeDasharray={`${40 + k * 6} ${14 + k * 3}`} />;
+      })}
+      <path d={crest} fill="none" stroke={pal.moon} strokeWidth={4} opacity={0.45} transform="translate(0,5)" />
+      <path d={crest} fill="none" stroke={pal.ink} strokeWidth={4} strokeLinejoin="round" />
+      {/* foam where the water meets the hull */}
+      {Array.from({ length: 12 }, (_, k) => {
+        const x = hullX - hullW * 0.5 + (k / 11) * hullW;
+        const yy = y + Math.sin(x * 0.018 + f * 0.08 + seed) * 7 - 2;
+        const r = 16 + ((k * 7) % 5) * 4 + Math.sin(f * 0.2 + k) * 3;
+        return <ellipse key={k} cx={x} cy={yy} rx={r} ry={r * 0.42} fill={pal.foam} stroke={pal.ink} strokeWidth={2.6} />;
+      })}
     </g>
   );
 };

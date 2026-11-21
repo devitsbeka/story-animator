@@ -24,6 +24,9 @@ const m = (base: string, shade: string, lit: string, line: string): Material => 
 export const MAT = {
   skin: m("#fdf0d7", "#ead2ac", "#fffaf0", "#d9bf98"),
   sweater: m("#c1301e", "#902517", "#df462c", "#7a1c10"),
+  hoodie: m("#2b2a30", "#1b1a1f", "#4a4852", "#121115"), // washed black, heavyweight
+  capBlack: m("#1f1e23", "#141317", "#3a3940", "#0c0b0e"),
+  metal2: m("#c9ccd3", "#9aa0aa", "#f1f3f6", "#7b818c"),
   paper: m("#fbeed6", "#efd4a8", "#fffaf0", "#b8977a"),
   paperOld: m("#f3dfbd", "#ddbf92", "#fbeed6", "#b0896c"),
   wall: m("#eccb98", "#d9ae7c", "#f8dfb4", "#b98b62"),
@@ -64,4 +67,19 @@ export const LIGHTS: Record<string, LightRig> = {
   moonNight: { key: { x: 760, y: 260, color: "#bcd0ff", reach: 700, strength: 0.4 }, ambient: "#6a78b8", ambientStrength: 0.22, vignette: 0.5, grain: 0.07 },
   // soft morning daylight
   morning: { key: { x: 900, y: 120, color: "#fff1c8", reach: 900, strength: 0.35 }, ambient: "#f7c98a", ambientStrength: 0.08, vignette: 0.25, grain: 0.06 },
+};
+
+// ONE palette for an environment, used by BOTH the GPU sea/sky shader and the SVG world, so the
+// two renderers read as one painting. `dawn` blends night → dawn.
+export type EnvPalette = { skyTop: string; skyMid: string; skyHor: string; deep: string; shallow: string; haze: string; moon: string; glint: string; foam: string; ink: string; grade: string };
+export const ENV: Record<"night" | "dawn", EnvPalette> = {
+  night: { skyTop: "#060a1f", skyMid: "#141c45", skyHor: "#2f3c78", deep: "#070d26", shallow: "#26366e", haze: "#34437e", moon: "#cfdcff", glint: "#fff3d4", foam: "#dfe7ff", ink: "#0b1026", grade: "#4f5fa6" },
+  dawn: { skyTop: "#2a3a78", skyMid: "#c0708a", skyHor: "#ffb27a", deep: "#2c2f55", shallow: "#9a7a9a", haze: "#e8a890", moon: "#ffe2a8", glint: "#fff4dc", foam: "#fff0e0", ink: "#2a1d30", grade: "#c07a7a" },
+};
+const hexToRgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+export const mixHex = (a: string, b: string, t: number) => "#" + hexToRgb(a).map((v, i) => Math.round(v + (hexToRgb(b)[i] - v) * t).toString(16).padStart(2, "0")).join("");
+export const envAt = (dawn: number): EnvPalette => {
+  const o = {} as EnvPalette;
+  (Object.keys(ENV.night) as (keyof EnvPalette)[]).forEach((k) => { o[k] = mixHex(ENV.night[k], ENV.dawn[k], dawn); });
+  return o;
 };

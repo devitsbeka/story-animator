@@ -61,8 +61,8 @@ export const QuoteMarks: React.FC<{ f: number; from: number; w: number; h: numbe
   const t = ease((f - from) / 12);
   return (
     <>
-      <div style={{ position: "absolute", left: w * 0.08, top: h * 0.33, fontFamily: SERIF, fontStyle: "italic", fontSize: 300, color: TYPE.cobalt, opacity: 0.9 * t, transform: `translateY(${(1 - t) * 30}px)`, lineHeight: 1 }}>“</div>
-      <div style={{ position: "absolute", right: w * 0.08, top: h * 0.53, fontFamily: SERIF, fontStyle: "italic", fontSize: 300, color: TYPE.cobalt, opacity: 0.9 * t, transform: `translateY(${(1 - t) * -30}px)`, lineHeight: 1 }}>”</div>
+      <div style={{ position: "absolute", left: w * 0.05, top: h * 0.04, fontFamily: SERIF, fontStyle: "italic", fontSize: 300, color: TYPE.cobalt, opacity: 0.9 * t, transform: `translateY(${(1 - t) * 30}px)`, lineHeight: 1 }}>“</div>
+      <div style={{ position: "absolute", right: w * 0.05, top: h * 0.2, fontFamily: SERIF, fontStyle: "italic", fontSize: 300, color: TYPE.cobalt, opacity: 0.9 * t, transform: `translateY(${(1 - t) * -30}px)`, lineHeight: 1 }}>”</div>
     </>
   );
 };

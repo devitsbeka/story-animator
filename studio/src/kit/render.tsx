@@ -173,8 +173,8 @@ export const Contact: React.FC<{ x: number; y: number; w: number; h?: number; op
 };
 
 // ---------- the stage: light rig, post (grade, glow, vignette, grain) ----------
-export const Stage: React.FC<{ light: LightRig; w: number; h: number; world: { w: number; h: number }; flicker?: number; children: React.ReactNode; post?: boolean; viewTransform?: string; fx?: React.ReactNode; worldOrigin?: [number, number] }> = ({
-  light, w, h, world, flicker = 1, children, post = true, viewTransform, fx, worldOrigin = [0, 0],
+export const Stage: React.FC<{ light: LightRig; w: number; h: number; world: { w: number; h: number }; flicker?: number; children: React.ReactNode; post?: boolean; viewTransform?: string; fx?: React.ReactNode; worldOrigin?: [number, number]; screenGrade?: boolean }> = ({
+  light, w, h, world, flicker = 1, children, post = true, viewTransform, fx, worldOrigin = [0, 0], screenGrade = true,
 }) => {
   resetIds();
   const k = light.key;
@@ -210,7 +210,7 @@ export const Stage: React.FC<{ light: LightRig; w: number; h: number; world: { w
             <rect x={worldOrigin[0] - world.w} y={worldOrigin[1] - world.h} width={world.w * 3} height={world.h * 3} fill="url(#keyGlow)" style={{ mixBlendMode: "screen" }} />
           </g>
         )}
-        {post && (
+        {post && screenGrade && (
           <g style={{ pointerEvents: "none" }}>
             <rect width={w} height={h} fill={light.ambient} opacity={light.ambientStrength} style={{ mixBlendMode: "multiply" }} />
             <rect width={w} height={h} fill="url(#vig)" />

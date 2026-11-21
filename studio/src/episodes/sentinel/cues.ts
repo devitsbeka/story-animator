@@ -48,7 +48,7 @@ export const CAPS: Cap[] = [
   { from: 158, to: 236, small: "no lights · no power", big: "nothing.", at: "top" },
   { from: 245, to: 330, small: "the current is", big: "dragging you", at: "top" },
   { from: 332, to: 402, small: "the one island you're", big: "not allowed", at: "top", tone: "red" },
-  { from: 404, to: 455, small: "island", big: "North Sentinel", at: "mid", tone: "blue" },
+  { from: 404, to: 455, small: "island", big: "North Sentinel", at: "low", tone: "blue" },
   { from: 494, to: 602, small: "no contact for", big: "thousands of years", at: "top" },
   { from: 606, to: 668, small: "and they defend that", big: "hard.", at: "top" },
   { from: 690, to: 735, big: "CRUNCH.", at: "top", tone: "red" },
@@ -73,6 +73,6 @@ export const CAPS: Cap[] = [
   { from: 2028, to: 2070, small: "leave", big: "nothing behind", at: "top" },
   { from: 2076, to: 2122, small: "if the tide", big: "lifts your boat", at: "top" },
   { from: 2122, to: 2196, small: "drift past the reef and", big: "get gone!", at: "top", tone: "blue" },
-  { from: 2244, to: 2300, small: "the smartest way to survive", big: "is…", at: "mid" },
-  { from: 2302, to: 2416, small: "to", big: "never be there at all.", at: "mid" },
+  { from: 2244, to: 2300, small: "the smartest way to survive", big: "is…", at: "top" },
+  { from: 2302, to: 2416, small: "to", big: "never be there at all.", at: "top" },
 ];
