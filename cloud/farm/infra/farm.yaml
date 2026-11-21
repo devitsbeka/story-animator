@@ -1,0 +1,847 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  story-animator render farm: S3 data bucket, SQS render queue + DLQ, DynamoDB job table, ECR worker repo,
+  least-privilege IAM, GPU launch template, spot Auto Scaling group with an on-demand fallback group
+  (scale on queue depth, scale to zero), CloudWatch alarms and a monthly EC2 budget.
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: story-farm
+    AllowedPattern: "^[a-z][a-z0-9-]{2,24}$"
+    Description: Prefix for every resource name (lowercase).
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Subnets with outbound internet (public subnets with auto-assign public IP, or private + NAT).
+  ImageTag:
+    Type: String
+    Description: Worker image tag in the ECR repository (e.g. the git short sha pushed by the deploy step).
+  GpuAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ecs/optimized-ami/amazon-linux-2023/gpu/recommended/image_id
+    Description: GPU AMI with NVIDIA driver, Docker and nvidia-container-toolkit (ECS GPU-optimized AL2023).
+  AllowedInstanceTypes:
+    Type: CommaDelimitedList
+    Default: g6.xlarge,g5.xlarge,g6.2xlarge,g5.2xlarge
+    Description: One-GPU instance types the groups may launch (L4 = g6, A10G = g5).
+  MaxSpotWorkers:
+    Type: Number
+    Default: 2
+    MinValue: 0
+    MaxValue: 64
+    Description: Spot GPU workers at most. vCPUs used = workers x 4 (xlarge) must fit the "All G and VT Spot Instance Requests" quota.
+  MaxOnDemandWorkers:
+    Type: Number
+    Default: 1
+    MinValue: 0
+    MaxValue: 16
+    Description: On-demand fallback workers at most (must fit "Running On-Demand G and VT instances" vCPU quota).
+  OnDemandFallbackMinutes:
+    Type: Number
+    Default: 15
+    MinValue: 5
+    MaxValue: 120
+    Description: Start on-demand workers when jobs have waited this long with no spot worker in service.
+  VisibilitySeconds:
+    Type: Number
+    Default: 600
+    MinValue: 120
+    MaxValue: 43200
+    Description: SQS visibility timeout; workers extend it every HEARTBEAT_S while rendering.
+  MaxAttempts:
+    Type: Number
+    Default: 4
+    MinValue: 1
+    MaxValue: 10
+    Description: Receives before a job message moves to the DLQ (worker MAX_ATTEMPTS uses the same value).
+  IdleShutdownSeconds:
+    Type: Number
+    Default: 600
+    MinValue: 60
+    Description: A worker with no job for this long terminates its instance and decrements the group.
+  RootVolumeGiB:
+    Type: Number
+    Default: 100
+    MinValue: 40
+  AlarmEmail:
+    Type: String
+    Default: ""
+    Description: Email for alarms and budget alerts (empty = no subscription and no budget).
+  MonthlyBudgetUsd:
+    Type: Number
+    Default: 100
+    MinValue: 1
+    Description: Monthly EC2 compute budget; alerts at 50 % and 80 % actual and 100 % forecast.
+
+Conditions:
+  HasEmail: !Not [!Equals [!Ref AlarmEmail, ""]]
+
+Resources:
+  # ------------------------------------------------------------------------------------------ storage
+  DataBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub "${ProjectName}-${AWS::AccountId}-${AWS::Region}"
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: abort-incomplete-uploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 3
+          - Id: expire-job-logs
+            Status: Enabled
+            Prefix: farm/runs/
+            ExpirationInDays: 60
+          - Id: plates-to-infrequent-access
+            Status: Enabled
+            Prefix: episodes/
+            Transitions:
+              - StorageClass: STANDARD_IA
+                TransitionInDays: 30
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  DataBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref DataBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource:
+              - !GetAtt DataBucket.Arn
+              - !Sub "${DataBucket.Arn}/*"
+            Condition:
+              Bool:
+                aws:SecureTransport: "false"
+
+  JobTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub "${ProjectName}-jobs"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  # ------------------------------------------------------------------------------------------ queues
+  RenderDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub "${ProjectName}-render-dlq"
+      MessageRetentionPeriod: 1209600
+      SqsManagedSseEnabled: true
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  RenderQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub "${ProjectName}-render"
+      VisibilityTimeout: !Ref VisibilitySeconds
+      MessageRetentionPeriod: 345600
+      ReceiveMessageWaitTimeSeconds: 20
+      SqsManagedSseEnabled: true
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt RenderDLQ.Arn
+        maxReceiveCount: !Ref MaxAttempts
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  # ------------------------------------------------------------------------------------------ image + logs
+  WorkerRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub "${ProjectName}/worker"
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      EncryptionConfiguration:
+        EncryptionType: AES256
+      LifecyclePolicy:
+        LifecyclePolicyText: >-
+          {"rules":[{"rulePriority":1,"description":"keep the last 10 images",
+          "selection":{"tagStatus":"any","countType":"imageCountMoreThan","countNumber":10},
+          "action":{"type":"expire"}}]}
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  WorkerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/${ProjectName}/worker"
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------------------------------ IAM
+  WorkerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${ProjectName}-worker"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      Policies:
+        - PolicyName: render-worker
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: ReadInputs
+                Effect: Allow
+                Action: s3:GetObject
+                Resource:
+                  - !Sub "${DataBucket.Arn}/library_store/*"
+                  - !Sub "${DataBucket.Arn}/assets/*"
+                  - !Sub "${DataBucket.Arn}/episodes/*/runs/*"
+                  - !Sub "${DataBucket.Arn}/farm/runs/*/jobs/*"
+              # Unconditioned on purpose: without bucket-level ListBucket a GET/HEAD of a missing key (the
+              # "is this job already done?" check) returns 403 instead of 404. It only reveals key names
+              # inside this farm's own bucket.
+              - Sid: ListForSyncAnd404s
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt DataBucket.Arn
+              - Sid: WritePlatesManifestsLogs
+                Effect: Allow
+                Action: s3:PutObject
+                Resource:
+                  - !Sub "${DataBucket.Arn}/episodes/*/runs/*/plates/*"
+                  - !Sub "${DataBucket.Arn}/farm/runs/*/jobs/*"
+                  - !Sub "${DataBucket.Arn}/farm/runs/*/logs/*"
+              - Sid: ConsumeRenderQueue
+                Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:ChangeMessageVisibility
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt RenderQueue.Arn
+              - Sid: JobState
+                Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                Resource: !GetAtt JobTable.Arn
+              - Sid: PullWorkerImage
+                Effect: Allow
+                Action:
+                  - ecr:BatchGetImage
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchCheckLayerAvailability
+                Resource: !GetAtt WorkerRepository.Arn
+              - Sid: EcrLogin
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Sid: ContainerLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub "${WorkerLogGroup.Arn}:*"
+              - Sid: OwnLifecycleInFarmGroups
+                Effect: Allow
+                Action:
+                  - autoscaling:SetInstanceProtection
+                  - autoscaling:TerminateInstanceInAutoScalingGroup
+                Resource: !Sub "arn:${AWS::Partition}:autoscaling:${AWS::Region}:${AWS::AccountId}:autoScalingGroup:*:autoScalingGroupName/${ProjectName}-*"
+              - Sid: FindOwnGroup
+                Effect: Allow
+                Action: autoscaling:DescribeAutoScalingInstances
+                Resource: "*"
+
+  WorkerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: !Sub "${ProjectName}-worker"
+      Roles:
+        - !Ref WorkerRole
+
+  # Attach to the operator user/role that runs orchestrator.py (submit/status/watch/finish).
+  OperatorPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub "${ProjectName}-operator"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: Data
+            Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+            Resource: !Sub "${DataBucket.Arn}/*"
+          - Sid: List
+            Effect: Allow
+            Action: s3:ListBucket
+            Resource: !GetAtt DataBucket.Arn
+          - Sid: Enqueue
+            Effect: Allow
+            Action:
+              - sqs:SendMessage
+              - sqs:GetQueueAttributes
+            Resource:
+              - !GetAtt RenderQueue.Arn
+              - !GetAtt RenderDLQ.Arn
+          - Sid: Redrive
+            Effect: Allow
+            Action:
+              - sqs:StartMessageMoveTask
+              - sqs:ListMessageMoveTasks
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
+            Resource: !GetAtt RenderDLQ.Arn
+          - Sid: State
+            Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:GetItem
+              - dynamodb:UpdateItem
+              - dynamodb:Query
+              - dynamodb:Scan
+            Resource: !GetAtt JobTable.Arn
+          - Sid: Outputs
+            Effect: Allow
+            Action: cloudformation:DescribeStacks
+            Resource: !Ref AWS::StackId
+
+  # ------------------------------------------------------------------------------------------ compute
+  WorkerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Render workers - no inbound; outbound HTTPS to AWS APIs, ECR and S3
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: AWS APIs, ECR, S3
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+
+  WorkerLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub "${ProjectName}-worker"
+      LaunchTemplateData:
+        ImageId: !Ref GpuAmiId
+        IamInstanceProfile:
+          Arn: !GetAtt WorkerInstanceProfile.Arn
+        InstanceInitiatedShutdownBehavior: terminate
+        SecurityGroupIds:
+          - !Ref WorkerSecurityGroup
+        MetadataOptions:
+          HttpTokens: required
+          HttpPutResponseHopLimit: 2   # the container reaches IMDS (spot notice, instance id) through docker0
+          HttpEndpoint: enabled
+        Monitoring:
+          Enabled: false
+        BlockDeviceMappings:
+          - DeviceName: /dev/xvda
+            Ebs:
+              VolumeSize: !Ref RootVolumeGiB
+              VolumeType: gp3
+              Encrypted: true
+              DeleteOnTermination: true
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Project
+                Value: !Ref ProjectName
+              - Key: Name
+                Value: !Sub "${ProjectName}-worker"
+          - ResourceType: volume
+            Tags:
+              - Key: Project
+                Value: !Ref ProjectName
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            set -euxo pipefail
+            REGION=${AWS::Region}
+            REGISTRY=${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com
+            IMAGE=${WorkerRepository.RepositoryUri}:${ImageTag}
+            TOKEN=$(curl -sS -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 300")
+            IID=$(curl -sS -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
+            # GPU AMI ships docker + nvidia-container-toolkit; the ECS agent is not used
+            systemctl disable --now ecs || true
+            systemctl enable --now docker
+            command -v aws || dnf install -y awscli-2
+            nvidia-smi -L
+            aws ecr get-login-password --region "$REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+            docker pull "$IMAGE"
+            mkdir -p /cache /work && chown 1000:1000 /cache /work
+            docker run -d --name farm-worker --gpus all --restart on-failure:5 \
+              --log-driver awslogs --log-opt awslogs-region="$REGION" \
+              --log-opt awslogs-group=${WorkerLogGroup} --log-opt awslogs-stream="$IID" \
+              -e AWS_REGION="$REGION" -e FARM_BUCKET=${DataBucket} -e FARM_QUEUE_URL=${RenderQueue} \
+              -e FARM_TABLE=${JobTable} -e VISIBILITY_S=${VisibilitySeconds} -e MAX_ATTEMPTS=${MaxAttempts} \
+              -e IDLE_SHUTDOWN_S=${IdleShutdownSeconds} -e REQUIRE_GPU=1 \
+              -v /cache:/cache -v /work:/work "$IMAGE"
+            # watchdog: if the worker container is gone for 10 minutes, power off (= terminate) so a
+            # broken image never bills GPU hours doing nothing
+            cat >/usr/local/bin/farm-watchdog <<'WD'
+            #!/bin/bash
+            n=0
+            while sleep 60; do
+              if docker ps -q -f name=farm-worker -f status=running | grep -q .; then n=0; else n=$((n+1)); fi
+              if [ "$n" -ge 10 ]; then shutdown -h now; fi
+            done
+            WD
+            chmod +x /usr/local/bin/farm-watchdog
+            systemd-run --unit farm-watchdog /usr/local/bin/farm-watchdog
+
+  SpotWorkerGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: !Sub "${ProjectName}-spot-workers"
+      MinSize: "0"
+      MaxSize: !Ref MaxSpotWorkers
+      VPCZoneIdentifier: !Ref SubnetIds
+      CapacityRebalance: true
+      DefaultInstanceWarmup: 300
+      MetricsCollection:
+        - Granularity: 1Minute
+          Metrics:
+            - GroupInServiceInstances
+            - GroupDesiredCapacity
+      MixedInstancesPolicy:
+        InstancesDistribution:
+          OnDemandBaseCapacity: 0
+          OnDemandPercentageAboveBaseCapacity: 0
+          SpotAllocationStrategy: price-capacity-optimized
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId: !Ref WorkerLaunchTemplate
+            Version: !GetAtt WorkerLaunchTemplate.LatestVersionNumber
+          Overrides:
+            - InstanceRequirements:
+                AllowedInstanceTypes: !Ref AllowedInstanceTypes
+                VCpuCount:
+                  Min: 4
+                  Max: 8
+                MemoryMiB:
+                  Min: 16000
+                AcceleratorCount:
+                  Min: 1
+                  Max: 1
+                AcceleratorManufacturers:
+                  - nvidia
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+          PropagateAtLaunch: true
+
+  OnDemandWorkerGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: !Sub "${ProjectName}-ondemand-workers"
+      MinSize: "0"
+      MaxSize: !Ref MaxOnDemandWorkers
+      VPCZoneIdentifier: !Ref SubnetIds
+      DefaultInstanceWarmup: 300
+      MixedInstancesPolicy:
+        InstancesDistribution:
+          OnDemandBaseCapacity: 0
+          OnDemandPercentageAboveBaseCapacity: 100
+          OnDemandAllocationStrategy: lowest-price
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId: !Ref WorkerLaunchTemplate
+            Version: !GetAtt WorkerLaunchTemplate.LatestVersionNumber
+          Overrides:
+            - InstanceRequirements:
+                AllowedInstanceTypes: !Ref AllowedInstanceTypes
+                VCpuCount:
+                  Min: 4
+                  Max: 8
+                MemoryMiB:
+                  Min: 16000
+                AcceleratorCount:
+                  Min: 1
+                  Max: 1
+                AcceleratorManufacturers:
+                  - nvidia
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+          PropagateAtLaunch: true
+
+  # ------------------------------------------------------------------------------------------ scaling
+  # Backlog = visible + in-flight jobs. Spot desired capacity follows it in steps (clamped to MaxSize by the
+  # group); busy workers protect themselves from scale-in, so stepping down never kills a render.
+  SpotScaleOnBacklog:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref SpotWorkerGroup
+      PolicyType: StepScaling
+      AdjustmentType: ExactCapacity
+      MetricAggregationType: Maximum
+      StepAdjustments:
+        - MetricIntervalLowerBound: 0
+          MetricIntervalUpperBound: 1
+          ScalingAdjustment: 1
+        - MetricIntervalLowerBound: 1
+          MetricIntervalUpperBound: 3
+          ScalingAdjustment: 2
+        - MetricIntervalLowerBound: 3
+          MetricIntervalUpperBound: 7
+          ScalingAdjustment: 4
+        - MetricIntervalLowerBound: 7
+          MetricIntervalUpperBound: 15
+          ScalingAdjustment: 8
+        - MetricIntervalLowerBound: 15
+          MetricIntervalUpperBound: 31
+          ScalingAdjustment: 16
+        - MetricIntervalLowerBound: 31
+          ScalingAdjustment: 64
+
+  BacklogAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-backlog"
+      AlarmDescription: Render jobs waiting or in flight -> size the spot group to the backlog.
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Threshold: 1
+      EvaluationPeriods: 1
+      TreatMissingData: notBreaching
+      Metrics:
+        - Id: visible
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/SQS
+              MetricName: ApproximateNumberOfMessagesVisible
+              Dimensions:
+                - Name: QueueName
+                  Value: !GetAtt RenderQueue.QueueName
+            Period: 60
+            Stat: Maximum
+        - Id: inflight
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/SQS
+              MetricName: ApproximateNumberOfMessagesNotVisible
+              Dimensions:
+                - Name: QueueName
+                  Value: !GetAtt RenderQueue.QueueName
+            Period: 60
+            Stat: Maximum
+        - Id: backlog
+          Expression: visible + inflight
+          Label: Backlog
+          ReturnData: true
+      AlarmActions:
+        - !Ref SpotScaleOnBacklog
+
+  SpotScaleToZero:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref SpotWorkerGroup
+      PolicyType: SimpleScaling
+      AdjustmentType: ExactCapacity
+      ScalingAdjustment: 0
+      Cooldown: "300"
+
+  OnDemandScaleToZero:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref OnDemandWorkerGroup
+      PolicyType: SimpleScaling
+      AdjustmentType: ExactCapacity
+      ScalingAdjustment: 0
+      Cooldown: "300"
+
+  QueueEmptyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-queue-empty"
+      AlarmDescription: No job waiting or in flight for 15 minutes -> both groups to zero (workers also self-terminate when idle).
+      ComparisonOperator: LessThanThreshold
+      Threshold: 1
+      EvaluationPeriods: 15
+      DatapointsToAlarm: 15
+      TreatMissingData: breaching
+      Metrics:
+        - Id: visible
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/SQS
+              MetricName: ApproximateNumberOfMessagesVisible
+              Dimensions:
+                - Name: QueueName
+                  Value: !GetAtt RenderQueue.QueueName
+            Period: 60
+            Stat: Maximum
+        - Id: inflight
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/SQS
+              MetricName: ApproximateNumberOfMessagesNotVisible
+              Dimensions:
+                - Name: QueueName
+                  Value: !GetAtt RenderQueue.QueueName
+            Period: 60
+            Stat: Maximum
+        - Id: backlog
+          Expression: visible + inflight
+          Label: Backlog
+          ReturnData: true
+      AlarmActions:
+        - !Ref SpotScaleToZero
+        - !Ref OnDemandScaleToZero
+
+  OnDemandScaleOut:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref OnDemandWorkerGroup
+      PolicyType: SimpleScaling
+      AdjustmentType: ExactCapacity
+      ScalingAdjustment: !Ref MaxOnDemandWorkers
+      Cooldown: "600"
+
+  # Spot capacity unavailable (or quota 0): jobs are waiting and no spot worker has been in service for
+  # OnDemandFallbackMinutes -> start the on-demand group. It drains the queue and scales to zero with it.
+  SpotStarvedAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-spot-starved"
+      AlarmDescription: Jobs waiting with no spot worker in service -> on-demand fallback.
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Threshold: 1
+      EvaluationPeriods: !Ref OnDemandFallbackMinutes
+      DatapointsToAlarm: !Ref OnDemandFallbackMinutes
+      TreatMissingData: notBreaching
+      Metrics:
+        - Id: visible
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/SQS
+              MetricName: ApproximateNumberOfMessagesVisible
+              Dimensions:
+                - Name: QueueName
+                  Value: !GetAtt RenderQueue.QueueName
+            Period: 60
+            Stat: Maximum
+        - Id: spot
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/AutoScaling
+              MetricName: GroupInServiceInstances
+              Dimensions:
+                - Name: AutoScalingGroupName
+                  Value: !Ref SpotWorkerGroup
+            Period: 60
+            Stat: Maximum
+        - Id: starved
+          Expression: IF(visible >= 1 AND FILL(spot, 0) < 1, 1, 0)
+          Label: SpotStarved
+          ReturnData: true
+      AlarmActions:
+        - !Ref OnDemandScaleOut
+
+  # ------------------------------------------------------------------------------------------ alerts
+  AlarmTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${ProjectName}-alarms"   # not KMS-encrypted: CloudWatch cannot publish to alias/aws/sns
+
+  AlarmEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Condition: HasEmail
+    Properties:
+      TopicArn: !Ref AlarmTopic
+      Protocol: email
+      Endpoint: !Ref AlarmEmail
+
+  DeadLetterAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-dlq-not-empty"
+      AlarmDescription: A render job failed MaxAttempts times and is in the DLQ.
+      Namespace: AWS/SQS
+      MetricName: ApproximateNumberOfMessagesVisible
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt RenderDLQ.QueueName
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+
+  StuckQueueAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-queue-stuck"
+      AlarmDescription: Oldest job message older than 6 hours (no capacity, quota 0, or crash-looping workers).
+      Namespace: AWS/SQS
+      MetricName: ApproximateAgeOfOldestMessage
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt RenderQueue.QueueName
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 21600
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+
+  LongRunningFleetAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-fleet-up-12h"
+      AlarmDescription: Spot GPU workers in service for 12 hours straight - check for a runaway run.
+      Namespace: AWS/AutoScaling
+      MetricName: GroupInServiceInstances
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref SpotWorkerGroup
+      Statistic: Minimum
+      Period: 3600
+      EvaluationPeriods: 12
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+
+  OnDemandFleetAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${ProjectName}-ondemand-running"
+      AlarmDescription: On-demand fallback workers are running (costs ~1.5x spot).
+      Namespace: AWS/AutoScaling
+      MetricName: GroupInServiceInstances
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref OnDemandWorkerGroup
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+
+  MonthlyBudget:
+    Type: AWS::Budgets::Budget
+    Condition: HasEmail
+    Properties:
+      Budget:
+        BudgetName: !Sub "${ProjectName}-monthly-ec2"
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit:
+          Amount: !Ref MonthlyBudgetUsd
+          Unit: USD
+        CostFilters:
+          Service:
+            - Amazon Elastic Compute Cloud - Compute
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 50
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref AlarmEmail
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 80
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref AlarmEmail
+        - Notification:
+            NotificationType: FORECASTED
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref AlarmEmail
+
+Outputs:
+  BucketName:
+    Value: !Ref DataBucket
+  RenderQueueUrl:
+    Value: !Ref RenderQueue
+  RenderQueueArn:
+    Value: !GetAtt RenderQueue.Arn
+  DeadLetterQueueUrl:
+    Value: !Ref RenderDLQ
+  DeadLetterQueueArn:
+    Value: !GetAtt RenderDLQ.Arn
+  TableName:
+    Value: !Ref JobTable
+  RepositoryUri:
+    Value: !GetAtt WorkerRepository.RepositoryUri
+  SpotGroupName:
+    Value: !Ref SpotWorkerGroup
+  OnDemandGroupName:
+    Value: !Ref OnDemandWorkerGroup
+  OperatorPolicyArn:
+    Value: !Ref OperatorPolicy
+  AlarmTopicArn:
+    Value: !Ref AlarmTopic

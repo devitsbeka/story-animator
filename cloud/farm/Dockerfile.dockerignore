@@ -1,0 +1,13 @@
+# BuildKit reads <Dockerfile>.dockerignore for `docker build -f cloud/farm/Dockerfile .`
+# Allow-list: only what the Dockerfile COPYs.
+*
+!cloud/blender/**
+!cloud/farm/**
+!studio/public/assets/**
+!studio/src/data/**
+!factory/library/**
+**/__pycache__
+**/*.pyc
+**/*.blend1
+cloud/blender/test/out
+studio/public/assets/motions/raw
