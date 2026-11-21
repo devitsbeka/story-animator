@@ -32,8 +32,8 @@ const Steps: React.FC<{ f: number }> = ({ f }) => {
   );
 };
 
-export const SentinelFilm: React.FC = () => {
-  const f = useCurrentFrame();
+export const SentinelFilm: React.FC<{ step?: number }> = ({ step = 1 }) => {
+  const f = useCurrentFrame() * step;
   const layers: React.ReactNode[] = [];
   SCENES.forEach((sc, i) => {
     const start = i === 0 ? 0 : sc.from - HALF, end = i === SCENES.length - 1 ? DURATION : sc.to + HALF;
@@ -55,7 +55,7 @@ export const SentinelFilm: React.FC = () => {
       <Steps f={f} />
       {f >= CUE.never - 4 && <QuoteMarks f={f} from={CUE.never - 4} w={W} h={H} />}
       <AbsoluteFill style={{ backgroundColor: "#000", opacity: Math.max(fadeOut, fadeIn), pointerEvents: "none" }} />
-      <Sequence from={OFFSET}><Audio src={staticFile(SOUND)} /></Sequence>
+      <Sequence from={Math.round(OFFSET / step)}><Audio src={staticFile(SOUND)} /></Sequence>
     </AbsoluteFill>
   );
 };
