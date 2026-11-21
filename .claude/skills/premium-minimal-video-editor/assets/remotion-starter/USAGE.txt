@@ -1,0 +1,10 @@
+Starter is real editable Remotion source code, NOT the completed tutorial video.
+
+Quick use:
+  npm install
+  npm run studio
+  npm run render
+
+The demonstration renders placeholder/original vector scenes; replace src/data.ts with your approved scene plan and real supplied footage/media inside public/ to produce a production edit. The starter demonstrates all 10 design families in src/scenes.tsx; complete high-end polish and word-synchronized animations still require a real project-specific edit and reference inspection. No paid fonts, media, or tutorial reference files are bundled.
+
+If installed Remotion media APIs changed, adapt to the versions actually installed rather than claiming the code ran. If you need an exact transcript sync, convert timestamps to frame positions using Math.round(milliseconds*FPS/1000) and map after silence removal.

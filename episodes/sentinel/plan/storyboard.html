@@ -1,0 +1,198 @@
+<title>Stranded at North Sentinel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@1,600;1,800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a dark editing-bay board. Header with the VO player, then a strip of 9:16 frames that wraps, each with its timecode, line and direction. Single deliberate night look. */
+:root {
+  --bg: #0b0f1e;
+  --panel: #121833;
+  --line: #26305a;
+  --fg: #eef0f7;
+  --muted: #9aa3c4;
+  --cobalt: #5b8bff;
+  --red: #ff6b57;
+  --warm: #ffc86a;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 14px; margin-bottom: 26px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+h1 { font-family: var(--serif); font-style: italic; font-weight: 800; font-size: clamp(34px, 6vw, 58px); line-height: 1.02; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); max-width: 70ch; margin: 0; }
+.spec { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--mono); font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+.player { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+.player button { font: 600 14px var(--sans); color: #0b0f1e; background: var(--cobalt); border: 0; border-radius: 999px; padding: 10px 18px; cursor: pointer; }
+.player button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.tc { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--fg); min-width: 92px; }
+.bar { flex: 1 1 220px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; min-width: 0; }
+.bar i { display: block; height: 100%; width: 0; background: var(--cobalt); }
+.now { flex-basis: 100%; color: var(--muted); font-size: 14px; min-height: 1.5em; }
+.board { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; transition: border-color .2s, transform .2s; }
+.card.on { border-color: var(--cobalt); transform: translateY(-2px); }
+.frame { position: relative; aspect-ratio: 9 / 16; max-width: 100%; background: #070a18; }
+.frame svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cap { position: absolute; left: 6%; right: 6%; text-align: center; pointer-events: none; }
+.cap .s { font: 700 9.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(246,243,235,.8); }
+.cap .b { font: italic 800 26px/1 var(--serif); color: #f6f3eb; text-shadow: 0 2px 12px rgba(4,6,20,.9); }
+.cap .b.blue { color: var(--cobalt); } .cap .b.red { color: var(--red); }
+.meta { padding: 14px 14px 16px; display: grid; gap: 8px; min-width: 0; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.id { font-family: var(--mono); font-size: 12px; color: var(--cobalt); }
+.time { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vo { font-family: var(--serif); font-style: italic; font-size: 16px; line-height: 1.35; margin: 0; }
+.k { font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.d { margin: 0; font-size: 13.5px; color: var(--fg); }
+.cam { color: var(--cobalt); }
+.notes { margin-top: 34px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.note { border-top: 1px solid var(--line); padding-top: 12px; }
+.note h2 { font: 700 13px var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 6px; }
+.note p { margin: 0; font-size: 14px; max-width: 60ch; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Storyboard · v1 for approval · nothing animated yet</div>
+    <h1>Stranded at North Sentinel</h1>
+    <p class="sub">A solo sailor's yacht dies at night and the current carries him onto the reef of the one island you must never land on. Then: what to actually do. 9:16, 80.5&nbsp;s, every frame drawn in code, one camera that never stops.</p>
+    <div class="spec">
+      <span class="chip">1080 × 1920 · 30 fps</span>
+      <span class="chip">2,416 frames</span>
+      <span class="chip">VO: ElevenLabs "Max", take A</span>
+      <span class="chip">Captions: Inter + Playfair Italic</span>
+      <span class="chip">11 beats · 0 hard cuts</span>
+    </div>
+    <div class="player">
+      <button id="play" type="button">Play voiceover</button>
+      <span class="tc" id="tc">00:00.0</span>
+      <span class="bar"><i id="prog"></i></span>
+      <span class="now" id="now">Press play: the board follows the voice.</span>
+      <audio id="vo" src="narration.mp3" preload="auto"></audio>
+    </div>
+  </header>
+
+  <section class="board" id="board"></section>
+
+  <section class="notes">
+    <div class="note"><h2>Camera</h2><p>One continuous move per beat, eased, plus a slow handheld drift so it never stops. Beats join with push-throughs that keep the camera's speed constant across the join, never static cuts. The subject stays on the vertical centre line.</p></div>
+    <div class="note"><h2>The islanders</h2><p>The Sentinelese are never shown. Their presence is only firelight in the trees and on the beach. No faces, no figures, no caricature.</p></div>
+    <div class="note"><h2>Facts on screen</h2><p>Mayday on VHF channel 16 and an emergency beacon; the zone is patrolled by the Indian Coast Guard; disease risk; MV Primrose aground on the reef in August 1981, crew stayed aboard and were airlifted out. Sources disagree on 3 days to a week, so the line says "for days".</p></div>
+    <div class="note"><h2>Sound (after picture lock)</h2><p>Music under the voice, 12–18 dB down: tense pulse, a hit on CRUNCH, a lift for the helicopter, warm dawn ending. Effects: engine sputter, clunk, waves, radio squelch, beacon beeps, rotor, switch click.</p></div>
+  </section>
+</div>
+
+<script>
+const OFF = 0.5; // voice starts 0.5 s into the film
+const F = (f) => f / 30;
+const mm = (s) => { const m = Math.floor(s / 60), r = s - m * 60; return String(m).padStart(2, "0") + ":" + r.toFixed(1).padStart(4, "0"); };
+
+// sketch vocabulary (viewBox 0 0 108 192)
+const C = { ink: "#e9ecf7", dim: "#5a6490", sea: "#121a3e", sky: "#0a1030", cob: "#5b8bff", fire: "#ffae4a", red: "#ff6b57" };
+const sky = (h = 96, dawn) => `<rect width="108" height="${h}" fill="${dawn ? "url(#dawn)" : C.sky}"/><rect y="${h}" width="108" height="${192 - h}" fill="${C.sea}"/><line x1="0" x2="108" y1="${h}" y2="${h}" stroke="${C.dim}" stroke-width=".6"/>`;
+const moon = (x, y, r = 6) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff4d0"/><circle cx="${x}" cy="${y}" r="${r * 3}" fill="#fff4d0" opacity=".08"/>`;
+const island = (x, y, w, h) => `<path d="M${x - w / 2},${y} Q${x - w / 3},${y - h * .7} ${x - w / 6},${y - h * .8} Q${x},${y - h * 1.15} ${x + w / 6},${y - h * .85} Q${x + w / 3},${y - h * .7} ${x + w / 2},${y} Z" fill="#132219" stroke="${C.ink}" stroke-width=".8"/>`;
+const boat = (x, y, s = 1, r = 0) => `<g transform="translate(${x},${y}) rotate(${r}) scale(${s})"><path d="M-22,-4 L20,-7 L26,-9 L18,3 L-20,4 Z" fill="#e8ecf4" stroke="${C.ink}" stroke-width=".9"/><path d="M-14,-4 L-12,-13 L6,-13 L12,-5 Z" fill="#e8ecf4" stroke="${C.ink}" stroke-width=".8"/><rect x="-11" y="-11" width="14" height="3" fill="#ffc86a"/></g>`;
+const head = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fdf0d7" stroke="#140805" stroke-width="${r / 10}"/><ellipse cx="${x - r * .3}" cy="${y + r * .25}" rx="${r * .09}" ry="${r * .14}" fill="#140805"/><ellipse cx="${x + r * .3}" cy="${y + r * .25}" rx="${r * .09}" ry="${r * .14}" fill="#140805"/>`;
+const body = (x, y, w, h) => `<path d="M${x - w / 2},${y + h} Q${x - w / 2},${y} ${x},${y} Q${x + w / 2},${y} ${x + w / 2},${y + h} Z" fill="#c1301e" stroke="#140805" stroke-width="1"/>`;
+const arrow = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C.cob}" stroke-width="1.6" marker-end="url(#ah)" stroke-dasharray="3 2"/>`;
+const fire = (x, y) => `<circle cx="${x}" cy="${y}" r="5" fill="${C.fire}" opacity=".25"/><path d="M${x - 1.6},${y} Q${x},${y - 5} ${x + 1.6},${y} Z" fill="${C.fire}"/>`;
+const frameBox = `<rect x="6.5" y="15.4" width="95" height="161" fill="none" stroke="#ffffff" stroke-opacity=".08" stroke-dasharray="2 2"/>`;
+
+const BEATS = [
+  { id: "S01", f: [0, 238], vo: "You're alone on a yacht… in the middle of the night… and your engine just DIED. No lights. No power. Nothing.",
+    pic: "Moonlit sea, the yacht dead centre with warm cabin windows and nav lights. Three sputters puff black smoke from the stern, the boat jolts, the lights die. The hero pops out of the hatch, panicking.",
+    cam: "Wide crane down into a slow push toward the boat.", cap: ["your engine just", "died.", "red", 22],
+    svg: sky() + moon(54, 40) + island(28, 96, 34, 8) + boat(54, 128, 1.3) + `<circle cx="20" cy="118" r="4" fill="#3b3d48"/><circle cx="14" cy="110" r="6" fill="#3b3d48"/>` + head(54, 104, 5) + arrow(92, 60, 92, 92) + arrow(16, 60, 16, 92) },
+  { id: "S02", f: [238, 452], vo: "And the current is dragging you toward the ONE island on Earth you are not allowed to touch. North Sentinel Island!",
+    pic: "The camera rises to an overhead night chart. The boat is a dot; a cobalt drift line grows toward the island and the boat slides along it. A dashed ring draws the 5 nm protected zone. The island fills the frame on the name.",
+    cam: "Crane up to overhead, then track along the drift line and push onto the island.", cap: ["island", "North Sentinel", "blue", 78],
+    svg: `<rect width="108" height="192" fill="#0d1633"/>` + Array.from({ length: 9 }, (_, i) => `<line x1="${i * 13}" x2="${i * 13}" y1="0" y2="192" stroke="#1b2552" stroke-width=".5"/><line y1="${i * 24}" y2="${i * 24}" x1="0" x2="108" stroke="#1b2552" stroke-width=".5"/>`).join("") + `<circle cx="54" cy="66" r="38" fill="none" stroke="${C.cob}" stroke-dasharray="3 3" stroke-width="1"/><path d="M40,60 Q44,48 56,50 Q70,52 68,64 Q66,78 54,78 Q40,76 40,60 Z" fill="#1f3a2c" stroke="${C.ink}" stroke-width=".8"/><path d="M54,170 Q30,130 52,82" fill="none" stroke="${C.cob}" stroke-width="2"/><circle cx="54" cy="170" r="3" fill="#fff"/>` },
+  { id: "S03", f: [452, 668], vo: "The people who live here have refused contact with the outside world for thousands of years. And they defend that. Hard.",
+    pic: "A low glide along the dark tree line under the moon. Fires flicker on in the trees one by one; on \"hard\" they flare. No people are ever shown.",
+    cam: "Lateral glide left to right; small push on \"hard\".", cap: ["no contact for", "thousands of years", "warm", 22],
+    svg: sky(120) + moon(80, 40) + island(54, 120, 150, 60) + fire(30, 112) + fire(52, 108) + fire(74, 113) + arrow(14, 160, 94, 160) },
+  { id: "S04", f: [668, 830], vo: "Then… crunch. You hit the reef. You're stuck. So what do you actually do?",
+    pic: "Back on the boat, the island huge behind it. CRUNCH: the hull slams the reef, the boat jolts and tilts, foam bursts, the frame shakes. The hero climbs out and shrugs at camera.",
+    cam: "Whip back from the shore to the boat, impact shake, settle into a push.", cap: ["", "CRUNCH.", "red", 22],
+    svg: sky(100) + island(54, 100, 140, 50) + boat(54, 130, 1.4, -8) + `<path d="M76,136 l6,-8 l2,8 l7,-3 l-4,7" fill="none" stroke="#dfe7ff" stroke-width="1.4"/>` + head(52, 104, 6) + `<path d="M20,40 l4,4 M84,48 l-4,4" stroke="${C.cob}" stroke-width="1.4"/>` },
+  { id: "S05", f: [830, 1085], vo: "Step one! Mayday! Grab your radio, channel sixteen, and fire off your emergency beacon. The Indian Coast Guard patrols these waters.",
+    pic: "Close on the hero shouting into a VHF handset; its screen glows CH 16. A beacon pops in, strobing. Signal rings rise off the antenna toward a Coast Guard ship and helicopter waiting above.",
+    cam: "Push in on \"Mayday\", then rise with the signal rings to reveal the rescue.", cap: ["step one", "MAYDAY", "red", 22],
+    svg: `<rect width="108" height="192" fill="#0c1230"/>` + body(54, 132, 64, 70) + head(54, 112, 22) + `<rect x="74" y="98" width="10" height="22" rx="3" fill="#2b2f38" stroke="${C.ink}" stroke-width=".8"/><rect x="76" y="101" width="6" height="5" fill="#a8e07a"/>` + `<path d="M70,80 Q79,72 88,80 M66,70 Q79,58 92,70" fill="none" stroke="${C.cob}" stroke-width="1.2"/>` + `<path d="M30,26 L62,24 L66,20 L64,30 L30,32 Z" fill="#f1f3f7" stroke="${C.ink}" stroke-width=".6"/><ellipse cx="80" cy="44" rx="8" ry="4" fill="#e8ecf2" stroke="${C.ink}" stroke-width=".6"/>` + arrow(100, 150, 100, 60) },
+  { id: "S06", f: [1085, 1388], vo: "Step two: do NOT go ashore. Not for a photo. Not to say hi. They have almost no immunity to our germs. Even a common cold could be deadly for them.",
+    pic: "A dotted footprint path runs from the boat toward the beach, and a cobalt line slashes across it. A phone-camera flash, then a wave that gets pulled back. The hero sneezes: a cloud of cartoon germs drifts toward the island and stops at a cobalt barrier ring.",
+    cam: "Track along the footprint path, then follow the germ cloud and stop when it stops.", cap: ["step two", "do NOT go ashore", "red", 22],
+    svg: sky(60) + `<path d="M50,60 Q80,48 108,52 L108,80 L60,80 Z" fill="#5d6276"/>` + island(90, 56, 50, 26) + boat(26, 160, 1, -6) + Array.from({ length: 6 }, (_, i) => `<ellipse cx="${34 + i * 9}" cy="${146 - i * 12}" rx="1.6" ry="2.6" fill="#cfd6ee" opacity=".7"/>`).join("") + `<line x1="40" y1="104" x2="86" y2="120" stroke="${C.cob}" stroke-width="2.4"/>` + `<circle cx="70" cy="140" r="4" fill="#7fd36b"/><circle cx="78" cy="132" r="3" fill="#7fd36b"/>` },
+  { id: "S07", f: [1388, 1520], vo: "Step three: stay with your boat. And this has actually happened before!",
+    pic: "The hero hugs the mast on the tilted, grounded boat, determined. On \"before\" the camera tilts up into the sky to carry us to 1981.",
+    cam: "A slow arc around the boat, then tilt up into the sky.", cap: ["step three", "stay with your boat", "warm", 22],
+    svg: sky(110) + boat(54, 136, 1.6, -6) + `<line x1="52" y1="120" x2="54" y2="70" stroke="#e8ecf4" stroke-width="2"/>` + head(46, 92, 7) + `<path d="M20,170 Q54,182 88,170" fill="none" stroke="${C.cob}" stroke-width="1.4" marker-end="url(#ah)"/>` },
+  { id: "S08", f: [1520, 1928], vo: "In 1981, a cargo ship called the Primrose ran aground right here. The crew saw armed islanders on the beach… so they stayed inside their steel hull, and waited for days… until helicopters lifted every single one of them out.",
+    pic: "A big generic freighter (not a replica) aground and listing on the reef, PRIMROSE on the bow. Fires flare on the beach, no figures shown. The portholes light up with tiny crew heads. A time-lapse sky cycles day and night. Helicopters arrive and winch the crew up one by one.",
+    cam: "Start close on a porthole, pull back to reveal the ship's scale, then follow the helicopter up.", cap: ["in", "1981", "blue", 22],
+    svg: sky(116) + island(54, 116, 130, 40) + fire(26, 110) + fire(80, 111) + `<path d="M6,122 L92,118 L104,110 L100,140 L8,142 Z" fill="#3b4a63" stroke="${C.ink}" stroke-width=".8" transform="rotate(-4 54 130)"/><rect x="10" y="98" width="16" height="22" fill="#f1f3f7" stroke="${C.ink}" stroke-width=".6"/>` + `<circle cx="14" cy="104" r="1.5" fill="#ffc86a"/><circle cx="20" cy="104" r="1.5" fill="#ffc86a"/>` + `<ellipse cx="78" cy="50" rx="10" ry="5" fill="#e8ecf2" stroke="${C.ink}" stroke-width=".6"/><line x1="78" y1="55" x2="78" y2="96" stroke="${C.ink}" stroke-width=".6"/>` + head(78, 96, 3) },
+  { id: "S09", f: [1928, 2070], vo: "Step four: kill the lights. Stay quiet. Leave nothing behind.",
+    pic: "Close on the hero in the hatch. Click: the cabin lights go out and the frame drops to moonlight. A finger to the lips. He stows his trash bag inside the boat; nothing goes over the side or onto the beach.",
+    cam: "Slow push to the face as the light drops.", cap: ["step four", "kill the lights", "warm", 22],
+    svg: `<rect width="108" height="192" fill="#070a18"/>` + body(54, 128, 60, 64) + head(54, 108, 22) + `<line x1="54" y1="118" x2="54" y2="132" stroke="#fdf0d7" stroke-width="4" stroke-linecap="round"/><rect x="0" y="160" width="108" height="32" fill="#e8ecf4" opacity=".15"/>` + arrow(96, 170, 76, 150) },
+  { id: "S10", f: [2070, 2196], vo: "And if the tide lifts your boat? Drift out past the reef, and get gone!",
+    pic: "Wide: the water level rises, the boat lifts off the reef and levels out, then drifts out past the surf line, a wake streaming behind, away from the island.",
+    cam: "Pull back and rise, tracking the boat as it leaves.", cap: ["drift past the reef and", "get gone!", "blue", 22],
+    svg: sky(84) + island(54, 84, 120, 34) + `<path d="M0,110 Q54,100 108,110" stroke="#dfe7ff" stroke-width="1" fill="none"/>` + boat(40, 138, 1.2) + `<path d="M66,138 Q84,140 104,136" stroke="#cfd9ff" stroke-width="1.2" fill="none"/>` + arrow(30, 168, 8, 168) + `<path d="M90,170 v-12 M96,170 v-12" stroke="${C.cob}" stroke-width="1.2" marker-end="url(#ah)"/>` },
+  { id: "S11", f: [2196, 2416], vo: "Because on North Sentinel… the smartest way to survive… is to never be there at all.",
+    pic: "Dawn. The island sits small and dead centre on the horizon, glitter on the sea, the boat a speck far away. The quote type lands between oversized cobalt quote marks, then the frame fades to black.",
+    cam: "A very slow drift and push; hold for the last line.", cap: ["to", "never be there at all.", "warm", 78],
+    svg: sky(100, true) + island(54, 100, 30, 9) + `<text x="10" y="70" font-family="Playfair Display, Georgia, serif" font-style="italic" font-size="34" fill="${C.cob}">“</text><text x="82" y="140" font-family="Playfair Display, Georgia, serif" font-style="italic" font-size="34" fill="${C.cob}">”</text>` + Array.from({ length: 8 }, (_, i) => `<rect x="${50 - i}" y="${106 + i * 9}" width="${4 + i * 2}" height="1" fill="#fff4d0" opacity=".6"/>`).join("") },
+];
+
+const defs = `<defs><marker id="ah" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${C.cob}"/></marker><linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3a78"/><stop offset=".7" stop-color="#c0708a"/><stop offset="1" stop-color="#ffb27a"/></linearGradient></defs>`;
+
+const board = document.getElementById("board");
+BEATS.forEach((b, i) => {
+  const card = document.createElement("article");
+  card.className = "card";
+  card.id = "beat-" + b.id;
+  const [small, big, tone, at] = b.cap;
+  card.innerHTML = `
+    <div class="frame">
+      <svg viewBox="0 0 108 192" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${b.id} sketch">${defs}${b.svg}${frameBox}</svg>
+      <div class="cap" style="top:${at}%">${small ? `<div class="s">${small}</div>` : ""}<div class="b ${tone}">${big}</div></div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="id">${b.id}</span><span class="time">${mm(F(b.f[0]))} – ${mm(F(b.f[1]))}</span></div>
+      <p class="vo">“${b.vo}”</p>
+      <div><div class="k">Picture</div><p class="d">${b.pic}</p></div>
+      <div><div class="k">Camera</div><p class="d cam">${b.cam}</p></div>
+    </div>`;
+  board.appendChild(card);
+});
+
+const vo = document.getElementById("vo"), play = document.getElementById("play");
+const tc = document.getElementById("tc"), prog = document.getElementById("prog"), now = document.getElementById("now");
+let last = null;
+play.addEventListener("click", () => { if (vo.paused) { vo.play().catch(() => { now.textContent = "The audio could not start; try again."; }); } else { vo.pause(); } });
+vo.addEventListener("play", () => { play.textContent = "Pause"; });
+vo.addEventListener("pause", () => { play.textContent = "Play voiceover"; });
+vo.addEventListener("timeupdate", () => {
+  const t = vo.currentTime + OFF;
+  tc.textContent = mm(t);
+  prog.style.width = (100 * t / F(2416)) + "%";
+  const b = BEATS.find((x) => t >= F(x.f[0]) && t < F(x.f[1]));
+  if (b && b !== last) {
+    document.querySelectorAll(".card.on").forEach((c) => c.classList.remove("on"));
+    const el = document.getElementById("beat-" + b.id);
+    el.classList.add("on");
+    el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+    now.textContent = b.id + " · " + b.cam;
+    last = b;
+  }
+});
+</script>

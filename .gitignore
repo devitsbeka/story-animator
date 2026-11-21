@@ -9,3 +9,5 @@ __pycache__/
 style-lock/trace/*.svg
 style-lock/trace/*.npy
 style-lock/trace/layers/
+studio/out/
+studio/public/audio/

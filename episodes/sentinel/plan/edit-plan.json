@@ -1,0 +1,1614 @@
+{
+ "project_id": "sentinel-ep01",
+ "title": "Stranded at North Sentinel: what do you actually do?",
+ "approval": "autonomous baseline: user asked for an end-to-end 8 s video; decisions documented here",
+ "settings": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "aspect": "9:16",
+  "duration_frames": 2416
+ },
+ "source": {
+  "file": "episodes/sentinel/audio/narration.mp3",
+  "duration_ms": 77760,
+  "note": "ElevenLabs eleven_v4, voice \"Max - USA Energetic Animated Cartoon\", take A of 2. Placed at 500 ms. Every frame drawn in code; no image or video generation."
+ },
+ "story": {
+  "logline": "At night a small yacht's engine dies a few hundred metres off North Sentinel Island. As it drifts toward the reef, fires appear among the trees.",
+  "arc": [
+   "establish: calm boat, island close",
+   "turn: engine sputters, lights die",
+   "escalate: drift toward the reef, the owner emerges",
+   "payoff: fires on shore, the owner sees them"
+  ],
+  "sensitivity": "North Sentinel is home to a protected, uncontacted people. They are never depicted: their presence is implied only by distant firelight. No caricature."
+ },
+ "camera": {
+  "rule": "One continuous move with no cuts. The camera never stops (eased keyframes plus a low-amplitude sea drift). The subject stays dead centre on the vertical axis throughout.",
+  "path": "wide high establishing shot \u2192 slow crane down and push-in \u2192 small roll as the boat lurches \u2192 slow push to the hero's face, framing both the hero and the shore fires on centre",
+  "lens": "2.5D pinhole camera over depth planes: sky z=3000, island z=1100, far sea z=600, boat z=0, near swell z=-160"
+ },
+ "words": [
+  {
+   "text": "You're",
+   "start_ms": 500,
+   "end_ms": 760,
+   "confidence": null
+  },
+  {
+   "text": "alone",
+   "start_ms": 760,
+   "end_ms": 1020,
+   "confidence": null
+  },
+  {
+   "text": "on",
+   "start_ms": 1020,
+   "end_ms": 1180,
+   "confidence": null
+  },
+  {
+   "text": "a",
+   "start_ms": 1180,
+   "end_ms": 1300,
+   "confidence": null
+  },
+  {
+   "text": "yacht,",
+   "start_ms": 1300,
+   "end_ms": 1620,
+   "confidence": null
+  },
+  {
+   "text": "in",
+   "start_ms": 1880,
+   "end_ms": 2080,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 2080,
+   "end_ms": 2180,
+   "confidence": null
+  },
+  {
+   "text": "middle",
+   "start_ms": 2180,
+   "end_ms": 2460,
+   "confidence": null
+  },
+  {
+   "text": "of",
+   "start_ms": 2460,
+   "end_ms": 2640,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 2640,
+   "end_ms": 2720,
+   "confidence": null
+  },
+  {
+   "text": "night,",
+   "start_ms": 2720,
+   "end_ms": 2980,
+   "confidence": null
+  },
+  {
+   "text": "and",
+   "start_ms": 3280,
+   "end_ms": 3500,
+   "confidence": null
+  },
+  {
+   "text": "your",
+   "start_ms": 3500,
+   "end_ms": 3640,
+   "confidence": null
+  },
+  {
+   "text": "engine",
+   "start_ms": 3640,
+   "end_ms": 4080,
+   "confidence": null
+  },
+  {
+   "text": "just",
+   "start_ms": 4080,
+   "end_ms": 4500,
+   "confidence": null
+  },
+  {
+   "text": "died.",
+   "start_ms": 4500,
+   "end_ms": 4980,
+   "confidence": null
+  },
+  {
+   "text": "No",
+   "start_ms": 5340,
+   "end_ms": 5540,
+   "confidence": null
+  },
+  {
+   "text": "lights,",
+   "start_ms": 5540,
+   "end_ms": 5840,
+   "confidence": null
+  },
+  {
+   "text": "no",
+   "start_ms": 6240,
+   "end_ms": 6440,
+   "confidence": null
+  },
+  {
+   "text": "power,",
+   "start_ms": 6440,
+   "end_ms": 6860,
+   "confidence": null
+  },
+  {
+   "text": "nothing.",
+   "start_ms": 7120,
+   "end_ms": 7520,
+   "confidence": null
+  },
+  {
+   "text": "And",
+   "start_ms": 8040,
+   "end_ms": 8160,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 8160,
+   "end_ms": 8300,
+   "confidence": null
+  },
+  {
+   "text": "current",
+   "start_ms": 8300,
+   "end_ms": 8640,
+   "confidence": null
+  },
+  {
+   "text": "is",
+   "start_ms": 8640,
+   "end_ms": 8920,
+   "confidence": null
+  },
+  {
+   "text": "dragging",
+   "start_ms": 8920,
+   "end_ms": 9360,
+   "confidence": null
+  },
+  {
+   "text": "you",
+   "start_ms": 9360,
+   "end_ms": 9600,
+   "confidence": null
+  },
+  {
+   "text": "toward",
+   "start_ms": 9600,
+   "end_ms": 9920,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 9920,
+   "end_ms": 10120,
+   "confidence": null
+  },
+  {
+   "text": "one",
+   "start_ms": 10120,
+   "end_ms": 10500,
+   "confidence": null
+  },
+  {
+   "text": "island",
+   "start_ms": 10500,
+   "end_ms": 10960,
+   "confidence": null
+  },
+  {
+   "text": "on",
+   "start_ms": 10960,
+   "end_ms": 11180,
+   "confidence": null
+  },
+  {
+   "text": "earth",
+   "start_ms": 11180,
+   "end_ms": 11400,
+   "confidence": null
+  },
+  {
+   "text": "you",
+   "start_ms": 11400,
+   "end_ms": 11600,
+   "confidence": null
+  },
+  {
+   "text": "are",
+   "start_ms": 11600,
+   "end_ms": 11760,
+   "confidence": null
+  },
+  {
+   "text": "not",
+   "start_ms": 11760,
+   "end_ms": 12140,
+   "confidence": null
+  },
+  {
+   "text": "allowed",
+   "start_ms": 12140,
+   "end_ms": 12560,
+   "confidence": null
+  },
+  {
+   "text": "to",
+   "start_ms": 12560,
+   "end_ms": 12800,
+   "confidence": null
+  },
+  {
+   "text": "touch.",
+   "start_ms": 12800,
+   "end_ms": 13200,
+   "confidence": null
+  },
+  {
+   "text": "North",
+   "start_ms": 13540,
+   "end_ms": 13880,
+   "confidence": null
+  },
+  {
+   "text": "Sentinel",
+   "start_ms": 13880,
+   "end_ms": 14300,
+   "confidence": null
+  },
+  {
+   "text": "Island!",
+   "start_ms": 14300,
+   "end_ms": 14760,
+   "confidence": null
+  },
+  {
+   "text": "The",
+   "start_ms": 15300,
+   "end_ms": 15420,
+   "confidence": null
+  },
+  {
+   "text": "people",
+   "start_ms": 15420,
+   "end_ms": 15680,
+   "confidence": null
+  },
+  {
+   "text": "who",
+   "start_ms": 15680,
+   "end_ms": 15880,
+   "confidence": null
+  },
+  {
+   "text": "live",
+   "start_ms": 15880,
+   "end_ms": 16060,
+   "confidence": null
+  },
+  {
+   "text": "here",
+   "start_ms": 16060,
+   "end_ms": 16320,
+   "confidence": null
+  },
+  {
+   "text": "have",
+   "start_ms": 16320,
+   "end_ms": 16520,
+   "confidence": null
+  },
+  {
+   "text": "refused",
+   "start_ms": 16520,
+   "end_ms": 17000,
+   "confidence": null
+  },
+  {
+   "text": "contact",
+   "start_ms": 17000,
+   "end_ms": 17580,
+   "confidence": null
+  },
+  {
+   "text": "with",
+   "start_ms": 17580,
+   "end_ms": 17780,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 17780,
+   "end_ms": 17880,
+   "confidence": null
+  },
+  {
+   "text": "outside",
+   "start_ms": 17880,
+   "end_ms": 18160,
+   "confidence": null
+  },
+  {
+   "text": "world",
+   "start_ms": 18160,
+   "end_ms": 18540,
+   "confidence": null
+  },
+  {
+   "text": "for",
+   "start_ms": 18540,
+   "end_ms": 18760,
+   "confidence": null
+  },
+  {
+   "text": "thousands",
+   "start_ms": 18760,
+   "end_ms": 19360,
+   "confidence": null
+  },
+  {
+   "text": "of",
+   "start_ms": 19360,
+   "end_ms": 19660,
+   "confidence": null
+  },
+  {
+   "text": "years,",
+   "start_ms": 19660,
+   "end_ms": 19940,
+   "confidence": null
+  },
+  {
+   "text": "and",
+   "start_ms": 20280,
+   "end_ms": 20480,
+   "confidence": null
+  },
+  {
+   "text": "they",
+   "start_ms": 20480,
+   "end_ms": 20600,
+   "confidence": null
+  },
+  {
+   "text": "defend",
+   "start_ms": 20600,
+   "end_ms": 20920,
+   "confidence": null
+  },
+  {
+   "text": "that",
+   "start_ms": 20920,
+   "end_ms": 21260,
+   "confidence": null
+  },
+  {
+   "text": "hard.",
+   "start_ms": 21260,
+   "end_ms": 21940,
+   "confidence": null
+  },
+  {
+   "text": "Then,",
+   "start_ms": 22360,
+   "end_ms": 22740,
+   "confidence": null
+  },
+  {
+   "text": "crunch.",
+   "start_ms": 23140,
+   "end_ms": 23500,
+   "confidence": null
+  },
+  {
+   "text": "You",
+   "start_ms": 24100,
+   "end_ms": 24180,
+   "confidence": null
+  },
+  {
+   "text": "hit",
+   "start_ms": 24180,
+   "end_ms": 24400,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 24400,
+   "end_ms": 24580,
+   "confidence": null
+  },
+  {
+   "text": "reef,",
+   "start_ms": 24580,
+   "end_ms": 24760,
+   "confidence": null
+  },
+  {
+   "text": "you're",
+   "start_ms": 25160,
+   "end_ms": 25340,
+   "confidence": null
+  },
+  {
+   "text": "stuck.",
+   "start_ms": 25340,
+   "end_ms": 25720,
+   "confidence": null
+  },
+  {
+   "text": "So",
+   "start_ms": 26220,
+   "end_ms": 26440,
+   "confidence": null
+  },
+  {
+   "text": "what",
+   "start_ms": 26440,
+   "end_ms": 26580,
+   "confidence": null
+  },
+  {
+   "text": "do",
+   "start_ms": 26580,
+   "end_ms": 26660,
+   "confidence": null
+  },
+  {
+   "text": "you",
+   "start_ms": 26660,
+   "end_ms": 26740,
+   "confidence": null
+  },
+  {
+   "text": "actually",
+   "start_ms": 26740,
+   "end_ms": 27040,
+   "confidence": null
+  },
+  {
+   "text": "do?",
+   "start_ms": 27040,
+   "end_ms": 27360,
+   "confidence": null
+  },
+  {
+   "text": "Step",
+   "start_ms": 27820,
+   "end_ms": 28080,
+   "confidence": null
+  },
+  {
+   "text": "one.",
+   "start_ms": 28080,
+   "end_ms": 28460,
+   "confidence": null
+  },
+  {
+   "text": "Mayday!",
+   "start_ms": 28780,
+   "end_ms": 29260,
+   "confidence": null
+  },
+  {
+   "text": "Grab",
+   "start_ms": 29260,
+   "end_ms": 29840,
+   "confidence": null
+  },
+  {
+   "text": "your",
+   "start_ms": 29840,
+   "end_ms": 30080,
+   "confidence": null
+  },
+  {
+   "text": "radio,",
+   "start_ms": 30080,
+   "end_ms": 30460,
+   "confidence": null
+  },
+  {
+   "text": "channel",
+   "start_ms": 30680,
+   "end_ms": 30920,
+   "confidence": null
+  },
+  {
+   "text": "16,",
+   "start_ms": 30920,
+   "end_ms": 31320,
+   "confidence": null
+  },
+  {
+   "text": "and",
+   "start_ms": 31660,
+   "end_ms": 31700,
+   "confidence": null
+  },
+  {
+   "text": "fire",
+   "start_ms": 31700,
+   "end_ms": 32140,
+   "confidence": null
+  },
+  {
+   "text": "off",
+   "start_ms": 32140,
+   "end_ms": 32380,
+   "confidence": null
+  },
+  {
+   "text": "your",
+   "start_ms": 32380,
+   "end_ms": 32540,
+   "confidence": null
+  },
+  {
+   "text": "emergency",
+   "start_ms": 32540,
+   "end_ms": 33000,
+   "confidence": null
+  },
+  {
+   "text": "beacon.",
+   "start_ms": 33000,
+   "end_ms": 33380,
+   "confidence": null
+  },
+  {
+   "text": "The",
+   "start_ms": 33680,
+   "end_ms": 33800,
+   "confidence": null
+  },
+  {
+   "text": "Indian",
+   "start_ms": 33800,
+   "end_ms": 34140,
+   "confidence": null
+  },
+  {
+   "text": "Coast",
+   "start_ms": 34140,
+   "end_ms": 34440,
+   "confidence": null
+  },
+  {
+   "text": "Guard",
+   "start_ms": 34440,
+   "end_ms": 34720,
+   "confidence": null
+  },
+  {
+   "text": "patrols",
+   "start_ms": 34720,
+   "end_ms": 35320,
+   "confidence": null
+  },
+  {
+   "text": "these",
+   "start_ms": 35320,
+   "end_ms": 35420,
+   "confidence": null
+  },
+  {
+   "text": "waters.",
+   "start_ms": 35420,
+   "end_ms": 35740,
+   "confidence": null
+  },
+  {
+   "text": "Step",
+   "start_ms": 36220,
+   "end_ms": 36520,
+   "confidence": null
+  },
+  {
+   "text": "two.",
+   "start_ms": 36520,
+   "end_ms": 36880,
+   "confidence": null
+  },
+  {
+   "text": "Do",
+   "start_ms": 37200,
+   "end_ms": 37340,
+   "confidence": null
+  },
+  {
+   "text": "not",
+   "start_ms": 37340,
+   "end_ms": 37820,
+   "confidence": null
+  },
+  {
+   "text": "go",
+   "start_ms": 37820,
+   "end_ms": 38200,
+   "confidence": null
+  },
+  {
+   "text": "ashore.",
+   "start_ms": 38200,
+   "end_ms": 38620,
+   "confidence": null
+  },
+  {
+   "text": "Not",
+   "start_ms": 38960,
+   "end_ms": 39080,
+   "confidence": null
+  },
+  {
+   "text": "for",
+   "start_ms": 39080,
+   "end_ms": 39260,
+   "confidence": null
+  },
+  {
+   "text": "a",
+   "start_ms": 39260,
+   "end_ms": 39480,
+   "confidence": null
+  },
+  {
+   "text": "photo,",
+   "start_ms": 39480,
+   "end_ms": 39680,
+   "confidence": null
+  },
+  {
+   "text": "not",
+   "start_ms": 40060,
+   "end_ms": 40200,
+   "confidence": null
+  },
+  {
+   "text": "to",
+   "start_ms": 40200,
+   "end_ms": 40400,
+   "confidence": null
+  },
+  {
+   "text": "say",
+   "start_ms": 40400,
+   "end_ms": 40580,
+   "confidence": null
+  },
+  {
+   "text": "hi.",
+   "start_ms": 40580,
+   "end_ms": 40880,
+   "confidence": null
+  },
+  {
+   "text": "They",
+   "start_ms": 41200,
+   "end_ms": 41340,
+   "confidence": null
+  },
+  {
+   "text": "have",
+   "start_ms": 41340,
+   "end_ms": 41500,
+   "confidence": null
+  },
+  {
+   "text": "almost",
+   "start_ms": 41500,
+   "end_ms": 41880,
+   "confidence": null
+  },
+  {
+   "text": "no",
+   "start_ms": 41880,
+   "end_ms": 42240,
+   "confidence": null
+  },
+  {
+   "text": "immunity",
+   "start_ms": 42240,
+   "end_ms": 42700,
+   "confidence": null
+  },
+  {
+   "text": "to",
+   "start_ms": 42700,
+   "end_ms": 42980,
+   "confidence": null
+  },
+  {
+   "text": "our",
+   "start_ms": 42980,
+   "end_ms": 43100,
+   "confidence": null
+  },
+  {
+   "text": "germs.",
+   "start_ms": 43100,
+   "end_ms": 43400,
+   "confidence": null
+  },
+  {
+   "text": "Even",
+   "start_ms": 43800,
+   "end_ms": 44020,
+   "confidence": null
+  },
+  {
+   "text": "a",
+   "start_ms": 44020,
+   "end_ms": 44180,
+   "confidence": null
+  },
+  {
+   "text": "common",
+   "start_ms": 44180,
+   "end_ms": 44440,
+   "confidence": null
+  },
+  {
+   "text": "cold",
+   "start_ms": 44440,
+   "end_ms": 44860,
+   "confidence": null
+  },
+  {
+   "text": "could",
+   "start_ms": 44860,
+   "end_ms": 45100,
+   "confidence": null
+  },
+  {
+   "text": "be",
+   "start_ms": 45100,
+   "end_ms": 45240,
+   "confidence": null
+  },
+  {
+   "text": "deadly",
+   "start_ms": 45240,
+   "end_ms": 45560,
+   "confidence": null
+  },
+  {
+   "text": "for",
+   "start_ms": 45560,
+   "end_ms": 45840,
+   "confidence": null
+  },
+  {
+   "text": "them.",
+   "start_ms": 45840,
+   "end_ms": 46040,
+   "confidence": null
+  },
+  {
+   "text": "Step",
+   "start_ms": 46320,
+   "end_ms": 46580,
+   "confidence": null
+  },
+  {
+   "text": "three.",
+   "start_ms": 46580,
+   "end_ms": 46980,
+   "confidence": null
+  },
+  {
+   "text": "Stay",
+   "start_ms": 47360,
+   "end_ms": 47700,
+   "confidence": null
+  },
+  {
+   "text": "with",
+   "start_ms": 47700,
+   "end_ms": 48000,
+   "confidence": null
+  },
+  {
+   "text": "your",
+   "start_ms": 48000,
+   "end_ms": 48120,
+   "confidence": null
+  },
+  {
+   "text": "boat.",
+   "start_ms": 48120,
+   "end_ms": 48440,
+   "confidence": null
+  },
+  {
+   "text": "And",
+   "start_ms": 48720,
+   "end_ms": 48880,
+   "confidence": null
+  },
+  {
+   "text": "this",
+   "start_ms": 48880,
+   "end_ms": 49040,
+   "confidence": null
+  },
+  {
+   "text": "has",
+   "start_ms": 49040,
+   "end_ms": 49200,
+   "confidence": null
+  },
+  {
+   "text": "actually",
+   "start_ms": 49200,
+   "end_ms": 49680,
+   "confidence": null
+  },
+  {
+   "text": "happened",
+   "start_ms": 49680,
+   "end_ms": 50040,
+   "confidence": null
+  },
+  {
+   "text": "before.",
+   "start_ms": 50040,
+   "end_ms": 50380,
+   "confidence": null
+  },
+  {
+   "text": "In",
+   "start_ms": 50780,
+   "end_ms": 50940,
+   "confidence": null
+  },
+  {
+   "text": "1981,",
+   "start_ms": 50940,
+   "end_ms": 51600,
+   "confidence": null
+  },
+  {
+   "text": "a",
+   "start_ms": 51920,
+   "end_ms": 52080,
+   "confidence": null
+  },
+  {
+   "text": "cargo",
+   "start_ms": 52080,
+   "end_ms": 52320,
+   "confidence": null
+  },
+  {
+   "text": "ship",
+   "start_ms": 52320,
+   "end_ms": 52660,
+   "confidence": null
+  },
+  {
+   "text": "called",
+   "start_ms": 52660,
+   "end_ms": 52860,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 52860,
+   "end_ms": 53060,
+   "confidence": null
+  },
+  {
+   "text": "Primrose",
+   "start_ms": 53060,
+   "end_ms": 53520,
+   "confidence": null
+  },
+  {
+   "text": "ran",
+   "start_ms": 53520,
+   "end_ms": 53900,
+   "confidence": null
+  },
+  {
+   "text": "aground",
+   "start_ms": 53900,
+   "end_ms": 54300,
+   "confidence": null
+  },
+  {
+   "text": "right",
+   "start_ms": 54300,
+   "end_ms": 54680,
+   "confidence": null
+  },
+  {
+   "text": "here.",
+   "start_ms": 54680,
+   "end_ms": 55020,
+   "confidence": null
+  },
+  {
+   "text": "The",
+   "start_ms": 55020,
+   "end_ms": 55360,
+   "confidence": null
+  },
+  {
+   "text": "crew",
+   "start_ms": 55360,
+   "end_ms": 55600,
+   "confidence": null
+  },
+  {
+   "text": "saw",
+   "start_ms": 55600,
+   "end_ms": 55880,
+   "confidence": null
+  },
+  {
+   "text": "armed",
+   "start_ms": 55880,
+   "end_ms": 56260,
+   "confidence": null
+  },
+  {
+   "text": "islanders",
+   "start_ms": 56260,
+   "end_ms": 56800,
+   "confidence": null
+  },
+  {
+   "text": "on",
+   "start_ms": 56800,
+   "end_ms": 56960,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 56960,
+   "end_ms": 57060,
+   "confidence": null
+  },
+  {
+   "text": "beach,",
+   "start_ms": 57060,
+   "end_ms": 57360,
+   "confidence": null
+  },
+  {
+   "text": "so",
+   "start_ms": 57520,
+   "end_ms": 57720,
+   "confidence": null
+  },
+  {
+   "text": "they",
+   "start_ms": 57720,
+   "end_ms": 57860,
+   "confidence": null
+  },
+  {
+   "text": "stayed",
+   "start_ms": 57860,
+   "end_ms": 58160,
+   "confidence": null
+  },
+  {
+   "text": "inside",
+   "start_ms": 58160,
+   "end_ms": 58540,
+   "confidence": null
+  },
+  {
+   "text": "their",
+   "start_ms": 58540,
+   "end_ms": 58760,
+   "confidence": null
+  },
+  {
+   "text": "steel",
+   "start_ms": 58760,
+   "end_ms": 59120,
+   "confidence": null
+  },
+  {
+   "text": "hull",
+   "start_ms": 59120,
+   "end_ms": 59440,
+   "confidence": null
+  },
+  {
+   "text": "and",
+   "start_ms": 59440,
+   "end_ms": 59740,
+   "confidence": null
+  },
+  {
+   "text": "waited",
+   "start_ms": 59740,
+   "end_ms": 60060,
+   "confidence": null
+  },
+  {
+   "text": "for",
+   "start_ms": 60060,
+   "end_ms": 60300,
+   "confidence": null
+  },
+  {
+   "text": "days",
+   "start_ms": 60300,
+   "end_ms": 60800,
+   "confidence": null
+  },
+  {
+   "text": "until",
+   "start_ms": 60800,
+   "end_ms": 61320,
+   "confidence": null
+  },
+  {
+   "text": "helicopters",
+   "start_ms": 61320,
+   "end_ms": 61900,
+   "confidence": null
+  },
+  {
+   "text": "lifted",
+   "start_ms": 61900,
+   "end_ms": 62360,
+   "confidence": null
+  },
+  {
+   "text": "every",
+   "start_ms": 62360,
+   "end_ms": 62880,
+   "confidence": null
+  },
+  {
+   "text": "single",
+   "start_ms": 62880,
+   "end_ms": 63240,
+   "confidence": null
+  },
+  {
+   "text": "one",
+   "start_ms": 63240,
+   "end_ms": 63500,
+   "confidence": null
+  },
+  {
+   "text": "of",
+   "start_ms": 63500,
+   "end_ms": 63620,
+   "confidence": null
+  },
+  {
+   "text": "them",
+   "start_ms": 63620,
+   "end_ms": 63740,
+   "confidence": null
+  },
+  {
+   "text": "out.",
+   "start_ms": 63740,
+   "end_ms": 63960,
+   "confidence": null
+  },
+  {
+   "text": "Step",
+   "start_ms": 64380,
+   "end_ms": 64560,
+   "confidence": null
+  },
+  {
+   "text": "four.",
+   "start_ms": 64560,
+   "end_ms": 64980,
+   "confidence": null
+  },
+  {
+   "text": "Kill",
+   "start_ms": 65440,
+   "end_ms": 65620,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 65620,
+   "end_ms": 65819,
+   "confidence": null
+  },
+  {
+   "text": "lights.",
+   "start_ms": 65819,
+   "end_ms": 66120,
+   "confidence": null
+  },
+  {
+   "text": "Stay",
+   "start_ms": 66500,
+   "end_ms": 66840,
+   "confidence": null
+  },
+  {
+   "text": "quiet.",
+   "start_ms": 66840,
+   "end_ms": 67280,
+   "confidence": null
+  },
+  {
+   "text": "Leave",
+   "start_ms": 67640,
+   "end_ms": 67820,
+   "confidence": null
+  },
+  {
+   "text": "nothing",
+   "start_ms": 67820,
+   "end_ms": 68280,
+   "confidence": null
+  },
+  {
+   "text": "behind.",
+   "start_ms": 68280,
+   "end_ms": 68700,
+   "confidence": null
+  },
+  {
+   "text": "And",
+   "start_ms": 69200,
+   "end_ms": 69340,
+   "confidence": null
+  },
+  {
+   "text": "if",
+   "start_ms": 69340,
+   "end_ms": 69460,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 69460,
+   "end_ms": 69560,
+   "confidence": null
+  },
+  {
+   "text": "tide",
+   "start_ms": 69560,
+   "end_ms": 69800,
+   "confidence": null
+  },
+  {
+   "text": "lifts",
+   "start_ms": 69800,
+   "end_ms": 70020,
+   "confidence": null
+  },
+  {
+   "text": "your",
+   "start_ms": 70020,
+   "end_ms": 70200,
+   "confidence": null
+  },
+  {
+   "text": "boat,",
+   "start_ms": 70200,
+   "end_ms": 70440,
+   "confidence": null
+  },
+  {
+   "text": "drift",
+   "start_ms": 70800,
+   "end_ms": 70980,
+   "confidence": null
+  },
+  {
+   "text": "out",
+   "start_ms": 70980,
+   "end_ms": 71240,
+   "confidence": null
+  },
+  {
+   "text": "past",
+   "start_ms": 71240,
+   "end_ms": 71540,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 71540,
+   "end_ms": 71760,
+   "confidence": null
+  },
+  {
+   "text": "reef",
+   "start_ms": 71760,
+   "end_ms": 71960,
+   "confidence": null
+  },
+  {
+   "text": "and",
+   "start_ms": 71960,
+   "end_ms": 72260,
+   "confidence": null
+  },
+  {
+   "text": "get",
+   "start_ms": 72260,
+   "end_ms": 72580,
+   "confidence": null
+  },
+  {
+   "text": "gone.",
+   "start_ms": 72580,
+   "end_ms": 73020,
+   "confidence": null
+  },
+  {
+   "text": "Because",
+   "start_ms": 73340,
+   "end_ms": 73580,
+   "confidence": null
+  },
+  {
+   "text": "on",
+   "start_ms": 73580,
+   "end_ms": 73760,
+   "confidence": null
+  },
+  {
+   "text": "North",
+   "start_ms": 73760,
+   "end_ms": 74040,
+   "confidence": null
+  },
+  {
+   "text": "Sentinel,",
+   "start_ms": 74040,
+   "end_ms": 74420,
+   "confidence": null
+  },
+  {
+   "text": "the",
+   "start_ms": 74880,
+   "end_ms": 74960,
+   "confidence": null
+  },
+  {
+   "text": "smartest",
+   "start_ms": 74960,
+   "end_ms": 75380,
+   "confidence": null
+  },
+  {
+   "text": "way",
+   "start_ms": 75380,
+   "end_ms": 75620,
+   "confidence": null
+  },
+  {
+   "text": "to",
+   "start_ms": 75620,
+   "end_ms": 75740,
+   "confidence": null
+  },
+  {
+   "text": "survive",
+   "start_ms": 75740,
+   "end_ms": 76180,
+   "confidence": null
+  },
+  {
+   "text": "is",
+   "start_ms": 76180,
+   "end_ms": 76720,
+   "confidence": null
+  },
+  {
+   "text": "to",
+   "start_ms": 76720,
+   "end_ms": 76860,
+   "confidence": null
+  },
+  {
+   "text": "never",
+   "start_ms": 76860,
+   "end_ms": 77180,
+   "confidence": null
+  },
+  {
+   "text": "be",
+   "start_ms": 77180,
+   "end_ms": 77460,
+   "confidence": null
+  },
+  {
+   "text": "there",
+   "start_ms": 77460,
+   "end_ms": 77660,
+   "confidence": null
+  },
+  {
+   "text": "at",
+   "start_ms": 77660,
+   "end_ms": 77800,
+   "confidence": null
+  },
+  {
+   "text": "all.",
+   "start_ms": 77800,
+   "end_ms": 78020,
+   "confidence": null
+  }
+ ],
+ "scenes": [
+  {
+   "id": "S01",
+   "start_ms": 0,
+   "end_ms": 7933,
+   "principle_id": "P07",
+   "purpose": "hook: alone, engine dies",
+   "script": "You're alone on a yacht, in the middle of the night, and your engine just died. No lights, no power, nothing.",
+   "on_screen_text": "yacht",
+   "emphasis": [
+    "yacht"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "moonlit sea; sputter, smoke, lights die; hero pops up",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S02",
+   "start_ms": 7933,
+   "end_ms": 15067,
+   "principle_id": "P05",
+   "purpose": "stakes: drift toward the forbidden island",
+   "script": "And the current is dragging you toward the one island on earth you are not allowed to touch. North Sentinel Island!",
+   "on_screen_text": "dragging you / North Sentinel",
+   "emphasis": [
+    "North Sentinel"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "camera cranes to a top-down chart; a cobalt drift line grows to the island; a dashed ring marks the 5 nm protected zone",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S03",
+   "start_ms": 15067,
+   "end_ms": 22267,
+   "principle_id": "P07",
+   "purpose": "context: uncontacted people (never depicted)",
+   "script": "The people who live here have refused contact with the outside world for thousands of years, and they defend that hard.",
+   "on_screen_text": "thousands of years",
+   "emphasis": [
+    "thousands of years"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "low glide along the tree line; fires flicker on, one by one",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S04",
+   "start_ms": 22267,
+   "end_ms": 27667,
+   "principle_id": "P07",
+   "purpose": "turn: aground on the reef",
+   "script": "Then, crunch. You hit the reef, you're stuck. So what do you actually do?",
+   "on_screen_text": "CRUNCH",
+   "emphasis": [
+    "CRUNCH"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "impact jolt, the boat tilts, foam burst, camera shake",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S05",
+   "start_ms": 27667,
+   "end_ms": 36167,
+   "principle_id": "P09",
+   "purpose": "step 1: Mayday, CH16, beacon",
+   "script": "Step one. Mayday! Grab your radio, channel 16, and fire off your emergency beacon. The Indian Coast Guard patrols these waters.",
+   "on_screen_text": "MAYDAY / 16",
+   "emphasis": [
+    "16"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "close-up: the hero with the VHF handset; beacon strobe; signal rings rise to a Coast Guard ship and helicopter",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S06",
+   "start_ms": 36167,
+   "end_ms": 46267,
+   "principle_id": "P04",
+   "purpose": "step 2: do not go ashore; disease risk",
+   "script": "Step two. Do not go ashore. Not for a photo, not to say hi. They have almost no immunity to our germs. Even a common cold could be deadly for them.",
+   "on_screen_text": "do NOT go ashore / deadly",
+   "emphasis": [
+    "deadly"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "dotted footprint path blocked by a cobalt line; a germ cloud stops at the ring",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S07",
+   "start_ms": 46267,
+   "end_ms": 50667,
+   "principle_id": "P07",
+   "purpose": "step 3: stay with the boat",
+   "script": "Step three. Stay with your boat. And this has actually happened before.",
+   "on_screen_text": "stay with your boat",
+   "emphasis": [
+    "stay with your boat"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "the hero hugs the mast; the boat is steady on the reef",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S08",
+   "start_ms": 50667,
+   "end_ms": 64267,
+   "principle_id": "P09",
+   "purpose": "proof: MV Primrose 1981",
+   "script": "In 1981, a cargo ship called the Primrose ran aground right here. The crew saw armed islanders on the beach, so they stayed inside their steel hull and waited for days until helicopters lifted every single one of them out.",
+   "on_screen_text": "1981 / Primrose / every single one",
+   "emphasis": [
+    "every single one"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "cargo ship aground; portholes lit; time-lapse sky; helicopters lift the crew",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S09",
+   "start_ms": 64267,
+   "end_ms": 69000,
+   "principle_id": "P07",
+   "purpose": "step 4: dark, quiet, leave nothing",
+   "script": "Step four. Kill the lights. Stay quiet. Leave nothing behind.",
+   "on_screen_text": "kill the lights",
+   "emphasis": [
+    "kill the lights"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "the hero switches off the lights, shh, keeps his trash aboard",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S10",
+   "start_ms": 69000,
+   "end_ms": 73200,
+   "principle_id": "P07",
+   "purpose": "escape option",
+   "script": "And if the tide lifts your boat, drift out past the reef and get gone.",
+   "on_screen_text": "get gone!",
+   "emphasis": [
+    "get gone!"
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "tide rises, the boat floats free, wake streaks out past the reef",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  },
+  {
+   "id": "S11",
+   "start_ms": 73200,
+   "end_ms": 80533,
+   "principle_id": "P06",
+   "purpose": "thesis / payoff",
+   "script": "Because on North Sentinel, the smartest way to survive is to never be there at all.",
+   "on_screen_text": "never be there at all.",
+   "emphasis": [
+    "never be there at all."
+   ],
+   "reference_id": null,
+   "asset_ids": [
+    "studio-kit"
+   ],
+   "animation": "island small and centred at dawn; quote typography",
+   "sound_cues": [],
+   "approved": true,
+   "notes": "autonomous baseline; one continuous camera, with push-through transitions"
+  }
+ ],
+ "assets": [
+  {
+   "id": "narration",
+   "file": "episodes/sentinel/audio/narration.mp3",
+   "license": "ElevenLabs Creator plan (commercial use permitted)",
+   "source_url": null
+  },
+  {
+   "id": "studio-kit",
+   "file": "studio/src/kit",
+   "license": "original code, this repo",
+   "source_url": null
+  },
+  {
+   "id": "fonts",
+   "file": "Inter, Playfair Display (Google Fonts via @remotion/google-fonts)",
+   "license": "SIL Open Font License",
+   "source_url": "https://fonts.google.com"
+  },
+  {
+   "id": "audio",
+   "file": "episodes/sentinel/audio/*.wav",
+   "license": "original, synthesised in code",
+   "source_url": null
+  }
+ ]
+}

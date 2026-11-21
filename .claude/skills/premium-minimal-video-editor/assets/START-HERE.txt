@@ -1,0 +1,13 @@
+PREMIUM MINIMAL VIDEO EDITOR — Claude skill bundle
+
+HOW TO INSTALL
+1. Upload the OUTER premium-minimal-video-editor.zip file, not individual files.
+2. In Claude go to Customize > Skills > + > Create skill > Upload a skill.
+3. Enable the skill.
+4. In a new chat say: "Use premium-minimal-video-editor. Train on my attached reference videos and Figma exports, then create a scene-by-scene editorial plan for my raw talking-head footage before rendering."
+5. Attach your actual footage and any style reference videos/board. Without them the skill can run the documented style and build a generic demo but cannot recreate unseen third-party reference material.
+
+ALTERNATIVE CLAUDE CODE INSTALL
+Unzip, then copy the premium-minimal-video-editor folder into ~/.claude/skills/ or your project's .claude/skills/ directory.
+
+The 20 videos, 130 reference frames and 225 animation samples in the tutorial are NOT INCLUDED. The skill defines the full workflow and principles, provides helpers, and contains actual starter Remotion components. Claude still needs an environment capable of executing video tooling and the media assets supplied/approved by you. It cannot promise pixel-identical output from text alone.
