@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
+import { useEffect, useState } from "react";
 import { continueRender, delayRender, staticFile } from "remotion";
 
 // ============================================================================
@@ -37,14 +38,19 @@ const load = (url: string) => {
 export const characterUrl = (name: string) => staticFile(`assets/characters/${name}/${name}.glb`);
 export const motionUrl = (clip: string) => staticFile(`assets/motions/${clip}.glb`);
 
-/** Call during render: blocks the frame until every listed asset is loaded (once per tab). */
+/** Hook: blocks the frame until every listed asset is loaded, then re-renders with them ready. */
 export const useAssets = (urls: string[]) => {
-  const missing = urls.filter((u) => !ready.has(u));
-  if (missing.length) {
-    const h = delayRender(`loading ${missing.join(", ")}`);
-    Promise.all(missing.map(load)).then(() => continueRender(h)).catch((e) => { console.error(e); continueRender(h); });
-  }
-  return missing.length === 0;
+  const key = urls.join("|");
+  const allReady = () => urls.every((u) => ready.has(u));
+  const [ok, setOk] = useState(allReady);
+  const [handle] = useState(() => (allReady() ? null : delayRender(`loading ${key}`, { timeoutInMilliseconds: 120000 })));
+  useEffect(() => {
+    if (ok) { if (handle !== null) continueRender(handle); return; }
+    let live = true;
+    Promise.all(urls.map(load)).then(() => { if (live) setOk(true); }).catch((e) => { console.error("asset load failed", e); if (handle !== null) continueRender(handle); });
+    return () => { live = false; };
+  }, [key, ok]); // eslint-disable-line react-hooks/exhaustive-deps
+  return ok;
 };
 
 // ---------- a live instance of a character in a scene ----------
@@ -59,13 +65,31 @@ export const instantiate = (asset: string): Inst | null => {
   const base = ready.get(characterUrl(asset));
   if (!base) return null;
   const root = SkeletonUtils.clone(base.scene);
-  root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; } });
+  root.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh) return;
+    m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false;
+    // generated PBR comes out glossy: fabric and skin should be matte
+    (Array.isArray(m.material) ? m.material : [m.material]).forEach((mat) => {
+      const sm = mat as THREE.MeshStandardMaterial;
+      if (sm.isMeshStandardMaterial) { sm.metalness = 0; sm.roughness = Math.max(sm.roughness, 0.78); sm.metalnessMap = null; sm.roughnessMap = null; sm.envMapIntensity = 0.5; sm.needsUpdate = true; }
+    });
+  });
   const bones: Inst["bones"] = {};
   root.traverse((o) => {
     if ((o as THREE.Bone).isBone) Object.entries(BONE_RX).forEach(([k, rx]) => { if (!bones[k] && rx.test(o.name)) bones[k] = o as THREE.Bone; });
   });
-  const box = new THREE.Box3().setFromObject(root);
-  return { root, mixer: new THREE.AnimationMixer(root), actions: new Map(), bones, height: box.max.y - box.min.y };
+  // height from the skeleton (skinned bounding boxes are unreliable before the first pose)
+  root.updateMatrixWorld(true);
+  let top = -Infinity, bottom = Infinity;
+  root.traverse((o) => {
+    if (!(o as THREE.Bone).isBone) return;
+    const y = o.getWorldPosition(new THREE.Vector3()).y;
+    if (/head_?end|headtop/i.test(o.name)) top = Math.max(top, y);
+    if (/toe|foot/i.test(o.name)) bottom = Math.min(bottom, y);
+  });
+  const height = isFinite(top) && isFinite(bottom) && top > bottom ? (top - bottom) * 1.04 : 1.8;
+  return { root, mixer: new THREE.AnimationMixer(root), actions: new Map(), bones, height };
 };
 
 const clipFor = (name: string): THREE.AnimationClip | null => {

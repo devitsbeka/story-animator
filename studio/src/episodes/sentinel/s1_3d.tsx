@@ -22,8 +22,8 @@ const KEYS: CamKey3[] = [
   { f: 0, cam: [-2, 2.2, -46], look: [-0.5, 2.0, 0], fov: 30 },
   { f: 104, cam: [-1.5, 2.6, -27], look: [-1.0, 2.2, 0], fov: 30, ease: "arrive" },
   { f: CUE.died - 6, cam: [-2.6, 2.7, -24], look: [0, 2.3, 0], fov: 29, ease: "move" },
-  { f: CUE.died, cam: [-4.2, 2.9, -23.4], look: [-4.5, 2.7, 0], fov: 15, ease: "crashIn" },
-  { f: 228, cam: [-4.4, 3.0, -21.6], look: [-4.6, 2.85, 0], fov: 13.5, ease: "arrive" },
+  { f: CUE.died, cam: [-4.9, 2.9, -23.4], look: [-5.3, 2.5, 0], fov: 15, ease: "crashIn" },
+  { f: 228, cam: [-5.2, 3.0, -21.6], look: [-5.5, 2.7, 0], fov: 13.5, ease: "arrive" },
   { f: 252, cam: [0, 26, -12], look: [0, 0, 4], fov: 40, ease: "exit" },
 ];
 
@@ -98,9 +98,7 @@ export const S1_3D: React.FC<{ f: number; push: number }> = ({ f, push }) => {
     <AbsoluteFill>
       <LightCtx.Provider value={NIGHT(moonScr[0], moonScr[1], 0.25)}>
       <Ocean3D w={W} h={H} shot={shot}>
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-          <Smoke puffs={puffs} f={f} />
-        </svg>
+
 
       </Ocean3D>
       </LightCtx.Provider>

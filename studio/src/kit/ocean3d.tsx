@@ -222,7 +222,7 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       g.moon.target.position.set(shot.yacht.x, 0, shot.yacht.z);
       g.moon.target.updateMatrixWorld();
       const fill = g.scene.getObjectByName("fill") as THREE.DirectionalLight;
-      fill.intensity = 0.9; fill.position.set(shot.cam[0], shot.cam[1] + 6, shot.cam[2]); fill.target.position.set(shot.yacht.x, 1.5, shot.yacht.z); fill.target.updateMatrixWorld();
+      fill.intensity = 1.8; fill.position.set(shot.cam[0], shot.cam[1] + 6, shot.cam[2]); fill.target.position.set(shot.yacht.x, 1.5, shot.yacht.z); fill.target.updateMatrixWorld();
     } else g.yacht.group.visible = false;
     if (shot.island) {
       const sc = shot.island.scale ?? 1;

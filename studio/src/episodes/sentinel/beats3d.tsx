@@ -39,8 +39,10 @@ export const BeatView: React.FC<{ spec: BeatSpec; f: number }> = ({ spec, f }) =
   const ym = yachtMatrix(base);
   const rig = rigAt(f, spec.cam, { handheld: spec.handheld ?? 0.2 });
   // camera follows the boat's heave but not its full roll (a human operator)
-  const camW = toWorld(new THREE.Matrix4().makeTranslation(0, new THREE.Vector3().setFromMatrixPosition(ym).y * 0.6, 0).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 2)), rig.cam!);
-  const lookW = toWorld(ym, rig.look!);
+  // beat specs use +x = the hero's side of the boat (starboard, facing camera)
+  const flip = (v: V3): V3 => [-v[0], v[1], v[2]];
+  const camW = toWorld(new THREE.Matrix4().makeTranslation(0, new THREE.Vector3().setFromMatrixPosition(ym).y * 0.6, 0).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 2)), flip(rig.cam!));
+  const lookW = toWorld(ym, flip(rig.look!));
   const shot: SeaShot = { ...base, cam: camW, look: lookW, fov: rig.fov, roll: rig.roll };
   if (spec.hero && ok) {
     const place = new THREE.Matrix4().makeTranslation(...spec.hero.local).multiply(new THREE.Matrix4().makeRotationY(spec.hero.rotY));
@@ -58,7 +60,7 @@ export const BeatView: React.FC<{ spec: BeatSpec; f: number }> = ({ spec, f }) =
 };
 
 // ---------- the 11 beats ----------
-const deck: V3 = [0.2, 1.42, -4.7];
+const deck: V3 = [0.2, 1.42, -4.7]; // yacht-local (+x starboard)
 const idle: Track[] = [{ clip: "brace_loop", from: -300, loop: true }];
 const panic: Track[] = [{ clip: "brace_loop", from: -300, loop: true }, { clip: "panic_arms", from: -60, loop: true }];
 const ISL_NEAR = { x: -300, z: 900, rotY: 0.6, scale: 0.2 };
