@@ -39,7 +39,8 @@ def test_sentinel_library_decisions(manifest, breakdown):
     assert by["hdri_night"]["catalog_id"] == "ph:moonlit_golf"
     # Poly Haven 'coral' only returns a shell tagged coral: rejected, so the reef is a procedural BUILD
     assert by["coral_reef"]["decision"] == "BUILD" and by["coral_reef"]["recipe"] == "proc:coral_reef"
-    assert by["helicopter"]["status"] == "to_build" and by["primrose_ship"]["status"] == "to_build"
+    # the Primrose set (props_vehicles.py) is now in the internal catalog, so these are reused
+    assert by["helicopter"]["status"] == "ready" and by["primrose_ship"]["status"] == "ready"
     assert by["germ_cloud"]["recipe"] == "remotion:germ_cloud"
     assert {e["id"] for e in breakdown["elements"]} == set(by)
 
