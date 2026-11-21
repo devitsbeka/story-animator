@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "notes": "SFX generated for Sentinel with the ElevenLabs Sound Effects model (eleven_text_to_sound_v2) through the ElevenLabs creative flow API on the account's paid Creator plan (no overage), 1 generation per prompt. Files live in $LIBRARY_STORE/sfx/<name>.mp3 (gitignored). Signed download URLs expire, so only the flow/node/generation ids are kept. 'kind' drives how the mixer aligns a cue: bed (looped), oneshot (onset aligned), whoosh (peak aligned), riser (active end aligned).",
+ "provider": "elevenlabs",
+ "model": "eleven_text_to_sound_v2",
+ "flow_id": "8Rol56xui4GhX2uO4tqZ",
+ "generated": "2026-11-21",
+ "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+ "sfx": {
+  "ocean_waves":   {"kind": "bed",     "node": "ka2ISRk0cGzVYHUnXlDT", "generation": "r21eyMzRIv8HBb86euvp", "duration_s": 20.0, "loop": true,  "prompt": "Gentle open ocean waves lapping against a small boat hull at night, steady, seamless loop", "tags": ["ocean", "waves", "night", "bed"]},
+  "wind_sea":      {"kind": "bed",     "node": "0IUIznmE79GV5Y1kfyb2", "generation": "dTTnGMXbNHWMmarta0Dz", "duration_s": 20.0, "loop": true,  "prompt": "Steady sea wind blowing over open water, soft low howl, no gusts, seamless loop", "tags": ["wind", "sea", "bed"]},
+  "jungle_night":  {"kind": "bed",     "node": "ncZrm679eP3Qoi4wSBc7", "generation": "g5PTd2fIXbVw1a4NmqtL", "duration_s": 15.0, "loop": true,  "prompt": "Tropical jungle at night, dense crickets and cicadas chirping, distant frogs, seamless loop", "tags": ["jungle", "insects", "night", "island", "bed"]},
+  "fire_crackle":  {"kind": "bed",     "node": "mBr6X7E4Qrwt4AIiAKxH", "generation": "tbv490Awp2Lj4N8WY2Vb", "duration_s": 10.0, "loop": true,  "prompt": "Crackling wood fire, distant, occasional pops, seamless loop", "tags": ["fire", "crackle", "bed"]},
+  "rain_storm":    {"kind": "bed",     "node": "nSieKJX2e3EuVOKvvhxo", "generation": "huTDt7jSH3CeZuoJrNKV", "duration_s": 15.0, "loop": true,  "prompt": "Heavy rain storm at sea, rain pounding on a steel deck, rough waves, seamless loop", "tags": ["rain", "storm", "bed"]},
+  "helicopter":    {"kind": "bed",     "node": "H2YC8AcFx5JEUTszH4Hh", "generation": "ntjsaGUCwofDroyUjhUF", "duration_s": 6.0,  "loop": true,  "prompt": "Helicopter hovering overhead, loud rotor blades thumping, turbine whine", "tags": ["helicopter", "rotor", "rescue"]},
+  "radio_static":  {"kind": "bed",     "node": "RW9Vv3CN6Gl9X07zsjB8", "generation": "1SSC0UrGTBb8T9OKyDvE", "duration_s": 2.5,  "loop": false, "prompt": "VHF marine radio static hiss with a sharp squelch click at the start and end", "tags": ["radio", "static", "squelch", "vhf"]},
+  "coral_crunch":  {"kind": "oneshot", "node": "wT4u83Ecajbh5ZQiBT5V", "generation": "uzoJRVDPKAn53GFA5jai", "duration_s": 2.5,  "loop": false, "prompt": "Fiberglass boat hull slamming onto a coral reef, heavy deep crunch, cracking and grinding scrape", "tags": ["impact", "crunch", "reef", "hull"]},
+  "engine_die":    {"kind": "oneshot", "node": "8NG0fD2zCfhqMs2eh55r", "generation": "kfak8bMOr3uAssjxQvZI", "duration_s": 3.0,  "loop": false, "prompt": "Small diesel boat engine sputtering, coughing twice and dying to silence", "tags": ["engine", "sputter", "boat"]},
+  "beacon_beep":   {"kind": "oneshot", "node": "aJrFwD9bMlGNq1escxOB", "generation": "nw7njZoBX1LMoUjsBQXr", "duration_s": 3.0,  "loop": false, "prompt": "Single short electronic emergency beacon beep, high pitched, clean", "tags": ["beacon", "beep", "epirb"]},
+  "thunder":       {"kind": "oneshot", "node": "hb5PAyfD6jmloMo9SFkd", "generation": "WrZJvvGnnamepLko4acQ", "duration_s": 4.0,  "loop": false, "prompt": "Close thunder clap, sharp crack followed by a deep long rumble", "tags": ["thunder", "storm", "impact"]},
+  "impact_boom":   {"kind": "oneshot", "node": "XF2PP0RRneoqvKsjuxD5", "generation": "2Ysl0xjIChMgpV6BWBRp", "duration_s": 2.0,  "loop": false, "prompt": "Deep cinematic boom impact hit, sub bass thump with short tail", "tags": ["impact", "boom", "hit"]},
+  "whoosh_fast":   {"kind": "whoosh",  "node": "kWmbYJA8DrtkF1wucTLs", "generation": "xW4399AW2uM7bHjyGGrn", "duration_s": 2.0,  "loop": false, "prompt": "Fast short air whoosh swish, transition sound, under half a second", "tags": ["whoosh", "transition"]},
+  "whoosh_low":    {"kind": "whoosh",  "node": "Zh6X4Ez86pcG12BvwTk9", "generation": "8xeZOpfSjNupq0w3Ci3x", "duration_s": 1.0,  "loop": false, "prompt": "Deep heavy low whoosh pass-by, dark and airy, short", "tags": ["whoosh", "low", "transition"]},
+  "whoosh_whip":   {"kind": "whoosh",  "node": "jTnSTX0zvB70c6Iw8w5x", "generation": "UTn7DyOL9EeUgPrKBDLn", "duration_s": 1.0,  "loop": false, "prompt": "Quick whip pan swoosh, bright cloth-like swish, very short", "tags": ["whoosh", "whip", "transition"]},
+  "riser_noise":   {"kind": "riser",   "node": "NvaYy6lhG2RZuTtJuZKh", "generation": "1DilhD6lJ7yWsUrfSjvm", "duration_s": 2.5,  "loop": false, "prompt": "Tense cinematic riser, rising pitch noise swell building for two seconds, ends abruptly at the peak", "tags": ["riser", "tension"]},
+  "riser_reverse": {"kind": "riser",   "node": "MAtoJhhmmgpntGGMh4jb", "generation": "n0ebK7YmvcVW9eOha2Zx", "duration_s": 2.0,  "loop": false, "prompt": "Reversed cymbal and string swell riser, building tension, hard stop at the top", "tags": ["riser", "reverse", "cymbal"]}
+ },
+ "procedural": {
+  "switch_click": {"kind": "oneshot", "tags": ["switch", "click", "foley"], "notes": "synthesised by factory/sound/sfx_library.py (no generation needed)"},
+  "ui_tick":      {"kind": "oneshot", "tags": ["ui", "tick", "caption"], "notes": "synthesised by factory/sound/sfx_library.py"}
+ }
+}

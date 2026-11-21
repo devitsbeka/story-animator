@@ -1,0 +1,145 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "factory/sound/sound.schema.json",
+ "title": "sound.json: Stage 5 sound design for one episode",
+ "description": "Everything the mixer needs to build the final stereo mix. Frames are episode frames at `fps` (the narration offset is already applied). Levels are relative to the measured voice loudness (relDB), so a cue keeps its balance whatever the narration level. See ENGAGEMENT_RECIPE.md section 6 (S-1..S-6) and P-5.",
+ "type": "object",
+ "required": ["version", "episode", "fps", "durationFrames", "sampleRate", "loudness", "voice", "ducking", "beds", "cues", "music", "silences", "reveals"],
+ "properties": {
+  "version": {"const": 1},
+  "episode": {"type": "string"},
+  "fps": {"type": "number", "exclusiveMinimum": 0},
+  "durationFrames": {"type": "integer", "minimum": 1},
+  "sampleRate": {"enum": [44100, 48000]},
+  "source": {
+   "type": "object",
+   "properties": {
+    "episode": {"type": "string"}, "words": {"type": "string"}, "generator": {"type": "string"}
+   }
+  },
+  "loudness": {
+   "type": "object",
+   "required": ["integratedLUFS", "toleranceLU", "truePeakDBTP"],
+   "properties": {
+    "integratedLUFS": {"type": "number", "description": "S-1 master target, -14"},
+    "toleranceLU": {"type": "number", "description": "S-1 tolerance, 1"},
+    "truePeakDBTP": {"type": "number", "description": "S-1 ceiling, -1.0"},
+    "limiterCeilingDBFS": {"type": "number", "description": "sample-peak ceiling of the 4x oversampled limiter (headroom for AAC)"},
+    "shortTermRangeLUFS": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+    "musicUnderVoiceDB": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "S-2: music 18-22 dB under voice during speech"},
+    "ambienceUnderVoiceDB": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "S-2: beds 24-30 dB under voice"}
+   }
+  },
+  "voice": {
+   "type": "object",
+   "required": ["file", "words", "offsetFrames"],
+   "properties": {
+    "file": {"type": "string"}, "words": {"type": "string"},
+    "offsetFrames": {"type": "integer", "description": "frames of silence before narration t=0"},
+    "gainDB": {"type": "number"},
+    "leveler": {"type": ["object", "null"], "description": "slow VO rider toward the median 3 s loudness (S-1 short-term range)",
+     "properties": {"maxBoostDB": {"type": "number"}, "maxCutDB": {"type": "number"}, "smoothS": {"type": "number"}}}
+   }
+  },
+  "ducking": {
+   "type": "object",
+   "required": ["mode", "attackMs", "releaseMs"],
+   "properties": {
+    "mode": {"enum": ["envelope", "sidechain"], "description": "envelope: gain curve keyed from the word timings (deterministic, applied with ffmpeg amultiply); sidechain: ffmpeg sidechaincompress keyed by the voice stem"},
+    "attackMs": {"type": "number"}, "releaseMs": {"type": "number"},
+    "bridgeGapS": {"type": "number", "description": "narration gaps shorter than this keep the duck (S-2: music rises only in gaps >= 0.8 s)"},
+    "musicSpeechDB": {"type": "number", "description": "music level vs voice under speech (target -20)"},
+    "musicGapDB": {"type": "number", "description": "music level vs voice in narration gaps (target -6..-10)"},
+    "musicOutroDB": {"type": "number", "description": "music vs voice after the last word (the sting), until the hard stop"},
+    "ambienceSpeechDB": {"type": "number"}, "ambienceGapDB": {"type": "number"}
+   }
+  },
+  "beds": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "sfx", "from", "to", "relDB"],
+    "properties": {
+     "id": {"type": "string"},
+     "sfx": {"type": "string", "description": "name in factory/sound/sfx_manifest.json"},
+     "from": {"type": "integer"}, "to": {"type": "integer"},
+     "relDB": {"type": "number", "description": "bed integrated loudness relative to the ambience bus reference (0 = the bus level)"},
+     "fadeIn": {"type": "integer", "description": "frames"}, "fadeOut": {"type": "integer", "description": "frames"},
+     "bus": {"enum": ["ambience", "sfx"]},
+     "shots": {"type": "array", "items": {"type": "string"}},
+     "reason": {"type": "string"}
+    }
+   }
+  },
+  "cues": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "type", "sfx", "at", "anchor", "relDB"],
+    "properties": {
+     "id": {"type": "string"},
+     "type": {"enum": ["whoosh", "riser", "impact", "spot", "ui"]},
+     "sfx": {"type": "string"},
+     "at": {"type": "integer", "description": "episode frame of the anchor"},
+     "anchor": {"enum": ["start", "onset", "peak", "end"], "description": "which landmark of the sound lands on `at`: start of file, first transient, loudest 10 ms, or end of the active sound (risers)"},
+     "relDB": {"type": "number", "description": "max momentary loudness relative to the voice integrated loudness"},
+     "dur": {"type": "number", "description": "seconds of the sound to use (trimmed after the anchor for start/onset/peak, before it for end)"},
+     "fadeOutMs": {"type": "number"},
+     "transient": {"type": "boolean", "description": "counts toward S-4 density (onsets)"},
+     "shot": {"type": "string"},
+     "reveal": {"type": "string", "description": "id of the reveal this cue serves"},
+     "reason": {"type": "string"}
+    }
+   }
+  },
+  "music": {
+   "type": "object",
+   "required": ["engine", "bpm", "sections"],
+   "properties": {
+    "engine": {"enum": ["procedural", "file"], "description": "procedural: factory/sound/music.py score; file: a licensed track at `file`"},
+    "file": {"type": "string"},
+    "bpm": {"type": "number"}, "key": {"type": "string"},
+    "sections": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": ["id", "from", "to", "energy"],
+      "properties": {
+       "id": {"type": "string"}, "from": {"type": "integer"}, "to": {"type": "integer"},
+       "energy": {"type": "integer", "minimum": 0, "maximum": 5, "description": "S-3 energy map"},
+       "label": {"type": "string"}, "hit": {"type": "boolean"}, "layer": {"type": "integer"},
+       "mood": {"enum": ["tense", "dark", "resolve"]}
+      }
+     }
+    }
+   }
+  },
+  "silences": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["from", "to", "buses"],
+    "properties": {
+     "from": {"type": "integer"}, "to": {"type": "integer"},
+     "buses": {"type": "array", "items": {"enum": ["music", "ambience", "sfx"]}},
+     "reason": {"type": "string"}
+    }
+   }
+  },
+  "reveals": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "kind", "at"],
+    "properties": {
+     "id": {"type": "string"},
+     "kind": {"enum": ["hook", "title", "keyword", "step", "midpoint", "payoff"]},
+     "at": {"type": "integer"},
+     "riserEnd": {"type": "integer", "description": "frame the riser lands on (= at, or the silence start for the payoff drop)"},
+     "word": {"type": "string"}
+    }
+   }
+  },
+  "notes": {"type": "array", "items": {"type": "string"}}
+ }
+}
