@@ -24,6 +24,9 @@ Env: FARM_BUCKET, FARM_QUEUE_URL, FARM_TABLE, AWS_REGION (required on AWS); FARM
 FARM_WORK=/work, LIBRARY_STORE=/cache/library_store, BLENDER=/opt/blender/blender, VISIBILITY_S=600,
 HEARTBEAT_S=120, MAX_ATTEMPTS=4, IDLE_SHUTDOWN_S=600, REQUIRE_GPU=1, FARM_IMDS=1, LIBRARY_RESYNC_S=1800,
 RENDER_THREADS=0, HEALTH_FILE=/tmp/farm-worker.health, FARM_ASG_NAME (optional; discovered via IMDS).
+Provider-agnostic (scheduler.py / providers/): FARM_PROVIDER (aws_ec2|runpod|vastai|local), FARM_PROVIDER_WORKER_ID
+(<provider>:<machine id>, what the scheduler launched), FARM_GPU_CLASS, HEARTBEAT_DDB_S=60 (0 = no DynamoDB
+heartbeat). The same code runs on EC2, RunPod, Vast.ai or locally; only these env vars differ.
 """
 import argparse
 import glob
@@ -87,6 +90,10 @@ class Config:
         self.poll_s = env("POLL_S", 5, int)
         self.wait_s = env("RECEIVE_WAIT_S", 20, int)
         self.keep_work = env("KEEP_WORK", "0") == "1"
+        self.provider = env("FARM_PROVIDER")
+        self.provider_worker_id = env("FARM_PROVIDER_WORKER_ID")
+        self.gpu_class = env("FARM_GPU_CLASS")
+        self.heartbeat_ddb_s = env("HEARTBEAT_DDB_S", 60, int)
         missing = [k for k, v in (("FARM_BUCKET", self.bucket), ("FARM_QUEUE_URL", self.queue_url),
                                   ("FARM_TABLE", self.table)) if not v]
         if missing:
@@ -135,13 +142,26 @@ class Imds:
 
 def gpu_names():
     exe = shutil.which("nvidia-smi")
-    if not exe:
-        return []
-    try:
-        out = subprocess.run([exe, "-L"], capture_output=True, text=True, timeout=30).stdout
-    except (OSError, subprocess.TimeoutExpired):
-        return []
-    return [line.strip() for line in out.splitlines() if line.startswith("GPU ")]
+    out = ""
+    if exe:
+        try:
+            out = subprocess.run([exe, "-L"], capture_output=True, text=True, timeout=30).stdout
+        except (OSError, subprocess.TimeoutExpired):
+            out = ""
+    names = [line.strip() for line in out.splitlines() if line.startswith("GPU ")]
+    if not names and os.path.isdir("/proc/driver/nvidia/gpus"):
+        # containers (RunPod/Vast) sometimes mount the driver without nvidia-smi: read the kernel's view
+        for i, bus in enumerate(sorted(os.listdir("/proc/driver/nvidia/gpus"))):
+            model = "NVIDIA GPU"
+            try:
+                with open(os.path.join("/proc/driver/nvidia/gpus", bus, "information")) as fh:
+                    for line in fh:
+                        if line.startswith("Model:"):
+                            model = line.split(":", 1)[1].strip()
+            except OSError:
+                pass
+            names.append(f"GPU {i}: {model} (bus {bus})")
+    return names
 
 
 # ----------------------------------------------------------------------------------------------- job helpers
@@ -211,6 +231,13 @@ class Worker:
         self.instance_id = self.imds.get("instance-id") if self.imds.enabled else None
         self.instance_type = (self.imds.get("instance-type") if self.imds.enabled else None) or "local"
         self.worker_id = f"{self.instance_id or socket.gethostname()}:{os.getpid()}"
+        self.provider = cfg.provider or ("aws_ec2" if self.instance_id else "local")
+        self.provider_worker_id = cfg.provider_worker_id or f"{self.provider}:{self.instance_id or socket.gethostname()}"
+        if not cfg.gpu_class and self.instance_type:
+            cfg.gpu_class = {"g6": "L4", "g5": "A10G", "g4dn": "T4"}.get(self.instance_type.split(".")[0])
+        self._hb = (0.0, None)  # (last DynamoDB heartbeat time, state)
+        self.gpus = []
+        self.current_job = None
         self.asg = cfg.asg_name
         self.library_synced_at = 0.0
         self.stop = False
@@ -223,10 +250,26 @@ class Worker:
                 json.dump({"t": time.time(), "state": state, "worker": self.worker_id}, fh)
         except OSError:
             pass
+        self.heartbeat(state)
+
+    def heartbeat(self, state):
+        """Throttled DynamoDB heartbeat the scheduler uses to tell healthy, busy and idle workers apart."""
+        last_t, last_state = self._hb
+        if not self.cfg.heartbeat_ddb_s or (state == last_state and time.time() - last_t < self.cfg.heartbeat_ddb_s):
+            return
+        try:
+            self.store.put_heartbeat(self.provider_worker_id, state=state, workerId=self.worker_id,
+                                     provider=self.provider, gpuClass=self.cfg.gpu_class, gpus=self.gpus or None,
+                                     instanceType=self.instance_type, job=self.current_job)
+            self._hb = (time.time(), state)
+        except Exception as e:  # noqa: BLE001 - a heartbeat must never stop rendering
+            log("heartbeat_failed", error=str(e)[:200])
+            self._hb = (time.time(), state)
 
     def preflight(self):
-        gpus = gpu_names()
-        log("preflight", worker=self.worker_id, instanceType=self.instance_type, gpus=gpus)
+        gpus = self.gpus = gpu_names()
+        log("preflight", worker=self.worker_id, instanceType=self.instance_type, gpus=gpus, provider=self.provider,
+            providerWorkerId=self.provider_worker_id, gpuClass=self.cfg.gpu_class)
         if self.cfg.require_gpu and not gpus:
             raise SystemExit("REQUIRE_GPU=1 but nvidia-smi sees no GPU (check --gpus all / drivers)")
         if self.instance_id and self.autoscaling and not self.asg:
@@ -323,6 +366,7 @@ class Worker:
             self._visibility(receipt, min(self.cfg.visibility_s, 300))
             return "busy"
         self.protect(True)
+        self.current_job = job_id
         self.health("rendering")
         t0 = time.time()
         logpath = os.path.join(self.cfg.work, f"{job_id}.{receives}.log")
@@ -345,6 +389,7 @@ class Worker:
             return "failed"
         finally:
             self.protect(False)
+            self.current_job = None
             if not self.cfg.keep_work:
                 shutil.rmtree(os.path.join(self.cfg.work, job_id), ignore_errors=True)
                 if os.path.exists(logpath):
@@ -449,6 +494,8 @@ class Worker:
             "v": 1, "status": "DONE", "runId": run_id, "jobId": job_id, "episodeId": eid, "shot": job["shot"],
             "frameStart": job["frameStart"], "frameEnd": job["frameEnd"], "quality": job["quality"],
             "engine": job["engine"], "attempt": attempt, "worker": self.worker_id, "instanceType": self.instance_type,
+            "provider": self.provider, "providerWorkerId": self.provider_worker_id, "gpuClass": self.cfg.gpu_class,
+            "gpus": self.gpus, "estSeconds": job.get("estSeconds"),
             "files": files, "resumedFrames": resumed, "gpuSeconds": gpu_s, "syncSeconds": round(t_sync, 1),
             "renderSeconds": round(t_render, 1), "finishedAt": int(time.time()),
             "render": {"devices": sorted(d for d in devices if d), "secondsPerFrame": spf,
@@ -460,7 +507,8 @@ class Worker:
         }
         mkey = farmio.manifest_key(run_id, job_id)
         farmio.s3_put_json(self.s3, b, mkey, manifest)
-        self.store.finish_job(run_id, job_id, "DONE", manifestKey=mkey, gpuSeconds=gpu_s, attemptDone=attempt)
+        self.store.finish_job(run_id, job_id, "DONE", manifestKey=mkey, gpuSeconds=gpu_s, attemptDone=attempt,
+                              provider=self.provider, providerWorkerId=self.provider_worker_id)
         return manifest
 
     # --- small helpers

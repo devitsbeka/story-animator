@@ -15,6 +15,7 @@ S3 layout (one bucket, FARM_BUCKET):
 DynamoDB (FARM_TABLE, pk/sk strings, on-demand):
   pk=RUN#<runId> sk=META          run record: episodeId, status, estUsd, jobCount, doneJobs, gpuSeconds, ...
   pk=RUN#<runId> sk=JOB#<jobId>   job record: status PENDING|RUNNING|DONE|FAILED|CANCELLED, attempts, lease
+  pk=WORKER sk=<provider>:<id>    worker heartbeat (scheduler.py health checks): t, state, gpus, provider, job
 """
 import hashlib
 import json
@@ -303,6 +304,31 @@ class Store:
             self.add_run_progress(run_id, done=1, gpu_seconds=float(extra.get("gpuSeconds", 0.0)))
         return True
 
+
+    # --- worker heartbeats (compute_fallback: scheduler.py matches them to provider handles) ---------------
+    def put_heartbeat(self, worker_key, **fields):
+        """Upsert pk=WORKER sk=<worker_key> (UpdateItem only: the worker policies grant no PutItem)."""
+        fields = {"t": int(time.time()), **fields}
+        vals = {f":h{i}": _ser(v) for i, v in enumerate(fields.values()) if v is not None}
+        sets = [f"#h{i} = :h{i}" for i, v in enumerate(fields.values()) if v is not None]
+        names = {f"#h{i}": k for i, (k, v) in enumerate(fields.items()) if v is not None}
+        self.ddb.update_item(TableName=self.table, Key={"pk": {"S": "WORKER"}, "sk": {"S": worker_key}},
+                             UpdateExpression="SET " + ", ".join(sets), ExpressionAttributeNames=names,
+                             ExpressionAttributeValues=vals)
+
+    def list_heartbeats(self):
+        """{worker_key: heartbeat dict}."""
+        out, kw = {}, {}
+        while True:
+            r = self.ddb.query(TableName=self.table, KeyConditionExpression="pk = :p",
+                               ExpressionAttributeValues={":p": {"S": "WORKER"}}, **kw)
+            for i in r.get("Items", []):
+                d = _des(i)
+                out[d["sk"]] = d
+            if "LastEvaluatedKey" not in r:
+                return out
+            kw["ExclusiveStartKey"] = r["LastEvaluatedKey"]
+    # --- end worker heartbeats ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------- SQS
 def send_jobs(sqs, queue_url, messages):

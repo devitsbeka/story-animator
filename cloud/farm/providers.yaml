@@ -1,0 +1,92 @@
+# providers.yaml - which machines render the farm's SQS jobs, in what order, under what ceilings.
+# Read by cloud/farm/scheduler.py (and `orchestrator.py submit/status`). See docs/farm.md "Providers and fallback".
+#
+# Secrets are NEVER in this file. They come from the operator's environment:
+#   RUNPOD_API_KEY, VAST_API_KEY                      provider APIs
+#   FARM_EXTERNAL_AWS_ACCESS_KEY_ID / _SECRET_ACCESS_KEY   keys of the 'farm-worker-external' IAM user, handed to
+#                                                    non-AWS workers as container env (SQS + S3 + job table only)
+#   FARM_GIT_TOKEN                                   read-only deploy token when code.source = git and the repo is private
+
+# priority: try providers in `order`; inside a provider spot first, then GPU classes by $ per unit of speed.
+# cheapest: rank every (provider, gpu, spot) option by $/h divided by Cycles speed; `local` always last.
+strategy: priority
+order: [aws_ec2, runpod, vastai, local]
+
+budget:
+  max_usd_per_hour: 6.0        # global ceiling on the summed hourly price of all live workers
+  max_total_usd: 80.0          # compute spend ceiling for the scheduler's lifetime (state file); 0 = none
+                               # (per-run budgets stay in orchestrator.py submit --budget)
+
+scaling:
+  drain_target_hours: 2.0      # size the fleet to clear the backlog in about this long (A10G-equivalent)
+  max_workers_total: 8
+  health_timeout_s: 1200       # launched worker must heartbeat within this (boot + Blender download + code)
+  heartbeat_lost_s: 600        # a healthy worker silent this long is dead: terminate, jobs redeliver via SQS
+  idle_terminate_s: 600        # idle (no job) this long with nothing queued -> terminate
+  rebalance: true              # move work to a better provider when it comes back (only idle workers are cut)
+  rebalance_margin: 0.2        # strategy cheapest: only move for >= 20% lower $/speed
+  max_launches_per_tick: 4
+  cooldown_s:                  # after a failure, skip that option this long
+    capacity: 600
+    quota: 3600
+    auth: 3600
+    error: 300
+    unhealthy: 1800
+
+# Cycles relative speed (A10G = 1.0) for planning. Measured numbers override these: `scheduler.py calibrate`
+# writes speed_calibration.json from worker manifests (estSeconds vs measured seconds per gpuClass).
+speed:
+  A10G: 1.0
+  L4: 0.9
+  RTX4090: 2.5
+  L40S: 2.2
+  A100: 1.8
+  T4: 0.4
+  CPU: 0.03
+speed_calibration: null        # path to a JSON {gpuClass: speed}
+
+code:
+  source: git                  # git: workers fetch `commit` over https (GIT_TOKEN for a private repo)
+  git_url: null                # null = `git remote get-url origin`
+  commit: null                 # null = current HEAD (must be pushed!); s3: tarball farm/code/<commit>.tar.gz
+
+providers:
+  aws_ec2:
+    enabled: true
+    stack: story-farm
+    region: us-east-1
+    max_workers: 2             # 8 vCPU G/VT quota = 2 x g6.xlarge
+    max_usd_per_hour: 2.5
+    gpu_classes: [L4, A10G]
+    spot: first
+  runpod:
+    enabled: true
+    max_workers: 4
+    max_usd_per_hour: 4.0
+    gpu_classes: [RTX4090, L40S]
+    cloud: [SECURE, COMMUNITY]
+    spot: never                # interruptible pods only exist in RunPod's deprecated GraphQL API; set
+    interruptible: false       #   spot: first + interruptible: true (+ bid_per_gpu) to try them
+    image: nvidia/cuda:12.4.1-base-ubuntu22.04
+    disk_gb: 40
+    min_cuda: "12.0"
+    secret_names: null         # e.g. {AWS_SECRET_ACCESS_KEY: story_farm_aws_secret} -> "{{ RUNPOD_SECRET_... }}"
+  vastai:
+    enabled: true
+    max_workers: 4
+    max_usd_per_hour: 3.0
+    gpu_classes: [RTX4090, L40S]
+    spot: never                # "first" = interruptible bids at min_bid x bid_markup, then on-demand
+    bid_markup: 1.15
+    min_reliability: 0.98
+    verified_only: true
+    max_dph: 0.9
+    min_cuda: 12.0
+    min_inet_down_mbps: 200
+    image: nvidia/cuda:12.4.1-base-ubuntu22.04
+    disk_gb: 40
+  local:
+    enabled: true
+    max_workers: 1
+    threads: 2
+    only_when_no_gpu: true     # last resort: only while no GPU worker is up or launching

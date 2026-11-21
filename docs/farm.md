@@ -1,4 +1,4 @@
-# GPU render farm (AWS, as code)
+# GPU render farm (AWS queue + any GPU provider, as code)
 
 Stage 7 of the factory (`factory/ARCHITECTURE.md`): Blender plates for an episode are rendered on spot GPU
 instances, then the orchestrator pulls them back, runs the Remotion finish and QC.
@@ -19,7 +19,9 @@ orchestrator.py watch ◄── DynamoDB progress + S3 job manifests ◄──�
 | `cloud/farm/farmio.py` | S3 sync, DynamoDB state (leases, exactly-once progress), SQS batching. |
 | `cloud/farm/Dockerfile` (+ `.dockerignore`) | NVIDIA base, checksum-pinned Blender 4.2.3, repo code, non-root, healthcheck. |
 | `cloud/farm/infra/farm.yaml` | CloudFormation: bucket, queue + DLQ, table, ECR, IAM, launch template, two ASGs, scaling, alarms, budget. |
-| `tests/farm/` | Job-splitting unit tests + worker/orchestrator end to end on moto with a fake Blender. |
+| `cloud/farm/scheduler.py` + `providers.yaml` | Picks where workers run (AWS ASG → RunPod → Vast.ai → local), falls back, enforces the budget. See [Providers and fallback](#providers-and-fallback). |
+| `cloud/farm/providers/` | `aws_ec2.py`, `runpod.py`, `vastai.py`, `local.py` behind one interface; `worker_startup.sh` + `startup.py` boot a worker on a plain CUDA container. |
+| `tests/farm/` | Job-splitting unit tests + worker/orchestrator end to end on moto with a fake Blender; provider tests on mocked HTTP; fallback scenarios; startup-script lint + stub run. |
 
 ## Account state (checked read-only, 2026-11-21, us-east-1)
 
@@ -197,8 +199,163 @@ them by hand if wanted; delete the ECR images first or the repo deletion fails).
   plate, CPU fallback, cancel, lease, resume from partial plates, poison messages, finish/QC hooks, overspend).
 - Integration: `worker.py` driving **real Blender 4.2.3** (`render_episode.py`, shot B10 frame 700, 135x240,
   4 spp, CPU) against moto: job DONE, plate + manifest in (mock) S3, run RENDERED.
+- Providers/scheduler (2026-11-21): `pytest tests/farm` → 91 passed (the 31 above + 60 new): RunPod and Vast request
+  shapes and error mapping on mocked HTTP; aws_ec2 on fake service-quotas/autoscaling; local with real child
+  processes; fallback AWS quota 0 → RunPod, RunPod capacity 400 → Vast, all down → local; health timeout, lost
+  heartbeat and exited container → terminate + cooldown + next option; hourly and total budget; idle
+  termination; rebalance local → AWS; manifests/job items/heartbeats record the provider (moto);
+  `worker_startup.sh` run end to end against stubs (pinned commit checkout, token not leaked, no-GPU / CPU-only
+  Cycles / missing secret exits). `shellcheck -S style` (shellcheck-py 0.11) and `bash -n` clean on the template and
+  the rendered script; `cfn-lint` clean with the new policy/user; `scheduler.py dry-run` writes the payloads.
+- `orchestrator.py status` now prints `{"runs": [...], "compute": {...}}` (was a bare list of runs); `submit`
+  prints `{"runs": [...], "compute": <tick>}` unless `--dry-run`/`--no-scale`.
+
+## Providers and fallback
+
+Rendering must not depend on one vendor approving a quota. The **queue (SQS), job state (DynamoDB) and storage
+(S3) stay on AWS** — they need no quota — and only the machines that poll the queue move. `worker.py` is the same
+everywhere; it learns where it runs from `FARM_PROVIDER` / `FARM_PROVIDER_WORKER_ID` / `FARM_GPU_CLASS` and
+records them in every job manifest (`provider`, `providerWorkerId`, `gpuClass`, `gpus`) and job item, and writes a
+heartbeat item (`pk=WORKER sk=<provider>:<id>`, state idle/rendering, every 60 s or on change).
+
+```
+orchestrator submit ─► SQS ◄──── poll ──── worker.py  on  aws_ec2 (ASG, ECR image)   1st: needs G/VT quota
+                  │                                     runpod  (CUDA base image)   2nd: RUNPOD_API_KEY
+                  └─► scheduler.py tick ─► launch/kill ─►vastai  (CUDA base image)   3rd: VAST_API_KEY
+                        ▲   heartbeats (DynamoDB)        local   (CPU processes)     last resort
+                        └──────────────────────────────────┘
+```
+
+### Provider interface
+
+`providers/base.py`: `available() -> (ok, reason)`, `launch(n, gpu_class, env, startup) -> [handles]`, `list()`,
+`terminate(ids)`, `price_per_hour(gpu_class)`. Failures are typed — `CapacityError` (no stock, placement failed,
+offer gone), `QuotaError` (quota 0, no balance), `AuthError`, `ProviderError` (API/network) — so the scheduler can
+fall back. Only machines named `story-farm-*` are ever listed or terminated.
+
+| Provider | available() checks | launch | API (read 2026-11-21) |
+|---|---|---|---|
+| `aws_ec2` | service-quotas L-3819A6DF (spot) / L-DB2E81BA (on-demand) > 0; stack groups exist; no InsufficientInstanceCapacity/VcpuLimitExceeded in the last 15 min of scaling activities | raise the spot group's desired capacity (on-demand group when spot quota is 0), clamped to group max and quota/4 | boto3 |
+| `runpod` | key set; `GET /v2/catalog/gpus?include=AVAILABILITY&product=POD&cloud=…` shows stock for a configured GPU | `POST /v2/pods` `{name, image, gpu:{id,count}, cloud, disk, env, entrypoint:["/bin/bash","-c"], cmd:[bootstrap], ports:[]}`; 400 (no capacity / placement) → next cloud, then `CapacityError`; 402 → `QuotaError` | REST v2 `https://api.runpod.io/v2` (OpenAPI). Spot: only the deprecated GraphQL `podRentInterruptable`, opt-in (`interruptible: true`) and falls back to on-demand |
+| `vastai` | key set; `GET /api/v0/users/current` balance > 0; `POST /api/v0/bundles` returns offers (gpu_name in list, 1 GPU, reliability ≥ 0.98, verified, $/h ≤ `max_dph`) | `PUT /api/v0/asks/{offer}` `{image, disk, label, runtype:"args", args:["bash","-c",bootstrap], env:"-e K=V …", price (bids)}` cheapest offer first; 410/no_such_ask → next offer | `https://console.vast.ai` REST |
+| `local` | slots free (`max_workers`) | `python3 cloud/farm/worker.py` subprocesses, `REQUIRE_GPU=0`, 2 threads | — |
+
+GPU classes are provider-neutral: `L4`, `A10G` (AWS g6/g5), `RTX4090` (`NVIDIA GeForce RTX 4090` / `RTX 4090`),
+`L40S`, `A100`, `CPU`.
+
+### Workers outside AWS: no custom image
+
+RunPod and Vast boot the public `nvidia/cuda:12.4.1-base-ubuntu22.04` image with a **startup script** as the
+container command (`providers/worker_startup.sh`, rendered by `providers/startup.py` with a settings block and
+shipped gzip+base64 in one line, ~4.5 KB). It:
+
+1. checks the secrets in its env and derives its id (`runpod:$RUNPOD_POD_ID`, `vastai:<CONTAINER_ID>`);
+2. apt-installs Blender's runtime libs, git, python3-venv; checks `nvidia-smi -L` (exit 3 without a GPU when
+   `REQUIRE_GPU=1`) and whether `libnvoptix` is mounted (sets `NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics`);
+3. downloads **Blender 4.2.3, sha256-verified** (same pin as the Dockerfile);
+4. fetches the code **at a pinned commit**: `code.source: git` → `git fetch --depth 1 <url> <commit>` (a private
+   repo uses `GIT_TOKEN`, a read-only deploy token sent as an `http.extraHeader` and unset before the worker
+   starts), or `code.source: s3` → the scheduler uploads `farm/code/<commit>.tar.gz` (`git archive` of the
+   renderer paths, sha256 checked on the worker);
+5. probes Cycles devices inside Blender (OptiX, then CUDA; exit 3 if neither when a GPU is required);
+6. `exec`s `worker.py` (`FARM_IMDS=0`). The worker syncs the library from S3 at preflight, as on AWS.
+
+When the worker exits (idle 10 min) the container stops; the scheduler sees EXITED/stopped and terminates the
+machine, so nothing idles on a bill.
+
+### Scheduling policy (`providers.yaml`)
+
+Each `tick` (run by `orchestrator.py submit` right after enqueueing and by every `watch` loop; `--no-scale` skips
+it; `scheduler.py tick` runs one by hand):
+
+- **Rank options** (provider, GPU class, spot/on-demand). `strategy: priority` (default): `order`
+  `[aws_ec2, runpod, vastai, local]`, spot before on-demand inside a provider, then the GPU with the lowest
+  $ per unit of Cycles speed. `strategy: cheapest`: lowest $/speed across providers, `local` always last.
+- **Size**: desired capacity = backlog (A10G GPU-seconds from the job table) / `drain_target_hours`, capped by
+  the number of queued jobs and `max_workers_total`; per provider by `max_workers` and `max_usd_per_hour`.
+- **Fall back**: an unavailable provider, or a launch that raises, puts that option (capacity 10 min, API error
+  5 min) or provider (quota/auth 1 h) on cooldown and the next option is tried in the same tick. A worker that
+  has not heartbeated `health_timeout_s` (20 min) after launch, whose heartbeat stops for `heartbeat_lost_s`, or
+  whose container exits before its first heartbeat is terminated and its option cooled down 30 min — its jobs are
+  simply redelivered by SQS (resuming from plates already in S3).
+- **Local** runs only while no GPU worker is up or launching (`only_when_no_gpu`).
+- **Rebalance**: when a better option becomes usable (AWS quota approved, RunPod stock back) a replacement is
+  launched for the worst-placed worker; the old one is terminated once the replacement heartbeats and the old one
+  is idle — never mid-job.
+- **Scale down**: queue empty → workers idle ≥ `idle_terminate_s` are terminated; surplus idle workers too.
+- **Budget**: the summed hourly price of live workers never exceeds `budget.max_usd_per_hour` (launches are
+  refused; over the cap, idle then most expensive workers are cut); compute spend (price × uptime per worker,
+  per provider, in the state file) reaching `budget.max_total_usd` terminates everything. Per-run budgets stay in
+  `orchestrator.py submit --budget`.
+- **State** (`~/.story-farm/scheduler.json`, `FARM_STATE_DIR`): workers, cooldowns, spend, the last 500 decisions.
+  `orchestrator.py status` / `scheduler.py status [--probe]` show them per provider.
+
+### Price / speed planning
+
+Cycles speed relative to an A10G (defaults in `providers.yaml`, override with measured numbers:
+`scheduler.py calibrate --manifests <dir of job manifests> --out speed_calibration.json`, then set
+`speed_calibration:`; it divides each job's model estimate by its measured seconds, median per `gpuClass`).
+Sentinel final (41.9 A10G GPU-hours), `scheduler.py plan --spec episodes/sentinel/episode_v2.json --quality final`;
+RunPod/Vast prices are the built-in list prices (live catalog/offer prices are used once a key is set):
+
+| option | $/h | speed | $ per A10G-h | workers | wall h | $ |
+|---|---|---|---|---|---|---|
+| `aws_ec2/L4/spot` | 0.600 | 0.90 | 0.667 | 2 | 23.3 | 27.94 |
+| `aws_ec2/A10G/spot` | 0.690 | 1.00 | 0.690 | 2 | 21.0 | 28.92 |
+| `aws_ec2/L4/ondemand` | 0.805 | 0.90 | 0.894 | 2 | 23.3 | 37.48 |
+| `aws_ec2/A10G/ondemand` | 1.006 | 1.00 | 1.006 | 2 | 21.0 | 42.17 |
+| `runpod/RTX4090/ondemand` | 0.690 | 2.50 | 0.276 | 4 | 4.2 | 11.57 |
+| `runpod/L40S/ondemand` | 0.860 | 2.20 | 0.391 | 4 | 4.8 | 16.39 |
+| `vastai/RTX4090/ondemand` | 0.400 | 2.50 | 0.160 | 4 | 4.2 | 6.71 |
+| `vastai/L40S/ondemand` | 0.750 | 2.20 | 0.341 | 4 | 4.8 | 14.29 |
+| `local/CPU/ondemand` | 0 | 0.03 | — | 1 | ~1400 | 0 |
+
+(The consumer-GPU speeds are Blender Open Data ratios, not measured here; on these numbers `strategy: cheapest`
+would put Vast first. The default stays `priority` with AWS first because AWS workers use the instance role
+(no static keys leave the account) and S3 traffic stays in-region; switch to `cheapest` to optimise cost.)
+
+### Setup: what the operator creates (nothing here was created)
+
+1. **External worker IAM user** (keys for RunPod/Vast/local workers: SQS consume, S3 inputs + `farm/code/*` read,
+   plates/manifests/logs write, job table Get/UpdateItem — `ExternalWorkerPolicy` in `farm.yaml`). Either deploy
+   the stack with `CreateExternalWorkerUser=true`, or attach the policy to a user you create:
+   ```bash
+   POLICY=$(aws cloudformation describe-stacks --stack-name $STACK \
+     --query "Stacks[0].Outputs[?OutputKey=='ExternalWorkerPolicyArn'].OutputValue" --output text)
+   aws iam create-user --user-name farm-worker-external                 # skip if CreateExternalWorkerUser=true
+   aws iam attach-user-policy --user-name farm-worker-external --policy-arn $POLICY
+   aws iam create-access-key --user-name farm-worker-external           # -> AccessKeyId / SecretAccessKey
+   export FARM_EXTERNAL_AWS_ACCESS_KEY_ID=AKIA... FARM_EXTERNAL_AWS_SECRET_ACCESS_KEY=...
+   ```
+   The operator policy now also allows the scheduler's AWS calls (`servicequotas:GetServiceQuota`,
+   `autoscaling:Describe*`, `SetDesiredCapacity`/`TerminateInstanceInAutoScalingGroup` on `story-farm-*` groups).
+2. **RunPod**: console → **Settings → API Keys** → *Create API Key* (read/write; Pods + Catalog are enough) →
+   `export RUNPOD_API_KEY=...`, and add credit (Billing). Optional: store the worker keys as RunPod secrets
+   (console → Secrets) and set `secret_names: {AWS_SECRET_ACCESS_KEY: story_farm_aws_secret, ...}` so pods get
+   `{{ RUNPOD_SECRET_story_farm_aws_secret }}` instead of the value.
+3. **Vast.ai**: cloud.vast.ai → **Account → Keys** → *+ New* API key → `export VAST_API_KEY=...`; add credit.
+4. **Code**: push the commit the workers should run (`code.commit: null` = local HEAD). Private repo: create a
+   read-only deploy token (GitHub fine-grained token, Contents: read, this repo only) → `export FARM_GIT_TOKEN=...`;
+   or set `code.source: s3` and no token is needed.
+5. Review exactly what would be sent, then run:
+   ```bash
+   python3 cloud/farm/scheduler.py dry-run --out /tmp/farm-dry-run   # startup.sh, bootstrap.txt, payloads/*.json, plan.json
+   python3 cloud/farm/scheduler.py --stack $STACK status --probe     # available() of every provider, no launches
+   python3 cloud/farm/orchestrator.py --stack $STACK submit --spec episodes/sentinel/episode_v2.json --quality preview --budget 10
+   python3 cloud/farm/orchestrator.py --stack $STACK watch --finish  # ticks the scheduler every loop
+   python3 cloud/farm/scheduler.py --stack $STACK stop-all           # terminate every farm worker everywhere
+   ```
 
 ## Not done / open
+
+- **compute_fallback**: no real RunPod/Vast launch, account or key was created (no spend allowed); request shapes
+  come from RunPod's v2 OpenAPI spec and Vast's API reference, verified only against mocks. RunPod's REST v2 has no
+  spot/interruptible pods; the GraphQL path is deprecated and untested live. Vast `gpu_name` values ("RTX 4090")
+  follow the API's stored names; the docs' examples also show "RTX_4090" (results are matched either way).
+  Speeds of RTX 4090 / L40S / A100 are defaults, not measured. The AWS ASG's own backlog alarms still scale the spot
+  group too; the scheduler only raises/lowers desired capacity and terminates instances. Per-run `spentUsd` in
+  `orchestrator.py status` still prices GPU-seconds at the AWS rate; the scheduler's state has the real
+  per-provider spend.
 
 - No real AWS deploy, image build, or GPU render (no spend allowed; quota is 0 anyway). Seconds/frame on L4/A10G
   are extrapolated, not measured; OptiX inside the container is untested.
