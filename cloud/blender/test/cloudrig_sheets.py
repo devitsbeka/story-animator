@@ -1,0 +1,198 @@
+"""Verification sheets for cloud/blender/cloudrig_adapter.py on the Blender Studio Jay rig.
+
+  blender -b --factory-startup -P cloud/blender/test/cloudrig_sheets.py -- --mode body|face|channels \
+      --out /tmp/<you>/sheets [--samples 16] [--blend library_store/characters/jay.blend]
+
+body     : the 12 acting poses (stand, helm, brace, radio_shout, shush, phone_up, wave, hands_face, look_back,
+           sit_deck, down, point_ahead) baked through CloudRigPuppet.bake(), full body 360x540, 3/4 front view.
+face     : 16 emotions + blink + 4 gaze directions + 3 visemes as head close-ups (FACE_POSES / VISEME_POSES).
+channels : every face channel at +1 / -1 (calibration of signs and ranges).
+Each frame is written as <out>/<mode>_<nn>_<label>.png and a contact sheet <out>/<mode>_sheet.png (ImageMagick).
+"""
+import argparse
+import json
+import math
+import os
+import subprocess
+import sys
+
+import bpy
+from mathutils import Vector
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(HERE))
+import acting  # noqa: E402
+import cloudrig_adapter as cra  # noqa: E402
+import face  # noqa: E402
+
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
+argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+ap = argparse.ArgumentParser()
+ap.add_argument("--mode", default="body")
+ap.add_argument("--out", default="/tmp/rigadapter/sheets")
+ap.add_argument("--samples", type=int, default=16)
+ap.add_argument("--blend", default=os.path.join("/home/user/story-animator", "library_store", "characters", "jay.blend"))
+ap.add_argument("--only", default=None, help="comma list of indices to render")
+ap.add_argument("--focus", default="face", help="face | mouth | eyes (close-up framing for face/channels)")
+args = ap.parse_args(argv)
+os.makedirs(args.out, exist_ok=True)
+
+bpy.ops.wm.read_factory_settings(use_empty=True)
+sc = bpy.context.scene
+coll, arm, objs = cra.append_character(args.blend, "CH-jay", "RIG-jay")
+holder = bpy.data.objects.new("holder", None)
+sc.collection.objects.link(holder)
+arm.parent = holder
+print("MESH HAIR", cra.prefer_mesh_hair(coll))
+print("OPTIONS", cra.set_character_options(arm, {"Glasses": 0}))
+pup = cra.CloudRigPuppet(arm, holder)
+print("MEASURE", json.dumps(pup.describe()))
+
+# ---------------- stage
+bpy.ops.mesh.primitive_plane_add(size=20)
+fl = bpy.context.object
+m = bpy.data.materials.new("floor")
+m.use_nodes = True
+m.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.22, 0.2, 0.18, 1)
+fl.data.materials.append(m)
+w = bpy.data.worlds.new("w")
+sc.world = w
+w.use_nodes = True
+w.node_tree.nodes["Background"].inputs[0].default_value = (0.06, 0.07, 0.09, 1)
+w.node_tree.nodes["Background"].inputs[1].default_value = 1.0
+aim = bpy.data.objects.new("aim", None)
+sc.collection.objects.link(aim)
+
+
+def light(n, loc, e, size=1.0, col=(1, 1, 1)):
+    d = bpy.data.lights.new(n, "AREA")
+    d.energy, d.size, d.color = e, size, col
+    o = bpy.data.objects.new(n, d)
+    sc.collection.objects.link(o)
+    o.location = loc
+    c = o.constraints.new("TRACK_TO")
+    c.target, c.track_axis, c.up_axis = aim, "TRACK_NEGATIVE_Z", "UP_Y"
+    return o
+
+
+cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam"))
+sc.collection.objects.link(cam)
+sc.camera = cam
+c = cam.constraints.new("TRACK_TO")
+c.target, c.track_axis, c.up_axis = aim, "TRACK_NEGATIVE_Z", "UP_Y"
+sc.render.engine = "CYCLES"
+sc.cycles.samples = args.samples
+sc.cycles.device = "CPU"
+sc.cycles.use_denoising = True
+sc.render.threads_mode = "FIXED"
+sc.render.threads = 2
+sc.render.film_transparent = False
+sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items] else "Filmic"
+
+stand = acting.pose_at(0, {"stance": [[-100, "stand"]], "breath": 0})
+
+
+def body_mode():
+    tests = [("stand", None), ("helm", None), ("brace", None), ("stand", "radio_shout"), ("stand", "shush"), ("stand", "phone_up"),
+             ("stand", "wave"), ("stand", "hands_face"), ("stand", "look_back"), ("sit_deck", None), ("down", None), ("stand", "point_ahead")]
+    perf = {"stance": [], "poses": [], "blend": 1, "seed": 2}
+    for i, (st, ps) in enumerate(tests):
+        perf["stance"].append([i * 10, st])
+        if ps:
+            perf["poses"].append({"pose": ps, "from": i * 10, "to": i * 10 + 9, "in": 1, "out": 1})
+    perf["stance"][0][0] = -100
+    fs = {"emotion": [[0, "calm"], [30, "shout"], [40, "secret"], [50, "neutral"], [70, "hopeful"], [80, "worried"], [90, "calm"], [100, "pain"], [110, "determined"]],
+          "blend": 2, "noBlink": True}
+    keyed = pup.bake(perf, fs, 0, len(tests) * 10)
+    print("KEYED", len(keyed), sorted(keyed)[:8])
+    cam.location = (-1.25, -2.7, 0.95)
+    cam.data.lens = 42
+    aim.location = (0, 0, 0.58)
+    light("key", (-1.8, -2.4, 2.4), 260, 1.5, (1, 0.96, 0.9))
+    light("rim", (1.6, 1.8, 1.9), 220, 1.0, (0.8, 0.88, 1))
+    light("fill", (2.0, -1.8, 0.9), 60, 2.5)
+    sc.render.resolution_x, sc.render.resolution_y = 360, 540
+    frames = [(i * 10 + 8, f"{st}{'+' + ps if ps else ''}") for i, (st, ps) in enumerate(tests)]
+    return frames
+
+
+def face_mode(items):
+    cam.data.lens = 85
+    sc.render.resolution_x, sc.render.resolution_y = 300, 300
+    frames = []
+    pup._prev_eul = {}
+    for i, (label, ch, gaze) in enumerate(items):
+        f = i * 2 + 1
+        pup.apply(stand, ch, gaze)
+        for pb in pup._controls():
+            pb.keyframe_insert("location", frame=f)
+            pb.keyframe_insert("rotation_euler", frame=f)
+        frames.append((f, label))
+    bpy.context.view_layer.update()
+    eyes = pup.eyecen.head if pup.eyecen else Vector((0, 0, 1.0))
+    z = {"face": (eyes.z + pup.LM["mouth"]) * 0.5, "mouth": pup.LM["mouth"], "eyes": eyes.z}[args.focus]
+    dist = {"face": 0.8, "mouth": 0.45, "eyes": 0.45}[args.focus]
+    aim.location = (0, -0.04, z)
+    cam.location = (-0.12 * dist, -dist, z + 0.06 * dist)
+    light("key", (-0.9, -1.4, 1.6), 110, 0.8, (1, 0.96, 0.9))
+    light("rim", (0.9, 1.0, 1.4), 90, 0.6, (0.8, 0.88, 1))
+    light("fill", (1.0, -1.2, 0.8), 30, 1.5)
+    light("front", (0.0, -1.0, eyes.z - 0.25), 18, 0.6)   # under the hat brim
+    return frames
+
+
+def face_items():
+    items = []
+    for emo in ("neutral", "calm", "concern", "worried", "fear", "shock", "panic", "pain", "determined", "shout",
+                "hopeful", "relief", "sneeze_build", "sneeze", "secret", "wince"):
+        ch = dict(cra.FACE_POSES[emo])
+        for s in "LR":
+            ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0) + 0.12
+        items.append((emo, ch, (0, 0)))
+    items.append(("blink", {"lidUp.L": 1.0, "lidUp.R": 1.0, "lidLo.L": 0.22, "lidLo.R": 0.22}, (0, 0)))
+    for lab, g in (("gaze_left", (25, 0)), ("gaze_right", (-25, 0)), ("gaze_up", (0, 18)), ("gaze_down", (0, -20))):
+        ch = cra.lid_follow({"lidUp.L": 0.12, "lidUp.R": 0.12}, g[1])   # same rule as CloudRigPuppet.face_at
+        items.append((lab, ch, g))
+    for v in ("aa_02", "w_uw_07", "p_b_m_21"):
+        ch = dict(cra.VISEME_POSES[v])
+        for s in "LR":
+            ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0) + 0.12
+        items.append(("vis_" + v, ch, (0, 0)))
+    return items
+
+
+def channel_items():
+    items = [("rest", {}, (0, 0))]
+    for chn in cra.FACE_CTRL:
+        side = chn + ".L" if (chn + ".L") in cra.CHANNELS else chn
+        both = [chn + ".L", chn + ".R"] if (chn + ".L") in cra.CHANNELS else [chn]
+        for v in (1.0, -1.0):
+            items.append((f"{chn}{'+' if v > 0 else '-'}", {c: v for c in both}, (0, 0)))
+    return items
+
+
+if args.mode == "body":
+    frames = body_mode()
+elif args.mode == "face":
+    frames = face_mode(face_items())
+else:
+    frames = face_mode(channel_items())
+only = set(int(x) for x in args.only.split(",")) if args.only else None
+paths = []
+for n, (f, label) in enumerate(frames):
+    if only is not None and n not in only:
+        continue
+    sc.frame_set(f)
+    p = os.path.join(args.out, f"{args.mode}_{n:02d}_{label}.png")
+    sc.render.filepath = p
+    bpy.ops.render.render(write_still=True)
+    paths.append((p, label))
+    print("WROTE", p)
+if paths and only is None:
+    sheet = os.path.join(args.out, f"{args.mode}_sheet.png")
+    cmd = ["montage"]
+    for p, lab in paths:
+        cmd += ["-label", lab, p]
+    cmd += ["-tile", "6x" if args.mode == "body" else "8x", "-geometry", "+2+2", "-pointsize", "12", "-background", "#222", "-fill", "#ddd", sheet]
+    subprocess.run(cmd, check=False)
+    print("SHEET", sheet)
