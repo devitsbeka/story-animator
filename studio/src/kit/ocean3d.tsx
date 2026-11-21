@@ -190,6 +190,7 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       const moon = new THREE.DirectionalLight(0xc8d6ff, 2.6);
       scene.add(moon, moon.target);
       scene.add(new THREE.HemisphereLight(0x3a4a80, 0x0a0e18, 0.8));
+      const fill = new THREE.DirectionalLight(0x9fb2e8, 0.0); fill.name = "fill"; scene.add(fill, fill.target);
       const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: 4 }));
       const renderPass = new RenderPass(scene, new THREE.PerspectiveCamera());
       composer.addPass(renderPass);
@@ -216,6 +217,8 @@ export const Ocean3D: React.FC<{ shot: SeaShot; w: number; h: number; front?: [n
       g.moon.position.set(shot.yacht.x + md.x * 50, md.y * 50, shot.yacht.z + md.z * 50);
       g.moon.target.position.set(shot.yacht.x, 0, shot.yacht.z);
       g.moon.target.updateMatrixWorld();
+      const fill = g.scene.getObjectByName("fill") as THREE.DirectionalLight;
+      fill.intensity = 0.9; fill.position.set(shot.cam[0], shot.cam[1] + 6, shot.cam[2]); fill.target.position.set(shot.yacht.x, 1.5, shot.yacht.z); fill.target.updateMatrixWorld();
     } else g.yacht.group.visible = false;
     const cam = makeCamera(shot, w, h);
     g.cubeCam.update(g.renderer, g.skyScene);

@@ -6,8 +6,9 @@ import { H, W, ease } from "./harness";
 import { S1, S2, S3, S4, SceneProps } from "./scenesA";
 import { S5, S6, S7, S8 } from "./scenesB";
 import { S9, S10, S11 } from "./scenesC";
+import { S1_3D } from "./s1_3d";
 
-const MAP: Record<SceneId, React.FC<SceneProps>> = { yacht: S1, chart: S2, shore: S3, reef: S4, radio: S5, ashore: S6, stay: S7, primrose: S8, quiet: S9, tide: S10, outro: S11 };
+const MAP: Record<SceneId, React.FC<SceneProps>> = { yacht: S1_3D, chart: S2, shore: S3, reef: S4, radio: S5, ashore: S6, stay: S7, primrose: S8, quiet: S9, tide: S10, outro: S11 };
 const HALF = XFADE / 2;
 
 // Step tracker: four dots, the current step filled. Only during the four steps.
