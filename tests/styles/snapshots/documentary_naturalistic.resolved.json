@@ -1,0 +1,505 @@
+{
+ "camera": {
+  "avoid": [
+   "whip_pan",
+   "dolly_zoom",
+   "orbit_cw",
+   "orbit_ccw"
+  ],
+  "default_ease": "arrive",
+  "drift": 0.03,
+  "handheld": {
+   "calm": 0.02,
+   "default": 0.06,
+   "panic": 0.18,
+   "pov": 0.15,
+   "storm": 0.22,
+   "tense": 0.1
+  },
+  "shot_seconds": [
+   3.0,
+   6.0
+  ],
+  "vocabulary": [
+   "tripod",
+   "dolly_in",
+   "dolly_out",
+   "truck_left",
+   "truck_right",
+   "pan_left",
+   "pan_right",
+   "tilt_up",
+   "tilt_down",
+   "handheld_documentary",
+   "stabilized_tracking",
+   "follow_tracking",
+   "establishing",
+   "aerial_flyover",
+   "rack_focus",
+   "pullback_reveal",
+   "parallax_reveal"
+  ]
+ },
+ "captions": {
+  "band": {
+   "y0": 1500,
+   "y1": 1640
+  },
+  "cap_height_px": [
+   34,
+   44
+  ],
+  "fill": "#F4EFE6",
+  "font": {
+   "family": "SourceSerif4",
+   "italic": false,
+   "weight": 600
+  },
+  "mode": "lower_third",
+  "paging": {
+   "max_chars_3": 40,
+   "max_page_s": 3.2,
+   "max_words": 7
+  },
+  "plate": "linear-gradient(90deg, rgba(16,20,24,0.78), rgba(16,20,24,0.0))",
+  "pop": 1.0,
+  "safe": {
+   "x0": 72,
+   "x1": 1008,
+   "y0": 1380,
+   "y1": 1660
+  },
+  "shadow": true,
+  "stroke": null,
+  "stroke_em": 0.0,
+  "tones": {
+   "accent": "#D8C9A8",
+   "danger": "#E2672E",
+   "good": "#8DBB7A"
+  }
+ },
+ "formats": [
+  "docuseries"
+ ],
+ "frame": {
+  "aspects": [
+   "16:9",
+   "9:16"
+  ],
+  "fps": 24
+ },
+ "grade": {
+  "contrast": 0.18,
+  "coolShadows": 0.3,
+  "grain": 0.04,
+  "halation": 0.15,
+  "vignette": 0.22
+ },
+ "id": "documentary_naturalistic",
+ "lens": {
+  "by_emotion": {
+   "arrival": 35,
+   "calm": 40,
+   "decision": 50,
+   "dialogue": 50,
+   "emotion": 85,
+   "environment": 28,
+   "establishing": 28,
+   "fear": 65,
+   "honest": 50,
+   "interview": 65,
+   "intimate": 85,
+   "isolation": 28,
+   "neutral": 40,
+   "procedure": 40,
+   "realization": 85,
+   "scale": 24,
+   "shock": 75,
+   "threat": 100,
+   "vast": 24,
+   "vo": 50,
+   "voyeur": 135,
+   "watched": 135,
+   "with_him": 40,
+   "worry": 50
+  },
+  "by_size": {
+   "CU": 85,
+   "ECU": 100,
+   "EWS": 28,
+   "MCU": 65,
+   "MS": 40,
+   "WS": 35
+  },
+  "default_mm": 40,
+  "range_mm": [
+   24,
+   135
+  ]
+ },
+ "lighting": {
+  "default_preset": "moonlight",
+  "key_fill": {
+   "interview": [
+    2.0,
+    3.0
+   ],
+   "neutral": [
+    2.0,
+    3.0
+   ],
+   "night": [
+    3.0,
+    5.0
+   ],
+   "tension": [
+    4.0,
+    6.0
+   ]
+  },
+  "practical_kelvin": 3200,
+  "shadow_floor": 0.04,
+  "time_of_day": {
+   "dawn": {
+    "fill_ratio": 2.5,
+    "preset": "foggy_dawn"
+   },
+   "day": {
+    "fill_ratio": 2.0,
+    "preset": "soft_overcast"
+   },
+   "interior": {
+    "fill_ratio": 3.0,
+    "preset": "window_motivated"
+   },
+   "night": {
+    "fill_ratio": 4.0,
+    "preset": "moonlight",
+    "rim_energy": 0.9
+   },
+   "storm": {
+    "fill_ratio": 5.0,
+    "preset": "storm_night",
+    "rim_energy": 0.8
+   }
+  }
+ },
+ "look": {
+  "day_face_linear": [
+   0.16,
+   0.2
+  ],
+  "exposure": 0.6,
+  "look": "AgX - Base Contrast",
+  "night_face_linear": [
+   0.08,
+   0.14
+  ],
+  "view_transform": "AgX"
+ },
+ "materials": {
+  "notes": "naturalistic, slightly rougher and less saturated surfaces; physically plausible skin scattering; no toon outline",
+  "outline": "none",
+  "roughness_bias": 0.1,
+  "roughness_range": [
+   0.45,
+   0.95
+  ],
+  "saturation_bias": -0.1,
+  "skin_subsurface": 0.35,
+  "skin_subsurface_radius_mm": [
+   3.6,
+   1.4,
+   0.8
+  ]
+ },
+ "music": {
+  "bpm": 72,
+  "bpm_range": [
+   60,
+   90
+  ],
+  "energy_max": 3,
+  "engine": "procedural",
+  "instrumentation": [
+   "sustained strings pad",
+   "low piano",
+   "soft sub",
+   "sparse percussion"
+  ],
+  "key": "A minor",
+  "moods": [
+   "reflective",
+   "dark",
+   "resolve"
+  ],
+  "sfx_density": {
+   "max_transients": 2,
+   "ui_ticks": false,
+   "whoosh_on_cuts": false,
+   "window_s": 1.0
+  }
+ },
+ "narration": {
+  "voice": {
+   "description": "calm, low, authoritative third-person; resolved per style in factory/voice/voices.json",
+   "provider": "elevenlabs",
+   "register": "measured documentary narrator",
+   "voice_id": null
+  },
+  "wps": [
+   2.4,
+   2.7
+  ]
+ },
+ "palette": {
+  "acts": [
+   {
+    "accent": {
+     "hex": "#E0A060",
+     "name": "sodium practical"
+    },
+    "act": "cold_open",
+    "beats": [
+     "COLD_OPEN"
+    ],
+    "dominant": {
+     "hex": "#2B3A48",
+     "name": "muted steel-blue night"
+    },
+    "sat": [
+     0.2,
+     0.35
+    ],
+    "value_key": "low"
+   },
+   {
+    "accent": {
+     "hex": "#A2483A",
+     "name": "weathered red paint"
+    },
+    "act": "chapter",
+    "beats": [
+     "HOOK",
+     "ESCALATION"
+    ],
+    "dominant": {
+     "hex": "#6E7A6A",
+     "name": "natural daylight, olive-grey sea"
+    },
+    "sat": [
+     0.3,
+     0.45
+    ],
+    "value_key": "mid"
+   },
+   {
+    "accent": {
+     "hex": "#6F9AA0",
+     "name": "faded cyan"
+    },
+    "act": "archival",
+    "beats": [
+     "RECONSTRUCTION"
+    ],
+    "dominant": {
+     "hex": "#8A6E4E",
+     "name": "warm sepia"
+    },
+    "sat": [
+     0.15,
+     0.3
+    ],
+    "value_key": "mid"
+   },
+   {
+    "accent": {
+     "hex": "#E2672E",
+     "name": "flare orange"
+    },
+    "act": "climax",
+    "beats": [
+     "CLIMAX"
+    ],
+    "dominant": {
+     "hex": "#3E4C5C",
+     "name": "storm grey-blue"
+    },
+    "sat": [
+     0.3,
+     0.5
+    ],
+    "value_key": "low_rising"
+   },
+   {
+    "accent": {
+     "hex": "#6E9B5A",
+     "name": "first green"
+    },
+    "act": "resolution",
+    "beats": [
+     "RESOLUTION",
+     "TEASE"
+    ],
+    "dominant": {
+     "hex": "#C9B8A0",
+     "name": "soft morning"
+    },
+    "sat": [
+     0.3,
+     0.45
+    ],
+    "value_key": "high"
+   }
+  ],
+  "named": {
+   "lower_third_plate": "#101418",
+   "night_black": "#07090B",
+   "rule": "#D8C9A8"
+  },
+  "reserved": [
+   {
+    "hex": "#6E9B5A",
+    "name": "first green",
+    "until": "resolution"
+   }
+  ],
+  "skin_hue_band_deg": 10
+ },
+ "resolved": {
+  "finish": {
+   "captionStyle": {
+    "band": {
+     "y0": 1500,
+     "y1": 1640
+    },
+    "capHeight": [
+     34,
+     44
+    ],
+    "fill": "#F4EFE6",
+    "font": "SourceSerif4",
+    "italic": false,
+    "mode": "lower_third",
+    "plate": "linear-gradient(90deg, rgba(16,20,24,0.78), rgba(16,20,24,0.0))",
+    "pop": 1.0,
+    "safe": {
+     "x0": 72,
+     "x1": 1008,
+     "y0": 1380,
+     "y1": 1660
+    },
+    "shadow": true,
+    "stroke": null,
+    "strokeEm": 0.0,
+    "tones": {
+     "accent": "#D8C9A8",
+     "danger": "#E2672E",
+     "good": "#8DBB7A"
+    },
+    "weight": 600
+   },
+   "grade": {
+    "contrast": 0.18,
+    "coolShadows": 0.3,
+    "grain": 0.04,
+    "halation": 0.15,
+    "vignette": 0.22
+   },
+   "transitions": [
+    "cut",
+    "push"
+   ]
+  },
+  "handheld_scale": 0.5,
+  "lighting": {
+   "dawn": {
+    "exposure_ev": -0.3,
+    "family": "dawn",
+    "fill_ratio": 2.5,
+    "haze_density": 0.02,
+    "hdri": "ph:kloppenheim_02_puresky",
+    "key_energy": 2.2,
+    "preset": "foggy_dawn",
+    "rim_energy": 0.9
+   },
+   "day": {
+    "exposure_ev": -0.8,
+    "family": "day",
+    "fill_ratio": 2.0,
+    "haze_density": 0.0,
+    "hdri": "ph:kloppenheim_02_puresky",
+    "key_energy": 1.6,
+    "preset": "soft_overcast",
+    "rim_energy": 0.2
+   },
+   "interior": {
+    "exposure_ev": 0.0,
+    "family": "interior",
+    "fill_ratio": 3.0,
+    "haze_density": 0.0,
+    "hdri": null,
+    "key_energy": 1.8,
+    "preset": "window_motivated",
+    "rim_energy": 1.7
+   },
+   "night": {
+    "exposure_ev": 0.0,
+    "family": "night",
+    "fill_ratio": 4.0,
+    "haze_density": 0.0,
+    "hdri": "ph:moonlit_golf",
+    "key_energy": 1.8,
+    "preset": "moonlight",
+    "rim_energy": 0.9
+   },
+   "storm": {
+    "exposure_ev": 0.25,
+    "family": "night",
+    "fill_ratio": 5.0,
+    "haze_density": 0.004,
+    "hdri": "ph:qwantani_night",
+    "key_energy": 0.8,
+    "preset": "storm_night",
+    "rim_energy": 0.8
+   }
+  },
+  "music": {
+   "bpm": 72,
+   "bpm_range": [
+    60,
+    90
+   ],
+   "energy_max": 3,
+   "engine": "procedural",
+   "instrumentation": [
+    "sustained strings pad",
+    "low piano",
+    "soft sub",
+    "sparse percussion"
+   ],
+   "key": "A minor",
+   "moods": [
+    "reflective",
+    "dark",
+    "resolve"
+   ],
+   "sfx_density": {
+    "max_transients": 2,
+    "ui_ticks": false,
+    "whoosh_on_cuts": false,
+    "window_s": 1.0
+   }
+  }
+ },
+ "title": "Documentary naturalistic (docuseries)",
+ "transitions": {
+  "default": "cut",
+  "notes": "straight cuts; an occasional slow push into a chapter; never a whip",
+  "vocabulary": [
+   "cut",
+   "push"
+  ]
+ },
+ "version": 1
+}

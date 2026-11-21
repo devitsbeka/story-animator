@@ -19,7 +19,24 @@ def mtof(m):
     return A4 * 2 ** ((m - 69) / 12)
 
 
-def render(sections, fps, duration_frames, bpm=110, seed=7):
+# --- style system hook (factory/styles music.key): transpose the house D-minor score -------------------
+NOTE = {"C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3, "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8, "Ab": 8,
+        "A": 9, "A#": 10, "Bb": 10, "B": 11}
+MAJOR = [(50, (0, 4, 7)), (45, (0, 4, 7)), (47, (0, 3, 7)), (43, (0, 4, 7))]   # I - V - vi - IV (D major)
+
+
+def key_progressions(key="D minor"):
+    """(progression, dark progression) for a key like 'A minor' / 'Eb major' (nearest transposition of D)."""
+    root, _, mode = (key or "D minor").partition(" ")
+    off = (NOTE.get(root, 2) - 2) % 12
+    off = off - 12 if off > 6 else off
+    base = MAJOR if mode.strip().lower() == "major" else PROG
+    return [(r + off, t) for r, t in base], [(r + off, t) for r, t in DARK]
+# --- end style system hook ---------------------------------------------------------------------------
+
+
+def render(sections, fps, duration_frames, bpm=110, seed=7, key="D minor"):
+    prog_main, prog_dark = key_progressions(key)  # style system hook
     n = int(round(duration_frames / fps * SR))
     out = np.zeros((n, 2), np.float32)
     rng = np.random.default_rng(seed)
@@ -34,7 +51,7 @@ def render(sections, fps, duration_frames, bpm=110, seed=7):
             continue
         t = t_all[a:b]
         seg = np.zeros((b - a, 2), np.float32)
-        prog = DARK if s.get("mood") == "dark" else PROG
+        prog = prog_dark if s.get("mood") == "dark" else prog_main
         bar = 4 * beat
         # chord changes every 2 bars, continuing through the episode clock so sections stay on the grid
         chord_idx = (np.floor(t / (2 * bar)).astype(int) + si) % len(prog)

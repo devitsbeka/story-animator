@@ -1,0 +1,118 @@
+{
+  "$schema": "./style.schema.json",
+  "id": "documentary_naturalistic",
+  "version": 1,
+  "title": "Documentary naturalistic (docuseries)",
+  "description": "Long-form reconstruction look for the docuseries: 24 fps, motivated near-physical light with gentle ratios, a low-contrast filmic grade with fine grain, observational camera (slow push, tripod and shoulder-rig handheld, no whips), serif lower-thirds instead of kinetic captions, sparse sound design and a slower narration (2.4-2.7 words/s).",
+  "formats": ["docuseries"],
+  "frame": { "fps": 24, "aspects": ["16:9", "9:16"] },
+  "palette": {
+    "acts": [
+      { "act": "cold_open", "beats": ["COLD_OPEN"], "dominant": { "name": "muted steel-blue night", "hex": "#2B3A48" },
+        "accent": { "name": "sodium practical", "hex": "#E0A060" }, "sat": [0.2, 0.35], "value_key": "low" },
+      { "act": "chapter", "beats": ["HOOK", "ESCALATION"], "dominant": { "name": "natural daylight, olive-grey sea", "hex": "#6E7A6A" },
+        "accent": { "name": "weathered red paint", "hex": "#A2483A" }, "sat": [0.3, 0.45], "value_key": "mid" },
+      { "act": "archival", "beats": ["RECONSTRUCTION"], "dominant": { "name": "warm sepia", "hex": "#8A6E4E" },
+        "accent": { "name": "faded cyan", "hex": "#6F9AA0" }, "sat": [0.15, 0.3], "value_key": "mid" },
+      { "act": "climax", "beats": ["CLIMAX"], "dominant": { "name": "storm grey-blue", "hex": "#3E4C5C" },
+        "accent": { "name": "flare orange", "hex": "#E2672E" }, "sat": [0.3, 0.5], "value_key": "low_rising" },
+      { "act": "resolution", "beats": ["RESOLUTION", "TEASE"], "dominant": { "name": "soft morning", "hex": "#C9B8A0" },
+        "accent": { "name": "first green", "hex": "#6E9B5A" }, "sat": [0.3, 0.45], "value_key": "high" }
+    ],
+    "reserved": [{ "name": "first green", "hex": "#6E9B5A", "until": "resolution" }],
+    "skin_hue_band_deg": 10,
+    "named": { "lower_third_plate": "#101418", "rule": "#D8C9A8", "night_black": "#07090B" }
+  },
+  "look": {
+    "view_transform": "AgX",
+    "look": "AgX - Base Contrast",
+    "exposure": 0.6,
+    "night_face_linear": [0.08, 0.14],
+    "day_face_linear": [0.16, 0.2]
+  },
+  "lighting": {
+    "default_preset": "moonlight",
+    "time_of_day": {
+      "night": { "preset": "moonlight", "fill_ratio": 4.0, "rim_energy": 0.9 },
+      "storm": { "preset": "storm_night", "fill_ratio": 5.0, "rim_energy": 0.8 },
+      "dawn": { "preset": "foggy_dawn", "fill_ratio": 2.5 },
+      "day": { "preset": "soft_overcast", "fill_ratio": 2.0 },
+      "interior": { "preset": "window_motivated", "fill_ratio": 3.0 }
+    },
+    "key_fill": {
+      "interview": [2.0, 3.0],
+      "neutral": [2.0, 3.0],
+      "night": [3.0, 5.0],
+      "tension": [4.0, 6.0]
+    },
+    "shadow_floor": 0.04,
+    "practical_kelvin": 3200
+  },
+  "lens": {
+    "by_emotion": {
+      "establishing": 28, "environment": 28, "vast": 24, "isolation": 28, "scale": 24,
+      "neutral": 40, "calm": 40, "procedure": 40, "with_him": 40, "arrival": 35,
+      "honest": 50, "vo": 50, "decision": 50, "dialogue": 50, "worry": 50, "interview": 65,
+      "fear": 65, "intimate": 85, "emotion": 85, "realization": 85, "shock": 75,
+      "threat": 100, "watched": 135, "voyeur": 135
+    },
+    "by_size": { "EWS": 28, "WS": 35, "MS": 40, "MCU": 65, "CU": 85, "ECU": 100 },
+    "default_mm": 40,
+    "range_mm": [24, 135]
+  },
+  "camera": {
+    "vocabulary": ["tripod", "dolly_in", "dolly_out", "truck_left", "truck_right", "pan_left", "pan_right", "tilt_up", "tilt_down",
+                   "handheld_documentary", "stabilized_tracking", "follow_tracking", "establishing", "aerial_flyover", "rack_focus",
+                   "pullback_reveal", "parallax_reveal"],
+    "avoid": ["whip_pan", "dolly_zoom", "orbit_cw", "orbit_ccw"],
+    "handheld": { "default": 0.06, "calm": 0.02, "tense": 0.1, "panic": 0.18, "pov": 0.15, "storm": 0.22 },
+    "drift": 0.03,
+    "default_ease": "arrive",
+    "shot_seconds": [3.0, 6.0]
+  },
+  "grade": { "contrast": 0.18, "vignette": 0.22, "grain": 0.04, "halation": 0.15, "coolShadows": 0.3 },
+  "captions": {
+    "mode": "lower_third",
+    "font": { "family": "SourceSerif4", "weight": 600, "italic": false },
+    "cap_height_px": [34, 44],
+    "fill": "#F4EFE6",
+    "stroke": null,
+    "stroke_em": 0.0,
+    "shadow": true,
+    "pop": 1.0,
+    "plate": "linear-gradient(90deg, rgba(16,20,24,0.78), rgba(16,20,24,0.0))",
+    "tones": { "accent": "#D8C9A8", "danger": "#E2672E", "good": "#8DBB7A" },
+    "safe": { "x0": 72, "x1": 1008, "y0": 1380, "y1": 1660 },
+    "band": { "y0": 1500, "y1": 1640 },
+    "paging": { "max_words": 7, "max_chars_3": 40, "max_page_s": 3.2 }
+  },
+  "transitions": {
+    "vocabulary": ["cut", "push"],
+    "default": "cut",
+    "notes": "straight cuts; an occasional slow push into a chapter; never a whip"
+  },
+  "music": {
+    "engine": "procedural",
+    "bpm": 72,
+    "bpm_range": [60, 90],
+    "key": "A minor",
+    "moods": ["reflective", "dark", "resolve"],
+    "instrumentation": ["sustained strings pad", "low piano", "soft sub", "sparse percussion"],
+    "energy_max": 3,
+    "sfx_density": { "max_transients": 2, "window_s": 1.0, "whoosh_on_cuts": false, "ui_ticks": false }
+  },
+  "narration": {
+    "voice": { "provider": "elevenlabs", "voice_id": null, "register": "measured documentary narrator",
+               "description": "calm, low, authoritative third-person; resolved per style in factory/voice/voices.json" },
+    "wps": [2.4, 2.7]
+  },
+  "materials": {
+    "outline": "none",
+    "roughness_bias": 0.1,
+    "roughness_range": [0.45, 0.95],
+    "skin_subsurface": 0.35,
+    "skin_subsurface_radius_mm": [3.6, 1.4, 0.8],
+    "saturation_bias": -0.1,
+    "notes": "naturalistic, slightly rougher and less saturated surfaces; physically plausible skin scattering; no toon outline"
+  }
+}

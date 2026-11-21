@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://story-animator.local/factory/styles/style.schema.json",
+  "title": "Style",
+  "description": "A house look as data (factory/ARCHITECTURE.md 'styles/<style>.json'). factory/styles/__init__.py loads it, apply_style_to_episode() stamps it onto episode.json, and the consumers read the stamp: cloud/blender/lighting.py (preset per time of day), cloud/blender/render_episode.py (AgX look/exposure), studio/src/finish (Grade, Captions, transitions), factory/sound/designer.py (music palette, SFX density) and factory/director/prompts.py (style section).",
+  "type": "object",
+  "required": ["id", "version", "title", "frame", "palette", "look", "lighting", "lens", "camera", "grade", "captions", "transitions", "music", "narration", "materials"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "formats": { "type": "array", "items": { "enum": ["short", "docuseries"] }, "description": "story.json formats this style is meant for (the director default per format)." },
+    "frame": {
+      "type": "object", "required": ["fps"], "additionalProperties": false,
+      "properties": {
+        "fps": { "enum": [24, 25, 30] },
+        "aspects": { "type": "array", "items": { "type": "string", "pattern": "^[0-9]+:[0-9]+$" } }
+      }
+    },
+    "palette": {
+      "type": "object", "required": ["acts"], "additionalProperties": false,
+      "properties": {
+        "acts": {
+          "type": "array", "minItems": 1,
+          "description": "Colour script: one key per act (PIXAR_RECIPE 6.2).",
+          "items": {
+            "type": "object", "required": ["act", "dominant", "accent", "sat", "value_key"], "additionalProperties": false,
+            "properties": {
+              "act": { "type": "string" },
+              "beats": { "type": "array", "items": { "type": "string" }, "description": "story beats / chapter parts this key covers" },
+              "dominant": { "$ref": "#/$defs/swatch" },
+              "accent": { "$ref": "#/$defs/swatch" },
+              "sat": { "$ref": "#/$defs/range01" },
+              "value_key": { "enum": ["low", "low_rising", "mid", "high", "highest_contrast"] },
+              "contrast": { "$ref": "#/$defs/range01" }
+            }
+          }
+        },
+        "reserved": {
+          "type": "array",
+          "items": { "type": "object", "required": ["name", "hex", "until"], "additionalProperties": false,
+                     "properties": { "name": { "type": "string" }, "hex": { "$ref": "#/$defs/hex" }, "until": { "type": "string", "description": "act or beat before which the hue is withheld" } } }
+        },
+        "skin_hue_band_deg": { "type": "number", "minimum": 0, "maximum": 60 },
+        "named": { "type": "object", "additionalProperties": { "$ref": "#/$defs/hex" } }
+      }
+    },
+    "look": {
+      "type": "object", "required": ["view_transform", "look", "exposure"], "additionalProperties": false,
+      "properties": {
+        "view_transform": { "enum": ["AgX", "Filmic", "Standard"] },
+        "look": { "type": "string", "description": "Blender view look, e.g. 'AgX - Medium High Contrast'" },
+        "exposure": { "type": "number", "minimum": -5, "maximum": 5, "description": "Blender view exposure (stops)." },
+        "night_face_linear": { "$ref": "#/$defs/range01" },
+        "day_face_linear": { "$ref": "#/$defs/range01" }
+      }
+    },
+    "lighting": {
+      "type": "object", "required": ["default_preset", "time_of_day", "key_fill"], "additionalProperties": false,
+      "properties": {
+        "default_preset": { "type": "string" },
+        "time_of_day": {
+          "type": "object", "required": ["night"],
+          "description": "time of day (lighting.time_of_day: night | storm | dawn | day | interior) -> preset + preset parameter overrides.",
+          "propertyNames": { "enum": ["night", "storm", "dawn", "day", "interior"] },
+          "additionalProperties": {
+            "type": "object", "required": ["preset"],
+            "properties": { "preset": { "type": "string" }, "fill_ratio": { "type": "number", "minimum": 1 } },
+            "additionalProperties": { "type": ["number", "string", "boolean", "array", "null"] }
+          }
+        },
+        "key_fill": {
+          "type": "object", "description": "mood -> [min, max] hero-face key:fill ratio (PIXAR_RECIPE 4.1).",
+          "additionalProperties": { "type": "array", "items": { "type": "number", "minimum": 1 }, "minItems": 2, "maxItems": 2 }
+        },
+        "shadow_floor": { "type": "number", "minimum": 0, "maximum": 1 },
+        "practical_kelvin": { "type": "number", "minimum": 1000, "maximum": 12000 }
+      }
+    },
+    "lens": {
+      "type": "object", "required": ["by_emotion", "by_size", "default_mm"], "additionalProperties": false,
+      "properties": {
+        "by_emotion": { "type": "object", "additionalProperties": { "type": "number", "minimum": 8, "maximum": 300 } },
+        "by_size": { "type": "object", "additionalProperties": { "type": "number", "minimum": 8, "maximum": 300 } },
+        "default_mm": { "type": "number", "minimum": 8, "maximum": 300 },
+        "range_mm": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+      }
+    },
+    "camera": {
+      "type": "object", "required": ["vocabulary", "handheld", "default_ease"], "additionalProperties": false,
+      "properties": {
+        "vocabulary": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "factory/direction/camera_presets.py moves this style uses" },
+        "avoid": { "type": "array", "items": { "type": "string" } },
+        "handheld": { "type": "object", "required": ["default"], "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 } },
+        "drift": { "type": "number", "minimum": 0, "maximum": 1 },
+        "default_ease": { "type": "string" },
+        "shot_seconds": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+      }
+    },
+    "grade": {
+      "type": "object", "required": ["contrast", "vignette", "grain", "halation"], "additionalProperties": false,
+      "description": "studio/src/finish/Grade.tsx GradeOpts.",
+      "properties": {
+        "contrast": { "type": "number", "minimum": 0, "maximum": 1 },
+        "vignette": { "type": "number", "minimum": 0, "maximum": 1 },
+        "grain": { "type": "number", "minimum": 0, "maximum": 0.25 },
+        "halation": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coolShadows": { "type": "number", "minimum": 0, "maximum": 2, "description": "1 = house blue lift in the shadows, 0 = neutral" }
+      }
+    },
+    "captions": {
+      "type": "object", "required": ["mode", "font", "fill", "tones", "safe"], "additionalProperties": false,
+      "description": "studio/src/finish/Captions.tsx CaptionStyle (1080x1920 canvas px).",
+      "properties": {
+        "mode": { "enum": ["kinetic", "lower_third"] },
+        "font": {
+          "type": "object", "required": ["family", "weight"], "additionalProperties": false,
+          "properties": { "family": { "enum": ["Inter", "SourceSerif4"] }, "weight": { "type": "integer", "minimum": 100, "maximum": 900 }, "italic": { "type": "boolean" } }
+        },
+        "cap_height_px": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "fill": { "$ref": "#/$defs/hex" },
+        "stroke": { "oneOf": [{ "$ref": "#/$defs/hex" }, { "type": "null" }] },
+        "stroke_em": { "type": "number", "minimum": 0, "maximum": 0.4 },
+        "shadow": { "type": "boolean" },
+        "pop": { "type": "number", "minimum": 1, "maximum": 1.5, "description": "emphasised word scale" },
+        "plate": { "oneOf": [{ "type": "string" }, { "type": "null" }], "description": "CSS background behind lower thirds" },
+        "tones": {
+          "type": "object", "required": ["accent", "danger", "good"], "additionalProperties": false,
+          "properties": { "accent": { "$ref": "#/$defs/hex" }, "danger": { "$ref": "#/$defs/hex" }, "good": { "$ref": "#/$defs/hex" } }
+        },
+        "safe": { "$ref": "#/$defs/rect" },
+        "band": { "type": "object", "required": ["y0", "y1"], "additionalProperties": false, "properties": { "y0": { "type": "number" }, "y1": { "type": "number" } } },
+        "paging": {
+          "type": "object", "additionalProperties": false, "description": "factory/finish/captions.py build_pages limits",
+          "properties": { "max_words": { "type": "integer", "minimum": 1, "maximum": 12 }, "max_chars_3": { "type": "integer", "minimum": 4 }, "max_page_s": { "type": "number", "exclusiveMinimum": 0 } }
+        }
+      }
+    },
+    "transitions": {
+      "type": "object", "required": ["vocabulary", "default"], "additionalProperties": false,
+      "properties": {
+        "vocabulary": { "type": "array", "minItems": 1, "items": { "enum": ["cut", "push", "whip"] }, "description": "studio/src/finish/edit.ts transitions this style allows; others fall back to a cut" },
+        "default": { "enum": ["cut", "push", "whip"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "music": {
+      "type": "object", "required": ["engine", "bpm", "bpm_range", "key", "sfx_density"], "additionalProperties": false,
+      "properties": {
+        "engine": { "enum": ["procedural", "file"] },
+        "bpm": { "type": "number", "minimum": 40, "maximum": 200 },
+        "bpm_range": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "key": { "type": "string", "pattern": "^[A-G](#|b)? (major|minor)$" },
+        "moods": { "type": "array", "items": { "type": "string" } },
+        "instrumentation": { "type": "array", "items": { "type": "string" } },
+        "energy_max": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "sfx_density": {
+          "type": "object", "required": ["max_transients", "window_s"], "additionalProperties": false,
+          "properties": {
+            "max_transients": { "type": "integer", "minimum": 1 },
+            "window_s": { "type": "number", "exclusiveMinimum": 0 },
+            "whoosh_on_cuts": { "type": "boolean" },
+            "ui_ticks": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "narration": {
+      "type": "object", "required": ["voice", "wps"], "additionalProperties": false,
+      "properties": {
+        "voice": {
+          "type": "object", "required": ["provider", "register"], "additionalProperties": false,
+          "properties": {
+            "provider": { "enum": ["elevenlabs"] },
+            "voice_id": { "type": ["string", "null"], "description": "null = resolved by factory/voice/voices.json for this style" },
+            "register": { "type": "string" },
+            "description": { "type": "string" }
+          }
+        },
+        "wps": { "type": "array", "items": { "type": "number", "minimum": 1, "maximum": 5 }, "minItems": 2, "maxItems": 2 }
+      }
+    },
+    "materials": {
+      "type": "object", "required": ["outline"], "additionalProperties": false,
+      "properties": {
+        "outline": { "enum": ["none", "ink"] },
+        "roughness_bias": { "type": "number", "minimum": -1, "maximum": 1 },
+        "roughness_range": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 }, "minItems": 2, "maxItems": 2 },
+        "skin_subsurface": { "type": "number", "minimum": 0, "maximum": 1 },
+        "skin_subsurface_radius_mm": { "type": "array", "items": { "type": "number", "minimum": 0 }, "minItems": 3, "maxItems": 3 },
+        "saturation_bias": { "type": "number", "minimum": -1, "maximum": 1 },
+        "notes": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "hex": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+    "range01": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 }, "minItems": 2, "maxItems": 2 },
+    "swatch": { "type": "object", "required": ["name", "hex"], "additionalProperties": false,
+                "properties": { "name": { "type": "string" }, "hex": { "$ref": "#/$defs/hex" } } },
+    "rect": { "type": "object", "required": ["x0", "x1", "y0", "y1"], "additionalProperties": false,
+              "properties": { "x0": { "type": "number" }, "x1": { "type": "number" }, "y0": { "type": "number" }, "y1": { "type": "number" } } }
+  }
+}

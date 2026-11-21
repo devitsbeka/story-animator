@@ -63,8 +63,14 @@ def _anchor_index(anchors):
     return out
 
 
-def build_pages(words, fps=30, offset=0, anchors=None):
-    """Return [{from, to, words:[{t, from}], emph: index|None, tone}] in film frames."""
+def build_pages(words, fps=30, offset=0, anchors=None, paging=None):
+    """Return [{from, to, words:[{t, from}], emph: index|None, tone}] in film frames.
+
+    paging (style system, episode.style.captions.paging): {max_words, max_chars_3, max_page_s} overrides the
+    short-form limits above (e.g. longer documentary lower-thirds)."""
+    pg = paging or {}
+    max_words, max_chars_3 = pg.get("max_words", MAX_WORDS), pg.get("max_chars_3", MAX_CHARS_3)
+    max_page_s = pg.get("max_page_s", MAX_PAGE_S)
     ws = [w for w in words if str(w.get("w", "")).strip()]
     groups, cur = [], []
     for i, w in enumerate(ws):
@@ -72,11 +78,11 @@ def build_pages(words, fps=30, offset=0, anchors=None):
             prev = cur[-1]
             chars = sum(len(x["w"]) for x in cur) + len(w["w"])
             brk = (
-                len(cur) >= MAX_WORDS
-                or (len(cur) == 2 and chars > MAX_CHARS_3)
+                len(cur) >= max_words
+                or (len(cur) >= 2 and chars > max_chars_3)
                 or PUNCT_BREAK.search(prev["w"].strip()) is not None
                 or (w["s"] - prev["e"]) > GAP_BREAK_S
-                or (w["e"] - cur[0]["s"]) > MAX_PAGE_S
+                or (w["e"] - cur[0]["s"]) > max_page_s
                 or (is_number(w["w"]) and len(cur) >= 2)
             )
             if brk:
@@ -93,7 +99,7 @@ def build_pages(words, fps=30, offset=0, anchors=None):
         if gi + 1 < len(groups):
             end = min(end, frame(groups[gi + 1][0]["s"], fps, offset))
         end = max(end, f0 + int(round(MIN_PAGE_S * fps)))
-        end = min(end, f0 + int(round(MAX_PAGE_S * fps)))
+        end = min(end, f0 + int(round(max_page_s * fps)))
         pages.append({
             "from": f0, "to": end,
             "words": [{"t": display(w["w"]), "from": frame(w["s"], fps, offset)} for w in g],

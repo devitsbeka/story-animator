@@ -6,8 +6,8 @@ from .recipes import stage_recipe_text
 from .staging import ISLANDS, MARKS, vocabulary
 
 COMMON = """You work in an automated, code-driven animation factory (factory/ARCHITECTURE.md). Episodes are directed as data
-and rendered by Blender from code; no image or video generation models are used. House style: Pixar-quality stylised 3D,
-hero always centred, continuous camera motion, cinematic consistent lighting (style `pixar_night_survival`).
+and rendered by Blender from code; no image or video generation models are used. Hero always centred, continuous camera
+motion, cinematic consistent lighting; the look, lenses, light, captions, music and narration pace follow the STYLE section.
 
 Your answer is one JSON document that must validate against the provided schema AND the automatable checklists of the
 recipes below. A validator runs on your output; if it fails you get the list of failed rule ids and must return the full
@@ -73,8 +73,14 @@ def vocab_text():
 ROLE = {"develop": DEVELOP, "breakdown": BREAKDOWN, "direct": DIRECT}
 
 
-def system_blocks(stage):
-    parts = [COMMON, ROLE[stage]]
+def style_text(style=None):
+    """STYLE section (factory/styles): the house look as data, injected into every stage's system block."""
+    from factory.styles import DEFAULT_BY_FORMAT, style_prompt_text
+    return "STYLE (factory/styles; the house look as data)\n" + style_prompt_text(style or DEFAULT_BY_FORMAT["short"])
+
+
+def system_blocks(stage, style=None):
+    parts = [COMMON, ROLE[stage], style_text(style)]  # style system hook
     if stage == "direct":
         parts.append(vocab_text())
     rec = stage_recipe_text(stage)

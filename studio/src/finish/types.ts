@@ -44,5 +44,25 @@ export type FinishProps = {
   steps?: StepSpan[];
   range?: { from: number; to: number }; // film frames rendered [from, to)
   propsFile?: string; // staticFile-relative props.json; merged under explicit props by calculateMetadata
-  grade?: { contrast?: number; vignette?: number; grain?: number; halation?: number };
+  grade?: { contrast?: number; vignette?: number; grain?: number; halation?: number; coolShadows?: number };
+  // style system (factory/styles finish_props, written into props.json by make_plates_manifest.py)
+  captionStyle?: CaptionStyle;
+  transitions?: Transition[]; // allowed transitions; any other automatic choice becomes a cut
+};
+
+export type CaptionStyle = {
+  mode: "kinetic" | "lower_third";
+  font: "Inter" | "SourceSerif4";
+  weight: number;
+  italic?: boolean;
+  capHeight?: [number, number]; // px
+  fill: string;
+  stroke: string | null;
+  strokeEm: number;
+  shadow: boolean;
+  pop: number; // emphasised word scale
+  plate: string | null; // CSS background behind a lower third
+  tones: Record<CaptionTone, string>;
+  safe: { x0: number; x1: number; y0: number; y1: number };
+  band: { y0: number; y1: number };
 };

@@ -10,9 +10,10 @@
     "$schema": { "type": "string" },
     "version": { "type": "integer", "minimum": 1, "description": "Spec format version (extension). Currently 1." },
     "source": { "type": "object", "description": "Provenance (extension): exporter name, source files, export time.", "additionalProperties": true },
+    "style": { "type": "object", "additionalProperties": true, "description": "Extension: the resolved house style stamped by factory/styles apply_style_to_episode (schema factory/styles/style.schema.json)." },
     "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
     "title": { "type": "string", "minLength": 1 },
-    "fps": { "const": 30 },
+    "fps": { "enum": [24, 25, 30], "description": "30 for shorts (house style); the style system (factory/styles) may retime to 24 or 25." },
     "width": { "const": 1080 },
     "height": { "const": 1920 },
     "durationFrames": { "type": "integer", "minimum": 1 },
@@ -35,7 +36,8 @@
         "moonDir": { "$ref": "#/$defs/vec3", "description": "Direction TO the moon (not normalised). Also sets the glitter path." },
         "seaState": { "type": "number", "minimum": 0, "description": "1 = reference sea, 1.6 = rough, 2.2 = storm." },
         "dawn": { "type": "number", "minimum": 0, "maximum": 1, "description": "0 = night, 1 = full dawn." },
-        "island": { "oneOf": [{ "$ref": "#/$defs/island" }, { "type": "null" }] }
+        "island": { "oneOf": [{ "$ref": "#/$defs/island" }, { "type": "null" }] },
+        "lighting": { "type": "object", "additionalProperties": true, "description": "Extension: cloud/blender/lighting.py world lighting {preset, sequences: {<seq>: {preset, ...params}}, ...params}; stamped from the style's time-of-day table." }
       }
     },
     "assets": {
