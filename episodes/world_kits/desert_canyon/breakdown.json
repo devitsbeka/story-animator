@@ -1,0 +1,49 @@
+{
+ "id": "wk_desert_canyon",
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Desert canyon by day",
+   "location": "desert_canyon_loc",
+   "time_of_day": "day",
+   "weather": "clear",
+   "line_ids": [
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "picture": "box the hero in with towering walls",
+   "elements": [
+    "desert_canyon_loc",
+    "hero"
+   ]
+  }
+ ],
+ "elements": [
+  {
+   "id": "desert_canyon_loc",
+   "kind": "location",
+   "name": "Sandstone desert canyon",
+   "search_terms": [
+    "desert canyon",
+    "gorge",
+    "sandstone"
+   ],
+   "must_do": [
+    "box the hero in with towering walls",
+    "bake in midday sun"
+   ]
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "name": "Hero",
+   "must_do": [
+    "act"
+   ],
+   "search_terms": [
+    "hero"
+   ]
+  }
+ ]
+}

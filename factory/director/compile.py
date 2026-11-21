@@ -16,7 +16,7 @@ DEFAULT_HANDHELD, DEFAULT_DRIFT = 0.15, 0.08
 
 def _point(p, isl, sf):
     fr, v = p["frame"], p["v"]
-    if fr in ("yacht", "world"):
+    if fr in ("yacht", "world", "set"):  # set: world-kit local = world (world_kits)
         return list(v)
     if fr == "shore":
         s, (ux, uz), (px, pz) = sf
@@ -26,12 +26,14 @@ def _point(p, isl, sf):
     raise ValueError(fr)
 
 
-def compile_camera(s, isl):
+def compile_camera(s, isl, marks=None):
     c = s["camera"]
     f0, f1 = s["from"], s["to"]
     if c["rig"] == "orbit":
-        out = cam.orbit(MARKS[c["mark"]], f0, f1, c["az"], c["dist"], c["height"], c["fov"], c["ease"],
+        out = cam.orbit((marks or MARKS)[c["mark"]], f0, f1, c["az"], c["dist"], c["height"], c["fov"], c["ease"],
                         c.get("target", "chest"), tuple(c.get("aim", (0, 0, 0))))
+        if marks is not None:
+            out["space"] = "world"  # world_kits: kit marks are set-local = world
     else:
         sf = shore_frame(isl) if isl else None
         cams = [_point(p, isl, sf) for p in c["cam"]]
@@ -44,14 +46,14 @@ def compile_camera(s, isl):
     return out
 
 
-def compile_hero(h):
-    mark = MARKS[h["mark"]]
+def compile_hero(h, marks=None, space="yacht"):
+    mark = (marks or MARKS)[h["mark"]]
     stance = [[-10000, h["stance"]]] + [list(x) for x in h.get("stance_changes", [])]
     poses = [{"pose": p["pose"], "from": p["from"], "to": p["to"], "in": p.get("in", 8), "out": p.get("out", 10),
               "ease": p.get("ease", "smooth")} for p in h.get("poses", [])]
     verbs = [{"verb": v["verb"], "at": v["at"], "dur": v.get("dur", 24), "amount": v.get("amount", 1.0)} for v in h.get("verbs", [])]
     perf = {"stance": stance, "poses": poses, "verbs": verbs, "breath": h.get("breath", 1.0), "seed": h.get("seed", 1), "blend": 12}
-    return [{"asset": "hero", "space": "yacht", "local": list(mark["local"]), "rotY": round(mark["rotY"], 5), "height": 1.8,
+    return [{"asset": "hero", "space": space, "local": list(mark["local"]), "rotY": round(mark["rotY"], 5), "height": 1.8,
              "perf": perf, "tracks": [{"clip": "none", "from": 0}]}]
 
 
@@ -62,7 +64,39 @@ def compile_prop(p):
     return out
 
 
-def compile_shot(s, world_island):
+# >>> world_kits: a shot on a world-kit set
+def shot_kit(s, world_set=None):
+    from factory.worlds import kits
+    k = s.get("set") or world_set
+    if not k:
+        return None
+    kit = kits.load(k)
+    return None if kit.get("legacy") else kit
+
+
+def compile_set_shot(s, kit):
+    from factory.worlds import layout
+    seed = s.get("set_seed", kit.get("seed", 0))
+    marks = layout.marks(kit, seed)
+    out = {"id": s["id"], "title": s["title"], "from": s["from"], "to": s["to"],
+           "keyFrame": s.get("key_frame", (s["from"] + s["to"]) // 2), "camera": compile_camera(s, None, marks),
+           "set": {"kit": kit["id"], "seed": seed, "ambience": [a["id"] for a in kit.get("ambience", [])]},
+           "island": None,
+           "lighting": {"preset": kit["lighting"]["preset"], **(kit["lighting"].get("overrides") or {})},
+           "env": {"moonDir": list(kit["sky"]["key_dir"]), "dawn": float(kit["sky"].get("dawn", 0.0)), **(s.get("env") or {})}}
+    out["env"].pop("seaState", None)
+    if s.get("hero"):
+        out["actors"] = compile_hero(s["hero"], marks, "set")
+    if s.get("props"):
+        out["props"] = [compile_prop(p) for p in s["props"]]
+    return out
+# <<< world_kits
+
+
+def compile_shot(s, world_island, world_set=None):
+    kit = shot_kit(s, world_set)
+    if kit is not None:
+        return compile_set_shot(s, kit)
     isl_name = s["island"]
     isl = dict(ISLANDS[isl_name]) if isl_name else None
     ys = dict(s["yacht"])
@@ -105,7 +139,7 @@ def captions(story, offset):
 
 
 def compile_episode(plan, story, manifest, out_dir):
-    shots = [compile_shot(s, plan["world"]["island"]) for s in plan["shots"]]
+    shots = [compile_shot(s, plan["world"]["island"], plan["world"].get("set")) for s in plan["shots"]]
     chars, props = {}, {}
     for e in manifest["entries"]:
         rk = e.get("render_key", "")
@@ -131,6 +165,8 @@ def compile_episode(plan, story, manifest, out_dir):
     }
     if fmt == "docuseries":
         _dual_frame(ep, plan, story)
+    if w.get("set"):  # world_kits
+        ep["world"]["set"] = {"kit": w["set"]}
     return ep
 
 

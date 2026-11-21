@@ -26,6 +26,31 @@ FORMAT = {
 }
 
 
+# >>> world_kits: shots staged on a world kit use that kit's marks (factory/worlds)
+def _kit_ids():
+    from factory.worlds import kits
+    return set(kits.kit_ids())
+
+
+def shot_kit(s, plan):
+    """The (non-legacy) world kit a shot plays on, or None for the yacht/island world."""
+    from factory.worlds import kits
+    k = s.get("set") or (plan.get("world") or {}).get("set")
+    if not k or k not in _kit_ids():
+        return None
+    kit = kits.load(k)
+    return None if kit.get("legacy") else kit
+
+
+def shot_marks(s, plan):
+    kit = shot_kit(s, plan)
+    if kit is None:
+        return MARKS
+    from factory.worlds import layout
+    return layout.marks(kit, s.get("set_seed"))
+# <<< world_kits
+
+
 def _line_map(story):
     return {ln["id"]: ln for ln in story["narration"]}
 
@@ -350,7 +375,8 @@ def check_manifest(man, bd, catalog):
         el = e["element"]
         rep.hard(f"M-licence.{el}", e["licence"] in OK_LICENCES, f"{el}: licence {e['licence']!r} is not on the allow-list {sorted(OK_LICENCES)}")
         if e["decision"] == "REUSE":
-            rep.hard(f"M-reuse.{el}", e.get("catalog_id") in assets or e.get("catalog_id", "").startswith("int:"),
+            rep.hard(f"M-reuse.{el}", e.get("catalog_id") in assets or e.get("catalog_id", "").startswith("int:")
+                     or (e.get("catalog_id", "").startswith("kit:") and e["catalog_id"][4:] in _kit_ids()),  # world_kits
                      f"{el}: REUSE needs a catalog_id ({e.get('catalog_id')!r})")
         elif e["decision"] == "SOURCE":
             rep.hard(f"M-source.{el}", bool(e.get("provider") and e.get("asset_id") and e.get("url")),
@@ -406,14 +432,19 @@ def check_shotplan(plan, story, bd, man, words=None):
     used_props = set()
     for s in shots:
         cam = s["camera"]
+        if (s.get("set") or plan["world"].get("set")) and not ({s.get("set"), plan["world"].get("set")} - {None}) <= _kit_ids():
+            rep.hard(f"V-set.{s['id']}", False, f"{s['id']}: unknown world kit {s.get('set') or plan['world'].get('set')}; kits: {sorted(_kit_ids())}")
+        kit = shot_kit(s, plan)
+        marks = shot_marks(s, plan)
         if cam["rig"] == "orbit":
-            rep.hard(f"V-orbit.{s['id']}", cam.get("mark") in MARKS and all(k in cam for k in ("az", "dist", "height")),
-                     f"{s['id']}: orbit needs a known mark {sorted(MARKS)} and az/dist/height")
+            rep.hard(f"V-orbit.{s['id']}", cam.get("mark") in marks and all(k in cam for k in ("az", "dist", "height")),
+                     f"{s['id']}: orbit needs a known mark {sorted(marks)} and az/dist/height")
         else:
             ok = "cam" in cam and "look" in cam
             frames = {p["frame"] for p in cam.get("cam", []) + cam.get("look", [])}
             space = cam.get("space", "world")
             ok = ok and (frames <= {"yacht"} if space == "yacht" else "yacht" not in frames)
+            ok = ok and ("set" not in frames or kit is not None)
             rep.hard(f"V-path.{s['id']}", ok, f"{s['id']}: path needs cam+look points whose frames match space={space}")
             if frames & {"shore", "island"}:
                 rep.hard(f"V-island.{s['id']}", s["island"] is not None, f"{s['id']}: shore/island points need an island in the shot")
@@ -421,7 +452,7 @@ def check_shotplan(plan, story, bd, man, words=None):
         if h:
             names = [h["stance"]] + [c[1] for c in h.get("stance_changes", [])]
             rep.hard(f"V-stance.{s['id']}", all(n in voc["stances"] for n in names), f"{s['id']}: stances {names} not in {voc['stances']}")
-            rep.hard(f"V-mark.{s['id']}", h["mark"] in MARKS, f"{s['id']}: unknown hero mark {h['mark']}")
+            rep.hard(f"V-mark.{s['id']}", h["mark"] in marks, f"{s['id']}: unknown hero mark {h['mark']} (marks: {sorted(marks)})")
             bad_p = [p["pose"] for p in h.get("poses", []) if p["pose"] not in voc["poses"]]
             rep.hard(f"V-pose.{s['id']}", not bad_p, f"{s['id']}: unknown poses {bad_p}; use {voc['poses']}")
             bad_v = [v["verb"] for v in h.get("verbs", []) if v["verb"] not in voc["verbs"]]
@@ -429,6 +460,16 @@ def check_shotplan(plan, story, bd, man, words=None):
             rep.check(f"A-acting.{s['id']}", bool(h.get("poses") or h.get("verbs") or h.get("stance_changes")) or s["size"] in WIDE_SIZES
                       or s.get("suspense_hold") or s["camera"]["preset"] in ("rise_overhead", "crane_up", "pull_back"),
                       f"{s['id']}: the hero is on screen but has no motivated action (pose/verb/stance change)")
+        if kit is not None:  # world_kits: the set replaces the yacht/island world
+            rep.hard(f"V-set-world.{s['id']}", s["yacht"]["state"] == "absent" and s["island"] is None,
+                     f"{s['id']}: a shot on world kit {kit['id']} must have yacht.state absent and island null")
+            from . import compile as comp
+            from factory.worlds import layout
+            if cam["rig"] != "orbit" or cam.get("mark") in marks:
+                plan_k = layout.layout(kit, s.get("set_seed"), with_grid=False)
+                keys = comp.compile_camera(s, None, marks)["keys"]
+                probs = sorted({p for k in (keys[0], keys[len(keys) // 2], keys[-1]) for p in layout.camera_check(kit, plan_k, k["cam"])})
+                rep.check(f"K-camera-safe.{s['id']}", not probs, f"{s['id']}: " + "; ".join(probs[:3]))
         for p in s.get("props", []):
             used_props.add(p["prop"])
             rep.hard(f"V-prop.{s['id']}", p["prop"] in voc["props"], f"{s['id']}: prop {p['prop']!r} has no builder in cloud/blender/props.py")

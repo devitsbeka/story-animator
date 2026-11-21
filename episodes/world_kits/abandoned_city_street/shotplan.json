@@ -1,0 +1,213 @@
+{
+ "id": "wk_abandoned_city_street",
+ "audio_offset_frames": 3,
+ "world": {
+  "moonDir": [
+   0.3,
+   0.55,
+   0.8
+  ],
+  "seaState": 0,
+  "dawn": 0,
+  "island": null,
+  "set": "abandoned_city_street"
+ },
+ "action_line": "hero faces +z; cameras stay on the hero's left (az < 0)",
+ "shots": [
+  {
+   "id": "K01",
+   "title": "Empty street",
+   "from": 0,
+   "to": 75,
+   "scene": "S01",
+   "line_ids": [
+    "L01"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "set",
+      "v": [
+       0.8,
+       2.2,
+       -12.0
+      ]
+     },
+     {
+      "frame": "set",
+      "v": [
+       0.6,
+       1.9,
+       -8.0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "set",
+      "v": [
+       0.0,
+       1.2,
+       0.0
+      ]
+     },
+     {
+      "frame": "set",
+      "v": [
+       0.0,
+       1.1,
+       1.0
+      ]
+     }
+    ],
+    "fov": [
+     42,
+     36
+    ],
+    "ease": "move",
+    "handheld": 0.08,
+    "drift": 0.05
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "abandoned_city_street",
+   "hero": {
+    "mark": "STREET_CENTER",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 15,
+      "to": 70
+     }
+    ],
+    "verbs": [],
+    "seed": 1
+   }
+  },
+  {
+   "id": "K02",
+   "title": "Under the lamp",
+   "from": 75,
+   "to": 150,
+   "scene": "S01",
+   "line_ids": [
+    "L02"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "LAMP_POST",
+    "az": [
+     8,
+     22
+    ],
+    "dist": [
+     4.4,
+     3.8
+    ],
+    "height": [
+     0.3,
+     0.2
+    ],
+    "target": "chest",
+    "fov": [
+     36,
+     32
+    ],
+    "ease": "move",
+    "handheld": 0.1,
+    "drift": 0.06
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "abandoned_city_street",
+   "hero": {
+    "mark": "LAMP_POST",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "look_right",
+      "from": 85,
+      "to": 140
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "step_back",
+      "at": 110,
+      "dur": 20
+     }
+    ],
+    "seed": 2
+   }
+  },
+  {
+   "id": "K03",
+   "title": "Behind the wreck",
+   "from": 150,
+   "to": 225,
+   "scene": "S01",
+   "line_ids": [
+    "L03"
+   ],
+   "size": "MCU",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "tension_push",
+    "rig": "orbit",
+    "mark": "CAR_COVER",
+    "az": [
+     -25,
+     -15
+    ],
+    "dist": [
+     1.6,
+     1.4
+    ],
+    "height": [
+     0.05,
+     0.05
+    ],
+    "target": "face",
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "handheld": 0.1,
+    "drift": 0.06
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "abandoned_city_street",
+   "hero": {
+    "mark": "CAR_COVER",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "shush",
+      "from": 160,
+      "to": 222
+     }
+    ],
+    "verbs": [],
+    "seed": 3
+   }
+  }
+ ],
+ "overrides": []
+}

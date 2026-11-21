@@ -1,0 +1,49 @@
+{
+ "id": "wk_abandoned_city_street",
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Abandoned city street at night",
+   "location": "abandoned_city_street_loc",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "picture": "stretch away empty",
+   "elements": [
+    "abandoned_city_street_loc",
+    "hero"
+   ]
+  }
+ ],
+ "elements": [
+  {
+   "id": "abandoned_city_street_loc",
+   "kind": "location",
+   "name": "Abandoned city street",
+   "search_terms": [
+    "city street",
+    "abandoned",
+    "downtown"
+   ],
+   "must_do": [
+    "stretch away empty",
+    "hum under one lit lamp"
+   ]
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "name": "Hero",
+   "must_do": [
+    "act"
+   ],
+   "search_terms": [
+    "hero"
+   ]
+  }
+ ]
+}

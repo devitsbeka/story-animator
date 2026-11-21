@@ -7,6 +7,10 @@ Order (factory/ARCHITECTURE.md, sourcing priority):
   4. SOURCE from Poly Haven search (CC0) - status to_fetch until polyhaven.py fetch registers hashes
   5. BUILD a new procedural recipe proc:<element> (or remotion:<element> for overlays) - status to_build
 
+World kits (factory/worlds): a location/set the internal catalog does not cover is matched to a world kit
+(REUSE kit:<id>, render_key set:<id>); a location with no kit gets a BUILD kit:<id> with a kit_proposal drafted
+from the library (factory/worlds/match.py) instead of a Poly Haven model search.
+
 Matching is on search_terms[0] (the primary noun): every word of it must appear in the candidate's id,
 name or tags. Poly Haven hits must also match on the asset id or name (tags alone are too loose: a search
 for 'coral' returns a shell tagged 'coral').
@@ -151,6 +155,23 @@ def resolve(breakdown, catalog=None, ph=None):
                 e["reason"] += "; NOTE: not yet listed in factory/library/catalog.json"
             entries.append(e)
             continue
+        # >>> world_kits: locations/sets -> a world kit (reuse) or a proposed new kit (build)
+        if kind in ("location", "set"):
+            from factory.worlds import match as kitmatch
+            km = kitmatch.match(el, breakdown.get("scenes"))
+            if km:
+                entries.append({**base, "decision": "REUSE", "catalog_id": f"kit:{km[0]}", "provider": "internal", "licence": "proprietary (ours)",
+                                "render_key": f"set:{km[0]}", "status": "ready", "reason": km[2]})
+                continue
+            if kind == "location" and not el.get("story_specific"):
+                prop = kitmatch.propose(el, breakdown.get("scenes"), catalog.get("assets", {}))
+                kid = prop["kit"]["id"]
+                entries.append({**base, "decision": "BUILD", "recipe": f"kit:{kid}", "render_key": f"set:{kid}", "licence": "proprietary (ours)",
+                                "status": "to_build", "kit_proposal": prop,
+                                "reason": f"no world kit for '{term}': proposed kit '{kid}' from the library"
+                                          + (f" ({len(prop['errors'])} gaps)" if prop["errors"] else " (valid; write it with python -m factory.worlds propose)")})
+                continue
+        # <<< world_kits
         if kind == "prop":
             bk = next((k for k, fn in blds.items() if fn not in catalogued_fns and _matches(term, _tokens(k, fn))), None)
             if bk:

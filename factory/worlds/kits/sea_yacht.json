@@ -1,0 +1,18 @@
+{
+ "$schema": "../kit.schema.json",
+ "id": "sea_yacht",
+ "name": "Open sea with the 14 m yacht (and the island)",
+ "version": 1,
+ "description": "The original Sentinel world, registered as a kit so the librarian can map sea/yacht/island locations to it. It is built by render_episode.py's yacht/island path (FFT ocean, yacht GLB, OSM island), not by the set assembler; its marks are factory/director/staging.py MARKS (yacht-local).",
+ "tags": ["ocean", "sea", "open sea", "yacht", "boat", "sailing", "deck", "island", "reef", "shipwreck", "castaway", "night"],
+ "legacy": "yacht_island",
+ "extent": {"half": [3000, 3000]},
+ "terrain": {"type": "none"},
+ "sky": {"type": "night_procedural", "time_of_day": "night", "key_dir": [0.12, 0.3, 1.0], "dawn": 0.0},
+ "lighting": {"preset": "moonlight_practical_mix"},
+ "scatter": [],
+ "pieces": [],
+ "marks": {"HELM": {"at": [0.55, 1.42, -4.30], "rotY": 0.0, "kind": "stand", "desc": "see factory/director/staging.py MARKS (yacht-local)"}},
+ "camera_zones": [{"id": "anywhere", "region": {"shape": "all"}, "y": [0.3, 3000]}],
+ "ambience": [{"id": "el:sfx_ocean_waves", "gain_db": -14}, {"id": "el:sfx_wind_sea", "gain_db": -22}]
+}

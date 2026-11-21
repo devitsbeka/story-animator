@@ -1,0 +1,26 @@
+{
+ "id": "wk_snow_mountain_ridge",
+ "format": "short",
+ "title": "World kit proof: Snow mountain ridge at golden hour",
+ "duration_s": 7.5,
+ "narration": [
+  {
+   "id": "L01",
+   "t0": 0.1,
+   "t1": 2.3,
+   "text": "The ridge is a knife edge of snow."
+  },
+  {
+   "id": "L02",
+   "t0": 2.6,
+   "t1": 4.8,
+   "text": "One step wrong and the mountain decides."
+  },
+  {
+   "id": "L03",
+   "t0": 5.1,
+   "t1": 7.3,
+   "text": "The summit is closer than the dark."
+  }
+ ]
+}

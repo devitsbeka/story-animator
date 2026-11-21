@@ -44,12 +44,22 @@ PROP = {
     "type": "object", "additionalProperties": False, "required": ["prop", "attach"],
     "description": "cloud/blender/render_episode.py build_props(): a props.py BUILDERS key attached to the yacht or a hand.",
     "properties": {
-        "prop": {"type": "string"}, "attach": {"enum": ["yacht", "handR", "handL"]}, "actor": {"type": "string"},
+        "prop": {"type": "string"}, "attach": {"enum": ["yacht", "handR", "handL", "set"]}, "actor": {"type": "string"},
         "local": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
         "rotY": {"type": "number"}, "rot": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
         "scale": {"type": "number"}, "light": _KEYS, "show": _KEYS, "strobe": {"type": "integer"},
     },
 }
+
+
+SET_REF = {
+    "type": "object", "additionalProperties": False, "required": ["kit"],
+    "description": "World kit set (factory/worlds/kits/<kit>.json) built by cloud/blender/set_assembly.py instead of the yacht/island world.",
+    "properties": {"kit": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "seed": {"type": "integer", "minimum": 0},
+                   "ambience": {"type": "array", "items": {"type": "string"}, "description": "the kit's ambience bed ids (for stage 5)"}},
+}
+LIGHTING = {"type": "object", "description": "cloud/blender/lighting.py: {preset, ...preset parameters, cheat_reason, light_event}",
+            "properties": {"preset": {"type": "string"}}}
 
 
 @functools.lru_cache(maxsize=1)
@@ -59,6 +69,13 @@ def render_contract():
     s["$defs"]["actor"]["properties"]["perf"] = PERF
     s["$defs"]["shot"]["properties"]["props"] = {"type": "array", "items": PROP}
     _docuseries_contract(s)
+    # >>> world_kits: shots on a world-kit set (cloud/blender/set_assembly.py) + per-shot lighting presets
+    s["$defs"]["shot"]["properties"]["set"] = SET_REF
+    s["$defs"]["shot"]["properties"]["lighting"] = LIGHTING
+    s["properties"]["world"]["properties"]["set"] = SET_REF
+    s["properties"]["world"]["properties"]["lighting"] = LIGHTING
+    s["$defs"]["actor"]["properties"]["space"] = {"enum": ["yacht", "set"], "description": "yacht: yacht-local; set: world-kit set space (= world)"}
+    # <<< world_kits
     Draft202012Validator.check_schema(s)
     return s
 

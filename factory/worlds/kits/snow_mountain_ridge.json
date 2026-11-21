@@ -1,0 +1,44 @@
+{
+ "$schema": "../kit.schema.json",
+ "id": "snow_mountain_ridge",
+ "name": "Snow mountain ridge at golden hour",
+ "version": 1,
+ "description": "A narrow snow ridge high above a valley in low golden light: a small saddle to stand on, the crest climbing away in both directions, rock outcrops breaking through the snow, firs far below, a stone cairn, a ring of distant peaks.",
+ "tags": ["snow", "mountain", "ridge", "summit", "peak", "alpine", "himalaya", "climb", "mountaineering", "ice", "cold", "winter", "expedition", "cairn"],
+ "seed": 37,
+ "extent": {"half": [150, 200]},
+ "terrain": {
+  "type": "ridge", "res": 150, "amp": 2.6, "freq": 0.022, "octaves": 5,
+  "params": {"slope": 0.72, "curve": 0.0008, "crest_w": 3.0, "crest_amp": 4.0, "crest_len": 320, "rise": 0.07},
+  "clearings": [{"at": [0, 0], "r": 3.5, "blend": 6}],
+  "material": {"texture": "ph:snow_02", "tile_m": 3.0, "color": [0.86, 0.89, 0.94], "tint": [0.97, 0.98, 1.0], "roughness": 0.55, "sparkle": 0.6,
+               "steep": {"texture": "ph:rocky_terrain_02", "tile_m": 6.0, "from_deg": 40, "to_deg": 52, "tint": [0.7, 0.72, 0.76], "color": [0.22, 0.21, 0.2]}},
+  "backdrop": {"type": "mountains", "r": [2600, 6500], "height": [350, 1200], "snowline": 0.3, "haze": 0.5}
+ },
+ "sky": {"type": "day_physical", "time_of_day": "dusk", "key_dir": [-0.72, 0.3, 0.62], "weather": "clear", "air": 0.6, "dust": 0.3, "strength": 0.35},
+ "lighting": {"preset": "golden_hour", "overrides": {"key_elev_deg": 16.0}},
+ "scatter": [
+  {"id": "outcrops", "assets": ["ph:boulder_01", "ph:rock_09"], "density": 0.28,
+   "region": {"shape": "all"}, "height": [0.6, 3.2], "sink": 0.5, "tilt_deg": 12, "slope_min_deg": 14},
+  {"id": "firs", "assets": ["ph:fir_tree_01"], "density": 0.16,
+   "region": {"shape": "all"}, "height": [9, 16], "sink": 0.4, "y_range": [-400, -45], "slope_max_deg": 46}
+ ],
+ "pieces": [
+  {"id": "shelter_rock", "builder": "lib:ph:boulder_01", "at": [-3.4, -4.2], "rotY": 0.9, "height": 2.2, "footprint": 1.9, "y": -0.4},
+  {"id": "cairn", "builder": "proc:cairn", "at": [1.6, 7.2], "footprint": 0.6, "opts": {"height": 1.3}}
+ ],
+ "marks": {
+  "CREST": {"at": [0, 0], "rotY": 0.0, "kind": "stand", "desc": "on the saddle, facing along the ridge (+z) toward the summit"},
+  "LOOKOUT": {"at": [1.0, 5.8], "rotY": 1.5708, "kind": "stand", "interaction": "cairn", "target": "cairn", "desc": "beside the cairn, facing out over the valley (+x)"},
+  "SHELTER": {"at": [-2.0, -3.0], "rotY": 0.5, "kind": "sit", "interaction": "rock", "target": "shelter_rock", "desc": "sitting in the lee of the outcrop, facing the crest"},
+  "CLIMB_UP": {"at": [0.3, -12], "rotY": 0.0, "kind": "walk", "desc": "climbing up the crest toward the saddle (+z)"}
+ },
+ "camera_zones": [
+  {"id": "crest", "region": {"shape": "rect", "center": [0, 0], "size": [18, 120]}, "y": [0.4, 14], "desc": "on and around the crest"},
+  {"id": "aerial", "region": {"shape": "all"}, "y": [18, 400], "desc": "drone / helicopter positions off the ridge"}
+ ],
+ "lights": [],
+ "ambience": [{"id": "el:sfx_wind_sea", "gain_db": -20},
+              {"id": "sfx_mountain_wind", "status": "to_generate", "prompt": "high altitude mountain wind, steady roar with gusts, snow spindrift hiss, cold and empty", "gain_db": -16}],
+ "provenance": {"author": "factory/worlds starter kit", "assets": "Poly Haven CC0 (catalog ph:*); terrain procedural"}
+}

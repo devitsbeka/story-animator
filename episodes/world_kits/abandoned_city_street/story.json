@@ -1,0 +1,26 @@
+{
+ "id": "wk_abandoned_city_street",
+ "format": "short",
+ "title": "World kit proof: Abandoned city street at night",
+ "duration_s": 7.5,
+ "narration": [
+  {
+   "id": "L01",
+   "t0": 0.1,
+   "t1": 2.3,
+   "text": "Every street looks the same after the end."
+  },
+  {
+   "id": "L02",
+   "t0": 2.6,
+   "t1": 4.8,
+   "text": "Stay under the light and they see you."
+  },
+  {
+   "id": "L03",
+   "t0": 5.1,
+   "t1": 7.3,
+   "text": "Stay in the dark and you see them."
+  }
+ ]
+}

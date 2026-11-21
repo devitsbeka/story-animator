@@ -1,0 +1,32 @@
+{
+ "id": "wk_desert_canyon",
+ "entries": [
+  {
+   "element": "desert_canyon_loc",
+   "kind": "location",
+   "decision": "REUSE",
+   "catalog_id": "kit:desert_canyon",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "render_key": "set:desert_canyon",
+   "status": "ready",
+   "reason": "world kit 'desert_canyon' (primary term match, 4 shared terms, same time of day)"
+  },
+  {
+   "element": "hero",
+   "kind": "character",
+   "decision": "REUSE",
+   "catalog_id": "int:hero",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Series hero (sailor) rig with face and eye engine (matched 'hero'); NOTE: not yet listed in factory/library/catalog.json",
+   "render_key": "characters/hero"
+  }
+ ],
+ "attributions": [],
+ "summary": {
+  "REUSE": 2,
+  "ready": 2
+ }
+}
