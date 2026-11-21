@@ -21,3 +21,4 @@ cloud/**/.cache/
 *.blend1
 asset_sources/motions_raw/
 library_store/
+.claude/worktrees/
