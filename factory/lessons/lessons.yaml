@@ -1,0 +1,130 @@
+# LESSONS LEDGER: every defect found (by the user, QC or review) becomes a rule with an automated check.
+# A lesson is "closed" only when its check exists, runs in the pipeline (previs/QC/merge gate) and fails on the
+# original defect. The director and every agent brief read the open + closed rules (factory/lessons/__init__.py).
+# Fields: id, found (who/when), symptom, root_cause, rule, check (how it is enforced), gate (where), status.
+
+- id: L001
+  found: user, 2026-11-21
+  symptom: Character's eyes look "crazy" (wide painted stare); later the MakeHuman face looked uncanny/creepy.
+  root_cause: Generated character had painted eyes on a sparse mesh (no eyelids/face rig); realistic generator faces fall in the uncanny valley.
+  rule: Heroes must be production rigs with real eyeballs, eyelids and a face rig (CloudRig/ARKit-class). Neutral upper lid covers the top of the iris; no full-sclera stare unless the emotion is shock/fear.
+  check: asset gate rejects characters without eye bones/lid controls; face QC measures sclera-above-iris in neutral close-ups (vision rubric item FACE-1).
+  gate: [asset, qc]
+  status: partially-closed
+
+- id: L002
+  found: user, 2026-11-21
+  symptom: Scenes didn't match the voiceover; same deck spot and same camera orbit for every beat.
+  root_cause: Beats were authored as camera moves, not as story pictures; only 3 motion clips existed.
+  rule: Every narration line maps to a picture that shows what the line says; the hero does an action motivated by the line.
+  check: director breakdown check (every line -> picture + action); shot validator story-context rule; vision rubric STORY-1 (does the frame show the line?).
+  gate: [develop, direct, qc]
+  status: closed
+
+- id: L003
+  found: user, 2026-11-21
+  symptom: Character "doing fucked up movements".
+  root_cause: Meshy rig bones were ~35 m long and unconnected so IK never bent; reused canned clips.
+  rule: Rigs must pass an IK sanity test (limbs bend, targets reached within 2 cm) before use; performances are authored per shot.
+  check: cloud/blender/test/cloudrig_adapter_test.py (12-pose IK reach test) in the merge gate.
+  gate: [asset, merge]
+  status: closed
+
+- id: L004
+  found: user, 2026-11-21
+  symptom: Weird close-ups of the character instead of story-first framing; not immersive.
+  root_cause: Cameras defaulted to tight orbits around the hero.
+  rule: Story-first framing - <= 25% of shots CU or tighter, no more than 3 tight shots in a row, each location established with a wide, hero shots show the island/fires/boat context.
+  check: factory/direction/shot_validator.py (C1-C14, CTX) blocks; QC framing check.
+  gate: [direct, qc]
+  status: closed
+
+- id: L005
+  found: user, 2026-11-21
+  symptom: Lighting inconsistent and not cinematic across scenes.
+  root_cause: Hero-parented camera-relative lights; no sequence lighting.
+  rule: One world-fixed key per sequence (azimuth within +-15 deg), motivated sources, face exposure continuity within 1/3 stop between adjacent shots.
+  check: python3 cloud/blender/lighting.py --check <episode>; QC face-exposure continuity on plates.
+  gate: [direct, qc]
+  status: closed
+
+- id: L006
+  found: user, 2026-11-21
+  symptom: Video would not play / stalled after 11 s on phone.
+  root_cause: 43 MB file without faststart; poor streaming profile.
+  rule: Deliverables are H.264 High, yuv420p, +faststart, keyframe every 1 s, capped bitrate; a mobile-safe copy accompanies every delivery.
+  check: QC video rules (codec/profile/faststart/GOP) on every final; delivery script refuses otherwise.
+  gate: [qc, deliver]
+  status: open
+
+- id: L007
+  found: QC, 2026-11-21
+  symptom: Old draft stepped at 10 fps, captions above the safe area, -18.6 LUFS, black first frame, silent start.
+  root_cause: Preview hacks reached the final; no automated final checks.
+  rule: Finals are true 30 fps (no duplicated frames), captions inside the platform safe area, -14 LUFS +-1 / TP <= -1 dBTP, no black/frozen frames, audio from frame 0.
+  check: factory/qc (TECH/CAP/AUDIO rules) - publish blocked on any HARD failure.
+  gate: [qc]
+  status: closed
+
+- id: L008
+  found: user, 2026-11-22
+  symptom: Boat is low detail.
+  root_cause: Hero vehicle was a box-built placeholder from the early WebGL kit.
+  rule: Any asset that appears in close or medium shots must meet the hero-asset bar (bevels, real sub-parts, materials with variation); placeholders are allowed only in previs and are flagged.
+  check: asset gate: per-asset 'tier' in catalog (placeholder|previs|hero); shots whose camera distance < 10 m to an asset require tier=hero; golden turnaround renders reviewed.
+  gate: [library, direct, merge]
+  status: open
+
+- id: L009
+  found: user, 2026-11-22
+  symptom: When sitting he leans backwards against a blank white box.
+  root_cause: Sit stance tuned for the previous rig; seated against an undetailed cabin wall.
+  rule: Seated poses sit on a real seat surface (pelvis contact), upright or forward-leaning unless the story says otherwise; backs only rest on detailed surfaces.
+  check: pose QC: pelvis-to-seat contact distance < 3 cm, spine pitch within the stance's allowed range; golden pose sheet regression.
+  gate: [direct, merge]
+  status: open
+
+- id: L010
+  found: user, 2026-11-22
+  symptom: Hands in weird positions; fingers splayed.
+  root_cause: Finger controls never driven; hand targets proportion-mapped from the old rig.
+  rule: Every pose has an explicit hand shape (relaxed curl default, never flat-splayed); holding = palm contact with the object.
+  check: pose QC: finger curl > threshold unless the shape is open_palm; hand-to-prop contact distance < 2 cm for grips; golden hand sheet regression.
+  gate: [direct, merge]
+  status: open
+
+- id: L011
+  found: user, 2026-11-22
+  symptom: Weird expressions.
+  root_cause: Emotion poses roughly calibrated on the new rig; no eye convergence/darts.
+  rule: Every emotion reads instantly and appealingly (clear brow shape, lid tension, mouth corners, 5-15% asymmetry); eyes converge on a target.
+  check: golden face sheet regression + vision rubric FACE-2 per emotion (must name the intended emotion).
+  gate: [merge, qc]
+  status: open
+
+- id: L012
+  found: user + review, 2026-11-22
+  symptom: Shots rendered brown/black; close-ups crop the face; some shots failed to render.
+  root_cause: Cameras inside geometry; framing tuned for the old hero's proportions; OOM on full island.
+  rule: Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
+  check: camera collision check vs yacht/set mesh proxies; framing check with rig head metrics; render runner fails the run on any missing plate; memory budget per shot (island LOD).
+  gate: [direct, render, qc]
+  status: open
+
+- id: L013
+  found: lead, 2026-11-22
+  symptom: Story schema exceeded the structured-output grammar limit; first live run failed instantly.
+  root_cause: Big JSON schemas sent as constrained decoding grammars.
+  rule: LLM stages fall back to JSON-in-prompt + local validation when a schema is too large; never fail the run on that.
+  check: tests/director (fallback path) in the merge gate.
+  gate: [merge]
+  status: closed
+
+- id: L014
+  found: lead, 2026-11-22
+  symptom: Live run cost $5.04 mostly on retries; prompt cache expired between attempts.
+  root_cause: 5-minute cache TTL vs 13-minute attempts; checklist only applied after drafting.
+  rule: Use 1-hour cache on recipe blocks; put the blocking checklist in the drafting prompt; cheaper model/effort for mechanical stages; per-stage cost ceiling.
+  check: run.json cost per stage vs ceiling; alert when attempts > 2.
+  gate: [run]
+  status: open
