@@ -48,6 +48,7 @@ import set_assembly  # noqa: E402  world_kits hook: any-idea sets (factory/world
 # >>> cloudrig hook: Blender Studio CloudRig humans (Jay / Phil / Rex) as actors (cloud/blender/cloudrig_adapter.py)
 import cloudrig_adapter  # noqa: E402
 # <<< cloudrig hook
+import scatter_lod  # noqa: E402  (island_lod: camera-aware LOD for the island's library instances)
 
 
 def log(*a):
@@ -945,7 +946,10 @@ def _inst(coll, parent, loc_spec, yaw, scale, name):
 
 def dress_island(root, isl, objs):
     """Replace stand-in vegetation with real CC0 library assets (Poly Haven): rows of tropical trees behind the
-    beach, shrubs/ferns at the treeline, coast rocks along the waterline. Deterministic (seeded by index)."""
+    beach, shrubs/ferns at the treeline, coast rocks along the waterline. Deterministic (seeded by index).
+    island_lod: instances are only planned here; build_shot creates them at camera-aware LOD once the camera is
+    keyed (scatter_lod.PLANNER.realize), and the GLB's stand-in palms and canopy blob are dropped."""
+    lod_on = scatter_lod.enabled()
     for o in objs:
         if o.name.startswith("palm_"):
             o.hide_render = True
@@ -956,14 +960,23 @@ def dress_island(root, isl, objs):
         return
     S = isl.get("scale", 1) * 1000.0
     coast = [(x * S, y * S) for x, y in geo["coast"]]
-    trees = [lib_collection(f"island_tree_0{i}", f"polyhaven/island_tree_0{i}/island_tree_0{i}_1k.gltf") for i in (1, 2, 3)]
-    trees = [t for t in trees if t[0]]
-    rocks = [lib_collection(n, f"polyhaven/{n}/{n}_1k.gltf") for n in ("coast_rocks_01", "coast_rocks_03", "coast_land_rocks_02")]
-    rocks = [r for r in rocks if r[0]]
-    under = [lib_collection(n, f"polyhaven/{n}/{n}_1k.gltf") for n in ("shrub_01", "fern_02")]
-    under = [u for u in under if u[0]]
+    # island_lod: (asset id, glTF path) of the assets in the store; nothing is imported until realize
+    avail = lambda ids: [(n, scatter_lod.ISLAND_ASSETS[n]) for n in ids if lib_path(scatter_lod.ISLAND_ASSETS[n]) or warn(f"library asset {n} missing")]
+    trees = avail(("island_tree_01", "island_tree_02", "island_tree_03"))
+    rocks = avail(("coast_rocks_01", "coast_rocks_03", "coast_land_rocks_02"))
+    under = avail(("shrub_01", "fern_02"))
     if not trees:
         return
+    if lod_on:  # the trees replace the stand-ins: free the hidden palms and the 468k-face canopy blob
+        drop = [o for o in objs if o.name.startswith(("palm_", "canopy")) and o.type == "MESH"]
+        for o in drop:
+            me = o.data
+            bpy.data.objects.remove(o, do_unlink=True)
+            if me.users == 0:
+                bpy.data.meshes.remove(me)
+        log(f"island: dropped {len(drop)} stand-in palm/canopy meshes")
+    scatter_lod.PLANNER.begin(LIB_STORE or os.path.join(ROOT, "library_store"))
+    plan = lambda a, loc, yaw, hgt, name: scatter_lod.PLANNER.add(a[0], a[1], root, obj_mat(trans(loc) @ rot_y(yaw)), hgt, name)
     hsh = lambda n: (math.sin(n * 127.1 + 311.7) * 43758.5453) % 1.0
     # resample the coast at even spacing
     def walk(step):
@@ -984,21 +997,21 @@ def dress_island(root, isl, objs):
             k = n * 1.37 + row * 91.1
             jit = (hsh(k) - 0.5) * step * 0.6
             px, py = x * shrink + jit * 0.3, y * shrink + jit * 0.3
-            coll, h = trees[int(hsh(k + 3) * len(trees)) % len(trees)]
+            tree = trees[int(hsh(k + 3) * len(trees)) % len(trees)]
             target_h = 13.0 + hsh(k + 5) * 9.0 + row * 2.0
-            _inst(coll, root, (px, base_h, py), hsh(k + 7) * 6.283, target_h / max(0.1, h), f"tree_{n}")
+            plan(tree, (px, base_h, py), hsh(k + 7) * 6.283, target_h, f"tree_{n}")
             n += 1
             if under and row < 2 and hsh(k + 11) < 0.6:
-                uc, uh = under[int(hsh(k + 13) * len(under)) % len(under)]
-                _inst(uc, root, (x * (shrink + 0.004), base_h, y * (shrink + 0.004)), hsh(k + 17) * 6.283, (1.6 + hsh(k + 19) * 1.4) / max(0.1, uh), f"under_{n}")
+                uc = under[int(hsh(k + 13) * len(under)) % len(under)]
+                plan(uc, (x * (shrink + 0.004), base_h, y * (shrink + 0.004)), hsh(k + 17) * 6.283, 1.6 + hsh(k + 19) * 1.4, f"under_{n}")
     if rocks:
         for j, (x, y) in enumerate(walk(22.0)):
             k = j * 2.71 + 500
             if hsh(k) < 0.45:
                 continue
-            rc, rh = rocks[int(hsh(k + 1) * len(rocks)) % len(rocks)]
-            _inst(rc, root, (x * 1.004, 0.0, y * 1.004), hsh(k + 2) * 6.283, (1.6 + hsh(k + 3) * 2.5) / max(0.1, rh), f"rock_{j}")
-    log(f"island dressed: {n} trees + understorey + rocks from the library")
+            rc = rocks[int(hsh(k + 1) * len(rocks)) % len(rocks)]
+            plan(rc, (x * 1.004, 0.0, y * 1.004), hsh(k + 2) * 6.283, 1.6 + hsh(k + 3) * 2.5, f"rock_{j}")
+    log(f"island dressing planned: {n} trees + {len(scatter_lod.PLANNER.items) - n} understorey/rocks (created at LOD after the camera is keyed)")
 
 
 def build_island(isl, frames, fires_keys, fps):
@@ -1573,6 +1586,22 @@ def setup_render(args, spec):
 # build one shot
 # ----------------------------------------------------------------------------------------------
 SPEC = {}
+LOD_REPORT = {}
+
+
+def lod_cam_at(shot, f):
+    """island_lod: the shot's camera (Blender world matrix, vertical fov) at any frame of the shot, from its rig
+    keys with the yacht's keyed attitude but without the buoyancy solve (scatter_lod grows the frustum to cover it)."""
+    ck, y = shot["camera"], shot.get("yacht")
+    camp, lookp, fov, rollc = rig_at(f, ck["keys"], keyed(ck.get("handheld"), f, 0.2), ck.get("shakes") or (), ck.get("drift", 0.25))
+    if ck.get("space", "world") == "yacht" and y:
+        cm = trans((y["x"], 0, y["z"])) @ rot_y(y["heading"])
+        ym3 = (trans((y["x"], -keyed(y.get("sink"), f), y["z"])) @ rot_y(y["heading"])
+               @ Matrix.Rotation(-keyed(y.get("pitch"), f), 4, "X") @ Matrix.Rotation(keyed(y.get("roll"), f), 4, "Z"))
+        camw, lookw = (cm @ Vector(camp).to_4d()).to_3d(), (ym3 @ Vector(lookp).to_4d()).to_3d()
+    else:
+        camw, lookw = Vector(camp), Vector(lookp)
+    return T @ look_matrix3(camw, lookw, rollc), fov
 
 
 def build_shot(shot, frames, args):
@@ -1735,6 +1764,12 @@ def build_shot(shot, frames, args):
     link_obj(flo)
     flo.rotation_mode = "QUATERNION"
     flo.rotation_quaternion = fdir.to_track_quat("-Z", "Y")
+    # >>> island_lod hook: create the planned island instances at camera-aware LOD over the whole shot
+    LOD_REPORT.clear()
+    LOD_REPORT.update(scatter_lod.PLANNER.realize(
+        cam, range(shot["from"], shot["to"]), (spec.get("width", 1080), spec.get("height", 1920)), lib_collection, log,
+        cam_at=lambda f: lod_cam_at(shot, f)))
+    # <<< island_lod
     storm.apply(shot, env, frames, cam, fps, log)  # props2 hook: rain, lightning, overcast, sepia grade
     if lighting.active():  # lighting hook: drops CamFill, warms practicals, haze, exposure offset
         lighting.finalize_shot(sc, shot, b3(centre))
@@ -1883,6 +1918,7 @@ def main():
             "samples": sc.cycles.samples if engine == "CYCLES" else sc.eevee.taa_render_samples,
             "blender": bpy.app.version_string, "secondsPerFrame": times, "warnings": list(WARNINGS),
             "lighting": lighting.report(),
+            "islandLod": LOD_REPORT,
         }
         if set_assembly.kit_ref(SPEC, shot):  # world_kits hook
             man["set"] = dict(SET_REPORT)
