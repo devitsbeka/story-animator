@@ -1,4 +1,4 @@
-from conftest import deep, rules
+from director_helpers import deep, rules
 from factory.director import checks, librarian
 
 

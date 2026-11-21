@@ -1,7 +1,7 @@
 import json
 import os
 
-from conftest import ROOT, load
+from director_helpers import ROOT, load
 from factory.director import schemas
 from factory.director.recipes import all_checklists, stage_recipe_text
 

@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from conftest import FX, ROOT
+from director_helpers import FX, ROOT
 from docu_factory import make_docuseries
 from factory.director import checks, librarian
 from factory.director.llm import FixtureClient, LLMError

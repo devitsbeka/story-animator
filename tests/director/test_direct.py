@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from conftest import ROOT, deep, rules
+from director_helpers import ROOT, deep, rules
 from factory.director import checks, compile as comp
 from factory.director.staging import vocabulary
 

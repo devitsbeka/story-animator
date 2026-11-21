@@ -1,6 +1,6 @@
 import pytest
 
-from conftest import deep, load, rules
+from director_helpers import deep, load, rules
 from docu_factory import make_docuseries
 from factory.director import checks, text
 
