@@ -35,6 +35,7 @@ WARNINGS = []
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import acting  # noqa: E402
 import props as propkit  # noqa: E402
+import lighting  # noqa: E402  (sequence lighting + night world: cloud/blender/lighting.py)
 
 
 def log(*a):
@@ -67,6 +68,7 @@ def parse_args():
     p.add_argument("--exposure", type=float, default=None, help="override view exposure (stops)")
     p.add_argument("--ocean-res", type=int, default=None, help="Ocean modifier resolution (default 10; same for preview and final so the waves match)")
     p.add_argument("--haze", type=float, default=0.0, help="volumetric haze density (0 = off)")
+    p.add_argument("--lighting", default=None, help="override the lighting preset for every shot (lighting.PRESETS name, or 'legacy')")
     p.add_argument("--no-motion-blur", action="store_true")
     p.add_argument("--skip-existing", action="store_true", help="do not re-render plates that already exist")
     p.add_argument("--save-blend", default=None, help="also save the built scene of each shot to this .blend path prefix")
@@ -506,6 +508,10 @@ def build_world(env, fps, frames, haze=0.0):
     if haze > 0:
         vol = nb.node("ShaderNodeVolumePrincipled", {"Density": haze, "Color": rgba((0.5, 0.55, 0.7))})
         nb.link(vol.outputs[0], out.inputs["Volume"])
+    # >>> lighting hook: sequence key + HDRI env (lighting.py); legacy suns below only for preset 'legacy'
+    if lighting.active():
+        return lighting.build_world_rig(w, bg, out)
+    # <<< lighting hook
     # moonlight
     sd = bpy.data.lights.new("Moon", "SUN")
     sd.color = tuple(lerp(a, b, dawn) for a, b in zip((0.62, 0.72, 1.0), (1.0, 0.75, 0.6)))
@@ -1175,6 +1181,12 @@ def build_actor(idx, a, yacht_root, camera, shot, fps):
         return None
     if pup is not None:
         pup.bake(perf, shot["from"] - 1, shot["to"] + 1)
+        # >>> lighting hook: sequence rig hero lights (world-direction face fill, rim cheat, eye light)
+        if lighting.active():
+            lighting.build_hero_rig(idx, holder, arm, a, camera, shot)
+            ACTORS[a.get("name", "hero")] = arm
+            return arm
+        # <<< lighting hook (legacy rig below)
         # GAFFER 'moonlight portrait' preset: cool soft key front-left-high, strong rim behind, faint warm bounce.
         # Parented to the hero so his face always reads against the night sea, whatever the camera does.
         aimt = bpy.data.objects.new(f"aim_{idx}", None)
@@ -1476,6 +1488,7 @@ def build_shot(shot, frames, args):
     env = dict(spec["world"])
     env.update(shot.get("env") or {})
     sea = float(env.get("seaState", 1.6))
+    lighting.begin_shot(spec, shot, args.lighting)  # lighting hook
     build_world(env, fps, frames, args.haze)
 
     y = shot.get("yacht")
@@ -1609,6 +1622,8 @@ def build_shot(shot, frames, args):
     link_obj(flo)
     flo.rotation_mode = "QUATERNION"
     flo.rotation_quaternion = fdir.to_track_quat("-Z", "Y")
+    if lighting.active():  # lighting hook: drops CamFill, warms practicals, haze, exposure offset
+        lighting.finalize_shot(sc, shot, b3(centre))
     linearize_all()
     log(f"shot {shot['id']}: buoyancy + camera keyed in {time.time() - t_b:.1f}s ({len(buoy.cache)} ocean evals)")
     # the probe is only for buoyancy: take it out of the render
@@ -1667,6 +1682,7 @@ def main():
             "quality": args.quality, "resolution": [sc.render.resolution_x, sc.render.resolution_y],
             "samples": sc.cycles.samples if engine == "CYCLES" else sc.eevee.taa_render_samples,
             "blender": bpy.app.version_string, "secondsPerFrame": times, "warnings": list(WARNINGS),
+            "lighting": lighting.report(),
         }
         with open(os.path.join(odir, f"_render_{todo[0]}_{todo[-1]}.json"), "w") as fh:
             json.dump(man, fh, indent=1)
