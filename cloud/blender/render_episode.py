@@ -1454,18 +1454,19 @@ def setup_render(args, spec):
             except (AttributeError, TypeError):
                 pass
     # colour: AgX, punchy-ish night grade
+    sty = (spec.get("style") or {}).get("look") or {}  # style system hook (factory/styles): view look + exposure
     vs = sc.view_settings
     try:
-        vs.view_transform = "AgX"
+        vs.view_transform = sty.get("view_transform", "AgX")
     except TypeError:
         vs.view_transform = "Filmic"
-    for look in ("AgX - Medium High Contrast", "AgX - Base Contrast", "None"):
+    for look in (sty.get("look", "AgX - Medium High Contrast"), "AgX - Medium High Contrast", "AgX - Base Contrast", "None"):
         try:
             vs.look = look
             break
         except TypeError:
             continue
-    vs.exposure = args.exposure if args.exposure is not None else 1.0
+    vs.exposure = args.exposure if args.exposure is not None else float(sty.get("exposure", 1.0))
     sc.display_settings.display_device = "sRGB"
     # bloom via compositor glare (EEVEE Next has no built-in bloom; same look in Cycles)
     sc.use_nodes = True

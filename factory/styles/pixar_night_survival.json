@@ -1,0 +1,123 @@
+{
+  "$schema": "./style.schema.json",
+  "id": "pixar_night_survival",
+  "version": 1,
+  "title": "Pixar night survival (house style)",
+  "description": "Stylised Pixar-quality 3D at night on the sea: cool moon key against warm practicals, low-key faces that never go black, continuous camera motion, kinetic one-to-three-word captions, tense procedural score. Values match what the renderer, finish and sound stages used before styles became data (PIXAR_RECIPE sections 3-6, ENGAGEMENT_RECIPE section 5).",
+  "formats": ["short"],
+  "frame": { "fps": 30, "aspects": ["9:16"] },
+  "palette": {
+    "acts": [
+      { "act": "hook", "beats": ["HOOK"], "dominant": { "name": "deep blue-teal night", "hex": "#0E2A3C" },
+        "accent": { "name": "single warm danger point", "hex": "#FF8A3D" }, "sat": [0.35, 0.5], "value_key": "low" },
+      { "act": "setup", "beats": ["CONTEXT"], "dominant": { "name": "warm golden-magenta dusk", "hex": "#B5577A" },
+        "accent": { "name": "teal sea", "hex": "#1F7A80" }, "sat": [0.5, 0.65], "value_key": "mid" },
+      { "act": "escalation", "beats": ["ESCALATION_1", "MIDPOINT", "ESCALATION_2"], "dominant": { "name": "desaturated blue-grey moonlight", "hex": "#4A5B73" },
+        "accent": { "name": "warm cabin / headlamp", "hex": "#FFB36B" }, "sat": [0.25, 0.4], "value_key": "low_rising" },
+      { "act": "climax", "beats": ["ESCALATION_2", "PAYOFF"], "dominant": { "name": "moon blue vs fire orange", "hex": "#3D63B8" },
+        "accent": { "name": "flare red (reserved)", "hex": "#FF3B1F" }, "sat": [0.5, 0.7], "value_key": "highest_contrast" },
+      { "act": "resolution", "beats": ["PAYOFF", "STING"], "dominant": { "name": "pink-gold dawn, soft cyan", "hex": "#F2A98C" },
+        "accent": { "name": "first warm sun (reserved)", "hex": "#FFD27A" }, "sat": [0.45, 0.6], "value_key": "high" }
+    ],
+    "reserved": [
+      { "name": "flare red", "hex": "#FF3B1F", "until": "climax" },
+      { "name": "sunrise gold", "hex": "#FFD27A", "until": "resolution" }
+    ],
+    "skin_hue_band_deg": 12,
+    "named": { "moon_key": "#8CB3FF", "practical": "#FFA659", "night_black": "#03050C", "slate": "#0A1226" }
+  },
+  "look": {
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 1.0,
+    "night_face_linear": [0.06, 0.12],
+    "day_face_linear": [0.15, 0.2]
+  },
+  "lighting": {
+    "default_preset": "moonlight_practical_mix",
+    "time_of_day": {
+      "night": { "preset": "moonlight_practical_mix", "fill_ratio": 6.5 },
+      "storm": { "preset": "storm_night", "fill_ratio": 8.0 },
+      "dawn": { "preset": "dawn", "fill_ratio": 3.0 },
+      "day": { "preset": "soft_overcast", "fill_ratio": 3.0 },
+      "interior": { "preset": "tungsten_interior", "fill_ratio": 4.0 }
+    },
+    "key_fill": {
+      "bright": [2.0, 2.0],
+      "neutral": [3.0, 4.0],
+      "tense_night": [6.0, 8.0],
+      "climax": [12.0, 16.0]
+    },
+    "shadow_floor": 0.03,
+    "practical_kelvin": 2900
+  },
+  "lens": {
+    "by_emotion": {
+      "isolation": 20, "panic": 20, "vast": 21, "disorientation": 21,
+      "establishing": 24, "environment": 24, "action": 28, "energy": 28, "scale": 24,
+      "neutral": 35, "with_him": 35, "calm": 35, "procedure": 35,
+      "honest": 50, "vo": 50, "decision": 50, "dialogue": 50, "worry": 50,
+      "fear": 65, "intimate": 75, "emotion": 75, "realization": 85, "shock": 85,
+      "threat": 110, "voyeur": 120, "watched": 120
+    },
+    "by_size": { "EWS": 24, "WS": 28, "MS": 35, "MCU": 50, "CU": 75, "ECU": 85 },
+    "default_mm": 35,
+    "range_mm": [18, 120]
+  },
+  "camera": {
+    "vocabulary": ["dolly_in", "dolly_out", "truck_left", "truck_right", "pedestal_up", "pedestal_down", "crane_rise", "crane_descend",
+                   "orbit_cw", "orbit_ccw", "arc_track", "follow_tracking", "over_shoulder", "pov", "low_reveal", "high_reveal",
+                   "establishing", "extreme_closeup", "push_reveal", "pullback_reveal", "whip_pan", "handheld_subtle", "dolly_zoom",
+                   "parallax_reveal", "orbit_track", "aerial_flyover"],
+    "avoid": ["tripod"],
+    "handheld": { "default": 0.12, "calm": 0.05, "tense": 0.15, "panic": 0.35, "pov": 0.3, "storm": 0.4 },
+    "drift": 0.05,
+    "default_ease": "move",
+    "shot_seconds": [1.8, 2.6]
+  },
+  "grade": { "contrast": 0.35, "vignette": 0.42, "grain": 0.07, "halation": 0.45, "coolShadows": 1.0 },
+  "captions": {
+    "mode": "kinetic",
+    "font": { "family": "Inter", "weight": 900 },
+    "cap_height_px": [72, 92],
+    "fill": "#FFFFFF",
+    "stroke": "#000000",
+    "stroke_em": 0.19,
+    "shadow": true,
+    "pop": 1.18,
+    "plate": null,
+    "tones": { "accent": "#FFD400", "danger": "#FF3B30", "good": "#34C759" },
+    "safe": { "x0": 65, "x1": 888, "y0": 290, "y1": 1248 },
+    "band": { "y0": 1000, "y1": 1240 },
+    "paging": { "max_words": 3, "max_chars_3": 14, "max_page_s": 1.2 }
+  },
+  "transitions": {
+    "vocabulary": ["cut", "push", "whip"],
+    "default": "cut",
+    "notes": "mostly cuts on the VO; push through on a STEP, whip on a new sequence letter (studio/src/finish/edit.ts autoTransition)"
+  },
+  "music": {
+    "engine": "procedural",
+    "bpm": 110,
+    "bpm_range": [96, 124],
+    "key": "D minor",
+    "moods": ["tense", "dark", "resolve"],
+    "instrumentation": ["minor triad pad", "sub drone", "kick on the beat", "off-beat hats", "8th bass pulse", "accent toms"],
+    "energy_max": 5,
+    "sfx_density": { "max_transients": 3, "window_s": 0.5, "whoosh_on_cuts": true, "ui_ticks": true }
+  },
+  "narration": {
+    "voice": { "provider": "elevenlabs", "voice_id": null, "register": "energetic second-person narrator",
+               "description": "close-mic, urgent but warm; resolved per style in factory/voice/voices.json" },
+    "wps": [2.8, 3.1]
+  },
+  "materials": {
+    "outline": "none",
+    "roughness_bias": 0.0,
+    "roughness_range": [0.35, 0.9],
+    "skin_subsurface": 0.25,
+    "skin_subsurface_radius_mm": [3.6, 1.4, 0.8],
+    "saturation_bias": 0.05,
+    "notes": "stylised, slightly soft speculars; skin warmed +5-10% in moonlight (PIXAR_RECIPE 6.3); no toon outline"
+  }
+}

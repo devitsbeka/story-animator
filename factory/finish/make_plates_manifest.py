@@ -81,6 +81,16 @@ def slim_episode(ep):
     }
 
 
+# --- style system hook (factory/styles): episode.style -> Finish props (grade, captionStyle, transitions) ---
+def style_finish_props(style):
+    if not style or "grade" not in style or "captions" not in style:
+        return {}
+    sys.path.insert(0, REPO)
+    from factory.styles import finish_props
+    return finish_props(style)
+# --- end style system hook ---------------------------------------------------------------------------------
+
+
 def resolve(path, base):
     if not path:
         return None
@@ -140,7 +150,9 @@ def main(argv=None):
     words_path = resolve(a.words or (ep.get("audio") or {}).get("wordsJson"), ep_dir)
     words = json.load(open(words_path)) if words_path else []
     fps, off = slim["fps"], slim["audio"]["offsetFrames"]
-    pages = build_pages(words, fps=fps, offset=off, anchors=ep.get("captions") or [])
+    style = ep.get("style") or {}  # style system hook (factory/styles): caption paging + finish props
+    pages = build_pages(words, fps=fps, offset=off, anchors=ep.get("captions") or [],
+                        paging=(style.get("captions") or {}).get("paging"))
     steps = build_steps(words, slim["shots"], fps=fps, offset=off, anchors=ep.get("captions") or [])
     print(f"[manifest] {len(pages)} caption pages, {len(steps)} steps (words: {words_path})")
 
@@ -169,6 +181,7 @@ def main(argv=None):
         "captions": pages,
         "steps": steps,
     }
+    props.update(style_finish_props(style))  # style system hook
     if a.rng_from is not None or a.rng_to is not None:
         props["range"] = {"from": a.rng_from or 0, "to": a.rng_to or slim["durationFrames"]}
     props_path = os.path.join(pub_root, "props.json")

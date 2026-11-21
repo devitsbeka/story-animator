@@ -228,7 +228,7 @@ def mix(sound_path, out_prefix, work=None, keep_stems=True, log=print):
     m = snd["music"]
     music_raw = os.path.join(work, "music_raw.wav")
     if m["engine"] == "procedural":
-        write_wav(music_raw, music_mod.render(m["sections"], fps, D, bpm=m.get("bpm", 110)))
+        write_wav(music_raw, music_mod.render(m["sections"], fps, D, bpm=m.get("bpm", 110), key=m.get("key", "D minor")))
     # --- music_score: real stems stitched on the energy map, beat-aligned to the cues (factory/sound/score.py)
     elif m["engine"] == "stems":
         import score as score_mod

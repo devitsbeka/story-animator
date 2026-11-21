@@ -13,7 +13,7 @@ import { Captions, CAPTION_FONT } from "./Captions";
 import { buildCuts, Layer, layersAt } from "./edit";
 import { DEFAULT_GRADE, GradeDefs, Grain, Vignette } from "./Grade";
 import { StepTracker } from "./StepTracker";
-import { FinishEpisode, FinishProps } from "./types";
+import { FinishEpisode, FinishProps, Transition } from "./types";
 
 const EMPTY_EP: FinishEpisode = { id: "empty", fps: 30, width: 1080, height: 1920, durationFrames: 30, shots: [] };
 const pad4 = (n: number) => String(n).padStart(4, "0");
@@ -54,7 +54,9 @@ export const Finish: React.FC<FinishProps> = (props) => {
   const manifest = props.manifest ?? {};
   const platesDir = props.platesDir ?? `finish/${ep.id}/plates`;
   const grade = { ...DEFAULT_GRADE, ...(props.grade ?? {}) };
-  const cuts = React.useMemo(() => buildCuts(ep.shots, steps, captions, manifest), [ep, steps, captions, manifest]);
+  const allowed = props.transitions; // style system: transitions outside the style's vocabulary become cuts
+  const cuts = React.useMemo(() => buildCuts(ep.shots, steps, captions, manifest)
+    .map((c) => (allowed && !allowed.includes(c.type) ? { ...c, type: "cut" as Transition } : c)), [ep, steps, captions, manifest, allowed]);
   const layers = layersAt(f, ep.shots, cuts, manifest, w);
   const audioAt = (ep.audio?.offsetFrames ?? 0) - range.from;
   const fadeIn = range.from === 0 ? Math.max(0, 1 - f / 8) : 0;
@@ -68,7 +70,7 @@ export const Finish: React.FC<FinishProps> = (props) => {
       <Vignette amount={grade.vignette} />
       <Grain frame={f} amount={grade.grain} width={w} height={h} />
       <StepTracker f={f} steps={steps} />
-      <Captions f={f} pages={captions} />
+      <Captions f={f} pages={captions} captionStyle={props.captionStyle} />
       <AbsoluteFill style={{ backgroundColor: "#000", opacity: Math.max(fadeIn, fadeOut), pointerEvents: "none" }} />
       {props.audio && (
         audioAt >= 0

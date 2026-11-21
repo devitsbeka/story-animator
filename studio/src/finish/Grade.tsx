@@ -5,8 +5,9 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 
-export type GradeOpts = { contrast: number; vignette: number; grain: number; halation: number };
-export const DEFAULT_GRADE: GradeOpts = { contrast: 0.35, vignette: 0.42, grain: 0.07, halation: 0.45 };
+// coolShadows: 1 = house blue lift in the shadows, 0 = neutral (style system: factory/styles <style>.grade)
+export type GradeOpts = { contrast: number; vignette: number; grain: number; halation: number; coolShadows?: number };
+export const DEFAULT_GRADE: GradeOpts = { contrast: 0.35, vignette: 0.42, grain: 0.07, halation: 0.45, coolShadows: 1 };
 const HI_TABLE = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0.45 1"; // 20 steps: zero below luma 0.85
 
 // filmic tone curve sampled into an feComponentTransfer table
@@ -25,6 +26,8 @@ function curve(k: number, lift: number, gain: number, n = 17): string {
 export const GradeDefs: React.FC<{ id: string; opts: GradeOpts; scale: number }> = ({ id, opts, scale }) => {
   const k = opts.contrast;
   const halo = opts.halation;
+  const cool = opts.coolShadows ?? 1;
+  const liftB = 0.016 + (0.03 - 0.016) * cool; // blue toe lift: 0.03 house, 0.016 (= green) neutral
   return (
     <svg width={0} height={0} style={{ position: "absolute" }}>
       <defs>
@@ -32,7 +35,7 @@ export const GradeDefs: React.FC<{ id: string; opts: GradeOpts; scale: number }>
           <feComponentTransfer in="SourceGraphic" result="tone">
             <feFuncR type="table" tableValues={curve(k, 0.012, 0.985)} />
             <feFuncG type="table" tableValues={curve(k, 0.016, 0.98)} />
-            <feFuncB type="table" tableValues={curve(k * 0.85, 0.03, 0.975)} />
+            <feFuncB type="table" tableValues={curve(k * (1 - 0.15 * cool), liftB, 0.975)} />
           </feComponentTransfer>
           {/* halation: luminance -> keep only highlights -> wide blur -> warm tint */}
           <feColorMatrix in="tone" type="matrix" result="lum"

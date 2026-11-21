@@ -1,0 +1,523 @@
+{
+ "camera": {
+  "avoid": [
+   "tripod"
+  ],
+  "default_ease": "move",
+  "drift": 0.05,
+  "handheld": {
+   "calm": 0.05,
+   "default": 0.12,
+   "panic": 0.35,
+   "pov": 0.3,
+   "storm": 0.4,
+   "tense": 0.15
+  },
+  "shot_seconds": [
+   1.8,
+   2.6
+  ],
+  "vocabulary": [
+   "dolly_in",
+   "dolly_out",
+   "truck_left",
+   "truck_right",
+   "pedestal_up",
+   "pedestal_down",
+   "crane_rise",
+   "crane_descend",
+   "orbit_cw",
+   "orbit_ccw",
+   "arc_track",
+   "follow_tracking",
+   "over_shoulder",
+   "pov",
+   "low_reveal",
+   "high_reveal",
+   "establishing",
+   "extreme_closeup",
+   "push_reveal",
+   "pullback_reveal",
+   "whip_pan",
+   "handheld_subtle",
+   "dolly_zoom",
+   "parallax_reveal",
+   "orbit_track",
+   "aerial_flyover"
+  ]
+ },
+ "captions": {
+  "band": {
+   "y0": 1000,
+   "y1": 1240
+  },
+  "cap_height_px": [
+   72,
+   92
+  ],
+  "fill": "#FFFFFF",
+  "font": {
+   "family": "Inter",
+   "weight": 900
+  },
+  "mode": "kinetic",
+  "paging": {
+   "max_chars_3": 14,
+   "max_page_s": 1.2,
+   "max_words": 3
+  },
+  "plate": null,
+  "pop": 1.18,
+  "safe": {
+   "x0": 65,
+   "x1": 888,
+   "y0": 290,
+   "y1": 1248
+  },
+  "shadow": true,
+  "stroke": "#000000",
+  "stroke_em": 0.19,
+  "tones": {
+   "accent": "#FFD400",
+   "danger": "#FF3B30",
+   "good": "#34C759"
+  }
+ },
+ "formats": [
+  "short"
+ ],
+ "frame": {
+  "aspects": [
+   "9:16"
+  ],
+  "fps": 30
+ },
+ "grade": {
+  "contrast": 0.35,
+  "coolShadows": 1.0,
+  "grain": 0.07,
+  "halation": 0.45,
+  "vignette": 0.42
+ },
+ "id": "pixar_night_survival",
+ "lens": {
+  "by_emotion": {
+   "action": 28,
+   "calm": 35,
+   "decision": 50,
+   "dialogue": 50,
+   "disorientation": 21,
+   "emotion": 75,
+   "energy": 28,
+   "environment": 24,
+   "establishing": 24,
+   "fear": 65,
+   "honest": 50,
+   "intimate": 75,
+   "isolation": 20,
+   "neutral": 35,
+   "panic": 20,
+   "procedure": 35,
+   "realization": 85,
+   "scale": 24,
+   "shock": 85,
+   "threat": 110,
+   "vast": 21,
+   "vo": 50,
+   "voyeur": 120,
+   "watched": 120,
+   "with_him": 35,
+   "worry": 50
+  },
+  "by_size": {
+   "CU": 75,
+   "ECU": 85,
+   "EWS": 24,
+   "MCU": 50,
+   "MS": 35,
+   "WS": 28
+  },
+  "default_mm": 35,
+  "range_mm": [
+   18,
+   120
+  ]
+ },
+ "lighting": {
+  "default_preset": "moonlight_practical_mix",
+  "key_fill": {
+   "bright": [
+    2.0,
+    2.0
+   ],
+   "climax": [
+    12.0,
+    16.0
+   ],
+   "neutral": [
+    3.0,
+    4.0
+   ],
+   "tense_night": [
+    6.0,
+    8.0
+   ]
+  },
+  "practical_kelvin": 2900,
+  "shadow_floor": 0.03,
+  "time_of_day": {
+   "dawn": {
+    "fill_ratio": 3.0,
+    "preset": "dawn"
+   },
+   "day": {
+    "fill_ratio": 3.0,
+    "preset": "soft_overcast"
+   },
+   "interior": {
+    "fill_ratio": 4.0,
+    "preset": "tungsten_interior"
+   },
+   "night": {
+    "fill_ratio": 6.5,
+    "preset": "moonlight_practical_mix"
+   },
+   "storm": {
+    "fill_ratio": 8.0,
+    "preset": "storm_night"
+   }
+  }
+ },
+ "look": {
+  "day_face_linear": [
+   0.15,
+   0.2
+  ],
+  "exposure": 1.0,
+  "look": "AgX - Medium High Contrast",
+  "night_face_linear": [
+   0.06,
+   0.12
+  ],
+  "view_transform": "AgX"
+ },
+ "materials": {
+  "notes": "stylised, slightly soft speculars; skin warmed +5-10% in moonlight (PIXAR_RECIPE 6.3); no toon outline",
+  "outline": "none",
+  "roughness_bias": 0.0,
+  "roughness_range": [
+   0.35,
+   0.9
+  ],
+  "saturation_bias": 0.05,
+  "skin_subsurface": 0.25,
+  "skin_subsurface_radius_mm": [
+   3.6,
+   1.4,
+   0.8
+  ]
+ },
+ "music": {
+  "bpm": 110,
+  "bpm_range": [
+   96,
+   124
+  ],
+  "energy_max": 5,
+  "engine": "procedural",
+  "instrumentation": [
+   "minor triad pad",
+   "sub drone",
+   "kick on the beat",
+   "off-beat hats",
+   "8th bass pulse",
+   "accent toms"
+  ],
+  "key": "D minor",
+  "moods": [
+   "tense",
+   "dark",
+   "resolve"
+  ],
+  "sfx_density": {
+   "max_transients": 3,
+   "ui_ticks": true,
+   "whoosh_on_cuts": true,
+   "window_s": 0.5
+  }
+ },
+ "narration": {
+  "voice": {
+   "description": "close-mic, urgent but warm; resolved per style in factory/voice/voices.json",
+   "provider": "elevenlabs",
+   "register": "energetic second-person narrator",
+   "voice_id": null
+  },
+  "wps": [
+   2.8,
+   3.1
+  ]
+ },
+ "palette": {
+  "acts": [
+   {
+    "accent": {
+     "hex": "#FF8A3D",
+     "name": "single warm danger point"
+    },
+    "act": "hook",
+    "beats": [
+     "HOOK"
+    ],
+    "dominant": {
+     "hex": "#0E2A3C",
+     "name": "deep blue-teal night"
+    },
+    "sat": [
+     0.35,
+     0.5
+    ],
+    "value_key": "low"
+   },
+   {
+    "accent": {
+     "hex": "#1F7A80",
+     "name": "teal sea"
+    },
+    "act": "setup",
+    "beats": [
+     "CONTEXT"
+    ],
+    "dominant": {
+     "hex": "#B5577A",
+     "name": "warm golden-magenta dusk"
+    },
+    "sat": [
+     0.5,
+     0.65
+    ],
+    "value_key": "mid"
+   },
+   {
+    "accent": {
+     "hex": "#FFB36B",
+     "name": "warm cabin / headlamp"
+    },
+    "act": "escalation",
+    "beats": [
+     "ESCALATION_1",
+     "MIDPOINT",
+     "ESCALATION_2"
+    ],
+    "dominant": {
+     "hex": "#4A5B73",
+     "name": "desaturated blue-grey moonlight"
+    },
+    "sat": [
+     0.25,
+     0.4
+    ],
+    "value_key": "low_rising"
+   },
+   {
+    "accent": {
+     "hex": "#FF3B1F",
+     "name": "flare red (reserved)"
+    },
+    "act": "climax",
+    "beats": [
+     "ESCALATION_2",
+     "PAYOFF"
+    ],
+    "dominant": {
+     "hex": "#3D63B8",
+     "name": "moon blue vs fire orange"
+    },
+    "sat": [
+     0.5,
+     0.7
+    ],
+    "value_key": "highest_contrast"
+   },
+   {
+    "accent": {
+     "hex": "#FFD27A",
+     "name": "first warm sun (reserved)"
+    },
+    "act": "resolution",
+    "beats": [
+     "PAYOFF",
+     "STING"
+    ],
+    "dominant": {
+     "hex": "#F2A98C",
+     "name": "pink-gold dawn, soft cyan"
+    },
+    "sat": [
+     0.45,
+     0.6
+    ],
+    "value_key": "high"
+   }
+  ],
+  "named": {
+   "moon_key": "#8CB3FF",
+   "night_black": "#03050C",
+   "practical": "#FFA659",
+   "slate": "#0A1226"
+  },
+  "reserved": [
+   {
+    "hex": "#FF3B1F",
+    "name": "flare red",
+    "until": "climax"
+   },
+   {
+    "hex": "#FFD27A",
+    "name": "sunrise gold",
+    "until": "resolution"
+   }
+  ],
+  "skin_hue_band_deg": 12
+ },
+ "resolved": {
+  "finish": {
+   "captionStyle": {
+    "band": {
+     "y0": 1000,
+     "y1": 1240
+    },
+    "capHeight": [
+     72,
+     92
+    ],
+    "fill": "#FFFFFF",
+    "font": "Inter",
+    "italic": false,
+    "mode": "kinetic",
+    "plate": null,
+    "pop": 1.18,
+    "safe": {
+     "x0": 65,
+     "x1": 888,
+     "y0": 290,
+     "y1": 1248
+    },
+    "shadow": true,
+    "stroke": "#000000",
+    "strokeEm": 0.19,
+    "tones": {
+     "accent": "#FFD400",
+     "danger": "#FF3B30",
+     "good": "#34C759"
+    },
+    "weight": 900
+   },
+   "grade": {
+    "contrast": 0.35,
+    "coolShadows": 1.0,
+    "grain": 0.07,
+    "halation": 0.45,
+    "vignette": 0.42
+   },
+   "transitions": [
+    "cut",
+    "push",
+    "whip"
+   ]
+  },
+  "handheld_scale": 1.0,
+  "lighting": {
+   "dawn": {
+    "exposure_ev": -0.3,
+    "family": "dawn",
+    "fill_ratio": 3.0,
+    "haze_density": 0.0,
+    "hdri": "ph:kloppenheim_02_puresky",
+    "key_energy": 2.2,
+    "preset": "dawn",
+    "rim_energy": 0.9
+   },
+   "day": {
+    "exposure_ev": -0.8,
+    "family": "day",
+    "fill_ratio": 3.0,
+    "haze_density": 0.0,
+    "hdri": "ph:kloppenheim_02_puresky",
+    "key_energy": 1.6,
+    "preset": "soft_overcast",
+    "rim_energy": 0.2
+   },
+   "interior": {
+    "exposure_ev": 0.0,
+    "family": "interior",
+    "fill_ratio": 4.0,
+    "haze_density": 0.0,
+    "hdri": null,
+    "key_energy": 1.8,
+    "preset": "tungsten_interior",
+    "rim_energy": 1.7
+   },
+   "night": {
+    "exposure_ev": 0.0,
+    "family": "night",
+    "fill_ratio": 6.5,
+    "haze_density": 0.0,
+    "hdri": "ph:moonlit_golf",
+    "key_energy": 1.8,
+    "preset": "moonlight_practical_mix",
+    "rim_energy": 1.7
+   },
+   "storm": {
+    "exposure_ev": 0.25,
+    "family": "night",
+    "fill_ratio": 8.0,
+    "haze_density": 0.004,
+    "hdri": "ph:qwantani_night",
+    "key_energy": 0.8,
+    "preset": "storm_night",
+    "rim_energy": 1.5
+   }
+  },
+  "music": {
+   "bpm": 110,
+   "bpm_range": [
+    96,
+    124
+   ],
+   "energy_max": 5,
+   "engine": "procedural",
+   "instrumentation": [
+    "minor triad pad",
+    "sub drone",
+    "kick on the beat",
+    "off-beat hats",
+    "8th bass pulse",
+    "accent toms"
+   ],
+   "key": "D minor",
+   "moods": [
+    "tense",
+    "dark",
+    "resolve"
+   ],
+   "sfx_density": {
+    "max_transients": 3,
+    "ui_ticks": true,
+    "whoosh_on_cuts": true,
+    "window_s": 0.5
+   }
+  }
+ },
+ "title": "Pixar night survival (house style)",
+ "transitions": {
+  "default": "cut",
+  "notes": "mostly cuts on the VO; push through on a STEP, whip on a new sequence letter (studio/src/finish/edit.ts autoTransition)",
+  "vocabulary": [
+   "cut",
+   "push",
+   "whip"
+  ]
+ },
+ "version": 1
+}

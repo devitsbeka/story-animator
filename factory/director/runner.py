@@ -11,6 +11,7 @@ import time
 
 from . import checks, compile as comp, librarian, prompts, schemas
 from .llm import LLMError
+from factory import styles  # style system hook
 
 STAGES = ("develop", "breakdown", "library", "direct")
 ARTIFACT = {"develop": "story.json", "breakdown": "breakdown.json", "library": "manifest.json", "direct": "shotplan.json"}
@@ -39,11 +40,18 @@ def _read(path):
 
 
 class Runner:
-    def __init__(self, out_dir, client, idea, fmt, ph=None, max_attempts=3, words=None, force=False, log=print):
+    def __init__(self, out_dir, client, idea, fmt, ph=None, max_attempts=3, words=None, force=False, log=print, style=None):
         self.out, self.client, self.idea, self.fmt = out_dir, client, idea, fmt
         self.ph, self.max_attempts, self.force, self.log = ph, max_attempts, force, log
         self.words = words
         self.reports = {}
+        # style system hook: explicit style, else story.style once known (if it names a style), else the format default
+        self.style = style or styles.default_style_for_format(fmt)
+        self._style_explicit = bool(style)
+
+    def adopt_story_style(self, story):
+        if not self._style_explicit and isinstance(story, dict) and story.get("style") in styles.list_styles():
+            self.style = story["style"]
 
     def path(self, name):
         return os.path.join(self.out, name)
@@ -65,7 +73,7 @@ class Runner:
         doc = self._existing(stage, validate)
         if doc is not None:
             return doc
-        system = prompts.system_blocks(stage)
+        system = prompts.system_blocks(stage, self.style)
         messages = [prompts.user_message(stage, self.idea, self.fmt, inputs)]
         schema = schemas.api_schema(SCHEMA[stage])
         rep = None
@@ -141,6 +149,7 @@ class Runner:
             return rep
         plan = self.llm_stage("direct", {"story.json": story, "breakdown.json": bd, "manifest.json": man}, validate)
         ep = holder.get("episode") or comp.compile_episode(plan, story, man, self.out)
+        ep = styles.apply_style_to_episode(ep, self.style)  # style system hook: lighting, grade, captions, fps
         _write(self.path("episode.json"), ep)
         self.log(f"[direct] wrote {self.path('episode.json')}: {len(ep['shots'])} shots, {ep['durationFrames']} frames")
         return plan, ep
@@ -149,6 +158,7 @@ class Runner:
         os.makedirs(self.out, exist_ok=True)
         _write(self.path("idea.json"), {"idea": self.idea, "format": self.fmt})
         story = self.develop() if "develop" in stages else _read(self.path("story.json"))
+        self.adopt_story_style(story)
         if "breakdown" not in stages and "library" not in stages and "direct" not in stages:
             return {"story": story}
         bd = self.breakdown(story) if "breakdown" in stages else _read(self.path("breakdown.json"))

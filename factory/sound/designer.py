@@ -101,8 +101,24 @@ def perf_events(shot, kind):
     return out
 
 
+# --- style system hook (factory/styles): music palette + SFX density from episode.style.music --------------
+HOUSE_MUSIC = {"engine": "procedural", "bpm": 110, "key": "D minor", "energy_max": 5,
+               "sfx_density": {"max_transients": 3, "window_s": 0.5, "whoosh_on_cuts": True, "ui_ticks": True}}
+
+
+def music_palette(ep):
+    m = dict(HOUSE_MUSIC)
+    sty = (ep.get("style") or {}).get("music") or {}
+    m.update({k: v for k, v in sty.items() if k != "sfx_density"})
+    m["sfx_density"] = {**HOUSE_MUSIC["sfx_density"], **(sty.get("sfx_density") or {})}
+    m["style"] = (ep.get("style") or {}).get("id")
+    return m
+# --- end style system hook ---------------------------------------------------------------------------------
+
+
 def design(ep, words, episode_path="", words_path=""):
     fps = ep["fps"]
+    pal = music_palette(ep)  # style system hook
     D = ep["durationFrames"]
     offset = ep.get("audio", {}).get("offsetFrames", 0)
     shots = sorted(ep["shots"], key=lambda s: s["from"])
@@ -175,6 +191,8 @@ def design(ep, words, episode_path="", words_path=""):
     for prev, nxt, sp in zip(shots, shots[1:], speeds[1:]):
         f = nxt["from"]
         n_cuts += 1
+        if not pal["sfx_density"]["whoosh_on_cuts"]:  # style system hook
+            continue
         if in_silence(f, pad=3):
             continue
         if is_match_cut(prev, nxt):
@@ -286,19 +304,20 @@ def design(ep, words, episode_path="", words_path=""):
                     "bus": "ambience", "shots": ["*"], "reason": "S-6 night wind"})
 
     # ---------------- UI ticks on emphasised captions ----------------
-    for c in caps:
+    for c in caps if pal["sfx_density"]["ui_ticks"] else []:  # style system hook
         if c.get("tone") and not any(abs(x["at"] - c["from"]) <= 4 and x["transient"] for x in cues) and not in_silence(c["from"]):
             cue("ui", "ui_tick", c["from"], "onset", LEVEL["ui"], reason=f"caption emphasis '{c.get('big','')}'")
 
     # ---------------- density guard (S-4) ----------------
-    win = int(0.5 * fps)
+    win = max(1, int(round(pal["sfx_density"]["window_s"] * fps)))  # style system hook (house: 0.5 s)
+    max_tr = int(pal["sfx_density"]["max_transients"])
     prio = {"ui": 0, "whoosh": 1, "spot": 2, "impact": 3}
     while True:
         tr = sorted((c for c in cues if c["transient"]), key=lambda c: c["at"])
         bad = None
         for i in range(len(tr)):
             group = [c for c in tr[i:] if c["at"] < tr[i]["at"] + win]
-            if len(group) > 3:
+            if len(group) > max_tr:
                 bad = group
                 break
         if not bad:
@@ -337,6 +356,7 @@ def design(ep, words, episode_path="", words_path=""):
     sections = []
     for a, b in zip(starts, starts[1:] + [D]):
         label, energy, hit = bounds[a]
+        energy = min(energy, int(pal["energy_max"]))  # style system hook
         n = max(1, math.ceil((b - a) / (15 * fps - 1)))
         for k in range(n):
             fa, fb = a + (b - a) * k // n, a + (b - a) * (k + 1) // n
@@ -366,7 +386,9 @@ def design(ep, words, episode_path="", words_path=""):
                     "musicSpeechDB": -20.0, "musicGapDB": -8.0, "musicOutroDB": -1.0, "ambienceSpeechDB": -27.0, "ambienceGapDB": -21.0},
         "beds": beds,
         "cues": cues,
-        "music": {"engine": "procedural", "bpm": 110, "key": "D minor", "sections": sections},
+        "music": {"engine": pal["engine"], "bpm": pal["bpm"], "key": pal["key"], "sections": sections,  # style system hook
+                  **({"style": pal["style"]} if pal["style"] else {}),
+                  **({k: pal[k] for k in ("moods", "instrumentation") if pal.get(k)})},
         "silences": [silence],
         "reveals": reveals,
         "notes": notes,

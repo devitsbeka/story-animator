@@ -256,6 +256,42 @@ def shot_env(spec, shot):
     return env
 
 
+# --- style system hook (factory/styles): preset per time of day -------------------------------
+def time_of_day(env):
+    """night | storm | dawn | day | interior for a merged shot env (world + shot.env)."""
+    tod = env.get("timeOfDay")
+    if tod in ("night", "storm", "dawn", "day", "interior"):
+        return tod
+    w = env.get("weather") or {}
+    if float(w.get("rain", 0) or 0) >= 0.5 or float(w.get("overcast", 0) or 0) >= 0.5 or float(env.get("seaState", 0) or 0) >= 2.2:
+        return "storm"
+    if float(env.get("dawn", 0) or 0) >= 0.5:
+        return "dawn"
+    return "night"
+
+
+def style_lighting(spec, shot):
+    """The style's lighting entry ({preset, params...}) for the shot's SEQUENCE, or None.
+
+    The time of day is read from the sequence's first shot so one sequence keeps one preset (L8); a night sequence
+    drifting into dawn stays on its night preset and blends (resolve). Scripted storm lightning (env.weather.lightning)
+    switches the preset's random lightning off so flashes are not doubled."""
+    table = (((spec.get("style") or {}).get("lighting") or {}).get("time_of_day")) or {}
+    if not table:
+        return None
+    seq = sequence_of(shot)
+    members = [s for s in spec.get("shots") or [] if sequence_of(s) == seq] or [shot]
+    tod = time_of_day(shot_env(spec, members[0]))
+    entry = dict(table.get(tod) or table.get("night") or {})
+    if not entry.get("preset"):
+        return None
+    if any(((s.get("env") or {}).get("weather") or {}).get("lightning") for s in members):
+        entry["lightning_per_s"] = 0.0
+    entry["time_of_day"] = tod
+    return entry
+# --- end style system hook ---------------------------------------------------------------------
+
+
 def resolve(spec, shot, override=None):
     """Merged lighting config for one shot (dict), or None for the legacy rig."""
     env = shot_env(spec, shot)
@@ -263,6 +299,11 @@ def resolve(spec, shot, override=None):
     seq = sequence_of(shot)
     layers = [wl, dict((wl.get("sequences") or {}).get(seq) or {}),
               dict((shot.get("env") or {}).get("lighting") or {}), dict(shot.get("lighting") or {})]
+    # style system hook: with no explicit preset anywhere, the episode style picks one per time of day
+    if not any(L.get("preset") for L in layers):
+        sl = style_lighting(spec, shot)
+        if sl:
+            layers.insert(0, sl)
     preset = DEFAULT_PRESET
     for L in layers:
         preset = L.get("preset", preset)

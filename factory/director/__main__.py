@@ -30,6 +30,7 @@ def main(argv=None):
                    help="Poly Haven search: cache only (default offline) or live (default online)")
     r.add_argument("--record", action="store_true", help="live Poly Haven results are written back into the fixture cache")
     r.add_argument("--force", action="store_true", help="regenerate artifacts even if valid ones exist")
+    r.add_argument("--style", default=None, help="factory/styles id (default: story.style, else per format)")
     v = sub.add_parser("validate", help="re-run every checklist on an episode dir")
     v.add_argument("--dir", required=True)
     a = ap.parse_args(argv)
@@ -52,7 +53,8 @@ def main(argv=None):
     ph_mode = a.polyhaven or ("cache" if a.offline else "live")
     ph = librarian.PolyHavenSearch(os.path.join(a.fixtures, "polyhaven_search.json"), mode="live" if ph_mode == "live" else "offline",
                                    record=a.record)
-    run = Runner(a.out, client, a.idea, a.format, ph=ph, max_attempts=a.max_attempts, words=load_words(a.out, a.words), force=a.force)
+    run = Runner(a.out, client, a.idea, a.format, ph=ph, max_attempts=a.max_attempts, words=load_words(a.out, a.words), force=a.force,
+                 style=a.style)
     try:
         run.run(stages)
     except (StageFailed, LLMError) as e:
