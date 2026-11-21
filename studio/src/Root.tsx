@@ -8,9 +8,12 @@ import { SeaTest } from "./scenes/SeaTest";
 import { Hero3DSheet } from "./scenes/Hero3DSheet";
 import { BoardFrame } from "./episodes/sentinel/beats3d";
 import { HeroGLBTest } from "./scenes/HeroGLBTest";
+// finish: Remotion finishing pass over Blender plates (studio/src/finish)
+import { Finish, calculateFinishMetadata, FINISH_DEFAULT_PROPS } from "./finish/Finish";
 
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="Finish" component={Finish} defaultProps={FINISH_DEFAULT_PROPS} calculateMetadata={calculateFinishMetadata} width={1080} height={1920} fps={30} durationInFrames={30} />
     <Composition id="SentinelPreview" component={SentinelFilm} defaultProps={{ step: 3 }} width={1080} height={1920} fps={10} durationInFrames={Math.ceil(DURATION / 3)} />
     <Composition id="Sentinel" component={SentinelFilm} width={1080} height={1920} fps={30} durationInFrames={DURATION} />
     <Composition id="HeroGLBTest" component={HeroGLBTest} width={1080} height={1920} fps={30} durationInFrames={90} />

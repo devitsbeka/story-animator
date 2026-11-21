@@ -11,6 +11,7 @@ style-lock/trace/*.npy
 style-lock/trace/layers/
 studio/out/
 studio/public/audio/
+studio/public/finish/
 assets/motions/raw/
 **/node_modules/
 **/.venv/
