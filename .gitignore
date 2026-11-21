@@ -6,3 +6,6 @@ __pycache__/
 .DS_Store
 *.mp4
 *.wav
+style-lock/trace/*.svg
+style-lock/trace/*.npy
+style-lock/trace/layers/
