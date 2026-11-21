@@ -1,0 +1,228 @@
+{
+  "package": "ATLAS_CINEMA_AGENT_KIT",
+  "format_version": "1.0",
+  "generated": "2026-11-21",
+  "notes": "Specifications, orchestration instructions, catalog source definitions, and real smoke-test scripts; no paid assets/licenses or cloud deployments bundled.",
+  "files": [
+    {
+      "path": "01_PROMPTS/EXECUTION_DIRECTIVE.md",
+      "bytes": 1441,
+      "sha256": "0c7436907d5256e3db1e6d4c7b9f492338b95144bc093746bb1a2b988dab5393"
+    },
+    {
+      "path": "01_PROMPTS/MASTER_IMPLEMENTATION_PROMPT.md",
+      "bytes": 29392,
+      "sha256": "b5c87097d31153e1064facb0ac2ac940a89a707308bdd6e24cc9fa3c12575552"
+    },
+    {
+      "path": "01_PROMPTS/roles/ASSET_CURATOR.md",
+      "bytes": 1257,
+      "sha256": "9ae9621c54f9b8827372a600879c17797e3a0a3712880fd4f40f57b315693b90"
+    },
+    {
+      "path": "01_PROMPTS/roles/CHARACTER_DIRECTOR.md",
+      "bytes": 1203,
+      "sha256": "d2aa084af38a046e49784add57a7cc6763194c6aa86ca30878da50c7a434d9d5"
+    },
+    {
+      "path": "01_PROMPTS/roles/CINEMATOGRAPHER.md",
+      "bytes": 1220,
+      "sha256": "8fc878cc3b61ab8dd3c0c8b3515f8ebdcb0d2708212cca981fe149125c5f810d"
+    },
+    {
+      "path": "01_PROMPTS/roles/CREATIVE_DIRECTOR.md",
+      "bytes": 1222,
+      "sha256": "f9848c842aff92c66767eaeb521d1de760b543073d56cc0f85ca514b4336d401"
+    },
+    {
+      "path": "01_PROMPTS/roles/EDITOR_SOUND.md",
+      "bytes": 1150,
+      "sha256": "e6b1516b6a48c924e9da8a8d56a18b6bdf9f377356691dc34aa8c26360844b65"
+    },
+    {
+      "path": "01_PROMPTS/roles/GAFFER.md",
+      "bytes": 1208,
+      "sha256": "449b3e9798a40310f253028871b766cb094faf3ac8443715f86f036b0c0faa44"
+    },
+    {
+      "path": "01_PROMPTS/roles/QC_SUPERVISOR.md",
+      "bytes": 1175,
+      "sha256": "1789042b21b28e30fb5830e2106a4846f464d5335ea0b1d48783458d16355e33"
+    },
+    {
+      "path": "01_PROMPTS/roles/WORLD_BUILDER.md",
+      "bytes": 1216,
+      "sha256": "7582671015ea0be94990befa4561b3669001ae543952f0a8aa88d966ce6b25b4"
+    },
+    {
+      "path": "02_SPECS/ARCHITECTURE.md",
+      "bytes": 2612,
+      "sha256": "a7229f85e7f8b62b9a056867bccf16ada6733e833ea397f7d043db11e94c3d53"
+    },
+    {
+      "path": "02_SPECS/ASSET_PIPELINE.md",
+      "bytes": 2559,
+      "sha256": "4193f895e35ee5a8d9322e1bcbd8ce2d683853b64ea455e26d8cb4f1423b8774"
+    },
+    {
+      "path": "02_SPECS/CAMERA_AND_LENSES.md",
+      "bytes": 2281,
+      "sha256": "0135fba3df0fb2e7d5d2a7bd6af6bd5bed57040da82c5858048a8c3a35083b62"
+    },
+    {
+      "path": "02_SPECS/CHARACTERS_AND_PERFORMANCE.md",
+      "bytes": 1253,
+      "sha256": "da7bc6eca13d0c65f413986f846bb23078dc2f2687a45bdc834c7e6644eb3650"
+    },
+    {
+      "path": "02_SPECS/DATA_CONTRACTS.md",
+      "bytes": 2000,
+      "sha256": "3a25e35586be6b8c91386e54f0e06632f8d0fb002801cc56f9732261ffa4a69c"
+    },
+    {
+      "path": "02_SPECS/LIGHTING_AND_COLOR.md",
+      "bytes": 1974,
+      "sha256": "0c0976a7a25eefd55a1dece93f02d0e4466c5fefbd0d250858b0a9019380381a"
+    },
+    {
+      "path": "02_SPECS/MOTION_GRAPHICS_AND_EDITORIAL.md",
+      "bytes": 1294,
+      "sha256": "d1ba42bbecf7e49ce02a46b849e28ee2d166ef7c76a63cdd6738d562b77ed9f1"
+    },
+    {
+      "path": "02_SPECS/ORCHESTRATION_AND_QA.md",
+      "bytes": 1442,
+      "sha256": "ced2d8d4c2b2a575c14e696c7ee2b1f97d641b3f687b9b59905d307ed867785f"
+    },
+    {
+      "path": "02_SPECS/RENDER_FARM_AND_COST.md",
+      "bytes": 1825,
+      "sha256": "20977bcfb046e6185aad8922ee54cda6fb1efba487d2e78daf3bc46f39622784"
+    },
+    {
+      "path": "02_SPECS/SECURITY_LICENSES.md",
+      "bytes": 1339,
+      "sha256": "205e9f125a6622f74cbd1d65d9188270b01ed779cd86067791e33acc49fd4e12"
+    },
+    {
+      "path": "02_SPECS/WORLDS_OBJECTS_MATERIALS.md",
+      "bytes": 2128,
+      "sha256": "61d2ec925998442630aba843f66571145323e0c710ff62b99b0400905c704e91"
+    },
+    {
+      "path": "03_CATALOGS/asset_sources.yaml",
+      "bytes": 2751,
+      "sha256": "02de2fe5c9088df1b6ecd95b8875e93fe08ed5e6f9288636864672e7381e530a"
+    },
+    {
+      "path": "03_CATALOGS/asset_taxonomy.yaml",
+      "bytes": 1183,
+      "sha256": "ff66e6c220bbbdc764139222074f5b05bd8f21f4f425bf12709c14c6d975790d"
+    },
+    {
+      "path": "03_CATALOGS/camera_presets.yaml",
+      "bytes": 884,
+      "sha256": "b984684634fe9d1a165c2cc44c381c16041b9e0c834b4875a0870b8db539939b"
+    },
+    {
+      "path": "03_CATALOGS/lighting_presets.yaml",
+      "bytes": 776,
+      "sha256": "251c5b175eb6a463c3b6305a30d324fb160a25e1c086e1a2b37508a3d3b782d6"
+    },
+    {
+      "path": "03_CATALOGS/plugins.yaml",
+      "bytes": 5317,
+      "sha256": "88d80f9417e2966f01fd0f5b1c48f061214cb32b3c681e5edd156a96a347da44"
+    },
+    {
+      "path": "03_CATALOGS/providers.yaml",
+      "bytes": 1476,
+      "sha256": "658ba04fbf9dcd61a0ee062c915b7079139931ef733e2e1a9e3071645ac82787"
+    },
+    {
+      "path": "04_OPERATIONS/.env.example",
+      "bytes": 640,
+      "sha256": "5aa415ae9df1271e7acf2e8e1b5fa44716a1f54ed947fc240a96d7e98c689aff"
+    },
+    {
+      "path": "04_OPERATIONS/ASSET_INGESTION_PLAYBOOK.md",
+      "bytes": 1650,
+      "sha256": "0b7aa7bd10d34a9a7caf2e4135b8341db80bead9d152d1955922c33f30b720be"
+    },
+    {
+      "path": "04_OPERATIONS/CLOUD_DEPLOYMENT.md",
+      "bytes": 1684,
+      "sha256": "1276386002d8f71280190e959642965cc7783ddbd634030883c8492518d85d4f"
+    },
+    {
+      "path": "04_OPERATIONS/INSTALL_AND_COMPATIBILITY.md",
+      "bytes": 1824,
+      "sha256": "8db5c353da4028e2bef29791f0d7dd0ba129db912e3c9a910920ed35e70beb62"
+    },
+    {
+      "path": "04_OPERATIONS/QUALITY_STANDARDS.md",
+      "bytes": 1853,
+      "sha256": "2be88a6cc383d72412ce33deb32ca9ae310545eb507337954f47dbb95902d90d"
+    },
+    {
+      "path": "04_OPERATIONS/SECRETS_AND_ACCOUNTS.md",
+      "bytes": 1886,
+      "sha256": "bd54289c9e528e26f69716a53eaa1d6c6ad869e6811821d03c13888c36029605"
+    },
+    {
+      "path": "05_ACCEPTANCE/DEFINITION_OF_DONE.md",
+      "bytes": 1735,
+      "sha256": "f57a04aed8979e0ebef72d1582e9915aaf1d22bb1208a6d6d16c794a9493ed6b"
+    },
+    {
+      "path": "05_ACCEPTANCE/DEMONSTRATIONS.md",
+      "bytes": 1560,
+      "sha256": "8ef942e4f54ff48faa8e6023b754857a6d02fdaa2e51d3d46d44f285672c41eb"
+    },
+    {
+      "path": "05_ACCEPTANCE/TEST_MATRIX.md",
+      "bytes": 1293,
+      "sha256": "620f5adddfcdda1393001f80b64164256d84a0847304603e7dfbfa8bdb5c1c79"
+    },
+    {
+      "path": "06_BOOTSTRAP/example_project.json",
+      "bytes": 444,
+      "sha256": "c13055013f4b6e1dd08f7519e4c438b4dd81154d099e6ea96156039df65afb35"
+    },
+    {
+      "path": "06_BOOTSTRAP/run_smoke.sh",
+      "bytes": 813,
+      "sha256": "658e35d114f1a5c36e33ba172c3698d7be6dec462807cd36cea52036216405c1"
+    },
+    {
+      "path": "06_BOOTSTRAP/smoke_scene.py",
+      "bytes": 3774,
+      "sha256": "abb29ea45440dd72238c0bee26e0aebc8cf034dde5dde4078d58737aa3576f5f"
+    },
+    {
+      "path": "06_BOOTSTRAP/verify_render.py",
+      "bytes": 777,
+      "sha256": "6319dd6b432b2bfb230a48a40370b3cd995f646cec1cd1e8cf27f8b577eabf29"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 2968,
+      "sha256": "5c54ee4233f47b64aba30a1c4951c262a74652e31b02d63de2c16d6e6fa5cd88"
+    },
+    {
+      "path": "IMPLEMENTATION_STATUS_TEMPLATE.md",
+      "bytes": 1085,
+      "sha256": "460aa61f1c96f1d4ec5acfa3870fef32feb85431a82b9c61cf724b85d1e353bd"
+    },
+    {
+      "path": "REFERENCES.md",
+      "bytes": 2145,
+      "sha256": "dd65860f9151841faa9f99315eca5b20e7bd467963cf72a1cf90f9df94268ccc"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 3032,
+      "sha256": "ae633093597bae894cb9bce6f393341f0b007955d1fec8aed84a3086f5a1cdda"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Paste this as the first message to the coding agent
+
+You are implementing the attached ATLAS CINEMA specification as the primary engineer. Read every file in the kit in priority order: START_HERE, AGENTS, MASTER_IMPLEMENTATION_PROMPT, all specs, catalogs, operations and acceptance tests. The kit is the product contract. Inspect the real execution environment before claiming capabilities.
+
+Immediately create the software repository and a real, low-resolution end-to-end smoke render with Blender in background mode. Verify frames and MP4 with ffprobe. Then implement a coherent working vertical slice: prompt → typed shot plan → asset retrieval / procedural scene → camera/lighting animation → preview → final render → narration/captions → encoded MP4 → API/dashboard → persistence → QC. Prefer built-in Blender APIs before installing optional add-ons. Do not spend money or publish without explicit authorization. Implement real provider integrations only when authenticated and documented; preserve a working local/fallback path otherwise. Never stop at a plan. Track real work and test evidence in IMPLEMENTATION_STATUS.md.
+
+Deliver real runnable source code, Docker configurations, migrations, tests, sample manifests, and documentation. Run applicable tests and label missing permissions or assets. Ask only when absolutely blocked by unavailable external authorization, and keep implementing independent work.

@@ -1,0 +1,103 @@
+categories:
+  architecture:
+  - historic_facade
+  - modern_facade
+  - skyscraper
+  - apartment
+  - roof
+  - wall
+  - window
+  - door
+  - stairs
+  - balcony
+  - ornament
+  city:
+  - road
+  - sidewalk
+  - curb
+  - lamp_post
+  - traffic
+  - sign
+  - shopfront
+  - fence
+  - street_furniture
+  interior:
+  - sofa
+  - chair
+  - desk
+  - lamp
+  - kitchen
+  - shelf
+  - bed
+  - decor
+  - bathroom
+  vehicle:
+  - car
+  - period_car
+  - bus
+  - truck
+  - motorcycle
+  - train
+  - aircraft
+  - boat
+  industrial:
+  - machinery
+  - tools
+  - cables
+  - electronics
+  - mechanical_parts
+  environment:
+  - rocks
+  - tree
+  - shrub
+  - grass
+  - terrain
+  - water
+  - cloud
+  - debris
+  character:
+  - human
+  - stylized
+  - animal
+  - clothing
+  - hair
+  - accessories
+  - rig
+  - motion
+  material:
+  - stone
+  - metal
+  - wood
+  - glass
+  - fabric
+  - concrete
+  - asphalt
+  - plaster
+  - skin
+  - ceramic
+  cinematography:
+  - hdri
+  - camera_rig
+  - lighting_rig
+  - gobo
+  - lens_preset
+  editorial:
+  - font
+  - sfx
+  - ambience
+  - music
+  - voice
+  - graphics
+shared_tags:
+- era
+- region
+- style
+- scale
+- interior_exterior
+- pbr
+- lod
+- file_size
+- license
+- source
+- rigged
+- animated

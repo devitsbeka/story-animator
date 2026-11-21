@@ -1,0 +1,17 @@
+{
+  "title": "Smoke Product Animation",
+  "duration_seconds": 2,
+  "fps": 24,
+  "width": 480,
+  "height": 854,
+  "brief": "A rotating sculptural object above a matte plinth with cinematic studio lighting",
+  "shot": {
+    "camera": "product_orbit",
+    "lighting": "studio_softbox",
+    "duration_frames": 48
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "note": "smoke only; Blender version compatibility must be validated"
+  }
+}

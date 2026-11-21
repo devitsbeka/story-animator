@@ -1,0 +1,47 @@
+default_view_transform: AgX (verify for chosen Blender)
+preset_names:
+- three_point_portrait
+- rembrandt
+- butterfly
+- split
+- loop
+- low_key_portrait
+- high_key_portrait
+- window_motivated
+- soft_overcast
+- golden_hour
+- blue_hour
+- midday
+- moonlight
+- night_city
+- neon_night
+- tungsten_interior
+- screen_lit
+- candlelight
+- product_softbox
+- strip_highlight
+- metal_product
+- glass_product
+- jewelry_hero
+- white_seamless
+- volumetric_sunshafts
+- foggy_dawn
+- rainy_street
+- studio_black
+parameters:
+- key_direction
+- key_size_m
+- key_energy
+- key_color_kelvin
+- fill_ratio
+- rim_energy
+- world_hdri_id
+- hdri_rotation_deg
+- haze_density
+- exposure_ev
+- shadow_softness
+qa_checks:
+- no_unintended_clipping
+- subject_separation
+- lighting_consistency
+- shadow_plausibility

@@ -1,0 +1,48 @@
+- provider: Anthropic
+  credentials: ANTHROPIC_API_KEY
+  purpose: AI scene planning
+  docs: https://docs.anthropic.com
+  requires_secret: true
+  enabled_by_default: false
+- provider: RunPod
+  credentials: RUNPOD_API_KEY
+  purpose: ephemeral GPU pods/endpoints
+  docs: https://docs.runpod.io
+  requires_secret: true
+  enabled_by_default: false
+- provider: Cloudflare R2
+  credentials: R2_ACCESS_KEY_ID,R2_SECRET_ACCESS_KEY,R2_ACCOUNT_ID
+  purpose: assets/frames/outputs
+  docs: https://developers.cloudflare.com/r2/
+  requires_secret: true
+  enabled_by_default: false
+- provider: PostgreSQL
+  credentials: DATABASE_URL
+  purpose: persistent state
+  docs: https://www.postgresql.org/
+  requires_secret: true
+  enabled_by_default: false
+- provider: ElevenLabs
+  credentials: ELEVENLABS_API_KEY
+  purpose: optional narration
+  docs: https://elevenlabs.io/docs
+  requires_secret: true
+  enabled_by_default: false
+- provider: GitHub
+  credentials: GitHub App or authenticated CLI
+  purpose: repo/CI
+  docs: https://docs.github.com
+  requires_secret: true
+  enabled_by_default: false
+- provider: Vercel
+  credentials: VERCEL_TOKEN or authenticated CLI
+  purpose: frontend deployment
+  docs: https://vercel.com/docs
+  requires_secret: true
+  enabled_by_default: false
+- provider: Supabase
+  credentials: SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,SUPABASE_SECRET_KEY
+  purpose: optional managed DB/auth
+  docs: https://supabase.com/docs
+  requires_secret: true
+  enabled_by_default: false

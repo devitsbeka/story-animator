@@ -1,0 +1,192 @@
+- name: Blender bpy + Geometry Nodes
+  kind: core_native
+  priority: REQUIRED
+  url: https://www.blender.org/
+  license: native
+  automation: headless-first
+  use: all scenes
+  verified_in_runtime: false
+- name: Cycles + Eevee
+  kind: core_native
+  priority: REQUIRED
+  url: https://docs.blender.org/manual/en/latest/render/
+  license: native
+  automation: headless-first
+  use: render
+  verified_in_runtime: false
+- name: Rigify
+  kind: native_extension
+  priority: RECOMMENDED
+  url: https://docs.blender.org/manual/en/latest/addons/rigging/rigify/index.html
+  license: free
+  automation: verify current install
+  use: characters
+  verified_in_runtime: false
+- name: Add Camera Rigs
+  kind: official_extension
+  priority: RECOMMENDED
+  url: https://extensions.blender.org/add-ons/add-camera-rigs/
+  license: GPL
+  automation: test headless
+  use: dolly and crane authoring
+  verified_in_runtime: false
+- name: Camera Shakify
+  kind: official_extension
+  priority: RECOMMENDED
+  url: https://extensions.blender.org/add-ons/camera-shakify/
+  license: GPL
+  automation: test headless
+  use: captured camera shake
+  verified_in_runtime: false
+- name: Building Tools
+  kind: third_party
+  priority: RECOMMENDED
+  url: https://github.com/ranjian0/building_tools
+  license: verify
+  automation: verify version/headless
+  use: architectural modeling
+  verified_in_runtime: false
+- name: BlenderGIS
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/domlysz/BlenderGIS
+  license: verify
+  automation: verify version/headless
+  use: terrain/geodata
+  verified_in_runtime: false
+- name: Archipack
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/s-leger/archipack
+  license: verify
+  automation: verify version/headless
+  use: parametric architecture
+  verified_in_runtime: false
+- name: Geo-Scatter
+  kind: commercial
+  priority: OPTIONAL
+  url: https://www.geoscatter.com
+  license: paid
+  automation: validate license and headless
+  use: foliage scatter
+  verified_in_runtime: false
+- name: Auto-Rig Pro
+  kind: commercial
+  priority: OPTIONAL
+  url: https://www.lucky3d.fr/auto-rig-pro/
+  license: paid
+  automation: validate license and headless
+  use: human rigging
+  verified_in_runtime: false
+- name: Faceit
+  kind: commercial
+  priority: OPTIONAL
+  url: https://faceit-doc.readthedocs.io
+  license: paid
+  automation: validate license and headless
+  use: facial performance
+  verified_in_runtime: false
+- name: Rokoko Studio Live
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/Rokoko/rokoko-studio-live-blender
+  license: verify
+  automation: verify versions/terms
+  use: mocap
+  verified_in_runtime: false
+- name: Animation Layers
+  kind: commercial
+  priority: OPTIONAL
+  url: https://superhivemarket.com/products/animation-layers
+  license: paid
+  automation: validate license and headless
+  use: NLA refinements
+  verified_in_runtime: false
+- name: FLIP Fluids
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/rlguy/Blender-FLIP-Fluids
+  license: free source or paid builds
+  automation: verify compile/headless
+  use: fluid effects
+  verified_in_runtime: false
+- name: Photographer
+  kind: commercial
+  priority: OPTIONAL
+  url: https://visualstorms.com/shop/photographer-for-blender/
+  license: paid
+  automation: validate license and headless
+  use: photographic control
+  verified_in_runtime: false
+- name: Gaffer
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/gregzaal/Gaffer
+  license: verify
+  automation: validate headless
+  use: lighting management
+  verified_in_runtime: false
+- name: LeoMoon LightStudio
+  kind: third_party
+  priority: OPTIONAL
+  url: https://github.com/leomoon-studios/leomoon-lightstudio
+  license: verify
+  automation: validate compatibility
+  use: product studio lights
+  verified_in_runtime: false
+- name: Physical Starlight and Atmosphere
+  kind: commercial
+  priority: OPTIONAL
+  url: https://www.physicaladdons.com
+  license: paid
+  automation: validate compatibility
+  use: atmosphere
+  verified_in_runtime: false
+- name: Hard Ops + Boxcutter
+  kind: commercial
+  priority: OPTIONAL
+  url: https://superhivemarket.com/products/hard-ops--boxcutter-ultimate-bundle
+  license: paid
+  automation: primarily interactive
+  use: hard surface modeling
+  verified_in_runtime: false
+- name: Flamenco
+  kind: open_source
+  priority: OPTIONAL
+  url: https://flamenco.blender.org/
+  license: open source
+  automation: verify deployment
+  use: render scheduling
+  verified_in_runtime: false
+- name: Remotion
+  kind: open_source
+  priority: REQUIRED
+  url: https://www.remotion.dev
+  license: check licensing
+  automation: node render
+  use: kinetic typography
+  verified_in_runtime: false
+- name: FFmpeg
+  kind: open_source
+  priority: REQUIRED
+  url: https://ffmpeg.org
+  license: varies by build
+  automation: command line
+  use: assembly and QC
+  verified_in_runtime: false
+- name: OpenTimelineIO
+  kind: open_source
+  priority: RECOMMENDED
+  url: https://opentimelineio.readthedocs.io
+  license: open source
+  automation: Python package
+  use: editorial timelines
+  verified_in_runtime: false
+- name: Manim Community
+  kind: open_source
+  priority: OPTIONAL
+  url: https://www.manim.community
+  license: open source
+  automation: batch generation
+  use: explainers
+  verified_in_runtime: false

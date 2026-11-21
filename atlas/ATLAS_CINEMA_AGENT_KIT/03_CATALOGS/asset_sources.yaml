@@ -1,0 +1,80 @@
+- name: Poly Haven
+  mode: open_api
+  website: https://polyhaven.com/our-api
+  api_endpoint: https://api.polyhaven.com/assets
+  rights_notes: CC0 assets; live-API credit/terms
+  ingestion: metadata first; download selected approved formats
+  credentials: none required
+  verified_in_runtime: false
+- name: ambientCG
+  mode: open_api
+  website: https://docs.ambientcg.com/api/v3/
+  api_endpoint: https://ambientcg.com/api/v3/assets
+  rights_notes: CC0 assets; optional supporter benefits
+  ingestion: metadata first; selective PBR maps
+  credentials: optional token only
+  verified_in_runtime: false
+- name: BlenderKit
+  mode: account_or_subscription
+  website: https://www.blenderkit.com
+  api_endpoint: null
+  rights_notes: verify each asset license and account entitlement
+  ingestion: official authenticated client or authorized import
+  credentials: account/subscription
+  verified_in_runtime: false
+- name: KitBash3D / Cargo
+  mode: commercial_manual_import
+  website: https://kitbash3d.com
+  api_endpoint: null
+  rights_notes: purchased/entitled assets; protect raw files
+  ingestion: manual or documented authorized import
+  credentials: account and purchases
+  verified_in_runtime: false
+- name: Fab / Megascans
+  mode: commercial_manual_import
+  website: https://www.fab.com
+  api_endpoint: null
+  rights_notes: per-item license; no standalone redistribution
+  ingestion: manual or documented authorized import
+  credentials: Epic account and entitlements
+  verified_in_runtime: false
+- name: CGTrader
+  mode: commercial_manual_import
+  website: https://www.cgtrader.com
+  api_endpoint: null
+  rights_notes: per-model license; no source redistribution
+  ingestion: manual import of owned purchases
+  credentials: account and purchases
+  verified_in_runtime: false
+- name: Blender Studio
+  mode: official_assets
+  website: https://studio.blender.org/
+  api_endpoint: null
+  rights_notes: check per asset terms and subscriptions
+  ingestion: documented authorized download
+  credentials: possibly subscription
+  verified_in_runtime: false
+- name: Mixamo
+  mode: authorized_manual_import
+  website: https://www.mixamo.com
+  api_endpoint: null
+  rights_notes: Adobe terms for animations/characters
+  ingestion: download and cache permitted files
+  credentials: Adobe account
+  verified_in_runtime: false
+- name: User supplied assets
+  mode: owner_import
+  website: local://upload
+  api_endpoint: null
+  rights_notes: user confirms rights
+  ingestion: quarantine/normalize
+  credentials: user upload
+  verified_in_runtime: false
+- name: HDRI Haven legacy / Poly Haven
+  mode: alias
+  website: https://polyhaven.com/hdris
+  api_endpoint: null
+  rights_notes: CC0
+  ingestion: use Poly Haven adapter
+  credentials: none
+  verified_in_runtime: false
