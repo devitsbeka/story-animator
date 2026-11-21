@@ -1,6 +1,672 @@
 {
  "version": 1,
  "assets": {
+  "el:sfx_beacon_beep": {
+   "id": "el:sfx_beacon_beep",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "nw7njZoBX1LMoUjsBQXr",
+   "name": "beacon beep",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "aJrFwD9bMlGNq1escxOB",
+    "generation_id": "nw7njZoBX1LMoUjsBQXr",
+    "prompt": "Single short electronic emergency beacon beep, high pitched, clean",
+    "duration_s": 3.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/beacon_beep.mp3",
+     "sha256": "ec91b2ac74a8cb96be4c8caf61b58b89af3ff83f2c1e1afc85cd680a0aae7e34",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "beacon",
+    "beep",
+    "epirb",
+    "oneshot"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_coral_crunch": {
+   "id": "el:sfx_coral_crunch",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "uzoJRVDPKAn53GFA5jai",
+   "name": "coral crunch",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "wT4u83Ecajbh5ZQiBT5V",
+    "generation_id": "uzoJRVDPKAn53GFA5jai",
+    "prompt": "Fiberglass boat hull slamming onto a coral reef, heavy deep crunch, cracking and grinding scrape",
+    "duration_s": 2.5,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/coral_crunch.mp3",
+     "sha256": "91e3e2387e35013f3c48b41dc2d49e7b9726581b24e98584531e9d67f62a3de9",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "impact",
+    "crunch",
+    "reef",
+    "hull",
+    "oneshot"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_engine_die": {
+   "id": "el:sfx_engine_die",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "kfak8bMOr3uAssjxQvZI",
+   "name": "engine die",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "8NG0fD2zCfhqMs2eh55r",
+    "generation_id": "kfak8bMOr3uAssjxQvZI",
+    "prompt": "Small diesel boat engine sputtering, coughing twice and dying to silence",
+    "duration_s": 3.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/engine_die.mp3",
+     "sha256": "36c2e6e2252b9d13bed59249cd54b38db40a45ea9696ad399cb4779c0cbde41c",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "engine",
+    "sputter",
+    "boat",
+    "oneshot"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_fire_crackle": {
+   "id": "el:sfx_fire_crackle",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "tbv490Awp2Lj4N8WY2Vb",
+   "name": "fire crackle",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "mBr6X7E4Qrwt4AIiAKxH",
+    "generation_id": "tbv490Awp2Lj4N8WY2Vb",
+    "prompt": "Crackling wood fire, distant, occasional pops, seamless loop",
+    "duration_s": 10.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/fire_crackle.mp3",
+     "sha256": "2da4916bd36e1a1957f6f3ead813c096184f3c655c3ddd6cc4d9f332ad8eb110",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "fire",
+    "crackle",
+    "bed",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_helicopter": {
+   "id": "el:sfx_helicopter",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "ntjsaGUCwofDroyUjhUF",
+   "name": "helicopter",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "H2YC8AcFx5JEUTszH4Hh",
+    "generation_id": "ntjsaGUCwofDroyUjhUF",
+    "prompt": "Helicopter hovering overhead, loud rotor blades thumping, turbine whine",
+    "duration_s": 6.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/helicopter.mp3",
+     "sha256": "4c20b09bcfc0d7c31dee6c5284aee897df4088ff0f14220e42513111cedfc181",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "helicopter",
+    "rotor",
+    "rescue",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_impact_boom": {
+   "id": "el:sfx_impact_boom",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "2Ysl0xjIChMgpV6BWBRp",
+   "name": "impact boom",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "XF2PP0RRneoqvKsjuxD5",
+    "generation_id": "2Ysl0xjIChMgpV6BWBRp",
+    "prompt": "Deep cinematic boom impact hit, sub bass thump with short tail",
+    "duration_s": 2.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/impact_boom.mp3",
+     "sha256": "d4f3e3b6544fae8f2be16d621df2631f1a68044767fb346bd633fb47d858f519",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "impact",
+    "boom",
+    "hit",
+    "oneshot"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_jungle_night": {
+   "id": "el:sfx_jungle_night",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "g5PTd2fIXbVw1a4NmqtL",
+   "name": "jungle night",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "ncZrm679eP3Qoi4wSBc7",
+    "generation_id": "g5PTd2fIXbVw1a4NmqtL",
+    "prompt": "Tropical jungle at night, dense crickets and cicadas chirping, distant frogs, seamless loop",
+    "duration_s": 15.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/jungle_night.mp3",
+     "sha256": "11c184691737af1bb841b921da07679e549323e62af98d1a4d0b71d37068c4c8",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "jungle",
+    "insects",
+    "night",
+    "island",
+    "bed",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_ocean_waves": {
+   "id": "el:sfx_ocean_waves",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "r21eyMzRIv8HBb86euvp",
+   "name": "ocean waves",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "ka2ISRk0cGzVYHUnXlDT",
+    "generation_id": "r21eyMzRIv8HBb86euvp",
+    "prompt": "Gentle open ocean waves lapping against a small boat hull at night, steady, seamless loop",
+    "duration_s": 20.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/ocean_waves.mp3",
+     "sha256": "423d53d0802880c0282d6b68ca297329268a7efcd8bddf3afb096ef745319663",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "ocean",
+    "waves",
+    "night",
+    "bed",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_radio_static": {
+   "id": "el:sfx_radio_static",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "1SSC0UrGTBb8T9OKyDvE",
+   "name": "radio static",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "RW9Vv3CN6Gl9X07zsjB8",
+    "generation_id": "1SSC0UrGTBb8T9OKyDvE",
+    "prompt": "VHF marine radio static hiss with a sharp squelch click at the start and end",
+    "duration_s": 2.5,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/radio_static.mp3",
+     "sha256": "5efb3e63bfe37385601390d27e0fcae16f4a2e1842e3e6deebb8d80baf66988d",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "radio",
+    "static",
+    "squelch",
+    "vhf",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_rain_storm": {
+   "id": "el:sfx_rain_storm",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "huTDt7jSH3CeZuoJrNKV",
+   "name": "rain storm",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "nSieKJX2e3EuVOKvvhxo",
+    "generation_id": "huTDt7jSH3CeZuoJrNKV",
+    "prompt": "Heavy rain storm at sea, rain pounding on a steel deck, rough waves, seamless loop",
+    "duration_s": 15.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/rain_storm.mp3",
+     "sha256": "2a73f331d46cc88989569fde6abb2d30fdd5fd97f83ea22a3292905cffdb9064",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "rain",
+    "storm",
+    "bed",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_riser_noise": {
+   "id": "el:sfx_riser_noise",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "1DilhD6lJ7yWsUrfSjvm",
+   "name": "riser noise",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "NvaYy6lhG2RZuTtJuZKh",
+    "generation_id": "1DilhD6lJ7yWsUrfSjvm",
+    "prompt": "Tense cinematic riser, rising pitch noise swell building for two seconds, ends abruptly at the peak",
+    "duration_s": 2.5,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/riser_noise.mp3",
+     "sha256": "f6b4a2652de7e8e3a8315396caa4db4fa199173572cb6d9f6c3bd91800198a79",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "riser",
+    "tension",
+    "riser"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_riser_reverse": {
+   "id": "el:sfx_riser_reverse",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "n0ebK7YmvcVW9eOha2Zx",
+   "name": "riser reverse",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "MAtoJhhmmgpntGGMh4jb",
+    "generation_id": "n0ebK7YmvcVW9eOha2Zx",
+    "prompt": "Reversed cymbal and string swell riser, building tension, hard stop at the top",
+    "duration_s": 2.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/riser_reverse.mp3",
+     "sha256": "fb084bfc654bcacd5aee55821344251189a74e2c4fd0504eff3c923e1b4d388b",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "riser",
+    "reverse",
+    "cymbal",
+    "riser"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_thunder": {
+   "id": "el:sfx_thunder",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "WrZJvvGnnamepLko4acQ",
+   "name": "thunder",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "hb5PAyfD6jmloMo9SFkd",
+    "generation_id": "WrZJvvGnnamepLko4acQ",
+    "prompt": "Close thunder clap, sharp crack followed by a deep long rumble",
+    "duration_s": 4.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/thunder.mp3",
+     "sha256": "33cff7cfd3631b5b60b3e08d2d3e43d02c6c6e54fea5c214f3b2a581268cc640",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "thunder",
+    "storm",
+    "impact",
+    "oneshot"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_whoosh_fast": {
+   "id": "el:sfx_whoosh_fast",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "xW4399AW2uM7bHjyGGrn",
+   "name": "whoosh fast",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "kWmbYJA8DrtkF1wucTLs",
+    "generation_id": "xW4399AW2uM7bHjyGGrn",
+    "prompt": "Fast short air whoosh swish, transition sound, under half a second",
+    "duration_s": 2.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/whoosh_fast.mp3",
+     "sha256": "f4cb843a8eb09f633eb938925ef2e56a6fda564c344e02b61096d47df2059b42",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "whoosh",
+    "transition",
+    "whoosh"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_whoosh_low": {
+   "id": "el:sfx_whoosh_low",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "8xeZOpfSjNupq0w3Ci3x",
+   "name": "whoosh low",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "Zh6X4Ez86pcG12BvwTk9",
+    "generation_id": "8xeZOpfSjNupq0w3Ci3x",
+    "prompt": "Deep heavy low whoosh pass-by, dark and airy, short",
+    "duration_s": 1.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/whoosh_low.mp3",
+     "sha256": "81c7528b219dda9a1c779a541151ec75f92590cf92efb65deeac2eb7a2820a20",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "whoosh",
+    "low",
+    "transition",
+    "whoosh"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_whoosh_whip": {
+   "id": "el:sfx_whoosh_whip",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "UTn7DyOL9EeUgPrKBDLn",
+   "name": "whoosh whip",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "jTnSTX0zvB70c6Iw8w5x",
+    "generation_id": "UTn7DyOL9EeUgPrKBDLn",
+    "prompt": "Quick whip pan swoosh, bright cloth-like swish, very short",
+    "duration_s": 1.0,
+    "loop": false,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/whoosh_whip.mp3",
+     "sha256": "1de25cc52b52b232e07fd6f74c5c5fe1956f6031598dfacba65cd657d9e3f63d",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "whoosh",
+    "whip",
+    "transition",
+    "whoosh"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
+  "el:sfx_wind_sea": {
+   "id": "el:sfx_wind_sea",
+   "kind": "sfx",
+   "provider": "elevenlabs",
+   "source_id": "dTTnGMXbNHWMmarta0Dz",
+   "name": "wind sea",
+   "licence": "ElevenLabs generated audio; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service (not CC0, do not redistribute as a sound library)",
+   "authors": [
+    "ElevenLabs eleven_text_to_sound_v2 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_text_to_sound_v2",
+    "flow_id": "8Rol56xui4GhX2uO4tqZ",
+    "node_id": "0IUIznmE79GV5Y1kfyb2",
+    "generation_id": "dTTnGMXbNHWMmarta0Dz",
+    "prompt": "Steady sea wind blowing over open water, soft low howl, no gusts, seamless loop",
+    "duration_s": 20.0,
+    "loop": true,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "sfx/wind_sea.mp3",
+     "sha256": "a976ed46ace71084067d46d5a1766abf3f0798b94507a3854a4323187dee8b74",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "wind",
+    "sea",
+    "bed",
+    "bed"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "build": "factory/sound/sfx_manifest.json"
+  },
   "int:island_sentinel": {
    "id": "int:island_sentinel",
    "kind": "set",
