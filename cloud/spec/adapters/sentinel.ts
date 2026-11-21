@@ -22,6 +22,29 @@ const islandOf = (i: { x: number; z: number; rotY?: number; scale?: number }) =>
 const sameIsland = (a?: BeatSpec["island"], b?: BeatSpec["island"]) => !!a && !!b && a.x === b.x && a.z === b.z && (a.rotY ?? 0) === (b.rotY ?? 0) && (a.scale ?? 1) === (b.scale ?? 1);
 const sceneAt = (f: number) => SCENES.find((s) => f >= s.from && f < s.to)?.id;
 
+
+// GOLDEN RULE port of BeatView's orbit: camera circles the hero's chest (yacht-local), look = chest.
+// Sampled every 3 frames with linear segments so Blender reproduces the eased arc exactly.
+const EASES: Record<string, (t: number) => number> = { move: (t) => bz(0.65, 0, 0.35, 1, t), arrive: (t) => bz(0.16, 1, 0.3, 1, t), exit: (t) => bz(0.7, 0, 0.84, 0, t) };
+function bz(x1: number, y1: number, x2: number, y2: number, x: number) {
+  let t = x;
+  for (let i = 0; i < 8; i++) { const cx = 3 * x1 * t * (1 - t) ** 2 + 3 * x2 * t * t * (1 - t) + t ** 3 - x; const d = 3 * x1 * (1 - t) ** 2 + 6 * (x2 - x1) * t * (1 - t) + 3 * (1 - x2) * t * t; if (Math.abs(d) < 1e-6) break; t = Math.min(1, Math.max(0, t - cx / d)); }
+  return 3 * y1 * t * (1 - t) ** 2 + 3 * y2 * t * t * (1 - t) + t ** 3;
+}
+const orbitKeys = (b: BeatSpec) => {
+  const m = b.move!, h = b.hero!, keys = [];
+  const chest: V3 = [h.local[0], h.local[1] + 1.3, h.local[2]];
+  for (let f = b.from; ; f = Math.min(b.to, f + 3)) {
+    const u = (f - b.from) / Math.max(1, b.to - b.from), e = EASES[m.ease ?? "move"](u);
+    const L = (r: [number, number]) => r[0] + (r[1] - r[0]) * e;
+    const a = (L(m.a) * Math.PI) / 180, d = L(m.d), hh = L(m.h);
+    const fov = Math.exp(Math.log(m.fov[0]) + (Math.log(m.fov[1]) - Math.log(m.fov[0])) * e);
+    keys.push({ f, cam: round3([chest[0] + Math.cos(a) * d, chest[1] + hh, chest[2] + Math.sin(a) * d] as V3), look: round3(chest), fov: rnd(fov, 3), ease: "linear" as const });
+    if (f >= b.to) break;
+  }
+  return keys;
+};
+
 // ---------- the 10 storyboard beats (S02..S11) ----------
 const beatShot = (b: BeatSpec): Shot => {
   const rel = (f: number) => b.from + f; // beat-local frames (keys at f:0, tracks from -300…) → absolute
@@ -29,7 +52,8 @@ const beatShot = (b: BeatSpec): Shot => {
     id: b.id, title: b.title, scene: sceneAt(b.from), from: b.from, to: b.to, keyFrame: b.keyFrame,
     camera: {
       space: "yacht",
-      keys: b.cam.map((k) => ({ f: rel(k.f), cam: flipX(k.cam), look: flipX(k.look), fov: k.fov, ...(k.roll !== undefined && { roll: k.roll }), ...(k.ease && { ease: k.ease }) })),
+      keys: b.move && b.hero ? orbitKeys(b) : b.cam.map((k) => ({ f: rel(k.f), cam: flipX(k.cam), look: flipX(k.look), fov: k.fov, ...(k.roll !== undefined && { roll: k.roll }), ...(k.ease && { ease: k.ease }) })),
+      ...(b.shakes?.length && { shakes: b.shakes }),
       handheld: b.handheld ?? BEAT_DEFAULTS.handheld,
       drift: 0.25,
     },
@@ -46,7 +70,7 @@ const beatShot = (b: BeatSpec): Shot => {
     const h = b.hero;
     shot.actors = [{
       asset: "hero", space: "yacht", local: h.local, rotY: rnd(h.rotY, 6), height: BEAT_DEFAULTS.heroHeight,
-      tracks: h.tracks.map((t) => ({ clip: t.clip, from: rel(t.from), ...(t.loop !== undefined && { loop: t.loop }), ...(t.fade !== undefined && { fade: t.fade }), ...(t.speed !== undefined && { speed: t.speed }), ...(t.offset !== undefined && { offset: t.offset }) })),
+      tracks: h.tracks.map((t) => ({ clip: t.clip, from: t.from, ...(t.loop !== undefined && { loop: t.loop }), ...(t.fade !== undefined && { fade: t.fade }), ...(t.speed !== undefined && { speed: t.speed }), ...(t.offset !== undefined && { offset: t.offset }) })),
       ...(h.look && { lookAt: h.look === "camera" ? "camera" : h.look, lookWeight: BEAT_DEFAULTS.lookWeight }),
     }];
   }

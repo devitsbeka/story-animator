@@ -1349,7 +1349,7 @@ def build_shot(shot, frames, args):
             yacht_root.keyframe_insert("rotation_quaternion", frame=f)
         camp, lookp, fov, rollc = rig_at(f, ck["keys"], keyed(ck.get("handheld"), f, 0.2), ck.get("shakes") or (), ck.get("drift", 0.25))
         if cam_space == "yacht" and y:
-            cm = trans((y["x"], heave * 0.6, y["z"])) @ rot_y(y["heading"])
+            cm = trans((y["x"], heave * 0.85, y["z"])) @ rot_y(y["heading"])
             camw = (cm @ Vector(camp).to_4d()).to_3d()
             lookw = (ym3 @ Vector(lookp).to_4d()).to_3d()
         else:

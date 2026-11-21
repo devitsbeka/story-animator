@@ -101,7 +101,7 @@
       "required": ["space", "keys"],
       "additionalProperties": false,
       "properties": {
-        "space": { "enum": ["yacht", "world"], "description": "world: cam/look are world metres. yacht: cam/look are yacht-local metres; cam position follows the yacht's x/z/heading and 0.6 x its heave but NOT its pitch/roll (a human operator); look follows the full yacht matrix (buoyancy pitch/roll included)." },
+        "space": { "enum": ["yacht", "world"], "description": "world: cam/look are world metres. yacht: cam/look are yacht-local metres; cam position follows the yacht's x/z/heading and 0.85 x its heave but NOT its pitch/roll (a human operator); look follows the full yacht matrix (buoyancy pitch/roll included)." },
         "keys": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/camKey" } },
         "handheld": { "$ref": "#/$defs/scalarOrKeys", "description": "Handheld amplitude (degrees-ish): jx = h*(sin(f*.31)+.6 sin(f*.83+1.7)), jy = h*(sin(f*.47+.9)+.5 sin(f*1.13+3.1)), applied to look at ~1deg/m-at-distance. Number or [[f,v]] keys. Default 0.2." },
         "drift": { "type": "number", "minimum": 0, "description": "Extension: slow positional drift amplitude in metres so holds never freeze (default 0.25)." },
