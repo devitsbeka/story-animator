@@ -25,6 +25,7 @@
     "toleranceLU": {"type": "number", "description": "S-1 tolerance, 1"},
     "truePeakDBTP": {"type": "number", "description": "S-1 ceiling, -1.0"},
     "limiterCeilingDBFS": {"type": "number", "description": "sample-peak ceiling of the 4x oversampled limiter (headroom for AAC)"},
+    "m4aLowpassHz": {"type": "number", "description": "low-pass applied before AAC encoding to avoid codec true-peak overshoot (default 16000, 0 = off)"},
     "shortTermRangeLUFS": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
     "musicUnderVoiceDB": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "S-2: music 18-22 dB under voice during speech"},
     "ambienceUnderVoiceDB": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "S-2: beds 24-30 dB under voice"}
@@ -96,8 +97,11 @@
    "type": "object",
    "required": ["engine", "bpm", "sections"],
    "properties": {
-    "engine": {"enum": ["procedural", "file"], "description": "procedural: factory/sound/music.py score; file: a licensed track at `file`"},
+    "engine": {"enum": ["procedural", "file", "stems"], "description": "procedural: factory/sound/music.py score; file: a licensed track at `file`; stems: factory/sound/score.py stitches the stems of `manifest` onto the sections"},
     "file": {"type": "string"},
+    "manifest": {"type": "string", "description": "engine stems: music manifest (e.g. factory/sound/music_manifest.json)"},
+    "whooshSplices": {"type": "boolean", "description": "engine stems: allow music edits masked by whooshes (default true)"},
+    "whooshSpliceMinS": {"type": "number", "description": "engine stems: min sub-section length around a whoosh splice (default 3 s)"},
     "bpm": {"type": "number"}, "key": {"type": "string"},
     "sections": {
      "type": "array",

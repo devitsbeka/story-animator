@@ -1,0 +1,16 @@
+{
+ "version": 1,
+ "notes": "Score stems for Sentinel generated with ElevenLabs Music (eleven_music_v2_5, instrumental) through the ElevenLabs creative flow API, 1 take per prompt, prompted at 110 BPM D minor so they stitch on one grid (measured 110.13-110.19 BPM by factory/sound/beats.py). Files live in $LIBRARY_STORE/music/<file> (gitignored). Signed download URLs expire, so only flow/node/session/generation ids are kept. factory/sound/score.py stitches them onto the sound.json energy map. role: tension (main bed, sections tense), dark (mood dark), resolve (mood resolve / payoff).",
+ "provider": "elevenlabs",
+ "model": "eleven_music_v2_5",
+ "flow_id": "zaf043mMvMJzxYXhJA0E",
+ "generated": "2026-11-21",
+ "bpm": 110,
+ "key": "D minor",
+ "licence": "ElevenLabs generated music; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service / Eleven Music terms (not CC0, do not redistribute as a music library)",
+ "stems": {
+  "tension_build":  {"role": "tension", "file": "music/tension_build.mp3",  "bpm": 110, "bpm_measured": 110.13, "duration_s": 56.0, "credits": 840, "node": "i0U1zwycvZDOLfM2wIJI", "session": "hNXQKXokgIMTZtvMxpOx", "generation": "9xz3AHAQVmQmt5jFUNkG", "tags": ["cinematic", "tension", "survival", "ostinato", "percussion", "d_minor"], "prompt": "Dark cinematic survival underscore, 110 BPM, D minor, steady 4/4 pulse throughout. Starts sparse with a low staccato string ostinato and a soft synth pulse, gradually adds toms, taiko and a driving eighth-note bass, building tension continuously to a dense, high-energy climax with punchy percussion accents on the downbeats. Instrumental, no vocals, modern trailer production."},
+  "flashback_dark": {"role": "dark",    "file": "music/flashback_dark.mp3", "bpm": 110, "bpm_measured": 110.19, "duration_s": 16.0, "credits": 240, "node": "dF6s8mPFCQSK4lHunePN", "session": "C2Ts9yzfA8cWTT1W4gg2", "generation": "UlptUnQ3YKmrG7otXU9X", "tags": ["cinematic", "dark", "flashback", "cello", "piano", "d_minor"], "prompt": "Dark brooding cinematic cue, 110 BPM, D minor, slow and melancholic. Low sustained cello drones, muffled felt piano notes, a soft low drum pulse on every beat like a heartbeat, eerie airy textures. Instrumental, no vocals, restrained and quiet energy."},
+  "payoff_resolve": {"role": "resolve", "file": "music/payoff_resolve.mp3", "bpm": 110, "bpm_measured": 110.18, "duration_s": 10.0, "credits": 150, "node": "oYO7TSgOtZsfvrISuiDS", "session": "ulYBpE55oitcNeXd0tJ5", "generation": "7DRpzmzb3vIuDjmMfCPR", "tags": ["cinematic", "payoff", "brass", "hit", "resolve"], "prompt": "Cinematic payoff cue, 110 BPM, opens with a huge orchestral and percussion downbeat impact on the very first beat, D minor resolving to D major, powerful brass and strings with driving drums, high energy, ending with an abrupt hard stop. Instrumental, no vocals, epic trailer production."}
+ }
+}

@@ -1,6 +1,167 @@
 {
  "version": 1,
  "assets": {
+  "el:music_flashback_dark": {
+   "id": "el:music_flashback_dark",
+   "kind": "music",
+   "provider": "elevenlabs",
+   "source_id": "UlptUnQ3YKmrG7otXU9X",
+   "name": "flashback dark",
+   "licence": "ElevenLabs generated music; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service / Eleven Music terms (not CC0, do not redistribute as a music library)",
+   "authors": [
+    "ElevenLabs eleven_music_v2_5 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_music_v2_5",
+    "flow_id": "zaf043mMvMJzxYXhJA0E",
+    "node_id": "dF6s8mPFCQSK4lHunePN",
+    "session_id": "C2Ts9yzfA8cWTT1W4gg2",
+    "generation_id": "UlptUnQ3YKmrG7otXU9X",
+    "prompt": "Dark brooding cinematic cue, 110 BPM, D minor, slow and melancholic. Low sustained cello drones, muffled felt piano notes, a soft low drum pulse on every beat like a heartbeat, eerie airy textures. Instrumental, no vocals, restrained and quiet energy.",
+    "duration_s": 16.0,
+    "instrumental": true,
+    "credits": 240,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "music/flashback_dark.mp3",
+     "sha256": "504de9d6147d647c7c112004450f94f325fd1716e3b36364970cf9d23a22bb0c",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "cinematic",
+    "dark",
+    "flashback",
+    "cello",
+    "piano",
+    "d_minor",
+    "music"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "music": {
+    "role": "dark",
+    "bpm_nominal": 110,
+    "bpm_measured": 110.19,
+    "key": "D minor",
+    "mood": [
+     "dark"
+    ],
+    "duration_s": 16.0
+   },
+   "build": "factory/sound/music_manifest.json"
+  },
+  "el:music_payoff_resolve": {
+   "id": "el:music_payoff_resolve",
+   "kind": "music",
+   "provider": "elevenlabs",
+   "source_id": "7DRpzmzb3vIuDjmMfCPR",
+   "name": "payoff resolve",
+   "licence": "ElevenLabs generated music; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service / Eleven Music terms (not CC0, do not redistribute as a music library)",
+   "authors": [
+    "ElevenLabs eleven_music_v2_5 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_music_v2_5",
+    "flow_id": "zaf043mMvMJzxYXhJA0E",
+    "node_id": "oYO7TSgOtZsfvrISuiDS",
+    "session_id": "ulYBpE55oitcNeXd0tJ5",
+    "generation_id": "7DRpzmzb3vIuDjmMfCPR",
+    "prompt": "Cinematic payoff cue, 110 BPM, opens with a huge orchestral and percussion downbeat impact on the very first beat, D minor resolving to D major, powerful brass and strings with driving drums, high energy, ending with an abrupt hard stop. Instrumental, no vocals, epic trailer production.",
+    "duration_s": 10.0,
+    "instrumental": true,
+    "credits": 150,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "music/payoff_resolve.mp3",
+     "sha256": "0ff11a61509a812a929eb58e86b985bcfb42f8f509c237e13344c21da8815ea4",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "cinematic",
+    "payoff",
+    "brass",
+    "hit",
+    "resolve",
+    "music"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "music": {
+    "role": "resolve",
+    "bpm_nominal": 110,
+    "bpm_measured": 110.18,
+    "key": "D minor",
+    "mood": [
+     "resolve"
+    ],
+    "duration_s": 10.0
+   },
+   "build": "factory/sound/music_manifest.json"
+  },
+  "el:music_tension_build": {
+   "id": "el:music_tension_build",
+   "kind": "music",
+   "provider": "elevenlabs",
+   "source_id": "9xz3AHAQVmQmt5jFUNkG",
+   "name": "tension build",
+   "licence": "ElevenLabs generated music; commercial use permitted for paid-plan output under the ElevenLabs Terms of Service / Eleven Music terms (not CC0, do not redistribute as a music library)",
+   "authors": [
+    "ElevenLabs eleven_music_v2_5 (generated)"
+   ],
+   "url": null,
+   "provenance": {
+    "model": "eleven_music_v2_5",
+    "flow_id": "zaf043mMvMJzxYXhJA0E",
+    "node_id": "i0U1zwycvZDOLfM2wIJI",
+    "session_id": "hNXQKXokgIMTZtvMxpOx",
+    "generation_id": "9xz3AHAQVmQmt5jFUNkG",
+    "prompt": "Dark cinematic survival underscore, 110 BPM, D minor, steady 4/4 pulse throughout. Starts sparse with a low staccato string ostinato and a soft synth pulse, gradually adds toms, taiko and a driving eighth-note bass, building tension continuously to a dense, high-energy climax with punchy percussion accents on the downbeats. Instrumental, no vocals, modern trailer production.",
+    "duration_s": 56.0,
+    "instrumental": true,
+    "credits": 840,
+    "generated": "2026-11-21"
+   },
+   "files": [
+    {
+     "path": "music/tension_build.mp3",
+     "sha256": "7be48f5a58a49a7191ef1a7f9eb463bdeb0a8f2361fc2ac279747b09e83acc89",
+     "role": "audio"
+    }
+   ],
+   "tags": [
+    "cinematic",
+    "tension",
+    "survival",
+    "ostinato",
+    "percussion",
+    "d_minor",
+    "music"
+   ],
+   "episodes": [
+    "sentinel"
+   ],
+   "music": {
+    "role": "tension",
+    "bpm_nominal": 110,
+    "bpm_measured": 110.13,
+    "key": "D minor",
+    "mood": [
+     "tense"
+    ],
+    "duration_s": 56.0
+   },
+   "build": "factory/sound/music_manifest.json"
+  },
   "el:sfx_beacon_beep": {
    "id": "el:sfx_beacon_beep",
    "kind": "sfx",
@@ -667,6 +828,57 @@
    ],
    "build": "factory/sound/sfx_manifest.json"
   },
+  "int:fx_rotor_wash": {
+   "id": "int:fx_rotor_wash",
+   "kind": "fx",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:rotor_wash",
+   "name": "Spinning translucent spray disc under a hovering helicopter",
+   "tags": [
+    "helicopter",
+    "spray",
+    "wash"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:fx_storm": {
+   "id": "int:fx_storm",
+   "kind": "world",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/storm.py:apply",
+   "name": "Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather",
+   "tags": [
+    "storm",
+    "rain",
+    "lightning",
+    "overcast",
+    "night"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:grade_sepia_archival": {
+   "id": "int:grade_sepia_archival",
+   "kind": "grade",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/storm.py:apply_grade",
+   "name": "Archival sepia grade in the compositor (desaturate, sepia tint, lifted warm blacks); env.grade",
+   "tags": [
+    "grade",
+    "sepia",
+    "archival",
+    "flashback"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
   "int:island_sentinel": {
    "id": "int:island_sentinel",
    "kind": "set",
@@ -703,6 +915,24 @@
     "sentinel"
    ]
   },
+  "int:prop_beach_torches": {
+   "id": "int:prop_beach_torches",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:beach_torches",
+   "name": "Carried torches along a beach (flicker lights, slow bob); implies people without showing them",
+   "tags": [
+    "torch",
+    "fire",
+    "beach",
+    "night",
+    "sentinel"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
   "int:prop_beacon": {
    "id": "int:prop_beacon",
    "kind": "prop",
@@ -714,6 +944,44 @@
     "beacon",
     "epirb",
     "rescue"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_coastguard_patrol": {
+   "id": "int:prop_coastguard_patrol",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:coastguard",
+   "name": "Generic coast guard patrol vessel (~48 m): white hull, bow stripes, 'COAST GUARD' text, keyable searchlight with fake beam, spinning radar",
+   "tags": [
+    "ship",
+    "coast guard",
+    "patrol",
+    "searchlight",
+    "rescue",
+    "night"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_helicopter_rescue": {
+   "id": "int:prop_helicopter_rescue",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:helicopter",
+   "name": "1980s rescue helicopter (generic Sea King-like, unbranded): keyed main/tail rotors + translucent rotor disc, blinking beacon, searchlight, door winch with hanging survivor",
+   "tags": [
+    "helicopter",
+    "rescue",
+    "winch",
+    "rotor",
+    "1981",
+    "day"
    ],
    "episodes": [
     "sentinel"
@@ -765,6 +1033,27 @@
     "sentinel"
    ]
   },
+  "int:prop_primrose": {
+   "id": "int:prop_primrose",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:primrose",
+   "name": "1980s bulk carrier 'PRIMROSE' (~150 m): rusty hull, red boot-top, white aft superstructure, hollow bridge with rain glass, 3 cranes, 6 hatches, portholes, lit windows, deck floods, nav lights, hull name",
+   "tags": [
+    "ship",
+    "cargo",
+    "bulk carrier",
+    "1981",
+    "primrose",
+    "wreck",
+    "aground",
+    "storm"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
   "int:prop_radio": {
    "id": "int:prop_radio",
    "kind": "prop",
@@ -791,6 +1080,26 @@
    "tags": [
     "switch",
     "electrical"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:set_cargo_hold": {
+   "id": "int:set_cargo_hold",
+   "kind": "set",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:cargo_hold",
+   "name": "Cargo-hold interior: steel walls, ribs, hopper slopes, ladder, sacks and crates, daylight hatch slit, swinging lamp, stylized crew silhouettes",
+   "tags": [
+    "interior",
+    "ship",
+    "hold",
+    "steel",
+    "lamp",
+    "crew",
+    "1981"
    ],
    "episodes": [
     "sentinel"
@@ -1874,154 +2183,6 @@
     528.0700623989105,
     462.893009185791,
     574.9993845820427
-   ]
-  },
-  "int:prop_primrose": {
-   "id": "int:prop_primrose",
-   "kind": "vehicle",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:primrose",
-   "name": "1980s bulk carrier 'PRIMROSE' (~150 m): rusty hull, red boot-top, white aft superstructure, hollow bridge with rain glass, 3 cranes, 6 hatches, portholes, lit windows, deck floods, nav lights, hull name",
-   "tags": [
-    "ship",
-    "cargo",
-    "bulk carrier",
-    "1981",
-    "primrose",
-    "wreck",
-    "aground",
-    "storm"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:prop_helicopter_rescue": {
-   "id": "int:prop_helicopter_rescue",
-   "kind": "vehicle",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:helicopter",
-   "name": "1980s rescue helicopter (generic Sea King-like, unbranded): keyed main/tail rotors + translucent rotor disc, blinking beacon, searchlight, door winch with hanging survivor",
-   "tags": [
-    "helicopter",
-    "rescue",
-    "winch",
-    "rotor",
-    "1981",
-    "day"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:prop_coastguard_patrol": {
-   "id": "int:prop_coastguard_patrol",
-   "kind": "vehicle",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:coastguard",
-   "name": "Generic coast guard patrol vessel (~48 m): white hull, bow stripes, 'COAST GUARD' text, keyable searchlight with fake beam, spinning radar",
-   "tags": [
-    "ship",
-    "coast guard",
-    "patrol",
-    "searchlight",
-    "rescue",
-    "night"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:set_cargo_hold": {
-   "id": "int:set_cargo_hold",
-   "kind": "set",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:cargo_hold",
-   "name": "Cargo-hold interior: steel walls, ribs, hopper slopes, ladder, sacks and crates, daylight hatch slit, swinging lamp, stylized crew silhouettes",
-   "tags": [
-    "interior",
-    "ship",
-    "hold",
-    "steel",
-    "lamp",
-    "crew",
-    "1981"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:prop_beach_torches": {
-   "id": "int:prop_beach_torches",
-   "kind": "prop",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:beach_torches",
-   "name": "Carried torches along a beach (flicker lights, slow bob); implies people without showing them",
-   "tags": [
-    "torch",
-    "fire",
-    "beach",
-    "night",
-    "sentinel"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:fx_rotor_wash": {
-   "id": "int:fx_rotor_wash",
-   "kind": "fx",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/props_vehicles.py:rotor_wash",
-   "name": "Spinning translucent spray disc under a hovering helicopter",
-   "tags": [
-    "helicopter",
-    "spray",
-    "wash"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:fx_storm": {
-   "id": "int:fx_storm",
-   "kind": "world",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/storm.py:apply",
-   "name": "Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather",
-   "tags": [
-    "storm",
-    "rain",
-    "lightning",
-    "overcast",
-    "night"
-   ],
-   "episodes": [
-    "sentinel"
-   ]
-  },
-  "int:grade_sepia_archival": {
-   "id": "int:grade_sepia_archival",
-   "kind": "grade",
-   "provider": "internal",
-   "licence": "proprietary (ours)",
-   "build": "cloud/blender/storm.py:apply_grade",
-   "name": "Archival sepia grade in the compositor (desaturate, sepia tint, lifted warm blacks); env.grade",
-   "tags": [
-    "grade",
-    "sepia",
-    "archival",
-    "flashback"
-   ],
-   "episodes": [
-    "sentinel"
    ]
   }
  }

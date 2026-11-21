@@ -1,5 +1,9 @@
 """Procedural underscore rendered from sound.json music sections (S-3 energy map).
 
+FALLBACK ONLY. The real score path is engine "stems" (factory/sound/score.py: ElevenLabs Music stems from
+factory/sound/music_manifest.json, or licensed tracks via factory/sound/music_library.py, stitched on the energy map
+and beat-aligned to the SFX cues). This placeholder stays so the mixer runs on a machine without the stems.
+
 No music model and no library track: a tempo-locked D-minor score built from sines and filtered noise so the mix
 always has a music bus whose energy follows the map. Layers by energy:
   1 pad (minor triad, slow swell)   2 + sub drone   3 + kick on the beat   4 + off-beat hats, 8th bass pulse
