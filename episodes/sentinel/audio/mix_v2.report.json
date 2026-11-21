@@ -1,0 +1,813 @@
+{
+ "sound": "episodes/sentinel/sound_v2.json",
+ "sources": {
+  "impact_boom": "elevenlabs",
+  "whoosh_fast": "elevenlabs",
+  "ui_tick": "procedural",
+  "engine_die": "elevenlabs",
+  "switch_click": "procedural",
+  "whoosh_whip": "elevenlabs",
+  "riser_reverse": "elevenlabs",
+  "whoosh_low": "elevenlabs",
+  "coral_crunch": "elevenlabs",
+  "riser_noise": "elevenlabs",
+  "radio_static": "elevenlabs",
+  "beacon_beep": "elevenlabs",
+  "thunder": "elevenlabs",
+  "ocean_waves": "elevenlabs",
+  "wind_sea": "elevenlabs",
+  "helicopter": "elevenlabs",
+  "rain_storm": "elevenlabs",
+  "jungle_night": "elevenlabs",
+  "fire_crackle": "elevenlabs",
+  "music:tension_build": "elevenlabs",
+  "music:flashback_dark": "elevenlabs",
+  "music:payoff_resolve": "elevenlabs"
+ },
+ "voice_leveler": {
+  "refS": -19.2,
+  "gain_dB_min": -3.0012120314551094,
+  "gain_dB_max": 5.873473326764019
+ },
+ "music_score": {
+  "engine": "stems",
+  "manifest": "factory/sound/music_manifest.json",
+  "stems": {
+   "tension_build": {
+    "bpm": 110.13,
+    "beats": 103,
+    "dur": 56.0,
+    "usable_end": 54.5,
+    "ibi_jitter": 0.0141,
+    "first_downbeat": 0.045
+   },
+   "flashback_dark": {
+    "bpm": 110.19,
+    "beats": 30,
+    "dur": 16.0,
+    "usable_end": 15.25,
+    "ibi_jitter": 0.0096,
+    "first_downbeat": 0.043
+   },
+   "payoff_resolve": {
+    "bpm": 110.18,
+    "beats": 19,
+    "dur": 10.0,
+    "usable_end": 9.75,
+    "ibi_jitter": 0.0152,
+    "first_downbeat": 1.643
+   }
+  },
+  "placements": [
+   {
+    "section": "m00_hook",
+    "stem": "tension_build",
+    "dst_start": 0.0,
+    "dst_end": 3.9333,
+    "src_start": 21.824,
+    "gain_db": -0.2952,
+    "splice": true,
+    "energy": 4,
+    "score": 2.872
+   },
+   {
+    "section": "m01_context",
+    "stem": "tension_build",
+    "dst_start": 3.9333,
+    "dst_end": 8.0333,
+    "src_start": 25.7573,
+    "gain_db": -3.2129,
+    "splice": false,
+    "energy": 3,
+    "score": 0.876
+   },
+   {
+    "section": "m01_context@241",
+    "stem": "tension_build",
+    "dst_start": 8.0333,
+    "dst_end": 13.4667,
+    "src_start": 37.0987,
+    "gain_db": -1.911,
+    "splice": true,
+    "energy": 3,
+    "score": 2.847
+   },
+   {
+    "section": "m02_context_title",
+    "stem": "tension_build",
+    "dst_start": 13.4667,
+    "dst_end": 18.6667,
+    "src_start": 30.5493,
+    "gain_db": -3.3192,
+    "splice": true,
+    "energy": 3,
+    "score": 2.048
+   },
+   {
+    "section": "m02_context_title@560",
+    "stem": "tension_build",
+    "dst_start": 18.6667,
+    "dst_end": 23.1333,
+    "src_start": 41.4613,
+    "gain_db": -2.8141,
+    "splice": true,
+    "energy": 3,
+    "score": 1.763
+   },
+   {
+    "section": "m03_escalation_1",
+    "stem": "tension_build",
+    "dst_start": 23.1333,
+    "dst_end": 26.2,
+    "src_start": 45.824,
+    "gain_db": -0.2603,
+    "splice": true,
+    "energy": 4,
+    "score": 2.467
+   },
+   {
+    "section": "m03_escalation_1@786",
+    "stem": "tension_build",
+    "dst_start": 26.2,
+    "dst_end": 29.2333,
+    "src_start": 19.6373,
+    "gain_db": -0.8642,
+    "splice": true,
+    "energy": 4,
+    "score": 2.062
+   },
+   {
+    "section": "m03_escalation_1@877",
+    "stem": "tension_build",
+    "dst_start": 29.2333,
+    "dst_end": 34.7333,
+    "src_start": 48.0107,
+    "gain_db": -0.8766,
+    "splice": true,
+    "energy": 4,
+    "score": 1.66
+   },
+   {
+    "section": "m04_pre_midpoint_hold",
+    "stem": "tension_build",
+    "dst_start": 34.7333,
+    "dst_end": 36.2333,
+    "src_start": 15.2853,
+    "gain_db": -4.903,
+    "splice": true,
+    "energy": 2,
+    "score": -0.402
+   },
+   {
+    "section": "m05_midpoint",
+    "stem": "tension_build",
+    "dst_start": 36.2333,
+    "dst_end": 42.2333,
+    "src_start": 26.1867,
+    "gain_db": 1.7714,
+    "splice": true,
+    "energy": 5,
+    "score": 1.238
+   },
+   {
+    "section": "m06_escalation_2",
+    "stem": "tension_build",
+    "dst_start": 42.2333,
+    "dst_end": 46.3333,
+    "src_start": 32.1867,
+    "gain_db": -0.527,
+    "splice": false,
+    "energy": 4,
+    "score": 0.114
+   },
+   {
+    "section": "m07_escalation_2",
+    "stem": "tension_build",
+    "dst_start": 46.3333,
+    "dst_end": 50.7667,
+    "src_start": 10.9227,
+    "gain_db": 0.8954,
+    "splice": true,
+    "energy": 4,
+    "score": 1.746
+   },
+   {
+    "section": "m08_flashback",
+    "stem": "flashback_dark",
+    "dst_start": 50.7667,
+    "dst_end": 55.0,
+    "src_start": 4.3733,
+    "gain_db": 0.9058,
+    "splice": true,
+    "energy": 3,
+    "score": 2.75
+   },
+   {
+    "section": "m08_flashback@1650",
+    "stem": "flashback_dark",
+    "dst_start": 55.0,
+    "dst_end": 61.3333,
+    "src_start": 8.7467,
+    "gain_db": 1.1666,
+    "splice": true,
+    "energy": 3,
+    "score": 2.319
+   },
+   {
+    "section": "m09_rescue",
+    "stem": "tension_build",
+    "dst_start": 61.3333,
+    "dst_end": 64.3667,
+    "src_start": 4.3733,
+    "gain_db": 1.4187,
+    "splice": true,
+    "energy": 4,
+    "score": 0.059
+   },
+   {
+    "section": "m10_escalation_2",
+    "stem": "tension_build",
+    "dst_start": 64.3667,
+    "dst_end": 67.6333,
+    "src_start": 37.0987,
+    "gain_db": 0.7358,
+    "splice": true,
+    "energy": 4,
+    "score": 1.583
+   },
+   {
+    "section": "m10_escalation_2@2029",
+    "stem": "tension_build",
+    "dst_start": 67.6333,
+    "dst_end": 71.3333,
+    "src_start": 15.2853,
+    "gain_db": -0.342,
+    "splice": true,
+    "energy": 4,
+    "score": 0.938
+   },
+   {
+    "section": "m10_escalation_2@2140",
+    "stem": "tension_build",
+    "dst_start": 71.3333,
+    "dst_end": 76.2333,
+    "src_start": 21.824,
+    "gain_db": -0.2804,
+    "splice": true,
+    "energy": 4,
+    "score": 0.87
+   },
+   {
+    "section": "m11_pre_payoff",
+    "stem": null,
+    "dst_start": 76.2333,
+    "dst_end": 76.7333,
+    "energy": 0
+   },
+   {
+    "section": "m12_payoff",
+    "stem": "payoff_resolve",
+    "dst_start": 76.7333,
+    "dst_end": 80.5333,
+    "src_start": 3.808,
+    "gain_db": -0.623,
+    "splice": true,
+    "energy": 5,
+    "score": 2.136
+   }
+  ],
+  "splices": 17,
+  "alignment": {
+   "n": 47,
+   "on_beat_frac": 0.638,
+   "median_beat_dist_ms": 0.0,
+   "mean_accent": 0.407,
+   "impact": {
+    "n": 11,
+    "on_beat_frac": 0.818,
+    "mean_accent": 0.475
+   },
+   "whoosh": {
+    "n": 30,
+    "on_beat_frac": 0.5,
+    "mean_accent": 0.348
+   },
+   "riser": {
+    "n": 6,
+    "on_beat_frac": 1.0,
+    "mean_accent": 0.574
+   }
+  },
+  "alignment_naive": {
+   "n": 47,
+   "on_beat_frac": 0.213,
+   "median_beat_dist_ms": 176.0,
+   "mean_accent": 0.159,
+   "impact": {
+    "n": 11,
+    "on_beat_frac": 0.455,
+    "mean_accent": 0.138
+   },
+   "whoosh": {
+    "n": 30,
+    "on_beat_frac": 0.1,
+    "mean_accent": 0.155
+   },
+   "riser": {
+    "n": 6,
+    "on_beat_frac": 0.333,
+    "mean_accent": 0.212
+   }
+  },
+  "cues": [
+   {
+    "id": "impact_000",
+    "type": "impact",
+    "t": 0.0,
+    "beat_dist_ms": 0.0,
+    "accent": 0.717
+   },
+   {
+    "id": "whoosh_001",
+    "type": "whoosh",
+    "t": 2.5,
+    "beat_dist_ms": 230.7,
+    "accent": 0.256
+   },
+   {
+    "id": "whoosh_004",
+    "type": "whoosh",
+    "t": 3.933,
+    "beat_dist_ms": 114.7,
+    "accent": 0.408
+   },
+   {
+    "id": "whoosh_005",
+    "type": "whoosh",
+    "t": 5.267,
+    "beat_dist_ms": 184.0,
+    "accent": 0.014
+   },
+   {
+    "id": "whoosh_009",
+    "type": "whoosh",
+    "t": 8.033,
+    "beat_dist_ms": 0.0,
+    "accent": 0.735
+   },
+   {
+    "id": "whoosh_010",
+    "type": "whoosh",
+    "t": 11.0,
+    "beat_dist_ms": 236.0,
+    "accent": 0.654
+   },
+   {
+    "id": "impact_011",
+    "type": "impact",
+    "t": 13.467,
+    "beat_dist_ms": 0.0,
+    "accent": 0.582
+   },
+   {
+    "id": "riser_012",
+    "type": "riser",
+    "t": 13.467,
+    "beat_dist_ms": 0.0,
+    "accent": 0.582
+   },
+   {
+    "id": "whoosh_013",
+    "type": "whoosh",
+    "t": 13.467,
+    "beat_dist_ms": 0.0,
+    "accent": 0.582
+   },
+   {
+    "id": "whoosh_014",
+    "type": "whoosh",
+    "t": 15.167,
+    "beat_dist_ms": 57.3,
+    "accent": 0.0
+   },
+   {
+    "id": "whoosh_015",
+    "type": "whoosh",
+    "t": 18.667,
+    "beat_dist_ms": 0.0,
+    "accent": 0.624
+   },
+   {
+    "id": "whoosh_016",
+    "type": "whoosh",
+    "t": 22.267,
+    "beat_dist_ms": 218.7,
+    "accent": 0.066
+   },
+   {
+    "id": "impact_017",
+    "type": "impact",
+    "t": 23.133,
+    "beat_dist_ms": 0.0,
+    "accent": 0.514
+   },
+   {
+    "id": "impact_018",
+    "type": "impact",
+    "t": 23.133,
+    "beat_dist_ms": 0.0,
+    "accent": 0.514
+   },
+   {
+    "id": "riser_019",
+    "type": "riser",
+    "t": 23.133,
+    "beat_dist_ms": 0.0,
+    "accent": 0.514
+   },
+   {
+    "id": "whoosh_020",
+    "type": "whoosh",
+    "t": 24.1,
+    "beat_dist_ms": 121.3,
+    "accent": 0.594
+   },
+   {
+    "id": "whoosh_021",
+    "type": "whoosh",
+    "t": 26.2,
+    "beat_dist_ms": 0.0,
+    "accent": 0.557
+   },
+   {
+    "id": "whoosh_022",
+    "type": "whoosh",
+    "t": 27.8,
+    "beat_dist_ms": 42.7,
+    "accent": 0.244
+   },
+   {
+    "id": "impact_023",
+    "type": "impact",
+    "t": 27.833,
+    "beat_dist_ms": 9.3,
+    "accent": 0.62
+   },
+   {
+    "id": "riser_024",
+    "type": "riser",
+    "t": 27.833,
+    "beat_dist_ms": 9.3,
+    "accent": 0.62
+   },
+   {
+    "id": "whoosh_026",
+    "type": "whoosh",
+    "t": 29.233,
+    "beat_dist_ms": 0.0,
+    "accent": 0.446
+   },
+   {
+    "id": "whoosh_029",
+    "type": "whoosh",
+    "t": 31.333,
+    "beat_dist_ms": 76.0,
+    "accent": 0.013
+   },
+   {
+    "id": "whoosh_032",
+    "type": "whoosh",
+    "t": 33.667,
+    "beat_dist_ms": 98.4,
+    "accent": 0.002
+   },
+   {
+    "id": "whoosh_035",
+    "type": "whoosh",
+    "t": 36.2,
+    "beat_dist_ms": 33.3,
+    "accent": 0.416
+   },
+   {
+    "id": "impact_036",
+    "type": "impact",
+    "t": 36.233,
+    "beat_dist_ms": 0.0,
+    "accent": 0.687
+   },
+   {
+    "id": "riser_037",
+    "type": "riser",
+    "t": 36.233,
+    "beat_dist_ms": 0.0,
+    "accent": 0.687
+   },
+   {
+    "id": "whoosh_038",
+    "type": "whoosh",
+    "t": 38.933,
+    "beat_dist_ms": 30.7,
+    "accent": 0.541
+   },
+   {
+    "id": "whoosh_039",
+    "type": "whoosh",
+    "t": 41.2,
+    "beat_dist_ms": 60.0,
+    "accent": 0.033
+   },
+   {
+    "id": "whoosh_040",
+    "type": "whoosh",
+    "t": 43.8,
+    "beat_dist_ms": 70.7,
+    "accent": 0.0
+   },
+   {
+    "id": "whoosh_041",
+    "type": "whoosh",
+    "t": 46.3,
+    "beat_dist_ms": 33.3,
+    "accent": 0.611
+   },
+   {
+    "id": "impact_042",
+    "type": "impact",
+    "t": 46.333,
+    "beat_dist_ms": 0.0,
+    "accent": 0.306
+   },
+   {
+    "id": "riser_043",
+    "type": "riser",
+    "t": 46.333,
+    "beat_dist_ms": 0.0,
+    "accent": 0.306
+   },
+   {
+    "id": "whoosh_044",
+    "type": "whoosh",
+    "t": 50.767,
+    "beat_dist_ms": 0.0,
+    "accent": 0.755
+   },
+   {
+    "id": "impact_045",
+    "type": "impact",
+    "t": 50.9,
+    "beat_dist_ms": 133.3,
+    "accent": 0.027
+   },
+   {
+    "id": "whoosh_046",
+    "type": "whoosh",
+    "t": 55.0,
+    "beat_dist_ms": 0.0,
+    "accent": 0.637
+   },
+   {
+    "id": "impact_047",
+    "type": "impact",
+    "t": 55.667,
+    "beat_dist_ms": 133.7,
+    "accent": 0.056
+   },
+   {
+    "id": "whoosh_048",
+    "type": "whoosh",
+    "t": 58.667,
+    "beat_dist_ms": 133.5,
+    "accent": 0.027
+   },
+   {
+    "id": "whoosh_049",
+    "type": "whoosh",
+    "t": 61.333,
+    "beat_dist_ms": 0.0,
+    "accent": 0.295
+   },
+   {
+    "id": "impact_050",
+    "type": "impact",
+    "t": 64.367,
+    "beat_dist_ms": 0.0,
+    "accent": 0.735
+   },
+   {
+    "id": "riser_051",
+    "type": "riser",
+    "t": 64.367,
+    "beat_dist_ms": 0.0,
+    "accent": 0.735
+   },
+   {
+    "id": "whoosh_052",
+    "type": "whoosh",
+    "t": 64.367,
+    "beat_dist_ms": 0.0,
+    "accent": 0.735
+   },
+   {
+    "id": "whoosh_054",
+    "type": "whoosh",
+    "t": 67.633,
+    "beat_dist_ms": 0.0,
+    "accent": 0.253
+   },
+   {
+    "id": "whoosh_055",
+    "type": "whoosh",
+    "t": 69.2,
+    "beat_dist_ms": 65.3,
+    "accent": 0.0
+   },
+   {
+    "id": "whoosh_057",
+    "type": "whoosh",
+    "t": 71.333,
+    "beat_dist_ms": 0.0,
+    "accent": 0.717
+   },
+   {
+    "id": "whoosh_058",
+    "type": "whoosh",
+    "t": 73.333,
+    "beat_dist_ms": 186.7,
+    "accent": 0.094
+   },
+   {
+    "id": "impact_060",
+    "type": "impact",
+    "t": 76.733,
+    "beat_dist_ms": 0.0,
+    "accent": 0.469
+   },
+   {
+    "id": "whoosh_061",
+    "type": "whoosh",
+    "t": 78.0,
+    "beat_dist_ms": 157.3,
+    "accent": 0.132
+   }
+  ]
+ },
+ "voice_LUFS_premaster": -18.5,
+ "master_gain_dB": 5.0,
+ "limiter_ceiling_dBFS": -2.0,
+ "wav": {
+  "path": "episodes/sentinel/audio/mix_v2.wav",
+  "I": -14.0,
+  "TP": -2.0,
+  "LRA": 2.4
+ },
+ "m4a": {
+  "path": "episodes/sentinel/audio/mix_v2.m4a",
+  "I": -14.1,
+  "TP": -1.8,
+  "LRA": 2.4
+ },
+ "under_speech_dB": {
+  "music": -20.200000000000003,
+  "ambience": -27.0,
+  "music_outro": -1.0
+ },
+ "stems": {
+  "voice": "episodes/sentinel/audio/mix_v2_stems/voice.wav",
+  "music": "episodes/sentinel/audio/mix_v2_stems/music.wav",
+  "ambience": "episodes/sentinel/audio/mix_v2_stems/ambience.wav",
+  "sfx": "episodes/sentinel/audio/mix_v2_stems/sfx.wav",
+  "background": "episodes/sentinel/audio/mix_v2_stems/background.wav"
+ },
+ "seconds": 44.0,
+ "qc": {
+  "pass": true,
+  "checks": [
+   {
+    "name": "integrated loudness (wav)",
+    "pass": true,
+    "value": "-14.00 LUFS",
+    "rule": "S-1 -14.0\u00b11.0"
+   },
+   {
+    "name": "true peak (wav)",
+    "pass": true,
+    "value": "-2.00 dBTP",
+    "rule": "S-1 <= -1.0"
+   },
+   {
+    "name": "integrated loudness (m4a)",
+    "pass": true,
+    "value": "-14.10 LUFS",
+    "rule": "S-1 -14.0\u00b11.0"
+   },
+   {
+    "name": "true peak (m4a)",
+    "pass": true,
+    "value": "-1.80 dBTP",
+    "rule": "S-1 <= -1.0"
+   },
+   {
+    "name": "short-term loudness in range",
+    "pass": true,
+    "value": "99.6% of 738 samples in [-17.0,-10.0] (min -17.6, max -12.4)",
+    "rule": "S-1 short-term within -17..-10 outside P-5 (pass at >=95% of 100 ms samples)"
+   },
+   {
+    "name": "music under voice during speech",
+    "pass": true,
+    "value": "20.20 dB",
+    "rule": "S-2 18.0..22.0 dB"
+   },
+   {
+    "name": "ambience under voice during speech",
+    "pass": true,
+    "value": "27.00 dB",
+    "rule": "S-2 24.0..30.0 dB"
+   },
+   {
+    "name": "music rises in narration gaps",
+    "pass": null,
+    "value": "n/a: the narration has no gap >= 0.8 s before its last word",
+    "rule": "S-2"
+   },
+   {
+    "name": "music carries the outro after the last word",
+    "pass": true,
+    "value": "-1.10 dB vs voice over 2.51 s",
+    "rule": "design target -1.0 dB (\u00b13)"
+   },
+   {
+    "name": "music starts at frame 0 (no fade-in > 3 frames)",
+    "pass": true,
+    "value": "first 3 frames -18.1 dBFS vs next 9 frames -22.4",
+    "rule": "S-3/checklist"
+   },
+   {
+    "name": "hard stop at the end (no fade > 6 frames)",
+    "pass": true,
+    "value": "last 100 ms -19.3 dBFS vs -16.9",
+    "rule": "S-3 / MrBeast abrupt end"
+   },
+   {
+    "name": "music section/layer change gap",
+    "pass": true,
+    "value": "max 11.9 s over 13 sections",
+    "rule": "S-3 <= 15 s"
+   },
+   {
+    "name": "energy map: pre-payoff 0 then payoff >= 4",
+    "pass": true,
+    "value": "[4, 3, 3, 4, 2, 5, 4, 4, 3, 4, 4, 0, 5]",
+    "rule": "S-3 energy map"
+   },
+   {
+    "name": "whoosh on >= 60% of cuts",
+    "pass": true,
+    "value": "30/32 (94%)",
+    "rule": "S-4"
+   },
+   {
+    "name": "riser ends on each reveal (\u00b11 frame)",
+    "pass": true,
+    "value": "7 risers",
+    "rule": "S-4 (payoff riser lands on the P-5 drop)"
+   },
+   {
+    "name": "impact on hook, midpoint, payoff and steps",
+    "pass": true,
+    "value": "6 reveals hit",
+    "rule": "S-4"
+   },
+   {
+    "name": "spot SFX per minute",
+    "pass": true,
+    "value": "41.0/min (55 transients)",
+    "rule": "S-4 25..45"
+   },
+   {
+    "name": "max transients in any 0.5 s window",
+    "pass": true,
+    "value": "3",
+    "rule": "S-4 <= 3"
+   },
+   {
+    "name": "exactly one 0.3-0.8 s silence (< -40 dBFS) right before the payoff",
+    "pass": true,
+    "value": "background silences: [(76.23, 76.73)], payoff at 76.73s",
+    "rule": "P-5 / S-1"
+   },
+   {
+    "name": "no ambience gap > 1 s outside the silence",
+    "pass": true,
+    "value": "[]",
+    "rule": "S-6"
+   },
+   {
+    "name": "ASR intelligibility (WER <= 5%)",
+    "pass": null,
+    "value": "not run in this stage (no ASR model wired; see report)",
+    "rule": "checklist (not measured)"
+   }
+  ]
+ }
+}

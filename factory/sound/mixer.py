@@ -229,6 +229,15 @@ def mix(sound_path, out_prefix, work=None, keep_stems=True, log=print):
     music_raw = os.path.join(work, "music_raw.wav")
     if m["engine"] == "procedural":
         write_wav(music_raw, music_mod.render(m["sections"], fps, D, bpm=m.get("bpm", 110)))
+    # --- music_score: real stems stitched on the energy map, beat-aligned to the cues (factory/sound/score.py)
+    elif m["engine"] == "stems":
+        import score as score_mod
+        xm, report["music_score"] = score_mod.render_music(m, fps, D, snd["cues"])
+        write_wav(music_raw, xm)
+        report["sources"].update({f"music:{k}": "elevenlabs" for k in report["music_score"]["stems"]})
+        log(f"score: {report['music_score']['splices']} splices, cues on beat "
+            f"{report['music_score']['alignment'].get('on_beat_frac')} (naive {report['music_score']['alignment_naive'].get('on_beat_frac')})")
+    # --- end music_score
     else:
         ff(["-i", os.path.join(ROOT, m["file"]), "-af", f"aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo,apad,atrim=0:{total:.4f}",
             "-c:a", "pcm_f32le", music_raw])
@@ -281,6 +290,25 @@ def mix(sound_path, out_prefix, work=None, keep_stems=True, log=print):
             os.replace(tmp, path)
         cal[name] = level_in(path, speech) - V
     log(f"under speech: music {cal['music']:+.2f} dB, ambience {cal['ambience']:+.2f} dB vs voice")
+    # --- music_score: closed-loop outro level. A real score's payoff cue can be several dB hotter (or softer) than
+    # the bed it was calibrated on under speech, so trim the post-last-word ramp toward musicOutroDB as well.
+    if "musicOutroDB" in du and total - bridged[-1][1] > 0.8:
+        t_last = bridged[-1][1] + 0.05
+        win = [(t_last + 0.3, total)]
+        for _ in range(2):
+            corr = du["musicOutroDB"] - (level_in(music_d, win) - V)
+            if abs(corr) < 0.5:
+                break
+            tt = np.arange(int(round(total * SR))) / SR
+            ramp = np.clip((tt - t_last) / (du["attackMs"] / 1000), 0, 1)
+            g = (10 ** (corr * ramp / 20)).astype(np.float32)
+            env_o = write_wav(os.path.join(work, "env_music_outro.wav"), np.stack([g, g], axis=1))
+            tmp = music_d + ".tmp.wav"
+            multiply(music_d, env_o, tmp)
+            os.replace(tmp, music_d)
+        cal["music_outro"] = level_in(music_d, win) - V
+        log(f"outro: music {cal['music_outro']:+.2f} dB vs voice (target {du['musicOutroDB']:+.1f})")
+    # --- end music_score
 
     # 6. master
     premix = os.path.join(work, "premix.wav")
@@ -299,7 +327,12 @@ def mix(sound_path, out_prefix, work=None, keep_stems=True, log=print):
             f"volume={gain:.3f}dB,aresample={4*SR},alimiter=limit={lim:.4f}:level=false:attack=2:release=80:asc=1,aresample={SR}",
             "-c:a", "pcm_s24le", "-ar", str(SR), out_wav])
         meas = ebur128(out_wav)
-        ff(["-i", out_wav, "-c:a", "aac", "-b:a", "256k", "-ar", str(SR), "-movflags", "+faststart", out_m4a])
+        # --- music_score: band-limit before AAC. ffmpeg's aac encoder drops the top octave and the resulting
+        # reconstruction overshoot on dense real music reached +1.5..+3.5 dB over the wav's true peak.
+        lp = lo.get("m4aLowpassHz", 16000)
+        ff(["-i", out_wav] + (["-af", f"lowpass=f={lp}:poles=2"] if lp else []) +
+           ["-c:a", "aac", "-b:a", "256k", "-ar", str(SR), "-movflags", "+faststart", out_m4a])
+        # --- end music_score
         meas_m4a = ebur128(out_m4a)
         log(f"master pass {attempt}: gain {gain:+.2f} dB ceiling {ceiling:.1f} dBFS -> wav I {meas['I']:.2f} TP {meas['TP']:.2f}; "
             f"m4a I {meas_m4a['I']:.2f} TP {meas_m4a['TP']:.2f}")
