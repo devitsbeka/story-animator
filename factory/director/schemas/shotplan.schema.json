@@ -1,0 +1,118 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://story-animator.local/factory/director/schemas/shotplan.schema.json",
+ "title": "shotplan.json (stage 4 Direct: the director's decisions)",
+ "description": "What the Director/Cinematographer/Animator agents decide per shot, in the house vocabulary (marks, rigs, stances, poses, verbs, props). factory/director/compile.py turns it into an episode.json for cloud/blender/render_episode.py. Frames are absolute film frames at 30 fps (audio offset included).",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["id", "audio_offset_frames", "world", "action_line", "shots", "overrides"],
+ "$defs": {
+  "pair": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "point": {
+   "type": "object", "additionalProperties": false, "required": ["frame", "v"],
+   "description": "A 3D point. frame=yacht: yacht-local metres. world: world metres. shore: [u, y, p] metres from the island's nearest shore point (u toward the island, p to its left). island: [dx, y, dz] from the island centre.",
+   "properties": {"frame": {"enum": ["yacht", "world", "shore", "island"]}, "v": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}
+  },
+  "keys": {"type": "array", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}},
+  "pose": {"type": "object", "additionalProperties": false, "required": ["pose", "from", "to"],
+   "properties": {"pose": {"type": "string"}, "from": {"type": "integer"}, "to": {"type": "integer"}, "in": {"type": "integer"}, "out": {"type": "integer"},
+     "ease": {"enum": ["smooth", "snap", "overshoot", "linear"]}}},
+  "verb": {"type": "object", "additionalProperties": false, "required": ["verb", "at"],
+   "properties": {"verb": {"type": "string"}, "at": {"type": "integer"}, "dur": {"type": "integer"}, "amount": {"type": "number"}}}
+ },
+ "properties": {
+  "id": {"type": "string"},
+  "audio_offset_frames": {"type": "integer", "minimum": 0},
+  "world": {
+   "type": "object", "additionalProperties": false, "required": ["moonDir", "seaState", "dawn", "island"],
+   "properties": {"moonDir": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}, "seaState": {"type": "number"},
+     "dawn": {"type": "number"}, "island": {"enum": ["near", "far", null]}}
+  },
+  "action_line": {"type": "string", "description": "PIXAR 3.4: the 180-degree line for the main sequence."},
+  "overrides": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["rule", "reason"],
+    "properties": {"rule": {"type": "string"}, "reason": {"type": "string", "minLength": 10}}}},
+  "shots": {
+   "type": "array", "minItems": 1,
+   "items": {
+    "type": "object", "additionalProperties": false,
+    "required": ["id", "title", "from", "to", "scene", "line_ids", "size", "camera", "yacht", "island"],
+    "properties": {
+     "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+     "title": {"type": "string"},
+     "from": {"type": "integer", "minimum": 0},
+     "to": {"type": "integer"},
+     "key_frame": {"type": "integer"},
+     "scene": {"type": "string", "description": "breakdown scenes[].id"},
+     "line_ids": {"type": "array", "items": {"type": "string"}, "description": "Narration lines (or parts) playing over this shot."},
+     "size": {"enum": ["EWS", "WS", "MWS", "MS", "MCU", "CU", "ECU", "OTS", "POV", "TOP"]},
+     "insert": {"type": "boolean"},
+     "suspense_hold": {"type": "boolean"},
+     "long_take": {"type": "boolean"},
+     "placeholder": {"type": "string", "description": "Set when the shot frames a stand-in because its set/prop is still to build."},
+     "camera": {
+      "type": "object", "additionalProperties": false, "required": ["preset", "motivation", "rig", "fov", "ease"],
+      "properties": {
+       "preset": {"type": "string", "description": "Camera move name (crane_down, push_in, orbit_arc, crash_zoom, lateral_glide, pull_back, rise_overhead, whip, hold_drift, pov_push, ...)."},
+       "motivation": {"enum": ["follow_subject", "reveal", "character_attention", "tension_push", "isolation", "impact", "transition"]},
+       "rig": {"enum": ["orbit", "path"]},
+       "mark": {"type": "string", "description": "orbit: hero mark the camera orbits."},
+       "az": {"$ref": "#/$defs/pair"}, "dist": {"$ref": "#/$defs/pair"}, "height": {"$ref": "#/$defs/pair"},
+       "target": {"type": ["string", "number"], "description": "orbit: chest|face|hands|feet|sit or a height in metres."},
+       "aim": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+       "space": {"enum": ["yacht", "world"]},
+       "cam": {"type": "array", "items": {"$ref": "#/$defs/point"}, "minItems": 2, "maxItems": 2},
+       "look": {"type": "array", "items": {"$ref": "#/$defs/point"}, "minItems": 2, "maxItems": 2},
+       "fov": {"$ref": "#/$defs/pair"},
+       "ease": {"enum": ["move", "arrive", "exit", "linear", "crash"]},
+       "handheld": {"type": "number"}, "drift": {"type": "number"},
+       "shakes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["at", "px", "tau"],
+         "properties": {"at": {"type": "integer"}, "px": {"type": "number"}, "tau": {"type": "number"}}}}
+      }
+     },
+     "yacht": {
+      "type": "object", "additionalProperties": false, "required": ["state"],
+      "properties": {
+       "state": {"enum": ["afloat_lit", "afloat_dark", "aground", "aground_hit", "tide_lift", "leaving", "absent"]},
+       "hit_frame": {"type": "integer"},
+       "lights": {"$ref": "#/$defs/keys"},
+       "offset": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "leaving: [along_u, along_p] metres from the start position along the island shore frame (u toward the island)."}
+      }
+     },
+     "island": {"enum": ["near", "far", null]},
+     "fires": {"type": "array", "items": {"type": "array", "minItems": 2, "maxItems": 2, "prefixItems": [{"type": "integer"}, {"type": "array", "items": {"type": "number"}}]}},
+     "env": {"type": "object", "additionalProperties": false,
+       "properties": {"dawn": {"type": "number"}, "seaState": {"type": "number"}, "moonDir": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}},
+     "hero": {
+      "type": ["object", "null"], "additionalProperties": false, "required": ["mark", "stance"],
+      "properties": {
+       "mark": {"type": "string"},
+       "stance": {"type": "string"},
+       "stance_changes": {"type": "array", "items": {"type": "array", "minItems": 2, "maxItems": 2, "prefixItems": [{"type": "integer"}, {"type": "string"}]}},
+       "poses": {"type": "array", "items": {"$ref": "#/$defs/pose"}},
+       "verbs": {"type": "array", "items": {"$ref": "#/$defs/verb"}},
+       "breath": {"type": "number"},
+       "seed": {"type": "integer"},
+       "emotion": {"type": "string"}
+      }
+     },
+     "props": {
+      "type": "array",
+      "items": {
+       "type": "object", "additionalProperties": false, "required": ["prop", "attach"],
+       "properties": {
+        "prop": {"type": "string"},
+        "attach": {"enum": ["yacht", "handR", "handL"]},
+        "local": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+        "rotY": {"type": "number"},
+        "rot": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+        "light": {"$ref": "#/$defs/keys"},
+        "show": {"$ref": "#/$defs/keys"},
+        "strobe": {"type": "integer"}
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

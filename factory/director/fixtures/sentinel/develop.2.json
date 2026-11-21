@@ -1,0 +1,478 @@
+{
+ "id": "sentinel",
+ "format": "short",
+ "title": "North Sentinel: what to do if your engine dies",
+ "logline": "Your engine dies at night and the current drags your yacht onto the reef of the one island on Earth you may not touch: here is how you survive without ever going ashore.",
+ "essence": "Stranded at North Sentinel, you survive by calling for help and never going ashore.",
+ "style": "pixar_night_survival",
+ "duration_s": 80.53,
+ "hero": {
+  "name": "the sailor",
+  "description": "Series hero: solo sailor with a white round head and a red sweater.",
+  "flaw": "Alone and powerless: no engine, no lights, no way to steer away from the island."
+ },
+ "hook": {
+  "format": "IMR",
+  "line_ids": [
+   "L01"
+  ],
+  "text_overlay": {
+   "text": "ALONE IN THE DARK",
+   "start": 0,
+   "end": 3.0
+  },
+  "visual": "Moonlit sea, the yacht dead centre with warm cabin lights; the engine sputters black smoke and the lights die."
+ },
+ "core_question": {
+  "text": "You are stuck on North Sentinel's reef: how do you get out alive without harming anyone?",
+  "answer_line": "L15"
+ },
+ "stakes": {
+  "physical": "Hull on a coral reef at night, waves breaking over the side.",
+  "legal_ethical": "India bars approach to the island and contact with the Sentinelese; going ashore could kill them with your germs.",
+  "mortal": "The islanders defend their shore with weapons."
+ },
+ "time_pressure": false,
+ "spine": {
+  "once_upon_a_time": "A solo sailor is crossing the Andaman Sea at night.",
+  "every_day": "He trusts his engine and his lights to keep him safe and on course.",
+  "one_day": "His engine dies and the current drags him toward North Sentinel, the one island no outsider may touch.",
+  "because_of_that": [
+   "Because of that, he hits the reef and is stuck within sight of a tribe that defends its isolation.",
+   "Because of that, he must call for rescue without ever going ashore, since even his cold could kill them.",
+   "Because of that, he stays with the boat, kills the lights and leaves nothing behind, as the Primrose crew did in 1981."
+  ],
+  "until_finally": "The tide lifts the yacht and he drifts out past the reef.",
+  "ever_since": "He knows the smartest way to survive North Sentinel is never to be there at all."
+ },
+ "beats": [
+  {
+   "id": "B1",
+   "name": "HOOK",
+   "t0": 0.0,
+   "t1": 4.48,
+   "link": null,
+   "stakes": 6,
+   "visual_scale": 6,
+   "summary": "Alone at night; the engine dies."
+  },
+  {
+   "id": "B2",
+   "name": "CONTEXT",
+   "t0": 4.48,
+   "t1": 7.54,
+   "link": "THEREFORE",
+   "stakes": 5,
+   "visual_scale": 4,
+   "summary": "No lights, no power: the hero flips a dead switch."
+  },
+  {
+   "id": "B3",
+   "name": "ESCALATION_1",
+   "t0": 7.54,
+   "t1": 35.72,
+   "link": "BUT",
+   "stakes": 7,
+   "visual_scale": 8,
+   "summary": "The current drags him to North Sentinel; fires in the trees; crunch onto the reef; step one, Mayday and the beacon."
+  },
+  {
+   "id": "B4",
+   "name": "MIDPOINT",
+   "t0": 35.72,
+   "t1": 40.7,
+   "link": "THEREFORE",
+   "stakes": 7,
+   "visual_scale": 5,
+   "summary": "Step two: do NOT go ashore."
+  },
+  {
+   "id": "B5",
+   "name": "ESCALATION_2",
+   "t0": 40.7,
+   "t1": 68.7,
+   "link": "BUT",
+   "stakes": 8,
+   "visual_scale": 9,
+   "summary": "Germs could kill them; stay with the boat like the Primrose crew in 1981; kill the lights."
+  },
+  {
+   "id": "B6",
+   "name": "PAYOFF",
+   "t0": 68.7,
+   "t1": 72.84,
+   "link": "THEREFORE",
+   "stakes": 9,
+   "visual_scale": 7,
+   "summary": "The tide lifts the boat; drift out past the reef."
+  },
+  {
+   "id": "B7",
+   "name": "STING",
+   "t0": 72.84,
+   "t1": 80.53,
+   "link": "THEREFORE",
+   "stakes": 6,
+   "visual_scale": 6,
+   "summary": "Dawn, the island small and centred: never be there at all."
+  }
+ ],
+ "narration": [
+  {
+   "id": "L01",
+   "beat": "B1",
+   "tag": "excited",
+   "text": "You're alone on a yacht... in the middle of the night... and your engine just DIED.",
+   "t0": 0.0,
+   "t1": 4.48
+  },
+  {
+   "id": "L02",
+   "beat": "B2",
+   "tag": "panicked",
+   "text": "No lights. No power. Nothing.",
+   "t0": 4.84,
+   "t1": 7.02
+  },
+  {
+   "id": "L03",
+   "beat": "B3",
+   "tag": "dramatic",
+   "text": "And the current is dragging you toward the ONE island on Earth you are not allowed to touch.",
+   "t0": 7.54,
+   "t1": 12.7
+  },
+  {
+   "id": "L04",
+   "beat": "B3",
+   "tag": "excited",
+   "text": "North Sentinel Island!",
+   "t0": 13.04,
+   "t1": 14.26
+  },
+  {
+   "id": "L05",
+   "beat": "B3",
+   "tag": "serious",
+   "text": "The people who live here have refused contact with the outside world for thousands of years. And they defend that. Hard.",
+   "t0": 14.8,
+   "t1": 21.44,
+   "facts": [
+    "F3"
+   ]
+  },
+  {
+   "id": "L06",
+   "beat": "B3",
+   "tag": "dramatic",
+   "text": "Then... crunch. You hit the reef. You're stuck.",
+   "t0": 21.86,
+   "t1": 25.22,
+   "rehook": true
+  },
+  {
+   "id": "L07",
+   "beat": "B3",
+   "tag": "excited",
+   "text": "So what do you actually do? Step one!",
+   "t0": 25.72,
+   "t1": 27.96,
+   "rehook": true,
+   "step": 1
+  },
+  {
+   "id": "L08",
+   "beat": "B3",
+   "tag": "shouting",
+   "text": "Mayday! Grab your radio, channel sixteen, and fire off your emergency beacon. The Indian Coast Guard patrols these waters.",
+   "t0": 28.28,
+   "t1": 35.24,
+   "step": 1,
+   "facts": [
+    "F1",
+    "F2",
+    "F6"
+   ]
+  },
+  {
+   "id": "L09",
+   "beat": "B4",
+   "tag": "excited",
+   "text": "Step two: do NOT go ashore. Not for a photo. Not to say hi.",
+   "t0": 35.72,
+   "t1": 40.38,
+   "step": 2,
+   "facts": [
+    "F2"
+   ]
+  },
+  {
+   "id": "L10",
+   "beat": "B5",
+   "tag": "serious",
+   "text": "They have almost no immunity to our germs. Even a common cold could be deadly for them.",
+   "t0": 40.7,
+   "t1": 45.54,
+   "rehook": true,
+   "facts": [
+    "F4"
+   ]
+  },
+  {
+   "id": "L11",
+   "beat": "B5",
+   "tag": "excited",
+   "text": "Step three: stay with your boat. And this has actually happened before!",
+   "t0": 45.82,
+   "t1": 49.88,
+   "rehook": true,
+   "step": 3
+  },
+  {
+   "id": "L12",
+   "beat": "B5",
+   "tag": "storytelling",
+   "text": "In 1981, a cargo ship called the Primrose ran aground right here. The crew saw armed islanders on the beach... so they stayed inside their steel hull, and waited for days... until helicopters lifted every single one of them out.",
+   "t0": 50.28,
+   "t1": 63.46,
+   "rehook": true,
+   "facts": [
+    "F5"
+   ]
+  },
+  {
+   "id": "L13",
+   "beat": "B5",
+   "tag": "whispers",
+   "text": "Step four: kill the lights. Stay quiet. Leave nothing behind.",
+   "t0": 63.88,
+   "t1": 68.2,
+   "step": 4
+  },
+  {
+   "id": "L14",
+   "beat": "B6",
+   "tag": "excited",
+   "text": "And if the tide lifts your boat? Drift out past the reef, and get gone!",
+   "t0": 68.7,
+   "t1": 72.52,
+   "rehook": true
+  },
+  {
+   "id": "L15",
+   "beat": "B7",
+   "tag": "dramatic",
+   "text": "Because on North Sentinel... the smartest way to survive... is to never be there at all.",
+   "t0": 72.84,
+   "t1": 77.52,
+   "rehook": true
+  }
+ ],
+ "steps": [
+  {
+   "n": 1,
+   "instruction": "Mayday on your radio, channel sixteen, and fire off your emergency beacon.",
+   "because": "The Indian Coast Guard patrols these waters and can reach you.",
+   "line_id": "L08"
+  },
+  {
+   "n": 2,
+   "instruction": "Do not go ashore, not for a photo, not to say hi.",
+   "because": "They have almost no immunity: even a common cold could be deadly for them.",
+   "line_id": "L09"
+  },
+  {
+   "n": 3,
+   "instruction": "Stay with your boat.",
+   "because": "The Primrose crew stayed inside their hull in 1981 and every one of them was lifted out.",
+   "line_id": "L11"
+  },
+  {
+   "n": 4,
+   "instruction": "Kill the lights, stay quiet, leave nothing behind.",
+   "because": "You draw no attention and leave no trace on the island.",
+   "line_id": "L13"
+  }
+ ],
+ "facts": [
+  {
+   "id": "F1",
+   "claim": "VHF channel 16 is the international maritime distress and calling channel.",
+   "source_url": "https://en.wikipedia.org/wiki/Marine_VHF_radio",
+   "source_title": "Marine VHF radio (Wikipedia)",
+   "surprise": 3,
+   "numbers": [
+    "sixteen"
+   ]
+  },
+  {
+   "id": "F2",
+   "claim": "India bars approach to North Sentinel Island (Andaman and Nicobar Islands Protection of Aboriginal Tribes Regulation, 1956) and the Indian Coast Guard and Navy patrol the zone.",
+   "source_url": "https://en.wikipedia.org/wiki/North_Sentinel_Island",
+   "source_title": "North Sentinel Island (Wikipedia)",
+   "surprise": 5
+  },
+  {
+   "id": "F3",
+   "claim": "The Sentinelese have rejected contact with the outside world and are thought to have lived on the island for thousands of years.",
+   "source_url": "https://en.wikipedia.org/wiki/Sentinelese",
+   "source_title": "Sentinelese (Wikipedia)",
+   "surprise": 6,
+   "numbers": [
+    "thousands"
+   ]
+  },
+  {
+   "id": "F4",
+   "claim": "The Sentinelese likely have little or no immunity to common outside diseases; the exclusion zone is mainly a public-health barrier.",
+   "source_url": "https://en.wikipedia.org/wiki/Sentinelese",
+   "source_title": "Sentinelese (Wikipedia)",
+   "surprise": 8
+  },
+  {
+   "id": "F5",
+   "claim": "On 2 August 1981 the cargo ship MV Primrose ran aground on the North Sentinel reef; armed islanders gathered on the shore; the crew stayed aboard and were airlifted out by helicopter after several days.",
+   "source_url": "https://en.wikipedia.org/wiki/MV_Primrose",
+   "source_title": "MV Primrose (Wikipedia)",
+   "surprise": 9,
+   "numbers": [
+    "1981"
+   ]
+  },
+  {
+   "id": "F6",
+   "claim": "An EPIRB emergency beacon transmits a distress signal via satellite to rescue services.",
+   "source_url": "https://en.wikipedia.org/wiki/Emergency_position-indicating_radiobeacon",
+   "source_title": "Emergency position-indicating radiobeacon (Wikipedia)",
+   "surprise": 4
+  }
+ ],
+ "suspense_devices": [
+  {
+   "type": "threat_reveal",
+   "desc": "Fires light up one by one deep in the trees before the hero sees them and backs away from the rail.",
+   "beat": "B3"
+  },
+  {
+   "type": "dramatic_irony",
+   "desc": "The audience learns the islanders defend their isolation before the reef impact strands him there.",
+   "beat": "B3"
+  },
+  {
+   "type": "plant_payoff",
+   "desc": "Radio and beacon are shown in step one; the tide that frees him is the payoff.",
+   "beat": "B6"
+  },
+  {
+   "type": "reveal",
+   "desc": "The Primrose: the same thing really happened here in 1981.",
+   "beat": "B5"
+  }
+ ],
+ "attempts": [
+  {
+   "action": "Flips the dead power switch twice.",
+   "outcome": "fail"
+  },
+  {
+   "action": "Calls Mayday on VHF channel 16.",
+   "outcome": "partial"
+  },
+  {
+   "action": "Fires the emergency beacon.",
+   "outcome": "success"
+  },
+  {
+   "action": "Waits with the boat, dark and quiet, until the tide lifts it off the reef.",
+   "outcome": "success"
+  }
+ ],
+ "resolution": {
+  "hero_action": "He stays aboard, dark and quiet, then drifts out past the reef on the rising tide.",
+  "outcome": "Free of the reef at dawn without ever touching the island."
+ },
+ "loop_back": {
+  "method": "text_join",
+  "desc": "'...is to never be there at all.' -> 'You're alone on a yacht...': the replay shows the situation you must never be in."
+ },
+ "open_loops": [
+  {
+   "id": "CQ",
+   "desc": "How do you survive this without going ashore?",
+   "opened_t": 0.0,
+   "closed_t": 77.52,
+   "primary": true
+  },
+  {
+   "id": "OL1",
+   "desc": "Why is this island forbidden?",
+   "opened_t": 12.7,
+   "closed_t": 21.44,
+   "primary": false
+  },
+  {
+   "id": "OL2",
+   "desc": "Will the Coast Guard come?",
+   "opened_t": 35.24,
+   "closed_t": 63.46,
+   "primary": false
+  },
+  {
+   "id": "OL3",
+   "desc": "Has this happened before?",
+   "opened_t": 49.88,
+   "closed_t": 63.46,
+   "primary": false
+  }
+ ],
+ "overrides": [
+  {
+   "rule": "H-hook-keywords",
+   "reason": "The threat is carried by the image and the overlay 'ALONE IN THE DARK' (threat lexicon: dark); the spoken hook lands on 'DIED' instead of a number."
+  },
+  {
+   "rule": "R-2-midpoint",
+   "reason": "The largest visual (the Primrose wreck at 0.62 D) is the proof beat of escalation 2; the midpoint turns on the ban-and-germs fact rather than spectacle."
+  },
+  {
+   "rule": "R-2",
+   "reason": "Spoken re-hooks are sparse early; the 12-24 s and 25-40 s stretches re-hook visually (island reveal, fires lighting one by one, reef impact, beacon strobe) as planned in the shot list."
+  },
+  {
+   "rule": "N-1-hook",
+   "reason": "The recorded take delivers the 16-word hook at 3.57 w/s; kept for energy, the hook stays under 18 words and 4.5 s."
+  },
+  {
+   "rule": "N-1-payoff",
+   "reason": "The payoff line is a fast release ('get gone!'); the slow, landed delivery is moved to the sting line that answers the core question."
+  },
+  {
+   "rule": "N-2",
+   "reason": "Staccato fragments ('No lights. No power. Nothing.') pull the mean below 6; the one 18-word sentence is the island-reveal line and is split by a pause in delivery."
+  },
+  {
+   "rule": "N-3",
+   "reason": "Second person is the frame for every step; third-person lines are the islanders and the 1981 flashback, which N-3 allows."
+  },
+  {
+   "rule": "N-4-density",
+   "reason": "Numbers are limited to sourced ones (16, thousands of years, 1981); the 3-5 nm zone figure is deliberately not spoken because sources disagree."
+  },
+  {
+   "rule": "N-5",
+   "reason": "Tension is carried by the delivery tags and the step structure; adding tension words would push the script past the recorded take."
+  },
+  {
+   "rule": "N-7",
+   "reason": "The Primrose true story is the strongest surprise and is spent as the proof for step three; the payoff is the thesis line answering the core question."
+  },
+  {
+   "rule": "N-10",
+   "reason": "'actually' is part of the series catchphrase ('what do you actually do?') used as the step-list opener."
+  },
+  {
+   "rule": "T-3",
+   "reason": "The title carries the scenario in second person ('your engine dies'); the threat noun lives on the cover text 'ALONE IN THE DARK'."
+  }
+ ]
+}
