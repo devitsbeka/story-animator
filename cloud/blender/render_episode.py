@@ -44,6 +44,9 @@ import oceanfx  # noqa: E402
 import props_vehicles as vehicles  # noqa: E402
 import storm  # noqa: E402
 # --- end props2 hook
+# >>> cloudrig hook: Blender Studio CloudRig humans (Jay / Phil / Rex) as actors (cloud/blender/cloudrig_adapter.py)
+import cloudrig_adapter  # noqa: E402
+# <<< cloudrig hook
 
 
 def log(*a):
@@ -1141,7 +1144,77 @@ def axis_toward(bone, direction):
 ACTORS = {}
 
 
+# >>> cloudrig hook: actor asset kind 'blend' -> a CloudRig .blend character driven by cloudrig_adapter
+#   spec.assets.characters.<id> = {"kind": "blend", "file": "library_store/characters/jay.blend",
+#                                  "collection": "CH-jay", "rig": "RIG-jay", "options": {"Glasses": 0}, "height": 1.26}
+#   actor.perf  -> body (acting.pose_at), actor.face (or actor.perf.face) -> emotion/gaze/words/blinks (face.py)
+def _cloudrig_file(entry):
+    f = entry.get("file") or ""
+    cands = [f, resolve(f), os.path.join(ROOT, f), os.path.join(ROOT, "library_store", f), lib_path(f),
+             os.path.join(ROOT, "library_store", "characters", os.path.basename(f))]
+    return next((p for p in cands if p and os.path.isfile(p)), None)
+
+
+def build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps):
+    holder = new_empty(f"actor_{idx}_{a['asset']}", yacht_root)
+    holder.matrix_parent_inverse = Matrix.Identity(4)
+    path = _cloudrig_file(entry)
+    if not path:
+        warn(f"CloudRig character '{a['asset']}' not found ({entry.get('file')}); skipped")
+        return None
+    coll, arm, objs = cloudrig_adapter.append_character(path, entry.get("collection", "CH-jay"), entry.get("rig", "RIG-jay"))
+    if arm is None:
+        warn(f"CloudRig character '{a['asset']}': no rig in {entry.get('collection')}")
+        return None
+    hidden = {o.name for c in coll.children_recursive if c.hide_render for o in c.all_objects}
+    for o in objs:
+        if o.parent is None and (o is arm or o.name not in hidden):
+            o.parent = holder
+    cloudrig_adapter.set_character_options(arm, entry.get("options", {"Glasses": 0}))
+    if entry.get("hair", "mesh") == "mesh":
+        cloudrig_adapter.prefer_mesh_hair(coll)
+    sc = float(a.get("height", entry.get("height", 0)) or 0)
+    h = cloudrig_adapter.natural_height(arm)
+    sc = sc / h if sc > 0 else 1.0
+    holder.matrix_basis = obj_mat(trans(a["local"]) @ rot_y(a.get("rotY", 0))) @ Matrix.Scale(sc, 4)
+    arm["cloudrig_bone_alias"] = cloudrig_adapter.BONE_ALIAS
+    pup = cloudrig_adapter.CloudRigPuppet(arm, holder)
+    perf = a.get("perf") or {"stance": [[-10000, "stand"]]}
+    t0 = time.time()
+    pup.bake(perf, a.get("face") or perf.get("face") or {"seed": perf.get("seed", 1)}, shot["from"] - 1, shot["to"] + 1)
+    log(f"  cloudrig actor {a['asset']}: {arm.name} h={h:.3f} scale={sc:.3f} baked {shot['from'] - 1}..{shot['to'] + 1} in {time.time() - t0:.1f}s")
+    ACTORS[a.get("name", "hero")] = arm
+    if lighting.active():
+        lighting.build_hero_rig(idx, holder, arm, a, camera, shot)
+        return arm
+    aimt = bpy.data.objects.new(f"aim_{idx}", None)  # legacy 'moonlight portrait' rig, as for GLB heroes
+    link_obj(aimt)
+    aimt.parent = holder
+    aimt.location = (0, 0, pup.LM["eyes"])
+    rig = a.get("lightRig", {})
+    for nm, loc, energy, size, col in (
+        ("key", (0.9, -1.7, 2.3), rig.get("key", 30.0), 1.6, (0.72, 0.82, 1.0)),
+        ("rim", (-0.9, 1.5, 2.1), rig.get("rim", 110.0), 0.8, (0.62, 0.74, 1.0)),
+        ("bounce", (0.0, -1.2, 0.3), rig.get("bounce", 3.0), 2.0, (0.55, 0.62, 0.8)),
+    ):
+        ld = bpy.data.lights.new(f"hero_{nm}_{idx}", "AREA")
+        ld.energy, ld.size, ld.color = energy, size, col
+        lo = bpy.data.objects.new(f"hero_{nm}_{idx}", ld)
+        link_obj(lo)
+        lo.parent = holder
+        lo.location = loc
+        c = lo.constraints.new("TRACK_TO")
+        c.target, c.track_axis, c.up_axis = aimt, "TRACK_NEGATIVE_Z", "UP_Y"
+    return arm
+# <<< cloudrig hook
+
+
 def build_actor(idx, a, yacht_root, camera, shot, fps):
+    # >>> cloudrig hook
+    entry = SPEC["assets"]["characters"].get(a["asset"])
+    if isinstance(entry, dict) and entry.get("kind") == "blend":
+        return build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps)
+    # <<< cloudrig hook
     key = SPEC["assets"]["characters"].get(a["asset"], f"assets/characters/{a['asset']}/{a['asset']}.glb")
     path = resolve(key)
     holder = new_empty(f"actor_{idx}_{a['asset']}", yacht_root)
@@ -1312,6 +1385,11 @@ def build_props(shot, yacht_root, frames):
             root.parent = arm
             root.parent_type = "BONE"
             root.parent_bone = next((bn.name for bn in arm.data.bones if bn.name.lower() == BONE_OF[att].lower()), BONE_OF[att])
+            # >>> cloudrig hook: CloudRig actors attach props to their DEF bones (DEF-Wrist.R, DEF-Head, ...)
+            alias = arm.get("cloudrig_bone_alias")
+            if alias is not None and att in alias.keys():
+                root.parent_bone = alias[att]
+            # <<< cloudrig hook
             root.matrix_parent_inverse = Matrix.Identity(4)
             s_arm = arm.matrix_world.to_scale()[0] or 1.0
             root.location = Vector(p.get("local", (0, 0, 0))) / s_arm

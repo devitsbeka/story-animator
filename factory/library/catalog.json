@@ -2023,6 +2023,51 @@
    "episodes": [
     "sentinel"
    ]
+  },
+  "bs:jay": {
+   "id": "bs:jay",
+   "kind": "character",
+   "provider": "blenderstudio",
+   "source_id": "sprite-fright/jay",
+   "name": "Jay - CloudRig production character (Sprite Fright)",
+   "licence": "CC-BY-4.0",
+   "attribution": "Jay (from the open movie \"Sprite Fright\") by Blender Studio, (c) Blender Foundation | studio.blender.org, licensed CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+   "authors": [
+    "Blender Studio",
+    "Blender Foundation"
+   ],
+   "url": "https://studio.blender.org/characters/",
+   "files": [
+    {
+     "path": "characters/jay.blend",
+     "sha256": "18383a3d25d68c6a91208e4240f2e4dfe67592739078f18b21cf257be91a8458",
+     "role": "rig"
+    }
+   ],
+   "rig": {
+    "armature": "RIG-jay",
+    "collection": "CH-jay",
+    "type": "CloudRig",
+    "height_m": 1.257,
+    "driver": "cloud/blender/cloudrig_adapter.py (CloudRigPuppet)",
+    "episode_asset": {
+     "kind": "blend",
+     "file": "library_store/characters/jay.blend",
+     "collection": "CH-jay",
+     "rig": "RIG-jay"
+    }
+   },
+   "tags": [
+    "character",
+    "human",
+    "hero",
+    "cloudrig",
+    "face-rig",
+    "stylised"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
   }
  }
 }
