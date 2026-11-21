@@ -1,0 +1,118 @@
+{
+ "stage": "develop",
+ "ok": false,
+ "passed": [
+  "H-1",
+  "H-5",
+  "H-6",
+  "H-7",
+  "H-banned-openers",
+  "H-hook-keywords",
+  "INTEGRITY.beat_refs",
+  "INTEGRITY.cq_line",
+  "INTEGRITY.duration",
+  "INTEGRITY.fact_refs",
+  "INTEGRITY.hook_lines",
+  "INTEGRITY.line_ids",
+  "INTEGRITY.line_order",
+  "INTEGRITY.line_times",
+  "N-1",
+  "N-1-budget",
+  "N-1-hook",
+  "N-1-payoff",
+  "N-10",
+  "N-2",
+  "N-3",
+  "N-4",
+  "N-5-superlatives",
+  "N-6",
+  "N-9",
+  "P5",
+  "R-1",
+  "R-1-open",
+  "R-2",
+  "R-2-midpoint",
+  "R-2-tokens",
+  "R-3",
+  "R-3-and-then",
+  "R-4",
+  "R-5",
+  "R-6",
+  "R-7",
+  "R-beats-order",
+  "S-attempts",
+  "S-essence",
+  "S-flaw",
+  "S1",
+  "S1-causal",
+  "S4",
+  "S5",
+  "S7",
+  "T-3",
+  "T-5"
+ ],
+ "issues": [
+  {
+   "rule": "R-beats-window",
+   "severity": "HEUR",
+   "msg": "beat starts off the 2.1 beat map by more than 10% of D: {'ESCALATION_1': -8.0}",
+   "overridden": false
+  },
+  {
+   "rule": "N-4-density",
+   "severity": "HEUR",
+   "msg": "need a concrete number every 10 s (largest gap 18.4 s)",
+   "overridden": false
+  },
+  {
+   "rule": "N-5",
+   "severity": "HEUR",
+   "msg": "tension-word density 10/214 words is below 1 per 20",
+   "overridden": false
+  },
+  {
+   "rule": "N-7",
+   "severity": "HEUR",
+   "msg": "surprise ranking ['F4', 'F3', 'F5'] at [46.0, 38.6, 71.4] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early",
+   "overridden": false
+  }
+ ],
+ "overridden": {},
+ "meta": {
+  "model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 11421
+   },
+   "cache_creation_input_tokens": 11421,
+   "cache_read_input_tokens": 0,
+   "fallback_credit": null,
+   "inference_geo": "global",
+   "input_tokens": 3142,
+   "iterations": [
+    {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 11421
+     },
+     "cache_creation_input_tokens": 11421,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 3142,
+     "model": null,
+     "output_tokens": 49337,
+     "type": "message"
+    }
+   ],
+   "output_tokens": 49337,
+   "output_tokens_details": {
+    "thinking_tokens": 42585
+   },
+   "server_tool_use": null,
+   "service_tier": "standard",
+   "speed": "standard"
+  },
+  "grammar": false
+ }
+}

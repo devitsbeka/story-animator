@@ -1,0 +1,72 @@
+{
+ "story": "/home/user/story-animator/episodes/waterspout/story.json",
+ "format": "short",
+ "backend": "elevenlabs_rest",
+ "voice": {
+  "voice_id": "467tX2b9Bky3cD6jXpNa",
+  "name": "Max - USA Energetic Animated Cartoon",
+  "native_wps": 2.86
+ },
+ "model_id": "eleven_v4",
+ "speed_requested": 1.031,
+ "tags_sent": true,
+ "chunks": 1,
+ "chars": 1457,
+ "takes": [
+  {
+   "chunk": 0,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/da72549c4926d06904c68b8c.mp3",
+   "cache_hit": false,
+   "duration_s": 81.789,
+   "wps": 2.629,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 215,
+    "matched": 215,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -1.55,
+   "score": 1.7388,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "7UNDKed5aBByyzhi47oQ"
+   },
+   "picked": true
+  }
+ ],
+ "tempo_correction": 1.0725,
+ "pacing": {
+  "wps": 2.82,
+  "target": [
+   2.8,
+   3.1
+  ],
+  "in_band": true,
+  "pre_correction_wps": 2.629
+ },
+ "loudness": {
+  "I": -16.6,
+  "TP": -1.7,
+  "target_I": -16.0,
+  "target_TP": -1.5
+ },
+ "clipping": {
+  "clipped_samples": 0,
+  "peak_dbfs": -1.76
+ },
+ "timing_sources": [
+  "char_alignment"
+ ],
+ "outputs": {
+  "audio": "/home/user/story-animator/episodes/waterspout/audio/narration.mp3",
+  "words": "/home/user/story-animator/episodes/waterspout/audio/narration.words.json",
+  "lines": "/home/user/story-animator/episodes/waterspout/audio/narration.lines.json"
+ }
+}

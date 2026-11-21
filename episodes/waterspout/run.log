@@ -1,0 +1,16 @@
+22:34:40 [waterspout] stage 1 develop: start
+22:34:42 [waterspout] stage develop: FAILED BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'The compiled grammar is too large, which would cause performance issues. Simplify your tool schemas or reduce the number of strict tools.'}, 'request_id': 'req_011ChGsSUzsjfKXpbU14e5Pw'}
+22:34:42 [waterspout] run status: failed  cost $0.00  time 2s
+22:35:32 [waterspout] stage 1 develop: start
+22:43:22 [waterspout] [develop] attempt 1: FAIL - 48 checks passed, 4 blocking, 0 overridden (468.2s, claude-opus-5-5)
+22:43:22 [waterspout]     [HEUR R-beats-window] beat starts off the 2.1 beat map by more than 10% of D: {'ESCALATION_1': -8.0}
+22:43:22 [waterspout]     [HEUR N-4-density] need a concrete number every 10 s (largest gap 18.4 s)
+22:43:22 [waterspout]     [HEUR N-5] tension-word density 10/214 words is below 1 per 20
+22:43:22 [waterspout]     [HEUR N-7] surprise ranking ['F4', 'F3', 'F5'] at [46.0, 38.6, 71.4] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early
+22:47:55 [waterspout] [develop] attempt 2: FAIL - 51 checks passed, 1 blocking, 0 overridden (273.8s, claude-opus-5-5)
+22:47:55 [waterspout]     [HEUR N-4-density] need a concrete number every 10 s (largest gap 11.3 s)
+22:48:53 [waterspout] [develop] attempt 3: PASS - 52 checks passed, 0 blocking, 0 overridden (57.4s, claude-opus-5-5)
+22:48:53 [waterspout] stage develop: done in 800.7s ($2.009)
+22:48:53 [waterspout] stage 5a voice: start
+22:48:53 [waterspout] stage 2 breakdown: start
+22:49:15 [waterspout] stage voice: done in 21.9s ($0.364)

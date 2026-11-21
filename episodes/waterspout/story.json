@@ -1,0 +1,604 @@
+{
+ "id": "ep_waterspout_bermuda_night",
+ "format": "short",
+ "title": "Waterspout in the dark: how do you survive?",
+ "logline": "Alone at the helm at night inside the Bermuda Triangle, an exhausted solo sailor sees a waterspout spin up beside his boat. His first instinct, running straight away, keeps him in its path. He learns to read the water and turn sideways to get out of it.",
+ "essence": "Out at sea at night, instinct says run away; survival means reading the water and turning sideways.",
+ "style": "pixar_night_survival",
+ "duration_s": 75,
+ "hero": {
+  "name": "Theo",
+  "description": "Stylised Pixar-quality solo sailor in his thirties. Yellow foul-weather jacket, safety harness and tether, salt-stiff hair. He sails a small sloop alone, and the glowing compass binnacle lights his face warm against the cool moon key.",
+  "flaw": "Exhausted after a long solo watch with no crew to share the lookout. Under fear, his instinct is to flee straight away from danger."
+ },
+ "hook": {
+  "format": "IMR",
+  "line_ids": [
+   "L01"
+  ],
+  "text_overlay": {
+   "text": "TORNADO IN THE DARK",
+   "start": 0,
+   "end": 2.6
+  },
+  "visual": "Frame 0 is a flash-forward to peak danger. Medium close-up of Theo gripping the wheel, eyes wide with fear, his face lit warm orange by the compass binnacle (the single warm danger point). Over his shoulder, a lightning flash lights a towering waterspout funnel and the white spray ring at its base, close enough to fill the background. The camera is already dollying in with tense handheld (0.15). Spray and rain streak across frame, the tether whips and the deck heels. The bright warm face against the deep blue-teal night gives a subject/background contrast of at least 4.5:1."
+ },
+ "core_question": {
+  "text": "How do you survive a waterspout beside your boat at night?",
+  "answer_line": "L20"
+ },
+ "stakes": {
+  "physical": "Violent rotating wind, flying gear and a knockdown that can slam a solo sailor into the deck or the boom.",
+  "legal_ethical": "As a solo skipper he still owes a proper lookout. Steering closer to film it, or forcing a rescue crew out into a thunderstorm, would put other lives at risk.",
+  "mortal": "Thrown overboard alone at night with help hours away, and nobody to see him go."
+ },
+ "time_pressure": true,
+ "ticking_clock": {
+  "what": "On-screen distance card from the waterspout's spray ring to the boat. It is shown as a badge and never narrated.",
+  "readings": [
+   {
+    "t": 3.4,
+    "value": "SPOUT 800 M",
+    "severity": 2
+   },
+   {
+    "t": 20.0,
+    "value": "SPOUT 400 M",
+    "severity": 4
+   },
+   {
+    "t": 38.95,
+    "value": "SPOUT 200 M",
+    "severity": 6
+   },
+   {
+    "t": 54.25,
+    "value": "SPOUT 60 M",
+    "severity": 8
+   },
+   {
+    "t": 66.0,
+    "value": "SPOUT 30 M",
+    "severity": 10
+   }
+  ]
+ },
+ "spine": {
+  "once_upon_a_time": "Once upon a time, a worn-out solo sailor was crossing the Bermuda Triangle at night.",
+  "every_day": "Every day he trusted his boat, his compass and his own tired eyes, and the Triangle's legends were just stories.",
+  "one_day": "One night, a lightning flash showed him a waterspout spinning up right beside his boat.",
+  "because_of_that": [
+   "Because of that, he did what instinct said: he fired up the engine and ran straight away, calling for help that was hours off. But the spout slid down his wake and kept him in its path.",
+   "Because of that, he stopped staring at the funnel and watched the water instead. He saw the spray ring that meant it was nearly at full strength.",
+   "Because of that, he stopped running blind. He kept his distance and tracked the spray ring to read where it was going."
+  ],
+  "until_finally": "Until finally he put the helm over ninety degrees to its path, and the waterspout tore past his stern.",
+  "ever_since": "Ever since then, he knows the Triangle was never cursed. The weather is what you respect, and the water tells you where it's going."
+ },
+ "beats": [
+  {
+   "id": "B1",
+   "name": "HOOK",
+   "t0": 0,
+   "t1": 3.3,
+   "link": null,
+   "stakes": 8,
+   "visual_scale": 7,
+   "summary": "Flash-forward to peak danger (IMR). Theo is at the wheel in fear, with a lightning-lit waterspout and spray ring right behind him. The camera pushes in. The overlay reads TORNADO IN THE DARK. An impact hit lands on frame 0, and the tense D minor bed is already playing."
+  },
+  {
+   "id": "B2",
+   "name": "CONTEXT",
+   "t0": 3.3,
+   "t1": 11.2,
+   "link": "THEREFORE",
+   "stakes": 3,
+   "visual_scale": 3,
+   "summary": "Rewind a few minutes on a time-skip card. A wide establishing shot shows the small sloop alone under moonlight. Theo nods at the helm, and the warm compass binnacle and the wheel are planted. Over the Flight 19 line, five faint bomber silhouettes fade respectfully across the moon; no crash is shown. Threat reveal (dramatic irony): a lightning flicker behind Theo shows a dark spot and a spiral on the water off his quarter, held 2 s. He doesn't see it. The distance card first reads 800 M."
+  },
+  {
+   "id": "B3",
+   "name": "ESCALATION_1",
+   "t0": 11.2,
+   "t1": 31.7,
+   "link": "BUT",
+   "stakes": 5,
+   "visual_scale": 6,
+   "summary": "Inciting incident at 11.25 s: lightning flashes and Theo sees the spout. Worse, it is the tornado kind of the two kinds of waterspout. Instinct takes over: he fires up the engine and runs, calling on channel sixteen while help stays hours away. But the spout slides down his wake."
+  },
+  {
+   "id": "B4",
+   "name": "MIDPOINT",
+   "t0": 31.7,
+   "t1": 38.9,
+   "link": "BUT",
+   "stakes": 7,
+   "visual_scale": 9,
+   "summary": "The biggest visual before the payoff. The second most surprising fact lands: waterspouts grow in five stages. A rapid lightning strobe lights the full funnel from sea to cloud, and the spray ring tears the sea white around its base. A crane rise to an aerial view shows how tiny the boat is beside it. The new, harder question: watch the water, not the funnel."
+  },
+  {
+   "id": "B5",
+   "name": "ESCALATION_2",
+   "t0": 38.9,
+   "t1": 61.1,
+   "link": "THEREFORE",
+   "stakes": 8,
+   "visual_scale": 8,
+   "summary": "The spray ring is stage three, and stage four is full strength. You can't wait until stage five. The distance card drops to 200 M. Step one: never steer closer to look. Step two: track the stage-three spray ring. Climax begins at 54.25 s: stage four, and the spray ring swings toward the bow as the card reads 60 M. A whispered promise that step three saves you, then a 0.15 s silence hold."
+  },
+  {
+   "id": "B6",
+   "name": "PAYOFF",
+   "t0": 61.1,
+   "t1": 71.6,
+   "link": "THEREFORE",
+   "stakes": 9,
+   "visual_scale": 9,
+   "summary": "Step three is the counter-intuitive one and the top surprise. Theo reads the compass and puts the helm hard over, ninety degrees to the spout's path, instead of running away. The spout tears past his stern at 30 M. The CQ is answered by Theo's own choice and skill, with no rescue and no luck."
+  },
+  {
+   "id": "B7",
+   "name": "STING",
+   "t0": 71.6,
+   "t1": 75,
+   "link": "BUT",
+   "stakes": 6,
+   "visual_scale": 5,
+   "summary": "The spout recedes toward the horizon under the moon. The last line debunks the Triangle legend and cuts hard on an unfinished sentence that the first line completes on replay."
+  }
+ ],
+ "narration": [
+  {
+   "id": "L01",
+   "beat": "B1",
+   "tag": "urgent",
+   "text": "Tornado on the sea. Beside your boat, in the dark.",
+   "t0": 0.2,
+   "t1": 3.25,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F2"
+   ]
+  },
+  {
+   "id": "L02",
+   "beat": "B2",
+   "tag": "serious",
+   "text": "You're sailing solo at night, exhausted, inside the Bermuda Triangle.",
+   "t0": 3.4,
+   "t1": 6.65,
+   "rehook": false,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L03",
+   "beat": "B2",
+   "tag": "whispers",
+   "text": "In 1945, five Navy bombers vanished out here.",
+   "t0": 6.8,
+   "t1": 9.45,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F1"
+   ]
+  },
+  {
+   "id": "L04",
+   "beat": "B2",
+   "tag": "whispers",
+   "text": "Fourteen men. Never found.",
+   "t0": 9.6,
+   "t1": 11.1,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F1"
+   ]
+  },
+  {
+   "id": "L05",
+   "beat": "B3",
+   "tag": "urgent",
+   "text": "Then lightning flashes, and you see it.",
+   "t0": 11.25,
+   "t1": 13.55,
+   "rehook": true,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L06",
+   "beat": "B3",
+   "tag": "excited",
+   "text": "A spinning column of sea and cloud, taller than your mast.",
+   "t0": 13.7,
+   "t1": 17.3,
+   "rehook": false,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L07",
+   "beat": "B3",
+   "tag": "serious",
+   "text": "Waterspouts come in two kinds. Worse, your spout is the tornado kind.",
+   "t0": 17.45,
+   "t1": 21.15,
+   "rehook": true,
+   "step": null,
+   "facts": [
+    "F2"
+   ]
+  },
+  {
+   "id": "L08",
+   "beat": "B3",
+   "tag": "urgent",
+   "text": "Your only instinct? Fire up the engine and run. Mistake.",
+   "t0": 21.3,
+   "t1": 24.5,
+   "rehook": false,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L09",
+   "beat": "B3",
+   "tag": "tense",
+   "text": "You call channel sixteen as you go. Help is hours away.",
+   "t0": 24.65,
+   "t1": 28.15,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F6"
+   ]
+  },
+  {
+   "id": "L10",
+   "beat": "B3",
+   "tag": "serious",
+   "text": "But it slides the same way, right down your wake.",
+   "t0": 28.3,
+   "t1": 31.6,
+   "rehook": true,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L11",
+   "beat": "B4",
+   "tag": "excited",
+   "text": "Waterspouts grow in five stages. Here's the catch: watch the water.",
+   "t0": 31.75,
+   "t1": 35.35,
+   "rehook": true,
+   "step": null,
+   "facts": [
+    "F3"
+   ]
+  },
+  {
+   "id": "L12",
+   "beat": "B4",
+   "tag": "excited",
+   "text": "Lightning strobes, and you see the sea below spinning white.",
+   "t0": 35.5,
+   "t1": 38.8,
+   "rehook": false,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L13",
+   "beat": "B5",
+   "tag": "serious",
+   "text": "That spray ring is stage three. Stage four is full strength.",
+   "t0": 38.95,
+   "t1": 42.6,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F3"
+   ]
+  },
+  {
+   "id": "L14",
+   "beat": "B5",
+   "tag": "urgent",
+   "text": "But it's closing. You can't wait until stage five.",
+   "t0": 42.75,
+   "t1": 46.0,
+   "rehook": true,
+   "step": null,
+   "facts": [
+    "F3"
+   ]
+  },
+  {
+   "id": "L15",
+   "beat": "B5",
+   "tag": "serious",
+   "text": "Step one: never steer closer to look, because some are as dangerous as tornadoes.",
+   "t0": 46.15,
+   "t1": 50.45,
+   "rehook": false,
+   "step": 1,
+   "facts": [
+    "F7",
+    "F2"
+   ]
+  },
+  {
+   "id": "L16",
+   "beat": "B5",
+   "tag": "urgent",
+   "text": "Step two: track the stage-three ring, because that shows its path.",
+   "t0": 50.6,
+   "t1": 54.1,
+   "rehook": false,
+   "step": 2,
+   "facts": [
+    "F7",
+    "F3"
+   ]
+  },
+  {
+   "id": "L17",
+   "beat": "B5",
+   "tag": "urgent",
+   "text": "Stage four. Suddenly the spray ring swings toward your bow.",
+   "t0": 54.25,
+   "t1": 57.65,
+   "rehook": true,
+   "step": null,
+   "facts": [
+    "F3"
+   ]
+  },
+  {
+   "id": "L18",
+   "beat": "B5",
+   "tag": "whispers",
+   "text": "Worse, it's gaining. Stay with me: step three saves you.",
+   "t0": 57.8,
+   "t1": 61.05,
+   "rehook": true,
+   "step": null,
+   "facts": []
+  },
+  {
+   "id": "L19",
+   "beat": "B6",
+   "tag": "serious",
+   "text": "Step three: turn ninety degrees to its path, because that's how you dodge it.",
+   "t0": 61.2,
+   "t1": 66.7,
+   "rehook": false,
+   "step": 3,
+   "facts": [
+    "F4"
+   ]
+  },
+  {
+   "id": "L20",
+   "beat": "B6",
+   "tag": "calm",
+   "text": "Then it tears past your stern. Ninety degrees, not running, saved you.",
+   "t0": 66.9,
+   "t1": 71.5,
+   "rehook": true,
+   "step": null,
+   "facts": [
+    "F4"
+   ]
+  },
+  {
+   "id": "L21",
+   "beat": "B7",
+   "tag": "serious",
+   "text": "The Triangle was never cursed. Out here, it's just a—",
+   "t0": 71.65,
+   "t1": 74.85,
+   "rehook": false,
+   "step": null,
+   "facts": [
+    "F5"
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "n": 1,
+   "instruction": "Never steer closer to look.",
+   "because": "Some waterspouts can be just as dangerous as tornadoes.",
+   "line_id": "L15"
+  },
+  {
+   "n": 2,
+   "instruction": "Track the stage-three spray ring on the water.",
+   "because": "The spray ring at the base shows which way the spout is moving, and you need its apparent movement to get out of its way.",
+   "line_id": "L16"
+  },
+  {
+   "n": 3,
+   "instruction": "Turn ninety degrees to its path.",
+   "because": "Moving at a 90 degree angle to its apparent movement is the official way to avoid it; running straight away keeps you in its track.",
+   "line_id": "L19"
+  }
+ ],
+ "facts": [
+  {
+   "id": "F1",
+   "claim": "On 5 December 1945, Flight 19, five US Navy TBM Avenger torpedo bombers on a training flight from Fort Lauderdale, disappeared over the Atlantic. All fourteen airmen were lost and never found. The event became central to the Bermuda Triangle legend.",
+   "source_url": "https://en.wikipedia.org/wiki/Flight_19",
+   "source_title": "Flight 19 - Wikipedia",
+   "surprise": 5,
+   "numbers": [
+    "1945",
+    "five",
+    "Fourteen"
+   ]
+  },
+  {
+   "id": "F2",
+   "claim": "Waterspouts fall into two categories: fair weather waterspouts and tornadic waterspouts. Tornadic waterspouts are tornadoes that form over water, or move from land to water. They have the same characteristics as a land tornado and are associated with severe thunderstorms, high winds and seas, and frequent dangerous lightning.",
+   "source_url": "https://oceanservice.noaa.gov/facts/waterspout.html",
+   "source_title": "What is a waterspout? - NOAA National Ocean Service",
+   "surprise": 6,
+   "numbers": [
+    "two"
+   ]
+  },
+  {
+   "id": "F3",
+   "claim": "Waterspout development is described in five stages: a dark spot on the water, a spiral pattern, a spray ring (stage three), the mature vortex (stage four), and decay (stage five).",
+   "source_url": "https://en.wikipedia.org/wiki/Waterspout",
+   "source_title": "Waterspout - Wikipedia",
+   "surprise": 8,
+   "numbers": [
+    "five",
+    "three",
+    "stage-three",
+    "four",
+    "Stage four"
+   ]
+  },
+  {
+   "id": "F4",
+   "claim": "National Weather Service waterspout safety guidance: the best way to avoid a waterspout is to move at a 90 degree angle to its apparent movement.",
+   "source_url": "https://www.weather.gov/key/waterspouts",
+   "source_title": "Waterspouts - National Weather Service Key West",
+   "surprise": 9,
+   "numbers": [
+    "ninety",
+    "Ninety"
+   ]
+  },
+  {
+   "id": "F5",
+   "claim": "NOAA: there is no evidence that mysterious disappearances occur with any greater frequency in the Bermuda Triangle than in any other large, well-traveled area of the ocean. The US Board on Geographic Names does not recognise it as an official name.",
+   "source_url": "https://oceanservice.noaa.gov/facts/bermudatri.html",
+   "source_title": "What is the Bermuda Triangle? - NOAA National Ocean Service",
+   "surprise": 7,
+   "numbers": []
+  },
+  {
+   "id": "F6",
+   "claim": "Marine VHF channel 16 (156.8 MHz) is the international distress, safety and calling channel.",
+   "source_url": "https://en.wikipedia.org/wiki/Marine_VHF_radio",
+   "source_title": "Marine VHF radio - Wikipedia",
+   "surprise": 3,
+   "numbers": [
+    "sixteen"
+   ]
+  },
+  {
+   "id": "F7",
+   "claim": "National Weather Service waterspout safety guidance: never move closer to investigate a waterspout, because some can be just as dangerous as tornadoes. Avoidance is based on the waterspout's apparent movement, so you must watch which way it is travelling.",
+   "source_url": "https://www.weather.gov/key/waterspouts",
+   "source_title": "Waterspouts - National Weather Service Key West",
+   "surprise": 5,
+   "numbers": []
+  }
+ ],
+ "suspense_devices": [
+  {
+   "type": "threat_reveal",
+   "desc": "During L03 (about 7.0-9.0 s), a lightning flicker behind the dozing Theo reveals a dark spot and a spiral pattern on the water off his quarter. The shot is held 2.0 s. Theo only sees the spout at 11.25 s, more than 3 s later.",
+   "beat": "B2"
+  },
+  {
+   "type": "dramatic_irony",
+   "desc": "The audience sees the 800 M distance card and the forming spiral while Theo still believes the night is calm.",
+   "beat": "B2"
+  },
+  {
+   "type": "ticking_clock",
+   "desc": "Spray-ring distance badge reads 800 M, then 400 M, 200 M, 60 M and 30 M. It is re-shown at least every 20 s, worse each time.",
+   "beat": "B2"
+  },
+  {
+   "type": "plant_payoff",
+   "desc": "The glowing compass binnacle and the wheel are planted in the hook and context, before 12 s. In the payoff, Theo uses that compass to hold a heading ninety degrees to the spout's path.",
+   "beat": "B6"
+  },
+  {
+   "type": "reveal",
+   "desc": "At the midpoint, a lightning strobe reveals the full funnel from sea to cloud and the white spray ring. A crane rise shows the boat's scale against it.",
+   "beat": "B4"
+  },
+  {
+   "type": "open_loop",
+   "desc": "Whispered promise 'Stay with me: step three saves you', paid off by step three in L19.",
+   "beat": "B5"
+  }
+ ],
+ "attempts": [
+  {
+   "action": "Fires up the engine and runs straight away from the waterspout.",
+   "outcome": "fail"
+  },
+  {
+   "action": "Calls on VHF channel sixteen while running.",
+   "outcome": "partial"
+  },
+  {
+   "action": "Keeps his distance and tracks the spray ring on the water to read its path.",
+   "outcome": "partial"
+  },
+  {
+   "action": "Turns ninety degrees to the spout's path on the compass.",
+   "outcome": "success"
+  }
+ ],
+ "resolution": {
+  "hero_action": "Theo tracks the spray ring's motion, then puts the helm hard over and holds a compass heading ninety degrees to the waterspout's apparent path instead of fleeing straight away.",
+  "outcome": "The waterspout tears past his stern at about 30 m. He is soaked and shaken, but afloat and aboard."
+ },
+ "loop_back": {
+  "method": "text_join",
+  "desc": "The last line 'Out here, it's just a—' is completed on replay by the first line 'Tornado on the sea.', giving 'Out here, it's just a tornado on the sea.' The final frame of the receding funnel cuts straight back to frame 0."
+ },
+ "open_loops": [
+  {
+   "id": "LP1",
+   "desc": "Core Question: how do you survive a waterspout beside your boat at night?",
+   "opened_t": 0.2,
+   "closed_t": 71.5,
+   "primary": true
+  },
+  {
+   "id": "LP2",
+   "desc": "Can you outrun it? Opened by the instinct to run (L08), closed when it slides down your wake (L10).",
+   "opened_t": 21.3,
+   "closed_t": 31.6,
+   "primary": false
+  },
+  {
+   "id": "LP3",
+   "desc": "Which of the five stages is it in? Opened in L11, closed by stage three and stage four in L13.",
+   "opened_t": 31.75,
+   "closed_t": 42.6,
+   "primary": false
+  },
+  {
+   "id": "LP4",
+   "desc": "The 'step three saves you' promise (L18), paid off by step three (L19).",
+   "opened_t": 57.8,
+   "closed_t": 66.7,
+   "primary": false
+  },
+  {
+   "id": "LP5",
+   "desc": "Was it the Triangle? Opened as the spout passes and recedes toward the legend's horizon (L20), closed by 'The Triangle was never cursed' (L21).",
+   "opened_t": 66.9,
+   "closed_t": 74.85,
+   "primary": false
+  }
+ ],
+ "overrides": []
+}

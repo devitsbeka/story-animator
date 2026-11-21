@@ -1,0 +1,153 @@
+{
+ "schema": "factory.run/1",
+ "episodeId": "waterspout",
+ "idea": "You're sailing solo at night when a waterspout forms right next to your boat near the Bermuda Triangle. What do you actually do to survive?",
+ "format": "short",
+ "style": "pixar_night_survival",
+ "render": "local",
+ "quality": "preview",
+ "offline": false,
+ "stubs": [
+  "finish",
+  "previs",
+  "render"
+ ],
+ "autoApprove": false,
+ "options": {
+  "idea": "You're sailing solo at night when a waterspout forms right next to your boat near the Bermuda Triangle. What do you actually do to survive?",
+  "fmt": "short",
+  "style": "pixar_night_survival",
+  "render": "local",
+  "quality": "preview",
+  "offline": false,
+  "auto_approve": false,
+  "stubs": [
+   "finish",
+   "previs",
+   "render"
+  ],
+  "episodes_dir": "/home/user/story-animator/episodes",
+  "fixtures": "/home/user/story-animator/factory/director/fixtures/sentinel",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "voice": "auto",
+  "workers": 1,
+  "render_res": null,
+  "render_samples": null,
+  "render_engine": null,
+  "blender": null,
+  "previs_res": "144x256",
+  "previs_samples": 4,
+  "previs_shots": [],
+  "budget": 15.0,
+  "max_qc_fixes": 1,
+  "parallel_stages": 2,
+  "farm_poll_s": 60
+ },
+ "status": "running",
+ "created": "2026-11-21T22:35:32+00:00",
+ "updated": "2026-11-21T22:49:15+00:00",
+ "stages": {
+  "develop": {
+   "status": "done",
+   "started": "2026-11-21T22:35:32",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 2.0086,
+   "seconds": 800.72,
+   "finished": "2026-11-21T22:48:53",
+   "artifacts": [
+    "episodes/waterspout/story.json"
+   ],
+   "info": {
+    "tokens": {
+     "input": 30515,
+     "output": 88500
+    },
+    "llmAttempts": 3
+   }
+  },
+  "breakdown": {
+   "status": "running",
+   "started": "2026-11-21T22:48:53",
+   "attempts": 1,
+   "error": null
+  },
+  "library": {
+   "status": "pending"
+  },
+  "voice": {
+   "status": "done",
+   "started": "2026-11-21T22:48:53",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.3645,
+   "seconds": 21.9,
+   "finished": "2026-11-21T22:49:15",
+   "artifacts": [
+    "episodes/waterspout/audio/narration.mp3",
+    "episodes/waterspout/audio/narration.words.json"
+   ],
+   "info": {
+    "audio": "episodes/waterspout/audio/narration.mp3",
+    "words": "episodes/waterspout/audio/narration.words.json",
+    "provider": "factory.voice",
+    "chars": 1215
+   }
+  },
+  "direct": {
+   "status": "pending"
+  },
+  "sound": {
+   "status": "pending"
+  },
+  "previs": {
+   "status": "pending"
+  },
+  "render": {
+   "status": "pending"
+  },
+  "finish": {
+   "status": "pending"
+  },
+  "qc": {
+   "status": "pending"
+  }
+ },
+ "approval": null,
+ "qc": {
+  "iterations": []
+ },
+ "cost": {
+  "totalUSD": 2.3731,
+  "byStage": {
+   "develop": 2.0086,
+   "breakdown": 0.0,
+   "library": 0.0,
+   "voice": 0.3645,
+   "direct": 0.0,
+   "sound": 0.0,
+   "previs": 0.0,
+   "render": 0.0,
+   "finish": 0.0,
+   "qc": 0.0
+  },
+  "budgetUSD": 15.0
+ },
+ "time": {
+  "totalSeconds": 822.62,
+  "byStage": {
+   "develop": 800.72,
+   "breakdown": 0.0,
+   "library": 0.0,
+   "voice": 21.9,
+   "direct": 0.0,
+   "sound": 0.0,
+   "previs": 0.0,
+   "render": 0.0,
+   "finish": 0.0,
+   "qc": 0.0
+  }
+ },
+ "events": []
+}
