@@ -1,0 +1,8 @@
+{
+ "id": "voice_test",
+ "format": "short",
+ "style": "pixar_night_survival",
+ "narration": [
+  {"id": "L01", "beat": "B1", "tag": "excited", "text": "Your engine just DIED... so what do you do now?", "t0": 0.0, "t1": 3.3}
+ ]
+}
