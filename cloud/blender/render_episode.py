@@ -1082,9 +1082,9 @@ def build_actor(idx, a, yacht_root, camera, shot, fps):
         aimt.location = (0, 0, 1.35)
         rig = a.get("lightRig", {})
         for nm, loc, energy, size, col in (
-            ("key", (0.9, -1.7, 2.3), rig.get("key", 90.0), 1.6, (0.72, 0.82, 1.0)),
-            ("rim", (-0.9, 1.5, 2.1), rig.get("rim", 160.0), 0.8, (0.62, 0.74, 1.0)),
-            ("bounce", (0.0, -1.2, 0.3), rig.get("bounce", 12.0), 2.0, (0.55, 0.62, 0.8)),
+            ("key", (0.9, -1.7, 2.3), rig.get("key", 30.0), 1.6, (0.72, 0.82, 1.0)),
+            ("rim", (-0.9, 1.5, 2.1), rig.get("rim", 110.0), 0.8, (0.62, 0.74, 1.0)),
+            ("bounce", (0.0, -1.2, 0.3), rig.get("bounce", 3.0), 2.0, (0.55, 0.62, 0.8)),
         ):
             ld = bpy.data.lights.new(f"hero_{nm}_{idx}", "AREA")
             ld.energy, ld.size, ld.color = energy, size, col

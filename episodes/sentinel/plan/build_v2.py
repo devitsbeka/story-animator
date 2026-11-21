@@ -149,16 +149,16 @@ shot("A01", "Alone on a yacht", 0, 75,
      actors=hero(HELM, hp(0, "helm", seed=2)), props=helm_props(), key=60)
 SHOTS[-1]["camera"] = orbit(HELM, 0, 75, [150, 160], [42, 26], [30, 9], [30, 30], "arrive")
 # 2 MS push in from the stern quarter at the helm
-shot("A02", "Middle of the night", 75, 118, orbit(HELM, 75, 118, [200, 192], [3.6, 2.8], [0.5, 0.35], [32, 30], "move"),
+shot("A02", "Middle of the night", 75, 118, orbit(HELM, 75, 118, [55, 40], [3.4, 2.6], [0.6, 0.4], [32, 30], "move"),
      yacht=AFLOAT_LIT, island=ISL_FAR, actors=hero(HELM, hp(75, "helm", poses=[P("look_down", 92, 108, 10, 10)], seed=2)), props=helm_props(), key=100)
 # 3 crash zoom: engine dies (startle, look back)
-shot("A03", "Engine died", 118, 158, orbit(HELM, 118, 158, [-25, -20], [2.6, 1.3], [0.25, 0.2], [30, 22], "crash", target="face"),
+shot("A03", "Engine died", 118, 158, orbit(HELM, 118, 158, [70, 62], [2.8, 1.6], [0.3, 0.2], [30, 24], "crash", target="face"),
      yacht={**AFLOAT_LIT, "lights": [[118, 1], [128, 1], [130, 0.3], [133, 1], [140, 1], [142, 0.2], [146, 0.7], [150, 0.15], [158, 0.15]]},
      island=ISL_FAR, actors=hero(HELM, hp(118, "helm", poses=[P("look_back", 132, 158, 6, 6, "snap")], verbs=[V("flinch", 128, 26)], seed=2)),
      props=helm_props([[118, 1], [140, 1], [142, 0.2], [146, 0.7], [150, 0]], [[118, 1], [140, 1], [142, 0], [146, 0.5], [149, 0]]),
      shakes=[{"at": 128, "px": 6, "tau": 1.4}], key=145)
 # 4 No lights, no power: flips a dead switch twice, lit only by the moon
-shot("A04", "No lights no power", 158, 241, orbit(SWITCH, 158, 241, [-35, -12], [1.7, 1.25], [0.1, 0.05], [28, 26], "move", target="face"),
+shot("A04", "No lights no power", 158, 241, orbit(SWITCH, 158, 241, [-115, -100], [1.9, 1.5], [0.15, 0.1], [30, 28], "move", target="face"),
      yacht=AFLOAT_DARK, island=ISL_FAR,
      actors=hero(SWITCH, hp(158, "stand", poses=[P("press_ahead", 166, 232, 7, 8, "snap")], verbs=[V("press_twice", 178, 26), V("press", 206, 10), V("breathe_hard", 160, 80, 0.8)], breath=1.6, seed=3)),
      props=[{"prop": "switches", "attach": "yacht", "local": [-0.85, 2.62, -3.35], "rotY": math.pi, "light": [[0, 0]]}], key=190)
@@ -192,12 +192,12 @@ shot("A09", "Defend it hard", 560, 668, orbit(BOW, 560, 668, [20, 8], [3.2, 1.8]
 # =================================================================== ACT 2
 # 10 CRUNCH: low waterline angle, the hull slams onto coral, he is knocked down
 HIT = 690
-shot("B10", "Crunch", 668, 723, orbit(COCKPIT, 668, 723, [60, 75], [9.0, 7.5], [-1.9, -1.6], [30, 28], "move", target="chest"),
+shot("B10", "Crunch", 668, 723, orbit(COCKPIT, 668, 723, [120, 135], [6.5, 5.5], [-0.6, -0.4], [30, 28], "move", target="chest"),
      yacht=aground(HIT), island=ISL_NEAR, fires=[[668, FIRES]],
      actors=hero(COCKPIT, hp(668, stances=[[-10000, "stand"], [HIT, "down"]], verbs=[V("lurch", HIT, 24, 1.0)], seed=6)),
      shakes=[{"at": HIT, "px": 14, "tau": 2.2}], handheld=0.25, key=700)
 # 11 You hit the reef. You're stuck: tilted boat, he gets up holding the rail
-shot("B11", "Stuck on the reef", 723, 786, orbit(COCKPIT, 723, 786, [40, 15], [4.0, 3.2], [0.4, 0.3], [30, 28], "move"),
+shot("B11", "Stuck on the reef", 723, 786, orbit(COCKPIT, 723, 786, [150, 130], [4.2, 3.4], [0.8, 0.5], [30, 28], "move"),
      yacht=aground(), island=ISL_NEAR, fires=[[723, FIRES]],
      actors=hero(COCKPIT, hp(723, stances=[[-10000, "down"], [735, "brace"]], poses=[P("rail_ahead", 750, 786, 10, 8)], verbs=[V("breathe_hard", 723, 63)], breath=1.8, seed=6)), key=770)
 # 12 So what do you actually do? looks straight into the lens
@@ -208,12 +208,12 @@ shot("B12", "What do you do", 786, 834, orbit(AFTFACE, 786, 834, [0, 0], [1.6, 0
 # =================================================================== ACT 3
 RADIO_IN_HAND = {"prop": "radio", "attach": "handR", "local": [0.0, -0.03, 0.0], "rot": [-90, 0, 0]}
 # 13 Step one. MAYDAY!
-shot("C13", "Mayday", 834, 877, orbit(AFTFACE, 834, 877, [-35, -25], [2.0, 1.2], [0.1, 0.05], [30, 26], "arrive", target="face"),
+shot("C13", "Mayday", 834, 877, orbit(AFTFACE, 834, 877, [40, 28], [2.2, 1.5], [0.1, 0.05], [30, 27], "arrive", target="face"),
      yacht=aground(), island=ISL_NEAR, fires=[[834, FIRES]],
      actors=hero(AFTFACE, hp(834, "brace", poses=[P("radio_shout", 846, 877, 6, 6, "overshoot")], verbs=[V("shout", 862, 18)], breath=1.5, seed=8)),
      props=[RADIO_IN_HAND | {"show": [[0, 0], [845, 0], [846, 1]]}], key=868)
 # 14 Insert: CH 16 on the radio display
-shot("C14", "Channel 16", 877, 940, orbit(AFTFACE, 877, 940, [-10, -4], [0.55, 0.38], [0.0, 0.0], [24, 22], "move", target=1.48, aim=(-0.06, 0, 0.18)),
+shot("C14", "Channel 16", 877, 940, orbit(AFTFACE, 877, 940, [35, 28], [0.95, 0.75], [-0.05, -0.05], [22, 20], "move", target=1.5),
      yacht=aground(), island=ISL_NEAR,
      actors=hero(AFTFACE, hp(877, "brace", poses=[P("radio_mouth", 870, 940, 1, 1)], seed=8)),
      props=[RADIO_IN_HAND], handheld=0.06, key=910)
@@ -259,16 +259,16 @@ for sid, title, a, b in (("D23", "Primrose 1981", 1523, 1650), ("D24", "Armed is
                                                   ([_s[0], 10, _s[1]], [_s[0], 10, _s[1]]), (34, 32), "move"),
          yacht=aground(), island=ISL_NEAR, fires=[[a, FIRES]], key=(a + b) // 2)
 # 27 Step four. Kill the lights: switches off the deck lamp, frame goes dark
-shot("C27", "Kill the lights", 1931, 1995, orbit(HELM, 1931, 1995, [-30, -15], [1.6, 1.2], [0.05, 0.0], [28, 26], "move", target="face"),
+shot("C27", "Kill the lights", 1931, 1995, orbit(HELM, 1931, 1995, [60, 45], [1.9, 1.5], [0.1, 0.0], [30, 28], "move", target="face"),
      yacht=aground(), island=ISL_NEAR, fires=[[1931, FIRES]],
      actors=hero(HELM, hp(1931, "stand", poses=[P("press_ahead", 1950, 1972, 8, 10, "snap")], verbs=[V("press", 1962, 10)], seed=13)),
      props=helm_props([[0, 1], [1965, 1], [1967, 0]]), key=1958)
 # 28 Stay quiet: finger to lips
-shot("C28", "Stay quiet", 1995, 2029, orbit(HELM, 1995, 2029, [-8, -2], [1.3, 0.95], [0.02, 0.0], [26, 24], "arrive", target="face"),
+shot("C28", "Stay quiet", 1995, 2029, orbit(HELM, 1995, 2029, [30, 22], [1.7, 1.4], [0.05, 0.0], [28, 26], "arrive", target="face"),
      yacht=aground(), island=ISL_NEAR, fires=[[1995, FIRES]],
      actors=hero(HELM, hp(1995, "stand", poses=[P("shush", 1998, 2029, 6, 1, "overshoot")], seed=13)), props=helm_props([[0, 0]]), key=2015)
 # 29 Leave nothing behind: ties a trash bag
-shot("C29", "Leave nothing", 2029, 2076, orbit(COCKPIT, 2029, 2076, [30, 15], [2.0, 1.6], [1.2, 1.4], [30, 28], "move", target="hands"),
+shot("C29", "Leave nothing", 2029, 2076, orbit(COCKPIT, 2029, 2076, [35, 25], [2.2, 1.9], [0.9, 1.1], [32, 30], "move", target="hands"),
      yacht=aground(), island=ISL_NEAR, fires=[[2029, FIRES]],
      actors=hero(COCKPIT, hp(2029, "stand", poses=[P("tie_bag", 2032, 2076, 8, 1)], seed=14)),
      props=[{"prop": "bag", "attach": "yacht", "local": [0.0, 1.62, -4.18], "rotY": 0}], key=2055)
@@ -276,7 +276,7 @@ shot("C29", "Leave nothing", 2029, 2076, orbit(COCKPIT, 2029, 2076, [30, 15], [2
 # =================================================================== ACT 4
 # 30 tide lifts your boat: low waterline, the boat levels
 LIFT = {"x": 0, "z": 0, "heading": HEADING, "lights": [[0, 0]], "pitch": [[2076, -0.10], [2140, 0.0]], "roll": [[2076, 0.14], [2140, 0.0]], "sink": [[2076, 0.25], [2140, -0.05]]}
-shot("E30", "Tide lifts", 2076, 2140, orbit(COCKPIT, 2076, 2140, [70, 80], [8.0, 7.0], [-1.7, -1.0], [30, 30], "move"),
+shot("E30", "Tide lifts", 2076, 2140, orbit(COCKPIT, 2076, 2140, [120, 130], [7.0, 6.0], [-0.5, 0.0], [30, 30], "move"),
      yacht=LIFT, island=ISL_NEAR, fires=[[2076, FIRES]], actors=hero(COCKPIT, hp(2076, "brace", poses=[P("look_down", 2090, 2140, 10, 8)], seed=15)), key=2130)
 # 31 drift out past the reef and get gone: aerial pull-back, dawn starts
 shot("E31", "Get gone", 2140, 2200, orbit(HELM, 2140, 2200, [160, 175], [6.0, 45.0], [2.0, 26.0], [32, 36], "exit"),
