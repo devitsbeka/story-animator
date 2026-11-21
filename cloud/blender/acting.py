@@ -377,6 +377,10 @@ class Puppet:
                 self._rot(self.hand[s], *hr)
 
     def bake(self, perf, f0, f1, step=1):
+        if not hasattr(self, "lids"):
+            body = next((m for m in self.arm.children if m.type == "MESH" and len(m.data.vertices) > 1000), None)
+            self.lids = add_eyelids(self.arm, body) if body else []
+        bake_lids(self.lids, perf, f0, f1)
         for f in range(int(f0), int(f1) + 1, step):
             self.apply(pose_at(f, perf))
             for pb in [self.hips, *self.spines, self.neck, self.head, self.hand["L"], self.hand["R"]]:
@@ -386,3 +390,129 @@ class Puppet:
                 self.hips.keyframe_insert("location", frame=f)
             for e in self.ctl.values():
                 e.keyframe_insert("location", frame=f)
+
+
+# ---------------------------------------------------------------- face: cartoon eyelids
+# The generated hero has its eyes painted on a sparse face, so the face can't deform. Instead each eye gets a
+# real eyelid: a small skin-coloured patch hugging the face (shrinkwrap), with a dark lash line at its edge,
+# hanging from the top of the eye and riding the Head bone. Its height = how closed the eye is.
+
+def _eye_centres(me):
+    import numpy as np
+    mat = me.data.materials[0]
+    img = next((n.image for n in mat.node_tree.nodes if n.type == "TEX_IMAGE" and n.outputs[0].links
+                and n.outputs[0].links[0].to_socket.name == "Base Color"), None)
+    if img is None:
+        return None, None
+    W, H = img.size
+    px = np.empty(W * H * 4, dtype=np.float32)
+    img.pixels.foreach_get(px)
+    px = px.reshape(H, W, 4)
+    uv = me.data.uv_layers.active.data
+    zs = [v.co.z for v in me.data.vertices]
+    hz = min(zs) + (max(zs) - min(zs)) * 0.80
+    seen, pts, cols = set(), {"L": [], "R": []}, {}
+    for li, lp in enumerate(me.data.loops):
+        vi = lp.vertex_index
+        if vi in seen:
+            continue
+        seen.add(vi)
+        co = me.data.vertices[vi].co
+        u, v = uv[li].uv
+        c = px[min(H - 1, int(v * H)), min(W - 1, int(u * W)), :3]
+        cols[vi] = c
+        if co.z < hz:
+            continue
+        if c.mean() > 0.75 and (c.max() - c.min()) < 0.12:
+            pts["L" if co.x > 0 else "R"].append(co.copy())
+    out = {s_: sum(p, Vector()) / len(p) for s_, p in pts.items() if len(p) >= 6}
+    if len(out) != 2:
+        return None, None
+    # skin tone: median colour of vertices just below the eyes (cheek)
+    span = abs(out["L"].x - out["R"].x)
+    cheek = []
+    for vi, c in cols.items():
+        co = me.data.vertices[vi].co
+        for e in out.values():
+            d = co - e
+            if abs(d.x) < span * 0.3 and -span * 0.75 < d.z < -span * 0.35 and d.y < span * 0.2:
+                cheek.append(c)
+    skin = tuple(float(x) for x in np.median(np.array(cheek), axis=0)) if cheek else (0.75, 0.55, 0.42)
+    return out, skin
+
+
+def add_eyelids(arm, me):
+    """Build the two eyelids; returns their objects (origin at the top of the eye; scale.z = closure)."""
+    eyes, skin = _eye_centres(me)
+    if not eyes:
+        return []
+    head = next((b for b in arm.pose.bones if b.name.lower() == "head"), None)
+    mw = me.matrix_world
+    span_w = (mw @ eyes["L"] - mw @ eyes["R"]).length
+    ew, eh = span_w * 0.62, span_w * 0.50          # lid patch size (world)
+    skin_m = bpy.data.materials.new("eyelid_skin")
+    skin_m.use_nodes = True
+    bs = skin_m.node_tree.nodes["Principled BSDF"]
+    bs.inputs["Base Color"].default_value = (*[c * 0.92 for c in skin], 1)
+    bs.inputs["Roughness"].default_value = 0.6
+    bs.inputs["Subsurface Weight"].default_value = 0.15
+    lash_m = bpy.data.materials.new("eyelid_lash")
+    lash_m.use_nodes = True
+    lash_m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.03, 0.018, 0.012, 1)
+    lash_m.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.7
+    lids = []
+    for side, c in eyes.items():
+        cw = mw @ c
+        bpy.ops.mesh.primitive_grid_add(x_subdivisions=12, y_subdivisions=10, size=1)
+        o = bpy.context.object
+        o.name = f"eyelid_{side}_{arm.name}"
+        # grid in XY -> stand it up facing -Y, origin at its TOP edge
+        for v in o.data.vertices:
+            x, y = v.co.x, v.co.y
+            v.co = Vector((x * ew, 0.0, (y - 0.5) * eh))
+        o.data.materials.append(skin_m)
+        o.data.materials.append(lash_m)
+        for poly in o.data.polygons:   # bottom row = lash line
+            if poly.center.z < -eh * 0.88:
+                poly.material_index = 1
+            poly.use_smooth = True
+        top = cw + Vector((0, -0.03, eh * 0.52))
+        o.location = top
+        sw = o.modifiers.new("hug", "SHRINKWRAP")
+        sw.target, sw.wrap_method, sw.wrap_mode, sw.offset = me, "NEAREST_SURFACEPOINT", "OUTSIDE_SURFACE", 0.0012
+        if head:
+            bpy.context.view_layer.update()
+            mwo = o.matrix_world.copy()
+            o.parent, o.parent_type, o.parent_bone = arm, "BONE", head.name
+            bpy.context.view_layer.update()
+            o.matrix_world = mwo
+        o.scale.z = 0.001
+        lids.append(o)
+    return lids
+
+
+def bake_lids(lids, perf, f0, f1):
+    if not lids:
+        return
+    relax = perf.get("lids", 0.38)             # 0 = wide open (the raw 'crazy' stare), 1 = closed
+    seed = perf.get("seed", 1)
+    period = 96 + (seed * 37) % 50             # a blink every ~3-5 s
+    base_sz = [o.scale.z for o in lids]
+    for f in range(int(f0), int(f1) + 1):
+        lid = relax
+        for p in perf.get("poses", []):
+            if p.get("pose") in ("recoil",) and p["from"] <= f <= p["to"]:
+                lid = 0.12                      # surprise: eyes open wide
+            if p.get("pose") in ("look_down", "tie_bag", "beacon_pull") and p["from"] <= f <= p["to"]:
+                lid = max(lid, 0.6)
+        for v in perf.get("verbs", []):
+            if v["verb"] == "sneeze" and v["at"] + v.get("dur", 24) * 0.6 <= f <= v["at"] + v.get("dur", 24):
+                lid = 1.0
+        ph = (f + seed * 11) % period
+        if ph < 2:
+            lid = 1.0
+        elif ph < 4:
+            lid = max(lid, 0.7)
+        for o in lids:
+            o.scale.z = max(0.001, lid)
+            o.keyframe_insert("scale", index=2, frame=f)
