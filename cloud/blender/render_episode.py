@@ -35,6 +35,10 @@ WARNINGS = []
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import acting  # noqa: E402
 import props as propkit  # noqa: E402
+# >>> yachtsea: yacht PBR materials + night-sea look (cloud/blender/materials.py, oceanfx.py)
+import materials as yachtmats  # noqa: E402
+import oceanfx  # noqa: E402
+# <<< yachtsea
 
 
 def log(*a):
@@ -588,7 +592,7 @@ def build_ocean(center3, sea_state, res, frames, fps, repeat):
     # snap so the wave pattern is fixed in world space wherever the boat is
     cx = round(center3[0] / L) * L
     cz = round(center3[2] / L) * L
-    mat = water_material("Water")
+    mat = oceanfx.water_material("Water")  # yachtsea hook (was water_material("Water"))
     objs = []
     for name, rep in (("Ocean", repeat), ("OceanProbe", 3)):
         me = bpy.data.meshes.new(name)
@@ -596,6 +600,7 @@ def build_ocean(center3, sea_state, res, frames, fps, repeat):
         link_obj(ob)
         mod = ob.modifiers.new("ocean", "OCEAN")
         ocean_params(mod, sea_state, res)
+        oceanfx.tune_modifier(mod, sea_state)  # yachtsea hook
         mod.repeat_x = rep
         mod.repeat_y = rep
         # GENERATE grid spans [-L/2, L/2 + (rep-1)L]; shift so it is centred on (cx, cz)
@@ -609,14 +614,16 @@ def build_ocean(center3, sea_state, res, frames, fps, repeat):
     f0, f1 = frames[0] - 2, frames[-1] + 2
     mod = ocean.modifiers["ocean"]
     key_value(mod, "time", [(f0, f0 / fps), (f1, f1 / fps)])
+    oceanfx.add_whitecap_layer(ocean, sea_state, frames, fps)  # yachtsea hook
     # horizon: a flat frame of water around the tiles out to 30 km
     ext = repeat * L / 2 - 1.0
     R = 30000.0
     c = Vector((cx, -cz, 0.0))
     vs = [c + Vector(v) for v in ((-R, -R, 0), (R, -R, 0), (R, R, 0), (-R, R, 0), (-ext, -ext, 0), (ext, -ext, 0), (ext, ext, 0), (-ext, ext, 0))]
     faces = [(0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
-    hm = water_material("WaterFar", has_foam=False)
+    hm = oceanfx.water_material("WaterFar", has_foam=False)  # yachtsea hook
     horizon = mesh_obj("OceanHorizon", vs, faces, hm)
+    oceanfx.key_time(frames, fps)  # yachtsea hook: shader clock
     return ocean, probe, (cx, cz)
 
 
@@ -1494,6 +1501,11 @@ def build_shot(shot, frames, args):
     # island
     isl = shot["island"] if "island" in shot else env.get("island")
     build_island(isl, frames, shot.get("fires"), fps)
+    # >>> yachtsea hook: reef breaking-wave surf in the water shaders
+    surf = oceanfx.add_reef_surf()
+    if surf:
+        log(f"reef surf: {surf}")
+    # <<< yachtsea
 
     # camera object
     camd = bpy.data.cameras.new("Cam")
@@ -1519,6 +1531,10 @@ def build_shot(shot, frames, args):
                 o.parent = yacht_root
             hatch = next((o for o in objs if o.name.startswith("hatch_pivot")), None)
             yobjs = objs
+            # >>> yachtsea hook: PBR yacht materials (before collect_light_targets) + hull/water foam
+            done = yachtmats.apply_yacht_materials(objs, store=LIB_STORE or os.path.join(ROOT, "library_store"))
+            log(f"yacht materials: {len(done)} restyled; hull foam: {oceanfx.add_hull_foam(yacht_root, objs)}")
+            # <<< yachtsea
         else:
             warn("yacht.glb not found; building the code yacht as a placeholder")
             hatch = build_placeholder_yacht(yacht_root)
