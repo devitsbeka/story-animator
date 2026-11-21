@@ -49,3 +49,7 @@
 23:04:54 [waterspout] stage sound: done in 28.8s ($0.000)
 23:04:54 [waterspout] AWAITING APPROVAL: review /home/user/story-animator/episodes/waterspout/boards/contact_sheet.png and /home/user/story-animator/episodes/waterspout/boards/animatic.mp4, then `python -m factory.run approve --episode-id waterspout` and `--resume`
 23:04:54 [waterspout] run status: awaiting_approval  cost $5.04  time 1787s
+23:29:37 [waterspout] stage 6 previs: start
+23:29:37 [waterspout] [previs] rendering 0 keyframe(s) at 270x480, 12 spp (38 cached)
+23:29:40 [waterspout] AWAITING APPROVAL: review /home/user/story-animator/episodes/waterspout/boards/contact_sheet.png and /home/user/story-animator/episodes/waterspout/boards/animatic.mp4, then `python -m factory.run approve --episode-id waterspout` and `--resume`
+23:29:40 [waterspout] run status: awaiting_approval  cost $5.04  time 1790s

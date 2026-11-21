@@ -23,7 +23,6 @@
   "auto_approve": false,
   "stubs": [
    "finish",
-   "previs",
    "render"
   ],
   "episodes_dir": "/home/user/story-animator/episodes",
@@ -36,8 +35,8 @@
   "render_samples": null,
   "render_engine": null,
   "blender": null,
-  "previs_res": "144x256",
-  "previs_samples": 4,
+  "previs_res": "270x480",
+  "previs_samples": 12,
   "previs_shots": [],
   "budget": 15.0,
   "max_qc_fixes": 1,
@@ -46,7 +45,7 @@
  },
  "status": "awaiting_approval",
  "created": "2026-11-21T22:35:32+00:00",
- "updated": "2026-11-21T23:04:54+00:00",
+ "updated": "2026-11-21T23:29:40+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -175,23 +174,22 @@
   },
   "previs": {
    "status": "awaiting_approval",
-   "started": "2026-11-21T23:04:25",
-   "attempts": 1,
+   "started": "2026-11-21T23:29:37",
+   "attempts": 2,
    "error": null,
    "info": {
     "contact_sheet": "/home/user/story-animator/episodes/waterspout/boards/contact_sheet.png",
     "animatic": "/home/user/story-animator/episodes/waterspout/boards/animatic.mp4",
     "keys": 38,
     "missing": [],
-    "failed": [],
-    "stub": true
+    "failed": []
    },
    "artifacts": [
     "episodes/waterspout/boards/contact_sheet.png",
     "episodes/waterspout/boards/animatic.mp4"
    ],
    "costUSD": 0.0,
-   "seconds": 3.5
+   "seconds": 6.42
   },
   "render": {
    "status": "pending"
@@ -224,7 +222,7 @@
   "budgetUSD": 15.0
  },
  "time": {
-  "totalSeconds": 1787.31,
+  "totalSeconds": 1790.23,
   "byStage": {
    "develop": 800.72,
    "breakdown": 143.52,
@@ -232,11 +230,16 @@
    "voice": 21.9,
    "direct": 787.45,
    "sound": 28.76,
-   "previs": 3.5,
+   "previs": 6.42,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0
   }
  },
- "events": []
+ "events": [
+  {
+   "t": "2026-11-21T23:29:37+00:00",
+   "msg": "reset from previs"
+  }
+ ]
 }
