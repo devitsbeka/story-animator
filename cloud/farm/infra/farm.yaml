@@ -74,9 +74,18 @@ Parameters:
     Default: 100
     MinValue: 1
     Description: Monthly EC2 compute budget; alerts at 50 % and 80 % actual and 100 % forecast.
+  CreateExternalWorkerUser:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >-
+      Create the IAM user 'farm-worker-external' whose access keys non-AWS workers (RunPod, Vast.ai, local) use
+      for SQS/S3/DynamoDB. Off by default: the policy below always exists, the user only when this is "true".
+      Access keys are never created by the template (create them by hand, see docs/farm.md).
 
 Conditions:
   HasEmail: !Not [!Equals [!Ref AlarmEmail, ""]]
+  MakeExternalWorkerUser: !Equals [!Ref CreateExternalWorkerUser, "true"]
 
 Resources:
   # ------------------------------------------------------------------------------------------ storage
@@ -349,6 +358,79 @@ Resources:
             Effect: Allow
             Action: cloudformation:DescribeStacks
             Resource: !Ref AWS::StackId
+          # compute_fallback: scheduler.py's aws_ec2 provider (quota check, scale the farm groups)
+          - Sid: SchedulerReadQuotaAndGroups
+            Effect: Allow
+            Action:
+              - servicequotas:GetServiceQuota
+              - autoscaling:DescribeAutoScalingGroups
+              - autoscaling:DescribeScalingActivities
+            Resource: "*"
+          - Sid: SchedulerScaleFarmGroups
+            Effect: Allow
+            Action:
+              - autoscaling:SetDesiredCapacity
+              - autoscaling:TerminateInstanceInAutoScalingGroup
+            Resource: !Sub "arn:${AWS::Partition}:autoscaling:${AWS::Region}:${AWS::AccountId}:autoScalingGroup:*:autoScalingGroupName/${ProjectName}-*"
+
+  # ---- compute_fallback: workers outside AWS (RunPod / Vast.ai / local) -------------------------------------------
+  # Same data rights as WorkerRole minus everything instance-specific (ECR, logs, ASG). Static keys, so the
+  # scope is as narrow as the worker code allows: read inputs + code tarballs, write plates/manifests/logs,
+  # consume the render queue, Get/Update items in the job table (leases, progress, heartbeats).
+  ExternalWorkerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub "${ProjectName}-worker-external"
+      Description: Render workers running outside AWS (scheduler.py providers runpod/vastai/local)
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: ReadInputs
+            Effect: Allow
+            Action: s3:GetObject
+            Resource:
+              - !Sub "${DataBucket.Arn}/library_store/*"
+              - !Sub "${DataBucket.Arn}/assets/*"
+              - !Sub "${DataBucket.Arn}/episodes/*/runs/*"
+              - !Sub "${DataBucket.Arn}/farm/runs/*/jobs/*"
+              - !Sub "${DataBucket.Arn}/farm/code/*"
+          - Sid: ListForSyncAnd404s
+            Effect: Allow
+            Action: s3:ListBucket
+            Resource: !GetAtt DataBucket.Arn
+          - Sid: WritePlatesManifestsLogs
+            Effect: Allow
+            Action: s3:PutObject
+            Resource:
+              - !Sub "${DataBucket.Arn}/episodes/*/runs/*/plates/*"
+              - !Sub "${DataBucket.Arn}/farm/runs/*/jobs/*"
+              - !Sub "${DataBucket.Arn}/farm/runs/*/logs/*"
+          - Sid: ConsumeRenderQueue
+            Effect: Allow
+            Action:
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
+              - sqs:ChangeMessageVisibility
+              - sqs:GetQueueAttributes
+            Resource: !GetAtt RenderQueue.Arn
+          - Sid: JobStateAndHeartbeats
+            Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:UpdateItem
+            Resource: !GetAtt JobTable.Arn
+
+  ExternalWorkerUser:
+    Type: AWS::IAM::User
+    Condition: MakeExternalWorkerUser
+    Properties:
+      UserName: farm-worker-external
+      ManagedPolicyArns:
+        - !Ref ExternalWorkerPolicy
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+  # ---- end compute_fallback -------------------------------------------------------------------------------------
 
   # ------------------------------------------------------------------------------------------ compute
   WorkerSecurityGroup:
@@ -843,5 +925,7 @@ Outputs:
     Value: !Ref OnDemandWorkerGroup
   OperatorPolicyArn:
     Value: !Ref OperatorPolicy
+  ExternalWorkerPolicyArn:
+    Value: !Ref ExternalWorkerPolicy
   AlarmTopicArn:
     Value: !Ref AlarmTopic

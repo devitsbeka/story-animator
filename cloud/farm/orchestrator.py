@@ -10,6 +10,10 @@ orchestrator.py - turn episode.json files into render runs on the farm, track th
   retry    re-enqueue FAILED jobs of a run        orchestrator.py --stack story-farm retry --run RUN
   sync-library  upload $LIBRARY_STORE to S3       orchestrator.py --stack story-farm sync-library
 
+Compute (compute_fallback): `submit` and `watch` run a scheduler.py tick after enqueueing / every loop, which
+launches workers on the first provider in cloud/farm/providers.yaml that can deliver (AWS ASG -> RunPod -> Vast.ai
+-> local) and falls back automatically; `--no-scale` leaves capacity alone. `status` lists providers too.
+
 Resources come from the CloudFormation stack outputs (--stack, read-only describe) or from
 FARM_BUCKET / FARM_QUEUE_URL / FARM_TABLE.
 
@@ -287,10 +291,40 @@ def farm_from_args(a):
     return Farm(sess.client("s3"), sess.client("sqs"), sess.client("dynamodb"), bucket, queue, table)
 
 
+# ---- compute_fallback: scheduler hooks (providers.yaml) ---------------------------------------------------------
+def _scheduler(farm, a):
+    import scheduler
+    kw = {"region": a.region}
+    if a.providers:
+        kw["cfg_path"] = a.providers
+    if a.state_dir:
+        kw["state_dir"] = a.state_dir
+    return scheduler, scheduler.scheduler_for(farm, **kw)
+
+
+def scheduler_tick(farm, a):
+    """One scheduling step for the current backlog; never fails the caller (errors are reported)."""
+    try:
+        mod, s = _scheduler(farm, a)
+        return s.tick(*mod.farm_backlog(farm))
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+
+
+def scheduler_status(farm, a):
+    try:
+        return _scheduler(farm, a)[1].status()
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+# ---- end compute_fallback ---------------------------------------------------------------------------------------
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--stack", default=os.environ.get("FARM_STACK"))
     p.add_argument("--region", default=os.environ.get("AWS_REGION", "us-east-1"))
+    p.add_argument("--providers", default=os.environ.get("FARM_PROVIDERS"), help="providers.yaml (scheduler)")
+    p.add_argument("--state-dir", default=os.environ.get("FARM_STATE_DIR"), help="scheduler state dir")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     def split_args(sp):
@@ -315,6 +349,7 @@ def main(argv=None):
     sp.add_argument("--run-id", action="append", default=None)
     sp.add_argument("--force", action="store_true", help="ignore the budget ceiling")
     sp.add_argument("--dry-run", action="store_true")
+    sp.add_argument("--no-scale", action="store_true", help="enqueue only; do not launch workers (scheduler.py)")
     for name in ("status", "cancel", "retry", "finish"):
         sp = sub.add_parser(name)
         sp.add_argument("--run", required=(name != "status"))
@@ -327,6 +362,7 @@ def main(argv=None):
     sp.add_argument("--finish-cmd", default=os.environ.get("FARM_FINISH_CMD", DEFAULT_FINISH_CMD))
     sp.add_argument("--qc-cmd", default=os.environ.get("FARM_QC_CMD", DEFAULT_QC_CMD))
     sp.add_argument("--once", action="store_true")
+    sp.add_argument("--no-scale", action="store_true", help="do not run scheduler ticks")
     sp = sub.add_parser("sync-library")
     sp.add_argument("--src", default=os.environ.get("LIBRARY_STORE", os.path.join(REPO, "library_store")))
     a = p.parse_args(argv)
@@ -348,16 +384,18 @@ def main(argv=None):
     if a.cmd == "submit":
         cal = json.load(open(a.calibration)) if a.calibration else None
         try:
-            return out(farm.submit(load_specs(a.spec), a.quality, a.engine, a.budget, a.usd_per_gpu_hour, a.workers,
-                                   a.overrun, a.target_job_minutes * 60, a.run_id, a.force, a.dry_run, res=a.res,
-                                   samples=a.samples, shots=a.shots.split(",") if a.shots else None,
-                                   calibration=cal))
+            res = farm.submit(load_specs(a.spec), a.quality, a.engine, a.budget, a.usd_per_gpu_hour, a.workers,
+                              a.overrun, a.target_job_minutes * 60, a.run_id, a.force, a.dry_run, res=a.res,
+                              samples=a.samples, shots=a.shots.split(",") if a.shots else None, calibration=cal)
         except BudgetExceeded as e:
             print(f"refused: {e}", file=sys.stderr)
             return 2
+        if not (a.dry_run or a.no_scale):
+            res = {"runs": res, "compute": scheduler_tick(farm, a)}
+        return out(res)
     if a.cmd == "status":
         runs = [farm.store.get_run(a.run)] if a.run else farm.store.list_runs()
-        return out([farm.status(r["runId"]) for r in runs if r])
+        return out({"runs": [farm.status(r["runId"]) for r in runs if r], "compute": scheduler_status(farm, a)})
     if a.cmd == "cancel":
         return out(farm.cancel(a.run))
     if a.cmd == "retry":
@@ -375,6 +413,8 @@ def main(argv=None):
                 if st == "RENDERED" and a.finish:
                     out(farm.finish(r["runId"], a.finish_cmd, a.qc_cmd))
             out([farm.status(r["runId"]) for r in active])
+            if not a.no_scale:
+                out({"compute": scheduler_tick(farm, a)})
             if a.once or not active:
                 return 0
             time.sleep(a.interval)
