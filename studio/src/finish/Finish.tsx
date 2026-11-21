@@ -10,7 +10,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, CalculateMetadataFunction, Img, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { Captions, CAPTION_FONT } from "./Captions";
-import { buildCuts, Layer, layersAt } from "./edit";
+import { buildCuts, Layer, layersAt, plateId } from "./edit";
 import { DEFAULT_GRADE, GradeDefs, Grain, Vignette } from "./Grade";
 import { StepTracker } from "./StepTracker";
 import { FinishEpisode, FinishProps, Transition } from "./types";
@@ -31,7 +31,7 @@ const PlateLayer: React.FC<{ layer: Layer; platesDir: string; w: number; h: numb
       </AbsoluteFill>
     );
   }
-  const src = staticFile(`${platesDir}/${shot.id}/${pad4(plateFrame)}.png`);
+  const src = staticFile(`${platesDir}/${plateId(shot)}/${pad4(plateFrame)}.png`);
   // whip smear: a few copies spread along the motion, averaged (directional blur without WebGL)
   const n = streak > 4 ? Math.min(13, 5 + Math.round(streak / 40)) : 1;
   const copies = Array.from({ length: n }, (_, i) => (n === 1 ? 0 : (i / (n - 1) - 0.5) * streak));
@@ -41,6 +41,19 @@ const PlateLayer: React.FC<{ layer: Layer; platesDir: string; w: number; h: numb
         <Img key={i} src={src} style={{ ...base, transform: `translateX(${dx}px)`, opacity: i === 0 ? 1 : 1 / (i + 1) }} />
       ))}
     </AbsoluteFill>
+  );
+};
+
+// hook title (ENGAGEMENT H-5 / C-6): the short's hook line in the hook band (y 330-500 of 1920), from frame 0
+const HookTitle: React.FC<{ text: string; t: number; w: number; h: number }> = ({ text, t, w, h }) => {
+  const k = h / 1920;
+  const size = Math.min(64, 1500 / Math.max(10, text.length)) * k;
+  return (
+    <div style={{ position: "absolute", left: 0.06 * w, width: 0.88 * w, top: 330 * k, height: 170 * k, display: "flex",
+      alignItems: "center", justifyContent: "center", textAlign: "center", opacity: Math.min(1, (t + 1) / 3) }}>
+      <span style={{ fontFamily: CAPTION_FONT, fontWeight: 900, fontSize: size, lineHeight: 1.08, color: "#FFFFFF", textTransform: "uppercase",
+        WebkitTextStroke: `${Math.round(size * 0.14)}px #000`, paintOrder: "stroke fill", textShadow: "0 6px 0 rgba(0,0,0,0.5)" }}>{text}</span>
+    </div>
   );
 };
 
@@ -70,7 +83,8 @@ export const Finish: React.FC<FinishProps> = (props) => {
       <Vignette amount={grade.vignette} />
       <Grain frame={f} amount={grade.grain} width={w} height={h} />
       <StepTracker f={f} steps={steps} />
-      <Captions f={f} pages={captions} captionStyle={props.captionStyle} />
+      {props.title && f >= props.title.from && f < props.title.to && <HookTitle text={props.title.text} t={f - props.title.from} w={w} h={h} />}
+      <Captions f={f} pages={captions} captionStyle={props.captionStyle} w={w} h={h} />
       <AbsoluteFill style={{ backgroundColor: "#000", opacity: Math.max(fadeIn, fadeOut), pointerEvents: "none" }} />
       {props.audio && (
         audioAt >= 0
@@ -81,7 +95,11 @@ export const Finish: React.FC<FinishProps> = (props) => {
   );
 };
 
-export const calculateFinishMetadata: CalculateMetadataFunction<FinishProps> = async ({ props }) => {
+// 16:9 docuseries master (FinishLandscape): the same pass; the canvas comes from episodeJson.width/height
+// (1920x1080 from factory/director for format docuseries), falling back to 1920x1080 when nothing is staged.
+const EMPTY_LANDSCAPE: FinishEpisode = { ...EMPTY_EP, width: 1920, height: 1080 };
+
+async function finishMetadata(props: FinishProps, fallback: FinishEpisode) {
   let merged: FinishProps = props;
   if (props.propsFile) {
     try {
@@ -91,13 +109,18 @@ export const calculateFinishMetadata: CalculateMetadataFunction<FinishProps> = a
       // no staged props yet: render the empty episode
     }
   }
-  const ep = merged.episodeJson ?? EMPTY_EP;
+  const ep = merged.episodeJson ?? fallback;
+  merged = { ...merged, episodeJson: ep };
   const range = merged.range ?? { from: 0, to: ep.durationFrames };
   return {
     durationInFrames: Math.max(1, range.to - range.from),
     fps: ep.fps, width: ep.width, height: ep.height,
     props: merged,
   };
-};
+}
+
+export const calculateFinishMetadata: CalculateMetadataFunction<FinishProps> = async ({ props }) => finishMetadata(props, EMPTY_EP);
+export const calculateFinishLandscapeMetadata: CalculateMetadataFunction<FinishProps> = async ({ props }) => finishMetadata(props, EMPTY_LANDSCAPE);
+export const FINISH_LANDSCAPE_DEFAULT_PROPS: FinishProps = { propsFile: "finish/minidoc/props.json" };
 
 export const FINISH_DEFAULT_PROPS: FinishProps = { propsFile: "finish/sentinel/props.json" };

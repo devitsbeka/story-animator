@@ -8,6 +8,7 @@ import math
 import re
 import statistics
 
+from . import docuseries as doc
 from . import schemas, text as tx
 from .report import Report
 from .staging import MARKS, vocabulary
@@ -260,6 +261,27 @@ def _check_docuseries(story, rep, D):
     lch = {c["id"] for c in ch}
     rep.hard("DOC-line-chapters", all(ln.get("chapter") in lch or (co and ln["t0"] < co["t1"]) for ln in lines),
              "every narration line outside the cold open must name its chapter")
+    # >>> docuseries structure: cold open -> title -> chapters with act breaks -> climax -> resolution -> tease
+    beats = story["beats"]
+    names = [b["name"] for b in beats]
+    title = next((b for b in beats if b["name"] == "TITLE"), None)
+    rep.check("DOC-title-beat", bool(title) and bool(co) and abs(title["t0"] - co["t1"]) <= 3.0,
+              f"a TITLE beat must follow the cold open (cold open ends {co and co['t1']}, title at {title and title['t0']})")
+    arc = [next((b for b in beats if b["name"] == n), None) for n in ("CLIMAX", "RESOLUTION", "TEASE")]
+    rep.check("DOC-arc", all(arc) and arc[0]["t0"] < arc[1]["t0"] < arc[2]["t0"] and arc[2]["t1"] >= D - 1.0
+              and arc[0]["t0"] >= 0.6 * D, f"need CLIMAX (>= 0.6 D) -> RESOLUTION -> TEASE (ending at D) beats; got {names}")
+    rh_t = [ln["t0"] for ln in lines if ln.get("rehook")]
+    no_break = [c["id"] for c in ch[1:] if not any(c["t0"] - 1.0 <= t <= c["t0"] + 30.0 for t in rh_t)]
+    rep.check("DOC-act-breaks", not no_break, f"every chapter after the first opens on an act-break re-hook (within 30 s): {no_break}")
+    starts, ends = [ln["t0"] for ln in lines], [ln["t1"] for ln in lines]
+    for c in ch:
+        sc = c["short_candidate"]
+        if not sc:
+            continue
+        on_line = any(abs(t - sc["in"]) <= 0.5 for t in starts) and any(abs(t - sc["out"]) <= 0.5 for t in ends)
+        rep.check(f"DOC-short-cut.{c['id']}", on_line and len(tx.words(sc["hook_line"])) <= 14,
+                  f"short_candidate {sc['id']}: in/out must sit on narration line boundaries (+-0.5 s) and the hook line be <= 14 words")
+    # <<< docuseries structure
 
 
 # ============================================================ stage 2: breakdown.json
@@ -295,6 +317,14 @@ def check_breakdown(bd, story):
     late = [e["id"] for e in bd["elements"] if e.get("solves_climax") and first_t.get(e["id"], D) > 0.40 * D]
     rep.hard("S6", not late, f"climax-solving elements first seen after 40% of runtime: {late}")
     rep.check("B-hero", any(e["kind"] == "character" for e in bd["elements"]), "no character element (the hero)")
+    if story.get("format") == "docuseries":
+        # >>> docuseries: scenes are cut inside chapters, so a chapter (and its short) can be rendered and re-cut alone
+        bad = []
+        for s in bd["scenes"]:
+            chs = {lmap[i].get("chapter") for i in s["line_ids"] if i in lmap}
+            if len(chs) > 1 or (chs and s.get("chapter") != next(iter(chs))):
+                bad.append(s["id"])
+        rep.hard("DOC-scene-chapter", not bad, f"docuseries scenes must name the one chapter their lines belong to: {bad}")
     return rep
 
 
@@ -454,12 +484,37 @@ def check_shotplan(plan, story, bd, man, words=None):
         cuts = [s["from"] for s in shots[1:]]
         hit = sum(1 for c in cuts if any(abs(c - st) <= 2 for st in starts))
         rep.check("P-3", hit >= 0.8 * len(cuts), f"{hit}/{len(cuts)} cuts within +-2 frames of a word start (need >= 80%)")
+    if fmt == "docuseries":
+        _check_docuseries_plan(plan, story, rep, D)
     return rep
 
 
-def check_episode(ep):
+def _check_docuseries_plan(plan, story, rep, D):
+    """ARCHITECTURE formats: 150-400 shots per 20 min, and every short_candidate beat staged for both frames."""
+    shots = plan["shots"]
+    lo, hi = doc.shot_count_range(D)
+    rep.check("DOC-shot-count", lo <= len(shots) <= hi, f"{len(shots)} shots for {D:.0f} s; a docuseries cuts {lo}-{hi} (150-400 per 20 min)")
+    cands = doc.candidates(story)
+    ids = {c["id"] for c in cands}
+    bad_ref = sorted({s["short_candidate"] for s in shots if s.get("short_candidate") and s["short_candidate"] not in ids})
+    rep.hard("DOC-short-ref", not bad_ref, f"shots tagged with unknown short_candidate ids: {bad_ref}")
+    off = plan["audio_offset_frames"]
+    for sc in cands:
+        f0, f1 = doc.candidate_frames(sc, off)
+        cover = [s for s in shots if doc.overlaps(s, f0, f1)]
+        untagged = [s["id"] for s in cover if s.get("short_candidate") != sc["id"]]
+        stray = [s["id"] for s in shots if s.get("short_candidate") == sc["id"] and not doc.overlaps(s, f0, f1)]
+        rep.hard(f"DOC-short-staged.{sc['id']}", bool(cover) and not untagged and not stray,
+                 f"{sc['id']} ({f0}-{f1}): every shot overlapping it must be tagged short_candidate={sc['id']} and staged for 9:16 "
+                 f"(untagged {untagged}, tagged outside {stray})")
+        no_hero = [s["id"] for s in cover if not s.get("hero") and not (s.get("vertical") or {}).get("subject")]
+        rep.check(f"DOC-short-subject.{sc['id']}", not no_hero,
+                  f"{sc['id']}: dual-frame shots need the hero or an explicit vertical.subject to keep centred: {no_hero}")
+
+
+def check_episode(ep, overrides=None):
     """Render contract: extended cloud/spec schema + motion in every shot (P-7) + renderer vocabulary."""
-    rep = Report("episode")
+    rep = Report("episode", overrides)
     errs = schemas.validate("episode", ep)
     if errs:
         rep.schema_errors(errs)
@@ -477,4 +532,30 @@ def check_episode(ep):
         for p in s.get("props", []):
             rep.hard(f"E-prop.{s['id']}", p["prop"] in voc["props"], f"{s['id']}: unknown prop {p['prop']}")
     rep.hard("E-duration", ep["shots"][-1]["to"] == ep["durationFrames"], "durationFrames must equal the last shot's end")
+    fmt = ep.get("format", "short")
+    rep.hard("E-size", (ep["width"], ep["height"]) == doc.frame_size(fmt), f"a {fmt} renders {doc.frame_size(fmt)}, got {ep['width']}x{ep['height']}")
+    if fmt == "docuseries":
+        _check_dual_frame(ep, rep)
     return rep
+
+
+def _check_dual_frame(ep, rep):
+    """The 9:16 camera of every short_candidate shot: present, same positions/timing as the 16:9 one, and the
+    subject inside the centre band in both frames."""
+    shorts = ep.get("shorts") or []
+    rep.hard("DOC-shorts", bool(shorts) and all(s["shots"] for s in shorts), "ep.shorts must list every candidate with its shots")
+    for s in ep["shots"]:
+        if not s.get("short_candidate"):
+            continue
+        cams = s.get("cameras") or {}
+        m, v = cams.get("main"), cams.get("vertical")
+        same = bool(m and v) and len(m["keys"]) == len(v["keys"]) and all(
+            a["f"] == b["f"] and a["cam"] == b["cam"] for a, b in zip(m["keys"], v["keys"]))
+        rep.hard(f"DOC-vertical.{s['id']}", same and m == s["camera"],
+                 f"{s['id']}: needs cameras.main (= camera) and a cameras.vertical with the same keyed positions")
+        if not same:
+            continue
+        r = doc.dual_frame_report(s, ep["width"] / ep["height"])
+        rep.check(f"DOC-centre-band.{s['id']}", not r["behind"] and r["main"] <= doc.CENTRE_BAND and r["vertical"] <= doc.VERTICAL_TOL,
+                  f"{s['id']}: subject must hold the centre band in both frames: |x-0.5| 16:9 {r['main']} (<= {doc.CENTRE_BAND:.3f}), "
+                  f"9:16 {r['vertical']} (<= {doc.VERTICAL_TOL}){' - subject behind the camera' if r['behind'] else ''}")

@@ -5,6 +5,7 @@ import os
 import re
 
 from . import camera as cam
+from . import docuseries as doc
 from . import text as tx
 from .paths import EPISODE_SCHEMA
 from .staging import ISLANDS, MARKS, PROP_DEFAULTS, shore_frame, yacht_state
@@ -114,9 +115,11 @@ def compile_episode(plan, story, manifest, out_dir):
             props[rk.split("/", 1)[1]] = _glb_for(e)
     eid = story["id"]
     w = plan["world"]
+    fmt = story.get("format", "short")
+    W, H = doc.frame_size(fmt)
     ep = {
         "$schema": os.path.relpath(EPISODE_SCHEMA, os.path.abspath(out_dir)).replace(os.sep, "/"),
-        "version": 1, "id": eid, "title": story["title"], "fps": FPS, "width": 1080, "height": 1920,
+        "version": 1, "id": eid, "title": story["title"], "fps": FPS, "width": W, "height": H,
         "durationFrames": shots[-1]["to"],
         "audio": {"narration": f"episodes/{eid}/audio/narration.mp3", "wordsJson": f"episodes/{eid}/audio/narration.words.json",
                   "offsetFrames": plan["audio_offset_frames"]},
@@ -126,7 +129,33 @@ def compile_episode(plan, story, manifest, out_dir):
         "shots": shots,
         "source": {"builder": "factory/director (stage 4)", "story": "story.json", "shotplan": "shotplan.json", "manifest": "manifest.json"},
     }
+    if fmt == "docuseries":
+        _dual_frame(ep, plan, story)
     return ep
+
+
+def _dual_frame(ep, plan, story):
+    """docuseries: every shot tagged short_candidate records a second 9:16 camera (cameras.vertical) derived from the
+    16:9 one; ep.shorts lists each candidate in film frames with the shots that cover it."""
+    ep["format"] = "docuseries"
+    ep["vertical"] = {"width": doc.VERTICAL[0], "height": doc.VERTICAL[1]}
+    by_id = {s["id"]: s for s in ep["shots"]}
+    for ps in plan["shots"]:
+        s = by_id[ps["id"]]
+        if not ps.get("short_candidate"):
+            continue
+        s["short_candidate"] = ps["short_candidate"]
+        if ps.get("vertical"):
+            s["vertical"] = ps["vertical"]
+        s["cameras"] = {"main": s["camera"], "vertical": doc.vertical_camera(s, s["camera"], ps.get("vertical"))}
+    off = plan["audio_offset_frames"]
+    shorts = []
+    for sc in doc.candidates(story):
+        f0, f1 = doc.candidate_frames(sc, off)
+        shorts.append({"id": sc["id"], "chapter": sc["chapter"], "from": f0, "to": f1, "hook_line": sc["hook_line"],
+                       "setup": sc["setup"], "turn": sc["turn"], "payoff": sc["payoff"],
+                       "shots": [s["id"] for s in ep["shots"] if s.get("short_candidate") == sc["id"]]})
+    ep["shorts"] = shorts
 
 
 def _glb_for(entry):

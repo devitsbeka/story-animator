@@ -38,37 +38,48 @@ function textWidthEm(s: string): number {
   return w;
 }
 
-export function captionFontSize(text: string, emphScale = 1.18): number {
-  const capMax = 92, capMin = 72;
-  const fit = MAX_LINE / (textWidthEm(text) * 1.04 + 0.06 * emphScale); // stroke + pop headroom
+// Canvas layouts: the 9:16 short (above) and the 16:9 docuseries master, where captions are a documentary
+// lower third (safe x 10%..90%, baseline at 89% height, cap-height 40-52 px).
+export type CaptionLayout = { x0: number; x1: number; baseline: number; maxLine: number; capMin: number; capMax: number };
+export const LAYOUT_916: CaptionLayout = { x0: SAFE.x0, x1: SAFE.x1, baseline: 1180, maxLine: MAX_LINE, capMin: 72, capMax: 92 };
+export function captionLayout(w = 1080, h = 1920): CaptionLayout {
+  if (w <= h) return LAYOUT_916;
+  return { x0: Math.round(0.1 * w), x1: Math.round(0.9 * w), baseline: Math.round(0.89 * h), maxLine: Math.round(0.7 * w),
+    capMin: Math.round(40 * h / 1080), capMax: Math.round(52 * h / 1080) };
+}
+
+export function captionFontSize(text: string, emphScale = 1.18, lay: CaptionLayout = LAYOUT_916): number {
+  const { capMax, capMin } = lay;
+  const fit = lay.maxLine / (textWidthEm(text) * 1.04 + 0.06 * emphScale); // stroke + pop headroom
   return Math.max(capMin / CAP_HEIGHT_EM, Math.min(capMax / CAP_HEIGHT_EM, fit));
 }
 
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 const backOut = (t: number) => { const c = 1.9, x = clamp01(t) - 1; return 1 + (c + 1) * x * x * x + c * x * x; };
 
-export const Captions: React.FC<{ f: number; pages: CaptionPage[]; captionStyle?: CaptionStyle }> = ({ f, pages, captionStyle }) => {
+export const Captions: React.FC<{ f: number; pages: CaptionPage[]; captionStyle?: CaptionStyle; w?: number; h?: number }> = ({ f, pages, captionStyle, w: cw, h: ch }) => {
   const page = pages.find((p) => f >= p.from && f < p.to);
   if (!page) return null;
   if (captionStyle?.mode === "lower_third") return <LowerThird f={f} page={page} cs={captionStyle} />;
   const cs = captionStyle;
   const tones = cs?.tones ?? TONE;
   const popMax = cs?.pop ?? 1.18;
+  const lay = captionLayout(cw, ch);
   const text = page.words.map((w) => w.t).join(" ");
-  let size = captionFontSize(text);
+  let size = captionFontSize(text, 1.18, lay);
   const widthPx = textWidthEm(text) * size;
-  const fitScale = widthPx > SAFE.x1 - SAFE.x0 - 20 ? (SAFE.x1 - SAFE.x0 - 20) / widthPx : 1; // never leave the safe rect
+  const fitScale = widthPx > lay.x1 - lay.x0 - 20 ? (lay.x1 - lay.x0 - 20) / widthPx : 1; // never leave the safe rect
   size *= fitScale;
   const t = f - page.from;
   const enter = backOut(t / 4);
   const opacity = clamp01((t + 1) / 2);
-  const cx = (SAFE.x0 + SAFE.x1) / 2;
-  const baseline = 1180;
+  const cx = (lay.x0 + lay.x1) / 2;
+  const baseline = lay.baseline;
   return (
     <div style={{
-      position: "absolute", left: SAFE.x0, width: SAFE.x1 - SAFE.x0, top: baseline - size * 0.98, height: size * 1.25,
+      position: "absolute", left: lay.x0, width: lay.x1 - lay.x0, top: baseline - size * 0.98, height: size * 1.25,
       display: "flex", justifyContent: "center", alignItems: "flex-start", whiteSpace: "nowrap",
-      transform: `scale(${0.82 + 0.18 * enter})`, transformOrigin: `${cx - SAFE.x0}px ${size * 0.6}px`, opacity,
+      transform: `scale(${0.82 + 0.18 * enter})`, transformOrigin: `${cx - lay.x0}px ${size * 0.6}px`, opacity,
     }}>
       {page.words.map((w, i) => {
         const em = page.emph === i;

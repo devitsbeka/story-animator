@@ -44,6 +44,17 @@ def make_docuseries(D=1200.0, n_chapters=5):
         lines.append(ln)
         t = t1 + 0.4
     answer = next(ln for ln in lines if ln["t0"] >= 0.9 * D)
+    # candidates cut on narration line boundaries (DOC-short-cut)
+    for c in chapters:
+        sc = c["short_candidate"]
+        sc["in"] = next(ln["t0"] for ln in lines if ln["t0"] >= sc["in"])
+        sc["out"] = max(ln["t1"] for ln in lines if ln["t1"] <= sc["in"] + 60)
+    # title after the cold open; climax -> resolution -> tease close the last chapter (DOC-title-beat, DOC-arc)
+    beats.insert(1, {"id": "BT", "name": "TITLE", "t0": cold, "t1": cold + 4, "link": "THEREFORE", "stakes": 6, "visual_scale": 6,
+                     "summary": "Title card."})
+    beats += [{"id": "BC", "name": "CLIMAX", "t0": 0.8 * D, "t1": 0.9 * D, "link": "BUT", "stakes": 9, "visual_scale": 9, "summary": "Climax."},
+              {"id": "BR", "name": "RESOLUTION", "t0": 0.9 * D, "t1": D - 10, "link": "THEREFORE", "stakes": 8, "visual_scale": 7, "summary": "Resolution."},
+              {"id": "BX", "name": "TEASE", "t0": D - 10, "t1": D, "link": "BUT", "stakes": 7, "visual_scale": 6, "summary": "Tease."}]
     return {
         "id": "primrose", "format": "docuseries", "title": "Primrose: six days on the forbidden reef",
         "logline": "A cargo crew runs aground on the most isolated island on Earth and must survive without stepping ashore.",

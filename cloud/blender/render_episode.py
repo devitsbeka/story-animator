@@ -81,6 +81,11 @@ def parse_args():
     p.add_argument("--skip-existing", action="store_true", help="do not re-render plates that already exist")
     p.add_argument("--save-blend", default=None, help="also save the built scene of each shot to this .blend path prefix")
     p.add_argument("--strict-engine", action="store_true", help="fail instead of falling back from EEVEE to Cycles when no GPU/EGL")
+    # >>> docuseries hook: dual-frame shots carry cameras {main (16:9), vertical (9:16)}
+    p.add_argument("--camera", choices=["main", "vertical"], default="main",
+                   help="which camera of dual-frame shots to render; 'vertical' renders only shots with cameras.vertical, "
+                        "at the episode's vertical size (1080x1920), into <out>_vertical when --out ends in /plates")
+    # <<< docuseries
     return p.parse_args(argv)
 
 
@@ -1665,6 +1670,26 @@ def shots_for_range(spec, start, end):
     return out
 
 
+# >>> docuseries hook: pick cameras.main / cameras.vertical per shot (factory/director/docuseries.py derives the
+# vertical camera from the 16:9 one: same positions, re-aimed at the subject, tighter fov)
+def select_camera(spec, work, args):
+    if args.camera == "main":
+        return [({**s, "camera": s["cameras"]["main"]} if s.get("cameras") else s, fr) for s, fr in work]
+    vert = spec.get("vertical") or {"width": 1080, "height": 1920}
+    spec["width"], spec["height"] = int(vert["width"]), int(vert["height"])
+    if os.path.basename(os.path.normpath(args.out)) == "plates":
+        args.out = os.path.normpath(args.out) + "_vertical"
+    out = []
+    for s, fr in work:
+        if (s.get("cameras") or {}).get("vertical"):
+            out.append(({**s, "camera": s["cameras"]["vertical"]}, fr))
+        else:
+            log(f"shot {s['id']}: no vertical camera (not a short_candidate shot); skipped")
+    log(f"camera=vertical: {len(out)} shot(s) at {spec['width']}x{spec['height']} -> {args.out}")
+    return out
+# <<< docuseries
+
+
 def main():
     global ROOT, SPEC
     args = parse_args()
@@ -1675,8 +1700,9 @@ def main():
     if args.start > args.end:
         raise SystemExit("--start must be <= --end")
     work = shots_for_range(SPEC, args.start, args.end)
+    work = select_camera(SPEC, work, args)  # docuseries hook
     if not work:
-        raise SystemExit(f"no shot covers frames {args.start}..{args.end}")
+        raise SystemExit(f"no shot covers frames {args.start}..{args.end}" + (" with a vertical camera" if args.camera == "vertical" else ""))
     t_all = time.time()
     rendered = 0
     for shot, frames in work:
@@ -1704,7 +1730,7 @@ def main():
             log(f"shot {shot['id']} frame {f}: {times[f]}s")
         man = {
             "shot": shot["id"], "frames": [todo[0], todo[-1]], "engine": engine, "device": device,
-            "quality": args.quality, "resolution": [sc.render.resolution_x, sc.render.resolution_y],
+            "quality": args.quality, "resolution": [sc.render.resolution_x, sc.render.resolution_y], "camera": args.camera,
             "samples": sc.cycles.samples if engine == "CYCLES" else sc.eevee.taa_render_samples,
             "blender": bpy.app.version_string, "secondsPerFrame": times, "warnings": list(WARNINGS),
             "lighting": lighting.report(),

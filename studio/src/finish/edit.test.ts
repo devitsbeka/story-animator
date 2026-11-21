@@ -32,4 +32,18 @@ assert(Math.abs(w2[1].tx - w2[0].tx - 1080) < 1e-6, "whip strip is contiguous (f
 const p = layersAt(300, shots, cuts, manifest, 1080);
 assert(p.length === 2 && p[0].scale > 1 && p[1].opacity > 0 && p[1].opacity < 1, "push overlaps both shots");
 assert(layersAt(320, shots, cuts, manifest, 1080).length === 1, "single layer between transitions");
+// re-cut shots (factory/shorts): plates of another shot, from another time, optionally punched in
+const recut: FinishShot[] = [
+  { id: "S00", from: 0, to: 30, plate: "D013", src: 1500, transition: "cut" },
+  { id: "S01", from: 30, to: 90, plate: "D013", src: 1440, zoom: 1.15, transition: "cut" },
+];
+const recutManifest = { D013: { frames: [1440, 1441, 1500, 1501, 1529] } };
+assert(plateFor(recut[0], 0, recutManifest) === 1500, "re-cut reads the source plate at `src`");
+assert(plateFor(recut[0], 1, recutManifest) === 1501, "re-cut advances with the edit");
+assert(plateFor(recut[0], 29, recutManifest) === 1529, "re-cut maps the whole shot");
+assert(plateFor(recut[1], 31, recutManifest) === 1441, "second re-cut of the same plate dir from an earlier time");
+const rc = buildCuts(recut, [], [], recutManifest);
+assert(rc[0].type === "cut", "explicit cut between re-cut shots");
+const rl = layersAt(40, recut, rc, recutManifest, 1080);
+assert(rl.length === 1 && rl[0].shot.id === "S01" && rl[0].scale === 1.15, "punch-in zoom carried on the layer");
 console.log("edit.test OK:", cuts.map((c) => `${c.out.id}->${c.in.id}@${c.at}:${c.type}`).join(" "));

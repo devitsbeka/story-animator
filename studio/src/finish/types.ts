@@ -8,6 +8,10 @@ export type FinishShot = {
   to: number; // exclusive
   title?: string;
   transition?: Transition; // transition INTO this shot (overrides the automatic rule)
+  // re-cuts (factory/shorts): a shot of a derived edit plays plates of another shot from another time
+  plate?: string; // plates sub-dir to read (default: id)
+  src?: number; // source film frame shown at `from` (default: from)
+  zoom?: number; // static punch-in scale (>= 1.15 reads as a cut inside a held plate)
 };
 
 export type FinishEpisode = {
@@ -45,6 +49,7 @@ export type FinishProps = {
   range?: { from: number; to: number }; // film frames rendered [from, to)
   propsFile?: string; // staticFile-relative props.json; merged under explicit props by calculateMetadata
   grade?: { contrast?: number; vignette?: number; grain?: number; halation?: number; coolShadows?: number };
+  title?: { text: string; from: number; to: number }; // hook title in the hook band (derived shorts, factory/shorts)
   // style system (factory/styles finish_props, written into props.json by make_plates_manifest.py)
   captionStyle?: CaptionStyle;
   transitions?: Transition[]; // allowed transitions; any other automatic choice becomes a cut

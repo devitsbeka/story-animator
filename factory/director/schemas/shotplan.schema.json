@@ -49,6 +49,13 @@
      "suspense_hold": {"type": "boolean"},
      "long_take": {"type": "boolean"},
      "placeholder": {"type": "string", "description": "Set when the shot frames a stand-in because its set/prop is still to build."},
+     "chapter": {"type": "string", "description": "docuseries: story chapters[].id this shot belongs to."},
+     "short_candidate": {"type": "string", "description": "docuseries: the chapters[].short_candidate.id this shot covers. Every shot overlapping a candidate's in/out is tagged; tagged shots are staged for both frames (hero inside the 16:9/9:16 centre band) and compile a second 9:16 camera."},
+     "vertical": {"type": "object", "additionalProperties": false,
+      "description": "docuseries dual-frame staging hints for the derived 9:16 camera (same position as the 16:9 camera, re-aimed and tightened).",
+      "properties": {"subject": {"$ref": "#/$defs/point", "description": "What the vertical keeps centred (frame yacht|world); default the hero's chest, else the 16:9 look target."},
+        "tighten": {"type": "number", "exclusiveMinimum": 0, "maximum": 1.2, "description": "vertical fov = 16:9 fov x tighten (default 0.85)."},
+        "aim": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3, "description": "Offset added to the vertical look point (camera-key space)."}}},
      "camera": {
       "type": "object", "additionalProperties": false, "required": ["preset", "motivation", "rig", "fov", "ease"],
       "properties": {

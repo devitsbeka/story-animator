@@ -19,7 +19,7 @@ def main(argv=None):
     r.add_argument("--format", choices=["short", "docuseries"], default="short")
     r.add_argument("--out", required=True, help="episode dir, e.g. episodes/<id>")
     r.add_argument("--offline", action="store_true", help="replay recorded responses instead of calling the API")
-    r.add_argument("--fixtures", default=os.path.join(FIXTURES, "sentinel"), help="recorded responses dir (offline)")
+    r.add_argument("--fixtures", default=None, help="recorded responses dir (offline; default fixtures/sentinel, or fixtures/minidoc for docuseries)")
     r.add_argument("--model", default=os.environ.get("DIRECTOR_MODEL", DEFAULT_MODEL))
     r.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max"])
     r.add_argument("--no-fallbacks", action="store_true", help="do not send the server-side refusal fallback")
@@ -38,6 +38,7 @@ def main(argv=None):
     if a.cmd == "validate":
         return validate_dir(a.dir)
 
+    a.fixtures = a.fixtures or os.path.join(FIXTURES, "minidoc" if a.format == "docuseries" else "sentinel")
     stages = tuple(s.strip() for s in a.stages.split(",") if s.strip())
     bad = [s for s in stages if s not in STAGES]
     if bad:
@@ -79,7 +80,7 @@ def validate_dir(d):
     if story and bd and man and plan:
         reps["shotplan"] = checks.check_shotplan(plan, story, bd, man, load_words(d))
     if ep:
-        reps["episode"] = checks.check_episode(ep)
+        reps["episode"] = checks.check_episode(ep, (plan or {}).get("overrides"))
     ok = True
     for k, r in reps.items():
         ok &= r.ok
