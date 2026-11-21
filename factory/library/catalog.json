@@ -2023,6 +2023,62 @@
    "episodes": [
     "sentinel"
    ]
+  },
+  "int:hero_v4": {
+   "id": "int:hero_v4",
+   "kind": "character",
+   "provider": "internal",
+   "derived_from": {
+    "provider": "blender_studio",
+    "name": "Jay (Sprite Fright production character, CloudRig)",
+    "url": "https://studio.blender.org/",
+    "file": "characters/jay.blend",
+    "sha256": "18383a3d25d68c6a91208e4240f2e4dfe67592739078f18b21cf257be91a8458"
+   },
+   "licence": "CC-BY-4.0",
+   "attribution": "\"Jay\" character from Sprite Fright by Blender Studio, (c) Blender Foundation, studio.blender.org, licensed CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Modified: hoodie, cap and joggers wardrobe, glasses and chain removed.",
+   "authors": [
+    "Blender Studio / Blender Foundation (original character, rig, shading)",
+    "internal (wardrobe build script)"
+   ],
+   "url": "https://studio.blender.org/",
+   "name": "Series hero v4: Jay re-dressed (black PALENCIAGA hoodie, black cap, black joggers, white sneakers)",
+   "build": "factory/characters/build_hero_jay.py (from library_store/characters/jay.blend); QC: factory/characters/check_hero_v4.py",
+   "rig": {
+    "type": "CloudRig",
+    "armature": "RIG-jay",
+    "collection": "CH-jay",
+    "ik_fk_props": "pose.bones['PRP-UpperArm.L/R']['ik_left/right_arm'], PRP-Thigh.L/R ['ik_left/right_leg']",
+    "height_m": 1.26
+   },
+   "files": [
+    {
+     "path": "characters/hero_v4/hero_v4.blend",
+     "sha256": "aaa7c11f8f6ba699fef6d2f29c1191b51b837a7524b58225e8a6b3d95efc64dc",
+     "role": "blend"
+    },
+    {
+     "path": "characters/hero_v4/palenciaga_print.png",
+     "sha256": "e2768f681800d928a9c96e4d7dc366732fd5a4a88b68f18026e5b815f3d97f8c",
+     "role": "texture (also packed in the .blend)"
+    }
+   ],
+   "qc": [
+    "assets/characters/hero_v4/turnaround.png",
+    "assets/characters/hero_v4/pose_checks.png",
+    "assets/characters/hero_v4/head_closeups.png"
+   ],
+   "tags": [
+    "hero",
+    "character",
+    "cloudrig",
+    "jay",
+    "hoodie",
+    "cap",
+    "joggers",
+    "face-rig"
+   ],
+   "episodes": []
   }
  }
 }
