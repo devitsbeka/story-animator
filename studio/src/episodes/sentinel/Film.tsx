@@ -7,6 +7,7 @@ import { S1, S2, S3, S4, SceneProps } from "./scenesA";
 import { S5, S6, S7, S8 } from "./scenesB";
 import { S9, S10, S11 } from "./scenesC";
 import { S1_3D } from "./s1_3d";
+import { BEATS, BeatView } from "./beats3d";
 
 const MAP: Record<SceneId, React.FC<SceneProps>> = { yacht: S1_3D, chart: S2, shore: S3, reef: S4, radio: S5, ashore: S6, stay: S7, primrose: S8, quiet: S9, tide: S10, outro: S11 };
 const HALF = XFADE / 2;
@@ -38,11 +39,12 @@ export const SentinelFilm: React.FC = () => {
     const start = i === 0 ? 0 : sc.from - HALF, end = i === SCENES.length - 1 ? DURATION : sc.to + HALF;
     if (f < start || f >= end) return;
     const C = MAP[sc.id];
+    const beat = BEATS[i];
     // incoming: fades in over the overlap while already pushing forward; outgoing: accelerates in
     const tin = i === 0 ? 1 : Math.min(1, (f - start) / XFADE);
     const tout = i === SCENES.length - 1 ? 0 : Math.max(0, (f - (sc.to - HALF)) / XFADE);
     const push = (0.92 + 0.08 * ease(tin)) * (1 + 0.14 * tout * tout);
-    layers.push(<AbsoluteFill key={sc.id} style={{ opacity: ease(tin) }}><C f={f} push={push} /></AbsoluteFill>);
+    layers.push(<AbsoluteFill key={sc.id} style={{ opacity: ease(tin) }}>{i === 0 ? <C f={f} push={push} /> : <BeatView spec={beat} f={f} captions={false} fovScale={push} />}</AbsoluteFill>);
   });
   const fadeOut = Math.max(0, (f - (DURATION - 20)) / 20);
   const fadeIn = Math.max(0, 1 - f / 8);
