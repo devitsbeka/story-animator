@@ -22,17 +22,41 @@ class AnthropicClient:
         self.client = client
         self.model, self.effort, self.max_tokens, self.fallbacks = model, effort, max_tokens, fallbacks
         self.calls = []
+        self.no_grammar = set()
 
-    def complete(self, stage, system, messages, schema):
-        kw = dict(model=self.model, max_tokens=self.max_tokens, system=system, messages=messages,
-                  output_config={"effort": self.effort, "format": {"type": "json_schema", "schema": schema}})
+    def _stream(self, kw):
         if self.fallbacks:
             # server-side refusal fallback (routes by refusal category; no model list to maintain)
-            stream = self.client.beta.messages.stream(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **kw)
-        else:
-            stream = self.client.messages.stream(**kw)
-        with stream as s:
-            msg = s.get_final_message()
+            return self.client.beta.messages.stream(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **kw)
+        return self.client.messages.stream(**kw)
+
+    def complete(self, stage, system, messages, schema):
+        grammar = stage not in self.no_grammar
+        if grammar:
+            kw = dict(model=self.model, max_tokens=self.max_tokens, system=system, messages=messages,
+                      output_config={"effort": self.effort, "format": {"type": "json_schema", "schema": schema}})
+            try:
+                with self._stream(kw) as s:
+                    msg = s.get_final_message()
+            except Exception as e:  # big schemas exceed the constrained-decoding grammar limit
+                if "grammar is too large" not in str(e) and "schema" not in str(e).lower():
+                    raise
+                self.no_grammar.add(stage)
+                grammar = False
+        if not grammar:
+            # JSON-in-prompt fallback: the schema rides in the prompt; the stage validator + retry loop enforce it
+            msgs = json.loads(json.dumps(messages))
+            note = ("\n\nRespond with ONLY one JSON object (no prose, no markdown fences) that validates against this "
+                    "JSON Schema:\n" + json.dumps(schema, separators=(",", ":")))
+            last = msgs[-1]
+            if isinstance(last.get("content"), str):
+                last["content"] += note
+            else:
+                last["content"] = list(last["content"]) + [{"type": "text", "text": note}]
+            kw = dict(model=self.model, max_tokens=self.max_tokens, system=system, messages=msgs,
+                      output_config={"effort": self.effort})
+            with self._stream(kw) as s:
+                msg = s.get_final_message()
         meta = {"model": getattr(msg, "model", self.model), "stop_reason": msg.stop_reason,
                 "usage": msg.usage.model_dump() if hasattr(msg.usage, "model_dump") else str(msg.usage)}
         self.calls.append({"stage": stage, **meta})
@@ -40,10 +64,18 @@ class AnthropicClient:
             raise LLMError(f"{stage}: the model declined ({getattr(msg, 'stop_details', None)})")
         if msg.stop_reason == "max_tokens":
             raise LLMError(f"{stage}: output hit max_tokens={self.max_tokens}")
-        text = next((b.text for b in msg.content if b.type == "text"), None)
+        text = "".join(b.text for b in msg.content if b.type == "text") or None
         if text is None:
             raise LLMError(f"{stage}: no text block in the response")
-        return text, meta
+        t = text.strip()
+        if t.startswith("```"):
+            t = t.split("\n", 1)[1] if "\n" in t else t
+            t = t.rsplit("```", 1)[0]
+        i, j = t.find("{"), t.rfind("}")
+        if i > 0 and j > i:
+            t = t[i:j + 1]
+        meta["grammar"] = grammar
+        return t, meta
 
 
 class FixtureClient:
