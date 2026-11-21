@@ -296,7 +296,7 @@ class Pipeline:
                                        mode="offline" if self.o.offline else "live")
         cls = cls or Runner
         return cls(self.dir, self._client(), self.o.idea, self.o.fmt, ph=ph, words=words, force=force,
-                   log=lambda m: self.log(m))
+                   log=lambda m: self.log(m), style=self.o.style)  # style system: the run's --style drives every director stage
 
     def _llm_result(self, stage, art, t0):
         c = costs.llm_stage_cost(self.dir, stage, since=t0)
