@@ -1,0 +1,49 @@
+{
+ "id": "wk_snow_mountain_ridge",
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Snow mountain ridge at golden hour",
+   "location": "snow_mountain_ridge_loc",
+   "time_of_day": "dusk",
+   "weather": "clear",
+   "line_ids": [
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "picture": "drop away on both sides",
+   "elements": [
+    "snow_mountain_ridge_loc",
+    "hero"
+   ]
+  }
+ ],
+ "elements": [
+  {
+   "id": "snow_mountain_ridge_loc",
+   "kind": "location",
+   "name": "Snowy mountain ridge",
+   "search_terms": [
+    "mountain ridge",
+    "snow",
+    "summit"
+   ],
+   "must_do": [
+    "drop away on both sides",
+    "glow in low sun"
+   ]
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "name": "Hero",
+   "must_do": [
+    "act"
+   ],
+   "search_terms": [
+    "hero"
+   ]
+  }
+ ]
+}

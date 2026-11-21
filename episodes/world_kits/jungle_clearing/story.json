@@ -1,0 +1,26 @@
+{
+ "id": "wk_jungle_clearing",
+ "format": "short",
+ "title": "World kit proof: Jungle clearing at night",
+ "duration_s": 7.5,
+ "narration": [
+  {
+   "id": "L01",
+   "t0": 0.1,
+   "t1": 2.3,
+   "text": "Night falls fast under the canopy."
+  },
+  {
+   "id": "L02",
+   "t0": 2.6,
+   "t1": 4.8,
+   "text": "Keep the fire small and close."
+  },
+  {
+   "id": "L03",
+   "t0": 5.1,
+   "t1": 7.3,
+   "text": "Out here, the dark is listening."
+  }
+ ]
+}

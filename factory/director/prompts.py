@@ -67,7 +67,24 @@ def vocab_text():
     marks = "\n".join(f"  {k}: local {m['local']}, rotY {round(m['rotY'], 4)} - {m['desc']}" for k, m in MARKS.items())
     return (f"RENDERER VOCABULARY (from cloud/blender/acting.py and props.py)\nMARKS:\n{marks}\n"
             f"STANCES: {', '.join(v['stances'])}\nPOSES: {', '.join(v['poses'])}\nVERBS: {', '.join(v['verbs'])}\n"
-            f"PROPS: {', '.join(v['props'])}\nISLAND PRESETS: {json.dumps(ISLANDS)}")
+            f"PROPS: {', '.join(v['props'])}\nISLAND PRESETS: {json.dumps(ISLANDS)}\n" + kits_text())
+
+
+def kits_text():
+    """World kits (factory/worlds): sets beyond the yacht/island world. A shot plays on one with "set": "<kit>"
+    (or world.set), yacht.state absent, island null; hero/orbit marks are then the kit's marks."""
+    from factory.worlds import kits, layout
+    lines = ["WORLD KITS (shot.set or world.set = kit id; yacht absent, island null; marks below are set-local metres,"
+             " rotY 0 faces +z; path points may use frame 'set'):"]
+    for kid in kits.kit_ids():
+        kit = kits.load(kid)
+        if kit.get("legacy"):
+            continue
+        mk = layout.marks(kit)
+        lines.append(f"  {kid} ({kit['sky']['time_of_day']}, lighting {kit['lighting']['preset']}): {kit['name']}")
+        lines += [f"    {n}: local {m['local']}, rotY {round(m['rotY'], 4)}, {m['kind']} - {m['desc']}" for n, m in mk.items()]
+        lines.append("    camera zones: " + "; ".join(f"{z['id']} {z['region']['shape']} y {z['y']}" for z in kit["camera_zones"]))
+    return "\n".join(lines)
 
 
 ROLE = {"develop": DEVELOP, "breakdown": BREAKDOWN, "direct": DIRECT}

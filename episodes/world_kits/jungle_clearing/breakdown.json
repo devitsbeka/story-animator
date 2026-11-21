@@ -1,0 +1,49 @@
+{
+ "id": "wk_jungle_clearing",
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Jungle clearing at night",
+   "location": "jungle_clearing_loc",
+   "time_of_day": "night",
+   "weather": "clear",
+   "line_ids": [
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "picture": "surround the hero with dark trees",
+   "elements": [
+    "jungle_clearing_loc",
+    "hero"
+   ]
+  }
+ ],
+ "elements": [
+  {
+   "id": "jungle_clearing_loc",
+   "kind": "location",
+   "name": "Jungle clearing with a campfire",
+   "search_terms": [
+    "jungle clearing",
+    "campfire",
+    "rainforest"
+   ],
+   "must_do": [
+    "surround the hero with dark trees",
+    "glow with firelight"
+   ]
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "name": "Hero",
+   "must_do": [
+    "act"
+   ],
+   "search_terms": [
+    "hero"
+   ]
+  }
+ ]
+}

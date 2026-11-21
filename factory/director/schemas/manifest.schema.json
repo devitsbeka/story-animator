@@ -26,6 +26,7 @@
      "files": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"],
        "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "role": {"type": "string"}}}},
      "render_key": {"type": "string", "description": "episode.json assets key this element binds to (e.g. props/yacht)."},
+     "kit_proposal": {"type": "object", "description": "BUILD kit:<id>: the librarian's draft world kit (factory/worlds/match.py propose) with its validation errors and notes."},
      "status": {"enum": ["ready", "to_fetch", "to_build"]},
      "reason": {"type": "string"}
     }

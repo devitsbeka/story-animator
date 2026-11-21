@@ -1,0 +1,61 @@
+{
+ "$schema": "../kit.schema.json",
+ "id": "abandoned_city_street",
+ "name": "Abandoned city street at night",
+ "version": 1,
+ "description": "A deserted downtown street at night: cracked asphalt, raised sidewalks, rows of 3-8 storey blockout buildings with PBR facades and broken dark windows, wrecked cars, a road barrier, trash; a few street lamps still burn, one flickers.",
+ "tags": ["city", "street", "urban", "downtown", "road", "avenue", "alley", "abandoned", "deserted", "ruins", "apocalypse", "buildings", "night", "town"],
+ "seed": 41,
+ "extent": {"half": [40, 90]},
+ "terrain": {
+  "type": "street", "res": 120, "amp": 0.35, "freq": 0.06, "octaves": 3,
+  "params": {"road_half": 5.0, "walk_w": 3.2, "curb_h": 0.16},
+  "material": {"texture": "ph:asphalt_02", "tile_m": 5.0, "color": [0.07, 0.07, 0.075], "roughness": 0.8, "tint": [0.8, 0.8, 0.82]},
+  "walk_material": {"texture": "ph:pavement_02", "tile_m": 2.5, "color": [0.32, 0.31, 0.3], "roughness": 0.85, "tint": [0.85, 0.85, 0.85]}
+ },
+ "sky": {"type": "night_procedural", "time_of_day": "night", "key_dir": [0.3, 0.55, 0.8], "dawn": 0.0, "weather": "clear"},
+ "lighting": {"preset": "night_city"},
+ "scatter": [
+  {"id": "walk_junk", "assets": ["ph:old_tyre", "ph:wooden_crate_01", "ph:metal_trash_can"], "density": 3.0,
+   "region": {"shape": "band", "r": [5.6, 8.0], "z_range": [-85, 85]}, "height": [0.4, 1.0], "avoid_marks": 2.0, "avoid_zones": false},
+  {"id": "road_tyres", "assets": ["ph:old_tyre"], "density": 0.35,
+   "region": {"shape": "band", "r": [0.5, 4.6], "z_range": [-85, 85]}, "height": [0.25, 0.6], "tilt_deg": 40, "avoid_marks": 3.0, "avoid_zones": false}
+ ],
+ "pieces": [
+  {"id": "buildings_left", "builder": "proc:building", "at": [-14.2, 0], "rotY": 1.5708, "footprint": 6.0,
+   "repeat": {"axis": "z", "from": -84, "to": 84, "step": 12.5, "skip": 0.06},
+   "opts": {"width": 12.3, "depth": 12, "floors": [3, 8], "floor_h": 3.2, "facades": ["acg:Facade006", "acg:Facade001"], "broken": 0.35, "lit_windows": 0.02}},
+  {"id": "buildings_right", "builder": "proc:building", "at": [14.2, 0], "rotY": -1.5708, "footprint": 6.0,
+   "repeat": {"axis": "z", "from": -78, "to": 84, "step": 12.5, "skip": 0.06},
+   "opts": {"width": 12.3, "depth": 12, "floors": [3, 8], "floor_h": 3.2, "facades": ["acg:Facade001", "acg:Facade006"], "broken": 0.35, "lit_windows": 0.02}},
+  {"id": "lamps_left", "builder": "lib:ph:street_lamp_01", "at": [-7.7, 0], "rotY": 1.5708, "height": 5.2, "footprint": 0.4,
+   "repeat": {"axis": "z", "from": -70, "to": 70, "step": 22}},
+  {"id": "lamps_right", "builder": "lib:ph:street_lamp_01", "at": [7.7, 0], "rotY": -1.5708, "height": 5.2, "footprint": 0.4,
+   "repeat": {"axis": "z", "from": -59, "to": 70, "step": 22}},
+  {"id": "wreck_a", "builder": "proc:car_wreck", "at": [2.6, 6.2], "rotY": 0.35, "footprint": 2.4, "opts": {"color": [0.32, 0.06, 0.05]}},
+  {"id": "wreck_b", "builder": "proc:car_wreck", "at": [-3.2, -14], "rotY": 2.75, "footprint": 2.4, "opts": {"color": [0.12, 0.16, 0.2], "flipped": false}},
+  {"id": "wreck_c", "builder": "proc:car_wreck", "at": [3.4, 31], "rotY": -0.25, "footprint": 2.4, "opts": {"color": [0.5, 0.48, 0.42]}},
+  {"id": "barrier", "builder": "lib:ph:concrete_road_barrier", "at": [-1.4, 21], "rotY": 1.3, "height": 0.85, "footprint": 1.4},
+  {"id": "hydrant", "builder": "lib:ph:fire_hydrant", "at": [7.0, -6.0], "height": 0.8, "footprint": 0.4},
+  {"id": "trash_can", "builder": "lib:ph:metal_trash_can", "at": [-7.3, 1.8], "height": 0.95, "footprint": 0.5}
+ ],
+ "marks": {
+  "STREET_CENTER": {"at": [0, 0], "rotY": 0.0, "kind": "stand", "desc": "middle of the road, facing down the street (+z)"},
+  "DOORWAY": {"at": [-7.5, 4.6], "rotY": 1.5708, "kind": "interact", "interaction": "door", "target": "buildings_left", "desc": "back against a building front on the left sidewalk, facing the street (+x)"},
+  "CAR_COVER": {"at": [1.1, 4.0], "rotY": 3.1416, "kind": "interact", "interaction": "car", "target": "wreck_a", "desc": "behind the red wreck, facing back up the street (-z)"},
+  "LAMP_POST": {"at": [6.9, 8.2], "rotY": -1.5708, "kind": "stand", "interaction": "lamp", "target": "lamps_right", "desc": "under the lit lamp on the right sidewalk, facing the road (-x)"}
+ },
+ "camera_zones": [
+  {"id": "street", "region": {"shape": "rect", "center": [0, 0], "size": [16.2, 170]}, "y": [0.3, 16], "desc": "road and sidewalks"},
+  {"id": "rooftops", "region": {"shape": "all"}, "y": [30, 120], "desc": "above the roofs (crane / drone)"}
+ ],
+ "lights": [
+  {"id": "lamp_lit_left", "type": "point", "at": [-7.0, -4.0], "y": 5.05, "kelvin": 2700, "watts": 450, "radius": 0.15},
+  {"id": "lamp_lit_right", "type": "point", "at": [7.0, 7.0], "y": 5.05, "kelvin": 2900, "watts": 450, "radius": 0.15},
+  {"id": "lamp_flicker", "type": "point", "at": [-7.0, -26.0], "y": 5.05, "kelvin": 2600, "watts": 380, "radius": 0.15, "flicker": 0.7},
+  {"id": "lamp_far", "type": "point", "at": [7.0, 29.0], "y": 5.05, "kelvin": 2800, "watts": 380, "radius": 0.15}
+ ],
+ "ambience": [{"id": "el:sfx_wind_sea", "gain_db": -28},
+              {"id": "sfx_city_abandoned", "status": "to_generate", "prompt": "abandoned city street at night, distant wind between buildings, a loose sign creaking, faint electrical hum from a street lamp, no traffic, no people", "gain_db": -16}],
+ "provenance": {"author": "factory/worlds starter kit", "assets": "Poly Haven CC0 (ph:*), ambientCG CC0 facades (acg:*); buildings and cars procedural"}
+}

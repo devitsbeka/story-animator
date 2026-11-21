@@ -44,6 +44,7 @@ import oceanfx  # noqa: E402
 import props_vehicles as vehicles  # noqa: E402
 import storm  # noqa: E402
 # --- end props2 hook
+import set_assembly  # noqa: E402  world_kits hook: any-idea sets (factory/worlds kits)
 
 
 def log(*a):
@@ -1501,6 +1502,11 @@ def build_shot(shot, frames, args):
     engine, device = setup_render(args, spec)
     env = dict(spec["world"])
     env.update(shot.get("env") or {})
+    # >>> world_kits hook: a shot on a world-kit set (shot.set / world.set) instead of the yacht/island world
+    kref = set_assembly.kit_ref(spec, shot)
+    if kref:
+        return build_set_shot(shot, kref, frames, args, engine, device)
+    # <<< world_kits hook
     sea = float(env.get("seaState", 1.6))
     lighting.begin_shot(spec, shot, args.lighting)  # lighting hook
     build_world(env, fps, frames, args.haze)
@@ -1655,6 +1661,71 @@ def build_shot(shot, frames, args):
     return engine, device
 
 
+# >>> world_kits hook: build a shot on a world kit (cloud/blender/set_assembly.py)
+def build_set_shot(shot, kref, frames, args, engine, device):
+    """Same contract as build_shot, for a set built from a world kit: no ocean / yacht / island. Actors stand on
+    kit marks in set (= world) space; the camera keys are world space; scatter is realized after the camera."""
+    spec = SPEC
+    fps = spec.get("fps", 30)
+    sc = bpy.context.scene
+    kit = set_assembly.load_kit(kref["kit"])
+    shot = set_assembly.shot_with_kit(shot, kit)
+    env = dict(spec["world"])
+    env.update(shot.get("env") or {})
+    lighting.begin_shot(spec, shot, args.lighting)
+    sb = set_assembly.build_set(kit, kref.get("seed"), frames, fps, lambda e: build_world(e, fps, frames, args.haze),
+                                lib_collection, env)
+    camd = bpy.data.cameras.new("Cam")
+    camd.sensor_fit = "VERTICAL"
+    camd.sensor_height = 24.0
+    camd.clip_start = 0.05
+    camd.clip_end = 20000.0
+    cam = bpy.data.objects.new("Cam", camd)
+    link_obj(cam)
+    sc.camera = cam
+    cam.rotation_mode = "QUATERNION"
+    ACTORS.clear()
+    for i, a in enumerate(shot.get("actors") or []):
+        build_actor(i, a, sb.root, cam, shot, fps)
+    build_props(shot, sb.root, frames)
+    ck = shot["camera"]
+    prev = None
+    for f in range(frames[0] - 1, frames[-1] + 2):
+        camp, lookp, fov, rollc = rig_at(f, ck["keys"], keyed(ck.get("handheld"), f, 0.2), ck.get("shakes") or (), ck.get("drift", 0.25))
+        loc, q, _ = (T @ look_matrix3(Vector(camp), Vector(lookp), rollc)).decompose()
+        if prev is not None and prev.dot(q) < 0:
+            q.negate()
+        prev = q
+        cam.location, cam.rotation_quaternion = loc, q
+        cam.keyframe_insert("location", frame=f)
+        cam.keyframe_insert("rotation_quaternion", frame=f)
+        camd.lens = (camd.sensor_height / 2) / math.tan(math.radians(fov) / 2)
+        camd.keyframe_insert("lens", frame=f)
+
+    def cam_at(f):
+        camp, lookp, fov, rollc = rig_at(f, ck["keys"], keyed(ck.get("handheld"), f, 0.2), ck.get("shakes") or (), ck.get("drift", 0.25))
+        return T @ look_matrix3(Vector(camp), Vector(lookp), rollc), fov
+    allf = list(range(shot["from"], shot["to"]))
+    set_assembly.realize_scatter(sb, cam, allf, (spec.get("width", 1080), spec.get("height", 1920)), cam_at)
+    storm.apply(shot, env, frames, cam, fps, log)
+    centre = Vector((0, 0, 0))
+    if shot.get("actors"):
+        centre = b3(shot["actors"][0]["local"])
+    if lighting.active():
+        lighting.finalize_shot(sc, shot, centre)
+    linearize_all()
+    SET_REPORT.clear()
+    SET_REPORT.update(sb.report)
+    for m in sb.report["missing"]:
+        warn(f"set {kit['id']}: library asset {m} missing")
+    log(f"shot {shot['id']}: set {kit['id']} built ({sb.report})")
+    return engine, device
+
+
+SET_REPORT = {}
+# <<< world_kits hook
+
+
 def shots_for_range(spec, start, end):
     out = []
     for s in spec["shots"]:
@@ -1708,6 +1779,8 @@ def main():
             "blender": bpy.app.version_string, "secondsPerFrame": times, "warnings": list(WARNINGS),
             "lighting": lighting.report(),
         }
+        if set_assembly.kit_ref(SPEC, shot):  # world_kits hook
+            man["set"] = dict(SET_REPORT)
         with open(os.path.join(odir, f"_render_{todo[0]}_{todo[-1]}.json"), "w") as fh:
             json.dump(man, fh, indent=1)
     log(f"done: {rendered} frames in {time.time() - t_all:.1f}s")

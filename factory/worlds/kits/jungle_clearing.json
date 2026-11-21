@@ -1,0 +1,50 @@
+{
+ "$schema": "../kit.schema.json",
+ "id": "jungle_clearing",
+ "name": "Jungle clearing at night",
+ "version": 1,
+ "description": "A small clearing in dense tropical forest at night: a campfire, a fallen log to sit on, mossy rocks, a trail entering from the south. Canopy trees ring the clearing; ferns and shrubs fill the understorey. Warm firelight against a moonlit canopy.",
+ "tags": ["jungle", "rainforest", "forest", "tropical", "clearing", "camp", "campfire", "trees", "night", "wilderness", "survival", "island interior"],
+ "seed": 11,
+ "extent": {"half": [60, 60]},
+ "terrain": {
+  "type": "noise", "res": 110, "amp": 1.6, "freq": 0.035, "octaves": 4,
+  "clearings": [{"at": [0, 0], "r": 7, "blend": 6, "y": 0}, {"at": [0, -12], "r": 2.5, "blend": 4}],
+  "material": {"texture": "ph:forest_ground_04", "tile_m": 3.0, "color": [0.09, 0.07, 0.045], "roughness": 0.95, "tint": [0.85, 0.9, 0.8]}
+ },
+ "sky": {"type": "night_procedural", "time_of_day": "night", "key_dir": [0.45, 0.62, -0.55], "dawn": 0.0, "weather": "clear"},
+ "lighting": {"preset": "firelight", "overrides": {"hdri_ambient": 0.03}},
+ "scatter": [
+  {"id": "canopy", "assets": ["ph:island_tree_01", "ph:island_tree_02", "ph:island_tree_03"], "density": 0.9,
+   "region": {"shape": "ring", "center": [0, 0], "r": [12, 58]}, "height": [14, 24], "sink": 0.3, "tilt_deg": 4,
+   "exclude": [{"shape": "rect", "center": [0, -30], "size": [4, 40]}]},
+  {"id": "understorey", "assets": ["ph:fern_02", "ph:shrub_01"], "weights": [2, 1], "density": 7.0,
+   "region": {"shape": "ring", "center": [0, 0], "r": [7.5, 45]}, "height": [0.9, 2.2], "avoid_marks": 3.0,
+   "exclude": [{"shape": "rect", "center": [0, -30], "size": [2.6, 40]}]},
+  {"id": "rocks", "assets": ["ph:rock_moss_set_01"], "density": 0.35,
+   "region": {"shape": "ring", "center": [0, 0], "r": [6.5, 40]}, "height": [0.4, 1.4], "sink": 0.15},
+  {"id": "deadwood", "assets": ["ph:dead_tree_trunk_02", "ph:tree_stump_01"], "density": 0.22,
+   "region": {"shape": "ring", "center": [0, 0], "r": [8, 35]}, "height": [0.6, 1.6], "sink": 0.1, "tilt_deg": 6}
+ ],
+ "pieces": [
+  {"id": "campfire", "builder": "proc:campfire", "at": [1.6, 1.4], "footprint": 0.9, "opts": {"watts": 260, "kelvin": 1850, "flicker": 0.35}},
+  {"id": "log_seat", "builder": "lib:ph:dead_tree_trunk_02", "at": [-1.4, 2.9], "rotY": 1.75, "height": 0.75, "footprint": 1.2},
+  {"id": "boulder", "builder": "lib:ph:rock_moss_set_01", "at": [4.2, -2.6], "rotY": 0.6, "height": 1.3, "footprint": 1.4},
+  {"id": "stump", "builder": "lib:ph:tree_stump_01", "at": [-4.6, -1.8], "rotY": 2.1, "height": 0.7, "footprint": 0.8}
+ ],
+ "marks": {
+  "CENTER": {"at": [0, 0], "rotY": 0.0, "kind": "stand", "desc": "clearing centre, facing north into the jungle"},
+  "FIRESIDE": {"at": [0.4, 0.4], "rotY": 0.88, "kind": "interact", "interaction": "fire", "target": "campfire", "desc": "beside the campfire, facing the flames"},
+  "LOG_SIT": {"at": [-1.3, 2.1], "rotY": 1.86, "kind": "sit", "interaction": "seat", "target": "log_seat", "desc": "sitting on the ground beside the fallen log, facing the fire"},
+  "TRAIL_EDGE": {"at": [0, -8.5], "rotY": 0.0, "kind": "walk", "desc": "where the trail enters the clearing from the south, facing in"},
+  "BOULDER": {"at": [3.0, -1.7], "rotY": -0.42, "kind": "interact", "interaction": "lean", "target": "boulder", "desc": "leaning on the mossy boulder, looking back toward the fire"}
+ },
+ "camera_zones": [
+  {"id": "clearing", "region": {"shape": "disc", "center": [0, 0], "r": 7.5}, "y": [0.3, 9], "desc": "anywhere inside the clearing"},
+  {"id": "trail", "region": {"shape": "rect", "center": [0, -14], "size": [2.4, 14]}, "y": [0.4, 3], "desc": "along the trail (follow / reveal)"},
+  {"id": "overhead", "region": {"shape": "disc", "center": [0, 0], "r": 9}, "y": [14, 40], "desc": "above the canopy hole (top shots)"}
+ ],
+ "lights": [],
+ "ambience": [{"id": "el:sfx_jungle_night", "gain_db": -16}, {"id": "el:sfx_fire_crackle", "gain_db": -20}],
+ "provenance": {"author": "factory/worlds starter kit", "assets": "Poly Haven CC0 (catalog ph:*)"}
+}

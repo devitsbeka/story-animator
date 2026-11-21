@@ -1,0 +1,213 @@
+{
+ "id": "wk_snow_mountain_ridge",
+ "audio_offset_frames": 3,
+ "world": {
+  "moonDir": [
+   -0.72,
+   0.3,
+   0.62
+  ],
+  "seaState": 0,
+  "dawn": 0,
+  "island": null,
+  "set": "snow_mountain_ridge"
+ },
+ "action_line": "hero faces +z; cameras stay on the hero's left (az < 0)",
+ "shots": [
+  {
+   "id": "K01",
+   "title": "On the knife edge",
+   "from": 0,
+   "to": 75,
+   "scene": "S01",
+   "line_ids": [
+    "L01"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "set",
+      "v": [
+       7.5,
+       3.6,
+       -9.0
+      ]
+     },
+     {
+      "frame": "set",
+      "v": [
+       6.5,
+       3.0,
+       -6.0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "set",
+      "v": [
+       0.0,
+       1.3,
+       0.0
+      ]
+     },
+     {
+      "frame": "set",
+      "v": [
+       0.0,
+       1.2,
+       0.5
+      ]
+     }
+    ],
+    "fov": [
+     42,
+     36
+    ],
+    "ease": "move",
+    "handheld": 0.08,
+    "drift": 0.05
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "snow_mountain_ridge",
+   "hero": {
+    "mark": "CREST",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 15,
+      "to": 70
+     }
+    ],
+    "verbs": [],
+    "seed": 1
+   }
+  },
+  {
+   "id": "K02",
+   "title": "Toward the summit",
+   "from": 75,
+   "to": 150,
+   "scene": "S01",
+   "line_ids": [
+    "L02"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "CREST",
+    "az": [
+     -45,
+     -30
+    ],
+    "dist": [
+     4.6,
+     4.0
+    ],
+    "height": [
+     0.35,
+     0.25
+    ],
+    "target": "chest",
+    "fov": [
+     36,
+     32
+    ],
+    "ease": "move",
+    "handheld": 0.1,
+    "drift": 0.06
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "snow_mountain_ridge",
+   "hero": {
+    "mark": "CREST",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "point_ahead",
+      "from": 88,
+      "to": 140
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 80,
+      "dur": 60
+     }
+    ],
+    "seed": 2
+   }
+  },
+  {
+   "id": "K03",
+   "title": "The view",
+   "from": 150,
+   "to": 225,
+   "scene": "S01",
+   "line_ids": [
+    "L03"
+   ],
+   "size": "MCU",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "tension_push",
+    "rig": "orbit",
+    "mark": "LOOKOUT",
+    "az": [
+     -30,
+     -20
+    ],
+    "dist": [
+     1.6,
+     1.4
+    ],
+    "height": [
+     0.05,
+     0.05
+    ],
+    "target": "face",
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "handheld": 0.1,
+    "drift": 0.06
+   },
+   "yacht": {
+    "state": "absent"
+   },
+   "island": null,
+   "set": "snow_mountain_ridge",
+   "hero": {
+    "mark": "LOOKOUT",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "look_up",
+      "from": 160,
+      "to": 222
+     }
+    ],
+    "verbs": [],
+    "seed": 3
+   }
+  }
+ ],
+ "overrides": []
+}

@@ -11,7 +11,7 @@
   "point": {
    "type": "object", "additionalProperties": false, "required": ["frame", "v"],
    "description": "A 3D point. frame=yacht: yacht-local metres. world: world metres. shore: [u, y, p] metres from the island's nearest shore point (u toward the island, p to its left). island: [dx, y, dz] from the island centre.",
-   "properties": {"frame": {"enum": ["yacht", "world", "shore", "island"]}, "v": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}
+   "properties": {"frame": {"enum": ["yacht", "world", "shore", "island", "set"]}, "v":{"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}
   },
   "keys": {"type": "array", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}},
   "pose": {"type": "object", "additionalProperties": false, "required": ["pose", "from", "to"],
@@ -26,7 +26,8 @@
   "world": {
    "type": "object", "additionalProperties": false, "required": ["moonDir", "seaState", "dawn", "island"],
    "properties": {"moonDir": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}, "seaState": {"type": "number"},
-     "dawn": {"type": "number"}, "island": {"enum": ["near", "far", null]}}
+     "dawn": {"type": "number"}, "island": {"enum": ["near", "far", null]},
+     "set": {"type": ["string", "null"], "description": "world kit id (factory/worlds/kits) every shot plays on unless it names its own set"}}
   },
   "action_line": {"type": "string", "description": "PIXAR 3.4: the 180-degree line for the main sequence."},
   "overrides": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["rule", "reason"],
@@ -79,7 +80,9 @@
       }
      },
      "island": {"enum": ["near", "far", null]},
-     "fires": {"type": "array", "items": {"type": "array", "minItems": 2, "maxItems": 2, "prefixItems": [{"type": "integer"}, {"type": "array", "items": {"type": "number"}}]}},
+     "set": {"type": "string", "description": "world kit id: the shot plays on that set (yacht absent, island null); hero marks and orbit marks are the kit's marks, path points may use frame 'set' (kit-local = world)"},
+     "set_seed": {"type": "integer", "description": "world kit seed override (default: the kit's seed)"},
+     "fires":{"type": "array", "items": {"type": "array", "minItems": 2, "maxItems": 2, "prefixItems": [{"type": "integer"}, {"type": "array", "items": {"type": "number"}}]}},
      "env": {"type": "object", "additionalProperties": false,
        "properties": {"dawn": {"type": "number"}, "seaState": {"type": "number"}, "moonDir": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}},
      "hero": {
@@ -101,7 +104,7 @@
        "type": "object", "additionalProperties": false, "required": ["prop", "attach"],
        "properties": {
         "prop": {"type": "string"},
-        "attach": {"enum": ["yacht", "handR", "handL"]},
+        "attach": {"enum": ["yacht", "handR", "handL", "set"]},
         "local": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
         "rotY": {"type": "number"},
         "rot": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},

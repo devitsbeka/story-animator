@@ -44,6 +44,8 @@ Every stage writes one validated JSON artifact under `episodes/<id>/`. Each stag
 
 New elements built or sourced for an episode are added to the catalog, so the library grows with every episode.
 
+**World kits** (`factory/worlds/`) make any idea stageable, not only the yacht/island world. A kit is a set as data (`kit.schema.json`): terrain + sky/time/weather + scatter layers of catalog assets + hero set pieces + named marks (stand/sit/interaction points) + camera-safe zones + a default lighting preset + ambience beds. `layout.py` turns (kit, seed) into a deterministic plan that the director (marks, camera checks) and `cloud/blender/set_assembly.py` (the Blender build) share. The librarian maps a breakdown location to a kit (REUSE `kit:<id>`) or drafts a new kit from the library (BUILD with a `kit_proposal`); a shot with `"set": "<kit>"` is staged on the kit's marks and rendered through the set assembler. Starter kits: `jungle_clearing`, `desert_canyon`, `snow_mountain_ridge`, `abandoned_city_street` (+ `sea_yacht`, the legacy path). `python -m factory.worlds list|validate|layout|propose`.
+
 ## Sourcing (in priority order)
 
 1. **Internal library:** reuse.

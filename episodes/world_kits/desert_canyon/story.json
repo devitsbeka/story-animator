@@ -1,0 +1,26 @@
+{
+ "id": "wk_desert_canyon",
+ "format": "short",
+ "title": "World kit proof: Desert canyon by day",
+ "duration_s": 7.5,
+ "narration": [
+  {
+   "id": "L01",
+   "t0": 0.1,
+   "t1": 2.3,
+   "text": "The canyon walls trap the heat."
+  },
+  {
+   "id": "L02",
+   "t0": 2.6,
+   "t1": 4.8,
+   "text": "Shade is the only water you can find."
+  },
+  {
+   "id": "L03",
+   "t0": 5.1,
+   "t1": 7.3,
+   "text": "Move at dawn, rest at noon."
+  }
+ ]
+}

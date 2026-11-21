@@ -1,0 +1,223 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://story-animator.local/factory/worlds/kit.schema.json",
+ "title": "World kit (a reusable set the director can stage any idea in)",
+ "description": "A set as data: terrain/ground + sky/time/weather + scatter layers of library assets + hero set pieces + named marks + camera-safe zones + a default lighting preset + ambience beds. Set-local axes = world axes of a set shot: three.js / glTF convention (Y up, metres). A mark's rotY 0 faces +z (like the yacht marks). The assembler (cloud/blender/set_assembly.py) builds a kit deterministically from (kit, seed); factory/worlds/layout.py is the pure-python half of that (terrain heights, scatter placement, marks on the ground).",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["id", "name", "version", "tags", "extent", "terrain", "sky", "lighting", "scatter", "pieces", "marks", "camera_zones", "ambience"],
+ "$defs": {
+  "xz": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "xyz": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+  "range": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "catalogId": {"type": "string", "pattern": "^(ph|acg|int|el):[A-Za-z0-9_]+$"},
+  "region": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["shape"],
+   "description": "rect: center + size [w, d]. disc: center + r. ring: center + r [inner, outer]. band: |x - centerline(z)| in [r0, r1] along the canyon/street axis, z in z_range. all: the whole extent.",
+   "properties": {
+    "shape": {"enum": ["rect", "disc", "ring", "band", "all"]},
+    "center": {"$ref": "#/$defs/xz"},
+    "size": {"$ref": "#/$defs/xz"},
+    "r": {"oneOf": [{"type": "number", "exclusiveMinimum": 0}, {"$ref": "#/$defs/range"}]},
+    "z_range": {"$ref": "#/$defs/range"},
+    "side": {"enum": ["both", "left", "right"], "description": "band: left = -x side, right = +x side"}
+   }
+  },
+  "material": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "PBR ground material: a sourced texture set (Poly Haven ph:* / ambientCG acg:*) tiled in world space; 'steep' blends a second set in on slopes, 'high' a third above a height.",
+   "properties": {
+    "texture": {"$ref": "#/$defs/catalogId"},
+    "tile_m": {"type": "number", "exclusiveMinimum": 0},
+    "tint": {"$ref": "#/$defs/xyz"},
+    "color": {"$ref": "#/$defs/xyz", "description": "fallback albedo when the texture files are missing"},
+    "roughness": {"type": "number", "minimum": 0, "maximum": 1},
+    "steep": {"type": "object", "additionalProperties": false, "required": ["texture", "from_deg", "to_deg"],
+              "properties": {"texture": {"$ref": "#/$defs/catalogId"}, "tile_m": {"type": "number"}, "from_deg": {"type": "number"},
+                             "to_deg": {"type": "number"}, "tint": {"$ref": "#/$defs/xyz"}, "color": {"$ref": "#/$defs/xyz"},
+                             "strata": {"type": "number", "exclusiveMinimum": 0, "description": "sedimentary banding period (m) on the steep layer"}}},
+    "sparkle": {"type": "number", "minimum": 0, "description": "snow glints (specular noise) strength"}
+   }
+  },
+  "piece": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["id", "builder"],
+   "description": "A hero set piece. builder lib:<catalog id> (a sourced model, true size), proc:<set_assembly PROC builder> (building, car_wreck, campfire, curb, ...), prop:<cloud/blender/props.py BUILDERS key>. at [x, z] sits on the ground (+ y offset); [x, y, z] is absolute. 'repeat' lays out a seeded row (buildings along a street).",
+   "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "builder": {"type": "string", "pattern": "^(lib:(ph|acg|int):[A-Za-z0-9_]+|proc:[a-z0-9_]+|prop:[a-z0-9_]+)$"},
+    "at": {"oneOf": [{"$ref": "#/$defs/xz"}, {"$ref": "#/$defs/xyz"}]},
+    "y": {"type": "number", "description": "offset above the ground when at is [x, z]"},
+    "rotY": {"type": "number"},
+    "height": {"oneOf": [{"type": "number", "exclusiveMinimum": 0}, {"$ref": "#/$defs/range"}], "description": "target height in metres (lib pieces)"},
+    "scale": {"oneOf": [{"type": "number", "exclusiveMinimum": 0}, {"$ref": "#/$defs/range"}]},
+    "footprint": {"type": "number", "minimum": 0, "description": "radius (m) kept free of scatter and checked against marks/cameras"},
+    "opts": {"type": "object", "description": "builder options (seeded variation is applied by the assembler)"},
+    "repeat": {"type": "object", "additionalProperties": false, "required": ["axis", "from", "to", "step"],
+               "properties": {"axis": {"enum": ["x", "z"]}, "from": {"type": "number"}, "to": {"type": "number"}, "step": {"type": "number", "exclusiveMinimum": 0},
+                              "jitter": {"type": "number", "minimum": 0}, "skip": {"type": "number", "minimum": 0, "maximum": 1}}}
+   }
+  }
+ },
+ "properties": {
+  "$schema": {"type": "string"},
+  "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+  "name": {"type": "string", "minLength": 1},
+  "version": {"type": "integer", "minimum": 1},
+  "description": {"type": "string"},
+  "tags": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "librarian matching terms (location nouns, biome, era, mood)"},
+  "legacy": {"enum": ["yacht_island"], "description": "the set is the pre-kit yacht/island path of render_episode.py (marks = factory/director/staging.py MARKS)"},
+  "seed": {"type": "integer", "minimum": 0, "description": "default seed (a shot may override)"},
+  "extent": {"type": "object", "additionalProperties": false, "required": ["half"], "properties": {"half": {"$ref": "#/$defs/xz", "description": "half size [x, z] of the buildable set, metres"}}},
+  "terrain": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["type"],
+   "properties": {
+    "type": {"enum": ["plane", "noise", "canyon", "ridge", "street", "none"]},
+    "size": {"$ref": "#/$defs/xz", "description": "ground mesh size [x, z] (default 2 x extent)"},
+    "res": {"type": "integer", "minimum": 4, "maximum": 400, "description": "grid cells along the longer side"},
+    "base_y": {"type": "number"},
+    "amp": {"type": "number", "minimum": 0, "description": "fbm noise amplitude (m)"},
+    "freq": {"type": "number", "exclusiveMinimum": 0, "description": "fbm base frequency (1/m)"},
+    "octaves": {"type": "integer", "minimum": 1, "maximum": 8},
+    "params": {"type": "object", "description": "type-specific shape: canyon {floor_half, wall_w, wall_h, meander_amp, meander_len, terraces}; ridge {slope, crest_amp, crest_len, saddle}; street {road_half, walk_w, curb_h}"},
+    "clearings": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["at", "r"],
+                  "properties": {"at": {"$ref": "#/$defs/xz"}, "r": {"type": "number", "exclusiveMinimum": 0}, "blend": {"type": "number", "minimum": 0}, "y": {"type": "number"}}},
+                  "description": "flattened discs (where the action happens): heights blend to y (default: the shaped height at the centre)"},
+    "material": {"$ref": "#/$defs/material"},
+    "walk_material": {"$ref": "#/$defs/material", "description": "street: sidewalk material"},
+    "backdrop": {"type": "object", "additionalProperties": false, "required": ["type"],
+                 "properties": {"type": {"enum": ["mountains", "dunes", "none"]}, "r": {"$ref": "#/$defs/range"}, "height": {"$ref": "#/$defs/range"},
+                                "material": {"$ref": "#/$defs/material"}, "snowline": {"type": "number"},
+                                "haze": {"type": "number", "minimum": 0, "maximum": 1, "description": "aerial perspective: mix toward haze_color"}, "haze_color": {"$ref": "#/$defs/xyz"}}}
+   }
+  },
+  "sky": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["type", "time_of_day", "key_dir"],
+   "properties": {
+    "type": {"enum": ["night_procedural", "day_physical", "overcast"]},
+    "time_of_day": {"enum": ["night", "dawn", "day", "dusk"]},
+    "key_dir": {"$ref": "#/$defs/xyz", "description": "direction TO the sun/moon (spec axes); becomes env.moonDir, which the lighting key follows"},
+    "dawn": {"type": "number", "minimum": 0, "maximum": 1},
+    "weather": {"enum": ["clear", "overcast", "fog", "snow", "dust", "rain"]},
+    "air": {"type": "number", "minimum": 0, "maximum": 10, "description": "day_physical air density (haze)"},
+    "dust": {"type": "number", "minimum": 0, "maximum": 10},
+    "strength": {"type": "number", "minimum": 0}
+   }
+  },
+  "lighting": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["preset"],
+   "properties": {
+    "preset": {"type": "string", "description": "cloud/blender/lighting.py PRESETS key"},
+    "overrides": {"type": "object", "description": "lighting preset parameters (lighting.BASE keys) applied on top"}
+   }
+  },
+  "scatter": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "assets", "density", "region", "height"],
+    "properties": {
+     "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+     "assets": {"type": "array", "items": {"$ref": "#/$defs/catalogId"}, "minItems": 1},
+     "weights": {"type": "array", "items": {"type": "number", "minimum": 0}},
+     "density": {"type": "number", "exclusiveMinimum": 0, "description": "instances per 100 m2 of region"},
+     "region": {"$ref": "#/$defs/region"},
+     "exclude": {"type": "array", "items": {"$ref": "#/$defs/region"}},
+     "height": {"$ref": "#/$defs/range", "description": "target instance height range (m); true-size assets are scaled to it"},
+     "sink": {"type": "number", "description": "metres pushed into the ground (roots, rock bases)"},
+     "yaw": {"oneOf": [{"const": "random"}, {"type": "number"}]},
+     "tilt_deg": {"type": "number", "minimum": 0, "maximum": 45},
+     "slope_max_deg": {"type": "number", "minimum": 0, "maximum": 90},
+     "slope_min_deg": {"type": "number", "minimum": 0, "maximum": 90},
+     "y_range": {"$ref": "#/$defs/range", "description": "only where the ground height is inside this band"},
+     "cluster": {"type": "object", "additionalProperties": false, "required": ["freq", "threshold"],
+                 "properties": {"freq": {"type": "number", "exclusiveMinimum": 0}, "threshold": {"type": "number", "minimum": 0, "maximum": 1}}},
+     "avoid_marks": {"type": "number", "minimum": 0, "description": "keep-out radius around every mark (m), default 2.5"},
+     "avoid_zones": {"type": "boolean", "description": "keep out of camera_zones (default true)"},
+     "max_count": {"type": "integer", "minimum": 1}
+    }
+   }
+  },
+  "pieces": {"type": "array", "items": {"$ref": "#/$defs/piece"}},
+  "marks": {
+   "type": "object",
+   "minProperties": 1,
+   "propertyNames": {"pattern": "^[A-Z][A-Z0-9_]*$"},
+   "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["at", "rotY", "kind", "desc"],
+    "properties": {
+     "at": {"oneOf": [{"$ref": "#/$defs/xz"}, {"$ref": "#/$defs/xyz"}]},
+     "y": {"type": "number", "description": "offset above the ground when at is [x, z]"},
+     "rotY": {"type": "number", "description": "radians about +y; 0 faces +z"},
+     "kind": {"enum": ["stand", "sit", "walk", "interact"]},
+     "interaction": {"type": "string", "description": "named interaction point: door, window, fire, ledge, car, lamp, ..."},
+     "target": {"type": "string", "description": "pieces[].id the interaction is with"},
+     "desc": {"type": "string", "minLength": 1}
+    }
+   }
+  },
+  "camera_zones": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "region", "y"],
+    "properties": {
+     "id": {"type": "string"},
+     "region": {"$ref": "#/$defs/region"},
+     "y": {"$ref": "#/$defs/range", "description": "camera height band ABOVE the ground (m)"},
+     "desc": {"type": "string"}
+    }
+   }
+  },
+  "lights": {
+   "type": "array",
+   "description": "practicals that belong to the set (lamps, windows, fires); pieces may add their own",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "at", "watts"],
+    "properties": {
+     "id": {"type": "string"},
+     "type": {"enum": ["point", "spot", "area"]},
+     "at": {"oneOf": [{"$ref": "#/$defs/xz"}, {"$ref": "#/$defs/xyz"}]},
+     "y": {"type": "number"},
+     "kelvin": {"type": "number", "minimum": 1000, "maximum": 20000},
+     "color": {"$ref": "#/$defs/xyz"},
+     "watts": {"type": "number", "minimum": 0},
+     "radius": {"type": "number", "minimum": 0},
+     "flicker": {"type": "number", "minimum": 0, "maximum": 1}
+    }
+   }
+  },
+  "ambience": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id"],
+    "properties": {
+     "id": {"type": "string", "description": "catalog sound id (el:sfx_*), or a new bed id with status to_generate"},
+     "gain_db": {"type": "number"},
+     "status": {"enum": ["ready", "to_generate"]},
+     "prompt": {"type": "string", "description": "to_generate: the ElevenLabs sound-effects prompt"}
+    }
+   }
+  },
+  "provenance": {"type": "object", "description": "who/what built the kit (author, source episode, proposal)"}
+ }
+}
