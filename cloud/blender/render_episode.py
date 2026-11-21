@@ -1045,7 +1045,7 @@ def build_island(isl, frames, fires_keys, fps):
             fm = fire_meshes[i]
             if fm is not None:
                 s = max(0.001, v)
-                fm.scale = (s, s, s * (0.6 + 0.4 * fl))
+                fm.scale = (s * 5.0, s * 5.0, s * 5.0 * (0.6 + 0.4 * fl))  # readable at 150-300 m (camera review: fires were sub-pixel)
                 fm.keyframe_insert("scale", frame=f)
                 fm.hide_render = v < 0.02
                 fm.keyframe_insert("hide_render", frame=f)
