@@ -875,6 +875,106 @@ def build_placeholder_island(scale):
     return ob, fire_pos
 
 
+
+LIB_STORE = os.environ.get("LIBRARY_STORE") or None
+
+
+def lib_path(rel):
+    base = LIB_STORE or os.path.join(ROOT, "library_store")
+    p = os.path.join(base, rel)
+    return p if os.path.exists(p) else None
+
+
+def lib_collection(asset_id, rel):
+    """Import a library glTF once into a hidden collection for instancing; returns (collection, height_m)."""
+    name = "LIB_" + asset_id
+    if name in bpy.data.collections:
+        c = bpy.data.collections[name]
+        return c, c.get("height", 1.0)
+    path = lib_path(rel)
+    if not path:
+        warn(f"library asset {asset_id} missing ({rel})")
+        return None, 0
+    objs = import_glb(path)
+    c = bpy.data.collections.new(name)
+    for o in objs:
+        for uc in list(o.users_collection):
+            uc.objects.unlink(o)
+        c.objects.link(o)
+    bpy.context.view_layer.update()
+    zs = [(o.matrix_world @ Vector(v)).z for o in objs if o.type == "MESH" for v in o.bound_box]
+    h = (max(zs) - min(zs)) if zs else 1.0
+    c["height"] = h
+    return c, h
+
+
+def _inst(coll, parent, loc_spec, yaw, scale, name):
+    e = bpy.data.objects.new(name, None)
+    e.instance_type, e.instance_collection = "COLLECTION", coll
+    link_obj(e)
+    e.parent = parent
+    e.matrix_basis = obj_mat(trans(loc_spec) @ rot_y(yaw)) @ Matrix.Scale(scale, 4)
+    return e
+
+
+def dress_island(root, isl, objs):
+    """Replace stand-in vegetation with real CC0 library assets (Poly Haven): rows of tropical trees behind the
+    beach, shrubs/ferns at the treeline, coast rocks along the waterline. Deterministic (seeded by index)."""
+    for o in objs:
+        if o.name.startswith("palm_"):
+            o.hide_render = True
+    try:
+        geo = json.load(open(os.path.join(ROOT, "studio/src/data/sentinel_geo.json")))
+    except Exception as e:
+        warn(f"no coastline for dressing: {e}")
+        return
+    S = isl.get("scale", 1) * 1000.0
+    coast = [(x * S, y * S) for x, y in geo["coast"]]
+    trees = [lib_collection(f"island_tree_0{i}", f"polyhaven/island_tree_0{i}/island_tree_0{i}_1k.gltf") for i in (1, 2, 3)]
+    trees = [t for t in trees if t[0]]
+    rocks = [lib_collection(n, f"polyhaven/{n}/{n}_1k.gltf") for n in ("coast_rocks_01", "coast_rocks_03", "coast_land_rocks_02")]
+    rocks = [r for r in rocks if r[0]]
+    under = [lib_collection(n, f"polyhaven/{n}/{n}_1k.gltf") for n in ("shrub_01", "fern_02")]
+    under = [u for u in under if u[0]]
+    if not trees:
+        return
+    hsh = lambda n: (math.sin(n * 127.1 + 311.7) * 43758.5453) % 1.0
+    # resample the coast at even spacing
+    def walk(step):
+        pts = []
+        acc = 0.0
+        for i in range(len(coast)):
+            a, b = coast[i], coast[(i + 1) % len(coast)]
+            seg = math.hypot(b[0] - a[0], b[1] - a[1])
+            t = (step - acc) / seg if seg else 1
+            while t <= 1.0:
+                pts.append((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
+                t += step / seg
+            acc = (acc + seg) % step
+        return pts
+    n = 0
+    for row, (shrink, step, base_h) in enumerate(((0.982, 7.0, 3.0), (0.968, 9.0, 3.6), (0.95, 12.0, 4.5), (0.92, 16.0, 6.0))):
+        for j, (x, y) in enumerate(walk(step)):
+            k = n * 1.37 + row * 91.1
+            jit = (hsh(k) - 0.5) * step * 0.6
+            px, py = x * shrink + jit * 0.3, y * shrink + jit * 0.3
+            coll, h = trees[int(hsh(k + 3) * len(trees)) % len(trees)]
+            target_h = 13.0 + hsh(k + 5) * 9.0 + row * 2.0
+            _inst(coll, root, (px, base_h, py), hsh(k + 7) * 6.283, target_h / max(0.1, h), f"tree_{n}")
+            n += 1
+            if under and row < 2 and hsh(k + 11) < 0.6:
+                uc, uh = under[int(hsh(k + 13) * len(under)) % len(under)]
+                _inst(uc, root, (x * (shrink + 0.004), base_h, y * (shrink + 0.004)), hsh(k + 17) * 6.283, (1.6 + hsh(k + 19) * 1.4) / max(0.1, uh), f"under_{n}")
+    if rocks:
+        for j, (x, y) in enumerate(walk(22.0)):
+            k = j * 2.71 + 500
+            if hsh(k) < 0.45:
+                continue
+            rc, rh = rocks[int(hsh(k + 1) * len(rocks)) % len(rocks)]
+            _inst(rc, root, (x * 1.004, 0.0, y * 1.004), hsh(k + 2) * 6.283, (1.6 + hsh(k + 3) * 2.5) / max(0.1, rh), f"rock_{j}")
+    log(f"island dressed: {n} trees + understorey + rocks from the library")
+
+
 def build_island(isl, frames, fires_keys, fps):
     if not isl:
         return
@@ -900,6 +1000,7 @@ def build_island(isl, frames, fires_keys, fps):
                     fire_lights[i] = o
                 elif o.name.startswith(f"fire_{i}") and o.type == "MESH":
                     fire_meshes[i] = o
+        dress_island(root, isl, objs)
     else:
         warn(f"island asset '{key}' not found; building a placeholder")
         ob, fpos = build_placeholder_island(isl.get("scale", 1))

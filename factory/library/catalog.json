@@ -1,0 +1,1214 @@
+{
+ "version": 1,
+ "assets": {
+  "int:island_sentinel": {
+   "id": "int:island_sentinel",
+   "kind": "set",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/render_episode.py:build_island + studio/src/data/sentinel_geo.json",
+   "name": "North Sentinel island from OSM coastline, reef ring, fires",
+   "tags": [
+    "island",
+    "reef",
+    "jungle",
+    "fire",
+    "sentinel"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:ocean_fft": {
+   "id": "int:ocean_fft",
+   "kind": "world",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/render_episode.py:build_ocean",
+   "name": "FFT ocean (Blender Ocean modifier) with sea state, foam, buoyancy probe",
+   "tags": [
+    "ocean",
+    "water",
+    "waves",
+    "night",
+    "day"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_beacon": {
+   "id": "int:prop_beacon",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:epirb",
+   "name": "EPIRB emergency beacon with keyable strobe",
+   "tags": [
+    "beacon",
+    "epirb",
+    "rescue"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_helm": {
+   "id": "int:prop_helm",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:helm_console",
+   "name": "Cockpit helm console with wheel and gauges",
+   "tags": [
+    "helm",
+    "wheel",
+    "boat"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_lamp": {
+   "id": "int:prop_lamp",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:anchor_lamp",
+   "name": "Warm deck lamp, keyable",
+   "tags": [
+    "lamp",
+    "light",
+    "practical"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_phone": {
+   "id": "int:prop_phone",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:phone",
+   "name": "Smartphone with lit screen",
+   "tags": [
+    "phone"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_radio": {
+   "id": "int:prop_radio",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:vhf_handset",
+   "name": "Handheld marine VHF with lit LCD (CH 16)",
+   "tags": [
+    "radio",
+    "vhf",
+    "mayday"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_switches": {
+   "id": "int:prop_switches",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props.py:switch_panel",
+   "name": "Breaker/switch panel with LEDs",
+   "tags": [
+    "switch",
+    "electrical"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:sky_night": {
+   "id": "int:sky_night",
+   "kind": "world",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/render_episode.py:build_world",
+   "name": "Procedural night sky, moon disc, clouds, stars; dawn blend",
+   "tags": [
+    "sky",
+    "moon",
+    "stars",
+    "night",
+    "dawn"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:sys_acting": {
+   "id": "int:sys_acting",
+   "kind": "system",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/acting.py",
+   "name": "IK control rig, stances, pose overlays, procedural verbs, breathing",
+   "tags": [
+    "acting",
+    "animation",
+    "rig"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:sys_camera": {
+   "id": "int:sys_camera",
+   "kind": "system",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "episodes/sentinel/plan/build_v2.py:orbit/path + cloud/blender render_episode rig_at",
+   "name": "Orbit/path camera with eased curves, handheld, shakes",
+   "tags": [
+    "camera"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:sys_eyes": {
+   "id": "int:sys_eyes",
+   "kind": "system",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/eyes.py",
+   "name": "Procedural eyeballs with iris/pupil shader, gaze baking",
+   "tags": [
+    "eyes"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:sys_face": {
+   "id": "int:sys_face",
+   "kind": "system",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/face.py",
+   "name": "ARKit-52 emotion presets, gaze saccades, blinks, visemes",
+   "tags": [
+    "face",
+    "expression",
+    "eyes",
+    "lipsync"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:yacht_14m": {
+   "id": "int:yacht_14m",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "studio/public/assets/props/yacht.glb (code-built, studio/src/kit/yacht3d.ts)",
+   "name": "14 m motor yacht: cabin, flybridge, rails, nav lights, hatch",
+   "tags": [
+    "boat",
+    "yacht",
+    "vessel"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "ph:brown_planks_05": {
+   "id": "ph:brown_planks_05",
+   "kind": "texture",
+   "provider": "polyhaven",
+   "source_id": "brown_planks_05",
+   "name": "Brown Planks 05",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel"
+   ],
+   "url": "https://polyhaven.com/a/brown_planks_05",
+   "res": "2k",
+   "files": [
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_diff_2k.jpg",
+     "sha256": "1d6c8a69eec94d89a071f533dc71f99744c8091eb4c6097eb80c04769d964aca",
+     "role": "Diffuse"
+    },
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_nor_gl_2k.jpg",
+     "sha256": "dbf17e1e0ae9086330295813280e3bee580063c836811acbbac0a289aae1808d",
+     "role": "nor_gl"
+    },
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_rough_2k.jpg",
+     "sha256": "8724db75d6b17aae1825ca5a2ebd7f8c170e7a2ed2d0f057c887ba25ab641a40",
+     "role": "Rough"
+    },
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_disp_2k.jpg",
+     "sha256": "a6dca45cac5ab17f9c3f3cd25e38e174c3fd10a5203dab52aff1b6d51e086bde",
+     "role": "Displacement"
+    },
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_ao_2k.jpg",
+     "sha256": "7c7b21d8220f35a5f1bb8cd1381d3fcc1ab5e5de860da423831d54404bb0a6d5",
+     "role": "AO"
+    },
+    {
+     "path": "polyhaven/brown_planks_05/brown_planks_05_arm_2k.jpg",
+     "sha256": "38de6a46c565af0cd2dd6b619beca6ba443c494e70fb40efaaf72606b6fd9f2b",
+     "role": "arm"
+    }
+   ],
+   "tags": [
+    "planks",
+    "painted",
+    "shed",
+    "house",
+    "suburb",
+    "wood",
+    "outdoor",
+    "indoor",
+    "clean",
+    "wall",
+    "man made"
+   ],
+   "dims_mm": [
+    1000,
+    1000
+   ]
+  },
+  "ph:coast_land_rocks_02": {
+   "id": "ph:coast_land_rocks_02",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "coast_land_rocks_02",
+   "name": "Coast Land Rocks 02",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/coast_land_rocks_02",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/coast_land_rocks_02/coast_land_rocks_02_1k.gltf",
+     "sha256": "f99e5073bf2df714da68e09d80d8546ded2aad0b73f50df8d48e732d4a452774",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/coast_land_rocks_02/textures/coast_land_rocks_02_arm_1k.jpg",
+     "sha256": "08c0f171f23413d7e063f632a9789085d33e6c8b66aad26bfb463da1dfe3db44",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_land_rocks_02/textures/coast_land_rocks_02_diff_1k.jpg",
+     "sha256": "2223040a8b7327b8e8b6ae78960a92ea4e10a7d62f3114496851d37dfdc2aff2",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_land_rocks_02/coast_land_rocks_02.bin",
+     "sha256": "e981af395c1a546c2244d95954b8d4406bd11e26047975772b88418f3728adc6",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_land_rocks_02/textures/coast_land_rocks_02_nor_gl_1k.jpg",
+     "sha256": "3d0ecf09774581ac03b363b75a2430caaab5ed91895867dc83e06955ea71aaeb",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "rocks",
+    "coastal",
+    "landscape",
+    "formation",
+    "seaside",
+    "shore",
+    "geology",
+    "pebbles",
+    "weathered",
+    "stones",
+    "rock",
+    "sand",
+    "beach",
+    "shoreline",
+    "nature",
+    "rocks",
+    "collection: smugglers_cove"
+   ],
+   "dims_mm": [
+    10454.175472259521,
+    4888.633012771606,
+    1397.6540118455887
+   ]
+  },
+  "ph:coast_rocks_01": {
+   "id": "ph:coast_rocks_01",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "coast_rocks_01",
+   "name": "Coast Rocks 01",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/coast_rocks_01",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/coast_rocks_01/coast_rocks_01_1k.gltf",
+     "sha256": "9d45b232fe8bfc8f9d84aaa900ba28f150764e4b40accf7d50fbb45a3de54c51",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/coast_rocks_01/coast_rocks_01.bin",
+     "sha256": "3d1c33b18fdcf0efebab46526e94d17efccbc3c9a06dc14b89b04b93109fa3d2",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_01/textures/coast_rocks_01_nor_gl_1k.jpg",
+     "sha256": "848292bb5fd720fefd37fa94326071bc81e2290bbf409bb019efb6fb30399809",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_01/textures/coast_rocks_01_arm_1k.jpg",
+     "sha256": "13fddfb9051fa36720b5c35f4f52a49826b1e3a4063f66e440a7033dd90c30cc",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_01/textures/coast_rocks_01_diff_1k.jpg",
+     "sha256": "a6814ce9c023fc7c90eb38c2afe658a3076b94ed44d136c2dbd3605d18fade7b",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "rocks",
+    "seaside",
+    "shore",
+    "coastal",
+    "stones",
+    "rock",
+    "landscape",
+    "geology",
+    "shoreline",
+    "pebbles",
+    "formation",
+    "weathered",
+    "nature",
+    "rocks",
+    "collection: smugglers_cove"
+   ],
+   "dims_mm": [
+    59507.67707824707,
+    42520.090103149414,
+    3290.156841278076
+   ]
+  },
+  "ph:coast_rocks_03": {
+   "id": "ph:coast_rocks_03",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "coast_rocks_03",
+   "name": "Coast Rocks 03",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/coast_rocks_03",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/coast_rocks_03/coast_rocks_03_1k.gltf",
+     "sha256": "50a6df79bc54a54019b818d2a3d831da40dad09519658259236e0ea1b191d8e5",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/coast_rocks_03/textures/coast_rocks_03_nor_gl_1k.jpg",
+     "sha256": "e8b2ed4ce3d3cd817953b50a23d505686521b377df85727da148f0cc9d0ed02e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_03/textures/coast_rocks_03_diff_1k.jpg",
+     "sha256": "7b981c31e476d4a702c042087edd6dd319b3a3e31179ef81e9e7e8d6b75d873f",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_03/textures/coast_rocks_03_arm_1k.jpg",
+     "sha256": "6f52a7f12b530aff9217cf25a3eaa6345871ab2e83212e9a2bbc37e7b6b1bfcc",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/coast_rocks_03/coast_rocks_03.bin",
+     "sha256": "3936cfa8f679c237a1d9479a471c5008a219e7803aba142f2748ce6dbec54ca5",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "rocks",
+    "seaside",
+    "stones",
+    "formation",
+    "landscape",
+    "shore",
+    "rock",
+    "shoreline",
+    "coastal",
+    "pebbles",
+    "weathered",
+    "beach",
+    "sand",
+    "nature",
+    "rocks",
+    "collection: smugglers_cove"
+   ],
+   "dims_mm": [
+    21122.72834777832,
+    28273.78749847412,
+    3197.738289833069
+   ]
+  },
+  "ph:coast_sand_01": {
+   "id": "ph:coast_sand_01",
+   "kind": "texture",
+   "provider": "polyhaven",
+   "source_id": "coast_sand_01",
+   "name": "Coast Sand 01",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel"
+   ],
+   "url": "https://polyhaven.com/a/coast_sand_01",
+   "res": "2k",
+   "files": [
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_diff_2k.jpg",
+     "sha256": "e1c37ea8b4282fda612b0584d864ca4eef2da28c2fa9f3930cad9209414eb979",
+     "role": "Diffuse"
+    },
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_nor_gl_2k.jpg",
+     "sha256": "e5b1430c751727c8ab0332adfd8960c48342936146de258aa9b7736630cdbb62",
+     "role": "nor_gl"
+    },
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_rough_2k.jpg",
+     "sha256": "93caeb7332d1593702d97a59040ce178a27c9d705b30c55413e0d2507e09a762",
+     "role": "Rough"
+    },
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_disp_2k.jpg",
+     "sha256": "063a569b436f64f3efd32e4dee256814b40cdb3994c55b4de5748bd074941db5",
+     "role": "Displacement"
+    },
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_ao_2k.jpg",
+     "sha256": "23b8d335931871b04ebe5c2a77b62ecb14a169058d784ff86426d57c5e6bb9cc",
+     "role": "AO"
+    },
+    {
+     "path": "polyhaven/coast_sand_01/coast_sand_01_arm_2k.jpg",
+     "sha256": "0e1cc154bc6163f1f7f48aa4839876f6cae84b5b53f9ac3c2bf4c54057373e00",
+     "role": "arm"
+    }
+   ],
+   "tags": [
+    "beach",
+    "costal",
+    "ocean",
+    "seaside",
+    "sand",
+    "brown",
+    "rough",
+    "gravel",
+    "damp",
+    "dirt",
+    "stones",
+    "outdoor",
+    "terrain",
+    "sand",
+    "natural",
+    "aerial",
+    "collection: smugglers_cove",
+    "collection: verdant_trail"
+   ],
+   "dims_mm": [
+    15000,
+    15000
+   ]
+  },
+  "ph:fern_02": {
+   "id": "ph:fern_02",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "fern_02",
+   "name": "Fern 02",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/fern_02",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/fern_02/fern_02_1k.gltf",
+     "sha256": "33974295ee19670af4877705fc7d91f33f42d6302f0d44a625e072271223031f",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/fern_02/textures/fern_02_arm_1k.jpg",
+     "sha256": "ebfb5d76ce9cbdaec20bcd22dce9b755f0b1b8650ef29ca13555e3e6961025d7",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/fern_02/textures/fern_02_diff_1k.jpg",
+     "sha256": "a828a6e7b4c01c826911e2eac4b3afc7457dab7b3b392a31c681ed88b7d50029",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/fern_02/textures/fern_02_nor_gl_1k.jpg",
+     "sha256": "45bce132c6e96a0864bc89ab5da51361ab3f4afa83a6669ae499ab5ca811f621",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/fern_02/fern_02.bin",
+     "sha256": "fe1abb762bcbbc7ad9e86925c8080437a62add257d9280e9142fdc85c226e64c",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "plant",
+    "fern",
+    "foliage",
+    "jungle",
+    "shrub",
+    "bush",
+    "leaf",
+    "leaves",
+    "green",
+    "nature",
+    "forest",
+    "outdoor",
+    "plants",
+    "nature",
+    "collection: smugglers_cove",
+    "collection: pine_forest"
+   ],
+   "dims_mm": [
+    1972.5302457809448,
+    1724.0281701087952,
+    427.6947118341923
+   ]
+  },
+  "ph:island_tree_01": {
+   "id": "ph:island_tree_01",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "island_tree_01",
+   "name": "Island Tree 01",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/island_tree_01",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/island_tree_01/island_tree_01_1k.gltf",
+     "sha256": "78e905a40670bfabb2760601d4d9a6c17193a50d68e6271c66893eb7bd75906d",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_nor_gl_1k.jpg",
+     "sha256": "ca22e428e1b1ebac47b2fc67ec355700c8779d6628d2fc6c3ebae9002988f63e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_diff_1k.jpg",
+     "sha256": "51bff9a3a6ed7d89ff4c73f01708b7267ed8d7a82b0cb12343741894f708218f",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_arm_1k.jpg",
+     "sha256": "bf972dff0fbc71f146b4c02103fc3596477a49a9eff46b87b13c89b7b90d18ca",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_leaves_nor_gl_1k.jpg",
+     "sha256": "07ba461c0c95da4e49a42981766bdb6191d4c3c4d815796c082266dcc3cecdb8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_leaves_diff_1k.jpg",
+     "sha256": "f56d762a1507754752abf164cc12acbc1e87ce87fa609ac44b98a1b0037c89d8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_leaves_arm_1k.jpg",
+     "sha256": "90da3a072dbcb052715b1313b9dbc69a4aa8a09a31a4b3868411a2bb51d72037",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_branches_nor_gl_1k.jpg",
+     "sha256": "2d67393ba76a0f49cf965fa0c99d8c16268e71e87b1203d35539bfdb971a514e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_branches_diff_1k.jpg",
+     "sha256": "bee5ec22196e9e31ad0c95a5a9b4636571cc0124d5bb27a92f1e307d289cc60d",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/textures/island_tree_01_branches_arm_1k.jpg",
+     "sha256": "9e3f82263247ce4f619692cea4c4f6fe9936ff465a86623481849062642c7d05",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_01/island_tree_01.bin",
+     "sha256": "1faa817b46e24ed6fc90d3ec72188a0dc5ac75e82c89b3dd3c5fdaecf7cc005c",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "tree",
+    "natural",
+    "nature",
+    "green",
+    "plant",
+    "outdoor",
+    "leaf",
+    "botany",
+    "leaves",
+    "forest",
+    "bush",
+    "jungle",
+    "foliage",
+    "island",
+    "coastal",
+    "geometry nodes",
+    "trunk",
+    "bark",
+    "nature",
+    "plants",
+    "trees",
+    "collection: verdant_trail"
+   ],
+   "dims_mm": [
+    12464.419603347778,
+    4818.506717681885,
+    5027.44660153985
+   ]
+  },
+  "ph:island_tree_02": {
+   "id": "ph:island_tree_02",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "island_tree_02",
+   "name": "Island Tree 02",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/island_tree_02",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/island_tree_02/island_tree_02_1k.gltf",
+     "sha256": "d8c5d9ead41cdbef91a648f40ff60470faa19eb3a7010e59e44cb1a01250f75d",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_nor_gl_1k.jpg",
+     "sha256": "1580d5a42d02f4ede51bfb03972ab0aef3d8acafbd3692276879171007bb70ec",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_diff_1k.jpg",
+     "sha256": "8fc20397ab5d514c119d7a025868414d78e436138d3867a4b7ba12334a72ec3a",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_arm_1k.jpg",
+     "sha256": "ada61dd4fad023e699b6314b8b76590017b301719bf74ffc9e20b95893ed62b6",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_leaves_nor_gl_1k.jpg",
+     "sha256": "07ba461c0c95da4e49a42981766bdb6191d4c3c4d815796c082266dcc3cecdb8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_leaves_diff_1k.jpg",
+     "sha256": "f56d762a1507754752abf164cc12acbc1e87ce87fa609ac44b98a1b0037c89d8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_leaves_arm_1k.jpg",
+     "sha256": "90da3a072dbcb052715b1313b9dbc69a4aa8a09a31a4b3868411a2bb51d72037",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_branches_nor_gl_1k.jpg",
+     "sha256": "2d67393ba76a0f49cf965fa0c99d8c16268e71e87b1203d35539bfdb971a514e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_branches_diff_1k.jpg",
+     "sha256": "bee5ec22196e9e31ad0c95a5a9b4636571cc0124d5bb27a92f1e307d289cc60d",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/textures/island_tree_02_branches_arm_1k.jpg",
+     "sha256": "9e3f82263247ce4f619692cea4c4f6fe9936ff465a86623481849062642c7d05",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_02/island_tree_02.bin",
+     "sha256": "427d69ccc1ea12d1fb9c6af89691563b4a097f39a6f34c15be6e45ef5e5fd4ce",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "tree",
+    "natural",
+    "nature",
+    "green",
+    "plant",
+    "outdoor",
+    "leaf",
+    "botany",
+    "leaves",
+    "forest",
+    "bush",
+    "jungle",
+    "foliage",
+    "small",
+    "geometry nodes",
+    "trunk",
+    "bark",
+    "island",
+    "coastal",
+    "nature",
+    "plants",
+    "trees"
+   ],
+   "dims_mm": [
+    8485.51321029663,
+    4078.6155462265015,
+    3408.9039135724306
+   ]
+  },
+  "ph:island_tree_03": {
+   "id": "ph:island_tree_03",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "island_tree_03",
+   "name": "Island Tree 03",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/island_tree_03",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/island_tree_03/island_tree_03_1k.gltf",
+     "sha256": "5efbe24ad6fc769db55ac771eec7a2ee7aa389c5667656f279d0743e455ef04a",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_nor_gl_1k.jpg",
+     "sha256": "c8d37a704416decd72b43b78b13ef23ffbb9f0df1db6686289784af02aff7db6",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_diff_1k.jpg",
+     "sha256": "e7fc1f1e82cd2fb3deee5fb3ca821e8f54b3a6e5ba414a31b87692fbfc12464a",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_arm_1k.jpg",
+     "sha256": "58e95c08ab80cf9bacdb5e1b7a89c842cdbaca68110d3d675e0e26cf835fa2fa",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_leaves_nor_gl_1k.jpg",
+     "sha256": "07ba461c0c95da4e49a42981766bdb6191d4c3c4d815796c082266dcc3cecdb8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_leaves_diff_1k.jpg",
+     "sha256": "f56d762a1507754752abf164cc12acbc1e87ce87fa609ac44b98a1b0037c89d8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_leaves_arm_1k.jpg",
+     "sha256": "90da3a072dbcb052715b1313b9dbc69a4aa8a09a31a4b3868411a2bb51d72037",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_branches_nor_gl_1k.jpg",
+     "sha256": "2d67393ba76a0f49cf965fa0c99d8c16268e71e87b1203d35539bfdb971a514e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_branches_diff_1k.jpg",
+     "sha256": "bee5ec22196e9e31ad0c95a5a9b4636571cc0124d5bb27a92f1e307d289cc60d",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/textures/island_tree_03_branches_arm_1k.jpg",
+     "sha256": "9e3f82263247ce4f619692cea4c4f6fe9936ff465a86623481849062642c7d05",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/island_tree_03/island_tree_03.bin",
+     "sha256": "ac0631f236502155307ac0320b53201a0d3bab6348699ad9edd3172322aaf08b",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "tree",
+    "natural",
+    "nature",
+    "green",
+    "plant",
+    "outdoor",
+    "leaf",
+    "botany",
+    "leaves",
+    "forest",
+    "bush",
+    "jungle",
+    "foliage",
+    "small",
+    "geometry nodes",
+    "trunk",
+    "bark",
+    "island",
+    "coastal",
+    "nature",
+    "plants",
+    "trees"
+   ],
+   "dims_mm": [
+    8489.88127708435,
+    2913.232445716858,
+    2615.518140606582
+   ]
+  },
+  "ph:kloppenheim_02_puresky": {
+   "id": "ph:kloppenheim_02_puresky",
+   "kind": "hdri",
+   "provider": "polyhaven",
+   "source_id": "kloppenheim_02_puresky",
+   "name": "Kloppenheim 02 (Pure Sky)",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Greg Zaal",
+    "Jarod Guest"
+   ],
+   "url": "https://polyhaven.com/a/kloppenheim_02_puresky",
+   "res": "4k",
+   "files": [
+    {
+     "path": "polyhaven/kloppenheim_02_puresky/kloppenheim_02_puresky_4k.exr",
+     "sha256": "2ed49bf2ddf036a0f25abf034ffb4bd9244f96b15053d859d9c3ece768a4d7b3",
+     "role": "hdri"
+    }
+   ],
+   "tags": [
+    "pure skies",
+    "outdoor",
+    "skies",
+    "nature",
+    "night",
+    "clear",
+    "high contrast",
+    "natural light",
+    "pure skies"
+   ],
+   "dims_mm": null
+  },
+  "ph:lifebuoy": {
+   "id": "ph:lifebuoy",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "lifebuoy",
+   "name": "Lifebuoy",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Hank Kaamura"
+   ],
+   "url": "https://polyhaven.com/a/lifebuoy",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/lifebuoy/lifebuoy_1k.gltf",
+     "sha256": "d9c76a8f2471249f314b3efcffe0d3956ba2d3f0b8ba528cc0f2b861561580f3",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/lifebuoy/textures/lifebuoy_nor_gl_1k.jpg",
+     "sha256": "df02aca2cca3aa87daa0f1d4cd5fa2584d60ecea85672517fa334aea725dbf23",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/lifebuoy/textures/lifebuoy_diff_1k.jpg",
+     "sha256": "f0095beca9e97996692ffdab3d3ace3fae64a3c3adf5c8eff71172add4e4cb2e",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/lifebuoy/textures/lifebuoy_arm_1k.jpg",
+     "sha256": "fe33182e45c2b1049195641a8081ab22e90e520b2c0dafa9cce568a53af7a207",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/lifebuoy/lifebuoy.bin",
+     "sha256": "aa45c8d43ee11e12a4ab9f46bfb06d1baa6c687d61776ad9b06ea6b5664c0bc2",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "weathered",
+    "safety",
+    "lifering",
+    "marine",
+    "nautical",
+    "flotation device",
+    "life preserver",
+    "collection: project_lighthouse",
+    "wall decoration",
+    "industrial"
+   ],
+   "dims_mm": [
+    783.1282019615173,
+    155.11851012706757,
+    841.1934077739716
+   ]
+  },
+  "ph:moonlit_golf": {
+   "id": "ph:moonlit_golf",
+   "kind": "hdri",
+   "provider": "polyhaven",
+   "source_id": "moonlit_golf",
+   "name": "Moonlit Golf",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Greg Zaal"
+   ],
+   "url": "https://polyhaven.com/a/moonlit_golf",
+   "res": "4k",
+   "files": [
+    {
+     "path": "polyhaven/moonlit_golf/moonlit_golf_4k.exr",
+     "sha256": "9eda828b35bc1a91c842f27f14d3c964457ce82c8702d508ed242ff930f8d06f",
+     "role": "hdri"
+    }
+   ],
+   "tags": [
+    "moon",
+    "field",
+    "stars",
+    "grass",
+    "tree",
+    "outdoor",
+    "skies",
+    "nature",
+    "night",
+    "clear",
+    "high contrast",
+    "natural light"
+   ],
+   "dims_mm": null
+  },
+  "ph:qwantani_night": {
+   "id": "ph:qwantani_night",
+   "kind": "hdri",
+   "provider": "polyhaven",
+   "source_id": "qwantani_night",
+   "name": "Qwantani Night",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Greg Zaal",
+    "Jarod Guest"
+   ],
+   "url": "https://polyhaven.com/a/qwantani_night",
+   "res": "4k",
+   "files": [
+    {
+     "path": "polyhaven/qwantani_night/qwantani_night_4k.exr",
+     "sha256": "272e41a631bd3b6b3d7c82259029380457f7d5db7ca3c47062ba1408d9503363",
+     "role": "hdri"
+    }
+   ],
+   "tags": [
+    "mountain",
+    "view",
+    "dam",
+    "lake",
+    "hilltop",
+    "grass",
+    "stars",
+    "milky way",
+    "light pollution",
+    "astronomy",
+    "outdoor",
+    "natural light",
+    "nature",
+    "skies",
+    "clear",
+    "low contrast",
+    "night"
+   ],
+   "dims_mm": null
+  },
+  "ph:shrub_01": {
+   "id": "ph:shrub_01",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "shrub_01",
+   "name": "Shrub 01",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Rico Cilliers"
+   ],
+   "url": "https://polyhaven.com/a/shrub_01",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/shrub_01/shrub_01_1k.gltf",
+     "sha256": "c3bb3340687d46c684b9dab82f5b2f92b7b0fe761842423d3c9e19f59a839393",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/shrub_01/textures/shrub_01_nor_gl_1k.jpg",
+     "sha256": "076870a39a4e21a364cf94566e6dd1852a29045fdf1f23393637235b19d1c2e8",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/shrub_01/shrub_01.bin",
+     "sha256": "a8646f51386c84b12a6be8324dd0c2357c393c9108aac911847a203cf490b426",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/shrub_01/textures/shrub_01_arm_1k.jpg",
+     "sha256": "8faecdc28d8f03ba0ac139be16e617e8bfd0778780ec1d7850812230378b89be",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/shrub_01/textures/shrub_01_diff_1k.jpg",
+     "sha256": "fe60e639d694e1807c0a3ae97dd1d5a7e7b3f84e5fc32d0610b868ce48f36331",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "plant",
+    "foliage",
+    "nature",
+    "forest",
+    "leaf",
+    "botany",
+    "green",
+    "leaves",
+    "bush",
+    "shrub",
+    "small",
+    "meadow",
+    "flower",
+    "floral",
+    "ground cover",
+    "garden",
+    "environment",
+    "ageratina adenophora",
+    "nature",
+    "plants",
+    "ground cover",
+    "flowers",
+    "collection: verdant_trail"
+   ],
+   "dims_mm": [
+    2586.938261985779,
+    218.97432953119278,
+    395.9742886945605
+   ]
+  },
+  "ph:trashbag": {
+   "id": "ph:trashbag",
+   "kind": "model",
+   "provider": "polyhaven",
+   "source_id": "trashbag",
+   "name": "Trashbag",
+   "licence": "CC0-1.0",
+   "authors": [
+    "Benny Weimer"
+   ],
+   "url": "https://polyhaven.com/a/trashbag",
+   "res": "1k",
+   "files": [
+    {
+     "path": "polyhaven/trashbag/trashbag_1k.gltf",
+     "sha256": "22202e1ec48d924577584dce6751d5ab198fd7c0aee44602e9a7317b5b60a4a7",
+     "role": "gltf"
+    },
+    {
+     "path": "polyhaven/trashbag/textures/trashbag_nor_gl_1k.jpg",
+     "sha256": "33ddb9711bb3ab2ff1ed19fa361a4251909643fada7e5579a28f6346a58b4daf",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/trashbag/textures/trashbag_diff_1k.jpg",
+     "sha256": "676e01cbeef39b51c9ecd67315c952a605c8db9c11544fbe11e14dcbd00be27f",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/trashbag/textures/trashbag_arm_1k.jpg",
+     "sha256": "95e69ba47bc7b84f342cdbe4385cfab670295827740fb09407b967ea2114c0aa",
+     "role": "include"
+    },
+    {
+     "path": "polyhaven/trashbag/trashbag.bin",
+     "sha256": "7bfac5b9c39a058af347944b437f712718ec129ec883c16339179862cc155fe2",
+     "role": "include"
+    }
+   ],
+   "tags": [
+    "garbage bag",
+    "refuse",
+    "street waste",
+    "trash",
+    "street",
+    "scrapyard",
+    "junkyard",
+    "garbage",
+    "bin",
+    "dumpster",
+    "disposal",
+    "litter",
+    "rubbish",
+    "collection: project_lighthouse",
+    "props"
+   ],
+   "dims_mm": [
+    528.0700623989105,
+    462.893009185791,
+    574.9993845820427
+   ]
+  }
+ }
+}
