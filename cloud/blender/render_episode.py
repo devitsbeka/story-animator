@@ -40,6 +40,10 @@ import lighting  # noqa: E402  (sequence lighting + night world: cloud/blender/l
 import materials as yachtmats  # noqa: E402
 import oceanfx  # noqa: E402
 # <<< yachtsea
+# --- props2 hook: vehicles / sets (Primrose 1981) and storm weather + archival grade
+import props_vehicles as vehicles  # noqa: E402
+import storm  # noqa: E402
+# --- end props2 hook
 
 
 def log(*a):
@@ -1294,10 +1298,11 @@ def build_props(shot, yacht_root, frames):
     f0, f1 = frames[0] - 1, frames[-1] + 1
     for i, p in enumerate(shot.get("props") or []):
         b = propkit.BUILDERS.get(p["prop"])
-        if not b:
+        vb = vehicles.BUILDERS.get(p["prop"])  # props2 hook: vehicle / set builders take opts
+        if not b and not vb:
             warn(f"unknown prop {p['prop']}")
             continue
-        root = b(f"{p['prop']}_{i}")
+        root = b(f"{p['prop']}_{i}") if b else vb(f"{p['prop']}_{i}", **(p.get("opts") or {}))
         att = p.get("attach", "yacht")
         if att in BONE_OF:
             arm = ACTORS.get(p.get("actor", "hero"))
@@ -1354,6 +1359,8 @@ def build_props(shot, yacht_root, frames):
                             for f in range(f0, f1 + 1):
                                 es.default_value = base * keyed(p["light"], f, 1.0)
                                 es.keyframe_insert("default_value", frame=f)
+        if vb:  # props2 hook: rotors, path/yaw/tilt/rock, lamp swing, winch, flicker
+            vehicles.post_place(root, p, f0, f1, SPEC.get("fps", 30))
 
 
 def egl_available():
@@ -1638,6 +1645,7 @@ def build_shot(shot, frames, args):
     link_obj(flo)
     flo.rotation_mode = "QUATERNION"
     flo.rotation_quaternion = fdir.to_track_quat("-Z", "Y")
+    storm.apply(shot, env, frames, cam, fps, log)  # props2 hook: rain, lightning, overcast, sepia grade
     if lighting.active():  # lighting hook: drops CamFill, warms practicals, haze, exposure offset
         lighting.finalize_shot(sc, shot, b3(centre))
     linearize_all()

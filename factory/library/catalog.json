@@ -1875,6 +1875,154 @@
     462.893009185791,
     574.9993845820427
    ]
+  },
+  "int:prop_primrose": {
+   "id": "int:prop_primrose",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:primrose",
+   "name": "1980s bulk carrier 'PRIMROSE' (~150 m): rusty hull, red boot-top, white aft superstructure, hollow bridge with rain glass, 3 cranes, 6 hatches, portholes, lit windows, deck floods, nav lights, hull name",
+   "tags": [
+    "ship",
+    "cargo",
+    "bulk carrier",
+    "1981",
+    "primrose",
+    "wreck",
+    "aground",
+    "storm"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_helicopter_rescue": {
+   "id": "int:prop_helicopter_rescue",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:helicopter",
+   "name": "1980s rescue helicopter (generic Sea King-like, unbranded): keyed main/tail rotors + translucent rotor disc, blinking beacon, searchlight, door winch with hanging survivor",
+   "tags": [
+    "helicopter",
+    "rescue",
+    "winch",
+    "rotor",
+    "1981",
+    "day"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_coastguard_patrol": {
+   "id": "int:prop_coastguard_patrol",
+   "kind": "vehicle",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:coastguard",
+   "name": "Generic coast guard patrol vessel (~48 m): white hull, bow stripes, 'COAST GUARD' text, keyable searchlight with fake beam, spinning radar",
+   "tags": [
+    "ship",
+    "coast guard",
+    "patrol",
+    "searchlight",
+    "rescue",
+    "night"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:set_cargo_hold": {
+   "id": "int:set_cargo_hold",
+   "kind": "set",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:cargo_hold",
+   "name": "Cargo-hold interior: steel walls, ribs, hopper slopes, ladder, sacks and crates, daylight hatch slit, swinging lamp, stylized crew silhouettes",
+   "tags": [
+    "interior",
+    "ship",
+    "hold",
+    "steel",
+    "lamp",
+    "crew",
+    "1981"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:prop_beach_torches": {
+   "id": "int:prop_beach_torches",
+   "kind": "prop",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:beach_torches",
+   "name": "Carried torches along a beach (flicker lights, slow bob); implies people without showing them",
+   "tags": [
+    "torch",
+    "fire",
+    "beach",
+    "night",
+    "sentinel"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:fx_rotor_wash": {
+   "id": "int:fx_rotor_wash",
+   "kind": "fx",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/props_vehicles.py:rotor_wash",
+   "name": "Spinning translucent spray disc under a hovering helicopter",
+   "tags": [
+    "helicopter",
+    "spray",
+    "wash"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:fx_storm": {
+   "id": "int:fx_storm",
+   "kind": "world",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/storm.py:apply",
+   "name": "Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather",
+   "tags": [
+    "storm",
+    "rain",
+    "lightning",
+    "overcast",
+    "night"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
+  },
+  "int:grade_sepia_archival": {
+   "id": "int:grade_sepia_archival",
+   "kind": "grade",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "build": "cloud/blender/storm.py:apply_grade",
+   "name": "Archival sepia grade in the compositor (desaturate, sepia tint, lifted warm blacks); env.grade",
+   "tags": [
+    "grade",
+    "sepia",
+    "archival",
+    "flashback"
+   ],
+   "episodes": [
+    "sentinel"
+   ]
   }
  }
 }
