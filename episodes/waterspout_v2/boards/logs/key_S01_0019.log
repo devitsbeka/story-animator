@@ -553,3 +553,33 @@ Fra:19 Mem:1138.35M (Peak 1425.77M) | Time:00:12.15 | Mem:547.68M, Peak:707.12M 
 Fra:19 Mem:1138.35M (Peak 1425.77M) | Time:00:12.15 | Mem:547.68M, Peak:707.12M | Scene, ViewLayer | Sample 0/12
 Fra:19 Mem:1175.93M (Peak 1425.77M) | Time:00:16.05 | Remaining:00:42.91 | Mem:585.26M, Peak:707.12M | Scene, ViewLayer | Sample 1/12
 Fra:19 Mem:1175.93M (Peak 1425.77M) | Time:00:45.66 | Remaining:00:11.17 | Mem:585.26M, Peak:707.12M | Scene, ViewLayer | Sample 9/12
+Fra:19 Mem:1191.75M (Peak 1425.77M) | Time:00:56.95 | Mem:585.26M, Peak:707.12M | Scene, ViewLayer | Sample 12/12
+Fra:19 Mem:1191.75M (Peak 1425.77M) | Time:00:56.95 | Mem:585.26M, Peak:707.12M | Scene, ViewLayer | Finished
+Fra:19 Mem:1191.76M (Peak 1425.77M) | Time:00:56.95 | Compositing
+Fra:19 Mem:1191.76M (Peak 1425.77M) | Time:00:56.95 | Compositing | Initializing execution
+Fra:19 Mem:1191.76M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 2-19
+Fra:19 Mem:1191.76M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 3-19
+Fra:19 Mem:1199.74M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 4-19
+Fra:19 Mem:1199.74M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 5-19
+Fra:19 Mem:1199.74M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 6-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 7-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 8-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 9-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 10-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.95 | Compositing | Operation 11-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.96 | Compositing | Operation 12-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.96 | Compositing | Operation 13-19
+Fra:19 Mem:1200.23M (Peak 1425.77M) | Time:00:56.96 | Compositing | Operation 14-19
+Fra:19 Mem:1207.65M (Peak 1425.77M) | Time:00:56.97 | Compositing | Operation 15-19
+Fra:19 Mem:1207.65M (Peak 1425.77M) | Time:00:56.97 | Compositing | Operation 16-19
+Fra:19 Mem:1207.65M (Peak 1425.77M) | Time:00:56.97 | Compositing | Operation 17-19
+Fra:19 Mem:1207.65M (Peak 1425.77M) | Time:00:56.97 | Compositing | Operation 18-19
+Fra:19 Mem:1199.74M (Peak 1425.77M) | Time:00:56.97 | Compositing | Operation 19-19
+Fra:19 Mem:1199.74M (Peak 1425.77M) | Time:00:56.98 | Compositing | Operation 20-19
+Saved: '/home/user/story-animator/episodes/waterspout_v2/boards/keys/S01/0019.png'
+Time: 00:57.26 (Saving: 00:00.27)
+
+[render_episode] shot S01 frame 19: 57.51s
+[render_episode] done: 1 frames in 67.9s
+
+Blender quit

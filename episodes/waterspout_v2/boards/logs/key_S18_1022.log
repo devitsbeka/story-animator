@@ -1,584 +1,586 @@
 [render_episode] spec=/home/user/story-animator/episodes/waterspout_v2/episode.json root=/home/user/story-animator frames=1022..1022 quality=preview engine=EEVEE blender=4.2.3 LTS
-[render_episode] render lock acquired after 52s
+[render_episode] render lock acquired after 118s
 [render_episode] WARNING: EEVEE requested but no EGL/GPU context here; falling back to Cycles
 [lighting] shot S18: preset=moonlight_practical_mix seq=S key az=-147.3 el=33.5 dawn=0.0
 [render_episode] yacht_v2: 482 objects; materials: 18 restyled; hull foam: {'hull': 'gelcoat_hull', 'length': 13.06, 'beam': 4.11, 'applied': True}
 [render_episode]   hero look-dev: {'jay.eyes': 'cornea', 'jay.eyes_pupils': 'cornea', 'hero.hoodie_black': 'cloth_black', 'hero.hoodie_rib': 'cloth_black', 'hero.hoodie_seam': 'cloth_black', 'hero.joggers_black': 'cloth_black', 'hero.cap_black': 'cap', 'hero.cap_underbrim': 'cap', 'SH-skin': 'skin'}
 [render_episode]   contact anchors: [] + rails
-[render_episode]   cloudrig actor hero_v4: RIG-jay h=1.150 scale=1.565 baked 995..1050 in 14.7s
+[render_episode]   cloudrig actor hero_v4: RIG-jay h=1.150 scale=1.565 baked 995..1050 in 12.5s
 [lighting] motion blur: off
-[lighting] face meter: MS E=1.997->2.430 (target 2.430, trim x1.40) face_ev=+1.88
-[lighting] rig: key=1.8, face_wrap=0.3337, face_fill=0.7205, rim=31.147, face_key=15.3154, eye_light=6.2072 | hdri: [('ph:moonlit_golf', 1.0452, -141.9)] | checks: {'L1_all_motivated': True, 'L3_key_fill': 6.5, 'L5_hue_sep_key_practical': 166.5, 'L6_eye_light': True, 'L7_rim': True, 'L9_shadow_side_est': 0.0397, 'key_E': 1.8}
-[render_episode] shot S18: buoyancy + camera keyed in 1.0s (18 ocean evals)
-[render_episode] shot S18: built in 17.7s; engine=CYCLES device=CPU
+[lighting] face meter: MS E=2.013->2.430 (target 2.430, trim x1.38) face_ev=+1.88
+[lighting] rig: key=1.8, face_wrap=0.3294, face_fill=0.7205, rim=31.147, face_key=14.999, eye_light=4.164 | hdri: [('ph:moonlit_golf', 1.0452, -141.9)] | checks: {'L1_all_motivated': True, 'L3_key_fill': 6.5, 'L5_hue_sep_key_practical': 166.5, 'L6_eye_light': True, 'L7_rim': True, 'L9_shadow_side_est': 0.0397, 'key_E': 1.8}
+[render_episode] shot S18: buoyancy + camera keyed in 1.2s (18 ocean evals)
+[render_episode] shot S18: built in 15.7s; engine=CYCLES device=CPU
 Blender 4.2.3 LTS (hash 0e22e4fcea03 built 2024-10-14 23:31:34)
-Fra:1022 Mem:429.81M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | HazeVolume
-Fra:1022 Mem:429.81M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_0_glass
-Fra:1022 Mem:429.82M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_0_base
-Fra:1022 Mem:429.82M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_-1_1.6
-Fra:1022 Mem:429.82M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_1.6_-0.33
-Fra:1022 Mem:429.83M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_1.6_0.33
-Fra:1022 Mem:429.83M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_-1_1.6
-Fra:1022 Mem:429.84M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_-1_-1.2
-Fra:1022 Mem:429.84M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_-1.2_-0.33
-Fra:1022 Mem:429.84M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_-1.2_0.33
-Fra:1022 Mem:429.85M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_-1_-1.2
-Fra:1022 Mem:429.85M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_1_1.6
-Fra:1022 Mem:429.86M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_1.6_-0.33
-Fra:1022 Mem:429.86M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_1.6_0.33
-Fra:1022 Mem:429.86M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_1_1.6
-Fra:1022 Mem:429.87M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_1_-1.2
-Fra:1022 Mem:429.87M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_-1.2_-0.33
-Fra:1022 Mem:429.88M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_-1.2_0.33
-Fra:1022 Mem:429.88M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_1_-1.2
-Fra:1022 Mem:429.88M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_handle
-Fra:1022 Mem:429.90M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_leaf_0.22
-Fra:1022 Mem:429.91M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_0.22
-Fra:1022 Mem:429.92M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_leaf_-0.22
-Fra:1022 Mem:429.93M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_-0.22
-Fra:1022 Mem:429.94M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_hatch_lid
-Fra:1022 Mem:429.96M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_hatch_lidframe
-Fra:1022 Mem:429.98M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_hatch_lid
-Fra:1022 Mem:429.98M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_hatch_coaming
-Fra:1022 Mem:429.99M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_hatch_well
-Fra:1022 Mem:429.99M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hatch_frame
-Fra:1022 Mem:430.01M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_chain
-Fra:1022 Mem:430.01M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_footswitch_0.28
-Fra:1022 Mem:430.01M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_footswitch_-0.28
-Fra:1022 Mem:430.02M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_windlass_cap
-Fra:1022 Mem:430.02M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_windlass_drum
-Fra:1022 Mem:430.03M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_windlass_base
-Fra:1022 Mem:430.04M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_anchor_fluke
-Fra:1022 Mem:430.04M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_anchor_shank
-Fra:1022 Mem:430.05M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_roller
-Fra:1022 Mem:430.05M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_bowroller
-Fra:1022 Mem:430.07M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fairlead_-1
-Fra:1022 Mem:430.07M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_foot1
-Fra:1022 Mem:430.07M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_foot0
-Fra:1022 Mem:430.07M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_horn
-Fra:1022 Mem:430.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_foot1
-Fra:1022 Mem:430.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_foot0
-Fra:1022 Mem:430.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_horn
-Fra:1022 Mem:430.09M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_foot1
-Fra:1022 Mem:430.09M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_foot0
-Fra:1022 Mem:430.09M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_horn
-Fra:1022 Mem:430.10M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fairlead_1
-Fra:1022 Mem:430.10M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_foot1
-Fra:1022 Mem:430.10M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_foot0
-Fra:1022 Mem:430.11M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_horn
-Fra:1022 Mem:430.11M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_foot1
-Fra:1022 Mem:430.11M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_foot0
-Fra:1022 Mem:430.11M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_horn
-Fra:1022 Mem:430.12M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_foot1
-Fra:1022 Mem:430.12M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_foot0
-Fra:1022 Mem:430.12M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_horn
-Fra:1022 Mem:430.13M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_1.2
-Fra:1022 Mem:430.13M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_0.0
-Fra:1022 Mem:430.13M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_-1.2
-Fra:1022 Mem:430.13M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_rail
-Fra:1022 Mem:430.14M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockrail_-1
-Fra:1022 Mem:430.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_4
-Fra:1022 Mem:430.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_3
-Fra:1022 Mem:430.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_2
-Fra:1022 Mem:430.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_1
-Fra:1022 Mem:430.16M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_0
-Fra:1022 Mem:430.16M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockrail_1
-Fra:1022 Mem:430.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_4
-Fra:1022 Mem:430.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_3
-Fra:1022 Mem:430.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_2
-Fra:1022 Mem:430.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_1
-Fra:1022 Mem:430.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_0
-Fra:1022 Mem:430.18M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_pulpit_leg_-1
-Fra:1022 Mem:430.18M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gate_stop
-Fra:1022 Mem:430.18M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_latch_lever
-Fra:1022 Mem:430.18M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_latch_body
-Fra:1022 Mem:430.20M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_bolt
-Fra:1022 Mem:430.20M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_keeper
-Fra:1022 Mem:430.21M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_pin_1
-Fra:1022 Mem:430.22M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_strap_1
-Fra:1022 Mem:430.22M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_1
-Fra:1022 Mem:430.22M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_pin_0
-Fra:1022 Mem:430.23M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_strap_0
-Fra:1022 Mem:430.23M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_0
-Fra:1022 Mem:430.23M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_brace
-Fra:1022 Mem:430.23M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_mid
-Fra:1022 Mem:430.24M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_frame
-Fra:1022 Mem:430.24M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_plate_latch
-Fra:1022 Mem:430.26M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_cap_latch
-Fra:1022 Mem:430.26M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_latch
-Fra:1022 Mem:430.26M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_plate_hinge
-Fra:1022 Mem:430.28M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_cap_hinge
-Fra:1022 Mem:430.28M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_hinge
-Fra:1022 Mem:430.29M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_-1
-Fra:1022 Mem:430.29M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_-1_aft
-Fra:1022 Mem:430.30M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_-1
-Fra:1022 Mem:430.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_-1_aft
-Fra:1022 Mem:430.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_9
-Fra:1022 Mem:430.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_9
-Fra:1022 Mem:430.32M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_8
-Fra:1022 Mem:430.32M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_8
-Fra:1022 Mem:430.32M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_7
-Fra:1022 Mem:430.33M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_7
-Fra:1022 Mem:430.33M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_6
-Fra:1022 Mem:430.33M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_6
-Fra:1022 Mem:430.33M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_5
-Fra:1022 Mem:430.34M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_5
-Fra:1022 Mem:430.34M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_4
-Fra:1022 Mem:430.34M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_4
-Fra:1022 Mem:430.34M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_3
-Fra:1022 Mem:430.35M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_3
-Fra:1022 Mem:430.35M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_2
-Fra:1022 Mem:430.35M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_2
-Fra:1022 Mem:430.36M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_1
-Fra:1022 Mem:430.36M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_1
-Fra:1022 Mem:430.36M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_0
-Fra:1022 Mem:430.36M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_0
-Fra:1022 Mem:430.37M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_pulpit_leg_1
-Fra:1022 Mem:430.37M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_1
-Fra:1022 Mem:430.38M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_1
-Fra:1022 Mem:430.39M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_9
-Fra:1022 Mem:430.40M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_9
-Fra:1022 Mem:430.40M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_8
-Fra:1022 Mem:430.40M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_8
-Fra:1022 Mem:430.40M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_7
-Fra:1022 Mem:430.41M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_7
-Fra:1022 Mem:430.41M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_6
-Fra:1022 Mem:430.41M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_6
-Fra:1022 Mem:430.42M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_5
-Fra:1022 Mem:430.42M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_5
-Fra:1022 Mem:430.42M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_4
-Fra:1022 Mem:430.42M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_4
-Fra:1022 Mem:430.43M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_3
-Fra:1022 Mem:430.43M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_3
-Fra:1022 Mem:430.43M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_2
-Fra:1022 Mem:430.44M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_2
-Fra:1022 Mem:430.44M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_1
-Fra:1022 Mem:430.44M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_1
-Fra:1022 Mem:430.44M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_0
-Fra:1022 Mem:430.45M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_0
-Fra:1022 Mem:430.45M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-3.9
-Fra:1022 Mem:430.46M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-5.0
-Fra:1022 Mem:430.48M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-6.2
-Fra:1022 Mem:430.49M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-3.9
-Fra:1022 Mem:430.51M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-5.0
-Fra:1022 Mem:430.52M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-6.2
-Fra:1022 Mem:430.54M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lazarette_ring
-Fra:1022 Mem:430.54M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_lazarette
-Fra:1022 Mem:430.54M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_table_foot
-Fra:1022 Mem:430.55M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_table_post
-Fra:1022 Mem:430.55M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_table_edge
-Fra:1022 Mem:430.57M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_table
-Fra:1022 Mem:430.60M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_seam_0.65
-Fra:1022 Mem:430.60M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_seam_-0.65
-Fra:1022 Mem:430.60M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_arm_-1
-Fra:1022 Mem:430.61M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_arm_-1
-Fra:1022 Mem:430.63M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_arm_1
-Fra:1022 Mem:430.64M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_arm_1
-Fra:1022 Mem:430.66M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_aft
-Fra:1022 Mem:430.67M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_aft
-Fra:1022 Mem:430.69M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_arm_-1
-Fra:1022 Mem:430.70M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_arm_1
-Fra:1022 Mem:430.71M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_aft
-Fra:1022 Mem:430.73M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lifering
-Fra:1022 Mem:430.79M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_5
-Fra:1022 Mem:430.81M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_4
-Fra:1022 Mem:430.84M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_3
-Fra:1022 Mem:430.86M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_2
-Fra:1022 Mem:430.89M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_1
-Fra:1022 Mem:430.92M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_flyladder_1.56
-Fra:1022 Mem:430.92M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_flyladder_1.22
-Fra:1022 Mem:430.92M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_antenna_-1
-Fra:1022 Mem:430.92M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_antenna_1
-Fra:1022 Mem:430.93M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_mast
-Fra:1022 Mem:430.93M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_mast_yard
-Fra:1022 Mem:430.94M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_mast
-Fra:1022 Mem:430.94M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_radar_dome
-Fra:1022 Mem:430.98M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_radar_base
-Fra:1022 Mem:430.99M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hardtop_strut_-1
-Fra:1022 Mem:430.99M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hardtop_strut_1
-Fra:1022 Mem:430.99M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_hardtop_edge
-Fra:1022 Mem:431.00M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hardtop
-Fra:1022 Mem:431.02M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_arch_leg_-1
-Fra:1022 Mem:431.02M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_arch_leg_1
-Fra:1022 Mem:431.02M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_benchback
-Fra:1022 Mem:431.03M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_bench
-Fra:1022 Mem:431.05M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_benchbase
-Fra:1022 Mem:431.06M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_ring
-Fra:1022 Mem:431.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_hatch_cup
-Fra:1022 Mem:431.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_knuckle_-0.44
-Fra:1022 Mem:431.08M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_hinge_-0.44
-Fra:1022 Mem:431.10M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_knuckle_-0.80
-Fra:1022 Mem:431.10M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_hinge_-0.80
-Fra:1022 Mem:431.12M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_fly_hatch
-Fra:1022 Mem:431.14M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_nonskid_fly_hatch_lid
-Fra:1022 Mem:431.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_hatch_gutter
-Fra:1022 Mem:431.15M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_rim
-Fra:1022 Mem:431.17M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_seatbase
-Fra:1022 Mem:431.18M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_helmback
-Fra:1022 Mem:431.19M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_helmseat
-Fra:1022 Mem:431.21M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_wheel
-Fra:1022 Mem:431.23M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_dash
-Fra:1022 Mem:431.25M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_console
-Fra:1022 Mem:431.26M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_screen
-Fra:1022 Mem:431.27M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_fly
-Fra:1022 Mem:431.27M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_coaming
-Fra:1022 Mem:431.30M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_sole
-Fra:1022 Mem:431.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_companionway
-Fra:1022 Mem:431.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_helmseat_post_0.5
-Fra:1022 Mem:431.31M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmback_0.5
-Fra:1022 Mem:431.33M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmseat_0.5
-Fra:1022 Mem:431.34M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_helmseat_post_-0.5
-Fra:1022 Mem:431.35M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmback_-0.5
-Fra:1022 Mem:431.36M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmseat_-0.5
-Fra:1022 Mem:431.38M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lower_wheel
-Fra:1022 Mem:431.38M (Peak 479.47M) | Time:00:02.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_hair
-Fra:1022 Mem:437.01M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_display_0.48
-Fra:1022 Mem:437.25M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_display_-0.48
-Fra:1022 Mem:437.26M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dash
-Fra:1022 Mem:437.27M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_shade_lamp
-Fra:1022 Mem:437.27M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lamp_stem
-Fra:1022 Mem:437.27M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lamp_base
-Fra:1022 Mem:437.28M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_credenza
-Fra:1022 Mem:437.29M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_foot_1
-Fra:1022 Mem:437.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_post_1
-Fra:1022 Mem:437.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_stool_1
-Fra:1022 Mem:437.31M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_foot_0
-Fra:1022 Mem:437.31M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_post_0
-Fra:1022 Mem:437.32M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_stool_0
-Fra:1022 Mem:437.32M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_coffee
-Fra:1022 Mem:437.34M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_tap
-Fra:1022 Mem:437.34M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_sink
-Fra:1022 Mem:437.36M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-1.82
-Fra:1022 Mem:437.37M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-2.2
-Fra:1022 Mem:437.39M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-2.6
-Fra:1022 Mem:437.40M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-3.0
-Fra:1022 Mem:437.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_galley_seam_-2.02
-Fra:1022 Mem:437.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_galley_seam_-2.82
-Fra:1022 Mem:437.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_ledstrip_counter
-Fra:1022 Mem:437.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_ledstrip_toekick
-Fra:1022 Mem:438.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_toekick
-Fra:1022 Mem:438.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_counter_galley
-Fra:1022 Mem:438.54M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_cabinet_galley
-Fra:1022 Mem:438.55M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_salon_table_foot
-Fra:1022 Mem:438.56M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_salon_table_post
-Fra:1022 Mem:438.56M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_table
-Fra:1022 Mem:438.57M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_2
-Fra:1022 Mem:438.59M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_1
-Fra:1022 Mem:438.60M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_0
-Fra:1022 Mem:438.62M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_return_back
-Fra:1022 Mem:438.63M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_return_seat
-Fra:1022 Mem:438.65M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sofa_return
-Fra:1022 Mem:438.66M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_back
-Fra:1022 Mem:438.68M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_seat
-Fra:1022 Mem:438.69M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sofa_plinth
-Fra:1022 Mem:438.71M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_6
-Fra:1022 Mem:438.71M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_6
-Fra:1022 Mem:438.72M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_5
-Fra:1022 Mem:438.72M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_5
-Fra:1022 Mem:438.73M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_4
-Fra:1022 Mem:438.73M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_4
-Fra:1022 Mem:438.74M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_3
-Fra:1022 Mem:438.74M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_3
-Fra:1022 Mem:438.75M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_2
-Fra:1022 Mem:438.75M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_2
-Fra:1022 Mem:438.76M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_1
-Fra:1022 Mem:438.76M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_1
-Fra:1022 Mem:438.77M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_0
-Fra:1022 Mem:438.77M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_0
-Fra:1022 Mem:438.78M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_cove_-1
-Fra:1022 Mem:438.79M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_fwd_-1
-Fra:1022 Mem:438.80M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_cove_1
-Fra:1022 Mem:438.81M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_fwd_1
-Fra:1022 Mem:438.81M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_headliner
-Fra:1022 Mem:438.81M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_salon_floor
-Fra:1022 Mem:438.82M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_0.9
-Fra:1022 Mem:438.82M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_-0.85
-Fra:1022 Mem:438.82M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_-2.6
-Fra:1022 Mem:438.82M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabrail_-1
-Fra:1022 Mem:438.84M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_0.9
-Fra:1022 Mem:438.84M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_-0.85
-Fra:1022 Mem:438.84M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_-2.6
-Fra:1022 Mem:438.84M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabrail_1
-Fra:1022 Mem:439.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_pull_inner
-Fra:1022 Mem:439.31M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_lock_key
-Fra:1022 Mem:439.31M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_lock
-Fra:1022 Mem:439.32M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle_post_2.56
-Fra:1022 Mem:439.32M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle_post_2.08
-Fra:1022 Mem:439.32M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle
-Fra:1022 Mem:439.33M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_door_i
-Fra:1022 Mem:439.35M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_door_o
-Fra:1022 Mem:439.38M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_door
-Fra:1022 Mem:439.38M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_rail_bottom
-Fra:1022 Mem:439.40M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_rail_top
-Fra:1022 Mem:439.41M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stile_meet
-Fra:1022 Mem:439.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stile_lock
-Fra:1022 Mem:439.44M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stop_0.82
-Fra:1022 Mem:439.44M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stop_-0.66
-Fra:1022 Mem:439.45M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_track_top_slot
-Fra:1022 Mem:439.45M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_top
-Fra:1022 Mem:439.46M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_bottom_+0.014
-Fra:1022 Mem:439.48M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_bottom_-0.014
-Fra:1022 Mem:439.49M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_track_base
-Fra:1022 Mem:439.51M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_seal_0.05
-Fra:1022 Mem:439.52M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_seal_-0.61
-Fra:1022 Mem:439.53M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_door_threshold
-Fra:1022 Mem:439.56M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_door
-Fra:1022 Mem:439.57M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_jamb
-Fra:1022 Mem:439.58M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_aft
-Fra:1022 Mem:439.59M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_aftwall
-Fra:1022 Mem:439.60M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_aft_s
-Fra:1022 Mem:439.60M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_aft_s
-Fra:1022 Mem:439.61M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_aft_s
-Fra:1022 Mem:439.63M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_aft_s
-Fra:1022 Mem:439.64M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_aft_s
-Fra:1022 Mem:439.64M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_aft_p
-Fra:1022 Mem:439.65M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_aft_p
-Fra:1022 Mem:439.65M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_aft_p
-Fra:1022 Mem:439.65M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_aft_p
-Fra:1022 Mem:439.66M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_aft_p
-Fra:1022 Mem:439.68M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_aft_p
-Fra:1022 Mem:439.70M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_aft_p
-Fra:1022 Mem:439.70M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_wiper_pivot
-Fra:1022 Mem:439.71M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_wiper_blade
-Fra:1022 Mem:439.71M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_wiper_arm
-Fra:1022 Mem:439.71M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_2
-Fra:1022 Mem:439.76M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_2
-Fra:1022 Mem:439.82M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_2
-Fra:1022 Mem:439.84M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_1
-Fra:1022 Mem:439.89M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_1
-Fra:1022 Mem:439.95M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_1
-Fra:1022 Mem:439.97M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_0
-Fra:1022 Mem:440.01M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_0
-Fra:1022 Mem:440.06M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_0
-Fra:1022 Mem:440.08M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_port_red_lens
-Fra:1022 Mem:440.10M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_navbox_p
-Fra:1022 Mem:440.11M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sill_p
-Fra:1022 Mem:440.13M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_side_p
-Fra:1022 Mem:440.14M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_side_p
-Fra:1022 Mem:440.15M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_2
-Fra:1022 Mem:440.16M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_2
-Fra:1022 Mem:440.16M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_2
-Fra:1022 Mem:440.19M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_2
-Fra:1022 Mem:440.20M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_side_p_1
-Fra:1022 Mem:440.20M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_side_p_1
-Fra:1022 Mem:440.20M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_1
-Fra:1022 Mem:440.21M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_1
-Fra:1022 Mem:440.21M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_1
-Fra:1022 Mem:440.24M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_1
-Fra:1022 Mem:440.25M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_0
-Fra:1022 Mem:440.26M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_0
-Fra:1022 Mem:440.26M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_0
-Fra:1022 Mem:440.29M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_0
-Fra:1022 Mem:440.30M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_side_p
-Fra:1022 Mem:440.31M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_stbd_green_lens
-Fra:1022 Mem:440.33M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_navbox_s
-Fra:1022 Mem:440.34M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sill_s
-Fra:1022 Mem:440.36M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_side_s
-Fra:1022 Mem:440.37M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_side_s
-Fra:1022 Mem:440.38M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_2
-Fra:1022 Mem:440.39M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_2
-Fra:1022 Mem:440.39M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_2
-Fra:1022 Mem:440.42M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_2
-Fra:1022 Mem:440.43M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_1
-Fra:1022 Mem:440.43M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_1
-Fra:1022 Mem:440.44M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_1
-Fra:1022 Mem:440.46M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_1
-Fra:1022 Mem:440.48M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_side_s_0
-Fra:1022 Mem:440.48M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_side_s_0
-Fra:1022 Mem:440.48M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_0
-Fra:1022 Mem:440.49M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_0
-Fra:1022 Mem:440.49M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_0
-Fra:1022 Mem:440.95M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_0
-Fra:1022 Mem:440.97M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_side_s
-Fra:1022 Mem:440.98M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_brow
-Fra:1022 Mem:440.98M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin
-Fra:1022 Mem:441.04M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_foredeck
-Fra:1022 Mem:443.70M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_step_-1
-Fra:1022 Mem:443.72M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_step_-1
-Fra:1022 Mem:443.74M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_riser_-1
-Fra:1022 Mem:443.74M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_sidedeck_-1
-Fra:1022 Mem:443.75M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_step_1
-Fra:1022 Mem:443.77M (Peak 479.47M) | Time:00:02.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_step_1
-Fra:1022 Mem:443.79M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_riser_1
-Fra:1022 Mem:443.79M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_sidedeck_1
-Fra:1022 Mem:443.80M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_cap
-Fra:1022 Mem:443.82M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_transom_bulwark
-Fra:1022 Mem:443.84M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_caprail_-1
-Fra:1022 Mem:443.89M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bulwark_-1
-Fra:1022 Mem:443.91M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_caprail_1
-Fra:1022 Mem:449.23M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bulwark_1
-Fra:1022 Mem:449.25M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_cockpit_sole
-Fra:1022 Mem:449.25M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_exhaust_-1
-Fra:1022 Mem:449.26M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_exhaust_1
-Fra:1022 Mem:449.26M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_stern
-Fra:1022 Mem:449.28M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_-1_1
-Fra:1022 Mem:449.31M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_-1_0
-Fra:1022 Mem:449.33M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_1_1
-Fra:1022 Mem:449.36M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_1_0
-Fra:1022 Mem:449.38M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_-0.5
-Fra:1022 Mem:449.39M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_-0.2
-Fra:1022 Mem:449.39M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_0.1
-Fra:1022 Mem:449.39M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_1.25
-Fra:1022 Mem:449.40M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_0.95
-Fra:1022 Mem:449.40M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_platform_lip
-Fra:1022 Mem:449.41M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_swim_platform
-Fra:1022 Mem:449.44M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_2
-Fra:1022 Mem:449.44M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_1
-Fra:1022 Mem:449.44M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_0
-Fra:1022 Mem:449.45M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_2
-Fra:1022 Mem:449.45M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_2
-Fra:1022 Mem:449.48M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_2
-Fra:1022 Mem:449.52M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_2
-Fra:1022 Mem:449.54M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_2
-Fra:1022 Mem:449.54M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_2
-Fra:1022 Mem:449.55M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_1
-Fra:1022 Mem:449.55M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_0
-Fra:1022 Mem:449.55M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_1
-Fra:1022 Mem:449.55M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_1
-Fra:1022 Mem:449.58M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_1
-Fra:1022 Mem:449.62M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_1
-Fra:1022 Mem:449.64M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_1
-Fra:1022 Mem:449.65M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_2
-Fra:1022 Mem:449.65M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_1
-Fra:1022 Mem:449.65M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_0
-Fra:1022 Mem:449.65M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_0
-Fra:1022 Mem:449.66M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_0
-Fra:1022 Mem:449.69M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_0
-Fra:1022 Mem:449.73M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_0
-Fra:1022 Mem:449.75M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_0
-Fra:1022 Mem:449.75M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_2
-Fra:1022 Mem:449.75M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_1
-Fra:1022 Mem:449.75M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_0
-Fra:1022 Mem:449.76M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_2
-Fra:1022 Mem:449.76M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_2
-Fra:1022 Mem:449.79M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_2
-Fra:1022 Mem:449.83M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_2
-Fra:1022 Mem:449.85M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_2
-Fra:1022 Mem:449.85M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_2
-Fra:1022 Mem:449.86M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_1
-Fra:1022 Mem:449.86M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_0
-Fra:1022 Mem:449.86M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_1
-Fra:1022 Mem:449.86M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_1
-Fra:1022 Mem:449.89M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_1
-Fra:1022 Mem:449.93M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_1
-Fra:1022 Mem:449.95M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_1
-Fra:1022 Mem:449.96M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_2
-Fra:1022 Mem:449.96M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_1
-Fra:1022 Mem:449.96M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_0
-Fra:1022 Mem:449.96M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_0
-Fra:1022 Mem:449.97M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_0
-Fra:1022 Mem:450.00M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_0
-Fra:1022 Mem:450.04M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_0
-Fra:1022 Mem:450.06M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_0
-Fra:1022 Mem:450.06M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_stripe_p
-Fra:1022 Mem:450.07M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_stripe_s
-Fra:1022 Mem:450.08M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_rubrail_p
-Fra:1022 Mem:450.12M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_rubrail_s
-Fra:1022 Mem:450.16M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_rubrail_p
-Fra:1022 Mem:450.20M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_rubrail_s
-Fra:1022 Mem:450.25M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hull_transom
-Fra:1022 Mem:450.26M (Peak 479.47M) | Time:00:02.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hull
-Fra:1022 Mem:450.66M (Peak 479.47M) | Time:00:02.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | OceanHorizon
-Fra:1022 Mem:450.66M (Peak 479.47M) | Time:00:02.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Ocean
-Fra:1022 Mem:548.06M (Peak 553.33M) | Time:00:02.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_body
-Fra:1022 Mem:557.15M (Peak 558.42M) | Time:00:02.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eye.L
-Fra:1022 Mem:566.71M (Peak 566.72M) | Time:00:02.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eye.R
-Fra:1022 Mem:570.08M (Peak 570.23M) | Time:00:02.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyebrows
-Fra:1022 Mem:571.26M (Peak 571.26M) | Time:00:02.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyedot.L
-Fra:1022 Mem:571.26M (Peak 571.26M) | Time:00:02.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyedot.R
-Fra:1022 Mem:571.26M (Peak 571.26M) | Time:00:02.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_hoodie
-Fra:1022 Mem:606.63M (Peak 610.96M) | Time:00:02.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_teeth_btm
-Fra:1022 Mem:607.91M (Peak 610.96M) | Time:00:02.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_teeth_top
-Fra:1022 Mem:609.19M (Peak 610.96M) | Time:00:02.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_tongue
-Fra:1022 Mem:609.70M (Peak 610.96M) | Time:00:02.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_head
-Fra:1022 Mem:646.13M (Peak 647.39M) | Time:00:02.31 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_shoes_base
-Fra:1022 Mem:658.46M (Peak 676.02M) | Time:00:02.33 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_joggers
-Fra:1022 Mem:659.64M (Peak 676.02M) | Time:00:02.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_cap
-Fra:1022 Mem:667.70M (Peak 676.02M) | Time:00:02.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_drawstrings
-Fra:1022 Mem:667.84M (Peak 676.02M) | Time:00:02.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_hood
-Fra:1022 Mem:669.68M (Peak 676.02M) | Time:00:02.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_pants
-Fra:1022 Mem:677.80M (Peak 679.69M) | Time:00:02.36 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_shoes_extra
-Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.44 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
-Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.44 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading hero_palenciaga_print
-Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.44 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading jay.dirt_map
-Fra:1022 Mem:723.13M (Peak 723.93M) | Time:00:02.44 | Mem:0.80M, Peak:0.80M | Scene, ViewLayer | Updating Images | Loading jay.skin
-Fra:1022 Mem:735.14M (Peak 743.15M) | Time:00:02.46 | Mem:4.80M, Peak:4.80M | Scene, ViewLayer | Updating Images | Loading jay.bruise_map
-Fra:1022 Mem:731.13M (Peak 743.15M) | Time:00:02.47 | Mem:8.80M, Peak:8.80M | Scene, ViewLayer | Updating Images | Loading jay.clothes
-Fra:1022 Mem:795.13M (Peak 803.14M) | Time:00:02.48 | Mem:12.80M, Peak:12.80M | Scene, ViewLayer | Updating Images | Loading jay.bruise_map
-Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.70 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Waiting for render to start
-Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.70 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
-Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.70 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Updating Scene
-Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.70 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Updating Shaders
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Procedurals
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Background
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Camera
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Meshes Flags
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Objects
-Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.71 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
-Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.71 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
-Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.72 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Particle Systems
-Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.72 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
-Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.72 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Meshes
-Fra:1022 Mem:840.61M (Peak 927.14M) | Time:00:02.77 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Mesh | Computing attributes
-Fra:1022 Mem:941.26M (Peak 941.26M) | Time:00:02.81 | Mem:81.78M, Peak:81.78M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.81 | Mem:182.31M, Peak:182.31M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_head 4/4 | Building BVH
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.81 | Mem:183.99M, Peak:183.99M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_head 4/4 | Building BVH 0%
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.81 | Mem:183.99M, Peak:183.99M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_hair 1/4 | Building BVH
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.82 | Mem:191.17M, Peak:192.85M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_tongue 3/4 | Building BVH
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.82 | Mem:191.89M, Peak:192.85M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_body 2/4 | Building BVH
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.84 | Mem:197.61M, Peak:201.13M | Scene, ViewLayer | Updating Scene BVH | Building
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.84 | Mem:197.61M, Peak:201.13M | Scene, ViewLayer | Updating Scene BVH | Building BVH
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:03.06 | Mem:315.45M, Peak:315.45M | Scene, ViewLayer | Updating Scene BVH | Building BVH 29%
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:03.30 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
-Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:03.30 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Mesh | Computing normals
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Objects Flags
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Primitive Offsets
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_nor_gl_2k.jpg
-Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.34 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images | Loading ph_moonlit_golf_1024x512_clamped.exr
-Fra:1022 Mem:1056.60M (Peak 1056.60M) | Time:00:03.36 | Mem:449.03M, Peak:449.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_diff_2k.jpg
-Fra:1022 Mem:1072.60M (Peak 1072.60M) | Time:00:03.38 | Mem:465.03M, Peak:465.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_rough_2k.jpg
-Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.39 | Mem:485.03M, Peak:485.03M | Scene, ViewLayer | Updating Camera Volume
-Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.39 | Mem:485.03M, Peak:485.03M | Scene, ViewLayer | Updating Lookup Tables
-Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.39 | Mem:485.12M, Peak:485.12M | Scene, ViewLayer | Updating Lights
-Fra:1022 Mem:1076.61M (Peak 1076.61M) | Time:00:03.39 | Mem:485.12M, Peak:485.12M | Scene, ViewLayer | Updating Lights | Importance map
-Fra:1022 Mem:1140.64M (Peak 1428.61M) | Time:00:11.72 | Mem:549.16M, Peak:709.13M | Scene, ViewLayer | Updating Lights | Computing tree
-Fra:1022 Mem:1141.17M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Integrator
-Fra:1022 Mem:1141.17M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Film
-Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.73 | Mem:549.62M, Peak:709.13M | Scene, ViewLayer | Updating Lookup Tables
-Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Baking
-Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Device | Writing constant memory
-Fra:1022 Mem:1141.19M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
-Fra:1022 Mem:1141.19M (Peak 1428.61M) | Time:00:11.73 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Sample 0/4
-Fra:1022 Mem:1143.87M (Peak 1428.61M) | Time:00:12.08 | Remaining:00:01.04 | Mem:552.37M, Peak:709.13M | Scene, ViewLayer | Sample 1/4
-Fra:1022 Mem:1144.99M (Peak 1428.61M) | Time:00:13.15 | Mem:552.37M, Peak:709.13M | Scene, ViewLayer | Sample 4/4
-Fra:1022 Mem:1144.99M (Peak 1428.61M) | Time:00:13.15 | Mem:552.37M, Peak:709.13M | Scene, ViewLayer | Finished
-Fra:1022 Mem:1145.00M (Peak 1428.61M) | Time:00:13.15 | Compositing
-Fra:1022 Mem:1145.00M (Peak 1428.61M) | Time:00:13.15 | Compositing | Initializing execution
-Fra:1022 Mem:1145.01M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 2-19
-Fra:1022 Mem:1145.01M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 3-19
-Fra:1022 Mem:1145.63M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 4-19
-Fra:1022 Mem:1145.63M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 5-19
-Fra:1022 Mem:1145.63M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 6-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 7-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 8-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 9-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 10-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.15 | Compositing | Operation 11-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 12-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 13-19
-Fra:1022 Mem:1145.67M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 14-19
-Fra:1022 Mem:1146.19M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 15-19
-Fra:1022 Mem:1146.19M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 16-19
-Fra:1022 Mem:1146.19M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 17-19
-Fra:1022 Mem:1146.19M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 18-19
-Fra:1022 Mem:1145.63M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 19-19
-Fra:1022 Mem:1145.63M (Peak 1428.61M) | Time:00:13.16 | Compositing | Operation 20-19
+Fra:1022 Mem:429.67M (Peak 476.25M) | Time:00:01.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_hair
+Fra:1022 Mem:437.19M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | HazeVolume
+Fra:1022 Mem:437.19M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_0_glass
+Fra:1022 Mem:437.19M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_0_base
+Fra:1022 Mem:437.20M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_-1_1.6
+Fra:1022 Mem:437.20M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_1.6_-0.33
+Fra:1022 Mem:437.21M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_1.6_0.33
+Fra:1022 Mem:437.21M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_-1_1.6
+Fra:1022 Mem:437.22M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_-1_-1.2
+Fra:1022 Mem:437.22M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_-1.2_-0.33
+Fra:1022 Mem:437.22M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_-1_-1.2_0.33
+Fra:1022 Mem:437.23M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_-1_-1.2
+Fra:1022 Mem:437.23M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_1_1.6
+Fra:1022 Mem:437.23M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_1.6_-0.33
+Fra:1022 Mem:437.24M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_1.6_0.33
+Fra:1022 Mem:437.24M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_1_1.6
+Fra:1022 Mem:437.25M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rope_fender_1_-1.2
+Fra:1022 Mem:437.25M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_-1.2_-0.33
+Fra:1022 Mem:437.25M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_cap_1_-1.2_0.33
+Fra:1022 Mem:437.26M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | fender_1_-1.2
+Fra:1022 Mem:437.26M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_handle
+Fra:1022 Mem:437.28M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_leaf_0.22
+Fra:1022 Mem:437.29M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_0.22
+Fra:1022 Mem:437.30M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_leaf_-0.22
+Fra:1022 Mem:437.31M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hatch_hinge_-0.22
+Fra:1022 Mem:437.31M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_hatch_lid
+Fra:1022 Mem:437.34M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_hatch_lidframe
+Fra:1022 Mem:437.36M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_hatch_lid
+Fra:1022 Mem:437.36M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_hatch_coaming
+Fra:1022 Mem:437.37M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_hatch_well
+Fra:1022 Mem:437.37M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hatch_frame
+Fra:1022 Mem:437.39M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_chain
+Fra:1022 Mem:437.39M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_footswitch_0.28
+Fra:1022 Mem:437.39M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_footswitch_-0.28
+Fra:1022 Mem:437.40M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_windlass_cap
+Fra:1022 Mem:437.40M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_windlass_drum
+Fra:1022 Mem:437.41M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_windlass_base
+Fra:1022 Mem:437.42M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_anchor_fluke
+Fra:1022 Mem:437.42M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_anchor_shank
+Fra:1022 Mem:437.43M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_roller
+Fra:1022 Mem:437.43M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_bowroller
+Fra:1022 Mem:437.44M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fairlead_-1
+Fra:1022 Mem:437.45M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_foot1
+Fra:1022 Mem:437.45M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_foot0
+Fra:1022 Mem:437.45M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_-1_horn
+Fra:1022 Mem:437.46M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_foot1
+Fra:1022 Mem:437.46M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_foot0
+Fra:1022 Mem:437.46M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_-1_horn
+Fra:1022 Mem:437.47M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_foot1
+Fra:1022 Mem:437.47M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_foot0
+Fra:1022 Mem:437.47M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_-1_horn
+Fra:1022 Mem:437.48M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fairlead_1
+Fra:1022 Mem:437.48M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_foot1
+Fra:1022 Mem:437.48M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_foot0
+Fra:1022 Mem:437.48M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_bow_1_horn
+Fra:1022 Mem:437.49M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_foot1
+Fra:1022 Mem:437.49M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_foot0
+Fra:1022 Mem:437.49M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_mid_1_horn
+Fra:1022 Mem:437.50M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_foot1
+Fra:1022 Mem:437.50M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_foot0
+Fra:1022 Mem:437.50M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cleat_stern_1_horn
+Fra:1022 Mem:437.51M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_1.2
+Fra:1022 Mem:437.51M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_0.0
+Fra:1022 Mem:437.51M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_stanchion_-1.2
+Fra:1022 Mem:437.51M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_transom_rail
+Fra:1022 Mem:437.52M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockrail_-1
+Fra:1022 Mem:437.53M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_4
+Fra:1022 Mem:437.53M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_3
+Fra:1022 Mem:437.53M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_2
+Fra:1022 Mem:437.53M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_1
+Fra:1022 Mem:437.53M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_-1_0
+Fra:1022 Mem:437.54M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockrail_1
+Fra:1022 Mem:437.54M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_4
+Fra:1022 Mem:437.55M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_3
+Fra:1022 Mem:437.55M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_2
+Fra:1022 Mem:437.55M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_1
+Fra:1022 Mem:437.55M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_cockstanchion_1_0
+Fra:1022 Mem:437.55M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_pulpit_leg_-1
+Fra:1022 Mem:437.56M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gate_stop
+Fra:1022 Mem:437.56M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_latch_lever
+Fra:1022 Mem:437.56M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_latch_body
+Fra:1022 Mem:437.58M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_bolt
+Fra:1022 Mem:437.58M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_keeper
+Fra:1022 Mem:437.59M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_pin_1
+Fra:1022 Mem:437.60M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_strap_1
+Fra:1022 Mem:437.60M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_1
+Fra:1022 Mem:437.60M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_pin_0
+Fra:1022 Mem:437.60M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_strap_0
+Fra:1022 Mem:437.61M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_hinge_0
+Fra:1022 Mem:437.61M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_brace
+Fra:1022 Mem:437.61M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_mid
+Fra:1022 Mem:437.61M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gate_frame
+Fra:1022 Mem:437.62M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_plate_latch
+Fra:1022 Mem:437.64M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_cap_latch
+Fra:1022 Mem:437.64M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_latch
+Fra:1022 Mem:437.64M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_plate_hinge
+Fra:1022 Mem:438.10M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_cap_hinge
+Fra:1022 Mem:438.10M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_gatepost_hinge
+Fra:1022 Mem:438.11M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_-1
+Fra:1022 Mem:438.11M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_-1_aft
+Fra:1022 Mem:438.11M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_-1
+Fra:1022 Mem:438.13M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_-1_aft
+Fra:1022 Mem:438.13M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_9
+Fra:1022 Mem:438.13M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_9
+Fra:1022 Mem:438.14M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_8
+Fra:1022 Mem:438.14M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_8
+Fra:1022 Mem:438.14M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_7
+Fra:1022 Mem:438.14M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_7
+Fra:1022 Mem:440.78M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_6
+Fra:1022 Mem:440.79M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_6
+Fra:1022 Mem:440.79M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_5
+Fra:1022 Mem:440.79M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_5
+Fra:1022 Mem:440.79M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_4
+Fra:1022 Mem:440.80M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_4
+Fra:1022 Mem:440.80M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_3
+Fra:1022 Mem:440.80M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_3
+Fra:1022 Mem:440.81M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_2
+Fra:1022 Mem:440.81M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_2
+Fra:1022 Mem:440.81M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_1
+Fra:1022 Mem:440.82M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_1
+Fra:1022 Mem:440.82M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_-1_0
+Fra:1022 Mem:440.82M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_-1_0
+Fra:1022 Mem:440.82M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_pulpit_leg_1
+Fra:1022 Mem:440.83M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_midrail_1
+Fra:1022 Mem:440.83M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_toprail_1
+Fra:1022 Mem:440.85M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_9
+Fra:1022 Mem:440.85M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_9
+Fra:1022 Mem:440.85M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_8
+Fra:1022 Mem:440.86M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_8
+Fra:1022 Mem:440.86M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_7
+Fra:1022 Mem:440.86M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_7
+Fra:1022 Mem:440.87M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_6
+Fra:1022 Mem:440.87M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_6
+Fra:1022 Mem:440.87M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_5
+Fra:1022 Mem:440.87M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_5
+Fra:1022 Mem:440.88M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_4
+Fra:1022 Mem:440.88M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_4
+Fra:1022 Mem:440.88M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_3
+Fra:1022 Mem:440.89M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_3
+Fra:1022 Mem:440.89M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_2
+Fra:1022 Mem:440.89M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_2
+Fra:1022 Mem:440.89M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_1
+Fra:1022 Mem:440.90M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_1
+Fra:1022 Mem:440.90M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_base_1_0
+Fra:1022 Mem:440.90M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stanchion_1_0
+Fra:1022 Mem:440.90M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-3.9
+Fra:1022 Mem:440.92M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-5.0
+Fra:1022 Mem:440.93M (Peak 476.25M) | Time:00:01.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_-1_-6.2
+Fra:1022 Mem:440.95M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-3.9
+Fra:1022 Mem:440.96M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-5.0
+Fra:1022 Mem:440.98M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_courtesy_1_-6.2
+Fra:1022 Mem:440.99M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lazarette_ring
+Fra:1022 Mem:441.00M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_lazarette
+Fra:1022 Mem:441.00M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_table_foot
+Fra:1022 Mem:441.01M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_table_post
+Fra:1022 Mem:441.01M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_table_edge
+Fra:1022 Mem:441.03M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_table
+Fra:1022 Mem:441.05M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_seam_0.65
+Fra:1022 Mem:441.05M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_seam_-0.65
+Fra:1022 Mem:441.05M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_arm_-1
+Fra:1022 Mem:446.34M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_arm_-1
+Fra:1022 Mem:446.36M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_arm_1
+Fra:1022 Mem:446.37M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_arm_1
+Fra:1022 Mem:446.39M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_back_aft
+Fra:1022 Mem:446.40M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_seat_aft
+Fra:1022 Mem:446.42M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_arm_-1
+Fra:1022 Mem:446.43M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_arm_1
+Fra:1022 Mem:446.45M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bench_aft
+Fra:1022 Mem:446.46M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lifering
+Fra:1022 Mem:446.52M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_5
+Fra:1022 Mem:446.54M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_4
+Fra:1022 Mem:446.57M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_3
+Fra:1022 Mem:446.60M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_2
+Fra:1022 Mem:446.62M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_flyladder_step_1
+Fra:1022 Mem:446.65M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_flyladder_1.56
+Fra:1022 Mem:446.65M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_flyladder_1.22
+Fra:1022 Mem:446.65M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_antenna_-1
+Fra:1022 Mem:446.65M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_antenna_1
+Fra:1022 Mem:446.66M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_mast
+Fra:1022 Mem:446.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_mast_yard
+Fra:1022 Mem:446.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_mast
+Fra:1022 Mem:446.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_radar_dome
+Fra:1022 Mem:446.71M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_radar_base
+Fra:1022 Mem:446.72M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hardtop_strut_-1
+Fra:1022 Mem:446.72M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_hardtop_strut_1
+Fra:1022 Mem:446.72M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_hardtop_edge
+Fra:1022 Mem:446.73M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hardtop
+Fra:1022 Mem:446.75M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_arch_leg_-1
+Fra:1022 Mem:446.75M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_arch_leg_1
+Fra:1022 Mem:446.75M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_benchback
+Fra:1022 Mem:446.76M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_bench
+Fra:1022 Mem:446.78M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_benchbase
+Fra:1022 Mem:446.79M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_ring
+Fra:1022 Mem:446.81M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_hatch_cup
+Fra:1022 Mem:446.81M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_knuckle_-0.44
+Fra:1022 Mem:446.82M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_hinge_-0.44
+Fra:1022 Mem:446.83M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_knuckle_-0.80
+Fra:1022 Mem:446.83M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_hinge_-0.80
+Fra:1022 Mem:446.85M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_fly_hatch
+Fra:1022 Mem:446.87M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_nonskid_fly_hatch_lid
+Fra:1022 Mem:446.88M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_hatch_gutter
+Fra:1022 Mem:446.88M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_hatch_rim
+Fra:1022 Mem:446.90M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_seatbase
+Fra:1022 Mem:446.91M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_helmback
+Fra:1022 Mem:446.93M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | upholstery_fly_helmseat
+Fra:1022 Mem:446.94M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_fly_wheel
+Fra:1022 Mem:446.96M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_dash
+Fra:1022 Mem:446.98M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_console
+Fra:1022 Mem:446.99M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_fly_screen
+Fra:1022 Mem:447.00M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_fly
+Fra:1022 Mem:447.00M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_coaming
+Fra:1022 Mem:447.03M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_fly_sole
+Fra:1022 Mem:447.04M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_companionway
+Fra:1022 Mem:447.04M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_helmseat_post_0.5
+Fra:1022 Mem:447.04M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmback_0.5
+Fra:1022 Mem:447.06M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmseat_0.5
+Fra:1022 Mem:447.07M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_helmseat_post_-0.5
+Fra:1022 Mem:447.08M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmback_-0.5
+Fra:1022 Mem:447.09M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_helmseat_-0.5
+Fra:1022 Mem:447.11M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lower_wheel
+Fra:1022 Mem:447.13M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_display_0.48
+Fra:1022 Mem:447.14M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_display_-0.48
+Fra:1022 Mem:447.16M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dash
+Fra:1022 Mem:447.16M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_shade_lamp
+Fra:1022 Mem:447.17M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lamp_stem
+Fra:1022 Mem:447.17M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_lamp_base
+Fra:1022 Mem:447.17M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_credenza
+Fra:1022 Mem:447.19M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_foot_1
+Fra:1022 Mem:447.19M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_post_1
+Fra:1022 Mem:447.20M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_stool_1
+Fra:1022 Mem:447.20M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_foot_0
+Fra:1022 Mem:447.21M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_stool_post_0
+Fra:1022 Mem:447.21M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_stool_0
+Fra:1022 Mem:447.22M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_coffee
+Fra:1022 Mem:447.23M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_tap
+Fra:1022 Mem:447.24M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_sink
+Fra:1022 Mem:447.25M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-1.82
+Fra:1022 Mem:447.27M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-2.2
+Fra:1022 Mem:447.28M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-2.6
+Fra:1022 Mem:447.30M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_galley_pull_-3.0
+Fra:1022 Mem:447.31M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_galley_seam_-2.02
+Fra:1022 Mem:447.31M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_galley_seam_-2.82
+Fra:1022 Mem:447.31M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_ledstrip_counter
+Fra:1022 Mem:447.31M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_ledstrip_toekick
+Fra:1022 Mem:447.31M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_dark_toekick
+Fra:1022 Mem:447.32M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_counter_galley
+Fra:1022 Mem:447.33M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_cabinet_galley
+Fra:1022 Mem:447.34M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_salon_table_foot
+Fra:1022 Mem:447.35M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_salon_table_post
+Fra:1022 Mem:447.35M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_table
+Fra:1022 Mem:447.37M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_2
+Fra:1022 Mem:447.38M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_1
+Fra:1022 Mem:447.40M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_pillow_0
+Fra:1022 Mem:447.41M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_return_back
+Fra:1022 Mem:447.43M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_return_seat
+Fra:1022 Mem:447.44M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sofa_return
+Fra:1022 Mem:447.46M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_back
+Fra:1022 Mem:447.47M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_sofa_seat
+Fra:1022 Mem:447.49M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sofa_plinth
+Fra:1022 Mem:447.50M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_6
+Fra:1022 Mem:447.51M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_6
+Fra:1022 Mem:447.51M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_5
+Fra:1022 Mem:447.52M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_5
+Fra:1022 Mem:447.52M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_4
+Fra:1022 Mem:447.53M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_4
+Fra:1022 Mem:447.53M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_3
+Fra:1022 Mem:447.54M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_3
+Fra:1022 Mem:447.54M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_2
+Fra:1022 Mem:447.55M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_2
+Fra:1022 Mem:447.55M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_1
+Fra:1022 Mem:447.56M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_1
+Fra:1022 Mem:447.56M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lamp_downlight_0
+Fra:1022 Mem:447.57M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_downlight_bezel_0
+Fra:1022 Mem:447.57M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_cove_-1
+Fra:1022 Mem:447.59M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_fwd_-1
+Fra:1022 Mem:447.59M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_cove_1
+Fra:1022 Mem:447.61M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_fwd_1
+Fra:1022 Mem:447.61M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_headliner
+Fra:1022 Mem:447.61M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_salon_floor
+Fra:1022 Mem:447.61M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_0.9
+Fra:1022 Mem:447.61M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_-0.85
+Fra:1022 Mem:447.62M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_-1_-2.6
+Fra:1022 Mem:447.62M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabrail_-1
+Fra:1022 Mem:447.63M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_0.9
+Fra:1022 Mem:447.63M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_-0.85
+Fra:1022 Mem:447.64M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabpost_1_-2.6
+Fra:1022 Mem:447.64M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_grabrail_1
+Fra:1022 Mem:447.65M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_pull_inner
+Fra:1022 Mem:447.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_lock_key
+Fra:1022 Mem:447.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_lock
+Fra:1022 Mem:447.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle_post_2.56
+Fra:1022 Mem:447.67M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle_post_2.08
+Fra:1022 Mem:447.68M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_handle
+Fra:1022 Mem:447.68M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_door_i
+Fra:1022 Mem:447.70M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_door_o
+Fra:1022 Mem:447.73M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_door
+Fra:1022 Mem:447.73M (Peak 476.25M) | Time:00:01.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_rail_bottom
+Fra:1022 Mem:447.75M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_rail_top
+Fra:1022 Mem:447.76M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stile_meet
+Fra:1022 Mem:447.78M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stile_lock
+Fra:1022 Mem:447.79M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stop_0.82
+Fra:1022 Mem:447.79M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_stop_-0.66
+Fra:1022 Mem:447.80M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_track_top_slot
+Fra:1022 Mem:447.80M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_top
+Fra:1022 Mem:447.81M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_bottom_+0.014
+Fra:1022 Mem:447.83M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_track_bottom_-0.014
+Fra:1022 Mem:447.84M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_track_base
+Fra:1022 Mem:447.86M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_seal_0.05
+Fra:1022 Mem:447.87M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_door_seal_-0.61
+Fra:1022 Mem:447.89M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_door_threshold
+Fra:1022 Mem:447.91M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_door
+Fra:1022 Mem:447.92M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_door_jamb
+Fra:1022 Mem:447.93M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_aft
+Fra:1022 Mem:447.94M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_aftwall
+Fra:1022 Mem:447.95M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_aft_s
+Fra:1022 Mem:447.96M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_aft_s
+Fra:1022 Mem:447.96M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_aft_s
+Fra:1022 Mem:447.98M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_aft_s
+Fra:1022 Mem:447.99M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_aft_s
+Fra:1022 Mem:448.00M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_aft_p
+Fra:1022 Mem:448.00M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_aft_p
+Fra:1022 Mem:448.00M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_aft_p
+Fra:1022 Mem:448.01M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_aft_p
+Fra:1022 Mem:448.01M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_aft_p
+Fra:1022 Mem:448.03M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_aft_p
+Fra:1022 Mem:448.05M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_aft_p
+Fra:1022 Mem:448.05M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_wiper_pivot
+Fra:1022 Mem:448.06M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_wiper_blade
+Fra:1022 Mem:448.06M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_wiper_arm
+Fra:1022 Mem:448.06M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_2
+Fra:1022 Mem:448.11M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_2
+Fra:1022 Mem:448.17M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_2
+Fra:1022 Mem:448.19M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_1
+Fra:1022 Mem:448.25M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_1
+Fra:1022 Mem:448.30M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_1
+Fra:1022 Mem:448.33M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_screen_0
+Fra:1022 Mem:448.37M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_screen_0
+Fra:1022 Mem:448.41M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_screen_frame_0
+Fra:1022 Mem:448.43M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_port_red_lens
+Fra:1022 Mem:448.45M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_navbox_p
+Fra:1022 Mem:448.46M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sill_p
+Fra:1022 Mem:448.48M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_side_p
+Fra:1022 Mem:448.49M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_side_p
+Fra:1022 Mem:448.50M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_2
+Fra:1022 Mem:448.51M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_2
+Fra:1022 Mem:448.51M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_2
+Fra:1022 Mem:448.54M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_2
+Fra:1022 Mem:448.55M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_side_p_1
+Fra:1022 Mem:448.55M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_side_p_1
+Fra:1022 Mem:448.56M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_1
+Fra:1022 Mem:448.56M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_1
+Fra:1022 Mem:448.56M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_1
+Fra:1022 Mem:448.59M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_1
+Fra:1022 Mem:448.60M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_p_0
+Fra:1022 Mem:448.61M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_p_0
+Fra:1022 Mem:448.61M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_p_0
+Fra:1022 Mem:448.64M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_p_0
+Fra:1022 Mem:448.65M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_side_p
+Fra:1022 Mem:448.66M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_stbd_green_lens
+Fra:1022 Mem:448.68M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_navbox_s
+Fra:1022 Mem:448.69M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_wood_sill_s
+Fra:1022 Mem:448.71M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_lining_side_s
+Fra:1022 Mem:448.72M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_side_s
+Fra:1022 Mem:448.73M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_2
+Fra:1022 Mem:448.74M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_2
+Fra:1022 Mem:448.74M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_2
+Fra:1022 Mem:448.77M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_2
+Fra:1022 Mem:448.78M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_1
+Fra:1022 Mem:448.79M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_1
+Fra:1022 Mem:448.79M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_1
+Fra:1022 Mem:448.82M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_1
+Fra:1022 Mem:448.83M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_blind_rail_side_s_0
+Fra:1022 Mem:448.83M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_blind_side_s_0
+Fra:1022 Mem:448.83M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_reveal_side_s_0
+Fra:1022 Mem:448.84M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_side_s_0
+Fra:1022 Mem:448.84M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_side_s_0
+Fra:1022 Mem:448.87M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_frame_side_s_0
+Fra:1022 Mem:448.88M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_band_side_s
+Fra:1022 Mem:448.89M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin_brow
+Fra:1022 Mem:448.89M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_cabin
+Fra:1022 Mem:448.95M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_foredeck
+Fra:1022 Mem:448.98M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_step_-1
+Fra:1022 Mem:448.99M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_step_-1
+Fra:1022 Mem:449.02M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_riser_-1
+Fra:1022 Mem:449.02M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_sidedeck_-1
+Fra:1022 Mem:449.03M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_step_1
+Fra:1022 Mem:449.04M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_step_1
+Fra:1022 Mem:449.07M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_riser_1
+Fra:1022 Mem:449.07M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_sidedeck_1
+Fra:1022 Mem:449.07M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_cap
+Fra:1022 Mem:449.10M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_transom_bulwark
+Fra:1022 Mem:449.11M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_caprail_-1
+Fra:1022 Mem:449.16M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bulwark_-1
+Fra:1022 Mem:449.18M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_caprail_1
+Fra:1022 Mem:449.23M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_bulwark_1
+Fra:1022 Mem:449.25M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_cockpit_sole
+Fra:1022 Mem:449.25M (Peak 476.25M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_exhaust_-1
+Fra:1022 Mem:449.26M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_exhaust_1
+Fra:1022 Mem:449.26M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | nav_white_stern
+Fra:1022 Mem:449.28M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_-1_1
+Fra:1022 Mem:449.31M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_-1_0
+Fra:1022 Mem:449.33M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_1_1
+Fra:1022 Mem:449.36M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_transom_step_1_0
+Fra:1022 Mem:449.38M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_-0.5
+Fra:1022 Mem:449.39M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_-0.2
+Fra:1022 Mem:449.39M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_rung_0.1
+Fra:1022 Mem:449.39M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_1.25
+Fra:1022 Mem:449.40M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_ladder_0.95
+Fra:1022 Mem:449.40M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_platform_lip
+Fra:1022 Mem:449.41M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | teak_swim_platform
+Fra:1022 Mem:449.44M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_2
+Fra:1022 Mem:449.44M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_1
+Fra:1022 Mem:449.44M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_2_0
+Fra:1022 Mem:449.45M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_2
+Fra:1022 Mem:449.45M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_2
+Fra:1022 Mem:449.48M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_2
+Fra:1022 Mem:449.52M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_2
+Fra:1022 Mem:449.54M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_2
+Fra:1022 Mem:449.54M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_2
+Fra:1022 Mem:449.55M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_1
+Fra:1022 Mem:449.55M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_1_0
+Fra:1022 Mem:449.55M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_1
+Fra:1022 Mem:449.55M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_1
+Fra:1022 Mem:449.58M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_1
+Fra:1022 Mem:449.62M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_1
+Fra:1022 Mem:449.64M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_1
+Fra:1022 Mem:449.65M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_2
+Fra:1022 Mem:449.65M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_1
+Fra:1022 Mem:449.65M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_p_0_0
+Fra:1022 Mem:449.65M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_p_0
+Fra:1022 Mem:449.66M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_p_0
+Fra:1022 Mem:449.69M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_p_0
+Fra:1022 Mem:449.73M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_p_0
+Fra:1022 Mem:449.75M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_p_0
+Fra:1022 Mem:449.75M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_2
+Fra:1022 Mem:449.75M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_1
+Fra:1022 Mem:449.75M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_2_0
+Fra:1022 Mem:449.76M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_2
+Fra:1022 Mem:449.76M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_2
+Fra:1022 Mem:449.79M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_2
+Fra:1022 Mem:449.83M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_2
+Fra:1022 Mem:449.85M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_2
+Fra:1022 Mem:449.85M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_2
+Fra:1022 Mem:449.86M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_1
+Fra:1022 Mem:449.86M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_1_0
+Fra:1022 Mem:449.86M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_1
+Fra:1022 Mem:449.86M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_1
+Fra:1022 Mem:449.89M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_1
+Fra:1022 Mem:449.93M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_1
+Fra:1022 Mem:449.95M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_1
+Fra:1022 Mem:449.96M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_2
+Fra:1022 Mem:449.96M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_1
+Fra:1022 Mem:449.96M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_dog_s_0_0
+Fra:1022 Mem:449.96M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | glass_cabin_hull_s_0
+Fra:1022 Mem:449.97M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_gasket_porthole_s_0
+Fra:1022 Mem:450.00M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_rim_s_0
+Fra:1022 Mem:450.04M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_porthole_flange_s_0
+Fra:1022 Mem:450.06M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | interior_porthole_curtain_s_0
+Fra:1022 Mem:450.06M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_stripe_p
+Fra:1022 Mem:450.07M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_stripe_s
+Fra:1022 Mem:450.08M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_rubrail_p
+Fra:1022 Mem:450.12M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | steel_rubrail_s
+Fra:1022 Mem:450.16M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_rubrail_p
+Fra:1022 Mem:450.20M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | trim_rubrail_s
+Fra:1022 Mem:450.25M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hull_transom
+Fra:1022 Mem:450.26M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | gelcoat_hull
+Fra:1022 Mem:450.66M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | OceanHorizon
+Fra:1022 Mem:450.66M (Peak 476.25M) | Time:00:01.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Ocean
+Fra:1022 Mem:529.50M (Peak 534.78M) | Time:00:01.73 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_body
+Fra:1022 Mem:541.69M (Peak 542.96M) | Time:00:01.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eye.L
+Fra:1022 Mem:545.06M (Peak 545.21M) | Time:00:01.77 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eye.R
+Fra:1022 Mem:563.89M (Peak 563.90M) | Time:00:01.78 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyebrows
+Fra:1022 Mem:565.07M (Peak 565.07M) | Time:00:01.78 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyedot.L
+Fra:1022 Mem:565.07M (Peak 565.07M) | Time:00:01.78 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_eyedot.R
+Fra:1022 Mem:565.07M (Peak 565.07M) | Time:00:01.78 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_hoodie
+Fra:1022 Mem:594.25M (Peak 598.58M) | Time:00:01.81 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_teeth_btm
+Fra:1022 Mem:595.53M (Peak 598.58M) | Time:00:01.82 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_teeth_top
+Fra:1022 Mem:596.81M (Peak 598.58M) | Time:00:01.82 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_tongue
+Fra:1022 Mem:597.31M (Peak 598.58M) | Time:00:01.82 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_head
+Fra:1022 Mem:609.03M (Peak 610.29M) | Time:00:01.83 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_shoes_base
+Fra:1022 Mem:653.58M (Peak 656.50M) | Time:00:01.93 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_shoes_extra
+Fra:1022 Mem:686.09M (Peak 704.36M) | Time:00:01.97 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_joggers
+Fra:1022 Mem:687.27M (Peak 704.36M) | Time:00:01.97 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_cap
+Fra:1022 Mem:695.33M (Peak 704.36M) | Time:00:01.99 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_drawstrings
+Fra:1022 Mem:695.47M (Peak 704.36M) | Time:00:01.99 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-hero_hood
+Fra:1022 Mem:697.06M (Peak 704.36M) | Time:00:01.99 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | GEO-jay_pants
+Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.02 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.02 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading hero_palenciaga_print
+Fra:1022 Mem:718.32M (Peak 721.55M) | Time:00:02.02 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading jay.dirt_map
+Fra:1022 Mem:723.13M (Peak 724.73M) | Time:00:02.03 | Mem:0.80M, Peak:0.80M | Scene, ViewLayer | Updating Images | Loading jay.skin
+Fra:1022 Mem:735.14M (Peak 743.15M) | Time:00:02.05 | Mem:4.80M, Peak:4.80M | Scene, ViewLayer | Updating Images | Loading jay.bruise_map
+Fra:1022 Mem:731.13M (Peak 743.15M) | Time:00:02.05 | Mem:8.80M, Peak:8.80M | Scene, ViewLayer | Updating Images | Loading jay.clothes
+Fra:1022 Mem:795.13M (Peak 803.14M) | Time:00:02.07 | Mem:12.80M, Peak:12.80M | Scene, ViewLayer | Updating Images | Loading jay.bruise_map
+Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.30 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Waiting for render to start
+Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.30 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.30 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Updating Scene
+Fra:1022 Mem:799.13M (Peak 927.14M) | Time:00:02.30 | Mem:80.80M, Peak:80.80M | Scene, ViewLayer | Updating Shaders
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Procedurals
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Background
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Camera
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Objects
+Fra:1022 Mem:800.05M (Peak 927.14M) | Time:00:02.31 | Mem:81.64M, Peak:81.64M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.31 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.32 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Particle Systems
+Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.32 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1022 Mem:800.17M (Peak 927.14M) | Time:00:02.32 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Meshes
+Fra:1022 Mem:840.61M (Peak 927.14M) | Time:00:02.38 | Mem:81.75M, Peak:81.75M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1022 Mem:941.26M (Peak 941.26M) | Time:00:02.43 | Mem:81.78M, Peak:81.78M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.43 | Mem:182.31M, Peak:182.31M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_hair 1/4 | Building BVH
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.43 | Mem:185.83M, Peak:185.83M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_hair 1/4 | Building BVH 0%
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.43 | Mem:185.83M, Peak:185.83M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_head 4/4 | Building BVH
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.45 | Mem:193.38M, Peak:195.06M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_tongue 3/4 | Building BVH
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.45 | Mem:194.46M, Peak:195.06M | Scene, ViewLayer | Updating Geometry BVH Data_GEO-jay_body 2/4 | Building BVH
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.46 | Mem:197.61M, Peak:200.70M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.46 | Mem:197.61M, Peak:200.70M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.68 | Mem:295.45M, Peak:295.45M | Scene, ViewLayer | Updating Scene BVH | Building BVH 15%
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:02.93 | Mem:389.45M, Peak:389.45M | Scene, ViewLayer | Updating Scene BVH | Building BVH 77%
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:03.01 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1022 Mem:941.18M (Peak 941.26M) | Time:00:03.01 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:349.61M, Peak:423.45M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Objects Flags
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_nor_gl_2k.jpg
+Fra:1022 Mem:1032.60M (Peak 1032.60M) | Time:00:03.05 | Mem:441.03M, Peak:441.03M | Scene, ViewLayer | Updating Images | Loading ph_moonlit_golf_1024x512_clamped.exr
+Fra:1022 Mem:1056.60M (Peak 1056.60M) | Time:00:03.07 | Mem:449.03M, Peak:449.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_diff_2k.jpg
+Fra:1022 Mem:1072.60M (Peak 1072.60M) | Time:00:03.10 | Mem:465.03M, Peak:465.03M | Scene, ViewLayer | Updating Images | Loading brown_planks_05_rough_2k.jpg
+Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.11 | Mem:485.03M, Peak:485.03M | Scene, ViewLayer | Updating Camera Volume
+Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.11 | Mem:485.03M, Peak:485.03M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1022 Mem:1076.60M (Peak 1076.60M) | Time:00:03.11 | Mem:485.12M, Peak:485.12M | Scene, ViewLayer | Updating Lights
+Fra:1022 Mem:1076.61M (Peak 1076.61M) | Time:00:03.11 | Mem:485.12M, Peak:485.12M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1022 Mem:1140.64M (Peak 1428.61M) | Time:00:11.12 | Mem:549.16M, Peak:709.13M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1022 Mem:1141.17M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Integrator
+Fra:1022 Mem:1141.17M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Film
+Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.13 | Mem:549.62M, Peak:709.13M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Baking
+Fra:1022 Mem:1141.18M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1022 Mem:1141.19M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1022 Mem:1141.19M (Peak 1428.61M) | Time:00:11.13 | Mem:549.70M, Peak:709.13M | Scene, ViewLayer | Sample 0/12
+Fra:1022 Mem:1178.77M (Peak 1428.61M) | Time:00:15.54 | Remaining:00:48.48 | Mem:587.27M, Peak:709.13M | Scene, ViewLayer | Sample 1/12
+Fra:1022 Mem:1178.77M (Peak 1428.61M) | Time:00:50.42 | Remaining:00:13.09 | Mem:587.27M, Peak:709.13M | Scene, ViewLayer | Sample 9/12
+Fra:1022 Mem:1194.59M (Peak 1428.61M) | Time:01:03.81 | Mem:587.27M, Peak:709.13M | Scene, ViewLayer | Sample 12/12
+Fra:1022 Mem:1194.59M (Peak 1428.61M) | Time:01:03.81 | Mem:587.27M, Peak:709.13M | Scene, ViewLayer | Finished
+Fra:1022 Mem:1194.60M (Peak 1428.61M) | Time:01:03.81 | Compositing
+Fra:1022 Mem:1194.60M (Peak 1428.61M) | Time:01:03.81 | Compositing | Initializing execution
+Fra:1022 Mem:1194.60M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 2-19
+Fra:1022 Mem:1194.60M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 3-19
+Fra:1022 Mem:1202.58M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 4-19
+Fra:1022 Mem:1202.58M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 5-19
+Fra:1022 Mem:1202.58M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 6-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.81 | Compositing | Operation 7-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.82 | Compositing | Operation 8-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.82 | Compositing | Operation 9-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.82 | Compositing | Operation 10-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.82 | Compositing | Operation 11-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.83 | Compositing | Operation 12-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.83 | Compositing | Operation 13-19
+Fra:1022 Mem:1203.07M (Peak 1428.61M) | Time:01:03.83 | Compositing | Operation 14-19
+Fra:1022 Mem:1210.49M (Peak 1428.61M) | Time:01:03.83 | Compositing | Operation 15-19
+Fra:1022 Mem:1210.49M (Peak 1428.61M) | Time:01:03.84 | Compositing | Operation 16-19
+Fra:1022 Mem:1210.49M (Peak 1428.61M) | Time:01:03.84 | Compositing | Operation 17-19
+Fra:1022 Mem:1210.49M (Peak 1428.61M) | Time:01:03.84 | Compositing | Operation 18-19
+Fra:1022 Mem:1202.58M (Peak 1428.61M) | Time:01:03.84 | Compositing | Operation 19-19
+Fra:1022 Mem:1202.58M (Peak 1428.61M) | Time:01:03.84 | Compositing | Operation 20-19
 Saved: '/home/user/story-animator/episodes/waterspout_v2/boards/keys/S18/1022.png'
-Time: 00:13.25 (Saving: 00:00.08)
+Time: 01:04.03 (Saving: 00:00.18)
 
-[render_episode] shot S18 frame 1022: 13.5s
-[render_episode] done: 1 frames in 31.2s
+[render_episode] shot S18 frame 1022: 64.31s
+[render_episode] done: 1 frames in 80.0s
 
 Blender quit

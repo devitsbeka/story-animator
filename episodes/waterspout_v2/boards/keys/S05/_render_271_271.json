@@ -8,14 +8,14 @@
  "device": "CPU",
  "quality": "preview",
  "resolution": [
-  144,
-  256
+  540,
+  960
  ],
  "camera": "main",
- "samples": 4,
+ "samples": 12,
  "blender": "4.2.3 LTS",
  "secondsPerFrame": {
-  "271": 12.88
+  "271": 72.88
  },
  "warnings": [
   "EEVEE requested but no EGL/GPU context here; falling back to Cycles"
@@ -35,7 +35,7 @@
     "name": "hero_wrap_0",
     "role": "face_wrap",
     "motivation": "sky",
-    "energy": 0.3436
+    "energy": 0.3733
    },
    {
     "name": "hero_fill_0",
@@ -53,13 +53,13 @@
     "name": "hero_facekey_0",
     "role": "face_key",
     "motivation": "moon",
-    "energy": 17.354
+    "energy": 14.4606
    },
    {
     "name": "hero_eyelight_0",
     "role": "eye_light",
     "motivation": "cheat:eye_light",
-    "energy": 7.5148
+    "energy": 7.5706
    }
   ],
   "checks": {
@@ -93,7 +93,7 @@
    }
   ],
   "cheats": [
-   "face_key: moon swung -22 deg toward camera"
+   "face_key: moon swung -12 deg toward camera"
   ],
   "hero": {
    "E_key": 1.88,
@@ -101,8 +101,8 @@
    "E_ambient_est": 0.097,
    "key_fill_ratio": 5.8,
    "rim_scale": 1.0,
-   "backlit": -0.3,
-   "cam_dist_m": 1.68,
+   "backlit": -0.46,
+   "cam_dist_m": 1.69,
    "shadow_side_radiance_est": 0.0464
   },
   "motion_blur": "off",
@@ -119,12 +119,12 @@
   "face_meter": {
    "frame": 271,
    "shot_size": "MS",
-   "frame_h_m": 1.07,
+   "frame_h_m": 1.09,
    "visible": true,
-   "facing": 0.48,
-   "E_fixed": 0.8833,
-   "E_hero_cheats": 1.3102,
-   "trim": 1.263,
+   "facing": 0.31,
+   "E_fixed": 1.1219,
+   "E_hero_cheats": 1.0322,
+   "trim": 1.372,
    "E_face": 2.538,
    "E_target": 2.538,
    "face_ev": 1.964,
@@ -132,10 +132,10 @@
    "exposure": 0.62,
    "parts": {
     "sky": 0.0974,
-    "Moon": 0.7186,
-    "cabin_light": 0.0673,
-    "hero_wrap_0": 0.1521,
-    "hero_facekey_0": 1.1581
+    "Moon": 0.9743,
+    "cabin_light": 0.0502,
+    "hero_wrap_0": 0.1517,
+    "hero_facekey_0": 0.8805
    }
   }
  },

@@ -8,14 +8,14 @@
  "device": "CPU",
  "quality": "preview",
  "resolution": [
-  144,
-  256
+  540,
+  960
  ],
  "camera": "main",
- "samples": 4,
+ "samples": 12,
  "blender": "4.2.3 LTS",
  "secondsPerFrame": {
-  "437": 13.49
+  "437": 73.95
  },
  "warnings": [
   "EEVEE requested but no EGL/GPU context here; falling back to Cycles"
