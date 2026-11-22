@@ -1,0 +1,1189 @@
+{
+ "$schema": "../../factory/sound/sound.schema.json",
+ "version": 1,
+ "episode": "waterspout_v2",
+ "fps": 30,
+ "durationFrames": 2160,
+ "sampleRate": 48000,
+ "source": {
+  "episode": "episodes/waterspout_v2/episode.json",
+  "words": "episodes/waterspout_v2/audio/narration.words.json",
+  "generator": "factory/sound/designer.py"
+ },
+ "loudness": {
+  "integratedLUFS": -14.0,
+  "toleranceLU": 1.0,
+  "truePeakDBTP": -1.0,
+  "limiterCeilingDBFS": -2.0,
+  "shortTermRangeLUFS": [
+   -17.0,
+   -10.0
+  ],
+  "musicUnderVoiceDB": [
+   18.0,
+   22.0
+  ],
+  "ambienceUnderVoiceDB": [
+   24.0,
+   30.0
+  ]
+ },
+ "voice": {
+  "file": "episodes/waterspout_v2/audio/narration.mp3",
+  "words": "episodes/waterspout_v2/audio/narration.words.json",
+  "offsetFrames": 0,
+  "gainDB": 0.0,
+  "leveler": {
+   "maxBoostDB": 6.0,
+   "maxCutDB": 4.0,
+   "smoothS": 1.2
+  }
+ },
+ "ducking": {
+  "mode": "envelope",
+  "attackMs": 75,
+  "releaseMs": 320,
+  "bridgeGapS": 0.8,
+  "musicSpeechDB": -20.0,
+  "musicGapDB": -8.0,
+  "musicOutroDB": -1.0,
+  "ambienceSpeechDB": -27.0,
+  "ambienceGapDB": -21.0
+ },
+ "beds": [
+  {
+   "id": "bed_ocean",
+   "sfx": "ocean_waves",
+   "from": 0,
+   "to": 2160,
+   "relDB": 0.0,
+   "fadeIn": 0,
+   "fadeOut": 0,
+   "bus": "ambience",
+   "shots": [
+    "*"
+   ],
+   "reason": "S-6 continuous world bed"
+  },
+  {
+   "id": "bed_wind",
+   "sfx": "wind_sea",
+   "from": 0,
+   "to": 2160,
+   "relDB": -4.0,
+   "fadeIn": 0,
+   "fadeOut": 0,
+   "bus": "ambience",
+   "shots": [
+    "*"
+   ],
+   "reason": "S-6 night wind"
+  },
+  {
+   "id": "bed_radio",
+   "sfx": "radio_static",
+   "from": 226,
+   "to": 316,
+   "relDB": -2.0,
+   "fadeIn": 3,
+   "fadeOut": 12,
+   "bus": "ambience",
+   "shots": [
+    "S05"
+   ],
+   "reason": "VHF static under the radio scene"
+  }
+ ],
+ "cues": [
+  {
+   "id": "impact_000",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 0,
+   "anchor": "onset",
+   "relDB": 0.0,
+   "transient": true,
+   "shot": "S01",
+   "reveal": "hook",
+   "reason": "impact on hook"
+  },
+  {
+   "id": "ui_001",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 6,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "S01",
+   "reason": "caption emphasis 'boat'"
+  },
+  {
+   "id": "whoosh_002",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 38,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S02",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S01->S02"
+  },
+  {
+   "id": "spot_003",
+   "type": "spot",
+   "sfx": "thunder",
+   "at": 82,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S02",
+   "dur": 0.23,
+   "fadeOutMs": 70,
+   "reason": "canon key sound in narration gap G01 (Thunder crack on the whip pan to the funnel.)",
+   "gap": "G01"
+  },
+  {
+   "id": "whoosh_004",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 98,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S03",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S02->S03"
+  },
+  {
+   "id": "whoosh_005",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 176,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S04",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S03->S04"
+  },
+  {
+   "id": "whoosh_006",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 226,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S05",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S04->S05"
+  },
+  {
+   "id": "spot_007",
+   "type": "spot",
+   "sfx": "radio_static",
+   "at": 228,
+   "anchor": "start",
+   "relDB": -13.0,
+   "transient": true,
+   "shot": "S05",
+   "dur": 0.22,
+   "fadeOutMs": 30,
+   "reason": "PTT squelch"
+  },
+  {
+   "id": "spot_008",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 259,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "S05",
+   "reason": "press_twice on S05"
+  },
+  {
+   "id": "spot_009",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 263,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "S05",
+   "reason": "press_twice on S05"
+  },
+  {
+   "id": "ui_010",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 306,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "S05",
+   "reason": "caption emphasis 'spinning'"
+  },
+  {
+   "id": "whoosh_011",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 316,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S06",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S05->S06"
+  },
+  {
+   "id": "whoosh_012",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 368,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S07",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S06->S07"
+  },
+  {
+   "id": "whoosh_013",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 417,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S08",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S07->S08"
+  },
+  {
+   "id": "whoosh_014",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 457,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S09",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S08->S09"
+  },
+  {
+   "id": "spot_015",
+   "type": "spot",
+   "sfx": "impact_boom",
+   "at": 497,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S09",
+   "dur": 0.2,
+   "fadeOutMs": 60,
+   "reason": "canon key sound in narration gap G04 (Sail snaps full as he runs.)",
+   "gap": "G04"
+  },
+  {
+   "id": "whoosh_016",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 512,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S10",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S09->S10"
+  },
+  {
+   "id": "whoosh_017",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 640,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S11",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S10->S11"
+  },
+  {
+   "id": "whoosh_018",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 702,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S12",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S11->S12"
+  },
+  {
+   "id": "whoosh_019",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 735,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S13",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S12->S13"
+  },
+  {
+   "id": "spot_020",
+   "type": "spot",
+   "sfx": "whoosh_low",
+   "at": 760,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S13",
+   "dur": 0.2,
+   "fadeOutMs": 60,
+   "reason": "canon key sound in narration gap G06 (Gust heels the boat.)",
+   "gap": "G06"
+  },
+  {
+   "id": "whoosh_021",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 775,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S14",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S13->S14"
+  },
+  {
+   "id": "ui_022",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 813,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "S14",
+   "reason": "caption emphasis 'down'"
+  },
+  {
+   "id": "whoosh_023",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 821,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S15",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S14->S15"
+  },
+  {
+   "id": "whoosh_024",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 867,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S16",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S15->S16"
+  },
+  {
+   "id": "whoosh_025",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 910,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S17",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S16->S17"
+  },
+  {
+   "id": "ui_026",
+   "type": "ui",
+   "sfx": "ui_tick",
+   "at": 948,
+   "anchor": "onset",
+   "relDB": -20.0,
+   "transient": true,
+   "shot": "S17",
+   "reason": "caption emphasis 'gap'"
+  },
+  {
+   "id": "spot_027",
+   "type": "spot",
+   "sfx": "whoosh_low",
+   "at": 959,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S17",
+   "dur": 0.93,
+   "fadeOutMs": 250,
+   "reason": "canon key sound in narration gap G07 (Full funnel roar under the midpoint wide.)",
+   "gap": "G07"
+  },
+  {
+   "id": "impact_028",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 996,
+   "anchor": "onset",
+   "relDB": 0.0,
+   "transient": true,
+   "shot": "S18",
+   "reveal": "step_one",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_029",
+   "type": "riser",
+   "sfx": "riser_reverse",
+   "at": 996,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "S18",
+   "dur": 2.5,
+   "reveal": "step_one",
+   "reason": "riser into step_one"
+  },
+  {
+   "id": "whoosh_030",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 996,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S18",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S17->S18"
+  },
+  {
+   "id": "whoosh_031",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1049,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S19",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S18->S19"
+  },
+  {
+   "id": "whoosh_032",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1105,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S20",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S19->S20"
+  },
+  {
+   "id": "spot_033",
+   "type": "spot",
+   "sfx": "coral_crunch",
+   "at": 1140,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S20",
+   "dur": 0.4,
+   "fadeOutMs": 119,
+   "reason": "canon key sound in narration gap G08 (Bow slams a wave.)",
+   "gap": "G08"
+  },
+  {
+   "id": "impact_034",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1161,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "S21",
+   "reveal": "step_two",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_035",
+   "type": "riser",
+   "sfx": "riser_noise",
+   "at": 1161,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "S21",
+   "dur": 2.5,
+   "reveal": "step_two",
+   "reason": "riser into step_two"
+  },
+  {
+   "id": "whoosh_036",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1161,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S21",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S20->S21"
+  },
+  {
+   "id": "whoosh_037",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1230,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S22",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S21->S22"
+  },
+  {
+   "id": "whoosh_038",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1325,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S23",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S22->S23"
+  },
+  {
+   "id": "spot_039",
+   "type": "spot",
+   "sfx": "impact_boom",
+   "at": 1390,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S23",
+   "dur": 0.23,
+   "fadeOutMs": 70,
+   "reason": "canon key sound in narration gap G10 (Rigging thrums in the vortex wind.)",
+   "gap": "G10"
+  },
+  {
+   "id": "whoosh_040",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1406,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S24",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S23->S24"
+  },
+  {
+   "id": "whoosh_041",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1451,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S25",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S24->S25"
+  },
+  {
+   "id": "spot_042",
+   "type": "spot",
+   "sfx": "switch_click",
+   "at": 1484,
+   "anchor": "onset",
+   "relDB": -12.0,
+   "transient": true,
+   "shot": "S25",
+   "reason": "press on S25"
+  },
+  {
+   "id": "whoosh_043",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1518,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S26",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S25->S26"
+  },
+  {
+   "id": "whoosh_044",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1571,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S27",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S26->S27"
+  },
+  {
+   "id": "spot_045",
+   "type": "spot",
+   "sfx": "impact_boom",
+   "at": 1629,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S27",
+   "dur": 0.2,
+   "fadeOutMs": 60,
+   "reason": "canon key sound in narration gap G12 (Sail flogs in the confused gusts.)",
+   "gap": "G12"
+  },
+  {
+   "id": "whoosh_046",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1644,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S28",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S27->S28"
+  },
+  {
+   "id": "whoosh_047",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1696,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S29",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S28->S29"
+  },
+  {
+   "id": "whoosh_048",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1754,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S30",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S29->S30"
+  },
+  {
+   "id": "spot_049",
+   "type": "spot",
+   "sfx": "impact_boom",
+   "at": 1772,
+   "anchor": "onset",
+   "relDB": -4.0,
+   "transient": true,
+   "shot": "S30",
+   "dur": 1.4,
+   "fadeOutMs": 250,
+   "reason": "canon sound before words: FX:tiller_creak leads L16",
+   "lead_line": "L16"
+  },
+  {
+   "id": "impact_050",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1796,
+   "anchor": "onset",
+   "relDB": -3.0,
+   "transient": true,
+   "shot": "S31",
+   "reveal": "step_three",
+   "reason": "impact on step"
+  },
+  {
+   "id": "riser_051",
+   "type": "riser",
+   "sfx": "riser_reverse",
+   "at": 1796,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "S31",
+   "dur": 2.5,
+   "reveal": "step_three",
+   "reason": "riser into step_three"
+  },
+  {
+   "id": "whoosh_052",
+   "type": "whoosh",
+   "sfx": "whoosh_whip",
+   "at": 1796,
+   "anchor": "peak",
+   "relDB": -11.0,
+   "transient": true,
+   "shot": "S31",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S30->S31"
+  },
+  {
+   "id": "whoosh_053",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1848,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S32",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S31->S32"
+  },
+  {
+   "id": "whoosh_054",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1901,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S33",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S32->S33"
+  },
+  {
+   "id": "riser_055",
+   "type": "riser",
+   "sfx": "riser_noise",
+   "at": 1926,
+   "anchor": "end",
+   "relDB": -7.0,
+   "transient": false,
+   "shot": "S33",
+   "dur": 2.5,
+   "reveal": "payoff",
+   "reason": "riser into payoff"
+  },
+  {
+   "id": "spot_056",
+   "type": "spot",
+   "sfx": "impact_boom",
+   "at": 1927,
+   "anchor": "onset",
+   "relDB": -5.0,
+   "transient": true,
+   "shot": "S33",
+   "dur": 0.6,
+   "fadeOutMs": 180,
+   "reason": "canon key sound in narration gap G14 (Boom swings across as the funnel passes astern.)",
+   "gap": "G14"
+  },
+  {
+   "id": "impact_057",
+   "type": "impact",
+   "sfx": "impact_boom",
+   "at": 1941,
+   "anchor": "onset",
+   "relDB": 0.0,
+   "transient": true,
+   "shot": "S33",
+   "reveal": "payoff",
+   "reason": "impact on payoff"
+  },
+  {
+   "id": "whoosh_058",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 1954,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S34",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S33->S34"
+  },
+  {
+   "id": "whoosh_059",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2014,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S35",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S34->S35"
+  },
+  {
+   "id": "whoosh_060",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2056,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S36",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S35->S36"
+  },
+  {
+   "id": "whoosh_061",
+   "type": "whoosh",
+   "sfx": "whoosh_fast",
+   "at": 2112,
+   "anchor": "peak",
+   "relDB": -9.0,
+   "transient": true,
+   "shot": "S37",
+   "dur": 0.6,
+   "fadeOutMs": 80,
+   "reason": "cut S36->S37"
+  }
+ ],
+ "music": {
+  "engine": "procedural",
+  "bpm": 110,
+  "key": "D minor",
+  "sections": [
+   {
+    "id": "m00_hook",
+    "from": 0,
+    "to": 98,
+    "energy": 4,
+    "label": "hook",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m01_context",
+    "from": 98,
+    "to": 357,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m02_context",
+    "from": 357,
+    "to": 617,
+    "energy": 3,
+    "label": "context",
+    "hit": false,
+    "layer": 1,
+    "mood": "tense"
+   },
+   {
+    "id": "m03_swell",
+    "from": 617,
+    "to": 951,
+    "energy": 4,
+    "label": "swell",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m04_pre_midpoint_hold",
+    "from": 951,
+    "to": 996,
+    "energy": 2,
+    "label": "pre_midpoint_hold",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m05_midpoint",
+    "from": 996,
+    "to": 1161,
+    "energy": 5,
+    "label": "midpoint",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m06_escalation_2",
+    "from": 1161,
+    "to": 1176,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m07_escalation_2",
+    "from": 1176,
+    "to": 1495,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m08_swell",
+    "from": 1495,
+    "to": 1796,
+    "energy": 4,
+    "label": "swell",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m09_escalation_2",
+    "from": 1796,
+    "to": 1926,
+    "energy": 4,
+    "label": "escalation_2",
+    "hit": true,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m10_pre_payoff",
+    "from": 1926,
+    "to": 1941,
+    "energy": 0,
+    "label": "pre_payoff",
+    "hit": false,
+    "layer": 0,
+    "mood": "tense"
+   },
+   {
+    "id": "m11_payoff",
+    "from": 1941,
+    "to": 2160,
+    "energy": 5,
+    "label": "payoff",
+    "hit": true,
+    "layer": 0,
+    "mood": "resolve"
+   }
+  ],
+  "style": "pixar_night_survival",
+  "moods": [
+   "tense",
+   "dark",
+   "resolve"
+  ],
+  "instrumentation": [
+   "minor triad pad",
+   "sub drone",
+   "kick on the beat",
+   "off-beat hats",
+   "8th bass pulse",
+   "accent toms"
+  ]
+ },
+ "silences": [
+  {
+   "from": 1926,
+   "to": 1941,
+   "buses": [
+    "music",
+    "ambience",
+    "sfx"
+   ],
+   "reason": "P-5 hard silence before the payoff reveal"
+  }
+ ],
+ "reveals": [
+  {
+   "id": "hook",
+   "kind": "hook",
+   "at": 0,
+   "riserEnd": 0
+  },
+  {
+   "id": "step_one",
+   "kind": "step",
+   "at": 996,
+   "word": "Step one:",
+   "midpoint": true,
+   "riserEnd": 996
+  },
+  {
+   "id": "step_two",
+   "kind": "step",
+   "at": 1161,
+   "word": "Step two:",
+   "riserEnd": 1161
+  },
+  {
+   "id": "step_three",
+   "kind": "step",
+   "at": 1796,
+   "word": "Step three:",
+   "riserEnd": 1796
+  },
+  {
+   "id": "payoff",
+   "kind": "payoff",
+   "at": 1941,
+   "word": "breaks",
+   "riserEnd": 1926
+  }
+ ],
+ "gap_fills": [
+  {
+   "gap": "G01",
+   "purpose": "key_sfx",
+   "from": 80,
+   "to": 98,
+   "filled_by": "FX:thunder_crack"
+  },
+  {
+   "gap": "G02",
+   "purpose": "reaction",
+   "from": 197,
+   "to": 226,
+   "filled_by": "room_tone"
+  },
+  {
+   "gap": "G03",
+   "purpose": "reaction",
+   "from": 388,
+   "to": 417,
+   "filled_by": "room_tone"
+  },
+  {
+   "gap": "G04",
+   "purpose": "key_sfx",
+   "from": 495,
+   "to": 512,
+   "filled_by": "FX:sail_snap"
+  },
+  {
+   "gap": "G05",
+   "purpose": "music_swell",
+   "from": 617,
+   "to": 640,
+   "filled_by": "music"
+  },
+  {
+   "gap": "G06",
+   "purpose": "key_sfx",
+   "from": 758,
+   "to": 775,
+   "filled_by": "FX:wind_roar"
+  },
+  {
+   "gap": "G07",
+   "purpose": "key_sfx",
+   "from": 957,
+   "to": 996,
+   "filled_by": "FX:funnel_roar"
+  },
+  {
+   "gap": "G08",
+   "purpose": "key_sfx",
+   "from": 1138,
+   "to": 1161,
+   "filled_by": "FX:hull_slam"
+  },
+  {
+   "gap": "G09",
+   "purpose": "reaction",
+   "from": 1297,
+   "to": 1325,
+   "filled_by": "room_tone"
+  },
+  {
+   "gap": "G10",
+   "purpose": "key_sfx",
+   "from": 1388,
+   "to": 1406,
+   "filled_by": "FX:rigging_whine"
+  },
+  {
+   "gap": "G11",
+   "purpose": "music_swell",
+   "from": 1495,
+   "to": 1518,
+   "filled_by": "music"
+  },
+  {
+   "gap": "G12",
+   "purpose": "key_sfx",
+   "from": 1627,
+   "to": 1644,
+   "filled_by": "FX:sail_flog"
+  },
+  {
+   "gap": "G13",
+   "purpose": "reaction",
+   "from": 1753,
+   "to": 1796,
+   "filled_by": "room_tone"
+  },
+  {
+   "gap": "G14",
+   "purpose": "key_sfx",
+   "from": 1925,
+   "to": 1954,
+   "filled_by": "FX:boom_swing"
+  }
+ ],
+ "notes": [
+  "midpoint reveal = step_one at frame 996 (0.46 D)",
+  "whoosh on 36/36 cuts (100%)"
+ ]
+}

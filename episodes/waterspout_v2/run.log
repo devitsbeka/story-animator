@@ -54,3 +54,12 @@
 14:01:44 [waterspout_v2]     [HARD M-props-resolved] props used but not resolved (render_key prop:<name>) in manifest.json: ['helm']
 14:01:44 [waterspout_v2]     [HEUR P-6] the same camera preset is used twice in a row
 14:01:44 [waterspout_v2]     [HARD CAN-N3e] reserved_close_up S37 (70.13-72.00 s): words ['breaks—']; turn_then_change settle S06 (11.33-11.87 s): words ['spot', 'behind', 'you']; breath S22 (43.27-44.13 
+14:04:35 [waterspout_v2] [direct] attempt 3: PASS - 501 checks passed, 0 blocking, 1 overridden (170.9s, claude-opus-5-5)
+14:04:35 [waterspout_v2] [direct] wrote /home/user/story-animator/episodes/waterspout_v2/episode.json: 37 shots, 2160 frames
+14:04:35 [waterspout_v2] stage direct: done in 1171.2s ($3.423)
+14:04:35 [waterspout_v2] ALERT: stage direct took 3 attempts
+14:04:35 [waterspout_v2] run status: budget_exceeded  cost $7.21  time 3128s
+14:04:48 [waterspout_v2] stage 5b sound: start
+14:04:48 [waterspout_v2] stage 6 previs: start
+14:04:50 [waterspout_v2] voice leveler: ref S -18.4 LUFS, gain -2.0..+5.8 dB
+14:04:51 [waterspout_v2] voice loudness over speech -17.70 LUFS
