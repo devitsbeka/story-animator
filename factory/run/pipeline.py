@@ -557,7 +557,8 @@ class Pipeline:
         info = previs_mod.run(ep, self.p("episode.json"), bdir, audio=self._abs(ep["audio"]["narration"]),
                               shots=list(self.o.previs_shots) or None, stub=self.stub("previs"), res=self.o.previs_res,
                               samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log,
-                              backend="compute" if self.o.render == "compute" else "local")   # compute_broker
+                              backend="compute" if self.o.render == "compute" else "local",   # compute_broker
+                              mix=next((self._abs(a) for a in (self.st.stage("sound").get("artifacts") or []) if a.endswith(".m4a")), None))
         self.st.update_stage("previs", info={k: v for k, v in info.items() if k != "keys_dir"},
                              artifacts=[_rel(info["contact_sheet"]), _rel(info["animatic"])])
         if info.get("missing"):  # quality_gate (L012): every shot renders; a board with holes is not reviewable

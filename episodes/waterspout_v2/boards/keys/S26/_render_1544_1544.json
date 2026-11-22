@@ -8,14 +8,14 @@
  "device": "CPU",
  "quality": "preview",
  "resolution": [
-  144,
-  256
+  540,
+  960
  ],
  "camera": "main",
- "samples": 4,
+ "samples": 12,
  "blender": "4.2.3 LTS",
  "secondsPerFrame": {
-  "1544": 13.61
+  "1544": 66.65
  },
  "warnings": [
   "EEVEE requested but no EGL/GPU context here; falling back to Cycles"
@@ -35,13 +35,13 @@
     "name": "hero_wrap_0",
     "role": "face_wrap",
     "motivation": "sky",
-    "energy": 0.2681
+    "energy": 0.1915
    },
    {
     "name": "hero_fill_0",
     "role": "face_fill",
     "motivation": "bounce:water",
-    "energy": 0.8113
+    "energy": 0.7205
    },
    {
     "name": "hero_rim_0",
@@ -53,13 +53,13 @@
     "name": "hero_facekey_0",
     "role": "face_key",
     "motivation": "moon",
-    "energy": 19.5245
+    "energy": 7.5699
    },
    {
     "name": "hero_eyelight_0",
     "role": "eye_light",
     "motivation": "cheat:eye_light",
-    "energy": 6.5856
+    "energy": 6.8442
    }
   ],
   "checks": {
@@ -85,7 +85,7 @@
    }
   ],
   "cheats": [
-   "face_key: moon swung -35 deg toward camera"
+   "face_key: moon swung +0 deg toward camera"
   ],
   "hero": {
    "E_key": 1.8,
@@ -93,8 +93,8 @@
    "E_ambient_est": 0.079,
    "key_fill_ratio": 6.5,
    "rim_scale": 1.0,
-   "backlit": -0.08,
-   "cam_dist_m": 1.61,
+   "backlit": -0.82,
+   "cam_dist_m": 1.64,
    "shadow_side_radiance_est": 0.0397
   },
   "motion_blur": "off",
@@ -111,12 +111,12 @@
   "face_meter": {
    "frame": 1544,
    "shot_size": "MS",
-   "frame_h_m": 1.15,
+   "frame_h_m": 1.2,
    "visible": true,
-   "facing": 0.68,
-   "E_fixed": 0.5912,
-   "E_hero_cheats": 1.6331,
-   "trim": 1.126,
+   "facing": -0.07,
+   "E_fixed": 1.5377,
+   "E_hero_cheats": 1.1091,
+   "trim": 0.804,
    "E_face": 2.43,
    "E_target": 2.43,
    "face_ev": 1.881,
@@ -124,11 +124,11 @@
    "exposure": 0.6,
    "parts": {
     "sky": 0.0785,
-    "Moon": 0.4332,
-    "cabin_light": 0.0795,
-    "hero_wrap_0": 0.1508,
-    "hero_fill_0": 0.0192,
-    "hero_facekey_0": 1.4632
+    "Moon": 1.4441,
+    "cabin_light": 0.0099,
+    "nav_mast_light": 0.0052,
+    "hero_wrap_0": 0.1496,
+    "hero_facekey_0": 0.9595
    }
   }
  },

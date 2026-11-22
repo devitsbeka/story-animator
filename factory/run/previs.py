@@ -169,19 +169,28 @@ def animatic(spec, keys_dir, out_mp4, audio=None, offset_frames=0, size=(270, 48
                 f"[1:a]adelay={int(round(offset_frames / fps * 1000))}:all=1,apad[a]", "-map", "0:v", "-map", "[a]",
                 "-c:a", "aac", "-b:a", "96k"]
     cmd += ["-vf", f"scale={size[0]}:{size[1]}:force_original_aspect_ratio=decrease,pad={size[0]}:{size[1]}:(ow-iw)/2:(oh-ih)/2,fps={fps},format=yuv420p",
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "30", "-t", f"{total:.3f}", out_mp4]
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-movflags", "+faststart", "-t", f"{total:.3f}", out_mp4]
     subprocess.run(cmd, check=True)
     return out_mp4
 
 
 def run(spec, spec_path, boards_dir, audio=None, shots=None, stub=False, res="144x256", samples=4, workers=1,
-        blender=None, log=print, backend="local"):
+        blender=None, log=print, backend="local", mix=None):
     keys = os.path.join(boards_dir, "keys")
     k = render_keys(spec, spec_path, keys, shots=shots, res=res, samples=samples, workers=workers, blender=blender,
                     log_dir=os.path.join(boards_dir, "logs"), stub=stub, log=log, backend=backend)
     sheet = contact_sheet(spec, keys, os.path.join(boards_dir, "contact_sheet.png"))
-    anim = animatic(spec, keys, os.path.join(boards_dir, "animatic.mp4"), audio,
-                    (spec.get("audio") or {}).get("offsetFrames", 0))
+    # the animatic is watched, not just read: keyframe resolution (even), and the full mix when the sound stage made
+    # one (film timeline, no offset) instead of the bare narration
+    try:
+        w, h = (int(x) for x in str(res).lower().split("x"))
+        size = (w - w % 2, h - h % 2)
+    except ValueError:
+        size = (270, 480)
+    off = (spec.get("audio") or {}).get("offsetFrames", 0)
+    if mix and os.path.isfile(mix):
+        audio, off = mix, 0
+    anim = animatic(spec, keys, os.path.join(boards_dir, "animatic.mp4"), audio, off, size=size)
     info = {"keys_dir": keys, "contact_sheet": sheet, "animatic": anim, **k}
     with open(os.path.join(boards_dir, "previs.json"), "w") as fh:
         json.dump(info, fh, indent=1)

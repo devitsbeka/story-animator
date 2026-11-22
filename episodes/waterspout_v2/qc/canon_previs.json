@@ -3,12 +3,12 @@
  "rules": {
   "CAN-S1": {
    "desc": "threat shown to audience before the character notices",
-   "status": "FAIL",
-   "detail": "CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)",
+   "status": "PASS",
+   "detail": "{'PASS': 4}",
    "sub": {
     "CAN-S1a": {
-     "status": "FAIL",
-     "detail": "T1: on screen 0.93 s in the audience-only window (< 1.0 s)"
+     "status": "PASS",
+     "detail": "1 threat(s) planted ahead of notice"
     },
     "CAN-S1b": {
      "status": "PASS",
@@ -528,7 +528,7 @@
  "checks": {
   "shot_validator": {
    "rc": 0,
-   "tail": "ver in frame: []\n[PASS] LENS lens language: non-CU shots mostly 18-60 mm (<= 30% longer): 2/37 non-CU shots on > 60 mm equivalent\n[FAIL] OCC  hero not hidden behind the hull (camera->chest ray clear of the hull below deck): S04@176; S10@512; S12@714; S17@910; S19@1049; S22@1230; S26@1518; S31@1796\n[FAIL] VIS  subject in front of the camera and inside the frame: not visible on some frames: ['S14', 'S25', 'S30', 'S37']\n[WARN] TIER assets within 10 m of the camera are tier hero; placeholders previs-only (mode previs): prop:lamp (previs): 22 shots; yacht (previs): 29 shots; prop:radio (previs): 1 shots\n[PASS] PROXY camera not inside yacht/prop geometry (mesh proxies): ok\n[FAIL] CAN-C1 wide establishes geography (hero + boat + threat/tree line in one composition) before coverage: sea@isl(None,None,None): coverage starts at S05 with no wide holding hero + boat + island first\n[FAIL] CAN-C2 close-up reserved for the decisive reaction beat (director marks reserved_close_up): S08 casual CU (MCU->CU) in sea@isl(None,None,None) (reserved: None); S14 casual CU (ECU->ECU) in sea@isl(None,None,None) (reserved: None); S25 casual CU (CU->ECU) in sea@isl(None,None,None) (reserved: None); S30 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None); S37 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None)\n[FAIL] CAN-H1 impact handheld: subject briefly escapes frame, camera catches up a few frames late: S09: impact shot (shake 26.0 px) without impact_handheld (locked-off impact)\n"
+   "tail": "sland/fires; fires lit but never in frame: []\n[PASS] LENS lens language: non-CU shots mostly 18-60 mm (<= 30% longer): 2/37 non-CU shots on > 60 mm equivalent\n[FAIL] OCC  hero not hidden behind the hull (camera->chest ray clear of the hull below deck): S04@176; S10@512; S17@910; S19@1049; S31@1796\n[FAIL] VIS  subject in front of the camera and inside the frame: not visible on some frames: ['S14', 'S25', 'S30', 'S37']\n[WARN] TIER assets within 10 m of the camera are tier hero; placeholders previs-only (mode previs): prop:lamp (previs): 22 shots; yacht (previs): 29 shots; prop:radio (previs): 1 shots\n[PASS] PROXY camera not inside yacht/prop geometry (mesh proxies): ok\n[FAIL] CAN-C1 wide establishes geography (hero + boat + threat/tree line in one composition) before coverage: sea@isl(None,None,None): coverage starts at S05 with no wide holding hero + boat + island first\n[FAIL] CAN-C2 close-up reserved for the decisive reaction beat (director marks reserved_close_up): S08 casual CU (MCU->CU) in sea@isl(None,None,None) (reserved: None); S14 casual CU (ECU->ECU) in sea@isl(None,None,None) (reserved: None); S25 casual CU (CU->ECU) in sea@isl(None,None,None) (reserved: None); S30 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None); S37 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None)\n[FAIL] CAN-H1 impact handheld: subject briefly escapes frame, camera catches up a few frames late: S09: impact shot (shake 26.0 px) without impact_handheld (locked-off impact)\n"
   },
   "lighting_continuity": {
    "rc": 0,
@@ -553,8 +553,8 @@
   }
  },
  "summary": {
-  "PASS": 13,
-  "FAIL": 3,
+  "PASS": 14,
+  "FAIL": 2,
   "MANUAL": 1
  }
 }
