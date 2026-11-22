@@ -23,6 +23,8 @@ Rules evaluated (status pass | fail | warn | skip):
   COL camera under water / inside the hull    OCC hero hidden behind the hull (ray test)
   CTX story-first framing (island / fires on screen)   LENS lens language (non-CU shots mostly 18-60 mm)
   C6 C10 C12 C13 need gaze / audio / rendered pixels -> skip (reported).
+  Craft canon (factory/canon): CAN-C1 a wide holding hero + boat + island/tree line before any coverage per location;
+  CAN-C2 hero CUs only on the sequence's reserved_close_up; CAN-H1 impacts: subject escapes 2-12 f, catch-up 2-10 f late.
 """
 import argparse
 import json
@@ -35,6 +37,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import camgeo as G  # noqa: E402
 
 TIGHT = {"CU", "ECU"}
+FACE_VIS_MAX = 80.0      # polish_camera: deg between the lens and the face normal beyond which the face does not read
+FACE_ABOVE_MAX = 40.0    # deg the lens may sit above a lowered face's normal before the cap brim hides it
 COL_CLEAR = 0.15        # polish_camera: minimum air (m) between the lens and any yacht surface
 WIDE = {"WS", "EWS"}
 CENTRE_TOL = 0.08
@@ -163,6 +167,11 @@ def analyse_shot(ep, shot):
         subj = lambda f: G.camera_world(shot, f, jitter=False)[1]
     centre_from = d.get("centre_from", f0)
     exempt = bool(d.get("pov") or d.get("insert"))
+    # craft canon CAN-H1: an impact_handheld reaction window lets the subject escape the frame on purpose
+    cex = [tuple(w) for w in d.get("centre_exempt") or []]
+
+    def in_cex(f):
+        return any(w0 <= f <= w1 for w0, w1 in cex)
     samples = []
     for f in frames:
         cam, look, fov, roll = G.camera_world(shot, f, jitter=True)
@@ -194,9 +203,9 @@ def analyse_shot(ep, shot):
     else:
         size = G.classify_size(fhs[len(fhs) // 2], subj_h)
     lens = statistics.median(G.vfov_to_lens(s["fov"], aspect) for s in samples)
-    dxs = [abs(s["sx"] - 0.5) for s in samples if s["sx"] is not None and s["f"] >= centre_from]
-    behind = [s["f"] for s in samples if s["sx"] is None]
-    offscreen = [s["f"] for s in samples if s["sx"] is not None and not (0 <= s["sx"] <= 1 and 0 <= s["sy"] <= 1)]
+    dxs = [abs(s["sx"] - 0.5) for s in samples if s["sx"] is not None and s["f"] >= centre_from and not in_cex(s["f"])]
+    behind = [s["f"] for s in samples if s["sx"] is None and not in_cex(s["f"])]
+    offscreen = [s["f"] for s in samples if s["sx"] is not None and not (0 <= s["sx"] <= 1 and 0 <= s["sy"] <= 1) and not in_cex(s["f"])]
 
     # motion (keys only: no drift / handheld noise)
     m_frames = []
@@ -289,7 +298,7 @@ def analyse_shot(ep, shot):
     if a is not None and subj_kind == "hero" and not exempt and not d.get("ots"):
         for s in samples:
             fc = s.get("face")
-            if not fc or s.get("size") not in ("ECU", "CU", "MCU", "MS") or s["f"] < centre_from:
+            if not fc or s.get("size") not in ("ECU", "CU", "MCU", "MS") or s["f"] < centre_from or in_cex(s["f"]):
                 continue
             u = (s["f"] - f0) / max(1, f1 - f0)       # a tilt frames the hands on purpose until it reaches the face
             if (d.get("preset") == "tilt_up" and u < 0.7) or (d.get("preset") == "tilt_down" and u > 0.3):
@@ -305,6 +314,18 @@ def analyse_shot(ep, shot):
                 crop.append((s["f"], f"face cropped (brow {by:.2f}, chin {cy:.2f})"))
     key = shot.get("keyFrame", (f0 + f1) // 2)
     ks = min(samples, key=lambda s: abs(s["f"] - key))
+    # face visibility at the key frame (polish_camera): face normal = body facing squared to the brow..chin axis
+    # (so a look-down pitches it); the angle to the lens, and how far the lens sits above that normal (a cap brim
+    # hides a lowered face seen from above: v6's first A02 render)
+    face_vis = None
+    if a is not None and subj_kind == "hero" and yacht and ks.get("eye_p"):
+        br, ch = actor_landmark(shot, a, ks["f"], "brow"), actor_landmark(shot, a, ks["f"], "chin")
+        u = G.unit(G.sub(br, ch))
+        fh = G.yaw_dir(yacht["heading"] + a.get("rotY", 0.0))
+        n_ = G.unit(G.sub(fh, G.mul(u, G.dot(fh, u))))
+        tc = G.unit(G.sub(ks["cam"], ks["eye_p"]))
+        face_vis = {"angle": round(math.degrees(math.acos(max(-1.0, min(1.0, G.dot(n_, tc))))), 1),
+                    "above_normal": round(math.degrees(math.asin(max(-1.0, min(1.0, tc[1]))) - math.asin(max(-1.0, min(1.0, n_[1])))), 1)}
     # story anchors on screen at the key frame (no occlusion test): island coast, fires, the yacht
     isl = shot["island"] if "island" in shot else (ep.get("world") or {}).get("island")
     coast, fires = island_anchors(isl)
@@ -316,8 +337,48 @@ def analyse_shot(ep, shot):
     lit = [i for i, v in enumerate(G.keyed_vec_any(shot.get("fires"), ks["f"])) if v > 0.05]
     anchors = {"island": sum(on(p) for p in coast), "fires": sum(on(fires[i]) for i in lit) if fires else 0,
                "yacht": bool(yacht) and on(G.YachtFrame(yacht, ks["f"]).body_to_world([0, 2.0, 0]))}
+    # >>> craft canon CAN-C1: frames whose composition holds the geography (hero + boat + island/tree line/fires)
+    geo = []
+    for s_ in samples:
+        cam_, look_, fov_, roll_ = G.camera_world(shot, s_["f"], jitter=False)
+
+        def on_(p, m=0.02):
+            x_, y_, _ = G.project(cam_, look_, roll_, fov_, aspect, p)
+            return x_ is not None and m <= x_ <= 1 - m and m <= y_ <= 1 - m
+        hero_on = a is not None and on_(actor_landmark(shot, a, s_["f"], "chest"), 0.0)
+        boat_on = bool(yacht) and on_(G.YachtFrame(yacht, s_["f"]).body_to_world([0, 2.0, 0]))
+        land_on = sum(on_(p) for p in coast) + (sum(on_(p) for p in fires) if fires else 0)
+        if hero_on and boat_on and land_on and s_.get("size") in WIDE:
+            geo.append(s_["f"])
+    # >>> craft canon CAN-H1: measured operator reaction around an impact (per frame, as rendered)
+    impact = None
+    ih = d.get("impact_handheld")
+    imp_f = (ih or {}).get("impact", d.get("impact"))
+    if imp_f is not None and a is not None:
+        dx = []
+        for f in range(int(imp_f) - 2, min(f1, int(imp_f) + 40) + 1):
+            cam_, look_, fov_, roll_ = G.camera_world(shot, f, jitter=True)
+            x_, y_, _ = G.project(cam_, look_, roll_, fov_, aspect, actor_landmark(shot, a, f, "chest"))
+            dx.append((f, 9.0 if x_ is None else abs(x_ - 0.5)))
+        post = [(f, v) for f, v in dx if f >= imp_f]
+        esc = sum(1 for f, v in post if v > 0.5)
+        peak_i = max(range(len(post)), key=lambda i: post[i][1]) if post else 0
+        # catch-up start: walk back from the frame the subject re-enters the frame along the monotonic fall of
+        # the offset (the operator's correction); the jolt hold before it can wobble with the boat
+        start = None
+        back_in = next((i for i in range(peak_i, len(post)) if post[i][1] <= 0.5), None)
+        if back_in is not None and post[peak_i][1] > 0.5:
+            i = back_in
+            while i > 0 and post[i - 1][1] >= post[i][1] + 0.01:
+                i -= 1
+            start = post[i][0]
+        recentred = next((f for f, v in post[peak_i:] if v < CENTRE_TOL), None)
+        impact = {"impact": imp_f, "escape_frames": esc, "lag_frames": None if start is None else start - imp_f,
+                  "recentred_at": recentred, "declared": ih}
     return {
         "id": shot["id"], "title": shot.get("title", ""), "from": shot["from"], "to": shot["to"],
+        "geo_frames": geo, "impact": impact, "face_vis": face_vis, "impact_declared": bool(d.get("impact") is not None or ih),
+        "reserved_cu": bool(d.get("reserved_close_up")), "shakes_px": max([x.get("px", 0) for x in shot["camera"].get("shakes") or []] or [0]),
         "frames": shot["to"] - shot["from"], "dur_s": round((shot["to"] - shot["from"]) / fps, 3),
         "space": shot["camera"].get("space", "world"), "subject": subj_kind, "subject_h": subj_h,
         "size": size, "size_start": samples[0]["size"], "size_end": samples[-1]["size"],
@@ -538,6 +599,12 @@ def validate(ep):
     fc = [f"{x['id']}@{x['face_crop'][0][0]}: {x['face_crop'][0][1]}" for x in A if x.get("face_crop")]
     R.append(rule("FACE", "hero face never cropped on MS-and-tighter (brow..chin inside, cap inside = headroom)",
                   "fail" if fc else "pass", "; ".join(fc) if fc else "ok", [c.split("@")[0] for c in fc]))
+    fv = [x for x in A if x.get("face_vis") and x["size"] in ("MCU", "CU", "ECU") and not (x["ots"] or x["insert"] or x["pov"])
+          and x["preset"] != "tilt_down" and (x["face_vis"]["angle"] > FACE_VIS_MAX or x["face_vis"]["above_normal"] > FACE_ABOVE_MAX)]
+    R.append(rule("FACEVIS", f"face readable on MCU-and-tighter: lens within {FACE_VIS_MAX:.0f} deg of the face normal, "
+                  f"<= {FACE_ABOVE_MAX:.0f} deg above it (cap brim)", "warn" if fv else "pass",
+                  "; ".join(f"{x['id']} angle {x['face_vis']['angle']} above {x['face_vis']['above_normal']}" for x in fv) if fv else "ok",
+                  [x["id"] for x in fv]))
     kits = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "worlds", "kits")
     badset = [s_["id"] for s_ in shots if isinstance(s_.get("set"), str) and not os.path.exists(os.path.join(kits, s_["set"] + ".json"))]
     R.append(rule("SET", "every shot 'set' names a world kit (the renderer exits on an unknown kit)", "fail" if badset else "pass",
@@ -564,6 +631,7 @@ def validate(ep):
     R.append(rule("VIS", "subject in front of the camera and inside the frame", "fail" if vis else "pass",
                   f"not visible on some frames: {vis}" if vis else "ok", vis))
 
+    R.extend(canon_rules(ep, A))
     counts = {k: sum(1 for r in R if r["status"] == k) for k in ("pass", "fail", "warn", "skip")}
     evald = counts["pass"] + counts["fail"] + counts["warn"]
     score = round(100 * (counts["pass"] + 0.5 * counts["warn"]) / max(1, evald), 1)
@@ -573,6 +641,87 @@ def validate(ep):
         shots_out.append(y)
     return {"episode": ep.get("id"), "shots_n": n, "duration_s": round(D, 2), "summary": counts | {"score": score},
             "rules": R, "shots": shots_out}
+
+
+# >>> craft canon camera rules (factory/canon/SOURCES.md: UW two-shot coverage; Greengrass)
+IMPACT_SHAKE_PX = 12     # a camera shake this strong marks an impact even if the director did not declare one
+ESCAPE_RANGE = (2, 12)   # frames the subject may be out of frame on an impact
+LAG_RANGE = (2, 10)      # frames before the operator starts to catch up ("a few frames late")
+
+
+def canon_rules(ep, A):
+    R = []
+    # CAN-C1: per location, a wide holding hero + boat + island/tree line/fires comes before any hero coverage
+    bad, det = [], []
+    locs = {}
+    for i, x in enumerate(A):
+        locs.setdefault(x["location"], []).append(i)
+    for loc, idx in locs.items():
+        cov = [i for i in idx if A[i]["has_hero"] and A[i]["subject"] == "hero" and (A[i]["size"] not in WIDE or A[i]["ots"])]
+        if not cov:
+            continue
+        first = cov[0]
+        est = [i for i in idx if i <= first and A[i]["geo_frames"] and (A[i]["size"] in WIDE or i < first)]
+        if est:
+            det.append(f"{loc}: {A[est[0]]['id']} establishes (geo frames {A[est[0]]['geo_frames'][0]}..{A[est[0]]['geo_frames'][-1]}) before {A[first]['id']}")
+        else:
+            bad.append(A[first]["id"])
+            det.append(f"{loc}: coverage starts at {A[first]['id']} with no wide holding hero + boat + island first")
+    R.append(rule("CAN-C1", "wide establishes geography (hero + boat + threat/tree line in one composition) before coverage",
+                  "fail" if bad else "pass", "; ".join(det), bad))
+    # CAN-C2: hero close-ups only on the reserved decisive beat of their sequence
+    reserved = dict(((ep.get("canon") or {}).get("reserved_close_up") or {}))
+    shot_of = {x["id"]: x for x in A}
+    bad, det = [], []
+    for x in A:
+        if x["reserved_cu"]:
+            sq = x["sequence"]
+            if reserved.get(sq) not in (None, x["id"]):
+                bad.append(x["id"])
+                det.append(f"{sq}: two reserved close-ups ({reserved[sq]}, {x['id']})")
+            reserved.setdefault(sq, x["id"])
+    for sq, sid in reserved.items():
+        if sid not in shot_of:
+            bad.append(sid)
+            det.append(f"{sq}: reserved close-up names unknown shot {sid}")
+    for x in A:
+        tight = x["size"] in TIGHT or x["size_end"] in TIGHT
+        if not (tight and x["has_hero"] and x["subject"] == "hero" and not x["insert"]):
+            continue
+        if reserved.get(x["sequence"]) == x["id"]:
+            det.append(f"{x['id']} reserved CU of {x['sequence']}")
+        else:
+            bad.append(x["id"])
+            det.append(f"{x['id']} casual CU ({x['size']}->{x['size_end']}) in {x['sequence']} (reserved: {reserved.get(x['sequence'])})")
+    R.append(rule("CAN-C2", "close-up reserved for the decisive reaction beat (director marks reserved_close_up)",
+                  "fail" if bad else "pass", "; ".join(det) if det else "no hero close-ups", bad))
+    # CAN-H1: impacts are covered by reactive handheld: subject escapes, camera catches up late
+    bad, det = [], []
+    for x in A:
+        if not (x["impact_declared"] or x["shakes_px"] >= IMPACT_SHAKE_PX):
+            continue
+        m = x["impact"]
+        if not m:
+            bad.append(x["id"])
+            det.append(f"{x['id']}: impact shot (shake {x['shakes_px']} px) without impact_handheld (locked-off impact)")
+            continue
+        e, l_, dec = m["escape_frames"], m["lag_frames"], m.get("declared") or {}
+        why = []
+        if not ESCAPE_RANGE[0] <= e <= ESCAPE_RANGE[1]:
+            why.append(f"escape {e} f not in {ESCAPE_RANGE}")
+        if l_ is None or not LAG_RANGE[0] <= l_ <= LAG_RANGE[1]:
+            why.append(f"catch-up lag {l_} f not in {LAG_RANGE}")
+        if m["recentred_at"] is None or m["recentred_at"] > x["to"] - 1:
+            why.append("never re-centred")
+        if dec and (abs(dec.get("escape_frames", e) - e) > 1 or (l_ is not None and abs(dec.get("lag_frames", l_) - l_) > 1)):
+            why.append(f"measured escape/lag {e}/{l_} vs declared {dec.get('escape_frames')}/{dec.get('lag_frames')}")
+        if why:
+            bad.append(x["id"])
+        det.append(f"{x['id']}@{m['impact']}: escape {e} f, lag {l_} f, re-centred @{m['recentred_at']}" + (f" FAIL: {', '.join(why)}" if why else ""))
+    R.append(rule("CAN-H1", "impact handheld: subject briefly escapes frame, camera catches up a few frames late",
+                  "fail" if bad else "pass", "; ".join(det) if det else "no impact shots", bad))
+    return R
+# <<< craft canon camera rules
 
 
 def human(report):

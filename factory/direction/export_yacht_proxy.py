@@ -44,11 +44,21 @@ TI = T.transposed()
 
 spec = json.load(open(args.spec))
 rel = args.yacht or (spec.get("assets", {}).get("props", {}).get("yacht") or "assets/props/yacht.glb")
-cands = [rel, os.path.join(REPO, rel), os.path.join(REPO, "studio", "public", rel)]
-ypath = next(p for p in cands if os.path.isfile(p))
 for o in list(bpy.data.objects):
     bpy.data.objects.remove(o)
-bpy.ops.import_scene.gltf(filepath=ypath)
+if str(rel).startswith("proc:"):
+    # the procedural hero yacht (cloud/blender/yacht_v2.py), built exactly as render_episode builds it
+    import yacht_v2  # noqa: E402
+    yroot = bpy.data.objects.new("YachtRoot", None)
+    bpy.context.scene.collection.objects.link(yroot)
+    yacht_v2.build(yroot)
+    ypath = os.path.join(REPO, "cloud", "blender", "yacht_v2.py")
+    YSRC = rel
+else:
+    cands = [rel, os.path.join(REPO, rel), os.path.join(REPO, "studio", "public", rel)]
+    ypath = next(p for p in cands if os.path.isfile(p))
+    YSRC = os.path.relpath(ypath, REPO)
+    bpy.ops.import_scene.gltf(filepath=ypath)
 seen = set()
 for sh in spec["shots"]:
     if not sh.get("yacht"):
@@ -136,7 +146,7 @@ for i in range(dims[0]):
                     inside = True                 # hollow interior: counts as solid for cameras / sight lines
                 d = -dist if inside else dist
             data.append(int(max(-127, min(127, round(d * 100)))) & 0xFF)
-out = {"source": os.path.relpath(ypath, REPO), "props": [list(k[:1]) + [list(k[1]), k[2]] for k in sorted(seen)],
+out = {"source": YSRC, "props": [list(k[:1]) + [list(k[1]), k[2]] for k in sorted(seen)],
        "space": "yacht body (spec): +x starboard, +y up, +z bow", "cell": args.cell, "origin": [round(v, 4) for v in lo],
        "dims": dims, "order": "x-major (i, j, k) -> (i * ny + j) * nz + k", "units": "cm, int8, clamped +-127, <0 inside; zlib-compressed",
        "sdf_zb64": base64.b64encode(zlib.compress(bytes(data), 9)).decode()}

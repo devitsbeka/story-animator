@@ -248,6 +248,22 @@ def avoid_collisions(keys_world, track, yacht, aspect=ASPECT, proxy=None):
     if P is None or not keys_world:
         return keys_world, None
     tr = {f: p for f, p in track}
+    # the renderer interpolates linearly between keys: a fast move (crane through the hardtop) can clip between
+    # two clear keys, so in-between frames that come close become keys of their own first
+    dense = []
+    for ka, kb in zip(keys_world, keys_world[1:]):
+        dense.append(ka)
+        for f in range(ka["f"] + 1, kb["f"]):
+            u = (f - ka["f"]) / (kb["f"] - ka["f"])
+            c = G.vlerp(ka["cam"], kb["cam"], u)
+            if P.sdf(G.YachtFrame(yacht, f).world_to_body(c)) < CLEARANCE + 0.03:
+                kk = {"f": f, "cam": c, "look": G.vlerp(ka["look"], kb["look"], u), "fov": G.lerp(ka["fov"], kb["fov"], u)}
+                if ka.get("roll") or kb.get("roll"):
+                    kk["roll"] = G.lerp(ka.get("roll", 0) or 0, kb.get("roll", 0) or 0, u)
+                dense.append(kk)
+                tr.setdefault(f, G.vlerp(tr.get(ka["f"], ka["look"]), tr.get(kb["f"], kb["look"]), u))
+    dense.append(keys_world[-1])
+    keys_world = dense
     sol = []
     bad = 0
     for k in keys_world:
@@ -318,7 +334,7 @@ def _clear(cam, floor):
 
 def _orbit(name, f0, f1, subj, *, az=(0, 0), el=(3, 3), size=("MS", "MS"), dist=None, lens=None, emotion="neutral",
            ease="move", aim=None, motivation="follow_subject", lag=0, headroom=True, extra=None, handheld=0.12,
-           roll=(0, 0), aspect=ASPECT, space=None, keep_size=None):
+           roll=(0, 0), aspect=ASPECT, space=None, keep_size=None, post=None):
     """Spherical rig around the subject: az (deg from the subject's facing; 0 = in front of his face, +90 = his
     left... i.e. +az swings counter-clockwise seen from above), el (deg above the aim point), size or dist."""
     az, el, size, roll = pair(az), pair(el), pair(size), pair(roll)
@@ -352,6 +368,8 @@ def _orbit(name, f0, f1, subj, *, az=(0, 0), el=(3, 3), size=("MS", "MS"), dist=
                 look[1] -= 0.10 * G.frame_height_at(G.norm(G.sub(S, cam)), vfov)   # eyes at ~0.40 from the top
         keys.append({"f": f, "cam": cam, "look": look, "fov": vfov, "roll": G.lerp(roll[0], roll[1], e)})
         track.append((f, S))
+    if post is not None:                   # e.g. impact_handheld: operator reaction layered on the rig
+        keys, track = post(keys, track)
     sizes = [s if isinstance(s, str) else subj.classify(s) for s in size]
     return _finish(name, keys, track, subj, motivation=motivation, emotion=emotion, sizes=sizes, lenses=lens,
                    handheld=handheld, extra=extra, aspect=aspect, space=space)
@@ -745,6 +763,142 @@ def handheld_documentary(f0, f1, subj, size="MS", az=(35, 20), angle="eye", el=N
                   motivation="tension_push", handheld=kw.pop("handheld", 0.3), **kw)
 
 
+# >>> craft canon CAN-H1 (Greengrass reactive handheld): on an impact the operator is thrown, the subject escapes
+# the frame for `escape_frames`, and the operator only starts to re-acquire `lag_frames` after the hit, then
+# catches up with a small overshoot. Never a locked-off impact.
+IMPACT_RAMP = 2            # frames for the jolt to throw the subject out of frame
+IMPACT_OUT = 0.68          # subject's screen-x offset from centre at the peak of the jolt (> 0.5 = out of frame)
+IMPACT_OVERSHOOT = 0.07    # the catch-up overshoots the centre by this much screen-x, then settles
+IMPACT_SETTLE = 5          # frames to settle after the overshoot
+
+
+def _smooth(x):
+    x = max(0.0, min(1.0, x))
+    return x * x * (3 - 2 * x)
+
+
+def impact_offsets(escape_frames, lag_frames, out=IMPACT_OUT, ramp=IMPACT_RAMP, overshoot=IMPACT_OVERSHOOT, settle=IMPACT_SETTLE):
+    """Screen-x offset (fraction of the frame width, 0 = centred) of the subject for t = 0.. frames after the
+    impact: jolt out, hold (the operator has not reacted yet), catch up from t = lag_frames, overshoot, settle.
+    The catch-up length is solved so that exactly `escape_frames` frames have the subject outside the frame."""
+    if lag_frames < ramp:
+        raise ValueError("lag_frames must be >= the jolt ramp (%d)" % ramp)
+    if escape_frames < lag_frames - 1:
+        raise ValueError("escape_frames must be >= lag_frames - 1: the subject is out until the operator reacts")
+
+    def curve(R):
+        o = []
+        hold_end = out * 1.08
+        for t in range(0, lag_frames + R + settle + 1):
+            if t <= ramp:
+                v = out * _smooth(t / ramp)
+            elif t < lag_frames:
+                v = G.lerp(out, hold_end, (t - ramp) / max(1, lag_frames - ramp))
+            elif t <= lag_frames + R:
+                h = out if lag_frames <= ramp else hold_end
+                v = G.lerp(h, -overshoot, G.EASE["move"]((t - lag_frames) / R))
+            else:
+                v = -overshoot * (1 - _smooth((t - lag_frames - R) / settle))
+            o.append(v)
+        return o
+    best = None
+    for R in range(2, 30):
+        o = curve(R)
+        n_out = sum(1 for v in o if abs(v) > 0.5)
+        if best is None or abs(n_out - escape_frames) < abs(best[1] - escape_frames):
+            best = (o, n_out, R)
+        if n_out == escape_frames:
+            break
+    return best[0], best[1], best[2]
+
+
+def _look_for_sx(cam, look, roll, vfov, aspect, P, target_sx):
+    """Rotate the view about the world vertical through the lens so world point P lands at screen x = target_sx."""
+    v = G.sub(look, cam)
+
+    def sx_of(a):
+        q = G.rot_yv(a, v)
+        x_, _, d_ = G.project(cam, G.add(cam, q), roll, vfov, aspect, P)
+        return x_ if x_ is not None else (-9.0 if a > 0 else 9.0)
+    grid = [i * 0.02 for i in range(-60, 61)]
+    vals = [sx_of(a) - target_sx for a in grid]
+    best = None
+    for (a0, v0), (a1, v1) in zip(zip(grid, vals), zip(grid[1:], vals[1:])):
+        if v0 == 0 or v0 * v1 < 0:
+            if best is None or abs(a0) < abs(best[0]):
+                best = (a0, a1, v0)
+    if best is None:
+        return look
+    lo, hi, vlo = best
+    for _ in range(40):
+        mid = 0.5 * (lo + hi)
+        vm = sx_of(mid) - target_sx
+        if (vm < 0) == (vlo < 0):
+            lo, vlo = mid, vm
+        else:
+            hi = mid
+    return G.add(cam, G.rot_yv(0.5 * (lo + hi), v))
+
+
+def impact_handheld(f0, f1, subj, impact=None, escape_frames=6, lag_frames=5, side=-1, size="MS", az=(30, 20), angle="eye", el=None,
+                    emotion="panic", lens=None, ease="linear", aim=None, jolt_drop=0.07, roll_kick=5.0, aspect=ASPECT, **kw):
+    """Reactive documentary handheld around an impact at frame `impact` (CAN-H1, Greengrass): the jolt throws the
+    subject out of frame (to screen-left for side=-1) for `escape_frames` frames, the operator reacts
+    `lag_frames` after the hit and catches up with a small overshoot; the lens also drops `jolt_drop` m and rolls
+    `roll_kick` deg with the hit. Keys are per-frame through the reaction window, rig keys elsewhere."""
+    if impact is None:
+        impact = f0 + (f1 - f0) // 3
+    e = el if el is not None else ANGLE_EL[angle]
+    s = subj.frame_h(size)
+    offs, n_out, R = impact_offsets(escape_frames, lag_frames)
+    win = (impact, impact + len(offs) - 1)
+    if win[1] >= f1:
+        raise ValueError(f"impact reaction window {win} runs past the shot end {f1}")
+    mx = [0.0]
+
+    def post(keys, track):
+        byf = {k["f"]: k for k in keys}
+        fs = sorted(byf)
+
+        def interp(f):
+            if f in byf:
+                return dict(byf[f])
+            a = max(x for x in fs if x <= f)
+            b = min(x for x in fs if x >= f)
+            u = (f - a) / (b - a)
+            ka, kb = byf[a], byf[b]
+            return {"f": f, "cam": G.vlerp(ka["cam"], kb["cam"], u), "look": G.vlerp(ka["look"], kb["look"], u),
+                    "fov": G.lerp(ka["fov"], kb["fov"], u), "roll": G.lerp(ka.get("roll", 0) or 0, kb.get("roll", 0) or 0, u)}
+        out = [k for k in keys if k["f"] < win[0] - 1 or k["f"] > win[1] + 1]
+        dense = []
+        for f in range(win[0] - 1, win[1] + 2):
+            k = interp(f)
+            t = f - impact
+            o = offs[t] if 0 <= t < len(offs) else 0.0
+            if o:
+                amt = o / IMPACT_OUT          # 1 at the jolt's peak
+                k["cam"] = G.add(k["cam"], [0.0, -jolt_drop * max(0.0, min(1.0, amt)), 0.0])
+                k["roll"] = (k.get("roll", 0) or 0) + side * roll_kick * max(-0.3, min(1.2, amt))
+                Pch = subj.point(f, "chest")
+                base_sx = G.project(k["cam"], k["look"], k["roll"], k["fov"], aspect, Pch)[0]
+                k["look"] = _look_for_sx(k["cam"], k["look"], k["roll"], k["fov"], aspect, Pch, (base_sx if base_sx is not None else 0.5) + side * o)
+                mx[0] = max(mx[0], abs(o))
+            dense.append(k)
+        allk = sorted(out + dense, key=lambda k: k["f"])
+        tr = {f: p for f, p in track}
+        for k in dense:
+            tr.setdefault(k["f"], subj.point(k["f"], aim))
+        return allk, sorted(tr.items())
+    meta = {"impact_handheld": {"impact": impact, "escape_frames": n_out, "lag_frames": lag_frames, "catch_up_frames": R,
+                                "settle_frames": IMPACT_SETTLE, "side": side, "window": list(win), "requested_escape": escape_frames},
+            "centre_exempt": [list(win)]}
+    res = _orbit("impact_handheld", f0, f1, subj, az=az, el=e, size=(s, s * 0.92), lens=lens or 28, emotion=emotion, ease=ease,
+                 aim=aim, motivation="impact_reaction", handheld=kw.pop("handheld", 0.3), extra=meta, aspect=aspect, post=post, **kw)
+    res["camera"]["shakes"] = [{"at": impact, "px": kw.get("shake_px", 14), "tau": 2.2}]
+    return res
+# <<< craft canon CAN-H1
+
+
 def stabilized_tracking(f0, f1, subj, size="WS", az=(95, 80), angle="eye", el=None, emotion="action", lens=None, ease="linear", aim=None, **kw):
     """Gimbal-smooth side track alongside the subject (profile, low noise)."""
     e = el if el is not None else ANGLE_EL[angle]
@@ -836,9 +990,11 @@ PRESETS = {
     "establishing": establishing, "extreme_closeup": extreme_closeup, "push_reveal": push_reveal,
     "pullback_reveal": pullback_reveal, "whip_pan": whip_pan, "tilt_up": tilt_up, "tilt_down": tilt_down,
     "pan_left": pan_left, "pan_right": pan_right, "handheld_subtle": handheld_subtle,
-    "handheld_documentary": handheld_documentary, "stabilized_tracking": stabilized_tracking, "tripod": tripod,
+    "handheld_documentary": handheld_documentary, "impact_handheld": impact_handheld, "stabilized_tracking": stabilized_tracking, "tripod": tripod,
     "dolly_zoom": dolly_zoom, "rack_focus": rack_focus, "parallax_reveal": parallax_reveal, "orbit_track": orbit_track,
     "product_turntable": product_turntable, "architecture_walkthrough": architecture_walkthrough, "aerial_flyover": aerial_flyover,
 }
+# craft-canon presets added on top of the 36-preset catalog (atlas camera_presets.yaml)
+CANON_PRESETS = {"impact_handheld"}
 # presets that take a second subject (target) positionally
 TWO_SUBJECT = {"over_shoulder", "pov", "high_reveal", "push_reveal", "whip_pan"}

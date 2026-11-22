@@ -173,3 +173,12 @@
   check: asset gate scans hero-tier assets for emissive materials on glass-named objects (fail); golden 'salon door + windows at night' close-up regression; vision rubric ASSET-2 'windows/doors read as real'.
   gate: [asset, merge]
   status: open
+
+- id: L020
+  found: craft canon review (polish_camera), 2026-11-22
+  symptom: Close-ups used casually (C14 radio insert, C21/C22 punch-ins) so the decisive reaction had no weight; the reef impact (B10) was a locked-off handheld with a shake, the subject never left the frame.
+  root_cause: Presets chose sizes per shot with no sequence-level budget for the close-up; impacts were covered with a generic noise layer instead of an operator reaction.
+  rule: CAN-C2 one hero close-up per sequence, on the beat the director marks reserved_close_up; CAN-H1 impacts use impact_handheld (subject escapes the frame 2-12 f, the camera catches up 2-10 f late, then re-centres); CAN-C1 a wide holding hero + boat + island/tree line comes before any coverage of a location.
+  check: shot_validator CAN-C1 / CAN-C2 / CAN-H1 (measured through the renderer's camera maths; mapped into `python3 -m factory.canon pass` by factory/canon/checks.py); test_direction.py test_impact_handheld_escape_and_late_catch_up, test_reserved_close_up_and_geography (stress - escape/lag 4/3, 6/5, 9/6; a shake without reaction fails; an unreserved CU fails).
+  gate: [direct, merge]
+  status: closed

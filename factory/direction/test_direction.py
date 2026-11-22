@@ -57,7 +57,7 @@ def shot_of(out, f0, f1):
 def test_catalog_complete():
     names = catalog_names()
     assert len(names) == 36, names
-    assert set(names) == set(CP.PRESETS), set(names) ^ set(CP.PRESETS)
+    assert set(names) == set(CP.PRESETS) - CP.CANON_PRESETS, set(names) ^ (set(CP.PRESETS) - CP.CANON_PRESETS)
 
 
 def test_lens_roundtrip():
@@ -97,7 +97,10 @@ def test_all_presets():
         s = shot_of(out, f0, f1)
         a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
         cf = d.get("centre_from", f0)
+        cex = d.get("centre_exempt") or []
         for f in range(cf, f1 + 1, 3):
+            if any(w0 <= f <= w1 for w0, w1 in cex):
+                continue
             c, l, fov, roll = G.camera_world(s, f, jitter=False)
             S = SV.track_at(d["subject"]["track"], f)
             x, y, dep = G.project(c, l, roll, fov, 1080 / 1920, S)
@@ -167,6 +170,49 @@ def test_collision_avoidance_on_the_real_yacht():
     assert min(P.sdf(body(k)) for k in fixed["camera"]["keys"]) >= CP.CLEARANCE - 1e-6
     assert fixed["direction"]["collision_fix"]["keys_moved"] > 0
 # <<< polish_camera
+
+
+# >>> craft canon camera rules
+def test_impact_handheld_escape_and_late_catch_up():
+    """CAN-H1: the subject leaves the frame for exactly escape_frames, the operator reacts lag_frames late."""
+    prof = G.hero_profile("hero_v4")
+    hero = CP.hero_subject(LEVEL, [0.0, 1.9, 4.7], 0.0, profile=prof, acting_stance="stand")
+    actor = {"asset": "hero_v4", "local": [0.0, 1.9, 4.7], "rotY": 0.0, "height": 1.8, "perf": {"stance": [[-10000, "stand"]]}}
+    for esc, lag in ((6, 5), (4, 3), (9, 6)):
+        out = CP.impact_handheld(0, 50, hero, impact=15, escape_frames=esc, lag_frames=lag, size="MS", az=(30, 20), el=8)
+        ih = out["direction"]["impact_handheld"]
+        assert ih["escape_frames"] == esc, ih
+        s = shot_of(out, 0, 50) | {"yacht": LEVEL, "actors": [actor]}
+        m = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)["impact"]
+        assert abs(m["escape_frames"] - esc) <= 1 and abs(m["lag_frames"] - lag) <= 1 and m["recentred_at"], (esc, lag, m)
+    # a strong shake without the reaction is a locked-off impact -> CAN-H1 fails; with it, it passes
+    locked = CP.handheld_documentary(0, 50, hero, size="MS")
+    locked["camera"]["shakes"] = [{"at": 15, "px": 14, "tau": 2.2}]
+    ok = CP.impact_handheld(0, 50, hero, impact=15)
+    for out, want in ((locked, "fail"), (ok, "pass")):
+        a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, shot_of(out, 0, 50) | {"yacht": LEVEL, "actors": [actor]})
+        r = next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-H1")
+        assert r["status"] == want, r
+
+
+def test_reserved_close_up_and_geography():
+    """CAN-C2: an unreserved hero CU fails, the reserved one passes. CAN-C1: v6 establishes every location."""
+    prof = G.hero_profile("hero_v4")
+    hero = CP.hero_subject(LEVEL, [0.0, 1.9, 4.7], 0.0, profile=prof, acting_stance="stand")
+    actor = {"asset": "hero_v4", "local": [0.0, 1.9, 4.7], "rotY": 0.0, "height": 1.8, "perf": {"stance": [[-10000, "stand"]]}}
+    out = CP.dolly_in(0, 30, hero, size=("CU", "CU"), lens=75)
+    s = shot_of(out, 0, 30) | {"yacht": LEVEL, "actors": [actor]}
+    a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
+    assert next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-C2")["status"] == "fail"
+    s["direction"] = dict(s["direction"], reserved_close_up="decides")
+    a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
+    assert next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-C2")["status"] == "pass"
+    p6 = os.path.join(ROOT, "episodes/sentinel/episode_v6.json")
+    if os.path.exists(p6):
+        SV.load_coast(ROOT)
+        st = {r["id"]: r["status"] for r in SV.validate(json.load(open(p6)))["rules"]}
+        assert st["CAN-C1"] == st["CAN-C2"] == st["CAN-H1"] == "pass", st
+# <<< craft canon camera rules
 
 
 def test_validator_flags_bad_and_passes_v3():

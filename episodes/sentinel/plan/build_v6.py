@@ -25,6 +25,10 @@ inside the cabin), and D23-D26 never rendered.
   3. D23-D26 carried "set": "primrose" (a marker from build_primrose.py) which the world-kits assembler later
      started to read as a kit id -> SystemExit "unknown world kit 'primrose'" before anything rendered. The marker
      moves to direction.set_marker (the primrose ship is a prop; nothing else read the field).
+  4. Craft canon (factory/canon/SOURCES.md): CAN-H1 the reef impact B10 is impact_handheld (subject escapes the frame
+     6 f, the operator catches up 5 f late); CAN-C2 hero close-ups only on each sequence's reserved_close_up (A09b,
+     B12, C28; C14 drops to MCU); CAN-C1 checked by the validator (wide with hero + boat + island before coverage).
+  5. yacht_v2 (proc): the collision proxy is exported from the procedural yacht; C21/C22 sit on the cockpit bench.
 """
 import json
 import math
@@ -89,8 +93,10 @@ def radio_pt():
 # (v3 call, changes for Jay noted). Sizes are now Jay-sized (camgeo.HeroProfile.frame_h).
 CAMS = {
     "A01b": lambda: CP.crane_descend(40, 75, H("A01b"), size=(14.0, "MS"), az=(150, 140), el=(30, 10), lens=28),
-    # A02: v3 az 50->35 put the lens inside the cabin side (brown frame). From his left over the cockpit coaming.
-    "A02": lambda: CP.arc_track(75, 118, H("A02"), size=("MS", "MS"), az=(64, 54), el=6, emotion="calm", lens=48),
+    # A02: v3 az 50->35 put the lens inside the cabin side (brown frame). From his left over the cockpit coaming,
+    # slightly LOW (el -4): the key frame is inside his look-down at the wheel, and from above eye level the cap
+    # brim hid his whole face (first v6 render). MS -> MCU at 30 mm keeps the lens in the open cockpit.
+    "A02": lambda: CP.arc_track(75, 118, H("A02"), size=("MS", "MCU"), az=(50, 40), el=-4, emotion="calm", lens=30),
     "A03": lambda: CP.dolly_in(118, 158, H("A03"), size=("MS", "MCU"), az=(62, 56), el=2, emotion="shock", lens=45, ease="crashIn"),
     # A04: he faces the switch panel on the cabin's aft wall 0.6 m away; v3 az 35 sat inside the cabin (black).
     # Profile from his left, tilting from the pressing hand up to his face.
@@ -98,13 +104,17 @@ CAMS = {
     "A05": lambda: CP.high_reveal(241, 330, H("A05"), BEACH_S, back=(2.6, 6.0), above=(0.5, 3.2), side=0.4, lens=(30, 24), reveal_at=0.7, target_y=0.36),
     "A09a": lambda: CP.over_shoulder(560, 628, H("A09a"), FIRE_S, shoulder="left", back=(1.7, 1.4), above=(0.32, 0.28), side=0.16, lens=(45, 52), target_y=0.4),
     "A09b": lambda: CP.dolly_in(628, 668, H("A09b"), size=("MCU", "CU"), az=(-25, -20), el=1, lens=75, emotion="fear"),
-    "B10": lambda: CP.handheld_documentary(668, 723, H("B10"), size=5.0, az=(az_away(H("B10"), BEACH, 668) - 30, az_away(H("B10"), BEACH, 668) - 20), el=26, lens=28, aim="knees"),
+    # B10 (CAN-H1, Greengrass): the reef hit at 690 throws the operator: Jay escapes frame-left for 6 frames and the
+    # camera only starts to re-acquire him 5 frames after the crunch (catch-up with a small overshoot).
+    "B10": lambda: CP.impact_handheld(668, 723, H("B10"), impact=IMPACT_B10, escape_frames=6, lag_frames=5, side=-1, size=4.2,
+                                      az=(az_away(H("B10"), BEACH, 668) - 30, az_away(H("B10"), BEACH, 668) - 20), el=22, lens=28, aim="knees"),
     "B11": lambda: CP.orbit_ccw(723, 786, H("B11"), size=("MS", "MS"), az=(110, 140), el=8, lens=35, emotion="worry"),
     "B12": lambda: CP.dolly_in(786, 834, H("B12"), size=("MCU", "CU"), az=0, el=0, lens=75, emotion="intimate", ease="arrive"),
     "C13": lambda: CP.whip_pan(834, 877, FIRE_S, H("C13"), whip=8, size="MCU", az=30, el=2, lens=50),
     # C14: was an 85 mm insert of a fixed point 1.48 m up: on Jay that is his nose. Now a CU on the handset at his
     # mouth with his eyes in frame (the beat is the call, his face sells it).
-    "C14": lambda: CP.extreme_closeup(877, 940, radio_pt(), size=("CU", "CU"), az=(30, 22), el=4, lens=75, insert=False),
+    # C14 (CAN-C2): the call is procedure, not the scene's decisive reaction -> MCU on the handset at his mouth.
+    "C14": lambda: CP.extreme_closeup(877, 940, radio_pt(), size=("MCU", "MCU"), az=(30, 22), el=4, lens=50, insert=False, emotion="procedure"),
     "C15": lambda: CP.low_reveal(940, 1010, H("C15"), size=("MCU", "MS"), az=(25, 35), el=(-20, -10), lens=28),
     "C16": lambda: CP.pullback_reveal(1010, 1086, H("C16"), size=("MS", 40.0), az=(40, 30), el=(6, 35), lens=(35, 24)),
     "C17": lambda: CP.over_shoulder(1086, 1168, H("C17"), BEACH_S, shoulder="left", back=(1.7, 1.4), above=(0.32, 0.28), side=0.16, lens=(45, 52), emotion="threat", target_y=0.4),
@@ -121,6 +131,14 @@ CAMS = {
     "E31": lambda: CP.pullback_reveal(2140, 2200, H("E31"), size=("WS", 45.0), az=(150, 170), el=(12, 40), lens=(28, 24), ease="exit"),
 }
 KEEP_DIR = ("location", "sequence", "time_jump", "line_cross")
+IMPACT_B10 = 690          # the reef crunch (yacht pitch/roll keys 689 -> 692, camera shake at 690)
+
+# craft canon CAN-C2: one close-up per sequence, reserved for the reaction/decision the sequence builds toward
+RESERVED_CU = {
+    "A_bow": ("A09b", "sees_the_reef"),          # "Hard": the instant he sees the reef and the fires ahead
+    "B_reef": ("B12", "decides_to_call"),        # "What do you do": worry turns to determination
+    "C_helm": ("C28", "chooses_to_hide"),        # "Stay quiet": the decision to go dark and wait for the tide
+}
 
 
 def main():
@@ -137,11 +155,16 @@ def main():
             sh["camera"], sh["direction"] = cam, d
             n_cam += 1
             n_fix += bool(d.get("collision_fix"))
+        for seq, (sid, beat) in RESERVED_CU.items():
+            if sh["id"] == sid:
+                sh["direction"]["reserved_close_up"] = beat
         if sh.get("set") == "primrose":            # legacy marker, not a world kit (see docstring 3)
             sh.setdefault("direction", {})["set_marker"] = sh.pop("set")
             sh["direction"].setdefault("location", "primrose_1981")
             sh["direction"].setdefault("sequence", "D_primrose")
             sh["direction"].setdefault("motivation", "reveal")
+    ep["canon"] = dict(ep.get("canon") or {}, reserved_close_up={seq: sid for seq, (sid, _) in RESERVED_CU.items()},
+                       impact_handheld={"B10": {"impact": IMPACT_B10, "escape_frames": 6, "lag_frames": 5}})
     ep["source"] = {"builder": "episodes/sentinel/plan/build_v6.py", "base": "episode_v5.json",
                     "hero_profile": "factory/direction/hero_profile_jay.json", "collision_proxy": "factory/direction/yacht_proxy.json"}
     out = os.path.join(EP, "episode_v6.json")
