@@ -1,0 +1,13 @@
+[render_episode] spec=/home/user/story-animator/episodes/waterspout_v2/episode.json root=/home/user/story-animator frames=1428..1428 quality=preview engine=EEVEE blender=4.2.3 LTS
+[render_episode] render lock acquired after 68s
+[render_episode] WARNING: EEVEE requested but no EGL/GPU context here; falling back to Cycles
+[lighting] shot S24: preset=moonlight_practical_mix seq=S key az=-147.3 el=33.5 dawn=0.0
+[render_episode] yacht_v2: 482 objects; materials: 18 restyled; hull foam: {'hull': 'gelcoat_hull', 'length': 13.06, 'beam': 4.11, 'applied': True}
+[render_episode]   hero look-dev: {'jay.eyes': 'cornea', 'jay.eyes_pupils': 'cornea', 'hero.hoodie_black': 'cloth_black', 'hero.hoodie_rib': 'cloth_black', 'hero.hoodie_seam': 'cloth_black', 'hero.joggers_black': 'cloth_black', 'hero.cap_black': 'cap', 'hero.cap_underbrim': 'cap', 'SH-skin': 'skin'}
+[render_episode]   contact anchors: [] + rails
+[render_episode]   cloudrig actor hero_v4: RIG-jay h=1.150 scale=1.565 baked 1405..1452 in 8.7s
+[lighting] motion blur: off
+[lighting] face meter: MLS E=2.501->2.430 (target 2.430, trim x0.94) face_ev=+1.88
+[lighting] rig: key=1.8, face_wrap=0.2237, face_fill=0.7205, rim=31.147, face_key=8.8417, eye_light=10.2336 | hdri: [('ph:moonlit_golf', 1.0452, -141.9)] | checks: {'L1_all_motivated': True, 'L3_key_fill': 6.5, 'L5_hue_sep_key_practical': 166.5, 'L6_eye_light': True, 'L7_rim': True, 'L9_shadow_side_est': 0.0397, 'key_E': 1.8}
+[render_episode] shot S24: buoyancy + camera keyed in 1.1s (18 ocean evals)
+[render_episode] shot S24: built in 11.6s; engine=CYCLES device=CPU

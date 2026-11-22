@@ -1,0 +1,136 @@
+{
+ "shot": "S03",
+ "frames": [
+  137,
+  137
+ ],
+ "engine": "CYCLES",
+ "device": "CPU",
+ "quality": "preview",
+ "resolution": [
+  144,
+  256
+ ],
+ "camera": "main",
+ "samples": 4,
+ "blender": "4.2.3 LTS",
+ "secondsPerFrame": {
+  "137": 13.25
+ },
+ "warnings": [
+  "EEVEE requested but no EGL/GPU context here; falling back to Cycles"
+ ],
+ "lighting": {
+  "preset": "moonlight_practical_mix",
+  "sequence": "S",
+  "dawn": 0.3,
+  "lights": [
+   {
+    "name": "Moon",
+    "role": "key",
+    "motivation": "moon",
+    "energy": 1.92
+   },
+   {
+    "name": "hero_wrap_0",
+    "role": "face_wrap",
+    "motivation": "sky",
+    "energy": 0.2946
+   },
+   {
+    "name": "hero_fill_0",
+    "role": "face_fill",
+    "motivation": "bounce:water",
+    "energy": 0.8915
+   },
+   {
+    "name": "hero_rim_0",
+    "role": "rim",
+    "motivation": "moon",
+    "energy": 28.5331
+   },
+   {
+    "name": "hero_facekey_0",
+    "role": "face_key",
+    "motivation": "moon",
+    "energy": 18.9189
+   }
+  ],
+  "checks": {
+   "L1_all_motivated": true,
+   "L3_key_fill": 5.45,
+   "L5_hue_sep_key_practical": 151.7,
+   "L6_eye_light": false,
+   "L7_rim": true,
+   "L9_shadow_side_est": 0.0505,
+   "key_E": 1.9200000000000002
+  },
+  "warnings": [],
+  "key_az_deg": -147.26,
+  "key_elev_deg": 33.46,
+  "hdri": [
+   {
+    "id": "ph:moonlit_golf",
+    "weight": 0.7,
+    "strength": 0.995,
+    "rot_deg": -141.9,
+    "src_mean": 0.04784,
+    "has_moon": true
+   },
+   {
+    "id": "ph:kloppenheim_02_puresky",
+    "weight": 0.3,
+    "strength": 0.0931,
+    "rot_deg": -158.4,
+    "src_mean": 0.21923,
+    "has_moon": true
+   }
+  ],
+  "cheats": [
+   "face_key: moon swung +37 deg toward camera"
+  ],
+  "hero": {
+   "E_key": 1.92,
+   "E_fill_total": 0.352,
+   "E_ambient_est": 0.107,
+   "key_fill_ratio": 5.45,
+   "rim_scale": 1.0,
+   "backlit": -0.06,
+   "cam_dist_m": 62.88,
+   "shadow_side_radiance_est": 0.0505
+  },
+  "motion_blur": "off",
+  "removed": [
+   "CamFill"
+  ],
+  "practicals_retinted": 11,
+  "practicals_lookdev": 2,
+  "albedo_clamped": 5,
+  "look": "AgX - Base Contrast",
+  "haze_density": 0.0011,
+  "exposure": 0.63,
+  "discovery": [],
+  "face_meter": {
+   "frame": 137,
+   "shot_size": "WS",
+   "frame_h_m": 91.14,
+   "visible": false,
+   "facing": -0.71,
+   "E_fixed": 0.6996,
+   "E_hero_cheats": 1.6623,
+   "trim": 1.0,
+   "E_face": 2.3619,
+   "E_target": 2.592,
+   "face_ev": 1.87,
+   "target_ev": 2.004,
+   "exposure": 0.63,
+   "parts": {
+    "sky": 0.1068,
+    "Moon": 0.5928,
+    "hero_wrap_0": 0.2188,
+    "hero_facekey_0": 1.4435
+   }
+  }
+ },
+ "islandLod": {}
+}
