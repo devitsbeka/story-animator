@@ -105,7 +105,8 @@ for f, want in ((30, (25, 0)), (48, (0, -20))):
     yaw = math.degrees(math.atan2(d.x, -d.y)) - math.degrees(math.atan2(rest.x, -rest.y))
     pitch = math.degrees(math.asin(max(-1, min(1, d.z)))) - math.degrees(math.asin(max(-1, min(1, rest.z))))
     g = face.gaze_at(f, fs["gaze"], 3)
-    g = (g[0] * pup.gaze_gain[0], g[1] * pup.gaze_gain[1])
+    # eye craft: visual angle clamped to the eye's range (eye_limit), then visual -> rig angle (eye_gain)
+    g = tuple(max(-lim, min(lim, v)) * k for v, lim, k in zip(g, pup.eye_limit, pup.eye_gain))
     check(f"gaze f{f} yaw", abs(yaw - g[0]) < 6, f"eye yaw {yaw:.1f} vs {g[0]:.1f}")
     check(f"gaze f{f} pitch", abs(pitch - g[1]) < 6, f"eye pitch {pitch:.1f} vs {g[1]:.1f}")
 

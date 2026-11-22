@@ -26,6 +26,13 @@ What it drives (all keyed on the rig's own animator controls, never on DEF bones
         Upper lids ride the reached eye pitch; blinks from blink_at(): before thought changes, on head turns, withheld
         while staring in shock/fear/panic (thought_blinks).
   mouth face.viseme_track() -> VISEME_POSES over jaw + lip channels.
+  life  (lesson L018) face_life(): continuous brow / lid / mouth-corner micro-drift (L/R out of phase) + nostril,
+        cheek and jaw breath on every hold; transitions overlap (OVERLAP: brows lead, lids +1, cheeks +2, mouth +4 f)
+        with brow/lid anticipation; eyes dart ~4 f before a thought change; conversational saccades every 0.5-2 s.
+  timing (canon CAN-P1, turn-then-change) bake() re-times emotion keys off head turns: head_turns() lists the
+        turn windows, settle_frame() gives the first frame a change may start (TURN_SETTLE f after the turn), and
+        turn_then_change() applies it to a face_spec ('turnSettle', 'turnThenChange': false). sync_sneeze() lands
+        the 'sneeze' face on the body's CHOO. Check a spec without Blender: cloud/blender/test/can_p1_check.py.
 
 Proportions: acting.py speaks metres for a 1.8 m hero (shoulders 1.32, hips 0.93, ankles 0.16).
 Jay is a 1.26 m stylised kid with a huge head and short arms; positions are re-mapped through his
@@ -235,7 +242,8 @@ FACE_POSES = {
     "pain":       _pose(0.15, browSq=1.0, browUp=-0.6, browInUp=0.7, browIn=0.4, lidUp=0.45, lidLo=0.8, cheek=0.8, sneer=0.8,
                         cornerWide=0.9, cornerUp=-0.3, upLip=0.8, jaw=0.2, lidTilt=-0.2),
     "determined": _pose(0.12, browUp=-0.75, browSq=0.9, browIn=-0.6, browInUp=-0.4, browOutUp=0.2, lidUp=-0.06, lidLo=0.5,
-                        lidTilt=-0.25, cornerUp=-0.15, cornerWide=0.1, rollUp=0.7, rollLo=0.7, jawFwd=0.5, pupil=0.0, mouthSide=0.15),
+                        lidTilt=-0.25, cornerUp=-0.12, cornerWide=0.05, rollUp=0.7, rollLo=0.55, jawFwd=0.5, pupil=0.0, mouthSide=0.35,
+                        cheek=0.2, L={"cornerUp": -0.3, "cornerWide": 0.35, "cheek": 0.25}, R={"cornerUp": 0.12}),
     "shout":      _pose(0.1, browUp=-0.7, browSq=1.0, browIn=-0.8, browInUp=-0.4, lidLo=0.5, lidUp=0.05, jaw=1.0, cornerWide=1.0, cornerUp=-0.1,
                         upLip=1.5, loLip=1.0, sneer=0.6, cheek=0.4),
     "hopeful":    _pose(0.1, browInUp=0.6, browIn=0.4, browUp=0.35, cornerUp=0.35, cornerWide=0.1, cheek=0.3, lidUp=-0.12,
@@ -248,8 +256,11 @@ FACE_POSES = {
                         jaw=0.65, cornerWide=0.7, cornerUp=-0.2),
     "secret":     _pose(0.05, pucker=1.0, cornerWide=-0.8, rollUp=-0.5, rollLo=-0.5, jaw=0.05, browInUp=0.3, lidUp=0.2,
                         lidLo=0.3, mouthSide=0.3, cornerUp=0.15, L={"browUp": 1.0, "browOutUp": 0.6}, R={"browUp": -0.3}),
-    "wince":      _pose(0.2, browSq=0.8, browUp=-0.4, browInUp=0.4, lidUp=0.4, lidLo=0.7, cheek=0.7, sneer=0.5, cornerWide=0.7,
-                        cornerUp=-0.2, mouthSide=-0.4, rollUp=0.3, rollLo=0.3),
+    # wince: knitted brows pulled down, one eye squeezed (lead side), grimace = upper lip up off the teeth, one corner
+    # yanked back + down, mouth pulled to that side (not a flat pressed line)
+    "wince":      _pose(0.2, browSq=1.2, browUp=-0.75, browInUp=0.55, browIn=0.3, lidUp=0.4, lidLo=0.7, cheek=0.8, sneer=0.7,
+                        cornerWide=0.8, cornerUp=-0.25, mouthSide=-0.5, upLip=0.9, loLip=0.4, jaw=0.08,
+                        R={"cornerUp": -0.25, "cornerWide": 0.3, "cheek": 0.3}),
 }
 for _n in face.EMOTIONS:                     # any emotion added to face.py later still gets a (legacy) pose
     FACE_POSES.setdefault(_n, FACE_POSES_ARKIT[_n])
@@ -795,7 +806,7 @@ class CloudRigPuppet:
         for v in (perf.get("verbs") or []):  # flinch / sneeze punctuation
             if v.get("verb") in ("flinch", "shake_head"):
                 extra.append(v["at"])
-        fs = turn_then_change(fs, perf, f0, f1)
+        fs = turn_then_change(sync_sneeze(fs, perf), perf, f0, f1)
         ev_blinks, quiet = thought_blinks(fs, perf, f0, f1)
         extra += ev_blinks
         ctr = self._controls()
@@ -917,16 +928,20 @@ def face_life(f, seed=1, amount=1.0):
     ch = {}
     breath = 0.5 + 0.5 * math.sin(f * 6.283 / 100.0 + face._hash(seed) * 6.283)
     for i, s in enumerate(SIDES):
-        ch[f"browUp.{s}"] = 0.07 * _wave(f, seed, 83, 1 + i * 0.3) + 0.03 * _wave(f, seed, 37, 7 + i)
-        ch[f"browIn.{s}"] = 0.05 * _wave(f, seed, 61, 3)
-        ch[f"lidLo.{s}"] = 0.05 * _wave(f, seed, 71, 11 + i * 0.2)
-        ch[f"lidUp.{s}"] = 0.03 * _wave(f, seed, 53, 13)
-        ch[f"cornerUp.{s}"] = 0.06 * _wave(f, seed, 67, 17 + i * 5)
-        ch[f"cornerWide.{s}"] = 0.04 * _wave(f, seed, 91, 19 + i * 3)
-        ch[f"sneer.{s}"] = 0.12 * breath
-        ch[f"cheek.{s}"] = 0.04 * breath
-    ch["jaw"] = 0.012 * breath
-    ch["mouthSide"] = 0.05 * _wave(f, seed, 113, 23)
+        # amplitudes in channel units, sized on 540x960 close-ups: ~1.5-2 mm of brow / corner travel = visible life,
+        # well under any expression change. L/R use different phases so the face never moves as a mirrored mask.
+        ch[f"browUp.{s}"] = 0.13 * _wave(f, seed, 83, 1 + i * 0.3) + 0.05 * _wave(f, seed, 37, 7 + i)
+        ch[f"browInUp.{s}"] = 0.10 * _wave(f, seed, 97, 29 + i * 0.4)
+        ch[f"browIn.{s}"] = 0.07 * _wave(f, seed, 61, 3)
+        ch[f"lidLo.{s}"] = 0.08 * _wave(f, seed, 71, 11 + i * 0.2)
+        ch[f"lidUp.{s}"] = 0.04 * _wave(f, seed, 53, 13)
+        ch[f"cornerUp.{s}"] = 0.10 * _wave(f, seed, 67, 17 + i * 5)
+        ch[f"cornerWide.{s}"] = 0.07 * _wave(f, seed, 91, 19 + i * 3)
+        ch[f"sneer.{s}"] = 0.18 * breath
+        ch[f"cheek.{s}"] = 0.07 * breath
+    ch["jaw"] = 0.02 * breath
+    ch["loLip"] = 0.06 * _wave(f, seed, 79, 31)
+    ch["mouthSide"] = 0.08 * _wave(f, seed, 113, 23)
     return {k: v * amount for k, v in ch.items()}
 
 
@@ -989,33 +1004,101 @@ def _head_track(perf, f0, f1):
     return {f: ang(f) for f in range(int(f0) - 2, int(f1) + 40)}
 
 
-def turn_then_change(fs, perf, f0, f1, speed=1.2):
+# ---- canon CAN-P1 timing helpers (Animation Mentor: expression changes get lost in movement) ---------------------
+TURN_SPEED = 1.2          # deg/frame of head yaw (+0.6 x pitch) above which the head counts as turning
+TURN_SETTLE = 3           # frames the head rests after a turn before the new expression starts to land
+
+
+def head_turns(perf, f0, f1, speed=TURN_SPEED, min_len=3):
+    """[(start, end)] frame windows where the head (hips + chest + head yaw/pitch of acting.pose_at) is turning.
+    Use it in the director / acting pass to see where an expression change must NOT be keyed."""
+    if not perf:
+        return []
+    tr = _head_track(perf, f0, f1)
+    out, s0 = [], None
+    for f in range(int(f0) - 1, int(f1) + 38):
+        a, b = tr.get(f - 1), tr.get(f + 1)
+        mv = a is not None and b is not None and (abs(b[0] - a[0]) + 0.6 * abs(b[1] - a[1])) / 2.0 > speed
+        if mv and s0 is None:
+            s0 = f
+        elif not mv and s0 is not None:
+            if f - s0 >= min_len:
+                out.append((s0, f - 1))
+            s0 = None
+    if s0 is not None:
+        out.append((s0, int(f1) + 37))
+    return out
+
+
+def settle_frame(perf, f, f0=None, f1=None, settle=TURN_SETTLE, ramp=10, turns=None, max_delay=20):
+    """first frame >= f where an expression change of `ramp` frames can start without overlapping a head turn:
+    inside a turn -> `settle` frames after it ends; a turn starting during the ramp -> also after that turn.
+    Never drifts more than `max_delay` frames: past that it takes the stillest head frame within reach.
+    e.g. face key [settle_frame(perf, 812), "determined"] in a shot builder."""
+    turns = head_turns(perf, f - 40 if f0 is None else f0, f + 80 if f1 is None else f1) if turns is None else turns
+    f = want = int(f)
+    for _ in range(8):
+        hit = next(((s, e) for s, e in turns if s - 1 <= f + ramp * 0.6 and e + settle > f), None)
+        if hit is None or hit[0] - 1 > f + ramp * 0.6:
+            break
+        f = hit[1] + settle
+    if f - want > max_delay:
+        # a long move (head shake, run of small turns) would drift the beat away. If the change can be COMPLETE just
+        # before the move starts (<= 10 frames earlier), land it there: the thought shows, then he moves. Otherwise
+        # take the frame whose cross-fade window has the stillest head.
+        first = next(((s0, e) for s0, e in turns if s0 - 1 <= want + ramp * 0.6 and e + settle > want), None)
+        early = first[0] - 2 - int(math.ceil(ramp * 0.6)) if first else None
+        if early is not None and 0 <= want - early <= 10:
+            return early
+        win = int(math.ceil(ramp * 0.6))
+        tr = _head_track(perf, want - 2, want + max_delay + win + 2)
+
+        def spd(g):
+            return sum(abs(tr[h + 1][0] - tr[h - 1][0]) + 0.6 * abs(tr[h + 1][1] - tr[h - 1][1]) for h in range(g, g + win + 1))
+        f = min(range(want, want + max_delay + 1), key=lambda g: (round(spd(g), 1), g))
+    return f
+
+
+def turn_then_change(fs, perf, f0, f1, speed=TURN_SPEED, settle=None):
     """canon CAN-P1 (Animation Mentor): an expression change never lands during a head turn - he turns, settles,
-    then the thought reaches the face. Emotion keys that fall while the head is turning (> `speed` deg/frame) wait
-    for the settle. Startle reactions (STARE) and eyes-shut beats stay on their frame. Returns a new face_spec."""
+    then the thought reaches the face. Emotion keys that fall in (or whose cross-fade would run into) a head turn
+    wait until `settle` frames (face_spec 'turnSettle', default TURN_SETTLE) after it ends. Startle reactions (STARE)
+    and eyes-shut beats stay on their frame (the reaction IS the move). Opt out: face_spec 'turnThenChange': false.
+    Returns a new face_spec (keys stay ordered; a delayed key never jumps past the next one)."""
     keys = fs.get("emotion") or []
     if not perf or len(keys) < 2 or fs.get("turnThenChange") is False:
         return fs
-    tr = _head_track(perf, f0, f1)
-
-    def moving(f):
-        a, b = tr.get(f - 1), tr.get(f + 1)
-        if a is None or b is None:
-            return False
-        return (abs(b[0] - a[0]) + 0.6 * abs(b[1] - a[1])) / 2.0 > speed
-
+    settle = fs.get("turnSettle", TURN_SETTLE) if settle is None else settle
+    turns = head_turns(perf, f0, f1, speed)
+    if not turns:
+        return fs
+    ramp = fs.get("blend", 10)
     out = []
     for i, k in enumerate(keys):
         k = list(k)
         if i > 0 and k[1] not in STARE + EYES_SHUT:
-            f = int(k[0])
-            n = 0
-            while moving(f) and n < 30:
-                f += 1
-                n += 1
-            if n:
-                k[0] = f + 2                          # settle a beat, then change
+            nf = settle_frame(perf, k[0], f0, f1, settle, ramp, turns)
+            if i + 1 < len(keys):
+                nf = min(nf, int(keys[i + 1][0]) - 2)
+            k[0] = max(int(out[-1][0]) + 2, nf)       # may move earlier (completed before a long move), never past the previous key
         out.append(k)
+    return dict(fs, emotion=out)
+
+
+def sync_sneeze(fs, perf):
+    """the 'sneeze' face lands with the body's CHOO (acting verb 'sneeze' jerks forward at 70% of its dur): the face
+    key starts 6 frames before it so the squeeze peaks on the jerk; a 'sneeze_build' key before it stays."""
+    keys = fs.get("emotion") or []
+    v = next((v for v in (perf or {}).get("verbs") or [] if v.get("verb") == "sneeze"), None)
+    if v is None or not any(k[1] == "sneeze" for k in keys):
+        return fs
+    choo = int(v["at"] + v.get("dur", 24) * 0.7)
+    out = [list(k) for k in keys]
+    for i, k in enumerate(out):
+        if k[1] == "sneeze":
+            k[0] = choo - 6
+            for k2 in out[i + 1:]:                 # keep the following keys after it
+                k2[0] = max(k2[0], k[0] + 8)
     return dict(fs, emotion=out)
 
 

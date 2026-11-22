@@ -43,6 +43,8 @@ ap.add_argument("--angle", type=float, default=18.0, help="camera azimuth off hi
 ap.add_argument("--tile", default="6x")
 ap.add_argument("--view", default="episode", help="shots mode: episode (along the shot camera) | face (in front of his face)")
 ap.add_argument("--follow", action="store_true", help="shots mode: re-aim the camera at the eyes every frame")
+ap.add_argument("--extend", type=int, default=0, help="shots mode: keep baking N frames past the shot end (holds)")
+ap.add_argument("--fps", type=float, default=0, help="shots mode: also write <out>/clip.mp4 at this frame rate")
 ap.add_argument("--look", default="", help="shots mode: face look target when the shot has none (e.g. camera)")
 args = ap.parse_args(argv)
 os.makedirs(args.out, exist_ok=True)
@@ -203,7 +205,7 @@ def shots_render(paths):
             c = [k0["cam"][j] + (k1["cam"][j] - k0["cam"][j]) * u for j in range(3)]
             return Mi @ Vector((c[0], -c[2], c[1]))
         pup.camera_fn = cam_arm
-        pup.bake(a.get("perf"), fs, sh["from"] - 1, sh["to"] + 1)
+        pup.bake(a.get("perf"), fs, sh["from"] - 1, sh["to"] + 1 + args.extend)
         cam.constraints.clear()
         placed = False
         for s2, fr in order:
@@ -247,3 +249,10 @@ if paths:
     cmd += ["-tile", args.tile, "-geometry", "270x480+3+3", "-pointsize", "16", "-background", "#181818", "-fill", "#eee", sheet]
     subprocess.run(cmd, check=False)
     print("SHEET", sheet)
+    if args.mode == "shots" and args.fps:
+        lst = os.path.join(args.out, "clip.txt")
+        with open(lst, "w") as fh:
+            for p, lab in paths:
+                fh.write(f"file '{p}'\nduration {1.0 / args.fps:.4f}\n")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-vf", "fps=30,format=yuv420p",
+                        "-c:v", "libx264", "-crf", "20", os.path.join(args.out, "clip.mp4")], check=False)
