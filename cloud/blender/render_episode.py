@@ -493,6 +493,7 @@ def build_world(env, fps, frames, haze=0.0):
             nb.link(star, add.inputs[0])
             nb.link(sky, add.inputs[6])
             add.inputs[7].default_value = (0.8, 0.86, 1.0, 1)
+            add.label = "stars"  # polish_light: lighting.star_safe_shutter dims stars that would streak (L016)
             sky = add.outputs[2]
     # moon disc (angular radius 0.026 rad), limb-darkened, mottled
     r = 0.026
@@ -1804,7 +1805,8 @@ def build_shot(shot, frames, args):
     # <<< island_lod
     # >>> polish_light: depth of field on the hero's eyes (final only; f-stop by shot size)
     if lighting.active():
-        lighting.setup_dof(sc, cam, ACTORS.get("hero") or next(iter(ACTORS.values()), None), None, shot, args.quality)
+        lighting.setup_dof(sc, cam, ACTORS.get("hero") or next(iter(ACTORS.values()), None), None, shot, args.quality,
+                          cam_at=lambda f: lod_cam_at(shot, f))  # L016: shot-level star-safe shutter
     # <<< polish_light
     storm.apply(shot, env, frames, cam, fps, log)  # props2 hook: rain, lightning, overcast, sepia grade
     if lighting.active():  # lighting hook: drops CamFill, warms practicals, haze, exposure offset
@@ -1862,6 +1864,11 @@ def build_set_shot(shot, kref, frames, args, engine, device):
         return T @ look_matrix3(Vector(camp), Vector(lookp), rollc), fov
     allf = list(range(shot["from"], shot["to"]))
     set_assembly.realize_scatter(sb, cam, allf, (spec.get("width", 1080), spec.get("height", 1920)), cam_at)
+    # >>> polish_light: DOF + star-safe motion blur on world-kit sets too (L016)
+    if lighting.active():
+        lighting.setup_dof(sc, cam, ACTORS.get("hero") or next(iter(ACTORS.values()), None), None, shot, args.quality,
+                           cam_at=lambda f: cam_at(f))
+    # <<< polish_light
     storm.apply(shot, env, frames, cam, fps, log)
     centre = Vector((0, 0, 0))
     if shot.get("actors"):

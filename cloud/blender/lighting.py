@@ -143,6 +143,13 @@ BASE = {
     "view_look": None,            # AgX look; None = by family (night: Medium High Contrast, storm: Punchy, dawn: Base)
     "practical_glow": 2.2,        # deck-lamp glass emission strength (warm, not clipping)
     "practical_bulb_scale": 0.3,  # deck-lamp bulb power scale (props author 60 W)
+    # CAN-L2 night continuity: the hero face's incident exposure (meter at the eyes, aimed at the lens) is held to
+    # one per-sequence target, so a close-up never reads brighter ('daylight') than its wide. Only the hero-linked
+    # cheats (face key / fill / wrap) are trimmed; the moon, practicals and the set are untouched.
+    "face_normalize": True,
+    "face_target": 0.55,          # target face incident irradiance, x key_energy (calibrated on A01a/A03/C21)
+    "face_ev_offset": 0.0,        # deliberate per-shot exposure change in stops (needs cheat_reason/light_event)
+    "face_ev_tol": 1.0 / 3.0,     # wide <-> close-up tolerance, stops
     # <<< polish_light
 }
 
@@ -253,7 +260,12 @@ def sequence_of(shot):
     if shot.get("sequence"):
         return str(shot["sequence"])
     sid = str(shot.get("id", ""))
-    lead = "".join(ch for ch in sid if ch.isalpha())
+    # polish_light: the LEADING letters only ('A01b' -> 'A'; it was 'Ab', which split A01a/A01b into two sequences)
+    lead = ""
+    for ch in sid:
+        if not ch.isalpha():
+            break
+        lead += ch
     return lead or sid
 
 
@@ -410,6 +422,9 @@ def begin_shot(spec, shot, override=None):
     cfg = resolve(spec, shot, override)
     STATE["cfg"] = cfg
     STATE["shot"] = shot
+    STATE["spec"] = spec  # polish_light: discovery map
+    STATE["hero_arm"] = None  # polish_light: face meter
+    STATE["cam_at"] = None
     STATE["report"] = {} if cfg is None else {
         "preset": cfg["preset"], "sequence": cfg["sequence"], "dawn": cfg["dawn"], "lights": [], "checks": {},
         "warnings": []}
@@ -773,6 +788,8 @@ def build_hero_rig(idx, holder, arm, actor, camera, shot):
     cfg = STATE["cfg"]
     key_dir = STATE.get("key_dir") or _key_dir_blender(cfg)
     head_bone = head_bone_of(arm)  # polish_light: CloudRig heads are DEF-Head
+    if actor.get("name", "hero") == "hero" or STATE.get("hero_arm") is None:
+        STATE["hero_arm"] = arm  # polish_light: the face meter reads this rig
     # head follower: world position of the head, NO rotation -> children keep world-fixed directions
     fol = bpy.data.objects.new(f"light_head_{idx}", None)
     _link(fol)
@@ -1097,7 +1114,7 @@ def _grade(scene, cfg):
     return scene.view_settings.look
 
 
-def motion_blur_policy(scene, arm):
+def motion_blur_policy(scene, arm, cam_at=None):
     """Motion blur where it reads: camera + object (yacht, props) transform blur everywhere, deformation blur
     only on the hero. The ocean / island meshes are millions of vertices; deform blur on them triples their
     memory (OOM on shared 15 GB boxes) for blur nobody sees under the camera's own motion blur."""
@@ -1122,54 +1139,124 @@ def motion_blur_policy(scene, arm):
     except AttributeError:
         pass
     scene.render.motion_blur_shutter = 0.5  # 180-degree shutter
-    star = star_safe_shutter(scene)  # L016: stars must not streak into 'rain'
+    star = star_safe_shutter(scene, cam_at)  # L016: stars must not streak into 'rain'
     return f"camera+object; deform on hero only ({n} meshes rigid); shutter {scene.render.motion_blur_shutter:.2f} ({star})"
 
 
-STAR_STREAK_MAX_PX = 1.2  # a star may smear at most this many pixels at render resolution
+STAR_STREAK_MAX_PX = 1.2   # a star may smear at most this many pixels at render resolution (L016)
+STAR_SHUTTER_MIN = 0.06    # never below ~22 degrees: the hero keeps a hint of motion blur
+STAR_SHUTTER_PCTL = 0.9    # the shot's shutter follows the 90th-percentile sky speed; peaks are handled by dimming
 
 
-def _cam_rate_px(scene, cam):
-    """Max image-space speed (pixels per frame) of a point at infinity, from the camera's keyed rotation and
-    lens over the frames being rendered (rotation only: translation does not move the sky)."""
+def _rot_rate_px(mats_fovs, H, step):
+    """Image-space speed (px/frame) of a point at infinity between consecutive (matrix, vfov_rad) samples taken
+    every `step` frames: rotation only (translation does not move the sky); roll included (sky spins about the
+    centre, worst at the frame corner ~ half the diagonal, approximated by the frame height)."""
+    out = []
+    for (m0, f0), (m1, f1) in zip(mats_fovs, mats_fovs[1:]):
+        q0, q1 = m0.to_quaternion(), m1.to_quaternion()
+        ang = q1.rotation_difference(q0).angle
+        fov = 0.5 * (f0 + f1)
+        zoom = abs(f1 - f0) / max(fov, 1e-6) * 0.5  # a zoom moves edge stars by ~half the frame per unit fov change
+        out.append((ang / max(fov, 1e-6) + zoom) * H / step)
+    return out
+
+
+def _keyed_cam_samples(scene, cam, frames, sub=4):
+    """(matrix_world, vfov) of the KEYED camera (includes the buoyancy solve) at sub-frame steps."""
     import mathutils
     ad = cam.animation_data
     if not (ad and ad.action):
-        return 0.0
-    fcs = {fc.array_index: fc for fc in ad.action.fcurves if fc.data_path == "rotation_quaternion"}
-    lens = next((fc for fc in (cam.data.animation_data.action.fcurves if cam.data.animation_data and cam.data.animation_data.action else [])
-                 if fc.data_path == "lens"), None)
-    if len(fcs) < 4:
-        return 0.0
-    H = scene.render.resolution_y * scene.render.resolution_percentage / 100.0
-    worst = 0.0
-    prev = None
-    for i in range(scene.frame_start * 4 - 4, scene.frame_end * 4 + 5):  # quarter-frame steps
-        f = i / 4.0
-        q = mathutils.Quaternion([fcs[k].evaluate(f) for k in range(4)]).normalized()
-        if prev is not None:
-            ang = q.rotation_difference(prev).angle  # includes roll (sky rotates about the centre)
-            L = lens.evaluate(f) if lens else cam.data.lens
-            fov = 2 * math.atan((cam.data.sensor_height / 2) / max(L, 1e-3))
-            worst = max(worst, ang * 4.0 * H / fov)  # px per frame
-        prev = q
-    return worst
+        return []
+    fcq = {fc.array_index: fc for fc in ad.action.fcurves if fc.data_path == "rotation_quaternion"}
+    if len(fcq) < 4:
+        return []
+    cad = cam.data.animation_data
+    lens = next((fc for fc in (cad.action.fcurves if cad and cad.action else []) if fc.data_path == "lens"), None)
+    out = []
+    for i in range(int(frames[0]) * sub - sub // 2, int(frames[-1]) * sub + sub // 2 + 1):
+        f = i / float(sub)
+        q = mathutils.Quaternion([fcq[k].evaluate(f) for k in range(4)]).normalized()
+        L = lens.evaluate(f) if lens else cam.data.lens
+        out.append((q.to_matrix().to_4x4(), 2 * math.atan((cam.data.sensor_height / 2) / max(L, 1e-3))))
+    return out
 
 
-def star_safe_shutter(scene):
-    """Shorten the shutter on night shots (stars in the sky) so a star never streaks more than
-    STAR_STREAK_MAX_PX; never below 0.06 frame (a whip pan keeps a hint of blur). Day/dawn keep 180 degrees."""
+def _star_nodes(scene):
+    w = scene.world
+    if not (w and w.use_nodes):
+        return []
+    return [n for n in w.node_tree.nodes if n.label == "stars" and n.type == "MIX"]
+
+
+def star_safe_shutter(scene, cam_at=None):
+    """L016: stars must never streak into 'rain' under camera motion blur.
+    1) one shutter per SHOT (chunk-independent): from the 90th-percentile sky speed of the shot's camera rig over
+       ALL its frames (cam_at(f) -> (matrix, vfov_deg), render_episode.lod_cam_at), so a star smears at most
+       STAR_STREAK_MAX_PX; never below STAR_SHUTTER_MIN.
+    2) per-frame star dimming for what the shutter cannot absorb (impact shakes, whip pans): the star layer is
+       keyed down by (limit / streak)^2 on the frames where the keyed camera (with the buoyancy solve) still
+       smears them, so a residual streak is too faint to read. Day / dawn (no stars) keep 180 degrees."""
     cfg = STATE.get("cfg")
     cam = scene.camera
+    rep = STATE.get("report") if STATE.get("report") is not None else {}
     if cfg is None or cam is None or cfg["family"] != "night" or cfg["dawn"] >= 0.5:
         return "no stars"
-    rate = _cam_rate_px(scene, cam)
+    H = scene.render.resolution_y * scene.render.resolution_percentage / 100.0
+    shot = STATE.get("shot") or {}
+    rates = []
+    if cam_at is not None and shot:
+        f0, f1 = int(shot["from"]), int(shot["to"])
+        sm = []
+        for i in range((f1 - f0) * 2 + 1):  # half-frame steps over the whole shot
+            m, fov = cam_at(f0 + i * 0.5)
+            sm.append((m, math.radians(fov)))
+        rates = _rot_rate_px(sm, H, 0.5)
+    rng = (scene.frame_start, scene.frame_end)
+    keyed = _rot_rate_px(_keyed_cam_samples(scene, cam, rng), H, 0.25)
+    if not rates:  # no rig function: fall back to the keyed camera over the rendered range
+        rates = keyed
+    if not rates:
+        return "static camera"
+    srt = sorted(rates)
+    p = srt[min(len(srt) - 1, int(STAR_SHUTTER_PCTL * (len(srt) - 1)))]
     sh = scene.render.motion_blur_shutter
-    if rate * sh > STAR_STREAK_MAX_PX:
-        sh = max(0.06, STAR_STREAK_MAX_PX / rate)
+    if p * sh > STAR_STREAK_MAX_PX:
+        sh = max(STAR_SHUTTER_MIN, STAR_STREAK_MAX_PX / p)
         scene.render.motion_blur_shutter = sh
-    out = f"sky {rate:.1f} px/frame -> streak {rate * sh:.1f} px"
-    (STATE.get("report") or {})["star_streak_px"] = round(rate * sh, 2)
+    # per-frame residual: dim the star layer where the keyed camera still streaks them
+    dims = {}
+    nodes = _star_nodes(scene)
+    if keyed and nodes:
+        sub = 4
+        f_first = scene.frame_start
+        for f in range(scene.frame_start, scene.frame_end + 1):
+            # samples around frame f covering the shutter (centred): indices of (f - sh/2 .. f + sh/2)
+            i0 = (f - f_first) * sub + sub // 2 - 1
+            seg = keyed[max(0, i0 - 1): i0 + 2]
+            r = max(seg) if seg else 0.0
+            streak = r * sh
+            k = 1.0 if streak <= STAR_STREAK_MAX_PX else (STAR_STREAK_MAX_PX / streak) ** 2
+            dims[f] = round(k, 3)
+        if any(v < 0.999 for v in dims.values()):
+            for n in nodes:
+                sock = n.inputs[7]
+                base = tuple(sock.default_value)
+                for f, k in dims.items():
+                    sock.default_value = (base[0] * k, base[1] * k, base[2] * k, base[3])
+                    sock.keyframe_insert("default_value", frame=f)
+                sock.default_value = base
+                ad = scene.world.node_tree.animation_data
+                for fc in (ad.action.fcurves if ad and ad.action else []):
+                    for kp in fc.keyframe_points:
+                        kp.interpolation = "CONSTANT"
+    worst = max(keyed) if keyed else p
+    out = (f"sky p90 {p:.1f} px/frame (shot max {max(rates):.1f}, keyed max {worst:.1f}) -> shutter {sh:.3f}, "
+           f"streak p90 {p * sh:.2f} px; stars dimmed on {sum(1 for v in dims.values() if v < 0.999)} frame(s)")
+    rep["stars"] = {"sky_px_per_frame_p90": round(p, 2), "shot_max": round(max(rates), 2), "keyed_max": round(worst, 2),
+                    "shutter": round(sh, 3), "streak_px_p90": round(p * sh, 2),
+                    "dimmed": {str(f): v for f, v in dims.items() if v < 0.999}}
+    rep["star_streak_px"] = round(p * sh, 2)
     return out
 
 
@@ -1177,14 +1264,17 @@ def star_safe_shutter(scene):
 FSTOPS = ((0.55, 2.8, "CU"), (1.0, 4.0, "MCU"), (1.8, 5.6, "MS"), (3.5, 8.0, "MLS"), (1e9, 16.0, "WS"))
 
 
-def setup_dof(scene, cam, arm, holder, shot, quality="final"):
+def setup_dof(scene, cam, arm, holder, shot, quality="final", cam_at=None):
     """Depth of field focused on the hero's eyes (an empty riding the head bone at the mid-eye point, so the
     focus follows the performance and the camera every frame); f-stop from the shot size at the keyframe."""
     rep = STATE.get("report")
     if rep is None:
         rep = STATE["report"] = {}
     camd = cam.data
-    rep["motion_blur"] = motion_blur_policy(scene, arm)
+    STATE["cam_at"] = cam_at  # polish_light: chunk-independent camera for the face meter / discovery reveals
+    if arm is not None and STATE.get("hero_arm") is None:
+        STATE["hero_arm"] = arm
+    rep["motion_blur"] = motion_blur_policy(scene, arm, cam_at)
     log(f"motion blur: {rep['motion_blur']}")
     if quality != "final" or arm is None:
         camd.dof.use_dof = False
@@ -1219,6 +1309,559 @@ def setup_dof(scene, cam, arm, holder, shot, quality="final"):
 # <<< polish_light
 
 
+# >>> polish_light: CAN-L1 discovery map + CAN-L2 night face-exposure continuity
+# ---- CAN-L1 (Calahan): per sequence, the story detail the viewer should DISCOVER, the shot it is revealed in, and
+# the motivated light that reveals it; everything else stays subordinate (the reveal is light-linked to the detail).
+#   spec.discovery_map = {"B": [{"detail": "the hull grounded on the reef", "shot": "B11", "reveal": "moon_glint",
+#                                "point": [0, 0.4, 2.0], "space": "yacht", "match": "gelcoat_hull",
+#                                "motivation": "moon", "at": 740, "ramp": 10, "gain": 1.0}]}
+#   (also accepted: a list of entries with "sequence", world.lighting.discovery_map, world.lighting.sequences.<S>.discovery_map)
+REVEALS = {
+    "raking_practical": "a motivated practical grazing the surface at ~12 deg: texture, dents and scrapes read",
+    "practical_pool": "a practical pooling warm light on the detail",
+    "moon_glint": "a specular-only moon kick mirrored off the surface toward the lens (wet hull, metal, glass)",
+    "moon_pool": "a pool of moonlight through a cloud break on the detail",
+    "sun_glint": "a specular-only sun kick (dawn) mirrored off the surface toward the lens",
+}
+REVEAL_MOTIVATION = {"raking_practical": "practical", "practical_pool": "practical", "moon_glint": "moon",
+                     "moon_pool": "moon", "sun_glint": "sun"}
+REVEAL_GAIN = {"raking_practical": 0.9, "practical_pool": 0.6, "moon_glint": 1.2, "moon_pool": 0.8, "sun_glint": 1.2}
+
+
+def discovery_map(spec):
+    """{sequence: [entry, ...]} gathered from every accepted place in the spec."""
+    out = {}
+
+    def add(seq, e):
+        if isinstance(e, dict):
+            out.setdefault(str(seq), []).append(dict(e, sequence=str(seq)))
+
+    wl = (spec.get("world") or {}).get("lighting") or {}
+    for src in (spec.get("discovery_map"), wl.get("discovery_map")):
+        if isinstance(src, dict):
+            for seq, lst in src.items():
+                for e in lst or []:
+                    add(seq, e)
+        elif isinstance(src, list):
+            for e in src:
+                if isinstance(e, dict):
+                    add(e.get("sequence") or sequence_of({"id": str(e.get("shot") or "")}), e)
+    for seq, L in (wl.get("sequences") or {}).items():
+        for e in (L or {}).get("discovery_map") or []:
+            add(seq, e)
+    return out
+
+
+def _entry_shots(e):
+    if e.get("shots"):
+        return [str(x) for x in e["shots"]]
+    return [str(e["shot"])] if e.get("shot") else []
+
+
+def discovery_for_shot(spec, shot):
+    return [e for e in discovery_map(spec).get(sequence_of(shot), []) if str(shot.get("id")) in _entry_shots(e)]
+
+
+def check_discovery(spec):
+    """CAN-L1 static check. Returns (status, problems, rows)."""
+    shots = spec.get("shots") or []
+    by_id = {str(s.get("id")): s for s in shots}
+    seqs = []
+    for s in shots:
+        q = sequence_of(s)
+        if q not in seqs:
+            seqs.append(q)
+    dm = discovery_map(spec)
+    problems, rows = [], []
+    for q in seqs:
+        if not dm.get(q):
+            problems.append(f"CAN-L1 sequence {q}: no discovery_map entry (which detail does the light reveal, in which shot?)")
+    for q, lst in dm.items():
+        if q not in seqs:
+            problems.append(f"CAN-L1 discovery_map sequence {q}: no such sequence in the episode")
+        for e in lst:
+            tag = f"CAN-L1 {q}:{e.get('detail', '?')!s:.40}"
+            ids = _entry_shots(e)
+            if not e.get("detail"):
+                problems.append(f"{tag}: entry has no 'detail' (the story point the viewer discovers)")
+            if not ids:
+                problems.append(f"{tag}: entry has no 'shot'")
+            for sid in ids:
+                if sid not in by_id:
+                    problems.append(f"{tag}: shot {sid} not in the episode")
+                elif sequence_of(by_id[sid]) != q:
+                    problems.append(f"{tag}: shot {sid} belongs to sequence {sequence_of(by_id[sid])}, not {q}")
+            rv = e.get("reveal")
+            if rv not in REVEALS:
+                problems.append(f"{tag}: reveal '{rv}' not one of {sorted(REVEALS)}")
+            if not (e.get("point") or e.get("match")):
+                problems.append(f"{tag}: needs a target ('point' and/or 'match' object/material name)")
+            mot = e.get("motivation") or REVEAL_MOTIVATION.get(rv)
+            if not mot:
+                problems.append(f"{tag}: reveal light is unmotivated (CAN-L2: every light has a source)")
+            for sid in ids:
+                sh = by_id.get(sid)
+                if sh is None:
+                    continue
+                if e.get("at") is not None and not (sh["from"] <= int(e["at"]) < sh["to"]):
+                    problems.append(f"{tag}: 'at' frame {e['at']} outside shot {sid} [{sh['from']}, {sh['to']})")
+                cfg = resolve(spec, sh)
+                if cfg and rv == "sun_glint" and cfg["family"] == "night" and cfg["dawn"] < 0.3:
+                    problems.append(f"{tag}: sun_glint in a night shot ({sid}) is unmotivated")
+            rows.append({"sequence": q, "detail": e.get("detail"), "shots": ids, "reveal": rv, "motivation": mot,
+                         "target": e.get("match") or e.get("point")})
+    return ("FAIL" if problems else "PASS"), problems, rows
+
+
+def _target_world(scene, shot, e):
+    """World point for an entry's spec-space 'point' (yacht-local on yacht shots unless space == 'world'),
+    else the bounding-box centre of the matched objects."""
+    from mathutils import Vector as V
+    objs = _match_objects(scene, e.get("match"))
+    if e.get("point") is not None:
+        p = _b3(e["point"])
+        space = e.get("space") or ("yacht" if shot.get("yacht") else "world")
+        yr = scene.objects.get("YachtRoot")
+        if space == "yacht" and yr is not None:
+            return yr.matrix_world @ p, objs
+        return p, objs
+    if objs:
+        pts = [o.matrix_world @ V(c) for o in objs for c in o.bound_box]
+        return sum(pts, V((0, 0, 0))) / len(pts), objs
+    return None, objs
+
+
+def _match_objects(scene, match):
+    if not match:
+        return []
+    keys = [m.strip().lower() for m in str(match).split("|") if m.strip()]
+    out = []
+    for o in scene.objects:
+        if o.type != "MESH" or o.get("lighting_rig"):
+            continue
+        names = [o.name.lower()] + [s.material.name.lower() for s in o.material_slots if s.material]
+        if any(k in n for k in keys for n in names):
+            out.append(o)
+    return out
+
+
+def _surface(scene, cam_pos, target, objs):
+    """(hit point, normal) on the detail as the lens sees it: ray from the camera to the target; falls back to
+    the closest point on the matched meshes, then to a normal facing the camera."""
+    dg = bpy.context.evaluated_depsgraph_get()
+    d = target - cam_pos
+    ok, loc, nor, _i, ob, _m = scene.ray_cast(dg, cam_pos, d.normalized(), distance=d.length + 0.5)
+    names = {o.name for o in objs}
+    if ok and (not names or ob.name in names) and (loc - target).length < 1.5:
+        n = nor.normalized()
+        return loc, (n if n.dot(cam_pos - loc) > 0 else -n)
+    best = None
+    for o in objs:
+        inv = o.matrix_world.inverted()
+        r = o.closest_point_on_mesh(inv @ target)
+        if r[0]:
+            p = o.matrix_world @ r[1]
+            n = (o.matrix_world.to_3x3().inverted().transposed() @ r[2]).normalized()
+            if best is None or (p - target).length < (best[0] - target).length:
+                best = (p, n if n.dot(cam_pos - p) > 0 else -n)
+    if best:
+        return best
+    return target, (cam_pos - target).normalized()
+
+
+def _keyed(v, f, default=0.0):
+    """render_episode.keyed: number, or [[f, v], ...] linear between keys, hold outside."""
+    if v is None:
+        return default
+    if isinstance(v, (int, float)):
+        return float(v)
+    ks = sorted(v, key=lambda k: k[0])
+    if f <= ks[0][0]:
+        return float(ks[0][1])
+    if f >= ks[-1][0]:
+        return float(ks[-1][1])
+    for (f0, v0), (f1, v1) in zip(ks, ks[1:]):
+        if f0 <= f <= f1:
+            return float(v0) if f1 == f0 else v0 + (v1 - v0) * (f - f0) / (f1 - f0)
+    return float(ks[-1][1])
+
+
+def _nominal_pose(scene, shot, kf):
+    """Put the scene at the shot's keyframe in a CHUNK-INDEPENDENT state: the yacht at its nominal spec pose (its
+    keys only cover the frames being rendered) and the camera from the shot's rig function (cam_at) when known.
+    Returns (camera matrix_world, vertical fov rad, yacht root or None). Undo with scene.frame_set()."""
+    from mathutils import Matrix
+    scene.frame_set(kf)
+    yr = scene.objects.get("YachtRoot")
+    if yr is not None and shot.get("yacht"):
+        y = shot["yacht"]
+        T = Matrix(((1, 0, 0, 0), (0, 0, -1, 0), (0, 1, 0, 0), (0, 0, 0, 1)))  # spec (Y up) -> Blender
+        ym3 = (Matrix.Translation((y["x"], -_keyed(y.get("sink"), kf), y["z"])) @ Matrix.Rotation(y.get("heading", 0.0), 4, "Y")
+               @ Matrix.Rotation(-_keyed(y.get("pitch"), kf), 4, "X") @ Matrix.Rotation(_keyed(y.get("roll"), kf), 4, "Z"))
+        yr.matrix_world = T @ ym3 @ T.inverted()  # = render_episode's keyed attitude without the buoyancy solve
+    bpy.context.view_layer.update()
+    cam = scene.camera
+    if STATE.get("cam_at") is not None:
+        m, fov = STATE["cam_at"](kf)
+        return m.copy(), math.radians(fov), yr
+    fov = 2 * math.atan((cam.data.sensor_height / 2) / max(cam.data.lens, 1e-3))
+    return cam.matrix_world.copy(), fov, yr
+
+
+def _in_frame(scene, cm, vfov, P):
+    pc = cm.inverted() @ P
+    if pc.z >= -1e-3:
+        return False
+    t = math.tan(vfov / 2) * 1.05
+    asp = scene.render.resolution_x / max(scene.render.resolution_y, 1)
+    return abs(pc.y / -pc.z) <= t and abs(pc.x / -pc.z) <= t * asp
+
+
+def apply_discovery(scene, shot):
+    """Build the reveal light(s) of this shot's discovery-map entries (motivated, light-linked to the detail, faded
+    in at entry['at'] over entry['ramp'] frames). Logged in the report as role 'reveal'."""
+    spec = STATE.get("spec") or {}
+    ents = discovery_for_shot(spec, shot)
+    cfg = STATE["cfg"]
+    rep = STATE["report"]
+    if not ents or scene.camera is None:
+        return []
+    kf = int(shot.get("keyFrame", (shot["from"] + shot["to"]) // 2))
+    cur = scene.frame_current
+    cm, _vfov, yr = _nominal_pose(scene, shot, kf)
+    cam_pos = cm.translation.copy()
+    key_dir = STATE.get("key_dir") or _key_dir_blender(cfg)
+    made = []
+    for i, e in enumerate(ents):
+        rv = e.get("reveal")
+        if rv not in REVEALS:
+            rep["warnings"].append(f"discovery: unknown reveal {rv}")
+            continue
+        tgt, objs = _target_world(scene, shot, e)
+        if tgt is None:
+            rep["warnings"].append(f"discovery: no target for '{e.get('detail')}' ({e.get('match')})")
+            continue
+        P, N = _surface(scene, cam_pos, tgt, objs)
+        gain = float(e.get("gain", REVEAL_GAIN[rv]))
+        E_s = gain * cfg["key_energy"]  # irradiance on the detail, x the sequence key: reads, never outshines the hero
+        mot = e.get("motivation") or REVEAL_MOTIVATION[rv]
+        practical = mot.startswith("practical")
+        col = tuple(e.get("color") or (cfg["practical_color"] if practical else
+                                        (cfg["key_color"] if rv != "sun_glint" else (1.0, 0.78, 0.6))))
+        name = f"reveal_{i}_{rv}"
+        if rv in ("moon_glint", "sun_glint"):
+            V = (cam_pos - P).normalized()
+            R = (2 * N.dot(V) * N - V).normalized()  # mirror direction: the glint points straight down the lens
+            d = float(e.get("distance", 2.5))
+            ob = _area(name, E_s * math.pi * d * d, float(e.get("size", 0.35)), col, None, tuple(P + R * d))
+            ob.rotation_mode = "QUATERNION"
+            ob.rotation_quaternion = (-R).to_track_quat("-Z", "Y")
+            for attr in ("visible_diffuse", "visible_transmission", "visible_volume_scatter"):
+                try:
+                    setattr(ob, attr, False)  # specular only: the glint, not a fill
+                except AttributeError:
+                    pass
+        else:
+            if rv == "raking_practical":
+                T = (cam_pos - P) - N * N.dot(cam_pos - P)  # graze across the surface, from beside the lens side
+                if T.length < 1e-4:
+                    T = N.orthogonal()
+                T = T.normalized()
+                side = Vector(e["from"]).normalized() if e.get("from") else None
+                a = math.radians(float(e.get("graze_deg", 12.0)))
+                d = float(e.get("distance", 1.4))
+                L = side if side is not None else (T * math.cos(a) + N * math.sin(a)).normalized()
+                cos_i = max(L.dot(N), 0.08)
+                cone = math.radians(float(e.get("cone_deg", 34.0)))
+            else:  # pools: from the key (moon_pool) or from straight above the detail (practical_pool)
+                L = key_dir.normalized() if rv == "moon_pool" else Vector((0.15, 0.1, 1.0)).normalized()
+                d = float(e.get("distance", 4.0 if rv == "moon_pool" else 1.6))
+                cos_i = max(L.dot(N), 0.2)
+                cone = 2 * math.atan(float(e.get("radius", 0.6)) / d)
+            ld = bpy.data.lights.new(name, "SPOT")
+            ld.color = col
+            ld.spot_size = cone
+            ld.spot_blend = 0.7
+            ld.shadow_soft_size = float(e.get("soft", 0.04 if rv == "raking_practical" else 0.15))
+            ld.energy = 4 * math.pi * E_s * d * d / cos_i  # point/spot: I = P / 4pi; E = I cos / d^2
+            ob = _link(bpy.data.objects.new(name, ld))
+            ob.location = P + L * d
+            ob.rotation_mode = "QUATERNION"
+            ob.rotation_quaternion = (-L).to_track_quat("-Z", "Y")
+        if objs and not e.get("spill", False):  # subordinate: the reveal touches only the detail
+            coll = bpy.data.collections.new(f"{name}_recv")
+            for o in objs:
+                coll.objects.link(o)
+            _light_link(ob, coll, shadows=False)
+        if e.get("at") is not None:  # the reveal happens when the story wants it
+            at, ramp = int(e["at"]), max(int(e.get("ramp", 8)), 1)
+            full = ob.data.energy
+            keys = [(shot["from"] - 1, 0.0), (at, 0.0), (at + ramp, 1.0)]
+            if e.get("until") is not None:  # a brief reveal (a lightning flash, a sweeping torch)
+                keys += [(int(e["until"]), 1.0), (int(e["until"]) + ramp, 0.0)]
+            for f, k in keys:
+                ob.data.energy = full * k
+                ob.data.keyframe_insert("energy", frame=f)
+            ob.data.energy = full
+        if yr is not None and shot.get("yacht") and e.get("space", "yacht") != "world":
+            mw = ob.matrix_world.copy()  # ride with the yacht (heave / pitch / roll), like the detail does
+            ob.parent = yr
+            ob.matrix_parent_inverse = yr.matrix_world.inverted()
+            ob.matrix_world = mw
+        _tag(ob, mot, "reveal")
+        made.append({"detail": e.get("detail"), "reveal": rv, "motivation": mot, "light": ob.name,
+                     "target": [round(x, 2) for x in P], "objects": [o.name for o in objs][:6], "E_surface": round(E_s, 3),
+                     "at": e.get("at")})
+        log(f"discovery: '{e.get('detail')}' <- {rv} ({mot}) on {len(objs)} object(s)")
+    scene.frame_set(cur)
+    rep["discovery"] = made
+    return made
+
+
+# ---- CAN-L2 (CML 'Filming at night'): the close-up must not feel like daylight next to its wide. A DP's incident
+# meter at the hero's eyes, aimed at the lens: sum of every light that reaches the hero (light linking, shadow
+# rays) + the sky. Hero-only cheats are trimmed so every hero shot of a sequence lands on one face exposure.
+HERO_TRIM_ROLES = ("face_key", "face_fill", "face_wrap")
+SHOT_SIZES = ((0.55, "CU"), (1.0, "MCU"), (1.8, "MS"), (3.5, "MLS"), (1e9, "WS"))
+
+
+def _eye_world(arm):
+    from mathutils import Matrix
+    hb = head_bone_of(arm)
+    if hb is None:
+        return None
+    bone = arm.data.bones[hb]
+    pb = arm.pose.bones[hb]
+    tail_m = bone.matrix_local @ Matrix.Translation((0, bone.length, 0))
+    local = tail_m.inverted() @ eye_point_rest(arm)
+    return arm.matrix_world @ pb.matrix @ Matrix.Translation((0, bone.length, 0)) @ local
+
+
+def _hero_names(arm):
+    base = arm.parent or arm
+    return {o.name for o in base.children_recursive} | {base.name}
+
+
+def _occluded(scene, dg, P, L, dist, hero):
+    o = P.copy()
+    left = dist
+    for _ in range(6):
+        ok, loc, _n, _i, ob, _m = scene.ray_cast(dg, o, L, distance=left)
+        if not ok:
+            return False
+        nm = ob.name.lower()
+        if ob.name in hero or ob.get("lighting_rig") or "glass" in nm or "haze" in nm or ob.display_type in ("WIRE", "BOUNDS"):
+            step = (loc - o).length + 1e-3
+            o = loc + L * 1e-3
+            left -= step
+            if left <= 0:
+                return False
+            continue
+        return True
+    return False
+
+
+def _light_irradiance(scene, dg, ob, P, N, hero):
+    ld = ob.data
+    if not getattr(ob, "visible_diffuse", True):
+        return 0.0
+    ll = getattr(ob, "light_linking", None)
+    rc = ll.receiver_collection if ll else None
+    if rc is not None and not any(o.name in hero for o in rc.all_objects):
+        return 0.0
+    mw = ob.matrix_world
+    if ld.type == "SUN":
+        L = (mw.to_3x3() @ Vector((0, 0, 1))).normalized()
+        c = N.dot(L)
+        e = ld.energy * (max(0.0, 0.5 + 0.5 * c) if ld.angle >= math.radians(90) else max(0.0, c))
+        dist = 5000.0
+    else:
+        v = mw.translation - P
+        dist = v.length
+        if dist < 1e-4:
+            return 0.0
+        L = v / dist
+        c = N.dot(L)
+        if c <= 0:
+            return 0.0
+        if ld.type == "AREA":
+            ne = (mw.to_3x3() @ Vector((0, 0, -1))).normalized()
+            I = ld.energy / math.pi * max(0.0, ne.dot(-L))
+        else:
+            I = ld.energy / (4 * math.pi)
+            if ld.type == "SPOT":
+                ax = (mw.to_3x3() @ Vector((0, 0, -1))).normalized()
+                if math.acos(max(-1.0, min(1.0, ax.dot(-L)))) > ld.spot_size / 2:
+                    return 0.0
+        e = I * c / (dist * dist)
+    if e <= 1e-6:
+        return 0.0
+    if ld.use_shadow and not (ll is not None and ll.blocker_collection is not None):  # hero-blocked cheats: unshadowed at the eye
+        if _occluded(scene, dg, P + N * 0.12, L, dist, hero):
+            return 0.0
+    return e
+
+
+def face_meter(scene, shot, normalize=True):
+    """Incident face exposure of the hero at the shot's keyframe (stops, incl. view exposure), and - when the
+    sequence asks for it - trim the hero-only cheats onto the sequence target. Stored as report['face_meter']."""
+    cfg = STATE["cfg"]
+    rep = STATE["report"]
+    arm = STATE.get("hero_arm")
+    cam = scene.camera
+    if arm is None or cam is None:
+        return None
+    kf = int(shot.get("keyFrame", (shot["from"] + shot["to"]) // 2))
+    cur = scene.frame_current
+    cm, fov, _yr = _nominal_pose(scene, shot, kf)
+    dg = bpy.context.evaluated_depsgraph_get()
+    P = _eye_world(arm)
+    if P is None:
+        scene.frame_set(cur)
+        return None
+    cpos = cm.translation
+    N = (cpos - P).normalized()
+    hero = _hero_names(arm)
+    fwd = (arm.matrix_world.to_3x3() @ Vector((0, -1, 0))).normalized()
+    facing = fwd.dot(N)
+    in_frame = _in_frame(scene, cm, fov, P)
+    d = (cpos - P).length
+    frame_h = 2 * d * math.tan(fov / 2)
+    size = next(n for lim, n in SHOT_SIZES if frame_h < lim)
+    E_amb = math.pi * cfg["hdri_ambient"] * 0.5 * sum(w for _h, w in cfg.get("hdri_mix") or []) if rep.get("hdri") else 0.0
+    fixed, trim = E_amb, []
+    parts = {"sky": round(E_amb, 4)}
+    for ob in scene.objects:
+        if ob.type != "LIGHT":
+            continue
+        e = _light_irradiance(scene, dg, ob, P, N, hero)
+        if e <= 0:
+            continue
+        role = ob.get("lighting_rig")
+        parts[ob.name] = round(e, 4)
+        if role in HERO_TRIM_ROLES:
+            trim.append((ob, e))
+        else:
+            fixed += e
+    E_trim = sum(e for _o, e in trim)
+    E0 = fixed + E_trim
+    target = cfg["face_target"] * cfg["key_energy"] * 2 ** float(cfg.get("face_ev_offset") or 0.0)
+    s = 1.0
+    visible = in_frame and facing > -0.2
+    normalize = normalize and os.environ.get("LIGHTING_FACE_NORMALIZE", "1") != "0"  # 0: measure only (calibration)
+    if normalize and cfg.get("face_normalize") and visible and E_trim > 1e-4:
+        s = max(0.3, min(3.0, (target - fixed) / E_trim))
+        for ob, _e in trim:
+            if not _scale_animated(ob.data, "energy", s):
+                ob.data.energy *= s
+        for l in rep["lights"]:
+            if l["name"] in {o.name for o, _e in trim}:
+                l["energy"] = round(l["energy"] * s, 4)
+    E = fixed + E_trim * s
+    ev = math.log2(max(E, 1e-6)) + scene.view_settings.exposure
+    out = {"frame": kf, "shot_size": size, "frame_h_m": round(frame_h, 2), "visible": visible, "facing": round(facing, 2),
+           "E_fixed": round(fixed, 4), "E_hero_cheats": round(E_trim, 4), "trim": round(s, 3), "E_face": round(E, 4),
+           "E_target": round(target, 4), "face_ev": round(ev, 3),
+           "target_ev": round(math.log2(max(target, 1e-6)) + scene.view_settings.exposure, 3),
+           "exposure": round(scene.view_settings.exposure, 3), "parts": parts}
+    rep["face_meter"] = out
+    log(f"face meter: {size} E={E0:.3f}->{E:.3f} (target {target:.3f}, trim x{s:.2f}) face_ev={ev:+.2f}"
+        f"{'' if visible else ' (face not visible: not trimmed)'}")
+    scene.frame_set(cur)
+    return out
+
+
+def check_face_continuity(spec, reports, tol=None):
+    """CAN-L2 measured check from render reports {shot_id: lighting report}. Every close shot (CU/MCU) is compared
+    with the nearest wide (WS/MLS/MS) of its sequence (the preceding one, else the following). Returns
+    (status, problems, rows). Unmeasured shots are skipped; a shot carrying light_event/cheat_reason may differ."""
+    shots = spec.get("shots") or []
+    problems, rows = [], []
+    seqs = {}
+    for s in shots:
+        r = (reports.get(str(s["id"])) or {}).get("face_meter")
+        if r and r.get("visible"):
+            seqs.setdefault(sequence_of(s), []).append((s, r))
+    for q, lst in seqs.items():
+        wides = [(i, s, r) for i, (s, r) in enumerate(lst) if r["shot_size"] in ("WS", "MLS", "MS")]
+        for i, (s, r) in enumerate(lst):
+            if r["shot_size"] not in ("CU", "MCU"):
+                continue
+            prev = [w for w in wides if w[0] < i]
+            nxt = [w for w in wides if w[0] > i]
+            w = prev[-1] if prev else (nxt[0] if nxt else None)
+            if w is None:
+                continue
+            _wi, ws, wr = w
+            cfg = resolve(spec, s) or {}
+            t = tol if tol is not None else float(cfg.get("face_ev_tol", 1.0 / 3.0))
+            dev = r["face_ev"] - wr["face_ev"]
+            wcfg = resolve(spec, ws) or {}
+            event = cfg.get("light_event") or cfg.get("cheat_reason") or abs(cfg.get("dawn", 0) - wcfg.get("dawn", 0)) > 0.2
+            ok = abs(dev) <= t + 1e-6 or bool(event)
+            rows.append({"sequence": q, "close": s["id"], "close_size": r["shot_size"], "wide": ws["id"],
+                         "wide_size": wr["shot_size"], "d_ev": round(dev, 3), "ok": ok})
+            if not ok:
+                problems.append(f"CAN-L2 {s['id']} ({r['shot_size']}) face {dev:+.2f} stops vs wide {ws['id']} "
+                                f"({wr['shot_size']}) > {t:.2f}: the close-up reads {'brighter (daylight)' if dev > 0 else 'darker'}")
+    if not rows:
+        return "MANUAL", ["CAN-L2: no measured wide/close-up pair (render reports without face_meter)"], rows
+    return ("FAIL" if problems else "PASS"), problems, rows
+
+
+def check_face_static(spec):
+    """CAN-L2 without renders: continuity holds by construction when every night sequence normalises the face
+    exposure and no shot offsets it beyond tolerance without a declared light event / cheat."""
+    problems = []
+    for s in spec.get("shots") or []:
+        cfg = resolve(spec, s)
+        if cfg is None:
+            continue
+        if cfg["family"] == "night" and not cfg.get("face_normalize"):
+            problems.append(f"CAN-L2 {s['id']}: face_normalize off on a night shot")
+        off = abs(float(cfg.get("face_ev_offset") or 0.0))
+        if off > cfg.get("face_ev_tol", 1 / 3) and not (cfg.get("light_event") or cfg.get("cheat_reason")):
+            problems.append(f"CAN-L2 {s['id']}: face_ev_offset {off:.2f} stops without light_event/cheat_reason")
+        if not cfg.get("key_motivation"):
+            problems.append(f"CAN-L2 {s['id']}: key light has no motivation")
+    return ("FAIL" if problems else "PASS"), problems
+
+
+def load_reports(plates):
+    """{shot_id: lighting report} from <plates>/<shot>/_render_*.json (latest file per shot)."""
+    import glob
+    out = {}
+    for p in sorted(glob.glob(os.path.join(plates, "*", "_render_*.json")), key=os.path.getmtime):
+        try:
+            with open(p) as fh:
+                m = json.load(fh)
+            out[str(m.get("shot"))] = m.get("lighting") or {}
+        except (OSError, ValueError):
+            continue
+    return out
+
+
+def canon_lighting(spec, plates=None):
+    """factory.canon hook: {"CAN-L1": {...}, "CAN-L2": {...}} (status PASS/FAIL/MANUAL + detail)."""
+    st1, p1, rows1 = check_discovery(spec)
+    res = {"CAN-L1": {"status": st1, "detail": p1 or [f"{r['sequence']}: {r['detail']} <- {r['reveal']} ({r['motivation']}) in {','.join(r['shots'])}" for r in rows1]}}
+    st2, p2 = check_face_static(spec)
+    _rows, seq_problems = check_sequences(spec)
+    p2 = p2 + [p for p in seq_problems if p.startswith("L2")]
+    detail = list(p2)
+    status = "FAIL" if p2 else st2
+    if plates and os.path.isdir(plates):
+        stm, pm, rows = check_face_continuity(spec, load_reports(plates))
+        detail += pm + [f"{r['close']}({r['close_size']}) vs {r['wide']}({r['wide_size']}): {r['d_ev']:+.2f} stops" for r in rows if r["ok"]]
+        if stm == "FAIL":
+            status = "FAIL"
+    elif status == "PASS":
+        detail.append("by construction (face_normalize on every night sequence); pass --plates to measure the renders")
+    res["CAN-L2"] = {"status": status, "detail": detail}
+    return res
+# <<< polish_light CAN-L1/L2
+
+
 def finalize_shot(scene, shot, centre=(0, 0, 0)):
     """After everything is built: drop the legacy camera-relative fill, warm the practicals, add haze,
     storm flashes, exposure offset, and record the checks in the report."""
@@ -1245,6 +1888,8 @@ def finalize_shot(scene, shot, centre=(0, 0, 0)):
         _flicker(key.data, shot, cfg["flicker"])
     scene.view_settings.exposure += cfg["exposure_ev"]
     rep["exposure"] = round(scene.view_settings.exposure, 3)
+    rep["discovery"] = apply_discovery(scene, shot)  # polish_light: CAN-L1
+    face_meter(scene, shot)  # polish_light: CAN-L2 (after the exposure: the meter reads stops at the lens)
     if not rep.get("checks"):
         _checks(cfg)
     log("rig:", ", ".join(f"{l['role']}={l['energy']}" for l in rep["lights"]),
