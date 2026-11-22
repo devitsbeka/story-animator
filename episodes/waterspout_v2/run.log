@@ -6,3 +6,11 @@
 13:18:23 [waterspout_v2] run status: failed  cost $0.00  time 591s
 13:20:12 [waterspout_v2] stage 1 develop: start
 13:30:19 [waterspout_v2] [develop] attempt 1: output budget spent on thinking; retrying at effort=medium
+13:36:30 [waterspout_v2] [develop] attempt 2: FAIL - 67 checks passed, 7 blocking, 2 overridden (371.3s, claude-opus-5-5)
+13:36:30 [waterspout_v2]     [HEUR H-5] hook.text_overlay needs 2-6 words, start 0, end >= 2.0 and a number or threat noun (got {'text': 'WATERSPOUT. MOVE NOW.', 'start': 0, 'end': 2.5})
+13:36:30 [waterspout_v2]     [HEUR R-2-midpoint] the midpoint (26.5 s) must sit at 0.40-0.55 D and have the highest visual_scale before the payoff
+13:36:30 [waterspout_v2]     [HEUR N-1-budget] 156 words vs budget 190 (+-10%) for D = 67 s
+13:36:30 [waterspout_v2]     [HEUR N-4-density] need a concrete number every 10 s (largest gap 54.2 s)
+13:36:30 [waterspout_v2]     [HEUR N-7] surprise ranking ['F1', 'F2', 'F4'] at [31.2, 26.6, 60.2] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early
+13:36:30 [waterspout_v2]     [HARD CAN-N4c] lines that describe the picture/sound: L12 (60% overlap); L18 (75% overlap)
+13:36:30 [waterspout_v2]     [HARD CAN-S2c] STING: new question 'Is that dark spot another one?' is not about what happens next

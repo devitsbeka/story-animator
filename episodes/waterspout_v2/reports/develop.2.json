@@ -1,0 +1,170 @@
+{
+ "stage": "develop",
+ "ok": false,
+ "passed": [
+  "CAN-N1a",
+  "CAN-N1b",
+  "CAN-N1c",
+  "CAN-N1d",
+  "CAN-N2b",
+  "CAN-N2f-plan",
+  "CAN-N4a",
+  "CAN-N4b",
+  "CAN-N4d",
+  "CAN-N4f",
+  "CAN-S1a",
+  "CAN-S1b",
+  "CAN-S1c",
+  "CAN-S1d",
+  "CAN-S2a",
+  "CAN-S2b",
+  "CAN-S2d",
+  "CAN-S2e",
+  "CAN-S2f",
+  "CAN-S3a",
+  "CAN-S3b",
+  "CAN-S3c",
+  "H-1",
+  "H-6",
+  "H-7",
+  "H-banned-openers",
+  "H-hook-keywords",
+  "INTEGRITY.beat_refs",
+  "INTEGRITY.cq_line",
+  "INTEGRITY.duration",
+  "INTEGRITY.fact_refs",
+  "INTEGRITY.hook_lines",
+  "INTEGRITY.line_ids",
+  "INTEGRITY.line_order",
+  "INTEGRITY.line_times",
+  "N-1-hook",
+  "N-1-payoff",
+  "N-10",
+  "N-2",
+  "N-3",
+  "N-4",
+  "N-5",
+  "N-5-superlatives",
+  "N-6",
+  "N-9",
+  "P5",
+  "R-1",
+  "R-1-open",
+  "R-2",
+  "R-2-tokens",
+  "R-3",
+  "R-3-and-then",
+  "R-4",
+  "R-5",
+  "R-7",
+  "R-beats-order",
+  "R-beats-window",
+  "S-attempts",
+  "S-essence",
+  "S-flaw",
+  "S1",
+  "S1-causal",
+  "S4",
+  "S5",
+  "S7",
+  "T-3",
+  "T-5"
+ ],
+ "issues": [
+  {
+   "rule": "H-5",
+   "severity": "HEUR",
+   "msg": "hook.text_overlay needs 2-6 words, start 0, end >= 2.0 and a number or threat noun (got {'text': 'WATERSPOUT. MOVE NOW.', 'start': 0, 'end': 2.5})",
+   "overridden": false
+  },
+  {
+   "rule": "R-2-midpoint",
+   "severity": "HEUR",
+   "msg": "the midpoint (26.5 s) must sit at 0.40-0.55 D and have the highest visual_scale before the payoff",
+   "overridden": false
+  },
+  {
+   "rule": "R-6",
+   "severity": "HEUR",
+   "msg": "CQ answer at 54.4 s must be in [0.80 D, 0.95 D] = [53.6, 63.6] with <= 4 s after it",
+   "overridden": true
+  },
+  {
+   "rule": "N-1",
+   "severity": "HEUR",
+   "msg": "words/s over the narration span is 2.37, target [2.8, 3.1]",
+   "overridden": true
+  },
+  {
+   "rule": "N-1-budget",
+   "severity": "HEUR",
+   "msg": "156 words vs budget 190 (+-10%) for D = 67 s",
+   "overridden": false
+  },
+  {
+   "rule": "N-4-density",
+   "severity": "HEUR",
+   "msg": "need a concrete number every 10 s (largest gap 54.2 s)",
+   "overridden": false
+  },
+  {
+   "rule": "N-7",
+   "severity": "HEUR",
+   "msg": "surprise ranking ['F1', 'F2', 'F4'] at [31.2, 26.6, 60.2] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early",
+   "overridden": false
+  },
+  {
+   "rule": "CAN-N4c",
+   "severity": "HARD",
+   "msg": "lines that describe the picture/sound: L12 (60% overlap); L18 (75% overlap)",
+   "overridden": false
+  },
+  {
+   "rule": "CAN-S2c",
+   "severity": "HARD",
+   "msg": "STING: new question 'Is that dark spot another one?' is not about what happens next",
+   "overridden": false
+  }
+ ],
+ "overridden": {
+  "N-1": "156 words for 67 s is below the 90-95% voiced budget because CAN-N2 caps voiced speech at 80% to pay for reaction and key-sound gaps.",
+  "R-6": "The tail after the answer holds the required relief beat (>= 1.5 s after peak), the NOAA Bermuda fact and the frame-match loop; it runs about 7.8 s instead of 4 s."
+ },
+ "meta": {
+  "model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 13521
+   },
+   "cache_creation_input_tokens": 13521,
+   "cache_read_input_tokens": 0,
+   "fallback_credit": null,
+   "inference_geo": "global",
+   "input_tokens": 5188,
+   "iterations": [
+    {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 13521
+     },
+     "cache_creation_input_tokens": 13521,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 5188,
+     "model": null,
+     "output_tokens": 40958,
+     "type": "message"
+    }
+   ],
+   "output_tokens": 40958,
+   "output_tokens_details": {
+    "thinking_tokens": 27579
+   },
+   "server_tool_use": null,
+   "service_tier": "standard",
+   "speed": "standard"
+  },
+  "grammar": false
+ }
+}
