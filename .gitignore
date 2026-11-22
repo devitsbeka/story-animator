@@ -25,3 +25,6 @@ library_store/
 .claude/worktrees/
 episodes/*/plates/
 episodes/*/plates_vertical/
+/*.pdf
+/*.html
+/*.txt
