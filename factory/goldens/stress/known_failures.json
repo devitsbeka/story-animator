@@ -29,7 +29,7 @@
    "POSE-FINGERS.L": "L017",
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "d_sit_rock_sneeze": {
    "FOOT-CONTACT.L": "L009",
@@ -38,7 +38,7 @@
    "POSE-FINGERS.R": "L017",
    "POSE-SEAT": "L009",
    "POSE-SPINE": "L009",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "d_wave": {
    "POSE-FINGERS.L": "L017",
@@ -49,7 +49,7 @@
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
    "POSE-PALM.R": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "j_phone": {
    "POSE-FINGERS.L": "L017",
@@ -67,14 +67,14 @@
    "POSE-FINGERS.R": "L017",
    "POSE-SEAT": "L009",
    "POSE-SPINE": "L009",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "j_walk": {
    "POSE-FINGERS.L": "L017",
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
    "POSE-PALM.R": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "l009_abandoned_sit": {
    "FOOT-CONTACT.L": "L009",
@@ -89,19 +89,19 @@
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.R": "L017"
   },
-  "l020_abandoned_vocab": {
+  "l022_abandoned_vocab": {
    "POSE-FINGERS.L": "L017",
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
    "POSE-PALM.R": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
-  "l020_sea_vocab": {
+  "l022_sea_vocab": {
    "POSE-FINGERS.L": "L017",
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
    "POSE-PALM.R": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "s_beacon": {
    "POSE-FINGERS.L": "L017",
@@ -119,7 +119,7 @@
    "POSE-FINGERS.R": "L017",
    "POSE-PALM.L": "L017",
    "POSE-PALM.R": "L017",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "s_sit_bench": {
    "FOOT-CONTACT.L": "L009",
@@ -128,7 +128,7 @@
    "POSE-FINGERS.R": "L017",
    "POSE-SEAT": "L009",
    "POSE-SPINE": "L009",
-   "VOCAB": "L020"
+   "VOCAB": "L022"
   },
   "y_bow_point": {
    "POSE-FINGERS.L": "L017",
@@ -157,7 +157,7 @@
    "POSE-SPINE": "L009"
   }
  },
- "note": "baseline 2026-11-22 (quality_gate, merged lead 6a6c643): every entry is owned by an open lesson (L009 seat/spine/feet contact on seats, L017 fingers/palms/feet, L020 vocab). Prune with stress --update-known when fixes land; stress --strict is the closing bar.",
+ "note": "baseline 2026-11-22 (quality_gate, merged lead 6a6c643): every entry is owned by an open lesson (L009 seat/spine/feet contact on seats, L017 fingers/palms/feet, L022 vocab). Prune with stress --update-known when fixes land; stress --strict is the closing bar.",
  "schema": "factory.goldens.stress.known/1",
  "updated": "2026-11-22T02:39:56+00:00"
 }

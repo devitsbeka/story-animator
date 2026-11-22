@@ -58,7 +58,7 @@ CHECKS = {
     "L013": [{"name": "schema-too-large fallback", "kind": "pytest", "target": "tests/director/test_llm_anthropic.py"}],
     "L014": [{"name": "per-stage cost ceiling + attempts alert", "kind": "pytest", "target": "tests/run/test_cost_ceiling.py"}],
     "L015": [{"name": "farm ships library_store-prefixed spec assets (select_library)", "kind": "pytest", "target": "tests/farm/test_presigned.py"}],
-    "L020": [{"name": "stress suite fast checks (VOCAB + shot checks on every scenario, no new failures)", "kind": "cmd",
+    "L022": [{"name": "stress suite fast checks (VOCAB + shot checks on every scenario, no new failures)", "kind": "cmd",
               "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render", "--no-pose"]},
              {"name": "stress suite full (pose QC + stress goldens)", "kind": "cmd", "target": ["{python}", "-m", "factory.goldens", "stress"], "slow": True}],
     "L017": [
@@ -74,6 +74,8 @@ CHECKS = {
     ],
     "L019": [{"name": "glazing asset gate (no emissive glass, glass transmits/reflects) on the hero yacht", "kind": "blender",
               "target": "cloud/blender/test/glazing_check.py", "args": ["--strict"], "slow": True}],
+    "L020": [{"name": "EEVEE only with a real GPU context (egl_available)", "kind": "pytest", "target": "tests/lessons/test_lead_lessons.py"}],
+    "L021": [{"name": "series defaults bind hero_v4 + proc:yacht_v2", "kind": "pytest", "target": "tests/lessons/test_lead_lessons.py"}],
     "L016": [{"name": "golden night sky under camera motion (TODO: recipe not defined yet)", "kind": "golden", "target": "night_sky_motion", "slow": True}],
 }
 

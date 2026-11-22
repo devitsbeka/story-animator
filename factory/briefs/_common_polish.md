@@ -21,9 +21,11 @@ LESSONS (factory/lessons/lessons.yaml: defects already found once; each rule is 
 - L012 (PARTIALLY-CLOSED): Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
 - L017 (OPEN): Every frame's hands have a valid palm orientation for the pose (relaxed = palms toward thighs, thumbs forward; grips wrap the object; rails = palms down) and a finger shape (relaxed curl by default).
 - L018 (OPEN): Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth.
-- L020 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
+- L021 (PARTIALLY-CLOSED): New episodes bind the series' current hero-tier assets (factory/series/default.json); superseded placeholders can't be selected for close or medium shots.
+- L022 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
 [gate render]
 - L015 (PARTIALLY-CLOSED): Every asset the spec references ships with the job; a missing actor/prop/set is a hard failure, never a silent skip.
+- L020 (PARTIALLY-CLOSED): Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board.
 [gate qc]
 - L006 (closed): Deliverables are H.264 High, yuv420p, +faststart, keyframe every 1 s, capped bitrate; a mobile-safe copy accompanies every delivery.
 - L007 (closed): Finals are true 30 fps (no duplicated frames), captions inside the platform safe area, -14 LUFS +-1 / TP <= -1 dBTP, no black/frozen frames, audio from frame 0.

@@ -19,8 +19,8 @@ Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi
 - `sentinel_E31`: initial reference sha256 19300005b9f9, commit 6253651bdb
 - `yacht_turnaround`: initial reference sha256 a392dbc1ac5d, commit 6253651bdb
 
-## 2026-11-22 - stress_y_helm_wheel, stress_y_radio_shout, stress_y_sit_deck, stress_y_rail_fear, stress_y_bow_point, stress_j_sit_log, stress_j_shush_close, stress_j_phone, stress_j_kneel, stress_j_walk, stress_d_wave, stress_d_sit_rock_sneeze, stress_d_reach, stress_d_rope, stress_s_brace_wide, stress_s_sit_bench, stress_s_beacon, stress_s_crouch_close, stress_c_radio_mouth, stress_c_cover_fear, stress_c_hands_up, stress_c_doorway_sneeze, stress_l009_abandoned_sit, stress_l010_desert_grip, stress_l020_sea_vocab, stress_l020_abandoned_vocab
-stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L020) and must be re-approved as those fixes land
+## 2026-11-22 - stress_y_helm_wheel, stress_y_radio_shout, stress_y_sit_deck, stress_y_rail_fear, stress_y_bow_point, stress_j_sit_log, stress_j_shush_close, stress_j_phone, stress_j_kneel, stress_j_walk, stress_d_wave, stress_d_sit_rock_sneeze, stress_d_reach, stress_d_rope, stress_s_brace_wide, stress_s_sit_bench, stress_s_beacon, stress_s_crouch_close, stress_c_radio_mouth, stress_c_cover_fear, stress_c_hands_up, stress_c_doorway_sneeze, stress_l009_abandoned_sit, stress_l010_desert_grip, stress_l022_sea_vocab, stress_l022_abandoned_vocab
+stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land
 - `stress_y_helm_wheel`: initial reference sha256 3548d4e1087d, commit 242050a7e5
 - `stress_y_radio_shout`: initial reference sha256 2f4c98edaad9, commit 242050a7e5
 - `stress_y_sit_deck`: initial reference sha256 68e99527d103, commit 242050a7e5
@@ -45,5 +45,5 @@ stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8s
 - `stress_c_doorway_sneeze`: initial reference sha256 624bf5b1c985, commit 242050a7e5
 - `stress_l009_abandoned_sit`: initial reference sha256 1e60632770b4, commit 242050a7e5
 - `stress_l010_desert_grip`: initial reference sha256 fec1c69754a8, commit 242050a7e5
-- `stress_l020_sea_vocab`: initial reference sha256 3c428965139d, commit 242050a7e5
-- `stress_l020_abandoned_vocab`: initial reference sha256 87b8d94fd420, commit 242050a7e5
+- `stress_l022_sea_vocab`: initial reference sha256 3c428965139d, commit 242050a7e5
+- `stress_l022_abandoned_vocab`: initial reference sha256 87b8d94fd420, commit 242050a7e5
