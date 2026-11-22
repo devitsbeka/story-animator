@@ -1,7 +1,10 @@
 """python3 -m factory.canon pass --episode <dir|episode.json> [--plates DIR] [--video MP4] [--out FILE]
+                              [--stage plan|render|publish] [--quiet]
 
-Runs: shot validator (coverage/framing/CTX/collision), lighting continuity, director canon checks (if present),
-lessons status, and reports each canon rule as PASS/FAIL/MANUAL. Exit 1 on any FAIL."""
+Runs: shot validator (coverage/framing/CTX/collision), lighting continuity, and the canon checks
+(factory/canon/checks.py: every automatable CAN-* sub-rule, thresholds in factory/canon/thresholds.yaml), and reports
+each canon rule as PASS/FAIL/MANUAL with its sub-rules. Exit 1 on any FAIL. factory/run runs it before the previs
+approval (--stage plan) and before publishing (--stage publish)."""
 import argparse, json, os, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -49,6 +52,9 @@ def main():
     ap.add_argument("--plates")
     ap.add_argument("--video")
     ap.add_argument("--out")
+    ap.add_argument("--stage", choices=["plan", "render", "publish"], default="plan",
+                    help="plan: before previs approval; render/publish: an unapproved look-dev test FAILs (CAN-T1a)")
+    ap.add_argument("--quiet", action="store_true", help="only the summary and failing rules")
     a = ap.parse_args()
     ep = episode_json(a.episode)
     results, fails = {}, 0
@@ -62,18 +68,18 @@ def main():
     try:
         sys.path.insert(0, ROOT)
         from factory.canon import checks as cc  # type: ignore
-        canon_checks = cc.run_all(ep, plates=a.plates, video=a.video)
+        canon_checks = cc.run_all(ep, plates=a.plates, video=a.video, stage=a.stage)
     except Exception as e:
         checks["canon_checks"] = {"rc": None, "note": f"not implemented yet ({type(e).__name__}); rules reported MANUAL"}
     for rid, desc in CANON:
         if canon_checks and rid in canon_checks:
             st = canon_checks[rid]["status"]
-            results[rid] = {"desc": desc, "status": st, "detail": canon_checks[rid].get("detail")}
+            results[rid] = {"desc": desc, "status": st, "detail": canon_checks[rid].get("detail"),
+                            "sub": {k: canon_checks[k] for k in canon_checks.get(rid, {}).get("sub", {})}}
         else:
             results[rid] = {"desc": desc, "status": "MANUAL", "detail": "no automated check yet: review by hand per SKILL.md"}
-    # map existing automated checks onto canon rules where they already apply
-    if "C1" in out or "C2" in out:
-        pass
+    # map existing automated checks onto canon rules where they already apply (shot_validator C3/C4/C5/C1/C2 are
+    # read in-process by checks.run_all; a crash of the validator script is a FAIL)
     if rc not in (0, None):
         results["CAN-C1"]["status"] = "FAIL" if results["CAN-C1"]["status"] == "MANUAL" else results["CAN-C1"]["status"]
         results["CAN-C1"]["detail"] = "shot_validator failed (see checks.shot_validator)"
@@ -81,6 +87,8 @@ def main():
         results["CAN-L2"]["status"] = "FAIL" if results["CAN-L2"]["status"] == "MANUAL" else results["CAN-L2"]["status"]
         results["CAN-L2"]["detail"] = "lighting continuity check failed"
     fails = sum(1 for r in results.values() if r["status"] == "FAIL")
+    if canon_checks:
+        checks["canon_checks"] = {"rc": 0, "meta": canon_checks.get("_meta")}
     rep = {"episode": ep, "rules": results, "checks": checks,
            "summary": {s: sum(1 for r in results.values() if r["status"] == s) for s in ("PASS", "FAIL", "MANUAL")}}
     out_path = a.out or os.path.join(os.path.dirname(ep), "qc", "canon_report.json")
@@ -89,6 +97,10 @@ def main():
     print(f"CANON PASS  {rep['summary']}  -> {out_path}")
     for rid, r in results.items():
         print(f"  [{r['status']:6s}] {rid} {r['desc']}")
+        for sid, sr in (r.get("sub") or {}).items():
+            if a.quiet and sr["status"] not in ("FAIL",):
+                continue
+            print(f"      {sr['status']:6s} {sid}: {str(sr.get('detail') or '')[:220]}")
     sys.exit(1 if fails else 0)
 
 

@@ -76,6 +76,18 @@ def write_stub_wav(words, path, seed=11):
     return path
 
 
+def _voices_script(story, words_path):
+    """The reference narration is only reused when it voices exactly this script (same words in order): a re-written
+    script (e.g. thinned for canon narration gaps) gets the stub instead of misaligned timings."""
+    try:
+        ref = [re.sub(r"[^a-z0-9']", "", w["w"].lower()) for w in json.load(open(words_path))]
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    mine = [re.sub(r"[^a-z0-9']", "", w.lower()) for ln in story.get("narration") or [] for w in _words(ln.get("text", ""))]
+    # transcripts write numbers as digits ("16" for "sixteen"): same length and >= 95 % identical tokens
+    return len(ref) == len(mine) and sum(a == b for a, b in zip(ref, mine)) >= 0.95 * len(ref)
+
+
 def _load_voice_module():
     try:
         return importlib.import_module("factory.voice")
@@ -84,7 +96,22 @@ def _load_voice_module():
 
 
 def synthesize(story_path, ep_dir, offline=False, mode="auto", log=print):
-    """-> {"audio", "words", "provider", "chars", "usd"}. mode: auto | stub | module."""
+    """-> {"audio", "words", "provider", "chars", "usd"}. mode: auto | stub | module.
+    Every provider's result then goes through factory.voice.gaps.enforce (canon CAN-N2c): the story's reserved
+    narration gaps are measured in the voiced words and topped up with presence where short."""
+    res = _synthesize(story_path, ep_dir, offline, mode, log)
+    story = json.load(open(story_path, encoding="utf-8"))
+    ref_dir = os.path.abspath(os.path.join(ROOT, "episodes", str(story.get("id", "")), "audio"))
+    if story.get("narration_gaps") and os.path.dirname(os.path.abspath(res["audio"])) == ref_dir:
+        log("[voice] gaps: not splicing the reference narration in place")
+    elif story.get("narration_gaps"):
+        from factory.voice.gaps import enforce
+        rep = enforce(story, res["audio"], res["words"], os.path.join(ep_dir, "audio", "narration.gaps.json"), log=log)
+        res["gaps"] = {"ok": rep["ok"], "inserts": len(rep["inserts"])}
+    return res
+
+
+def _synthesize(story_path, ep_dir, offline=False, mode="auto", log=print):
     story = json.load(open(story_path, encoding="utf-8"))
     audio_dir = os.path.join(ep_dir, "audio")
     os.makedirs(audio_dir, exist_ok=True)
@@ -104,7 +131,7 @@ def synthesize(story_path, ep_dir, offline=False, mode="auto", log=print):
         log("[voice] factory.voice not available: using the stub narration")
     ref = os.path.join(ROOT, "episodes", str(story.get("id", "")), "audio")
     if offline and mode != "stub" and os.path.isfile(os.path.join(ref, "narration.mp3")) \
-            and os.path.isfile(os.path.join(ref, "narration.words.json")):
+            and os.path.isfile(os.path.join(ref, "narration.words.json")) and _voices_script(story, os.path.join(ref, "narration.words.json")):
         a, w = os.path.join(audio_dir, "narration.mp3"), os.path.join(audio_dir, "narration.words.json")
         if os.path.abspath(ref) != os.path.abspath(audio_dir):
             shutil.copy2(os.path.join(ref, "narration.mp3"), a)

@@ -56,13 +56,15 @@ def _load_story(story_json):
         return json.load(fh), os.path.abspath(story_json)
 
 
-def chunk_lines(lines, model_id, max_chars=2500):
-    """Group consecutive lines into requests of at most max_chars; a new chapter starts a new chunk."""
+def chunk_lines(lines, model_id, max_chars=2500, gap_after=()):
+    """Group consecutive lines into requests of at most max_chars; a new chapter starts a new chunk, and so does the
+    line after a reserved narration gap (canon CAN-N2c: the gap is made by the join, not hoped for from the model)."""
     chunks, cur = [], []
     for ln in lines:
         trial = cur + [ln]
         new_chapter = cur and ln.get("chapter") is not None and ln.get("chapter") != cur[-1].get("chapter")
-        if cur and (new_chapter or len(chunk_prompt(trial, model_id)) > max_chars):
+        after_gap = cur and cur[-1]["id"] in gap_after
+        if cur and (new_chapter or after_gap or len(chunk_prompt(trial, model_id)) > max_chars):
             chunks.append(cur)
             cur = [ln]
         else:
@@ -147,7 +149,8 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
         backend = RestBackend()
     cache_dir = default_cache_dir() if cache_dir is None else cache_dir
     lines = story["narration"]
-    chunks = chunk_lines(lines, model_id, max_chars)
+    gap_after = {g["after_line"] for g in story.get("narration_gaps") or []}  # canon: one block per run between gaps
+    chunks = chunk_lines(lines, model_id, max_chars, gap_after)
     total_chars = sum(len(chunk_prompt(c, model_id)) for c in chunks)
     speed = pacing.speed_for(vc.get("native_wps"), fmt) if getattr(backend, "supports_speed", False) else None
     os.makedirs(out_dir, exist_ok=True)
@@ -183,7 +186,9 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
                     "-c:a", "pcm_s16le", raw])
         offsets = [0.0]
     else:
-        offsets = audio.concat([p[1].audio for p in picked], raw, gap_s=CHUNK_GAP_S)
+        from .gaps import boundary_pads  # canon: declared gaps get exactly the silence they still need
+        pads = boundary_pads(chunks, [p[2] for p in picked], [audio.duration(p[1].audio) for p in picked], story)
+        offsets = audio.concat([p[1].audio for p in picked], raw, gap_s=pads)
     words = []
     for off, p in zip(offsets, picked):
         words += align.shift(p[2], off)
@@ -219,6 +224,20 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
     report_path = os.path.join(out_dir, basename + ".voice.json")
     with open(words_path, "w") as fh:
         json.dump(words, fh, indent=0)
+    gaps_rep = None
+    if story.get("narration_gaps"):  # canon CAN-N2c: measure the gaps in the voiced words, top up short ones
+        from .gaps import enforce
+        gaps_rep = enforce(story, out_audio, words_path, os.path.join(out_dir, basename + ".gaps.json"), log=log)
+        with open(words_path) as fh:
+            words = json.load(fh)
+        line_rows, i = [], 0
+        for ln in lines:
+            n = len(script_words(ln["text"]))
+            seg = words[i:i + n]
+            i += n
+            if seg:
+                line_rows.append({"id": ln["id"], "t0": seg[0]["s"], "t1": seg[-1]["e"], "words": n,
+                                  "wps": round(pacing.wps(seg), 3)})
     with open(lines_path, "w") as fh:
         json.dump(line_rows, fh, indent=1)
     final_wps = pacing.wps(words)
@@ -235,6 +254,7 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
                      "target_TP": target_tp if normalize else None},
         "clipping": final_clip,
         "timing_sources": sorted({p[3]["timing_source"] for p in picked}),
+        "gaps": None if gaps_rep is None else {"ok": gaps_rep["ok"], "inserts": len(gaps_rep["inserts"])},
         "outputs": {"audio": out_audio, "words": words_path, "lines": lines_path},
     }
     with open(report_path, "w") as fh:

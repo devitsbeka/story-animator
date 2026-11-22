@@ -25,7 +25,7 @@
  },
  "core_question": {
   "text": "How do you survive the night without going ashore?",
-  "answer_line": "L070"
+  "answer_line": "L066"
  },
  "stakes": {
   "physical": "A grounded hull on a falling tide.",
@@ -123,8 +123,8 @@
   {
    "id": "B8",
    "name": "CLIMAX",
-   "t0": 300.78,
-   "t1": 316.8,
+   "t0": 304.49,
+   "t1": 318.24,
    "link": "BUT",
    "stakes": 9.5,
    "visual_scale": 9,
@@ -134,8 +134,8 @@
   {
    "id": "B9",
    "name": "RESOLUTION",
-   "t0": 316.8,
-   "t1": 355.11,
+   "t0": 318.24,
+   "t1": 355.76,
    "link": "THEREFORE",
    "stakes": 8,
    "visual_scale": 7,
@@ -145,7 +145,7 @@
   {
    "id": "B10",
    "name": "TEASE",
-   "t0": 355.11,
+   "t0": 355.76,
    "t1": 360.0,
    "link": "BUT",
    "stakes": 7,
@@ -160,711 +160,1275 @@
    "tag": "excited",
    "text": "You are drifting onto the forbidden reef. In the dark.",
    "t0": 0.0,
-   "t1": 3.57,
-   "beat": "B0"
+   "t1": 3.03,
+   "beat": "B0",
+   "purpose": "setup",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 5,
+    "reveal_shot": "D001",
+    "reveal_frame": 36,
+    "order": "after"
+   }
   },
   {
    "id": "L002",
    "tag": "serious",
    "text": "The hull grinds on coral. Water slaps against the keel, louder every second.",
-   "t0": 3.87,
-   "t1": 8.51,
-   "beat": "B0"
+   "t0": 4.08,
+   "t1": 8.02,
+   "beat": "B0",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D002",
+    "reveal_frame": 173,
+    "order": "after"
+   }
   },
   {
    "id": "L003",
    "tag": "whispers",
    "text": "On the beach, torches move. Someone is watching you.",
-   "t0": 8.81,
-   "t1": 12.02,
-   "beat": "B0"
+   "t0": 9.07,
+   "t1": 11.8,
+   "beat": "B0",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D003",
+    "reveal_frame": 324,
+    "order": "after"
+   }
   },
   {
    "id": "L004",
    "tag": "dramatic",
    "text": "But this is not where the story starts. It starts before dusk.",
-   "t0": 12.32,
-   "t1": 16.61,
+   "t0": 12.85,
+   "t1": 16.49,
    "beat": "B0",
-   "rehook": true
+   "rehook": true,
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D004",
+    "reveal_frame": 434,
+    "order": "after"
+   }
   },
   {
    "id": "L005",
    "tag": "serious",
    "text": "You had one rule out here. Never come near this island.",
-   "t0": 16.91,
-   "t1": 20.84,
-   "beat": "B0"
+   "t0": 17.54,
+   "t1": 20.87,
+   "beat": "B0",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 10,
+    "reveal_shot": "D005",
+    "reveal_frame": 605,
+    "order": "after"
+   }
   },
   {
    "id": "L006",
    "tag": "serious",
    "text": "The hull grinds on coral. Water slaps against the keel, louder every second.",
-   "t0": 21.14,
-   "t1": 25.78,
-   "beat": "B0"
+   "t0": 21.92,
+   "t1": 25.86,
+   "beat": "B0",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D006",
+    "reveal_frame": 708,
+    "order": "after"
+   }
   },
   {
    "id": "L007",
    "tag": "dramatic",
    "text": "But the engine coughs once and stops. The silence is sudden and total.",
    "t0": 31.0,
-   "t1": 35.64,
+   "t1": 34.94,
    "beat": "B2",
    "chapter": "CH1",
-   "rehook": true
+   "rehook": true,
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D008",
+    "reveal_frame": 991,
+    "order": "after"
+   }
   },
   {
    "id": "L008",
    "tag": "serious",
    "text": "You check the fuel. You check the battery. Nothing works.",
-   "t0": 35.94,
-   "t1": 39.51,
+   "t0": 35.99,
+   "t1": 39.02,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D009",
+    "reveal_frame": 1126,
+    "order": "after"
+   }
   },
   {
    "id": "L009",
    "tag": "storytelling",
    "text": "The sea is calm around you, almost kind. That calm is the problem.",
-   "t0": 39.81,
-   "t1": 44.45,
+   "t0": 40.07,
+   "t1": 44.01,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 12,
+    "reveal_shot": "D011",
+    "reveal_frame": 1297,
+    "order": "after"
+   }
   },
   {
    "id": "L010",
    "tag": "whispers",
    "text": "No lights. No power. Only the moon on the water.",
-   "t0": 44.75,
-   "t1": 48.32,
+   "t0": 45.06,
+   "t1": 48.09,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D012",
+    "reveal_frame": 1364,
+    "order": "on"
+   }
   },
   {
    "id": "L011",
    "tag": "serious",
    "text": "You try the radio before panic sets in. Static answers you.",
-   "t0": 48.62,
-   "t1": 52.55,
+   "t0": 49.14,
+   "t1": 52.47,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 9,
+    "reveal_shot": "D013",
+    "reveal_frame": 1545,
+    "order": "after"
+   }
   },
   {
    "id": "L012",
    "tag": "dramatic",
    "text": "But the current has already taken hold of the yacht.",
-   "t0": 52.85,
-   "t1": 56.42,
+   "t0": 53.52,
+   "t1": 56.55,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D014",
+    "reveal_frame": 1626,
+    "order": "on"
+   }
   },
   {
    "id": "L013",
    "tag": "dramatic",
    "text": "But the engine coughs once and stops. The silence is sudden and total.",
-   "t0": 56.72,
-   "t1": 61.36,
+   "t0": 57.6,
+   "t1": 61.54,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D016",
+    "reveal_frame": 1789,
+    "order": "after"
+   }
   },
   {
    "id": "L014",
    "tag": "serious",
    "text": "You check the fuel. You check the battery. Nothing works.",
-   "t0": 61.66,
-   "t1": 65.23,
+   "t0": 62.59,
+   "t1": 65.62,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D017",
+    "reveal_frame": 1924,
+    "order": "after"
+   }
   },
   {
    "id": "L015",
    "tag": "storytelling",
    "text": "The sea is calm around you, almost kind. That calm is the problem.",
-   "t0": 65.53,
-   "t1": 70.17,
+   "t0": 66.67,
+   "t1": 70.61,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 12,
+    "reveal_shot": "D019",
+    "reveal_frame": 2095,
+    "order": "after"
+   }
   },
   {
    "id": "L016",
    "tag": "whispers",
    "text": "No lights. No power. Only the moon on the water.",
-   "t0": 70.47,
-   "t1": 74.04,
+   "t0": 71.66,
+   "t1": 74.69,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D020",
+    "reveal_frame": 2162,
+    "order": "on"
+   }
   },
   {
    "id": "L017",
    "tag": "serious",
    "text": "You try the radio before panic sets in. Static answers you.",
-   "t0": 74.34,
-   "t1": 78.27,
+   "t0": 75.74,
+   "t1": 79.07,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 9,
+    "reveal_shot": "D021",
+    "reveal_frame": 2343,
+    "order": "after"
+   }
   },
   {
    "id": "L018",
    "tag": "dramatic",
    "text": "But the current has already taken hold of the yacht.",
-   "t0": 78.57,
-   "t1": 82.14,
+   "t0": 80.12,
+   "t1": 83.15,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D022",
+    "reveal_frame": 2424,
+    "order": "on"
+   }
   },
   {
    "id": "L019",
    "tag": "dramatic",
    "text": "But the engine coughs once and stops. The silence is sudden and total.",
-   "t0": 82.44,
-   "t1": 87.08,
+   "t0": 84.2,
+   "t1": 88.14,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D024",
+    "reveal_frame": 2587,
+    "order": "after"
+   }
   },
   {
    "id": "L020",
    "tag": "serious",
    "text": "You check the fuel. You check the battery. Nothing works.",
-   "t0": 87.38,
-   "t1": 90.95,
+   "t0": 89.19,
+   "t1": 92.22,
    "beat": "B2",
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D025",
+    "reveal_frame": 2722,
+    "order": "after"
+   }
   },
   {
    "id": "L021",
-   "tag": "storytelling",
-   "text": "The sea is calm around you, almost kind. That calm is the problem.",
-   "t0": 91.25,
-   "t1": 95.89,
-   "beat": "B2",
-   "chapter": "CH1"
-  },
-  {
-   "id": "L022",
    "tag": "dramatic",
    "text": "But the current does not drift. It pulls you toward the reef.",
    "t0": 96.8,
-   "t1": 101.09,
+   "t1": 100.44,
    "beat": "B3",
    "chapter": "CH2",
-   "rehook": true
+   "rehook": true,
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D026",
+    "reveal_frame": 2910,
+    "order": "after"
+   }
+  },
+  {
+   "id": "L022",
+   "tag": "serious",
+   "text": "You brace at the rail and read the water. It is moving fast.",
+   "t0": 101.49,
+   "t1": 105.43,
+   "beat": "B3",
+   "chapter": "CH2",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 11,
+    "reveal_shot": "D028",
+    "reveal_frame": 3130,
+    "order": "after"
+   }
   },
   {
    "id": "L023",
-   "tag": "serious",
-   "text": "You brace at the rail and read the water. It is moving fast.",
-   "t0": 101.39,
-   "t1": 106.03,
+   "tag": "storytelling",
+   "text": "Sailors warned you about this stretch. They call it the last place you ever want to be.",
+   "t0": 106.48,
+   "t1": 111.63,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 0,
+    "reveal_shot": "D029",
+    "reveal_frame": 3200,
+    "order": "on"
+   }
   },
   {
    "id": "L024",
-   "tag": "storytelling",
-   "text": "Sailors warned you about this stretch. They call it the wrong side.",
-   "t0": 106.33,
-   "t1": 110.62,
+   "tag": "whispers",
+   "text": "Ahead, a dark line of trees rises out of the sea.",
+   "t0": 112.68,
+   "t1": 116.01,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 0,
+    "reveal_shot": "D030",
+    "reveal_frame": 3386,
+    "order": "on"
+   }
   },
   {
    "id": "L025",
-   "tag": "whispers",
-   "text": "Ahead, a dark line of trees rises out of the sea.",
-   "t0": 110.92,
-   "t1": 114.85,
+   "tag": "serious",
+   "text": "You know that shape from the charts. Everyone told you never to go near it.",
+   "t0": 117.06,
+   "t1": 121.61,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D032",
+    "reveal_frame": 3569,
+    "order": "after"
+   }
   },
   {
    "id": "L026",
-   "tag": "serious",
-   "text": "You know that shape from the charts. You were told never to go near it.",
-   "t0": 115.15,
-   "t1": 120.51,
+   "tag": "dramatic",
+   "text": "But there is no anchor that can hold you here.",
+   "t0": 122.66,
+   "t1": 125.69,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D033",
+    "reveal_frame": 3703,
+    "order": "after"
+   }
   },
   {
    "id": "L027",
    "tag": "dramatic",
-   "text": "But there is no anchor that can hold you here.",
-   "t0": 120.81,
-   "t1": 124.38,
+   "text": "But the current does not drift. It pulls you toward the reef.",
+   "t0": 126.74,
+   "t1": 130.38,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D034",
+    "reveal_frame": 3808,
+    "order": "after"
+   }
   },
   {
    "id": "L028",
-   "tag": "dramatic",
-   "text": "But the current does not drift. It pulls you toward the reef.",
-   "t0": 124.68,
-   "t1": 128.97,
+   "tag": "serious",
+   "text": "You brace at the rail and read the water. It is moving fast.",
+   "t0": 131.43,
+   "t1": 135.37,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 11,
+    "reveal_shot": "D036",
+    "reveal_frame": 4029,
+    "order": "after"
+   }
   },
   {
    "id": "L029",
-   "tag": "serious",
-   "text": "You brace at the rail and read the water. It is moving fast.",
-   "t0": 129.27,
-   "t1": 133.91,
+   "tag": "storytelling",
+   "text": "Sailors warned you about this stretch. They call it the last place you ever want to be.",
+   "t0": 136.42,
+   "t1": 141.57,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 0,
+    "reveal_shot": "D037",
+    "reveal_frame": 4099,
+    "order": "on"
+   }
   },
   {
    "id": "L030",
-   "tag": "storytelling",
-   "text": "Sailors warned you about this stretch. They call it the wrong side.",
-   "t0": 134.21,
-   "t1": 138.5,
+   "tag": "whispers",
+   "text": "Ahead, a dark line of trees rises out of the sea.",
+   "t0": 142.62,
+   "t1": 145.95,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 0,
+    "reveal_shot": "D038",
+    "reveal_frame": 4285,
+    "order": "on"
+   }
   },
   {
    "id": "L031",
-   "tag": "whispers",
-   "text": "Ahead, a dark line of trees rises out of the sea.",
-   "t0": 138.8,
-   "t1": 142.73,
+   "tag": "serious",
+   "text": "You know that shape from the charts. Everyone told you never to go near it.",
+   "t0": 147.0,
+   "t1": 151.55,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D040",
+    "reveal_frame": 4467,
+    "order": "after"
+   }
   },
   {
    "id": "L032",
-   "tag": "serious",
-   "text": "You know that shape from the charts. You were told never to go near it.",
-   "t0": 143.03,
-   "t1": 148.39,
+   "tag": "dramatic",
+   "text": "But there is no anchor that can hold you here.",
+   "t0": 152.6,
+   "t1": 155.63,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D041",
+    "reveal_frame": 4601,
+    "order": "after"
+   }
   },
   {
    "id": "L033",
    "tag": "dramatic",
-   "text": "But there is no anchor that can hold you here.",
-   "t0": 148.69,
-   "t1": 152.26,
+   "text": "But the current does not drift. It pulls you toward the reef.",
+   "t0": 156.68,
+   "t1": 160.32,
    "beat": "B3",
-   "chapter": "CH2"
+   "chapter": "CH2",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D042",
+    "reveal_frame": 4706,
+    "order": "after"
+   }
   },
   {
    "id": "L034",
-   "tag": "dramatic",
-   "text": "But the current does not drift. It pulls you toward the reef.",
-   "t0": 152.56,
-   "t1": 156.85,
-   "beat": "B3",
-   "chapter": "CH2"
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 162.6,
+   "t1": 165.93,
+   "beat": "B4",
+   "chapter": "CH3",
+   "rehook": true,
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 10,
+    "reveal_shot": "D044",
+    "reveal_frame": 4954,
+    "order": "after"
+   }
   },
   {
    "id": "L035",
    "tag": "serious",
-   "text": "You brace at the rail and read the water. It is moving fast.",
-   "t0": 157.15,
-   "t1": 161.79,
-   "beat": "B3",
-   "chapter": "CH2"
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 166.98,
+   "t1": 170.31,
+   "beat": "B4",
+   "chapter": "CH3",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D045",
+    "reveal_frame": 5026,
+    "order": "after"
+   }
   },
   {
    "id": "L036",
-   "tag": "excited",
-   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
-   "t0": 162.6,
-   "t1": 166.53,
+   "tag": "whispers",
+   "text": "The hull holds. For now, but only for now.",
+   "t0": 171.36,
+   "t1": 174.09,
    "beat": "B4",
    "chapter": "CH3",
-   "rehook": true
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D046",
+    "reveal_frame": 5150,
+    "order": "after"
+   }
   },
   {
    "id": "L037",
-   "tag": "serious",
-   "text": "You are thrown against the helm. Your hands find the wheel.",
-   "t0": 166.83,
-   "t1": 170.76,
+   "tag": "storytelling",
+   "text": "The tide is falling. Every minute, the coral rises around you.",
+   "t0": 175.14,
+   "t1": 178.47,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D047",
+    "reveal_frame": 5266,
+    "order": "after"
+   }
   },
   {
    "id": "L038",
-   "tag": "whispers",
-   "text": "The hull holds. For now, the hull holds.",
-   "t0": 171.06,
-   "t1": 173.92,
+   "tag": "serious",
+   "text": "You are stuck at the edge of an island nobody may visit.",
+   "t0": 179.52,
+   "t1": 183.16,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D048",
+    "reveal_frame": 5440,
+    "order": "after"
+   }
   },
   {
    "id": "L039",
-   "tag": "storytelling",
-   "text": "The tide is falling. Every minute, the coral rises around you.",
-   "t0": 174.22,
-   "t1": 178.15,
+   "tag": "dramatic",
+   "text": "But the reef is not the real danger tonight.",
+   "t0": 184.21,
+   "t1": 186.94,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D049",
+    "reveal_frame": 5585,
+    "order": "after"
+   }
   },
   {
    "id": "L040",
-   "tag": "serious",
-   "text": "You are stuck at the edge of an island nobody is allowed to visit.",
-   "t0": 178.45,
-   "t1": 183.45,
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 187.99,
+   "t1": 191.32,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 10,
+    "reveal_shot": "D050",
+    "reveal_frame": 5716,
+    "order": "after"
+   }
   },
   {
    "id": "L041",
-   "tag": "dramatic",
-   "text": "But the reef is not the real danger tonight.",
-   "t0": 183.75,
-   "t1": 186.96,
+   "tag": "serious",
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 192.37,
+   "t1": 195.7,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D051",
+    "reveal_frame": 5788,
+    "order": "after"
+   }
   },
   {
    "id": "L042",
-   "tag": "excited",
-   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
-   "t0": 187.26,
-   "t1": 191.19,
+   "tag": "whispers",
+   "text": "The hull holds. For now, but only for now.",
+   "t0": 196.75,
+   "t1": 199.48,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D052",
+    "reveal_frame": 5912,
+    "order": "after"
+   }
   },
   {
    "id": "L043",
-   "tag": "serious",
-   "text": "You are thrown against the helm. Your hands find the wheel.",
-   "t0": 191.49,
-   "t1": 195.42,
+   "tag": "storytelling",
+   "text": "The tide is falling. Every minute, the coral rises around you.",
+   "t0": 200.53,
+   "t1": 203.86,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D053",
+    "reveal_frame": 6027,
+    "order": "after"
+   }
   },
   {
    "id": "L044",
-   "tag": "whispers",
-   "text": "The hull holds. For now, the hull holds.",
-   "t0": 195.72,
-   "t1": 198.58,
+   "tag": "serious",
+   "text": "You are stuck at the edge of an island nobody may visit.",
+   "t0": 204.91,
+   "t1": 208.55,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D054",
+    "reveal_frame": 6202,
+    "order": "after"
+   }
   },
   {
    "id": "L045",
-   "tag": "storytelling",
-   "text": "The tide is falling. Every minute, the coral rises around you.",
-   "t0": 198.88,
-   "t1": 202.81,
+   "tag": "dramatic",
+   "text": "But the reef is not the real danger tonight.",
+   "t0": 209.6,
+   "t1": 212.33,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 8,
+    "reveal_shot": "D055",
+    "reveal_frame": 6347,
+    "order": "after"
+   }
   },
   {
    "id": "L046",
-   "tag": "serious",
-   "text": "You are stuck at the edge of an island nobody is allowed to visit.",
-   "t0": 203.11,
-   "t1": 208.11,
+   "tag": "excited",
+   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "t0": 213.38,
+   "t1": 216.71,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 10,
+    "reveal_shot": "D056",
+    "reveal_frame": 6478,
+    "order": "after"
+   }
   },
   {
    "id": "L047",
-   "tag": "dramatic",
-   "text": "But the reef is not the real danger tonight.",
-   "t0": 208.41,
-   "t1": 211.62,
+   "tag": "serious",
+   "text": "You are thrown against the helm. Your hands find the wheel.",
+   "t0": 217.76,
+   "t1": 221.09,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D057",
+    "reveal_frame": 6550,
+    "order": "after"
+   }
   },
   {
    "id": "L048",
-   "tag": "excited",
-   "text": "Then the keel hits the reef. The whole boat lurches sideways.",
-   "t0": 211.92,
-   "t1": 215.85,
+   "tag": "whispers",
+   "text": "The hull holds. For now, but only for now.",
+   "t0": 222.14,
+   "t1": 224.87,
    "beat": "B4",
-   "chapter": "CH3"
+   "chapter": "CH3",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D058",
+    "reveal_frame": 6674,
+    "order": "after"
+   }
   },
   {
    "id": "L049",
-   "tag": "serious",
-   "text": "You are thrown against the helm. Your hands find the wheel.",
-   "t0": 216.15,
-   "t1": 220.08,
-   "beat": "B4",
-   "chapter": "CH3"
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 228.4,
+   "t1": 231.13,
+   "beat": "B5",
+   "chapter": "CH4",
+   "rehook": true,
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 5,
+    "reveal_shot": "D060",
+    "reveal_frame": 6886,
+    "order": "after"
+   }
   },
   {
    "id": "L050",
    "tag": "whispers",
-   "text": "The hull holds. For now, the hull holds.",
-   "t0": 220.38,
-   "t1": 223.24,
-   "beat": "B4",
-   "chapter": "CH3"
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 232.18,
+   "t1": 234.91,
+   "beat": "B5",
+   "chapter": "CH4",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D061",
+    "reveal_frame": 7018,
+    "order": "after"
+   }
   },
   {
    "id": "L051",
-   "tag": "storytelling",
-   "text": "The tide is falling. Every minute, the coral rises around you.",
-   "t0": 223.54,
-   "t1": 227.47,
-   "beat": "B4",
-   "chapter": "CH3"
+   "tag": "serious",
+   "text": "The people here have lived alone for a very long time. They want it that way.",
+   "t0": 237.96,
+   "t1": 242.81,
+   "beat": "B5",
+   "chapter": "CH4",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D062",
+    "reveal_frame": 7153,
+    "order": "on"
+   }
   },
   {
    "id": "L052",
-   "tag": "dramatic",
-   "text": "But then you see the fires on the beach.",
-   "t0": 228.4,
-   "t1": 231.61,
+   "tag": "storytelling",
+   "text": "They turned back every visitor before you. Some never left.",
+   "t0": 243.86,
+   "t1": 246.89,
    "beat": "B5",
    "chapter": "CH4",
-   "rehook": true
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D064",
+    "reveal_frame": 7343,
+    "order": "after"
+   }
   },
   {
    "id": "L053",
-   "tag": "whispers",
-   "text": "Shapes move between the trees. They are watching you.",
-   "t0": 231.91,
-   "t1": 235.12,
+   "tag": "serious",
+   "text": "Your instinct says swim for help. That instinct would cost you everything.",
+   "t0": 247.94,
+   "t1": 251.58,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 11,
+    "reveal_shot": "D065",
+    "reveal_frame": 7523,
+    "order": "after"
+   }
   },
   {
    "id": "L054",
-   "tag": "serious",
-   "text": "The people here have lived alone for a very long time. They want it that way.",
-   "t0": 235.42,
-   "t1": 241.13,
+   "tag": "dramatic",
+   "text": "But staying aboard means waiting in the dark until dawn.",
+   "t0": 252.63,
+   "t1": 255.66,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D066",
+    "reveal_frame": 7592,
+    "order": "on"
+   }
   },
   {
    "id": "L055",
-   "tag": "storytelling",
-   "text": "Every visitor before you was turned back. Some never left.",
-   "t0": 241.43,
-   "t1": 245.0,
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 256.71,
+   "t1": 259.44,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 5,
+    "reveal_shot": "D068",
+    "reveal_frame": 7736,
+    "order": "after"
+   }
   },
   {
    "id": "L056",
-   "tag": "serious",
-   "text": "Your instinct says swim for help. That instinct is the mistake.",
-   "t0": 245.3,
-   "t1": 249.23,
+   "tag": "whispers",
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 260.49,
+   "t1": 263.22,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D069",
+    "reveal_frame": 7867,
+    "order": "after"
+   }
   },
   {
    "id": "L057",
-   "tag": "dramatic",
-   "text": "But staying aboard means waiting in the dark until dawn.",
-   "t0": 249.53,
-   "t1": 253.1,
+   "tag": "serious",
+   "text": "The people here have lived alone for a very long time. They want it that way.",
+   "t0": 264.27,
+   "t1": 269.12,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D070",
+    "reveal_frame": 7942,
+    "order": "on"
+   }
   },
   {
    "id": "L058",
-   "tag": "dramatic",
-   "text": "But then you see the fires on the beach.",
-   "t0": 253.4,
-   "t1": 256.61,
+   "tag": "storytelling",
+   "text": "They turned back every visitor before you. Some never left.",
+   "t0": 270.17,
+   "t1": 273.2,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D072",
+    "reveal_frame": 8132,
+    "order": "after"
+   }
   },
   {
    "id": "L059",
-   "tag": "whispers",
-   "text": "Shapes move between the trees. They are watching you.",
-   "t0": 256.91,
-   "t1": 260.12,
+   "tag": "serious",
+   "text": "Your instinct says swim for help. That instinct would cost you everything.",
+   "t0": 274.25,
+   "t1": 277.89,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 11,
+    "reveal_shot": "D073",
+    "reveal_frame": 8312,
+    "order": "after"
+   }
   },
   {
    "id": "L060",
-   "tag": "serious",
-   "text": "The people here have lived alone for a very long time. They want it that way.",
-   "t0": 260.42,
-   "t1": 266.13,
+   "tag": "dramatic",
+   "text": "But staying aboard means waiting in the dark until dawn.",
+   "t0": 278.94,
+   "t1": 281.97,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D074",
+    "reveal_frame": 8381,
+    "order": "on"
+   }
   },
   {
    "id": "L061",
-   "tag": "storytelling",
-   "text": "Every visitor before you was turned back. Some never left.",
-   "t0": 266.43,
-   "t1": 270.0,
+   "tag": "dramatic",
+   "text": "But then you see the fires on the beach.",
+   "t0": 283.02,
+   "t1": 285.75,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 5,
+    "reveal_shot": "D076",
+    "reveal_frame": 8525,
+    "order": "after"
+   }
   },
   {
    "id": "L062",
-   "tag": "serious",
-   "text": "Your instinct says swim for help. That instinct is the mistake.",
-   "t0": 270.3,
-   "t1": 274.23,
+   "tag": "whispers",
+   "text": "Shapes move between the trees. They are watching you.",
+   "t0": 286.8,
+   "t1": 289.53,
    "beat": "B5",
-   "chapter": "CH4"
+   "chapter": "CH4",
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D077",
+    "reveal_frame": 8657,
+    "order": "after"
+   }
   },
   {
    "id": "L063",
    "tag": "dramatic",
-   "text": "But staying aboard means waiting in the dark until dawn.",
-   "t0": 274.53,
-   "t1": 278.1,
-   "beat": "B5",
-   "chapter": "CH4"
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 294.2,
+   "t1": 297.84,
+   "beat": "B6",
+   "chapter": "CH5",
+   "rehook": true,
+   "purpose": "inner_state",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D079",
+    "reveal_frame": 8889,
+    "order": "on"
+   }
   },
   {
    "id": "L064",
-   "tag": "dramatic",
-   "text": "But then you see the fires on the beach.",
-   "t0": 278.4,
-   "t1": 281.61,
-   "beat": "B5",
-   "chapter": "CH4"
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 298.89,
+   "t1": 303.44,
+   "beat": "B6",
+   "chapter": "CH5",
+   "purpose": "clarify",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 12,
+    "reveal_shot": "D080",
+    "reveal_frame": 9064,
+    "order": "after"
+   }
   },
   {
    "id": "L065",
    "tag": "whispers",
-   "text": "Shapes move between the trees. They are watching you.",
-   "t0": 281.91,
-   "t1": 285.12,
-   "beat": "B5",
-   "chapter": "CH4"
+   "text": "Now you wait. You do not shout. You do not wave at the beach.",
+   "t0": 304.49,
+   "t1": 308.73,
+   "beat": "B8",
+   "chapter": "CH5",
+   "purpose": "bridge",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 6,
+    "reveal_shot": "D081",
+    "reveal_frame": 9178,
+    "order": "after"
+   }
   },
   {
    "id": "L066",
    "tag": "serious",
-   "text": "The people here have lived alone for a very long time. They want it that way.",
-   "t0": 285.42,
-   "t1": 291.13,
-   "beat": "B5",
-   "chapter": "CH4"
+   "text": "You survive because you never set foot on that beach.",
+   "t0": 309.78,
+   "t1": 312.81,
+   "beat": "B8",
+   "chapter": "CH5",
+   "purpose": "context",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 1,
+    "reveal_shot": "D082",
+    "reveal_frame": 9306,
+    "order": "on"
+   }
   },
   {
    "id": "L067",
-   "tag": "dramatic",
-   "text": "But you have one thing left. The emergency beacon in the cabin.",
-   "t0": 294.2,
-   "t1": 298.49,
-   "beat": "B6",
+   "tag": "storytelling",
+   "text": "Then a patrol boat appears on the horizon, slow and careful.",
+   "t0": 313.86,
+   "t1": 317.19,
+   "beat": "B8",
    "chapter": "CH5",
-   "rehook": true
+   "purpose": "momentum",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D084",
+    "reveal_frame": 9439,
+    "order": "after"
+   }
   },
   {
    "id": "L068",
-   "tag": "excited",
-   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
-   "t0": 298.79,
-   "t1": 304.15,
-   "beat": "B6",
-   "chapter": "CH5"
+   "tag": "dramatic",
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 318.24,
+   "t1": 321.88,
+   "beat": "B9",
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D085",
+    "reveal_frame": 9595,
+    "order": "after"
+   }
   },
   {
    "id": "L069",
-   "tag": "whispers",
-   "text": "Now you wait. You do not shout. You do not wave at the beach.",
-   "t0": 304.45,
-   "t1": 309.45,
-   "beat": "B8",
-   "chapter": "CH5"
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 322.93,
+   "t1": 327.48,
+   "beat": "B9",
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 12,
+    "reveal_shot": "D087",
+    "reveal_frame": 9785,
+    "order": "after"
+   }
   },
   {
    "id": "L070",
-   "tag": "serious",
-   "text": "You survive because you never set foot on that beach.",
-   "t0": 309.75,
-   "t1": 313.32,
-   "beat": "B8",
-   "chapter": "CH5"
+   "tag": "whispers",
+   "text": "Now you wait. You do not shout. You do not wave at the beach.",
+   "t0": 328.53,
+   "t1": 332.77,
+   "beat": "B9",
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 6,
+    "reveal_shot": "D088",
+    "reveal_frame": 9899,
+    "order": "after"
+   }
   },
   {
    "id": "L071",
-   "tag": "storytelling",
-   "text": "Then a patrol boat appears on the horizon, slow and careful.",
-   "t0": 313.62,
-   "t1": 317.55,
-   "beat": "B8",
-   "chapter": "CH5"
+   "tag": "serious",
+   "text": "The night crawls by you before the sky turns grey over the water.",
+   "t0": 333.82,
+   "t1": 337.76,
+   "beat": "B9",
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 2,
+    "reveal_shot": "D089",
+    "reveal_frame": 10024,
+    "order": "after"
+   }
   },
   {
    "id": "L072",
-   "tag": "dramatic",
-   "text": "But you have one thing left. The emergency beacon in the cabin.",
-   "t0": 317.85,
-   "t1": 322.14,
+   "tag": "storytelling",
+   "text": "Then a patrol boat appears on the horizon, slow and careful.",
+   "t0": 338.81,
+   "t1": 342.14,
    "beat": "B9",
-   "chapter": "CH5"
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 4,
+    "reveal_shot": "D090",
+    "reveal_frame": 10188,
+    "order": "after"
+   }
   },
   {
    "id": "L073",
-   "tag": "excited",
-   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
-   "t0": 322.44,
-   "t1": 327.8,
+   "tag": "dramatic",
+   "text": "But you have one thing left. The emergency beacon in the cabin.",
+   "t0": 343.19,
+   "t1": 346.83,
    "beat": "B9",
-   "chapter": "CH5"
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 7,
+    "reveal_shot": "D092",
+    "reveal_frame": 10344,
+    "order": "after"
+   }
   },
   {
    "id": "L074",
-   "tag": "whispers",
-   "text": "Now you wait. You do not shout. You do not wave at the beach.",
-   "t0": 328.1,
-   "t1": 333.1,
+   "tag": "excited",
+   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "t0": 347.88,
+   "t1": 352.43,
    "beat": "B9",
-   "chapter": "CH5"
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 12,
+    "reveal_shot": "D093",
+    "reveal_frame": 10533,
+    "order": "after"
+   }
   },
   {
    "id": "L075",
-   "tag": "serious",
-   "text": "The night crawls by you before the sky turns grey over the water.",
-   "t0": 333.4,
-   "t1": 338.04,
-   "beat": "B9",
-   "chapter": "CH5"
-  },
-  {
-   "id": "L076",
-   "tag": "storytelling",
-   "text": "Then a patrol boat appears on the horizon, slow and careful.",
-   "t0": 338.34,
-   "t1": 342.27,
-   "beat": "B9",
-   "chapter": "CH5"
-  },
-  {
-   "id": "L077",
-   "tag": "dramatic",
-   "text": "But you have one thing left. The emergency beacon in the cabin.",
-   "t0": 342.57,
-   "t1": 346.86,
-   "beat": "B9",
-   "chapter": "CH5"
-  },
-  {
-   "id": "L078",
-   "tag": "excited",
-   "text": "You pull the tab and raise it over your head. The light starts to pulse.",
-   "t0": 347.16,
-   "t1": 352.52,
-   "beat": "B9",
-   "chapter": "CH5"
-  },
-  {
-   "id": "L079",
    "tag": "whispers",
    "text": "Next time: the sailors who did go ashore, and what they found.",
-   "t0": 355.11,
+   "t0": 355.76,
    "t1": 359.4,
    "beat": "B10",
-   "chapter": "CH5"
+   "chapter": "CH5",
+   "purpose": "resolution",
+   "adds": "what the sailor knows, fears or decides: the picture shows only the boat and the night",
+   "reveal_order": {
+    "key_word_idx": 3,
+    "reveal_shot": "D094",
+    "reveal_frame": 10689,
+    "order": "after"
+   }
   }
  ],
  "steps": [],
@@ -903,7 +1467,7 @@
    "id": "CQ",
    "desc": "How do you survive without going ashore?",
    "opened_t": 0.0,
-   "closed_t": 313.32,
+   "closed_t": 312.81,
    "primary": true
   },
   {
@@ -923,7 +1487,7 @@
   {
    "id": "OL3",
    "desc": "What happened to the sailors who went ashore?",
-   "opened_t": 309.75,
+   "opened_t": 309.78,
    "closed_t": 360.0,
    "primary": false
   }
@@ -955,8 +1519,8 @@
    },
    "short_candidate": {
     "id": "SC1",
-    "in": 35.94,
-    "out": 95.89,
+    "in": 35.99,
+    "out": 92.22,
     "hook_line": "Would you survive the engine dies alone at night?",
     "setup": "You check the fuel. You check the battery. Nothing works.",
     "turn": "But the engine coughs once and stops. The silence is sudden and total.",
@@ -978,8 +1542,8 @@
    },
    "short_candidate": {
     "id": "SC2",
-    "in": 101.39,
-    "out": 161.79,
+    "in": 101.49,
+    "out": 160.32,
     "hook_line": "Would you survive the current alone at night?",
     "setup": "You brace at the rail and read the water. It is moving fast.",
     "turn": "But the current does not drift. It pulls you toward the reef.",
@@ -1001,8 +1565,8 @@
    },
    "short_candidate": {
     "id": "SC3",
-    "in": 166.83,
-    "out": 227.47,
+    "in": 166.98,
+    "out": 224.87,
     "hook_line": "Would you survive the reef alone at night?",
     "setup": "You are thrown against the helm. Your hands find the wheel.",
     "turn": "Then the keel hits the reef. The whole boat lurches sideways.",
@@ -1018,14 +1582,14 @@
     "hook": "But then you see the fires on the beach.",
     "escalation": [
      "Shapes move between the trees. They are watching you.",
-     "Every visitor before you was turned back. Some never left."
+     "They turned back every visitor before you. Some never left."
     ],
     "payoff": "But staying aboard means waiting in the dark until dawn."
    },
    "short_candidate": {
     "id": "SC4",
-    "in": 231.91,
-    "out": 291.13,
+    "in": 232.18,
+    "out": 289.53,
     "hook_line": "Would you survive the beach alone at night?",
     "setup": "Shapes move between the trees. They are watching you.",
     "turn": "But then you see the fires on the beach.",
@@ -1047,13 +1611,2765 @@
    },
    "short_candidate": {
     "id": "SC5",
-    "in": 298.79,
-    "out": 352.52,
+    "in": 298.89,
+    "out": 352.43,
     "hook_line": "Would you survive the beacon alone at night?",
     "setup": "You pull the tab and raise it over your head. The light starts to pulse.",
     "turn": "But you have one thing left. The emergency beacon in the cabin.",
     "payoff": "Then a patrol boat appears on the horizon, slow and careful."
    }
+  }
+ ],
+ "threats": [
+  {
+   "id": "T_fires",
+   "desc": "torches on the beach: the islanders are watching",
+   "planted_shot": "D003",
+   "planted_t": 9.07,
+   "noticed_shot": "D060",
+   "noticed_at": 228.4,
+   "peak_t": 228.4,
+   "outcome": "averted",
+   "keywords": [
+    "torches",
+    "fires"
+   ]
+  },
+  {
+   "id": "T_reef",
+   "desc": "the reef line the current carries him onto",
+   "planted_shot": "D030",
+   "planted_t": 112.68,
+   "noticed_shot": "D044",
+   "noticed_at": 162.6,
+   "peak_t": 162.6,
+   "outcome": "survived_with_cost",
+   "keywords": [
+    "reef"
+   ]
+  }
+ ],
+ "knowledge_timeline": [
+  {
+   "beat": "B0",
+   "t0": 0.0,
+   "t1": 9.07,
+   "mode": "mystery",
+   "audience_knows": [],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "What is happening on this reef?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B0",
+   "t0": 9.07,
+   "t1": 27.0,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Will he see who is watching from the beach?",
+   "threat_planted_shot": "D003"
+  },
+  {
+   "beat": "B1",
+   "t0": 27.0,
+   "t1": 31.0,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "How will a calm evening end up here?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B2",
+   "t0": 31.0,
+   "t1": 96.8,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Can he restart the engine before dark?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B3",
+   "t0": 96.8,
+   "t1": 112.68,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "nobody",
+   "audience_question": "Where will the current take him?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B3",
+   "t0": 112.68,
+   "t1": 162.6,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "nobody",
+   "audience_question": "Will he see the reef before he hits it?",
+   "threat_planted_shot": "D030"
+  },
+  {
+   "beat": "B4",
+   "t0": 162.6,
+   "t1": 162.6,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [],
+   "withheld_from_audience": [],
+   "who_can_act": "nobody",
+   "audience_question": "Can anything hold him off the reef?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B4",
+   "t0": 162.6,
+   "t1": 228.4,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Will the hull hold on the falling tide?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B5",
+   "t0": 228.4,
+   "t1": 228.4,
+   "mode": "dramatic_irony",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Will he see the fires before he swims?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B5",
+   "t0": 228.4,
+   "t1": 294.2,
+   "mode": "shared",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Can he stay aboard until dawn?",
+   "threat_planted_shot": null,
+   "decision": true
+  },
+  {
+   "beat": "B6",
+   "t0": 294.2,
+   "t1": 304.49,
+   "mode": "shared",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Will the beacon bring help before the beach acts?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B8",
+   "t0": 304.49,
+   "t1": 318.24,
+   "mode": "shared",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Can he keep still while they watch?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B9",
+   "t0": 318.24,
+   "t1": 355.76,
+   "mode": "relief",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "Will he ever come back here?",
+   "threat_planted_shot": null
+  },
+  {
+   "beat": "B10",
+   "t0": 355.76,
+   "t1": 360.0,
+   "mode": "mystery",
+   "audience_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "character_knows": [
+    "T_fires",
+    "T_reef"
+   ],
+   "withheld_from_audience": [],
+   "who_can_act": "character",
+   "audience_question": "What did the sailors who went ashore find?",
+   "threat_planted_shot": null
+  }
+ ],
+ "narrator": {
+  "person": "second",
+  "persona": "a measured documentary narrator who has sailed these waters",
+  "authority": "the incident record of the island and the coast guard's guidance",
+  "knowledge_scope": "omniscient",
+  "voice_id": "VMCgCMbBs53ElBxVD4VB",
+  "direction": "documentary register; leave the gaps to the sea"
+ },
+ "narration_gaps": [
+  {
+   "id": "G001",
+   "after_line": "L001",
+   "start_s": 3.03,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G002",
+   "after_line": "L002",
+   "start_s": 8.02,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G003",
+   "after_line": "L003",
+   "start_s": 11.8,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G004",
+   "after_line": "L004",
+   "start_s": 16.49,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G005",
+   "after_line": "L005",
+   "start_s": 20.87,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G006",
+   "after_line": "L006",
+   "start_s": 25.86,
+   "len_s": 5.14,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G007",
+   "after_line": "L007",
+   "start_s": 34.94,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:engine coughs and stops",
+   "desc": "engine coughs and stops"
+  },
+  {
+   "id": "G008",
+   "after_line": "L008",
+   "start_s": 39.02,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G009",
+   "after_line": "L009",
+   "start_s": 44.01,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G010",
+   "after_line": "L010",
+   "start_s": 48.09,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G011",
+   "after_line": "L011",
+   "start_s": 52.47,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:radio static",
+   "desc": "radio static"
+  },
+  {
+   "id": "G012",
+   "after_line": "L012",
+   "start_s": 56.55,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G013",
+   "after_line": "L013",
+   "start_s": 61.54,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:engine coughs and stops",
+   "desc": "engine coughs and stops"
+  },
+  {
+   "id": "G014",
+   "after_line": "L014",
+   "start_s": 65.62,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G015",
+   "after_line": "L015",
+   "start_s": 70.61,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G016",
+   "after_line": "L016",
+   "start_s": 74.69,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G017",
+   "after_line": "L017",
+   "start_s": 79.07,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:radio static",
+   "desc": "radio static"
+  },
+  {
+   "id": "G018",
+   "after_line": "L018",
+   "start_s": 83.15,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G019",
+   "after_line": "L019",
+   "start_s": 88.14,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:engine coughs and stops",
+   "desc": "engine coughs and stops"
+  },
+  {
+   "id": "G020",
+   "after_line": "L020",
+   "start_s": 92.22,
+   "len_s": 4.58,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G021",
+   "after_line": "L021",
+   "start_s": 100.44,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G022",
+   "after_line": "L022",
+   "start_s": 105.43,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G023",
+   "after_line": "L023",
+   "start_s": 111.63,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G024",
+   "after_line": "L024",
+   "start_s": 116.01,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G025",
+   "after_line": "L025",
+   "start_s": 121.61,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G026",
+   "after_line": "L026",
+   "start_s": 125.69,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G027",
+   "after_line": "L027",
+   "start_s": 130.38,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G028",
+   "after_line": "L028",
+   "start_s": 135.37,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G029",
+   "after_line": "L029",
+   "start_s": 141.57,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G030",
+   "after_line": "L030",
+   "start_s": 145.95,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G031",
+   "after_line": "L031",
+   "start_s": 151.55,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G032",
+   "after_line": "L032",
+   "start_s": 155.63,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G033",
+   "after_line": "L033",
+   "start_s": 160.32,
+   "len_s": 2.28,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G034",
+   "after_line": "L034",
+   "start_s": 165.93,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:keel hits the reef",
+   "desc": "keel hits the reef"
+  },
+  {
+   "id": "G035",
+   "after_line": "L035",
+   "start_s": 170.31,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G036",
+   "after_line": "L036",
+   "start_s": 174.09,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G037",
+   "after_line": "L037",
+   "start_s": 178.47,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G038",
+   "after_line": "L038",
+   "start_s": 183.16,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G039",
+   "after_line": "L039",
+   "start_s": 186.94,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G040",
+   "after_line": "L040",
+   "start_s": 191.32,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:keel hits the reef",
+   "desc": "keel hits the reef"
+  },
+  {
+   "id": "G041",
+   "after_line": "L041",
+   "start_s": 195.7,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G042",
+   "after_line": "L042",
+   "start_s": 199.48,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G043",
+   "after_line": "L043",
+   "start_s": 203.86,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G044",
+   "after_line": "L044",
+   "start_s": 208.55,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G045",
+   "after_line": "L045",
+   "start_s": 212.33,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G046",
+   "after_line": "L046",
+   "start_s": 216.71,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:keel hits the reef",
+   "desc": "keel hits the reef"
+  },
+  {
+   "id": "G047",
+   "after_line": "L047",
+   "start_s": 221.09,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G048",
+   "after_line": "L048",
+   "start_s": 224.87,
+   "len_s": 3.53,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G049",
+   "after_line": "L049",
+   "start_s": 231.13,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G050",
+   "after_line": "L050",
+   "start_s": 234.91,
+   "len_s": 3.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G051",
+   "after_line": "L051",
+   "start_s": 242.81,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G052",
+   "after_line": "L052",
+   "start_s": 246.89,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G053",
+   "after_line": "L053",
+   "start_s": 251.58,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G054",
+   "after_line": "L054",
+   "start_s": 255.66,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G055",
+   "after_line": "L055",
+   "start_s": 259.44,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G056",
+   "after_line": "L056",
+   "start_s": 263.22,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G057",
+   "after_line": "L057",
+   "start_s": 269.12,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G058",
+   "after_line": "L058",
+   "start_s": 273.2,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G059",
+   "after_line": "L059",
+   "start_s": 277.89,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G060",
+   "after_line": "L060",
+   "start_s": 281.97,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G061",
+   "after_line": "L061",
+   "start_s": 285.75,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G062",
+   "after_line": "L062",
+   "start_s": 289.53,
+   "len_s": 4.67,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G063",
+   "after_line": "L063",
+   "start_s": 297.84,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G064",
+   "after_line": "L064",
+   "start_s": 303.44,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:beacon beep",
+   "desc": "beacon beep"
+  },
+  {
+   "id": "G065",
+   "after_line": "L065",
+   "start_s": 308.73,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G066",
+   "after_line": "L066",
+   "start_s": 312.81,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G067",
+   "after_line": "L067",
+   "start_s": 317.19,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G068",
+   "after_line": "L068",
+   "start_s": 321.88,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G069",
+   "after_line": "L069",
+   "start_s": 327.48,
+   "len_s": 1.05,
+   "purpose": "key_sfx",
+   "filled_by": "FX:beacon beep",
+   "desc": "beacon beep"
+  },
+  {
+   "id": "G070",
+   "after_line": "L070",
+   "start_s": 332.77,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G071",
+   "after_line": "L071",
+   "start_s": 337.76,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G072",
+   "after_line": "L072",
+   "start_s": 342.14,
+   "len_s": 1.05,
+   "purpose": "reaction",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G073",
+   "after_line": "L073",
+   "start_s": 346.83,
+   "len_s": 1.05,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  },
+  {
+   "id": "G074",
+   "after_line": "L074",
+   "start_s": 352.43,
+   "len_s": 3.33,
+   "purpose": "key_sfx",
+   "filled_by": "FX:beacon beep",
+   "desc": "beacon beep"
+  },
+  {
+   "id": "G075",
+   "after_line": "L075",
+   "start_s": 359.4,
+   "len_s": 0.6,
+   "purpose": "breath",
+   "filled_by": "room_tone",
+   "desc": "the sea and the boat carry the pause"
+  }
+ ],
+ "script_columns": [
+  {
+   "row_id": "RL001",
+   "beat": "B0",
+   "t0": 0.0,
+   "t1": 3.03,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You are drifting onto the forbidden reef. In the dark.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L001"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG001",
+   "beat": "B0",
+   "t0": 3.03,
+   "t1": 4.08,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G001",
+   "line_ids": [],
+   "gap_id": "G001"
+  },
+  {
+   "row_id": "RL002",
+   "beat": "B0",
+   "t0": 4.08,
+   "t1": 8.02,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "The hull grinds on coral. Water slaps against the keel, louder every second.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L002"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG002",
+   "beat": "B0",
+   "t0": 8.02,
+   "t1": 9.07,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G002",
+   "line_ids": [],
+   "gap_id": "G002"
+  },
+  {
+   "row_id": "RL003",
+   "beat": "B0",
+   "t0": 9.07,
+   "t1": 11.8,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "On the beach, torches move. Someone is watching you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L003"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG003",
+   "beat": "B0",
+   "t0": 11.8,
+   "t1": 12.85,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G003",
+   "line_ids": [],
+   "gap_id": "G003"
+  },
+  {
+   "row_id": "RL004",
+   "beat": "B0",
+   "t0": 12.85,
+   "t1": 16.49,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But this is not where the story starts. It starts before dusk.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L004"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG004",
+   "beat": "B0",
+   "t0": 16.49,
+   "t1": 17.54,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G004",
+   "line_ids": [],
+   "gap_id": "G004"
+  },
+  {
+   "row_id": "RL005",
+   "beat": "B0",
+   "t0": 17.54,
+   "t1": 20.87,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You had one rule out here. Never come near this island.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L005"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG005",
+   "beat": "B0",
+   "t0": 20.87,
+   "t1": 21.92,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G005",
+   "line_ids": [],
+   "gap_id": "G005"
+  },
+  {
+   "row_id": "RL006",
+   "beat": "B0",
+   "t0": 21.92,
+   "t1": 25.86,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "The hull grinds on coral. Water slaps against the keel, louder every second.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L006"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG006",
+   "beat": "B0",
+   "t0": 25.86,
+   "t1": 27.0,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G006",
+   "line_ids": [],
+   "gap_id": "G006"
+  },
+  {
+   "row_id": "RTITLE",
+   "beat": "B1",
+   "t0": 27.0,
+   "t1": 31.0,
+   "picture": "Title card over the dark island",
+   "narration": "",
+   "sound": "AMB: night sea; MUSIC: title sting",
+   "line_ids": [],
+   "gap_id": null
+  },
+  {
+   "row_id": "RL007",
+   "beat": "B2",
+   "t0": 31.0,
+   "t1": 34.94,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the engine coughs once and stops. The silence is sudden and total.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L007"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG007",
+   "beat": "B2",
+   "t0": 34.94,
+   "t1": 35.99,
+   "picture": "engine coughs and stops",
+   "narration": "",
+   "sound": "AMB: night sea; FX:engine coughs and stops @gap:G007",
+   "line_ids": [],
+   "gap_id": "G007"
+  },
+  {
+   "row_id": "RL008",
+   "beat": "B2",
+   "t0": 35.99,
+   "t1": 39.02,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You check the fuel. You check the battery. Nothing works.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L008"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG008",
+   "beat": "B2",
+   "t0": 39.02,
+   "t1": 40.07,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G008",
+   "line_ids": [],
+   "gap_id": "G008"
+  },
+  {
+   "row_id": "RL009",
+   "beat": "B2",
+   "t0": 40.07,
+   "t1": 44.01,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "The sea is calm around you, almost kind. That calm is the problem.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L009"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG009",
+   "beat": "B2",
+   "t0": 44.01,
+   "t1": 45.06,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G009",
+   "line_ids": [],
+   "gap_id": "G009"
+  },
+  {
+   "row_id": "RL010",
+   "beat": "B2",
+   "t0": 45.06,
+   "t1": 48.09,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "No lights. No power. Only the moon on the water.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L010"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG010",
+   "beat": "B2",
+   "t0": 48.09,
+   "t1": 49.14,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G010",
+   "line_ids": [],
+   "gap_id": "G010"
+  },
+  {
+   "row_id": "RL011",
+   "beat": "B2",
+   "t0": 49.14,
+   "t1": 52.47,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You try the radio before panic sets in. Static answers you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L011"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG011",
+   "beat": "B2",
+   "t0": 52.47,
+   "t1": 53.52,
+   "picture": "radio static",
+   "narration": "",
+   "sound": "AMB: night sea; FX:radio static @gap:G011",
+   "line_ids": [],
+   "gap_id": "G011"
+  },
+  {
+   "row_id": "RL012",
+   "beat": "B2",
+   "t0": 53.52,
+   "t1": 56.55,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the current has already taken hold of the yacht.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L012"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG012",
+   "beat": "B2",
+   "t0": 56.55,
+   "t1": 57.6,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G012",
+   "line_ids": [],
+   "gap_id": "G012"
+  },
+  {
+   "row_id": "RL013",
+   "beat": "B2",
+   "t0": 57.6,
+   "t1": 61.54,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the engine coughs once and stops. The silence is sudden and total.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L013"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG013",
+   "beat": "B2",
+   "t0": 61.54,
+   "t1": 62.59,
+   "picture": "engine coughs and stops",
+   "narration": "",
+   "sound": "AMB: night sea; FX:engine coughs and stops @gap:G013",
+   "line_ids": [],
+   "gap_id": "G013"
+  },
+  {
+   "row_id": "RL014",
+   "beat": "B2",
+   "t0": 62.59,
+   "t1": 65.62,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You check the fuel. You check the battery. Nothing works.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L014"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG014",
+   "beat": "B2",
+   "t0": 65.62,
+   "t1": 66.67,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G014",
+   "line_ids": [],
+   "gap_id": "G014"
+  },
+  {
+   "row_id": "RL015",
+   "beat": "B2",
+   "t0": 66.67,
+   "t1": 70.61,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "The sea is calm around you, almost kind. That calm is the problem.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L015"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG015",
+   "beat": "B2",
+   "t0": 70.61,
+   "t1": 71.66,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G015",
+   "line_ids": [],
+   "gap_id": "G015"
+  },
+  {
+   "row_id": "RL016",
+   "beat": "B2",
+   "t0": 71.66,
+   "t1": 74.69,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "No lights. No power. Only the moon on the water.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L016"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG016",
+   "beat": "B2",
+   "t0": 74.69,
+   "t1": 75.74,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G016",
+   "line_ids": [],
+   "gap_id": "G016"
+  },
+  {
+   "row_id": "RL017",
+   "beat": "B2",
+   "t0": 75.74,
+   "t1": 79.07,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You try the radio before panic sets in. Static answers you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L017"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG017",
+   "beat": "B2",
+   "t0": 79.07,
+   "t1": 80.12,
+   "picture": "radio static",
+   "narration": "",
+   "sound": "AMB: night sea; FX:radio static @gap:G017",
+   "line_ids": [],
+   "gap_id": "G017"
+  },
+  {
+   "row_id": "RL018",
+   "beat": "B2",
+   "t0": 80.12,
+   "t1": 83.15,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the current has already taken hold of the yacht.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L018"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG018",
+   "beat": "B2",
+   "t0": 83.15,
+   "t1": 84.2,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G018",
+   "line_ids": [],
+   "gap_id": "G018"
+  },
+  {
+   "row_id": "RL019",
+   "beat": "B2",
+   "t0": 84.2,
+   "t1": 88.14,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the engine coughs once and stops. The silence is sudden and total.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L019"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG019",
+   "beat": "B2",
+   "t0": 88.14,
+   "t1": 89.19,
+   "picture": "engine coughs and stops",
+   "narration": "",
+   "sound": "AMB: night sea; FX:engine coughs and stops @gap:G019",
+   "line_ids": [],
+   "gap_id": "G019"
+  },
+  {
+   "row_id": "RL020",
+   "beat": "B2",
+   "t0": 89.19,
+   "t1": 92.22,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You check the fuel. You check the battery. Nothing works.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L020"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG020",
+   "beat": "B2",
+   "t0": 92.22,
+   "t1": 96.8,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G020",
+   "line_ids": [],
+   "gap_id": "G020"
+  },
+  {
+   "row_id": "RL021",
+   "beat": "B3",
+   "t0": 96.8,
+   "t1": 100.44,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the current does not drift. It pulls you toward the reef.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L021"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG021",
+   "beat": "B3",
+   "t0": 100.44,
+   "t1": 101.49,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G021",
+   "line_ids": [],
+   "gap_id": "G021"
+  },
+  {
+   "row_id": "RL022",
+   "beat": "B3",
+   "t0": 101.49,
+   "t1": 105.43,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You brace at the rail and read the water. It is moving fast.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L022"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG022",
+   "beat": "B3",
+   "t0": 105.43,
+   "t1": 106.48,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G022",
+   "line_ids": [],
+   "gap_id": "G022"
+  },
+  {
+   "row_id": "RL023",
+   "beat": "B3",
+   "t0": 106.48,
+   "t1": 111.63,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "Sailors warned you about this stretch. They call it the last place you ever want to be.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L023"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG023",
+   "beat": "B3",
+   "t0": 111.63,
+   "t1": 112.68,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G023",
+   "line_ids": [],
+   "gap_id": "G023"
+  },
+  {
+   "row_id": "RL024",
+   "beat": "B3",
+   "t0": 112.68,
+   "t1": 116.01,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "Ahead, a dark line of trees rises out of the sea.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L024"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG024",
+   "beat": "B3",
+   "t0": 116.01,
+   "t1": 117.06,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G024",
+   "line_ids": [],
+   "gap_id": "G024"
+  },
+  {
+   "row_id": "RL025",
+   "beat": "B3",
+   "t0": 117.06,
+   "t1": 121.61,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You know that shape from the charts. Everyone told you never to go near it.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L025"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG025",
+   "beat": "B3",
+   "t0": 121.61,
+   "t1": 122.66,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G025",
+   "line_ids": [],
+   "gap_id": "G025"
+  },
+  {
+   "row_id": "RL026",
+   "beat": "B3",
+   "t0": 122.66,
+   "t1": 125.69,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But there is no anchor that can hold you here.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L026"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG026",
+   "beat": "B3",
+   "t0": 125.69,
+   "t1": 126.74,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G026",
+   "line_ids": [],
+   "gap_id": "G026"
+  },
+  {
+   "row_id": "RL027",
+   "beat": "B3",
+   "t0": 126.74,
+   "t1": 130.38,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the current does not drift. It pulls you toward the reef.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L027"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG027",
+   "beat": "B3",
+   "t0": 130.38,
+   "t1": 131.43,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G027",
+   "line_ids": [],
+   "gap_id": "G027"
+  },
+  {
+   "row_id": "RL028",
+   "beat": "B3",
+   "t0": 131.43,
+   "t1": 135.37,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You brace at the rail and read the water. It is moving fast.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L028"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG028",
+   "beat": "B3",
+   "t0": 135.37,
+   "t1": 136.42,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G028",
+   "line_ids": [],
+   "gap_id": "G028"
+  },
+  {
+   "row_id": "RL029",
+   "beat": "B3",
+   "t0": 136.42,
+   "t1": 141.57,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "Sailors warned you about this stretch. They call it the last place you ever want to be.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L029"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG029",
+   "beat": "B3",
+   "t0": 141.57,
+   "t1": 142.62,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G029",
+   "line_ids": [],
+   "gap_id": "G029"
+  },
+  {
+   "row_id": "RL030",
+   "beat": "B3",
+   "t0": 142.62,
+   "t1": 145.95,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "Ahead, a dark line of trees rises out of the sea.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L030"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG030",
+   "beat": "B3",
+   "t0": 145.95,
+   "t1": 147.0,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G030",
+   "line_ids": [],
+   "gap_id": "G030"
+  },
+  {
+   "row_id": "RL031",
+   "beat": "B3",
+   "t0": 147.0,
+   "t1": 151.55,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "You know that shape from the charts. Everyone told you never to go near it.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L031"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG031",
+   "beat": "B3",
+   "t0": 151.55,
+   "t1": 152.6,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G031",
+   "line_ids": [],
+   "gap_id": "G031"
+  },
+  {
+   "row_id": "RL032",
+   "beat": "B3",
+   "t0": 152.6,
+   "t1": 155.63,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But there is no anchor that can hold you here.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L032"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG032",
+   "beat": "B3",
+   "t0": 155.63,
+   "t1": 156.68,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G032",
+   "line_ids": [],
+   "gap_id": "G032"
+  },
+  {
+   "row_id": "RL033",
+   "beat": "B3",
+   "t0": 156.68,
+   "t1": 160.32,
+   "picture": "The yacht small on the moonlit sea, the hero on deck",
+   "narration": "But the current does not drift. It pulls you toward the reef.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L033"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG033",
+   "beat": "B3",
+   "t0": 160.32,
+   "t1": 162.6,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G033",
+   "line_ids": [],
+   "gap_id": "G033"
+  },
+  {
+   "row_id": "RL034",
+   "beat": "B4",
+   "t0": 162.6,
+   "t1": 165.93,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L034"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG034",
+   "beat": "B4",
+   "t0": 165.93,
+   "t1": 166.98,
+   "picture": "keel hits the reef",
+   "narration": "",
+   "sound": "AMB: night sea; FX:keel hits the reef @gap:G034",
+   "line_ids": [],
+   "gap_id": "G034"
+  },
+  {
+   "row_id": "RL035",
+   "beat": "B4",
+   "t0": 166.98,
+   "t1": 170.31,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "You are thrown against the helm. Your hands find the wheel.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L035"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG035",
+   "beat": "B4",
+   "t0": 170.31,
+   "t1": 171.36,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G035",
+   "line_ids": [],
+   "gap_id": "G035"
+  },
+  {
+   "row_id": "RL036",
+   "beat": "B4",
+   "t0": 171.36,
+   "t1": 174.09,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "The hull holds. For now, but only for now.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L036"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG036",
+   "beat": "B4",
+   "t0": 174.09,
+   "t1": 175.14,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G036",
+   "line_ids": [],
+   "gap_id": "G036"
+  },
+  {
+   "row_id": "RL037",
+   "beat": "B4",
+   "t0": 175.14,
+   "t1": 178.47,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "The tide is falling. Every minute, the coral rises around you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L037"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG037",
+   "beat": "B4",
+   "t0": 178.47,
+   "t1": 179.52,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G037",
+   "line_ids": [],
+   "gap_id": "G037"
+  },
+  {
+   "row_id": "RL038",
+   "beat": "B4",
+   "t0": 179.52,
+   "t1": 183.16,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "You are stuck at the edge of an island nobody may visit.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L038"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG038",
+   "beat": "B4",
+   "t0": 183.16,
+   "t1": 184.21,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G038",
+   "line_ids": [],
+   "gap_id": "G038"
+  },
+  {
+   "row_id": "RL039",
+   "beat": "B4",
+   "t0": 184.21,
+   "t1": 186.94,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "But the reef is not the real danger tonight.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L039"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG039",
+   "beat": "B4",
+   "t0": 186.94,
+   "t1": 187.99,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G039",
+   "line_ids": [],
+   "gap_id": "G039"
+  },
+  {
+   "row_id": "RL040",
+   "beat": "B4",
+   "t0": 187.99,
+   "t1": 191.32,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L040"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG040",
+   "beat": "B4",
+   "t0": 191.32,
+   "t1": 192.37,
+   "picture": "keel hits the reef",
+   "narration": "",
+   "sound": "AMB: night sea; FX:keel hits the reef @gap:G040",
+   "line_ids": [],
+   "gap_id": "G040"
+  },
+  {
+   "row_id": "RL041",
+   "beat": "B4",
+   "t0": 192.37,
+   "t1": 195.7,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "You are thrown against the helm. Your hands find the wheel.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L041"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG041",
+   "beat": "B4",
+   "t0": 195.7,
+   "t1": 196.75,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G041",
+   "line_ids": [],
+   "gap_id": "G041"
+  },
+  {
+   "row_id": "RL042",
+   "beat": "B4",
+   "t0": 196.75,
+   "t1": 199.48,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "The hull holds. For now, but only for now.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L042"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG042",
+   "beat": "B4",
+   "t0": 199.48,
+   "t1": 200.53,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G042",
+   "line_ids": [],
+   "gap_id": "G042"
+  },
+  {
+   "row_id": "RL043",
+   "beat": "B4",
+   "t0": 200.53,
+   "t1": 203.86,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "The tide is falling. Every minute, the coral rises around you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L043"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG043",
+   "beat": "B4",
+   "t0": 203.86,
+   "t1": 204.91,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G043",
+   "line_ids": [],
+   "gap_id": "G043"
+  },
+  {
+   "row_id": "RL044",
+   "beat": "B4",
+   "t0": 204.91,
+   "t1": 208.55,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "You are stuck at the edge of an island nobody may visit.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L044"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG044",
+   "beat": "B4",
+   "t0": 208.55,
+   "t1": 209.6,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G044",
+   "line_ids": [],
+   "gap_id": "G044"
+  },
+  {
+   "row_id": "RL045",
+   "beat": "B4",
+   "t0": 209.6,
+   "t1": 212.33,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "But the reef is not the real danger tonight.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L045"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG045",
+   "beat": "B4",
+   "t0": 212.33,
+   "t1": 213.38,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G045",
+   "line_ids": [],
+   "gap_id": "G045"
+  },
+  {
+   "row_id": "RL046",
+   "beat": "B4",
+   "t0": 213.38,
+   "t1": 216.71,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "Then the keel hits the reef. The whole boat lurches sideways.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L046"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG046",
+   "beat": "B4",
+   "t0": 216.71,
+   "t1": 217.76,
+   "picture": "keel hits the reef",
+   "narration": "",
+   "sound": "AMB: night sea; FX:keel hits the reef @gap:G046",
+   "line_ids": [],
+   "gap_id": "G046"
+  },
+  {
+   "row_id": "RL047",
+   "beat": "B4",
+   "t0": 217.76,
+   "t1": 221.09,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "You are thrown against the helm. Your hands find the wheel.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L047"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG047",
+   "beat": "B4",
+   "t0": 221.09,
+   "t1": 222.14,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G047",
+   "line_ids": [],
+   "gap_id": "G047"
+  },
+  {
+   "row_id": "RL048",
+   "beat": "B4",
+   "t0": 222.14,
+   "t1": 224.87,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm",
+   "narration": "The hull holds. For now, but only for now.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L048"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG048",
+   "beat": "B4",
+   "t0": 224.87,
+   "t1": 228.4,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G048",
+   "line_ids": [],
+   "gap_id": "G048"
+  },
+  {
+   "row_id": "RL049",
+   "beat": "B5",
+   "t0": 228.4,
+   "t1": 231.13,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But then you see the fires on the beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L049"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG049",
+   "beat": "B5",
+   "t0": 231.13,
+   "t1": 232.18,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G049",
+   "line_ids": [],
+   "gap_id": "G049"
+  },
+  {
+   "row_id": "RL050",
+   "beat": "B5",
+   "t0": 232.18,
+   "t1": 234.91,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Shapes move between the trees. They are watching you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L050"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG050",
+   "beat": "B5",
+   "t0": 234.91,
+   "t1": 237.96,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G050",
+   "line_ids": [],
+   "gap_id": "G050"
+  },
+  {
+   "row_id": "RL051",
+   "beat": "B5",
+   "t0": 237.96,
+   "t1": 242.81,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "The people here have lived alone for a very long time. They want it that way.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L051"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG051",
+   "beat": "B5",
+   "t0": 242.81,
+   "t1": 243.86,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G051",
+   "line_ids": [],
+   "gap_id": "G051"
+  },
+  {
+   "row_id": "RL052",
+   "beat": "B5",
+   "t0": 243.86,
+   "t1": 246.89,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "They turned back every visitor before you. Some never left.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L052"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG052",
+   "beat": "B5",
+   "t0": 246.89,
+   "t1": 247.94,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G052",
+   "line_ids": [],
+   "gap_id": "G052"
+  },
+  {
+   "row_id": "RL053",
+   "beat": "B5",
+   "t0": 247.94,
+   "t1": 251.58,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Your instinct says swim for help. That instinct would cost you everything.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L053"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG053",
+   "beat": "B5",
+   "t0": 251.58,
+   "t1": 252.63,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G053",
+   "line_ids": [],
+   "gap_id": "G053"
+  },
+  {
+   "row_id": "RL054",
+   "beat": "B5",
+   "t0": 252.63,
+   "t1": 255.66,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But staying aboard means waiting in the dark until dawn.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L054"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG054",
+   "beat": "B5",
+   "t0": 255.66,
+   "t1": 256.71,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G054",
+   "line_ids": [],
+   "gap_id": "G054"
+  },
+  {
+   "row_id": "RL055",
+   "beat": "B5",
+   "t0": 256.71,
+   "t1": 259.44,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But then you see the fires on the beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L055"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG055",
+   "beat": "B5",
+   "t0": 259.44,
+   "t1": 260.49,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G055",
+   "line_ids": [],
+   "gap_id": "G055"
+  },
+  {
+   "row_id": "RL056",
+   "beat": "B5",
+   "t0": 260.49,
+   "t1": 263.22,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Shapes move between the trees. They are watching you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L056"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG056",
+   "beat": "B5",
+   "t0": 263.22,
+   "t1": 264.27,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G056",
+   "line_ids": [],
+   "gap_id": "G056"
+  },
+  {
+   "row_id": "RL057",
+   "beat": "B5",
+   "t0": 264.27,
+   "t1": 269.12,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "The people here have lived alone for a very long time. They want it that way.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L057"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG057",
+   "beat": "B5",
+   "t0": 269.12,
+   "t1": 270.17,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G057",
+   "line_ids": [],
+   "gap_id": "G057"
+  },
+  {
+   "row_id": "RL058",
+   "beat": "B5",
+   "t0": 270.17,
+   "t1": 273.2,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "They turned back every visitor before you. Some never left.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L058"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG058",
+   "beat": "B5",
+   "t0": 273.2,
+   "t1": 274.25,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G058",
+   "line_ids": [],
+   "gap_id": "G058"
+  },
+  {
+   "row_id": "RL059",
+   "beat": "B5",
+   "t0": 274.25,
+   "t1": 277.89,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Your instinct says swim for help. That instinct would cost you everything.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L059"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG059",
+   "beat": "B5",
+   "t0": 277.89,
+   "t1": 278.94,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G059",
+   "line_ids": [],
+   "gap_id": "G059"
+  },
+  {
+   "row_id": "RL060",
+   "beat": "B5",
+   "t0": 278.94,
+   "t1": 281.97,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But staying aboard means waiting in the dark until dawn.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L060"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG060",
+   "beat": "B5",
+   "t0": 281.97,
+   "t1": 283.02,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G060",
+   "line_ids": [],
+   "gap_id": "G060"
+  },
+  {
+   "row_id": "RL061",
+   "beat": "B5",
+   "t0": 283.02,
+   "t1": 285.75,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But then you see the fires on the beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L061"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG061",
+   "beat": "B5",
+   "t0": 285.75,
+   "t1": 286.8,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G061",
+   "line_ids": [],
+   "gap_id": "G061"
+  },
+  {
+   "row_id": "RL062",
+   "beat": "B5",
+   "t0": 286.8,
+   "t1": 289.53,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Shapes move between the trees. They are watching you.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L062"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG062",
+   "beat": "B5",
+   "t0": 289.53,
+   "t1": 294.2,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G062",
+   "line_ids": [],
+   "gap_id": "G062"
+  },
+  {
+   "row_id": "RL063",
+   "beat": "B6",
+   "t0": 294.2,
+   "t1": 297.84,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But you have one thing left. The emergency beacon in the cabin.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L063"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG063",
+   "beat": "B6",
+   "t0": 297.84,
+   "t1": 298.89,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G063",
+   "line_ids": [],
+   "gap_id": "G063"
+  },
+  {
+   "row_id": "RL064",
+   "beat": "B6",
+   "t0": 298.89,
+   "t1": 303.44,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L064"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG064",
+   "beat": "B6",
+   "t0": 303.44,
+   "t1": 304.49,
+   "picture": "beacon beep",
+   "narration": "",
+   "sound": "AMB: night sea; FX:beacon beep @gap:G064",
+   "line_ids": [],
+   "gap_id": "G064"
+  },
+  {
+   "row_id": "RL065",
+   "beat": "B8",
+   "t0": 304.49,
+   "t1": 308.73,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Now you wait. You do not shout. You do not wave at the beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L065"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG065",
+   "beat": "B8",
+   "t0": 308.73,
+   "t1": 309.78,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G065",
+   "line_ids": [],
+   "gap_id": "G065"
+  },
+  {
+   "row_id": "RL066",
+   "beat": "B8",
+   "t0": 309.78,
+   "t1": 312.81,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You survive because you never set foot on that beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L066"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG066",
+   "beat": "B8",
+   "t0": 312.81,
+   "t1": 313.86,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G066",
+   "line_ids": [],
+   "gap_id": "G066"
+  },
+  {
+   "row_id": "RL067",
+   "beat": "B8",
+   "t0": 313.86,
+   "t1": 317.19,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Then a patrol boat appears on the horizon, slow and careful.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L067"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG067",
+   "beat": "B8",
+   "t0": 317.19,
+   "t1": 318.24,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G067",
+   "line_ids": [],
+   "gap_id": "G067"
+  },
+  {
+   "row_id": "RL068",
+   "beat": "B9",
+   "t0": 318.24,
+   "t1": 321.88,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But you have one thing left. The emergency beacon in the cabin.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L068"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG068",
+   "beat": "B9",
+   "t0": 321.88,
+   "t1": 322.93,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G068",
+   "line_ids": [],
+   "gap_id": "G068"
+  },
+  {
+   "row_id": "RL069",
+   "beat": "B9",
+   "t0": 322.93,
+   "t1": 327.48,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L069"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG069",
+   "beat": "B9",
+   "t0": 327.48,
+   "t1": 328.53,
+   "picture": "beacon beep",
+   "narration": "",
+   "sound": "AMB: night sea; FX:beacon beep @gap:G069",
+   "line_ids": [],
+   "gap_id": "G069"
+  },
+  {
+   "row_id": "RL070",
+   "beat": "B9",
+   "t0": 328.53,
+   "t1": 332.77,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Now you wait. You do not shout. You do not wave at the beach.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L070"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG070",
+   "beat": "B9",
+   "t0": 332.77,
+   "t1": 333.82,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G070",
+   "line_ids": [],
+   "gap_id": "G070"
+  },
+  {
+   "row_id": "RL071",
+   "beat": "B9",
+   "t0": 333.82,
+   "t1": 337.76,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "The night crawls by you before the sky turns grey over the water.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L071"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG071",
+   "beat": "B9",
+   "t0": 337.76,
+   "t1": 338.81,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G071",
+   "line_ids": [],
+   "gap_id": "G071"
+  },
+  {
+   "row_id": "RL072",
+   "beat": "B9",
+   "t0": 338.81,
+   "t1": 342.14,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Then a patrol boat appears on the horizon, slow and careful.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L072"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG072",
+   "beat": "B9",
+   "t0": 342.14,
+   "t1": 343.19,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G072",
+   "line_ids": [],
+   "gap_id": "G072"
+  },
+  {
+   "row_id": "RL073",
+   "beat": "B9",
+   "t0": 343.19,
+   "t1": 346.83,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "But you have one thing left. The emergency beacon in the cabin.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L073"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG073",
+   "beat": "B9",
+   "t0": 346.83,
+   "t1": 347.88,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G073",
+   "line_ids": [],
+   "gap_id": "G073"
+  },
+  {
+   "row_id": "RL074",
+   "beat": "B9",
+   "t0": 347.88,
+   "t1": 352.43,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "You pull the tab and raise it over your head. The light starts to pulse.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L074"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG074",
+   "beat": "B9",
+   "t0": 352.43,
+   "t1": 355.76,
+   "picture": "beacon beep",
+   "narration": "",
+   "sound": "AMB: night sea; FX:beacon beep @gap:G074",
+   "line_ids": [],
+   "gap_id": "G074"
+  },
+  {
+   "row_id": "RL075",
+   "beat": "B10",
+   "t0": 355.76,
+   "t1": 359.4,
+   "picture": "The yacht on the reef below the dark island, the hero at the helm, torches on the beach",
+   "narration": "Next time: the sailors who did go ashore, and what they found.",
+   "sound": "AMB: night sea, wind in the rigging; FX: hull creaks",
+   "line_ids": [
+    "L075"
+   ],
+   "gap_id": null
+  },
+  {
+   "row_id": "RG075",
+   "beat": "B10",
+   "t0": 359.4,
+   "t1": 360.0,
+   "picture": "the sea and the boat carry the pause",
+   "narration": "",
+   "sound": "AMB: night sea; AMB: room tone @gap:G075",
+   "line_ids": [],
+   "gap_id": "G075"
   }
  ]
 }

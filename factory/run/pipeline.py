@@ -43,6 +43,10 @@ class BudgetExceeded(Exception):
     pass
 
 
+class CanonFailed(RuntimeError):
+    """The film-craft canon pass FAILed (python3 -m factory.canon pass): approval / publish is blocked."""
+
+
 @dataclasses.dataclass
 class Options:
     idea: str = ""
@@ -361,7 +365,8 @@ class Pipeline:
         from factory.sound import designer
         ep = _read(self.p("episode.json"))
         words = _read(self.p("audio", "narration.words.json"))
-        snd = designer.design(ep, words, _rel(self.p("episode.json")), _rel(self.p("audio", "narration.words.json")))
+        story = _read(self.p("story.json")) if os.path.exists(self.p("story.json")) else None  # canon: gap fills
+        snd = designer.design(ep, words, _rel(self.p("episode.json")), _rel(self.p("audio", "narration.words.json")), story=story)
         snd["voice"]["file"] = ep["audio"]["narration"]
         snd["voice"]["words"] = ep["audio"]["wordsJson"]
         sp = self.p("sound.json")
@@ -399,6 +404,7 @@ class Pipeline:
                               samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log)
         self.st.update_stage("previs", info={k: v for k, v in info.items() if k != "keys_dir"},
                              artifacts=[_rel(info["contact_sheet"]), _rel(info["animatic"])])
+        self.canon_gate("plan")  # canon: FAIL blocks the previs approval (python3 -m factory.canon pass)
         if self.o.auto_approve and not self.approved():
             self.approve(by="auto (--auto-approve)")
         if not self.approved():
@@ -406,6 +412,40 @@ class Pipeline:
         info = _read(os.path.join(bdir, "previs.json"))
         return {"artifacts": [info["contact_sheet"], info["animatic"]], "keys": info.get("keys"),
                 "missing": info.get("missing"), "approval": self.st.doc["approval"]}
+
+    # >>> canon gate (film-craft canon; factory/canon). FACTORY_CANON_GATE=0 disables it (legacy episodes).
+    def canon_gate(self, stage):
+        """Run `python3 -m factory.canon pass` on this episode; any FAIL raises CanonFailed (blocks approval / publish)."""
+        if os.environ.get("FACTORY_CANON_GATE", "1") == "0":
+            return None
+        import subprocess
+        import sys
+        out = self.p("qc", f"canon_report.{stage}.json")
+        r = subprocess.run([sys.executable, "-m", "factory.canon", "pass", "--episode", self.dir, "--stage", stage, "--out", out,
+                            "--quiet"], cwd=ROOT, capture_output=True, text=True, timeout=900)
+        self.log(f"canon pass ({stage}): {r.stdout.strip().splitlines()[0] if r.stdout.strip() else r.stderr[-300:]}")
+        self.st.doc.setdefault("canon", {})[stage] = {"rc": r.returncode, "report": _rel(out)}
+        self.st.save()
+        if r.returncode != 0:
+            fails = [ln.strip() for ln in r.stdout.splitlines() if ln.strip().startswith("FAIL")]
+            raise CanonFailed(f"canon pass FAILED before {stage} ({_rel(out)}): " + " | ".join(fails[:6]))
+        return out
+
+    def _canon_stamp_lookdev(self):
+        sp = self.p("shotplan.json")
+        if not (self.approved() and os.path.exists(sp)):
+            return
+        plan = _read(sp)
+        lt = plan.get("lookdev_test")
+        if lt and not lt.get("approved_at"):
+            from factory.canon.checks import lookdev_hash
+            a = self.st.doc.get("approval") or {}
+            lt.update(approved_by=a.get("by", "operator"), approved_at=a.get("at") or time.strftime("%Y-%m-%dT%H:%M:%S"),
+                      hash=lookdev_hash(_read(self.p("episode.json"))))
+            lt.setdefault("locks", {"lighting_preset": lt.get("lighting_preset")})
+            _write(sp, plan)
+            self.st.event("canon: look-dev test approved with the previs boards")
+    # <<< canon gate
 
     def approve(self, by="operator", note=None, approved=True):
         self.st.doc["approval"] = {"approved": approved, "by": by, "note": note, "at": time.strftime("%Y-%m-%dT%H:%M:%S")}
@@ -421,6 +461,7 @@ class Pipeline:
         return self._abs(info.get("plates")) if info.get("plates") else self.p("plates")
 
     def stage_render(self, t0, shots=None):
+        self._canon_stamp_lookdev()  # canon CAN-T1: the approved previs boards approve the look-dev test
         ep = _read(self.p("episode.json"))
         spec_path = self.p("episode.json")
         plates = self.p("plates")
@@ -500,6 +541,12 @@ class Pipeline:
                 continue
             hist.append(entry)
             final = dec if dec in ("PUBLISH", "RETURN") else ("RETURN" if dec == "AUTO_FIX" else dec)
+            if final == "PUBLISH":  # canon: a FAIL in the canon pass blocks publishing
+                try:
+                    self.canon_gate("publish")
+                except CanonFailed as e:
+                    final, entry["canon"] = "RETURN", str(e)[:400]
+                    rep = dict(rep, hard_failures=(rep.get("hard_failures") or []) + ["canon pass"])
             self._record_qc(hist, final, rep)
             return {"artifacts": [path], "decision": final, "rawDecision": dec, "iterations": len(hist),
                     "score": rep.get("engagement_score")}
@@ -563,6 +610,8 @@ def _feedback_runner_cls():
                     rep.issues.extend(erep.issues)
                     rep.passed += erep.passed
                     holder["episode"] = ep
+                if self.canon and checks.schema_clean(rep):  # canon
+                    checks.canon_plan(rep, story, plan, holder.get("episode") if rep.ok else None, words, bd)
                 return rep
             inputs = {"story.json": story, "breakdown.json": bd, "manifest.json": man, "qc_feedback.json": self.qc_feedback}
             plan = self.llm_stage("direct", inputs, validate)

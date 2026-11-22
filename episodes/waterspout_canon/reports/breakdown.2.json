@@ -1,0 +1,54 @@
+{
+ "stage": "breakdown",
+ "ok": true,
+ "passed": [
+  "B-every-line-has-picture",
+  "B-hero",
+  "B-location-kind",
+  "B-scene-order",
+  "B-unused-elements",
+  "INTEGRITY.element_ids",
+  "INTEGRITY.element_refs",
+  "INTEGRITY.scene_lines",
+  "S6"
+ ],
+ "issues": [],
+ "overridden": {},
+ "meta": {
+  "model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4344,
+   "fallback_credit": null,
+   "inference_geo": "global",
+   "input_tokens": 23631,
+   "iterations": [
+    {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 4344,
+     "input_tokens": 23631,
+     "model": null,
+     "output_tokens": 8006,
+     "type": "message"
+    }
+   ],
+   "output_tokens": 8006,
+   "output_tokens_details": {
+    "thinking_tokens": 448
+   },
+   "server_tool_use": null,
+   "service_tier": "standard",
+   "speed": "standard"
+  },
+  "grammar": true
+ }
+}

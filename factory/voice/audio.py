@@ -104,14 +104,17 @@ def normalize(src, dst, target_i=VOICE_LUFS, target_tp=VOICE_TP, tempo=1.0):
 
 
 def concat(paths, dst, gap_s=0.0):
-    """Concatenate takes (re-encode) with optional silence between them. Returns the start offset of each."""
+    """Concatenate takes (re-encode) with optional silence between them (one value, or one per boundary: canon
+    narration gaps). Returns the start offset of each."""
     offsets, t = [], 0.0
     inputs, filt = [], []
+    gaps = list(gap_s) if isinstance(gap_s, (list, tuple)) else [gap_s] * max(0, len(paths) - 1)
     for i, p in enumerate(paths):
         offsets.append(t)
-        t += duration(p) + (gap_s if i < len(paths) - 1 else 0.0)
+        g = gaps[i] if i < len(paths) - 1 else 0.0
+        t += duration(p) + g
         inputs += ["-i", p]
-        pad = f",apad=pad_dur={gap_s}" if gap_s and i < len(paths) - 1 else ""
+        pad = f",apad=pad_dur={g}" if g and i < len(paths) - 1 else ""
         filt.append(f"[{i}:a]aformat=sample_rates={SR}:channel_layouts=mono{pad}[a{i}]")
     filt.append("".join(f"[a{i}]" for i in range(len(paths))) + f"concat=n={len(paths)}:v=0:a=1[out]")
     _run([FFMPEG, "-v", "error", "-y"] + inputs + ["-filter_complex", ";".join(filt), "-map", "[out]"]

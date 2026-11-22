@@ -8,11 +8,14 @@ DEFAULT_MODEL = "claude-opus-5-5"
 
 
 class LLMError(RuntimeError):
-    pass
+    def __init__(self, msg, meta=None):
+        super().__init__(msg)
+        self.meta = meta  # usage of a billed call that still failed (max_tokens / refusal): kept for cost accounting
 
 
 class AnthropicClient:
-    def __init__(self, model=DEFAULT_MODEL, effort="high", max_tokens=64000, fallbacks=True, client=None):
+    def __init__(self, model=DEFAULT_MODEL, effort="high", max_tokens=None, fallbacks=True, client=None):
+        max_tokens = max_tokens or int(os.environ.get("DIRECTOR_MAX_TOKENS", "64000"))
         if client is None:
             try:
                 import anthropic
@@ -61,9 +64,9 @@ class AnthropicClient:
                 "usage": msg.usage.model_dump() if hasattr(msg.usage, "model_dump") else str(msg.usage)}
         self.calls.append({"stage": stage, **meta})
         if msg.stop_reason == "refusal":
-            raise LLMError(f"{stage}: the model declined ({getattr(msg, 'stop_details', None)})")
+            raise LLMError(f"{stage}: the model declined ({getattr(msg, 'stop_details', None)})", meta)
         if msg.stop_reason == "max_tokens":
-            raise LLMError(f"{stage}: output hit max_tokens={self.max_tokens}")
+            raise LLMError(f"{stage}: output hit max_tokens={self.max_tokens}", meta)
         text = "".join(b.text for b in msg.content if b.type == "text") or None
         if text is None:
             raise LLMError(f"{stage}: no text block in the response")

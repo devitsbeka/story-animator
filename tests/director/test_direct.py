@@ -46,6 +46,10 @@ def test_compiled_episode_reproduces_hand_built_sentinel_v2(plan, story, manifes
     assert ep["$schema"] == v2["$schema"] and ep["durationFrames"] == v2["durationFrames"] and ep["world"] == v2["world"]
     assert ep["audio"] == v2["audio"]
     v2["shots"][0]["camera"].update(handheld=0.2, drift=0.25)
+    # canon CAN-H1e: the compiler's default baseline handheld is 0.12 (v2 was built with the old 0.15 default)
+    for m, o in zip(ep["shots"], v2["shots"]):
+        if o["camera"].get("handheld") == 0.15 and m["camera"].get("handheld") == comp.DEFAULT_HANDHELD:
+            o["camera"]["handheld"] = comp.DEFAULT_HANDHELD
     diffs = [d for m, o in zip(ep["shots"], v2["shots"]) for d in _close(m, o, m["id"])]
     assert len(ep["shots"]) == 33 and diffs == []
     assert checks.check_episode(ep).ok

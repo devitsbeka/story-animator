@@ -395,6 +395,22 @@ CU_SIZES = {"CU", "ECU"}
 WIDE_SIZES = {"EWS", "WS", "TOP"}
 
 
+def _voiced_spans(story, words):
+    """{line id: (s of its first word, e of its last)} from the recorded narration, or None when it does not match."""
+    if not words:
+        return None
+    from factory.voice.text import script_words
+    out, i = {}, 0
+    if len(words) != sum(len(script_words(ln["text"])) for ln in story["narration"]):
+        return None
+    for ln in story["narration"]:
+        n = len(script_words(ln["text"]))
+        if n:
+            out[ln["id"]] = (words[i]["s"], words[i + n - 1]["e"])
+        i += n
+    return out
+
+
 def check_shotplan(plan, story, bd, man, words=None):
     rep = Report("direct", plan.get("overrides"))
     errs = schemas.validate("shotplan", plan)
@@ -415,12 +431,19 @@ def check_shotplan(plan, story, bd, man, words=None):
     rep.hard("INTEGRITY.contiguous", shots[0]["from"] == 0 and all(a["to"] == b["from"] for a, b in zip(shots, shots[1:]))
              and all(s["to"] > s["from"] for s in shots), "shots must start at frame 0 and be contiguous with no gaps/overlaps")
     end = shots[-1]["to"]
-    rep.check("INTEGRITY.duration", abs(end / FPS - D) <= 0.5, f"cut ends at {end / FPS:.2f} s but story.duration_s = {D}")
+    voiced = _voiced_spans(story, words)  # canon: once the narration is recorded, sync against the measured timing
+    if voiced:
+        tail = max(e for _, e in voiced.values()) + 0.5
+        rep.check("INTEGRITY.duration", end / FPS >= tail + off / FPS - 0.5 and end / FPS <= max(D, tail + off / FPS) + 6.0,
+                  f"cut ends at {end / FPS:.2f} s; the voiced narration ends at {tail:.2f} s (+offset)")
+    else:
+        rep.check("INTEGRITY.duration", abs(end / FPS - D) <= 0.5, f"cut ends at {end / FPS:.2f} s but story.duration_s = {D}")
     rep.hard("INTEGRITY.scene_refs", all(s["scene"] in smap for s in shots), f"unknown scenes: {[s['id'] for s in shots if s['scene'] not in smap]}")
     rep.hard("INTEGRITY.line_refs", all(i in lmap for s in shots for i in s["line_ids"]), "shot line_ids must exist in story")
     # every narration line is on screen while it plays, and the shot carrying it is in a scene that pictures it
     for ln in story["narration"]:
-        f0, f1 = off + round(ln["t0"] * FPS), off + round(ln["t1"] * FPS)
+        t0, t1 = voiced.get(ln["id"], (ln["t0"], ln["t1"])) if voiced else (ln["t0"], ln["t1"])
+        f0, f1 = off + round(t0 * FPS), off + round(t1 * FPS)
         carriers = [s for s in shots if ln["id"] in s["line_ids"]]
         rep.hard(f"D-line-shown.{ln['id']}", bool(carriers) and all(ln["id"] in smap.get(s["scene"], {}).get("line_ids", []) for s in carriers),
                  f"{ln['id']} must be carried by >= 1 shot whose scene pictures it")
@@ -600,3 +623,38 @@ def _check_dual_frame(ep, rep):
         rep.check(f"DOC-centre-band.{s['id']}", not r["behind"] and r["main"] <= doc.CENTRE_BAND and r["vertical"] <= doc.VERTICAL_TOL,
                   f"{s['id']}: subject must hold the centre band in both frames: |x-0.5| 16:9 {r['main']} (<= {doc.CENTRE_BAND:.3f}), "
                   f"9:16 {r['vertical']} (<= {doc.VERTICAL_TOL}){' - subject behind the camera' if r['behind'] else ''}")
+
+
+
+# >>> canon: the film-craft canon in the director's retry loop (factory/canon/checks.py; thresholds.yaml)
+def schema_clean(rep):
+    return not any(i["rule"] == "SCHEMA" for i in rep.issues)
+
+
+def _canon_into(rep, results):
+    for rid, r in sorted(results.items()):
+        if not rid.startswith("CAN-") or r.get("status") not in ("PASS", "FAIL"):
+            continue
+        rep.hard(rid, r["status"] == "PASS", str(r.get("detail") or "")[:600])
+    return rep
+
+
+def canon_story(rep, story, words=None):
+    """Stage 1: the canon rules computable from story.json (CAN-S*, N1, N2b, N2f-plan, N4a-f) block like HARD rules."""
+    from factory.canon import checks as cc
+    try:
+        return _canon_into(rep, cc.story_rules(story, words))
+    except Exception as e:  # noqa: BLE001 - a malformed canon field must block, not crash the stage
+        rep.hard("CAN-ERROR", False, f"canon checks could not read the story: {type(e).__name__}: {e}")
+        return rep
+
+
+def canon_plan(rep, story, plan, ep=None, words=None, bd=None):
+    """Stage 4: shotplan + compiled episode canon rules (C, E, H, P, L1a/e, T1, N3, N4e, S3d/e)."""
+    from factory.canon import checks as cc
+    try:
+        return _canon_into(rep, cc.plan_rules(story, plan, ep, words, bd))
+    except Exception as e:  # noqa: BLE001
+        rep.hard("CAN-ERROR", False, f"canon checks could not read the shot plan: {type(e).__name__}: {e}")
+        return rep
+# <<< canon

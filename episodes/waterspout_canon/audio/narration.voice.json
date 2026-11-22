@@ -1,0 +1,427 @@
+{
+ "story": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/story.json",
+ "format": "short",
+ "backend": "elevenlabs_rest",
+ "voice": {
+  "voice_id": "467tX2b9Bky3cD6jXpNa",
+  "name": "Max - USA Energetic Animated Cartoon",
+  "native_wps": 2.86
+ },
+ "model_id": "eleven_v4",
+ "speed_requested": 1.031,
+ "tags_sent": true,
+ "chunks": 14,
+ "chars": 1115,
+ "takes": [
+  {
+   "chunk": 0,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/d1dfb03330fe1a04ac7d60a5.mp3",
+   "cache_hit": false,
+   "duration_s": 3.004,
+   "wps": 2.827,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 8,
+    "matched": 8,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -1.57,
+   "score": 0.0123,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "mApJylH0AkSLVIdMVyQ6"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 1,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/a2834b5f8f52891e3952f11f.mp3",
+   "cache_hit": false,
+   "duration_s": 4.519,
+   "wps": 2.045,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 9,
+    "matched": 9,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -3.01,
+   "score": 7.6359,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "yP4Q7WKWqluO333fHZkP"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 2,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/859e40d81af922b4498cbaa8.mp3",
+   "cache_hit": false,
+   "duration_s": 4.049,
+   "wps": 2.344,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 9,
+    "matched": 9,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -5.64,
+   "score": 4.6231,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "nHARXegm4cm6WTXirx6m"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 3,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/1d08246d48cf678fbfaf4c4b.mp3",
+   "cache_hit": false,
+   "duration_s": 3.318,
+   "wps": 3.492,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 11,
+    "matched": 11,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -2.79,
+   "score": 3.9748,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "JErMQwLLLSz2qJXHZhRE"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 4,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/ed1b9dca2539e7d420ec039c.mp3",
+   "cache_hit": false,
+   "duration_s": 4.284,
+   "wps": 2.358,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 10,
+    "matched": 10,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -4.77,
+   "score": 4.4742,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "JtR04kYk8y3a5gb975TN"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 5,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/f663eead44c6f2ef71d950c8.mp3",
+   "cache_hit": false,
+   "duration_s": 3.971,
+   "wps": 2.344,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 9,
+    "matched": 9,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -2.55,
+   "score": 4.6231,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "oUHmqJW665Dt7lYuMCZM"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 6,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/52eca440595a3b1cb51a18c1.mp3",
+   "cache_hit": false,
+   "duration_s": 5.146,
+   "wps": 1.953,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 10,
+    "matched": 10,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -3.34,
+   "score": 8.5684,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "CsvnF2aWcBzr0pq28tUw"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 7,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/2e879ec8da331950d4051eed.mp3",
+   "cache_hit": false,
+   "duration_s": 4.911,
+   "wps": 2.083,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 10,
+    "matched": 10,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -3.26,
+   "score": 7.2533,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "ZEKuVPPI5E9jQedOuYKG"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 8,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/fab2e96630054bccf33e86ed.mp3",
+   "cache_hit": false,
+   "duration_s": 17.633,
+   "wps": 2.626,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 46,
+    "matched": 46,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -2.29,
+   "score": 1.7767,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "TifOdoern63EtClA60R7"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 9,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/4e7b1c552a1e9d4c9e444256.mp3",
+   "cache_hit": false,
+   "duration_s": 5.642,
+   "wps": 2.536,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 14,
+    "matched": 14,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -2.34,
+   "score": 2.6791,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "zfvUCup9d7lr1WnssdpQ"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 10,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/feb55cc976132f7a032115f9.mp3",
+   "cache_hit": false,
+   "duration_s": 3.553,
+   "wps": 1.705,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 6,
+    "matched": 6,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -3.84,
+   "score": 11.0791,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "fKhcBu5DdgvOkGjvESGZ"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 11,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/f789e3a177f3e014e1226fac.mp3",
+   "cache_hit": false,
+   "duration_s": 4.911,
+   "wps": 1.844,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 9,
+    "matched": 9,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -3.18,
+   "score": 9.668,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "CFYtGKeh3ofDy2XsjBpR"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 12,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/4b63c06ce26e16016f37c796.mp3",
+   "cache_hit": false,
+   "duration_s": 3.709,
+   "wps": 2.222,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 8,
+    "matched": 8,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -2.8,
+   "score": 5.8506,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "nvwKWmSiIQjcwRIF2Jn5"
+   },
+   "picked": true
+  },
+  {
+   "chunk": 13,
+   "take": 0,
+   "audio": "/root/.cache/story_animator/voice/b785f5a9566887f638c7ecdc.mp3",
+   "cache_hit": false,
+   "duration_s": 3.631,
+   "wps": 1.989,
+   "timing_source": "char_alignment",
+   "alignment": {
+    "words": 7,
+    "matched": 7,
+    "mapped": 0,
+    "interpolated": 0
+   },
+   "coverage": 1.0,
+   "clipped_samples": 0,
+   "peak_dbfs": -5.12,
+   "score": 8.2098,
+   "meta": {
+    "model_id": "eleven_v4",
+    "voice_id": "467tX2b9Bky3cD6jXpNa",
+    "speed": 1.031,
+    "seed": 1,
+    "request_id": "JtPAhqtQXhG4p5L7Iudh"
+   },
+   "picked": true
+  }
+ ],
+ "tempo_correction": 1.08,
+ "pacing": {
+  "wps": 2.169,
+  "target": [
+   2.8,
+   3.1
+  ],
+  "in_band": false,
+  "pre_correction_wps": 2.015
+ },
+ "loudness": {
+  "I": -16.6,
+  "TP": -1.6,
+  "target_I": -16.0,
+  "target_TP": -1.5
+ },
+ "clipping": {
+  "clipped_samples": 0,
+  "peak_dbfs": -1.82
+ },
+ "timing_sources": [
+  "char_alignment"
+ ],
+ "gaps": {
+  "ok": true,
+  "inserts": 3
+ },
+ "outputs": {
+  "audio": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/audio/narration.mp3",
+  "words": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/audio/narration.words.json",
+  "lines": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/audio/narration.lines.json"
+ }
+}

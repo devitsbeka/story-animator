@@ -1,0 +1,283 @@
+{
+ "id": "waterspout_night_bermuda_v1",
+ "entries": [
+  {
+   "element": "loc_open_sea",
+   "kind": "location",
+   "decision": "REUSE",
+   "catalog_id": "int:ocean_fft",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: FFT ocean (Blender Ocean modifier) with sea state, foam, buoyancy probe (matched 'ocean')"
+  },
+  {
+   "element": "set_cockpit",
+   "kind": "set",
+   "decision": "BUILD",
+   "recipe": "proc:set_cockpit",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'cockpit': procedural bpy recipe to write"
+  },
+  {
+   "element": "veh_sloop",
+   "kind": "vehicle",
+   "decision": "BUILD",
+   "recipe": "proc:veh_sloop",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'sailboat': procedural bpy recipe to write"
+  },
+  {
+   "element": "chr_kai",
+   "kind": "character",
+   "decision": "REUSE",
+   "catalog_id": "int:hero",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Series hero (sailor) rig with face and eye engine (matched 'sailor'); NOTE: not yet listed in factory/library/catalog.json",
+   "render_key": "characters/hero"
+  },
+  {
+   "element": "sys_acting_rig",
+   "kind": "system",
+   "decision": "REUSE",
+   "catalog_id": "int:sys_acting",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: IK control rig, stances, pose overlays, procedural verbs, breathing (matched 'acting rig')"
+  },
+  {
+   "element": "prop_headlamp",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_headlamp",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'headlamp': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_compass",
+   "kind": "prop",
+   "decision": "SOURCE",
+   "provider": "polyhaven",
+   "asset_id": "seadogs_compass",
+   "url": "https://polyhaven.com/a/seadogs_compass",
+   "licence": "CC0-1.0",
+   "status": "to_fetch",
+   "reason": "Poly Haven search 'compass' -> Seadogs Compass; fetch with factory/library/sources/polyhaven.py fetch seadogs_compass"
+  },
+  {
+   "element": "prop_tiller",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_tiller",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'tiller': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_life_jacket",
+   "kind": "prop",
+   "decision": "SOURCE",
+   "provider": "polyhaven",
+   "asset_id": "life_jacket",
+   "url": "https://polyhaven.com/a/life_jacket",
+   "licence": "CC0-1.0",
+   "status": "to_fetch",
+   "reason": "Poly Haven search 'life jacket' -> Life Jacket; fetch with factory/library/sources/polyhaven.py fetch life_jacket"
+  },
+  {
+   "element": "prop_tether",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_tether",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'tether': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_jackline",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_jackline",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'jackline': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_vhf_radio",
+   "kind": "prop",
+   "decision": "REUSE",
+   "catalog_id": "int:prop_radio",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Handheld marine VHF with lit LCD (CH 16) (matched 'radio')",
+   "render_key": "prop:radio"
+  },
+  {
+   "element": "prop_chartplotter",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_chartplotter",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'chartplotter': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_engine_panel",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_engine_panel",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'engine panel': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_shroud",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_shroud",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'shroud': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_jib",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_jib",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'sail': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_ocean",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:ocean_fft",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: FFT ocean (Blender Ocean modifier) with sea state, foam, buoyancy probe (matched 'ocean')"
+  },
+  {
+   "element": "fx_waterspout",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_waterspout",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'waterspout' (story-specific): procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_squall_line",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_squall_line",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'storm clouds': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_lightning",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_storm",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather (matched 'lightning')"
+  },
+  {
+   "element": "fx_rain",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_storm",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather (matched 'rain')"
+  },
+  {
+   "element": "fx_spray",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_rotor_wash",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Spinning translucent spray disc under a hovering helicopter (matched 'spray')"
+  },
+  {
+   "element": "fx_wake",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_wake",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'wake': procedural bpy recipe to write"
+  },
+  {
+   "element": "hdri_moon_night",
+   "kind": "hdri",
+   "decision": "BUILD",
+   "recipe": "proc:hdri_moon_night",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'night sky': procedural bpy recipe to write"
+  },
+  {
+   "element": "ovl_hook_title",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_hook_title",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_squall_badge",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_squall_badge",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_step_badge",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_step_badge",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_captions",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_captions",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  }
+ ],
+ "attributions": [
+  "Seadogs Compass (Poly Haven, CC0-1.0) https://polyhaven.com/a/seadogs_compass",
+  "Life Jacket (Poly Haven, CC0-1.0) https://polyhaven.com/a/life_jacket"
+ ],
+ "summary": {
+  "REUSE": 8,
+  "ready": 8,
+  "BUILD": 18,
+  "to_build": 18,
+  "SOURCE": 2,
+  "to_fetch": 2
+ }
+}

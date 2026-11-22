@@ -19,6 +19,7 @@ Rules evaluated (status pass | fail | warn | skip):
   C9 durations (median 2.0-3.5 s, none < 18 f unless insert, none > 6 s unless long_take)
   C11 eye-trace across cuts <= 0.15 for >= 80 % of cuts            C14 hero CU lens within +-10 mm per sequence
   H1 subject centred |x - 0.5| < 0.08 (POV / insert exempt)       DIST shot-size distribution targets (3.2)
+     (canon CAN-H1f: H1, C11 and VIS skip the frames of a shot's impact_handheld window)
   P1 ASL by section + overall  P6 preset repetition  P7 camera always moving (no static >= 0.8 s)
   COL camera under water / inside the hull    OCC hero hidden behind the hull (ray test)
   CTX story-first framing (island / fires on screen)   LENS lens language (non-CU shots mostly 18-60 mm)
@@ -143,6 +144,11 @@ def analyse_shot(ep, shot):
         subj = lambda f: G.camera_world(shot, f, jitter=False)[1]
     centre_from = d.get("centre_from", f0)
     exempt = bool(d.get("pov") or d.get("insert"))
+    # canon CAN-H1f: centring / eye-trace / visibility are exempt inside the reactive impact window
+    ih = shot.get("impact_handheld") or d.get("impact_handheld") or {}
+    iw = d.get("impact_window") or ((ih.get("impact_frame"), ih["impact_frame"] + ih.get("escape_frames", 0) + ih.get("lag_frames", 0)
+                                     + ih.get("recover_frames", 0)) if ih.get("impact_frame") is not None else None)
+    in_iw = (lambda f: iw[0] <= f <= iw[1]) if iw else (lambda f: False)
     samples = []
     for f in frames:
         cam, look, fov, roll = G.camera_world(shot, f, jitter=True)
@@ -165,9 +171,9 @@ def analyse_shot(ep, shot):
     fhs = sorted(s["frame_h"] for s in samples if s["depth"] > 0) or [0.0]
     size = G.classify_size(fhs[len(fhs) // 2], subj_h)
     lens = statistics.median(G.vfov_to_lens(s["fov"], aspect) for s in samples)
-    dxs = [abs(s["sx"] - 0.5) for s in samples if s["sx"] is not None and s["f"] >= centre_from]
-    behind = [s["f"] for s in samples if s["sx"] is None]
-    offscreen = [s["f"] for s in samples if s["sx"] is not None and not (0 <= s["sx"] <= 1 and 0 <= s["sy"] <= 1)]
+    dxs = [abs(s["sx"] - 0.5) for s in samples if s["sx"] is not None and s["f"] >= centre_from and not in_iw(s["f"])]
+    behind = [s["f"] for s in samples if s["sx"] is None and not in_iw(s["f"])]
+    offscreen = [s["f"] for s in samples if s["sx"] is not None and not (0 <= s["sx"] <= 1 and 0 <= s["sy"] <= 1) and not in_iw(s["f"])]
 
     # motion (keys only: no drift / handheld noise)
     m_frames = []
@@ -262,7 +268,9 @@ def analyse_shot(ep, shot):
         "eye_y_key": round(ks["eye"][1], 3) if ks.get("eye") and ks["eye"][1] is not None else None,
         "hero_sx_key": round(ks["hero"][0], 3) if ks.get("hero") and ks["hero"][0] is not None else None,
         "hero_size_key": G.classify_size(ks["hero_fh"], 1.8) if ks.get("hero") and ks["hero"][2] > 0 else None,
-        "first_sx": samples[0]["sx"], "last_sx": samples[-1]["sx"],
+        "first_sx": None if in_iw(samples[0]["f"]) else samples[0]["sx"],
+        "last_sx": None if in_iw(samples[-1]["f"]) else samples[-1]["sx"],
+        "impact_exempt": list(iw) if iw else None,
         "motion_rate": round(rate, 4), "static_at": static_at, "collisions": col[:5], "occluded": occ, "side": side,
         "has_hero": a is not None, "anchors": anchors, "fires_lit": bool(lit), "preset": d.get("preset"), "motivation": d.get("motivation"),
         "pov": bool(d.get("pov")), "insert": bool(d.get("insert")), "ots": bool(d.get("ots")), "exempt": exempt,

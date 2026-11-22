@@ -1,0 +1,17 @@
+{
+ "stage": "breakdown",
+ "ok": true,
+ "passed": [
+  "B-every-line-has-picture",
+  "B-hero",
+  "B-location-kind",
+  "B-scene-order",
+  "B-unused-elements",
+  "INTEGRITY.element_ids",
+  "INTEGRITY.element_refs",
+  "INTEGRITY.scene_lines",
+  "S6"
+ ],
+ "issues": [],
+ "overridden": {}
+}

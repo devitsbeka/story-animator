@@ -1,0 +1,189 @@
+{
+ "schema": "factory.run/1",
+ "episodeId": "waterspout_canon",
+ "idea": "You're sailing solo at night when a waterspout forms right next to your boat near the Bermuda Triangle. What do you actually do to survive?",
+ "format": "short",
+ "style": "pixar_night_survival",
+ "render": "local",
+ "quality": "preview",
+ "offline": false,
+ "stubs": [
+  "finish",
+  "previs",
+  "render"
+ ],
+ "autoApprove": false,
+ "options": {
+  "idea": "You're sailing solo at night when a waterspout forms right next to your boat near the Bermuda Triangle. What do you actually do to survive?",
+  "fmt": "short",
+  "style": "pixar_night_survival",
+  "render": "local",
+  "quality": "preview",
+  "offline": false,
+  "auto_approve": false,
+  "stubs": [
+   "finish",
+   "previs",
+   "render"
+  ],
+  "episodes_dir": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes",
+  "fixtures": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/factory/director/fixtures/sentinel",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "voice": "auto",
+  "workers": 1,
+  "render_res": null,
+  "render_samples": null,
+  "render_engine": null,
+  "blender": null,
+  "previs_res": "144x256",
+  "previs_samples": 4,
+  "previs_shots": [],
+  "budget": 6.5,
+  "max_qc_fixes": 1,
+  "parallel_stages": 2,
+  "farm_poll_s": 60
+ },
+ "status": "running",
+ "created": "2026-11-22T02:31:46+00:00",
+ "updated": "2026-11-22T03:03:38+00:00",
+ "stages": {
+  "develop": {
+   "status": "done",
+   "started": "2026-11-22T02:42:03",
+   "attempts": 2,
+   "error": null,
+   "costUSD": 3.0747,
+   "seconds": 1733.87,
+   "finished": "2026-11-22T03:01:25",
+   "artifacts": [
+    "episodes/waterspout_canon/story.json"
+   ],
+   "info": {
+    "tokens": {
+     "input": 55873,
+     "output": 132537
+    },
+    "llmAttempts": 3
+   }
+  },
+  "breakdown": {
+   "status": "done",
+   "started": "2026-11-22T03:01:25",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.5222,
+   "seconds": 130.81,
+   "finished": "2026-11-22T03:03:36",
+   "artifacts": [
+    "episodes/waterspout_canon/breakdown.json"
+   ],
+   "info": {
+    "tokens": {
+     "input": 38384,
+     "output": 17304
+    },
+    "llmAttempts": 2
+   }
+  },
+  "library": {
+   "status": "done",
+   "started": "2026-11-22T03:03:36",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.0,
+   "seconds": 2.06,
+   "finished": "2026-11-22T03:03:38",
+   "artifacts": [
+    "episodes/waterspout_canon/manifest.json"
+   ],
+   "info": {
+    "summary": {
+     "REUSE": 8,
+     "ready": 8,
+     "BUILD": 18,
+     "to_build": 18,
+     "SOURCE": 2,
+     "to_fetch": 2
+    }
+   }
+  },
+  "voice": {
+   "status": "done",
+   "started": "2026-11-22T03:01:25",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.2862,
+   "seconds": 26.85,
+   "finished": "2026-11-22T03:01:52",
+   "artifacts": [
+    "episodes/waterspout_canon/audio/narration.mp3",
+    "episodes/waterspout_canon/audio/narration.words.json"
+   ],
+   "info": {
+    "audio": "episodes/waterspout_canon/audio/narration.mp3",
+    "words": "episodes/waterspout_canon/audio/narration.words.json",
+    "provider": "factory.voice",
+    "chars": 954
+   }
+  },
+  "direct": {
+   "status": "running",
+   "started": "2026-11-22T03:03:38",
+   "attempts": 1,
+   "error": null
+  },
+  "sound": {
+   "status": "pending"
+  },
+  "previs": {
+   "status": "pending"
+  },
+  "render": {
+   "status": "pending"
+  },
+  "finish": {
+   "status": "pending"
+  },
+  "qc": {
+   "status": "pending"
+  }
+ },
+ "approval": null,
+ "qc": {
+  "iterations": []
+ },
+ "cost": {
+  "totalUSD": 3.8831,
+  "byStage": {
+   "develop": 3.0747,
+   "breakdown": 0.5222,
+   "library": 0.0,
+   "voice": 0.2862,
+   "direct": 0.0,
+   "sound": 0.0,
+   "previs": 0.0,
+   "render": 0.0,
+   "finish": 0.0,
+   "qc": 0.0
+  },
+  "budgetUSD": 6.5
+ },
+ "time": {
+  "totalSeconds": 1893.59,
+  "byStage": {
+   "develop": 1733.87,
+   "breakdown": 130.81,
+   "library": 2.06,
+   "voice": 26.85,
+   "direct": 0.0,
+   "sound": 0.0,
+   "previs": 0.0,
+   "render": 0.0,
+   "finish": 0.0,
+   "qc": 0.0
+  }
+ },
+ "events": [],
+ "error": "LLMError: develop: output hit max_tokens=64000"
+}

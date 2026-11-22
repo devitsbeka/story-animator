@@ -1,0 +1,3133 @@
+{
+ "id": "sentinel",
+ "audio_offset_frames": 15,
+ "world": {
+  "moonDir": [
+   0.12,
+   0.3,
+   1
+  ],
+  "seaState": 1.6,
+  "dawn": 0,
+  "island": "near"
+ },
+ "action_line": "Yacht to island: the island owns screen-left/ahead of the bow for the whole Sentinel sequence; the camera stays on the stern-starboard side except the bow OTS (C17), which crosses on the hero's turn.",
+ "overrides": [
+  {
+   "rule": "H-1-offset",
+   "reason": "The 15-frame pre-roll lets the frame-0 move and impact land before the first word; the first word is at 0.5 s."
+  },
+  {
+   "rule": "P-3",
+   "reason": "Cuts sit on the planned VO beats with the 15-frame pre-roll; sub-word alignment is re-cut at stage 8 from the final words[]."
+  },
+  {
+   "rule": "C9",
+   "reason": "The reserved close-up and the gap-widened shots move the median; no shot is under 18 f or over 6 s."
+  }
+ ],
+ "shots": [
+  {
+   "id": "A01",
+   "title": "Alone on a yacht",
+   "from": 0,
+   "to": 75,
+   "key_frame": 60,
+   "scene": "S01",
+   "line_ids": [
+    "L01"
+   ],
+   "size": "EWS",
+   "camera": {
+    "preset": "crane_down",
+    "motivation": "isolation",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     150,
+     160
+    ],
+    "dist": [
+     42,
+     26
+    ],
+    "height": [
+     30,
+     9
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "arrive",
+    "handheld": 0.1,
+    "drift": 0.25
+   },
+   "yacht": {
+    "state": "afloat_lit"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   ],
+   "establishes": [
+    "hero",
+    "vessel",
+    "open_sea"
+   ]
+  },
+  {
+   "id": "A02",
+   "title": "Middle of the night",
+   "from": 75,
+   "to": 118,
+   "key_frame": 100,
+   "scene": "S01",
+   "line_ids": [
+    "L01"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     55,
+     40
+    ],
+    "dist": [
+     3.4,
+     2.6
+    ],
+    "height": [
+     0.6,
+     0.4
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "afloat_lit"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 92,
+      "to": 108,
+      "in": 10,
+      "out": 10,
+      "why": "Middle of the night: L01 motivates the look down"
+     }
+    ],
+    "seed": 2
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A03",
+   "title": "Engine died",
+   "from": 118,
+   "to": 172,
+   "key_frame": 145,
+   "scene": "S01",
+   "line_ids": [
+    "L01"
+   ],
+   "size": "MCU",
+   "camera": {
+    "preset": "crash_zoom",
+    "motivation": "tension_push",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     70,
+     62
+    ],
+    "dist": [
+     2.8,
+     1.6
+    ],
+    "height": [
+     0.3,
+     0.2
+    ],
+    "fov": [
+     30,
+     24
+    ],
+    "ease": "crash",
+    "target": "face",
+    "shakes": [
+     {
+      "at": 128,
+      "px": 6,
+      "tau": 1.4
+     }
+    ]
+   },
+   "yacht": {
+    "state": "afloat_lit",
+    "lights": [
+     [
+      118,
+      1
+     ],
+     [
+      128,
+      1
+     ],
+     [
+      130,
+      0.3
+     ],
+     [
+      133,
+      1
+     ],
+     [
+      140,
+      1
+     ],
+     [
+      142,
+      0.2
+     ],
+     [
+      146,
+      0.7
+     ],
+     [
+      150,
+      0.15
+     ],
+     [
+      172,
+      0.15
+     ]
+    ]
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "poses": [
+     {
+      "pose": "look_back",
+      "from": 132,
+      "to": 172,
+      "in": 6,
+      "out": 6,
+      "ease": "snap",
+      "why": "Engine died: L01 motivates the look back"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "flinch",
+      "at": 128,
+      "dur": 26,
+      "why": "Engine died: the flinch answers the beat"
+     }
+    ],
+    "seed": 2,
+    "emotion": "shock"
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht",
+     "light": [
+      [
+       118,
+       1
+      ],
+      [
+       140,
+       1
+      ],
+      [
+       142,
+       0
+      ],
+      [
+       146,
+       0.5
+      ],
+      [
+       149,
+       0
+      ]
+     ]
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       118,
+       1
+      ],
+      [
+       140,
+       1
+      ],
+      [
+       142,
+       0.2
+      ],
+      [
+       146,
+       0.7
+      ],
+      [
+       150,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A04",
+   "title": "No lights no power",
+   "from": 172,
+   "to": 267,
+   "key_frame": 204,
+   "scene": "S02",
+   "line_ids": [
+    "L02"
+   ],
+   "size": "CU",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "SWITCH",
+    "az": [
+     -115,
+     -100
+    ],
+    "dist": [
+     1.9,
+     1.5
+    ],
+    "height": [
+     0.15,
+     0.1
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "SWITCH",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "press_ahead",
+      "from": 182,
+      "to": 267,
+      "in": 7,
+      "out": 8,
+      "ease": "snap",
+      "why": "No lights no power: L02 motivates the press ahead"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "press_twice",
+      "at": 192,
+      "dur": 26,
+      "why": "No lights no power: the press twice answers the beat"
+     },
+     {
+      "verb": "press",
+      "at": 220,
+      "dur": 10,
+      "why": "No lights no power: the press answers the beat"
+     },
+     {
+      "verb": "breathe_hard",
+      "at": 174,
+      "dur": 80,
+      "amount": 0.8,
+      "why": "No lights no power: the breathe hard answers the beat"
+     }
+    ],
+    "breath": 1.6,
+    "seed": 3,
+    "emotion": "panic"
+   },
+   "props": [
+    {
+     "prop": "switches",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0
+      ]
+     ]
+    }
+   ],
+   "extra_cu_reason": "the hand on the dead switch and the moonlit face are one image: the power is gone (no decision here)"
+  },
+  {
+   "id": "A05",
+   "title": "Current dragging",
+   "from": 267,
+   "to": 356,
+   "key_frame": 326,
+   "scene": "S03",
+   "line_ids": [
+    "L03"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "rise_overhead",
+    "motivation": "reveal",
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     30,
+     60
+    ],
+    "dist": [
+     4.0,
+     14.0
+    ],
+    "height": [
+     0.6,
+     9.0
+    ],
+    "fov": [
+     30,
+     34
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 277,
+      "to": 356,
+      "in": 1,
+      "out": 1,
+      "why": "Current dragging: L03 motivates the hold rail"
+     },
+     {
+      "pose": "look_left",
+      "from": 278,
+      "to": 306,
+      "in": 10,
+      "out": 12,
+      "why": "Current dragging: L03 motivates the look left"
+     },
+     {
+      "pose": "look_right",
+      "from": 314,
+      "to": 356,
+      "in": 10,
+      "out": 10,
+      "why": "Current dragging: L03 motivates the look right"
+     }
+    ],
+    "seed": 4,
+    "emotion": "worry"
+   }
+  },
+  {
+   "id": "A06",
+   "title": "Toward the one island",
+   "from": 356,
+   "to": 430,
+   "key_frame": 406,
+   "scene": "S03",
+   "line_ids": [
+    "L03"
+   ],
+   "size": "TOP",
+   "camera": {
+    "preset": "map_rise",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "yacht",
+    "cam": [
+     {
+      "frame": "yacht",
+      "v": [
+       0,
+       60,
+       -40
+      ]
+     },
+     {
+      "frame": "yacht",
+      "v": [
+       0,
+       520,
+       300
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "yacht",
+      "v": [
+       0,
+       0,
+       0
+      ]
+     },
+     {
+      "frame": "yacht",
+      "v": [
+       0,
+       0,
+       420
+      ]
+     }
+    ],
+    "fov": [
+     36,
+     46
+    ],
+    "ease": "move",
+    "handheld": 0.05
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 356,
+      "to": 430,
+      "in": 1,
+      "out": 1,
+      "why": "Toward the one island: L03 motivates the hold rail"
+     }
+    ],
+    "seed": 4
+   },
+   "match_action": true
+  },
+  {
+   "id": "A07",
+   "title": "North Sentinel Island",
+   "from": 430,
+   "to": 495,
+   "key_frame": 466,
+   "scene": "S04",
+   "line_ids": [
+    "L04"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "push_in_low",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -260,
+       6,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -170,
+       4,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       300,
+       30,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       300,
+       26,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     38,
+     34
+    ],
+    "ease": "arrive",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "hero": null,
+   "establishes": [
+    "vessel",
+    "island",
+    "reef"
+   ]
+  },
+  {
+   "id": "A08",
+   "title": "Refused contact",
+   "from": 495,
+   "to": 600,
+   "key_frame": 560,
+   "scene": "S04",
+   "line_ids": [
+    "L05"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "lateral_glide",
+    "motivation": "follow_subject",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -70,
+       3.5,
+       -40
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -70,
+       3.5,
+       40
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       12,
+       -20
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       12,
+       60
+      ]
+     }
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "linear",
+    "handheld": 0.08
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "hero": null
+  },
+  {
+   "id": "A09",
+   "title": "Defend it hard",
+   "from": 600,
+   "to": 708,
+   "key_frame": 690,
+   "scene": "S04",
+   "line_ids": [
+    "L05"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "tension_push",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     20,
+     8
+    ],
+    "dist": [
+     3.2,
+     1.8
+    ],
+    "height": [
+     0.3,
+     0.15
+    ],
+    "fov": [
+     30,
+     26
+    ],
+    "ease": "move",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "fires": [
+    [
+     600,
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     638,
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     652,
+     [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     668,
+     [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     685,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "rail_ahead",
+      "from": 610,
+      "to": 670,
+      "in": 1,
+      "out": 14,
+      "why": "Defend it hard: L05 motivates the rail ahead"
+     },
+     {
+      "pose": "recoil",
+      "from": 676,
+      "to": 708,
+      "in": 6,
+      "out": 8,
+      "ease": "snap",
+      "why": "Defend it hard: L05 motivates the recoil"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "step_back",
+      "at": 676,
+      "dur": 30,
+      "amount": 0.8,
+      "why": "Defend it hard: the step back answers the beat"
+     },
+     {
+      "verb": "breathe_hard",
+      "at": 680,
+      "dur": 40,
+      "why": "Defend it hard: the breathe hard answers the beat"
+     }
+    ],
+    "seed": 5,
+    "emotion": "fear"
+   }
+  },
+  {
+   "id": "B10",
+   "title": "Crunch",
+   "from": 708,
+   "to": 763,
+   "key_frame": 740,
+   "scene": "S05",
+   "line_ids": [
+    "L06"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "impact_orbit",
+    "motivation": "impact",
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     120,
+     135
+    ],
+    "dist": [
+     6.5,
+     5.5
+    ],
+    "height": [
+     -0.6,
+     -0.4
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "chest",
+    "handheld": 0.1,
+    "shakes": [
+     {
+      "at": 730,
+      "px": 14,
+      "tau": 2.2
+     }
+    ]
+   },
+   "yacht": {
+    "state": "aground_hit",
+    "hit_frame": 730
+   },
+   "island": "near",
+   "fires": [
+    [
+     708,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "stand",
+    "stance_changes": [
+     [
+      730,
+      "down"
+     ]
+    ],
+    "verbs": [
+     {
+      "verb": "lurch",
+      "at": 730,
+      "dur": 24,
+      "amount": 1.0,
+      "why": "Crunch: the lurch answers the beat"
+     }
+    ],
+    "seed": 6
+   },
+   "establishes": [
+    "hero",
+    "vessel",
+    "threat"
+   ],
+   "impact_handheld": {
+    "impact_frame": 730,
+    "escape_frames": 4,
+    "lag_frames": 5,
+    "recover_frames": 12,
+    "amplitude_deg": 6.0
+   }
+  },
+  {
+   "id": "B11",
+   "title": "Stuck on the reef",
+   "from": 763,
+   "to": 844,
+   "key_frame": 810,
+   "scene": "S05",
+   "line_ids": [
+    "L06"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "follow_subject",
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     150,
+     130
+    ],
+    "dist": [
+     4.2,
+     3.4
+    ],
+    "height": [
+     0.8,
+     0.5
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     763,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "down",
+    "stance_changes": [
+     [
+      775,
+      "brace"
+     ]
+    ],
+    "poses": [
+     {
+      "pose": "rail_ahead",
+      "from": 790,
+      "to": 844,
+      "in": 10,
+      "out": 8,
+      "why": "Stuck on the reef: L06 motivates the rail ahead"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 763,
+      "dur": 63,
+      "why": "Stuck on the reef: the breathe hard answers the beat"
+     }
+    ],
+    "breath": 1.8,
+    "seed": 6
+   }
+  },
+  {
+   "id": "B12",
+   "title": "What do you do",
+   "from": 844,
+   "to": 892,
+   "key_frame": 873,
+   "scene": "S05",
+   "line_ids": [
+    "L07"
+   ],
+   "size": "CU",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "AFTFACE",
+    "az": [
+     0,
+     0
+    ],
+    "dist": [
+     1.6,
+     0.95
+    ],
+    "height": [
+     0.05,
+     0.0
+    ],
+    "fov": [
+     30,
+     26
+    ],
+    "ease": "arrive",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     844,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "AFTFACE",
+    "stance": "brace",
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 844,
+      "dur": 48,
+      "why": "What do you do: the breathe hard answers the beat"
+     }
+    ],
+    "breath": 1.8,
+    "seed": 7,
+    "emotion": "determined"
+   },
+   "extra_cu_reason": "direct address: he looks into the lens to ask the step question (series format), not a reaction beat"
+  },
+  {
+   "id": "C13",
+   "title": "Mayday",
+   "from": 892,
+   "to": 935,
+   "key_frame": 926,
+   "scene": "S06",
+   "line_ids": [
+    "L07",
+    "L08"
+   ],
+   "size": "MCU",
+   "camera": {
+    "preset": "whip_arrive",
+    "motivation": "follow_subject",
+    "rig": "orbit",
+    "mark": "AFTFACE",
+    "az": [
+     40,
+     28
+    ],
+    "dist": [
+     2.2,
+     1.5
+    ],
+    "height": [
+     0.1,
+     0.05
+    ],
+    "fov": [
+     30,
+     27
+    ],
+    "ease": "arrive",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     892,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "AFTFACE",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "radio_shout",
+      "from": 904,
+      "to": 935,
+      "in": 6,
+      "out": 6,
+      "ease": "overshoot",
+      "why": "Mayday: L07, L08 motivates the radio shout"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "shout",
+      "at": 920,
+      "dur": 18,
+      "why": "Mayday: the shout answers the beat"
+     }
+    ],
+    "breath": 1.5,
+    "seed": 8
+   },
+   "props": [
+    {
+     "prop": "radio",
+     "attach": "handR",
+     "show": [
+      [
+       0,
+       0
+      ],
+      [
+       903,
+       0
+      ],
+      [
+       904,
+       1
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "C14",
+   "title": "Channel 16",
+   "from": 935,
+   "to": 998,
+   "key_frame": 968,
+   "scene": "S06",
+   "line_ids": [
+    "L08"
+   ],
+   "size": "ECU",
+   "insert": true,
+   "camera": {
+    "preset": "insert_push",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "AFTFACE",
+    "az": [
+     35,
+     28
+    ],
+    "dist": [
+     0.95,
+     0.75
+    ],
+    "height": [
+     -0.05,
+     -0.05
+    ],
+    "fov": [
+     22,
+     20
+    ],
+    "ease": "move",
+    "target": 1.5,
+    "handheld": 0.06
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "AFTFACE",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "radio_mouth",
+      "from": 928,
+      "to": 998,
+      "in": 1,
+      "out": 1,
+      "why": "Channel 16: L08 motivates the radio mouth"
+     }
+    ],
+    "seed": 8
+   },
+   "props": [
+    {
+     "prop": "radio",
+     "attach": "handR"
+    }
+   ],
+   "match_action": true
+  },
+  {
+   "id": "C15",
+   "title": "Emergency beacon",
+   "from": 998,
+   "to": 1068,
+   "key_frame": 1043,
+   "scene": "S06",
+   "line_ids": [
+    "L08"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "follow_subject",
+    "rig": "orbit",
+    "mark": "AFTFACE",
+    "az": [
+     30,
+     20
+    ],
+    "dist": [
+     2.2,
+     1.7
+    ],
+    "height": [
+     -0.5,
+     -0.4
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "chest"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     998,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "AFTFACE",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "beacon_pull",
+      "from": 1008,
+      "to": 1024,
+      "in": 6,
+      "out": 8,
+      "why": "Emergency beacon: L08 motivates the beacon pull"
+     },
+     {
+      "pose": "beacon_raise",
+      "from": 1028,
+      "to": 1068,
+      "in": 8,
+      "out": 8,
+      "ease": "overshoot",
+      "why": "Emergency beacon: L08 motivates the beacon raise"
+     }
+    ],
+    "seed": 9,
+    "emotion": "resolve"
+   },
+   "props": [
+    {
+     "prop": "beacon",
+     "attach": "handR",
+     "strobe": 1020
+    }
+   ]
+  },
+  {
+   "id": "C16",
+   "title": "Coast Guard patrols",
+   "from": 1068,
+   "to": 1144,
+   "key_frame": 1118,
+   "scene": "S06",
+   "line_ids": [
+    "L08"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "crane_up_pullback",
+    "motivation": "reveal",
+    "rig": "orbit",
+    "mark": "AFTFACE",
+    "az": [
+     20,
+     40
+    ],
+    "dist": [
+     3.0,
+     40.0
+    ],
+    "height": [
+     0.5,
+     22.0
+    ],
+    "fov": [
+     30,
+     36
+    ],
+    "ease": "move",
+    "handheld": 0.08
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1068,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "AFTFACE",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "beacon_raise",
+      "from": 1058,
+      "to": 1144,
+      "in": 1,
+      "out": 1,
+      "why": "Coast Guard patrols: L08 motivates the beacon raise"
+     }
+    ],
+    "seed": 9
+   },
+   "props": [
+    {
+     "prop": "beacon",
+     "attach": "handR",
+     "strobe": 1058
+    }
+   ],
+   "match_action": true
+  },
+  {
+   "id": "R16",
+   "title": "He hears drums inland: stays aboard",
+   "from": 1144,
+   "to": 1204,
+   "key_frame": 1184,
+   "scene": "S07",
+   "line_ids": [],
+   "size": "CU",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     10,
+     2
+    ],
+    "dist": [
+     1.6,
+     0.95
+    ],
+    "height": [
+     0.05,
+     0.0
+    ],
+    "fov": [
+     28,
+     25
+    ],
+    "ease": "arrive",
+    "target": "face",
+    "handheld": 0.06
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1144,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 1156,
+      "to": 1204,
+      "in": 12,
+      "out": 10,
+      "ease": "smooth",
+      "why": "a drum inland: he turns toward the trees"
+     }
+    ],
+    "verbs": [],
+    "breath": 1.4,
+    "seed": 9,
+    "emotion": "curious"
+   },
+   "turn_then_change": [
+    {
+     "turn": {
+      "from": 1156,
+      "to": 1168,
+      "deg": 70
+     },
+     "settle_frames": 8,
+     "change": {
+      "from": 1176,
+      "to": 1188
+     },
+     "emotion_from": "curious",
+     "emotion_to": "resolve",
+     "mode": "post_turn"
+    }
+   ]
+  },
+  {
+   "id": "C17",
+   "title": "Do not go ashore",
+   "from": 1204,
+   "to": 1298,
+   "key_frame": 1244,
+   "scene": "S07",
+   "line_ids": [
+    "L09"
+   ],
+   "size": "OTS",
+   "camera": {
+    "preset": "ots_track",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     170,
+     185
+    ],
+    "dist": [
+     2.4,
+     1.9
+    ],
+    "height": [
+     0.35,
+     0.3
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1204,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "rail_ahead",
+      "from": 1286,
+      "to": 1260,
+      "in": 1,
+      "out": 10,
+      "why": "Do not go ashore: L09 motivates the rail ahead"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "shake_head",
+      "at": 1318,
+      "dur": 34,
+      "why": "Do not go ashore: the shake head answers the beat"
+     }
+    ],
+    "seed": 10
+   }
+  },
+  {
+   "id": "C18",
+   "title": "Not for a photo",
+   "from": 1298,
+   "to": 1387,
+   "key_frame": 1315,
+   "scene": "S07",
+   "line_ids": [
+    "L09"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     -20,
+     -8
+    ],
+    "dist": [
+     2.2,
+     1.8
+    ],
+    "height": [
+     0.15,
+     0.1
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "chest"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1298,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "phone_up",
+      "from": 1310,
+      "to": 1326,
+      "in": 8,
+      "out": 8,
+      "why": "Not for a photo: L09 motivates the phone up"
+     },
+     {
+      "pose": "wave",
+      "from": 1340,
+      "to": 1356,
+      "in": 6,
+      "out": 10,
+      "why": "Not for a photo: L09 motivates the wave"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "shake_head",
+      "at": 1326,
+      "dur": 18,
+      "amount": 0.6,
+      "why": "Not for a photo: the shake head answers the beat"
+     }
+    ],
+    "seed": 10
+   },
+   "props": [
+    {
+     "prop": "phone",
+     "attach": "handR",
+     "show": [
+      [
+       0,
+       0
+      ],
+      [
+       1299,
+       0
+      ],
+      [
+       1300,
+       1
+      ],
+      [
+       1334,
+       1
+      ],
+      [
+       1335,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "C19",
+   "title": "No immunity",
+   "from": 1387,
+   "to": 1465,
+   "key_frame": 1431,
+   "scene": "S08",
+   "line_ids": [
+    "L10"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "lateral_track",
+    "motivation": "follow_subject",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     80,
+     65
+    ],
+    "dist": [
+     7.5,
+     6.5
+    ],
+    "height": [
+     0.4,
+     0.6
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "linear",
+    "target": "chest"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1387,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "cover_mouth",
+      "from": 1413,
+      "to": 1451,
+      "in": 10,
+      "out": 10,
+      "why": "No immunity: L10 motivates the cover mouth"
+     }
+    ],
+    "seed": 11
+   }
+  },
+  {
+   "id": "C20",
+   "title": "Common cold",
+   "from": 1465,
+   "to": 1540,
+   "key_frame": 1503,
+   "scene": "S08",
+   "line_ids": [
+    "L10"
+   ],
+   "size": "MCU",
+   "camera": {
+    "preset": "follow_pull",
+    "motivation": "follow_subject",
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     -15,
+     -30
+    ],
+    "dist": [
+     1.8,
+     2.6
+    ],
+    "height": [
+     0.1,
+     0.4
+    ],
+    "fov": [
+     28,
+     32
+    ],
+    "ease": "move",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1465,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "cover_mouth",
+      "from": 1501,
+      "to": 1523,
+      "in": 4,
+      "out": 10,
+      "ease": "snap",
+      "why": "Common cold: L10 motivates the cover mouth"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "sneeze",
+      "at": 1477,
+      "dur": 40,
+      "amount": 1.2,
+      "why": "Common cold: the sneeze answers the beat"
+     }
+    ],
+    "seed": 11
+   }
+  },
+  {
+   "id": "C21",
+   "title": "Stay with your boat",
+   "from": 1540,
+   "to": 1612,
+   "key_frame": 1601,
+   "scene": "S09",
+   "line_ids": [
+    "L11"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "SITMARK",
+    "az": [
+     20,
+     0
+    ],
+    "dist": [
+     3.0,
+     2.3
+    ],
+    "height": [
+     0.6,
+     0.2
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "sit"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1540,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "SITMARK",
+    "stance": "stand",
+    "stance_changes": [
+     [
+      1556,
+      "sit_deck"
+     ]
+    ],
+    "seed": 12
+   }
+  },
+  {
+   "id": "C22",
+   "title": "Happened before",
+   "from": 1612,
+   "to": 1692,
+   "key_frame": 1651,
+   "scene": "S09",
+   "line_ids": [
+    "L11"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "crane_up",
+    "motivation": "transition",
+    "rig": "orbit",
+    "mark": "SITMARK",
+    "az": [
+     0,
+     30
+    ],
+    "dist": [
+     2.3,
+     30.0
+    ],
+    "height": [
+     0.2,
+     24.0
+    ],
+    "fov": [
+     28,
+     36
+    ],
+    "ease": "exit",
+    "target": "sit",
+    "handheld": 0.06
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1612,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "SITMARK",
+    "stance": "sit_deck",
+    "seed": 12
+   }
+  },
+  {
+   "id": "D23",
+   "title": "Primrose 1981 (set pending)",
+   "from": 1692,
+   "to": 1819,
+   "key_frame": 1755,
+   "scene": "S10",
+   "line_ids": [
+    "L12"
+   ],
+   "size": "EWS",
+   "placeholder": "primrose_wreck",
+   "camera": {
+    "preset": "pull_back",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -400,
+       40,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -330,
+       30,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     34,
+     32
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1692,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": null,
+   "establishes": [
+    "vessel",
+    "island",
+    "beach"
+   ]
+  },
+  {
+   "id": "D24",
+   "title": "Armed islanders (set pending)",
+   "from": 1819,
+   "to": 1929,
+   "key_frame": 1874,
+   "scene": "S10",
+   "line_ids": [
+    "L12"
+   ],
+   "size": "POV",
+   "placeholder": "primrose_wreck",
+   "camera": {
+    "preset": "pov_push",
+    "motivation": "tension_push",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -400,
+       40,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -330,
+       30,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     34,
+     32
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1819,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": null
+  },
+  {
+   "id": "D25",
+   "title": "Waited for days (set pending)",
+   "from": 1929,
+   "to": 2009,
+   "key_frame": 1969,
+   "scene": "S10",
+   "line_ids": [
+    "L12"
+   ],
+   "size": "MS",
+   "placeholder": "cargo_hold",
+   "camera": {
+    "preset": "interior_drift",
+    "motivation": "character_attention",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -400,
+       40,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -330,
+       30,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     34,
+     32
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     1929,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": null
+  },
+  {
+   "id": "D26",
+   "title": "Helicopters (set pending)",
+   "from": 2009,
+   "to": 2106,
+   "key_frame": 2054,
+   "scene": "S10",
+   "line_ids": [
+    "L12"
+   ],
+   "size": "WS",
+   "placeholder": "helicopter",
+   "camera": {
+    "preset": "crane_up",
+    "motivation": "reveal",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -400,
+       40,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -330,
+       30,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       0,
+       10,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     34,
+     32
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     2009,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": null
+  },
+  {
+   "id": "C27",
+   "title": "Kill the lights",
+   "from": 2106,
+   "to": 2170,
+   "key_frame": 2133,
+   "scene": "S11",
+   "line_ids": [
+    "L13"
+   ],
+   "size": "CU",
+   "camera": {
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     60,
+     45
+    ],
+    "dist": [
+     1.9,
+     1.5
+    ],
+    "height": [
+     0.1,
+     0.0
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     2106,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "HELM",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "press_ahead",
+      "from": 2125,
+      "to": 2147,
+      "in": 8,
+      "out": 10,
+      "ease": "snap",
+      "why": "Kill the lights: L13 motivates the press ahead"
+     }
+    ],
+    "verbs": [
+     {
+      "verb": "press",
+      "at": 2137,
+      "dur": 10,
+      "why": "Kill the lights: the press answers the beat"
+     }
+    ],
+    "seed": 13
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       1
+      ],
+      [
+       2140,
+       1
+      ],
+      [
+       2142,
+       0
+      ]
+     ]
+    }
+   ],
+   "extra_cu_reason": "the instruction is the image: his face goes dark with the last lamp"
+  },
+  {
+   "id": "C28",
+   "title": "Stay quiet",
+   "from": 2170,
+   "to": 2204,
+   "key_frame": 2190,
+   "scene": "S11",
+   "line_ids": [
+    "L13"
+   ],
+   "size": "CU",
+   "suspense_hold": true,
+   "camera": {
+    "preset": "arrive_push",
+    "motivation": "tension_push",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     30,
+     22
+    ],
+    "dist": [
+     1.7,
+     1.4
+    ],
+    "height": [
+     0.05,
+     0.0
+    ],
+    "fov": [
+     28,
+     26
+    ],
+    "ease": "arrive",
+    "target": "face"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     2170,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "HELM",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "shush",
+      "from": 2180,
+      "to": 2204,
+      "in": 6,
+      "out": 1,
+      "ease": "overshoot",
+      "why": "Stay quiet: L13 motivates the shush"
+     }
+    ],
+    "seed": 13
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0
+      ]
+     ]
+    }
+   ],
+   "extra_cu_reason": "finger to lips: the gesture is step four itself"
+  },
+  {
+   "id": "C29",
+   "title": "Leave nothing",
+   "from": 2204,
+   "to": 2251,
+   "key_frame": 2230,
+   "scene": "S11",
+   "line_ids": [
+    "L13"
+   ],
+   "size": "MS",
+   "camera": {
+    "preset": "top_down_tilt",
+    "motivation": "character_attention",
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     35,
+     25
+    ],
+    "dist": [
+     2.2,
+     1.9
+    ],
+    "height": [
+     0.9,
+     1.1
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "target": "hands"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "fires": [
+    [
+     2204,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "stand",
+    "poses": [
+     {
+      "pose": "tie_bag",
+      "from": 2215,
+      "to": 2251,
+      "in": 8,
+      "out": 1,
+      "why": "Leave nothing: L13 motivates the tie bag"
+     }
+    ],
+    "seed": 14
+   },
+   "props": [
+    {
+     "prop": "bag",
+     "attach": "yacht"
+    }
+   ]
+  },
+  {
+   "id": "E30",
+   "title": "Tide lifts",
+   "from": 2251,
+   "to": 2315,
+   "key_frame": 2305,
+   "scene": "S12",
+   "line_ids": [
+    "L14"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "rise_waterline",
+    "motivation": "reveal",
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     120,
+     130
+    ],
+    "dist": [
+     7.0,
+     6.0
+    ],
+    "height": [
+     -0.5,
+     0.0
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move"
+   },
+   "yacht": {
+    "state": "tide_lift",
+    "hit_frame": 2315
+   },
+   "island": "near",
+   "fires": [
+    [
+     2251,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "brace",
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 2265,
+      "to": 2315,
+      "in": 10,
+      "out": 8,
+      "why": "Tide lifts: L14 motivates the look down"
+     }
+    ],
+    "seed": 15,
+    "emotion": "relief"
+   }
+  },
+  {
+   "id": "E31",
+   "title": "Get gone",
+   "from": 2315,
+   "to": 2396,
+   "key_frame": 2365,
+   "scene": "S12",
+   "line_ids": [
+    "L14"
+   ],
+   "size": "WS",
+   "camera": {
+    "preset": "aerial_pullback",
+    "motivation": "isolation",
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     160,
+     175
+    ],
+    "dist": [
+     6.0,
+     45.0
+    ],
+    "height": [
+     2.0,
+     26.0
+    ],
+    "fov": [
+     32,
+     36
+    ],
+    "ease": "exit"
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "near",
+   "env": {
+    "dawn": 0.35
+   },
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 16
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "E32",
+   "title": "Smartest way to survive",
+   "from": 2396,
+   "to": 2536,
+   "key_frame": 2466,
+   "scene": "S13",
+   "line_ids": [
+    "L15"
+   ],
+   "size": "EWS",
+   "camera": {
+    "preset": "hold_drift",
+    "motivation": "isolation",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -2400,
+       60,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -2250,
+       55,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "island",
+      "v": [
+       0,
+       20,
+       0
+      ]
+     },
+     {
+      "frame": "island",
+      "v": [
+       0,
+       20,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     24,
+     23
+    ],
+    "ease": "linear",
+    "handheld": 0.04
+   },
+   "yacht": {
+    "state": "leaving",
+    "offset": [
+     -600,
+     0
+    ]
+   },
+   "island": "near",
+   "env": {
+    "dawn": 0.75,
+    "moonDir": [
+     0.1,
+     0.06,
+     1
+    ]
+   },
+   "hero": null
+  },
+  {
+   "id": "E33",
+   "title": "Never be there at all",
+   "from": 2536,
+   "to": 2612,
+   "key_frame": 2574,
+   "scene": "S13",
+   "line_ids": [
+    "L15"
+   ],
+   "size": "EWS",
+   "camera": {
+    "preset": "hold_micro_drift",
+    "motivation": "isolation",
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "shore",
+      "v": [
+       -2400,
+       60,
+       0
+      ]
+     },
+     {
+      "frame": "shore",
+      "v": [
+       -2250,
+       55,
+       0
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "island",
+      "v": [
+       0,
+       20,
+       0
+      ]
+     },
+     {
+      "frame": "island",
+      "v": [
+       0,
+       20,
+       0
+      ]
+     }
+    ],
+    "fov": [
+     24,
+     23
+    ],
+    "ease": "linear",
+    "handheld": 0.04
+   },
+   "yacht": {
+    "state": "leaving",
+    "offset": [
+     -600,
+     0
+    ]
+   },
+   "island": "near",
+   "env": {
+    "dawn": 0.75,
+    "moonDir": [
+     0.1,
+     0.06,
+     1
+    ]
+   },
+   "hero": null
+  }
+ ],
+ "sequences": [
+  {
+   "id": "SQ1",
+   "beats": [
+    "B1",
+    "B2"
+   ],
+   "shots": [
+    "A01",
+    "A02",
+    "A03",
+    "A04"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the cabin lights die",
+     "shot": "A04",
+     "frame": 234,
+     "light_reveal": {
+      "source": "practical:cabin_lamp",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ2",
+   "beats": [
+    "B3"
+   ],
+   "shots": [
+    "A05",
+    "A06",
+    "A07"
+   ],
+   "tension": "mounting",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the reef breakers ahead of the drift",
+     "shot": "A07",
+     "frame": 455,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "glint"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ3",
+   "beats": [
+    "B3"
+   ],
+   "shots": [
+    "A08",
+    "A09",
+    "B10",
+    "B11"
+   ],
+   "tension": "mounting",
+   "action": true,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "fires lighting in the trees",
+     "shot": "A08",
+     "frame": 535,
+     "light_reveal": {
+      "source": "fire",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    },
+    {
+     "detail": "the hull pinned on the coral",
+     "shot": "B11",
+     "frame": 808,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "reflection"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": {
+    "obstacle_audience": "A07",
+    "obstacle_character": "A09",
+    "impact": "B10",
+    "cost_revealed": "B11"
+   }
+  },
+  {
+   "id": "SQ4",
+   "beats": [
+    "B3"
+   ],
+   "shots": [
+    "B12",
+    "C13",
+    "C14",
+    "C15",
+    "C16"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the EPIRB strobe",
+     "shot": "C15",
+     "frame": 1048,
+     "light_reveal": {
+      "source": "practical:epirb_strobe",
+      "kind": "glint"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ5",
+   "beats": [
+    "B4"
+   ],
+   "shots": [
+    "R16",
+    "C17",
+    "C18"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": {
+    "beat": "B3",
+    "shot": "R16",
+    "reason": "decision: he hears drums inland and stays aboard"
+   },
+   "discovery_map": [
+    {
+     "detail": "the fires inland from the bow",
+     "shot": "C17",
+     "frame": 1264,
+     "light_reveal": {
+      "source": "fire",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ6",
+   "beats": [
+    "B5"
+   ],
+   "shots": [
+    "C19",
+    "C20",
+    "C21",
+    "C22"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the protected-zone ring on the water",
+     "shot": "C19",
+     "frame": 1437,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "rim"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ7",
+   "beats": [
+    "B5"
+   ],
+   "shots": [
+    "D23",
+    "D24",
+    "D25",
+    "D26"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "torches on the Primrose beach",
+     "shot": "D24",
+     "frame": 1849,
+     "light_reveal": {
+      "source": "fire",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ8",
+   "beats": [
+    "B5"
+   ],
+   "shots": [
+    "C27",
+    "C28",
+    "C29"
+   ],
+   "tension": "release",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the last lamp goes out",
+     "shot": "C27",
+     "frame": 2153,
+     "light_reveal": {
+      "source": "practical:deck_lamp",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ9",
+   "beats": [
+    "B6",
+    "B7"
+   ],
+   "shots": [
+    "E30",
+    "E31",
+    "E32",
+    "E33"
+   ],
+   "tension": "release",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "water rising up the hull",
+     "shot": "E30",
+     "frame": 2285,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "reflection"
+     },
+     "subordinate": [
+      "the forest stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  }
+ ],
+ "lookdev_test": {
+  "view": "hull",
+  "elements": [
+   "boat",
+   "one_practical",
+   "water"
+  ],
+  "practical": "stern deck lamp",
+  "lighting_preset": "moonlight_practical_mix",
+  "water_material": "oceanfx_night",
+  "hull_material": "yacht_v2"
+ }
+}
