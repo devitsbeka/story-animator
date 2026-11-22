@@ -1586,10 +1586,12 @@ def run_all(episode_json, plates=None, video=None, stage="plan"):
     check_C(c, R, vrep)
     check_E(c, R)
     check_H(c, R, vrep)
-    # polish_camera: the shot validator's own camera-maths verdicts on CAN-C1/C2/H1 become sub-rules '<id>v'
+    # polish_camera: the shot validator's own camera-maths verdicts on CAN-C1/C2/H1 are reported as sub-rules '<id>v'.
+    # They are advisory here (WARN): the shot validator already blocks them in its own gate step (no new failures vs
+    # base), and the canon's semantic sub-rules above stay the blocking verdict, so one defect is not blocked twice.
     for r in (vrep or {}).get("rules", []):
         if r.get("id") in ("CAN-C1", "CAN-C2", "CAN-H1"):
-            R.add(r["id"] + "v", "PASS" if r["status"] == "pass" else "FAIL", f"shot_validator: {r.get('detail', '')}")
+            R.add(r["id"] + "v", "PASS" if r["status"] == "pass" else "WARN", f"shot_validator: {r.get('detail', '')}")
     check_P(c, R)
     check_L(c, R)
     check_T(c, R)
