@@ -844,8 +844,9 @@ def build(root):
     return {"objs": objs, "hatch": hatch, "marks": MARKS}
 
 
-def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
-    """4-angle preview at night-ish studio light (no sea), Cycles CPU."""
+def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None, night=False, lights=1.0, suffix=""):
+    """4-angle preview at night-ish studio light (no sea), Cycles CPU. night=True: moonlight only (for the
+    glazing / interior close-ups); lights scales every yacht light + emissive like render_episode's yacht.lights."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import materials as yachtmats
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -862,6 +863,26 @@ def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
     else:
         objs = build(root)["objs"]
     yachtmats.apply_yacht_materials(objs)
+    # the cockpit props every episode shot carries (helm console against the aft wall, switch panel on it)
+    import props as propkit
+    for nm, mk in (("helm", "HELM_CONSOLE"), ("switches", "SWITCH_PANEL")):
+        pr = propkit.BUILDERS[nm](nm)
+        pr.parent = root
+        x, y, z = MARKS[mk]["local"]
+        pr.location = B((x, y, z))
+        pr.rotation_euler = (0, 0, MARKS[mk]["rotY"])
+    # yacht lights keyed to `lights` (same targets as render_episode.collect_light_targets)
+    for ob in [o for o in bpy.data.objects if o.parent is not None]:
+        if ob.type == "LIGHT" and not ob.name.startswith(("helm", "switches")):
+            ob.data.energy *= lights
+    for m in bpy.data.materials:
+        if not m.use_nodes:
+            continue
+        for nd in m.node_tree.nodes:
+            if nd.type == "BSDF_PRINCIPLED" and nd.inputs["Emission Strength"].default_value > 0:
+                nd.inputs["Emission Strength"].default_value *= lights
+            elif nd.type == "EMISSION":
+                nd.inputs["Strength"].default_value *= lights
     # water plane at the waterline
     bpy.ops.mesh.primitive_plane_add(size=200, location=(0, 0, WL))
     w = bpy.context.object
@@ -872,7 +893,10 @@ def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
     bw.inputs["Roughness"].default_value = 0.08
     w.data.materials.append(wm)
     # light: moon key + cool fill + warm rim
-    for nm, rot, e, col in (("key", (55, 0, 35), 3.0, (0.75, 0.82, 1.0)), ("rim", (60, 0, 200), 2.0, (1.0, 0.85, 0.7))):
+    suns = (("key", (55, 0, 35), 3.0, (0.75, 0.82, 1.0)), ("rim", (60, 0, 200), 2.0, (1.0, 0.85, 0.7)))
+    if night:  # a low moon behind the camera side + faint sky
+        suns = (("moon", (62, 0, 150), 0.35, (0.70, 0.80, 1.0)),)
+    for nm, rot, e, col in suns:
         ld = bpy.data.lights.new(nm, "SUN")
         ld.energy, ld.color, ld.angle = e, col, math.radians(3)
         ob = bpy.data.objects.new(nm, ld)
@@ -880,7 +904,7 @@ def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
         ob.rotation_euler = tuple(math.radians(a) for a in rot)
     sc.world = bpy.data.worlds.new("w")
     sc.world.use_nodes = True
-    sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.02, 0.03, 0.06, 1)
+    sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.006, 0.010, 0.022, 1) if night else (0.02, 0.03, 0.06, 1)
     sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 1.0
     sc.render.engine = "CYCLES"
     sc.cycles.samples = samples
@@ -898,6 +922,9 @@ def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
         "profile_port": ((-20.0, 2.6, 0.0), (0, 2.0, 0.0), 40),
         "stern_cockpit": ((2.6, 3.6, -11.5), (0, 2.0, -4.6), 30),
         "deck_close": ((-2.2, 2.9, -7.4), (0.3, 2.0, -4.2), 24),
+        # glazing / door detail crops
+        "salon_door": ((-1.6, 2.35, -6.0), (-0.1, 2.45, -3.33), 32),
+        "side_windows": ((4.6, 2.7, -4.0), (1.5, 2.55, -0.9), 32),
     }
     os.makedirs(out_dir, exist_ok=True)
     for nm, (c, l, lens) in VIEWS.items():
@@ -907,7 +934,7 @@ def _preview(out_dir, glb=None, res=(960, 540), samples=32, views=None):
         d = B(l) - B(c)
         cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
         camd.lens = lens
-        sc.render.filepath = os.path.join(out_dir, nm + ".png")
+        sc.render.filepath = os.path.join(out_dir, nm + suffix + ".png")
         bpy.ops.render.render(write_still=True)
         print("[yacht_v2] wrote", sc.render.filepath, flush=True)
 
@@ -921,5 +948,9 @@ if __name__ == "__main__":
     ap.add_argument("--samples", type=int, default=32)
     ap.add_argument("--res", default="960x540")
     ap.add_argument("--views", default=None)
+    ap.add_argument("--night", action="store_true")
+    ap.add_argument("--lights", type=float, default=1.0)
+    ap.add_argument("--suffix", default="")
     a = ap.parse_args(argv)
-    _preview(a.preview, a.glb, tuple(int(v) for v in a.res.split("x")), a.samples, a.views.split(",") if a.views else None)
+    _preview(a.preview, a.glb, tuple(int(v) for v in a.res.split("x")), a.samples, a.views.split(",") if a.views else None,
+             a.night, a.lights, a.suffix)
