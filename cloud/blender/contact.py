@@ -41,8 +41,11 @@ def helm_anchors(M_helm, left_world):
         ang = math.radians(GRIP_CLOCK)
         radial = (up * math.cos(ang) + side * (sgn * math.sin(ang))).normalized()
         p = c + radial * HELM_WHEEL["radius"] * s
-        n = (-radial * 0.8 - a * 0.45).normalized()           # palm on the outside/back of the rim
-        d = (-a * 0.85 + radial * 0.25).normalized()          # fingers wrap forward over it
+        # car-wheel grip at 10 and 2: palm faces into the wheel (forward, a little toward the hub), the fingers
+        # leave the palm outward/up over the rim and curl round it, the thumb lies on top along the rim toward 12.
+        # The forearm can then come up from below with the elbow down (no chicken wing).
+        n = (-a * 0.75 - radial * 0.35).normalized()
+        d = (radial * 0.85 + up * 0.25 - a * 0.2).normalized()
         out[key] = {"p": p, "n": n, "d": d, "kind": "grip"}
     return out
 

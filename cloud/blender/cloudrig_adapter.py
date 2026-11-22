@@ -45,6 +45,7 @@ import hand_poses  # polish_hands_pose: finger shapes + contact points
 WRIST_BEND = math.radians(22.0)
 WRIST_BEND_GRIP = math.radians(32.0)
 RELAX_FLEX = 0.14
+ANCHOR_ELBOW_STEER = 0.3
 # feet: ankle dorsiflexion limit (shin forward lean before the heel must come up), max heel roll, toe-out, and how
 # much the feet turn with a hips yaw
 ANKLE_DF_MAX = math.radians(30.0)
@@ -817,7 +818,7 @@ class CloudRigPuppet:
         W = min(1.0, W)
         if Wn > 1e-6 and Nn.length > 1e-5:
             q = q.slerp(self._wrist_orient(s, q_base, Nn, Dn, WRIST_BEND_GRIP), min(1.0, Wn))
-            self._dirw[s] = max(self._dirw[s], min(1.0, Wn))
+            self._dirw[s] = max(self._dirw[s], ANCHOR_ELBOW_STEER * min(1.0, Wn))   # elbows stay low on grips
         kind = max(kinds.items(), key=lambda kv: kv[1])[0] if kinds else None
         c = hand_poses.contact_point(pose.get("handShape" + s), kind)
         c_rest = F0 * c[0] + N0 * c[1] + T0 * c[2]
