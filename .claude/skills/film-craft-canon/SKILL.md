@@ -26,9 +26,9 @@ It runs the canon checks, the shot validator, the lighting continuity check, the
 Go through each item. For every item, write one line: PASS, FAIL (with the reason) or N/A.
 
 **Story and suspense (Hitchcock, bomb under the table; Rear Window, shared suspense)**
-- [ ] CAN-S1 Every threat is **shown to the audience before the character notices it**, with real screen time. The audience's knowledge is ahead of the character's in suspense beats.
-- [ ] CAN-S2 Each beat declares **who knows** (audience vs character) and **who can act**. The audience's question changes on purpose, e.g. "Will he look up?" → "Can he turn in time?".
-- [ ] CAN-S3 There's a **ticking clock** the viewer can feel. Ordinary actions (restarting the engine) cost visible time once the danger is known.
+- [ ] CAN-S1 Every threat is **shown to the audience before the character notices it**, with real screen time ("whenever possible the public must be informed": fifteen seconds of surprise versus fifteen minutes of suspense). The planted shot comes ≥ 2 s before the character notices (short), and the audience's knowledge is ahead of the character's in suspense beats. Surprise is rare and declared. A threat the audience was made to fear ends in **relief**, never in killing the innocent (Hitchcock's Sabotage error).
+- [ ] CAN-S2 Each beat declares **who knows** (audience vs character), **who can act** and its **mode** (shared / dramatic irony / suppression / mystery / surprise / relief). When the character's knowledge or agency changes, the audience's question changes in the same beat, and it stays about what happens next, e.g. "Will he look up?" → "Can he turn in time?". Don't let the question sit unchanged: keep the audience's mind occupied.
+- [ ] CAN-S3 There's a **ticking clock in the decor** the viewer can read, and its deadline is known before the danger peaks. It only gets worse. Ordinary actions (restarting the engine) cost visible time once the danger is known, and attacks are spaced so the anticipation outlasts the bang ("no terror in the bang, only in the anticipation of it").
 
 **Coverage and camera (UW two-shot; Greengrass)**
 - [ ] CAN-C1 The **wide establishes geography**: the man, the boat or wreck, and the threat or tree line in one composition before any coverage.
@@ -51,10 +51,10 @@ Go through each item. For every item, write one line: PASS, FAIL (with the reaso
 - [ ] CAN-T1 Before spending on spray, weather or animation, **test the boat + one deck lamp + water together** (the look-dev test frame in previs). The light-on-water look is approved first.
 
 **Narration and sound (Rabiger; Das)**
-- [ ] CAN-N1 **Three columns:** every beat has PICTURE, NARRATION and SOUND. The script is written in all three, not narration alone.
-- [ ] CAN-N2 **Sound before words where it serves the beat:** e.g. let the first breaker reach us before "He heard the shore before he saw it." Reserved **narration gaps** for actor breath and key sounds (the dry click of the ignition) exist in the voiced timing, and sound fills them.
-- [ ] CAN-N3 **Key word versus reveal:** each line declares whether its key word lands before or after the visual reveal, and the cut times honour it. The narrator never talks over the character's breath or reaction beats.
-- [ ] CAN-N4 **Voice authority:** it's clear who's speaking and why we trust them. Lines that the picture and sound already carry are cut.
+- [ ] CAN-N1 **Three columns:** every beat has PICTURE, NARRATION and SOUND rows. Picture comes first, and narration "does not lead the narrative" (Das). Each sequence has at least one sound-only row, and ambience runs continuously under everything.
+- [ ] CAN-N2 **Sound before words where it serves the beat:** e.g. let the first breaker reach us before "He heard the shore before he saw it." Break phrases apart "to open up spaces for featured sound effects … don't obscure them with talking" (Rabiger). Reserved **narration gaps** for breath, key sounds (the dry click of the ignition) and reactions are **measured in the voiced word timings** after TTS, filled by the sound designer, and never left as dead air.
+- [ ] CAN-N3 **Key word versus reveal:** each line declares whether its key word lands before, on or after the visual reveal, and the cut times honour it. Operative words hit the cuts. "The first word to fall on each new image" sets how the shot is read, so the syntax follows the audience's order of perception. The narrator never talks over the character's breath, reaction or reserved close-up.
+- [ ] CAN-N4 **Voice authority:** it's declared who speaks (person, persona, knowledge scope) and why we trust them. Each line states what it **adds** that picture and sound don't. Lines that describe what is evident, or that repeat what a sound already said, are cut. Value judgements only come after the evidence. The narration is tried out against the animatic and fits without speeding up.
 
 ## Step 3: Act on the result
 - Any FAIL becomes a fix in the engine or the director prompts, plus a check. If it's a new defect class, also run `python -m factory.lessons add ...` and attach a stress scenario.
