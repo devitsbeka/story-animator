@@ -46,9 +46,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "failed",
+ "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:41:57+00:00",
+ "updated": "2026-11-22T14:52:23+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -183,10 +183,10 @@
    }
   },
   "previs": {
-   "status": "failed",
-   "started": "2026-11-22T14:23:22",
-   "attempts": 2,
-   "error": "RegressionBlocked: regress check before previs failed: [\"CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]\", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']",
+   "status": "running",
+   "started": "2026-11-22T14:51:46",
+   "attempts": 3,
+   "error": null,
    "costUSD": 0.0,
    "seconds": 2068.55,
    "finished": "2026-11-22T14:41:57",
@@ -262,6 +262,10 @@
    "t": "2026-11-22T14:04:35+00:00",
    "msg": "ALERT: stage direct took 3 attempts (cost $3.42); check the cache TTL / drafting checklist (L014)",
    "level": "warn"
+  },
+  {
+   "t": "2026-11-22T14:51:46+00:00",
+   "msg": "reset from previs"
   }
  ],
  "costCeilings": {
@@ -358,6 +362,10 @@
     {
      "try": 1,
      "failing": {}
+    },
+    {
+     "try": 1,
+     "failing": {}
     }
    ],
    "pose": [
@@ -394,6 +402,41 @@
      },
      "mode": "warn",
      "report": "episodes/waterspout_v2/qc/pose_qc_previs_0.json",
+     "error": null
+    },
+    {
+     "try": 1,
+     "failing": {
+      "S02": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S05": [
+       "POSE-PALM.R"
+      ],
+      "S08": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S15": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S30": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S36": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S37": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ]
+     },
+     "mode": "warn",
+     "report": "episodes/waterspout_v2/qc/pose_qc_previs_1.json",
      "error": null
     },
     {

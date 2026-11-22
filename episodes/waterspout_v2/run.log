@@ -140,3 +140,7 @@
 14:41:57 [waterspout_v2] regress[previs] BLOCKING: ["CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']
 14:41:57 [waterspout_v2] stage previs: FAILED RegressionBlocked: regress check before previs failed: ["CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']
 14:41:57 [waterspout_v2] run status: failed  cost $10.22  time 5231s
+14:51:46 [waterspout_v2] stage 6 previs: start
+14:52:23 [waterspout_v2] shot gate [previs] pose QC (warn): 7 shot(s): {'S02': ['POSE-PALM.L', 'POSE-PALM.R'], 'S05': ['POSE-PALM.R'], 'S08': ['POSE-PALM.L', 'POSE-PALM.R'], 'S15': ['POSE-PALM.L', 'POSE-PALM.R']}
+14:52:23 [waterspout_v2] shot gate [previs]: all 37 shots pass
+14:52:23 [waterspout_v2] [previs] rendering 37 keyframe(s) at 144x256, 4 spp (0 cached)
