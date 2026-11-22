@@ -1,0 +1,55 @@
+[render_episode] spec=/home/user/story-animator/episodes/waterspout/episode.json root=/home/user/story-animator frames=444..444 quality=preview engine=EEVEE blender=4.2.3 LTS
+[lighting] shot H08: preset=moonlight_practical_mix seq=H key az=-23.1 el=26.8 dawn=0.0
+00:53:43 | INFO: Data are loaded, start creating Blender stuff
+00:53:43 | INFO: Blender create Mesh node 0
+00:53:43 | INFO: Blender create Mesh node 1
+00:53:43 | INFO: Blender create Mesh node 2
+00:53:43 | INFO: Blender create Mesh node 3
+00:53:43 | INFO: Blender create Mesh node 4
+00:53:43 | INFO: Blender create Mesh node 5
+00:53:43 | INFO: Blender create Mesh node 6
+00:53:43 | INFO: Blender create Mesh node 7
+00:53:43 | INFO: Blender create Mesh node 8
+00:53:43 | INFO: Blender create Mesh node 9
+00:53:43 | INFO: Blender create Mesh node 10
+00:53:43 | INFO: Blender create Mesh node 11
+00:53:43 | INFO: Blender create Mesh node 12
+00:53:43 | INFO: Blender create Mesh node 13
+00:53:43 | INFO: Blender create Mesh node 14
+00:53:43 | INFO: Blender create Mesh node 15
+00:53:43 | INFO: Blender create Mesh node 16
+00:53:43 | INFO: Blender create Mesh node 17
+00:53:43 | INFO: Blender create Mesh node 18
+00:53:43 | INFO: Blender create Mesh node 19
+00:53:43 | INFO: Blender create Mesh node 20
+00:53:43 | INFO: Blender create Mesh node 21
+00:53:43 | INFO: Blender create Mesh node 22
+00:53:43 | INFO: Blender create Mesh node 23
+00:53:43 | INFO: Blender create Mesh node 24
+00:53:43 | INFO: Blender create Mesh node 25
+00:53:43 | INFO: Blender create Mesh node 26
+00:53:43 | INFO: Blender create Mesh node 27
+00:53:43 | INFO: Blender create Mesh node 28
+00:53:43 | INFO: Blender create Mesh node 29
+00:53:43 | INFO: Blender create Mesh node 30
+00:53:43 | INFO: Blender create Mesh node 31
+00:53:43 | INFO: Blender create Mesh node 32
+00:53:43 | INFO: Blender create Mesh node 33
+00:53:43 | INFO: Blender create Mesh node 34
+00:53:43 | INFO: Blender create Mesh node 35
+00:53:43 | INFO: Blender create Mesh node 36
+00:53:43 | INFO: Blender create Mesh node 37
+00:53:43 | INFO: Blender create Mesh node 38
+00:53:43 | INFO: Blender create Mesh node 39
+00:53:43 | INFO: Blender create Mesh node 40
+00:53:43 | INFO: Blender create Mesh node 41
+00:53:43 | INFO: Blender create Mesh node 42
+00:53:43 | INFO: Blender create Mesh node 43
+00:53:43 | INFO: Blender create Mesh node 44
+00:53:43 | INFO: Blender create Mesh node 45
+00:53:43 | INFO: Blender create Mesh node 46
+00:53:43 | INFO: Blender create Mesh node 47
+00:53:43 | INFO: glTF import finished in 0.08s
+[render_episode] yacht materials: 14 restyled; hull foam: {'hull': 'gelcoat_hull_0', 'length': 14.0, 'beam': 4.21, 'applied': True}
+00:53:44 | INFO: Data are loaded, start creating Blender stuff
+00:53:44 | INFO: Blender create Mesh node output_unwrapped

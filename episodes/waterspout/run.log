@@ -53,3 +53,12 @@
 23:29:37 [waterspout] [previs] rendering 0 keyframe(s) at 270x480, 12 spp (38 cached)
 23:29:40 [waterspout] AWAITING APPROVAL: review /home/user/story-animator/episodes/waterspout/boards/contact_sheet.png and /home/user/story-animator/episodes/waterspout/boards/animatic.mp4, then `python -m factory.run approve --episode-id waterspout` and `--resume`
 23:29:40 [waterspout] run status: awaiting_approval  cost $5.04  time 1790s
+00:47:45 [waterspout] stage 6 previs: start
+00:47:45 [waterspout] [previs] rendering 38 keyframe(s) at 270x480, 12 spp (0 cached)
+00:48:40 [waterspout] [render] key_H01_0021: rc=-9 (55.3s)
+00:49:35 [waterspout] [render] key_H02_0072: rc=-9 (54.5s)
+00:49:59 [waterspout] [render] key_H03_0131: rc=-9 (24.5s)
+00:50:26 [waterspout] [render] key_H04_0182: rc=-9 (26.8s)
+00:50:48 [waterspout] [render] key_H05_0228: rc=-9 (21.9s)
+00:52:06 [waterspout] [render] key_H06_0295: rc=-9 (78.0s)
+00:53:42 [waterspout] [render] key_H07_0374: rc=0 (96.3s)
