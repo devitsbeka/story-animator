@@ -1,0 +1,19 @@
+# CodeBuild: build the Blender Lambda image and push it to the stack's ECR repo.
+# Env (set by the CodeBuild project / start-build): REPO_URI, IMAGE_TAG, SOURCE_BUCKET, BLENDER_KEY.
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - aws s3 cp --only-show-errors "s3://$SOURCE_BUCKET/$BLENDER_KEY" blender.tar.xz
+      - ACCOUNT_REGISTRY="${REPO_URI%%/*}"
+      - aws ecr get-login-password --region "$AWS_DEFAULT_REGION" | docker login --username AWS --password-stdin "$ACCOUNT_REGISTRY"
+      - docker version
+  build:
+    commands:
+      # --provenance=false: Lambda rejects OCI image indexes with attestation manifests
+      - DOCKER_BUILDKIT=1 docker build --provenance=false -t "$REPO_URI:$IMAGE_TAG" . || DOCKER_BUILDKIT=1 docker build -t "$REPO_URI:$IMAGE_TAG" .
+  post_build:
+    commands:
+      - docker push "$REPO_URI:$IMAGE_TAG"
+      - docker image inspect "$REPO_URI:$IMAGE_TAG" --format '{{.Size}}' | awk '{printf "IMAGE_BYTES %d\n", $1}'
+      - aws ecr describe-images --repository-name "${REPO_URI#*/}" --image-ids imageTag="$IMAGE_TAG" --query 'imageDetails[0].imageDigest' --output text

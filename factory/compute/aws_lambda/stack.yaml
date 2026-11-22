@@ -1,0 +1,208 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  story-compute Lambda render workers: ECR repo + CodeBuild project (builds the Blender 4.2 image in-account) +
+  a credential-free container-image Lambda (10 GB RAM, 10 GB /tmp, 15 min). The function role can only write its
+  own CloudWatch logs; every input/output goes through presigned S3 URLs in the chunk manifest.
+  Deployed by: python3 -m factory.compute.aws_lambda.deploy up
+
+Parameters:
+  Prefix:
+    Type: String
+    Default: story-compute
+  SourceBucket:
+    Type: String
+    Description: bucket holding the CodeBuild source zip (the story-farm bucket)
+  SourceKey:
+    Type: String
+    Default: compute/lambda-build/source.zip
+  BlenderKey:
+    Type: String
+    Default: compute/lambda-build/blender-4.2.3-linux-x64.tar.xz
+    Description: the official Blender tarball staged in SourceBucket (sha256 re-checked in the Dockerfile)
+  ImageTag:
+    Type: String
+    Default: latest
+  CreateFunction:
+    Type: String
+    AllowedValues: ["true", "false"]
+    Default: "false"
+    Description: false on the first deploy (the image does not exist yet); true once CodeBuild pushed ImageTag
+  MemoryMb:
+    Type: Number
+    Default: 10240
+    MinValue: 1024
+    MaxValue: 10240
+  EphemeralMb:
+    Type: Number
+    Default: 10240
+    MinValue: 512
+    MaxValue: 10240
+  TimeoutS:
+    Type: Number
+    Default: 900
+    MaxValue: 900
+  BuildComputeType:
+    Type: String
+    Default: BUILD_GENERAL1_SMALL
+    AllowedValues: [BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE]
+    Description: SMALL is the one with 100 free build-minutes/month
+
+Conditions:
+  MakeFunction: !Equals [!Ref CreateFunction, "true"]
+
+Resources:
+  Repo:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub "${Prefix}/blender-lambda"
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration:
+        ScanOnPush: false
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {"rules": [{"rulePriority": 1, "description": "keep the 2 newest images (storage beyond 500 MB bills)",
+                      "selection": {"tagStatus": "any", "countType": "imageCountMoreThan", "countNumber": 2},
+                      "action": {"type": "expire"}}]}
+      RepositoryPolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: LambdaPull
+            Effect: Allow
+            Principal: {Service: lambda.amazonaws.com}
+            Action: [ecr:BatchGetImage, ecr:GetDownloadUrlForLayer]
+            Condition:
+              StringLike:
+                aws:sourceArn: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${Prefix}-*"
+
+  BuildLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/codebuild/${Prefix}-blender-lambda"
+      RetentionInDays: 7
+
+  BuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Prefix}-codebuild"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: codebuild.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: build
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "${BuildLogs.Arn}:*"
+              - Effect: Allow
+                Action: [s3:GetObject, s3:GetObjectVersion]
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:s3:::${SourceBucket}/${SourceKey}"
+                  - !Sub "arn:${AWS::Partition}:s3:::${SourceBucket}/${BlenderKey}"
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Effect: Allow
+                Action: [ecr:BatchCheckLayerAvailability, ecr:InitiateLayerUpload, ecr:UploadLayerPart,
+                         ecr:CompleteLayerUpload, ecr:PutImage, ecr:BatchGetImage, ecr:DescribeImages,
+                         ecr:GetDownloadUrlForLayer]
+                Resource: !GetAtt Repo.Arn
+
+  Build:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub "${Prefix}-blender-lambda"
+      Description: Builds the Blender 4.2 Lambda image (factory/compute/aws_lambda/Dockerfile) and pushes it to ECR
+      ServiceRole: !GetAtt BuildRole.Arn
+      TimeoutInMinutes: 30
+      Source:
+        Type: S3
+        Location: !Sub "${SourceBucket}/${SourceKey}"
+        BuildSpec: buildspec.yml
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: !Ref BuildComputeType
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:5.0
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - {Name: REPO_URI, Value: !GetAtt Repo.RepositoryUri}
+          - {Name: IMAGE_TAG, Value: !Ref ImageTag}
+          - {Name: SOURCE_BUCKET, Value: !Ref SourceBucket}
+          - {Name: BLENDER_KEY, Value: !Ref BlenderKey}
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: !Ref BuildLogs
+
+  FunctionLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${Prefix}-render"
+      RetentionInDays: 7
+
+  FunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Prefix}-render-lambda"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: lambda.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: logs-only   # least privilege: no S3, no DynamoDB; data moves through presigned URLs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "${FunctionLogs.Arn}:*"
+
+  Function:
+    Type: AWS::Lambda::Function
+    Condition: MakeFunction
+    Properties:
+      FunctionName: !Sub "${Prefix}-render"
+      Description: Renders one chunk of an episode with Blender 4.2 Cycles (CPU) from a presigned manifest
+      PackageType: Image
+      Code:
+        ImageUri: !Sub "${Repo.RepositoryUri}:${ImageTag}"
+      Role: !GetAtt FunctionRole.Arn
+      Architectures: [x86_64]
+      MemorySize: !Ref MemoryMb
+      EphemeralStorage:
+        Size: !Ref EphemeralMb
+      Timeout: !Ref TimeoutS
+      LoggingConfig:
+        LogGroup: !Ref FunctionLogs
+        LogFormat: Text
+
+  FunctionAsync:
+    Type: AWS::Lambda::EventInvokeConfig
+    Condition: MakeFunction
+    Properties:
+      FunctionName: !Ref Function
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0          # the broker re-queues failed chunks itself (lease expiry)
+      MaximumEventAgeInSeconds: 900
+
+Outputs:
+  RepositoryUri:
+    Value: !GetAtt Repo.RepositoryUri
+  BuildProject:
+    Value: !Ref Build
+  FunctionName:
+    Condition: MakeFunction
+    Value: !Ref Function
+  FunctionArn:
+    Condition: MakeFunction
+    Value: !GetAtt Function.Arn
+  MemoryMb:
+    Value: !Ref MemoryMb

@@ -1,0 +1,182 @@
+# broker.yaml - the compute broker's provider capability model (factory/compute/registry.py loads it).
+#
+# factory/compute/registry.yaml (the free-compute hunt: one entry per free source with id, type, hardware, quota,
+# max_runtime, concurrency, adapter, priority, terms verdict) is merged ON TOP of this file by `id` when present:
+# its verdict/quota/hardware win; the keys below that it does not set (spf, chunking, unit prices) stay.
+#
+# Fields
+#   adapter        implementation in factory/compute/adapters/ (stub adapters refuse to launch)
+#   type           gpu | cpu
+#   hardware       {gpu, vram_gb, vcpu, ram_gb}
+#   max_runtime_s  hard per-task limit (chunks are sized to fit with margin)
+#   concurrency    parallel tasks the account/plan allows
+#   cold_start_s   time from launch to first frame work (image pull, boot) - planner + chunk sizing
+#   build_s        scene build per shot inside a task (render_episode.py rebuilds a shot per process)
+#   spf            measured or estimated seconds/frame per quality preset at the broker's default
+#                  resolution (preview 270x480 12 spp; final 1080x1920) - calibrate.json overrides
+#   quota          {unit, free, period, unit_usd}: free amount per period in the native unit; unit_usd = $ per unit
+#                  beyond free (paid overflow); per_task: how many units one second of one task costs
+#   price_usd_h    paid providers: $ per worker-hour
+#   terms          USE | USE-WITH-CARE | AVOID  (only USE is schedulable; USE-WITH-CARE needs --allow-care <id>)
+#   trusted        false = results are verified (checksums + spot re-render) before acceptance
+#   priority       lower = filled first among free providers of equal fitness
+defaults:
+  safety: 0.05                 # never plan past 95 % of a free quota
+  chunk_runtime_fraction: 0.6  # a chunk's estimate must fit in 60 % of max_runtime_s (stragglers, cold starts)
+  spot_check_fraction: 0.02    # share of untrusted chunks re-rendered elsewhere
+  lease_margin_s: 120
+
+providers:
+  aws_lambda:
+    adapter: aws_lambda
+    type: cpu
+    hardware: {vcpu: 2, ram_gb: 3, disk_gb: 10}   # this account caps MemorySize at 3008 MB (~1.8 vCPU) until
+                                                 # AWS raises it; at 10240 MB a task gets 6 vCPU
+    max_runtime_s: 900
+    concurrency: 10            # account ConcurrentExecutions today (1000 requested)
+    cold_start_s: 60           # image pull + ~1 GB library + code over presigned GETs
+    build_s: 40
+    spf: {preview: 12.0, final: 330.0}
+    quota: {unit: GB-s, free: 400000, period: month, unit_usd: 0.0000166667, per_task_s: 10.0}
+    requests_quota: {unit: requests, free: 1000000, period: month, unit_usd: 0.0000002}
+    terms: USE
+    trusted: true
+    priority: 10
+    config: {function: story-compute-render, region: us-east-1, memory_mb: 3008}
+  local_cpu:
+    adapter: local_cpu
+    type: cpu
+    hardware: {vcpu: 2, ram_gb: 4}
+    max_runtime_s: 86400
+    concurrency: 1
+    cold_start_s: 2
+    build_s: 27
+    spf: {preview: 11.0, final: 400.0}
+    quota: null                # our own machine: no quota, $0
+    terms: USE
+    trusted: true
+    priority: 90
+    config: {threads: 2}
+  member_node:
+    adapter: member_node
+    type: gpu                  # per node: each node reports its own capabilities at join
+    hardware: {}
+    max_runtime_s: 7200
+    concurrency: 0             # = number of joined, live, idle nodes
+    cold_start_s: 10
+    build_s: 15
+    spf: {preview: 2.0, final: 25.0}
+    quota: {unit: h, free: null, period: month}   # each member sets max_hours on their own node
+    terms: USE
+    trusted: false
+    priority: 20
+  runpod:
+    adapter: presigned_pod
+    type: gpu
+    hardware: {gpu: RTX4090, vram_gb: 24, vcpu: 8, ram_gb: 32}
+    max_runtime_s: 86400
+    concurrency: 4
+    cold_start_s: 420          # pod boot + apt + Blender download + inputs (measured farm docs: 5-8 min)
+    build_s: 10
+    spf: {preview: 1.2, final: 16.0}
+    price_usd_h: 0.69
+    quota: null
+    terms: USE
+    trusted: true
+    priority: 50
+    config: {provider: runpod, gpu: RTX4090}
+  vastai:
+    adapter: presigned_pod
+    type: gpu
+    hardware: {gpu: RTX4090, vram_gb: 24}
+    max_runtime_s: 86400
+    concurrency: 4
+    cold_start_s: 480
+    build_s: 10
+    spf: {preview: 1.2, final: 16.0}
+    price_usd_h: 0.40
+    quota: null
+    terms: USE
+    trusted: true
+    priority: 55
+    config: {provider: vastai, gpu: RTX4090}
+  # ---- stubs: launch contract documented in factory/compute/adapters/stubs.py; free tiers per the providers'
+  #      published pages (re-verified by the free-compute hunt in registry.yaml)
+  gcp_cloud_run_jobs:
+    adapter: gcp_cloud_run_jobs
+    type: cpu
+    hardware: {vcpu: 8, ram_gb: 32}
+    max_runtime_s: 86400
+    concurrency: 10
+    cold_start_s: 30
+    build_s: 18
+    spf: {preview: 5.0, final: 140.0}
+    quota: {unit: vCPU-s, free: 180000, period: month, unit_usd: 0.000018, per_task_s: 8.0}
+    terms: USE
+    trusted: true
+    priority: 12
+  azure_container_apps:
+    adapter: azure_container_apps
+    type: cpu
+    hardware: {vcpu: 4, ram_gb: 8}
+    max_runtime_s: 86400
+    concurrency: 10
+    cold_start_s: 40
+    build_s: 22
+    spf: {preview: 7.0, final: 200.0}
+    quota: {unit: vCPU-s, free: 180000, period: month, unit_usd: 0.000024, per_task_s: 4.0}
+    terms: USE
+    trusted: true
+    priority: 14
+  modal:
+    adapter: modal
+    type: gpu
+    hardware: {gpu: L4, vram_gb: 24}
+    max_runtime_s: 86400
+    concurrency: 10
+    cold_start_s: 60
+    build_s: 10
+    spf: {preview: 2.0, final: 30.0}
+    quota: {unit: credits-usd, free: 30, period: month, unit_usd: 1.0, per_task_s: 0.000222}  # L4 ~$0.80/h
+    terms: USE
+    trusted: true
+    priority: 15
+  kaggle:
+    adapter: kaggle
+    type: gpu
+    hardware: {gpu: T4x2, vram_gb: 16, ram_gb: 29}
+    max_runtime_s: 43200
+    concurrency: 1
+    cold_start_s: 180
+    build_s: 15
+    spf: {preview: 3.5, final: 60.0}
+    quota: {unit: GPU-h, free: 30, period: week, per_task_s: 0.000278}
+    terms: USE-WITH-CARE       # notebooks for ML/data work; check current terms before batch rendering
+    trusted: true
+    priority: 30
+  oracle_always_free:
+    adapter: oracle_always_free
+    type: cpu
+    hardware: {vcpu: 4, ram_gb: 24, arch: arm64}
+    max_runtime_s: 86400
+    concurrency: 1
+    cold_start_s: 5
+    build_s: 25
+    spf: {preview: 12.0, final: 380.0}
+    quota: null                # always-free VM: capacity-limited, not metered
+    terms: USE
+    trusted: true
+    priority: 40
+  hf_spaces:
+    adapter: hf_spaces
+    type: cpu
+    hardware: {vcpu: 2, ram_gb: 16}
+    max_runtime_s: 86400
+    concurrency: 1
+    cold_start_s: 120
+    build_s: 30
+    spf: {preview: 14.0, final: 450.0}
+    quota: null
+    terms: USE-WITH-CARE       # Spaces are for demos; long batch jobs on free CPU may be throttled
+    trusted: true
+    priority: 60
