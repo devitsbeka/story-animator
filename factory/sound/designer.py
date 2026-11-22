@@ -116,7 +116,101 @@ def music_palette(ep):
 # --- end style system hook ---------------------------------------------------------------------------------
 
 
-def design(ep, words, episode_path="", words_path=""):
+# >>> canon: CAN-N2 gap fills + sound-before-words (story.json narration_gaps / sound_lead) -------------------------
+SFX_WORDS = [  # FX token words -> sfx library names (factory/sound/sfx_library.py)
+    (("click", "ignition", "switch", "key", "button"), "switch_click"),
+    (("engine", "starter", "motor", "cough", "sputter"), "engine_die"),
+    (("thunder", "lightning", "rumble"), "thunder"),
+    (("crunch", "reef", "hull", "scrape", "grind"), "coral_crunch"),
+    (("radio", "static", "squelch", "vhf"), "radio_static"),
+    (("beep", "beacon", "epirb"), "beacon_beep"),
+    (("whoosh", "miss", "roar", "spout", "funnel", "gust"), "whoosh_low"),
+    (("breaker", "wave", "surf", "boom", "impact", "slam", "hit"), "impact_boom"),
+]
+
+
+def sfx_for(token):
+    t = (token or "").lower()
+    if t.startswith("fx:"):
+        t = t[3:]
+    for keys, name in SFX_WORDS:
+        if any(k in t for k in keys):
+            return name
+    return "impact_boom"
+
+
+def line_word_frames(story, words, fps, offset):
+    """{line id: [word frames...]} using the script-word mapping of the voice stage (None if the counts differ)."""
+    from factory.voice.text import script_words
+    out, i = {}, 0
+    lines = story.get("narration") or []
+    if len(words) != sum(len(script_words(ln["text"])) for ln in lines):
+        return None
+    for ln in lines:
+        n = len(script_words(ln["text"]))
+        out[ln["id"]] = word_frames(words[i:i + n], fps, offset)
+        i += n
+    return out
+
+
+def canon_cues(story, words, fps, offset, cue, notes):
+    """Fill the declared narration gaps with their purpose (key_sfx -> the key sound inside the gap, tail clear of the
+    next word; breath / reaction -> room tone: the ambience bed continues and the duck releases; music_swell -> music)
+    and lead sound-led lines with their cue (0.4-2.5 s before the first word). Returns the gap_fills report."""
+    lw = line_word_frames(story, words, fps, offset)
+    fills = []
+    if lw is None:
+        notes.append("canon: words.json does not match the script; gap fills skipped")
+        return fills
+    ids = [ln["id"] for ln in story.get("narration") or []]
+    for g in story.get("narration_gaps") or []:
+        a = g.get("after_line")
+        if a not in lw or not lw[a] or ids.index(a) == len(ids) - 1:
+            continue
+        nxt = next((lw[j][0] for j in ids[ids.index(a) + 1:] if lw.get(j)), None)
+        if nxt is None:
+            continue
+        f0, f1 = lw[a][-1]["f1"], nxt["f0"]
+        fb = (g.get("filled_by") or "room_tone")
+        row = {"gap": g["id"], "purpose": g.get("purpose"), "from": f0, "to": f1, "filled_by": fb}
+        if fb.lower().startswith("fx:") or g.get("purpose") == "key_sfx":
+            on = f0 + max(1, int(round(0.08 * fps)))
+            room = (f1 - on) / fps - 0.30   # CAN-N2b/N2d: gap >= sound + 0.25 s; tail clear of the next word
+            if room >= 0.12:
+                c = cue("spot", sfx_for(fb if fb.lower().startswith("fx:") else g.get("desc", "")), on, "onset",
+                        LEVEL.get("impact", -3.0) - 2.0, dur=round(min(1.6, room), 2), fadeOutMs=int(min(250, room * 300)),
+                        reason=f"canon key sound in narration gap {g['id']} ({g.get('desc') or fb})")
+                c["gap"] = g["id"]
+            else:
+                notes.append(f"canon: gap {g['id']} too short for its key sound ({(f1 - f0) / fps:.2f} s)")
+        fills.append(row)
+    for ln in story.get("narration") or []:
+        sl = ln.get("sound_lead")
+        if not sl or not lw.get(ln["id"]):
+            continue
+        first = lw[ln["id"]][0]["f0"]
+        lead = min(2.5, max(0.4, float(sl.get("lead_s", 0.8))))
+        at = max(0, first - int(round(lead * fps)))
+        c = cue("spot", sfx_for(sl.get("cue")), at, "onset", LEVEL.get("impact", -3.0) - 1.0, dur=round(min(1.5, lead + 0.6), 2),
+                fadeOutMs=250, reason=f"canon sound before words: {sl.get('cue')} leads {ln['id']}")
+        c["lead_line"] = ln["id"]
+    return fills
+
+
+def silence_slot(want_from, want_to, words_f, search=120, pad=5):
+    """Move a hard silence [from, to) back into the nearest word-free slot, `pad` frames (0.15 s) clear of any word
+    (CAN-N3e: never over the narrator)."""
+    def clear(a, b):
+        return not any(w["f0"] < b + pad and w["f1"] > a - pad for w in words_f)
+    for d in range(0, search):
+        a, b = want_from - d, want_to - d
+        if a >= 0 and clear(a, b):
+            return a, b
+    return want_from, want_to
+# <<< canon ----------------------------------------------------------------------------------------------------------
+
+
+def design(ep, words, episode_path="", words_path="", story=None):
     fps = ep["fps"]
     pal = music_palette(ep)  # style system hook
     D = ep["durationFrames"]
@@ -154,7 +248,8 @@ def design(ep, words, episode_path="", words_path=""):
 
     # ---------------- P-5 silence ----------------
     sil_len = int(round(0.5 * fps))
-    silence = {"from": payoff_at - sil_len, "to": payoff_at, "buses": ["music", "ambience", "sfx"],
+    sf, st_ = silence_slot(payoff_at - sil_len, payoff_at, wf)  # canon: the silence sits in a narration gap
+    silence = {"from": sf, "to": st_, "buses": ["music", "ambience", "sfx"],
                "reason": "P-5 hard silence before the payoff reveal"}
     for r in reveals:
         r["riserEnd"] = silence["from"] if r["kind"] == "payoff" else r["at"]
@@ -303,6 +398,9 @@ def design(ep, words, episode_path="", words_path=""):
     beds.insert(1, {"id": "bed_wind", "sfx": "wind_sea", "from": 0, "to": D, "relDB": -4.0, "fadeIn": 0, "fadeOut": 0,
                     "bus": "ambience", "shots": ["*"], "reason": "S-6 night wind"})
 
+    # ---------------- canon: narration gaps filled, sound before words ----------------
+    gap_fills = canon_cues(story, words, fps, offset, cue, notes) if story else []
+
     # ---------------- UI ticks on emphasised captions ----------------
     for c in caps if pal["sfx_density"]["ui_ticks"] else []:  # style system hook
         if c.get("tone") and not any(abs(x["at"] - c["from"]) <= 4 and x["transient"] for x in cues) and not in_silence(c["from"]):
@@ -312,6 +410,9 @@ def design(ep, words, episode_path="", words_path=""):
     win = max(1, int(round(pal["sfx_density"]["window_s"] * fps)))  # style system hook (house: 0.5 s)
     max_tr = int(pal["sfx_density"]["max_transients"])
     prio = {"ui": 0, "whoosh": 1, "spot": 2, "impact": 3}
+
+    def _prio(c):  # canon: a gap's key sound / a sound-led cue is never dropped by the density guard
+        return 9 if (c.get("gap") or c.get("lead_line")) else prio[c["type"]]
     while True:
         tr = sorted((c for c in cues if c["transient"]), key=lambda c: c["at"])
         bad = None
@@ -322,7 +423,7 @@ def design(ep, words, episode_path="", words_path=""):
                 break
         if not bad:
             break
-        drop = min(bad, key=lambda c: (prio[c["type"]], -c["at"]))
+        drop = min(bad, key=lambda c: (_prio(c), -c["at"]))
         notes.append(f"density guard dropped {drop['id']} ({drop['sfx']} @ {drop['at']})")
         cues.remove(drop)
 
@@ -350,6 +451,9 @@ def design(ep, words, episode_path="", words_path=""):
         if heli_shot:
             bounds[heli_shot["from"]] = ("rescue", 4, False)
         bounds.setdefault(after, ("escalation_2", 4, False))
+    for gf in gap_fills:  # canon CAN-N2b: a music_swell gap opens the score inside the gap
+        if gf.get("purpose") == "music_swell" and not (silence["from"] <= gf["from"] < silence["to"]):
+            bounds[gf["from"]] = ("swell", 4, True)
     bounds[silence["from"]] = ("pre_payoff", 0, False)
     bounds[payoff_at] = ("payoff", 5, True)
     starts = sorted(f for f in bounds if 0 <= f < D)
@@ -391,6 +495,7 @@ def design(ep, words, episode_path="", words_path=""):
                   **({k: pal[k] for k in ("moods", "instrumentation") if pal.get(k)})},
         "silences": [silence],
         "reveals": reveals,
+        "gap_fills": gap_fills,  # canon CAN-N2d
         "notes": notes,
     }
 
@@ -400,12 +505,15 @@ def main():
     ap.add_argument("--episode", required=True)
     ap.add_argument("--words", help="defaults to episode.audio.wordsJson")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--story", help="story.json (canon: narration gaps + sound-led lines); default: next to the episode")
     a = ap.parse_args()
     root = os.getcwd()
     ep = json.load(open(a.episode))
     wp = a.words or ep["audio"]["wordsJson"]
     words = json.load(open(os.path.join(root, wp) if not os.path.isabs(wp) else wp))
-    snd = design(ep, words, os.path.relpath(a.episode, root), os.path.relpath(wp, root) if os.path.isabs(wp) else wp)
+    sp = a.story or os.path.join(os.path.dirname(os.path.abspath(a.episode)), "story.json")
+    story = json.load(open(sp)) if os.path.isfile(sp) else None
+    snd = design(ep, words, os.path.relpath(a.episode, root), os.path.relpath(wp, root) if os.path.isabs(wp) else wp, story=story)
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
     with open(a.out, "w") as fh:
         json.dump(snd, fh, indent=1)

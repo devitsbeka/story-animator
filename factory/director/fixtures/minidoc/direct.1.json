@@ -17,8 +17,8 @@
    "id": "D001",
    "title": "crane_down EWS",
    "from": 0,
-   "to": 122,
-   "key_frame": 61,
+   "to": 128,
+   "key_frame": 64,
    "scene": "S01",
    "line_ids": [
     "L001"
@@ -46,7 +46,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -85,14 +85,19 @@
       1
      ]
     ]
+   ],
+   "establishes": [
+    "hero",
+    "vessel",
+    "island"
    ]
   },
   {
    "id": "D002",
    "title": "push_in MS",
-   "from": 122,
-   "to": 270,
-   "key_frame": 196,
+   "from": 128,
+   "to": 278,
+   "key_frame": 203,
    "scene": "S01",
    "line_ids": [
     "L002"
@@ -120,7 +125,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -133,10 +138,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 126,
-      "to": 264,
+      "from": 140,
+      "to": 278,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L002 moves him"
      }
     ]
    },
@@ -158,7 +164,7 @@
    ],
    "fires": [
     [
-     122,
+     128,
      [
       1,
       1,
@@ -173,9 +179,9 @@
   {
    "id": "D003",
    "title": "rise_overhead WS",
-   "from": 270,
-   "to": 376,
-   "key_frame": 323,
+   "from": 278,
+   "to": 392,
+   "key_frame": 335,
    "scene": "S01",
    "line_ids": [
     "L003"
@@ -203,7 +209,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -216,10 +222,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 274,
-      "to": 370,
+      "from": 290,
+      "to": 392,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L003 moves him"
      }
     ]
    },
@@ -241,7 +248,7 @@
    ],
    "fires": [
     [
-     270,
+     278,
      [
       1,
       1,
@@ -251,14 +258,17 @@
       1
      ]
     ]
+   ],
+   "gaze_away_from": [
+    "T_fires"
    ]
   },
   {
    "id": "D004",
    "title": "orbit_arc MCU",
-   "from": 376,
-   "to": 513,
-   "key_frame": 444,
+   "from": 392,
+   "to": 532,
+   "key_frame": 462,
    "scene": "S02",
    "line_ids": [
     "L004"
@@ -287,7 +297,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -300,10 +310,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 380,
-      "to": 507,
+      "from": 404,
+      "to": 532,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L004 moves him"
      }
     ]
    },
@@ -325,7 +336,7 @@
    ],
    "fires": [
     [
-     376,
+     392,
      [
       1,
       1,
@@ -340,9 +351,9 @@
   {
    "id": "D005",
    "title": "lateral_glide WS",
-   "from": 513,
-   "to": 640,
-   "key_frame": 576,
+   "from": 532,
+   "to": 664,
+   "key_frame": 598,
    "scene": "S02",
    "line_ids": [
     "L005"
@@ -406,10 +417,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 517,
-      "to": 634,
+      "from": 544,
+      "to": 664,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L005 moves him"
      }
     ]
    },
@@ -431,7 +443,7 @@
    ],
    "fires": [
     [
-     513,
+     532,
      [
       1,
       1,
@@ -446,9 +458,9 @@
   {
    "id": "D006",
    "title": "slow_push CU",
-   "from": 640,
-   "to": 788,
-   "key_frame": 714,
+   "from": 664,
+   "to": 800,
+   "key_frame": 732,
    "scene": "S02",
    "line_ids": [
     "L006"
@@ -477,7 +489,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -490,8 +502,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 648,
-      "dur": 36
+      "at": 678,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -513,7 +526,7 @@
    ],
    "fires": [
     [
-     640,
+     664,
      [
       1,
       1,
@@ -523,14 +536,15 @@
       1
      ]
     ]
-   ]
+   ],
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D007",
    "title": "pull_back MWS",
-   "from": 788,
+   "from": 800,
    "to": 936,
-   "key_frame": 862,
+   "key_frame": 868,
    "scene": "S02",
    "line_ids": [
     "L006"
@@ -558,7 +572,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -571,10 +585,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 792,
-      "to": 930,
+      "from": 812,
+      "to": 936,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L006 moves him"
      }
     ]
    },
@@ -596,7 +611,7 @@
    ],
    "fires": [
     [
-     788,
+     800,
      [
       1,
       1,
@@ -612,8 +627,8 @@
    "id": "D008",
    "title": "crane_down EWS",
    "from": 936,
-   "to": 1084,
-   "key_frame": 1010,
+   "to": 1086,
+   "key_frame": 1011,
    "scene": "S03",
    "line_ids": [
     "L007"
@@ -641,7 +656,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -668,14 +683,19 @@
      ]
     }
    ],
-   "chapter": "CH1"
+   "chapter": "CH1",
+   "establishes": [
+    "hero",
+    "vessel",
+    "island"
+   ]
   },
   {
    "id": "D009",
    "title": "push_in MS",
-   "from": 1084,
-   "to": 1200,
-   "key_frame": 1142,
+   "from": 1086,
+   "to": 1208,
+   "key_frame": 1147,
    "scene": "S03",
    "line_ids": [
     "L008"
@@ -703,7 +723,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -716,10 +736,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 1088,
-      "to": 1194,
+      "from": 1098,
+      "to": 1208,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L008 moves him"
      }
     ]
    },
@@ -745,9 +766,9 @@
   {
    "id": "D010",
    "title": "suspense_hold MCU",
-   "from": 1200,
-   "to": 1245,
-   "key_frame": 1222,
+   "from": 1208,
+   "to": 1253,
+   "key_frame": 1230,
    "scene": "S03",
    "line_ids": [
     "L009"
@@ -776,7 +797,7 @@
     "target": "face",
     "preset": "suspense_hold",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -810,9 +831,9 @@
   {
    "id": "D011",
    "title": "rise_overhead WS",
-   "from": 1245,
-   "to": 1348,
-   "key_frame": 1296,
+   "from": 1253,
+   "to": 1358,
+   "key_frame": 1305,
    "scene": "S03",
    "line_ids": [
     "L009"
@@ -840,7 +861,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -853,10 +874,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 1249,
-      "to": 1342,
+      "from": 1265,
+      "to": 1358,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L009 moves him"
      }
     ]
    },
@@ -882,9 +904,9 @@
   {
    "id": "D012",
    "title": "orbit_arc MCU",
-   "from": 1348,
-   "to": 1465,
-   "key_frame": 1406,
+   "from": 1358,
+   "to": 1480,
+   "key_frame": 1419,
    "scene": "S04",
    "line_ids": [
     "L010"
@@ -913,7 +935,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -926,10 +948,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 1352,
-      "to": 1459,
+      "from": 1370,
+      "to": 1480,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L010 moves him"
      }
     ]
    },
@@ -955,9 +978,9 @@
   {
    "id": "D013",
    "title": "lateral_glide WS",
-   "from": 1465,
-   "to": 1592,
-   "key_frame": 1528,
+   "from": 1480,
+   "to": 1612,
+   "key_frame": 1546,
    "scene": "S04",
    "line_ids": [
     "L011"
@@ -1021,10 +1044,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 1469,
-      "to": 1586,
+      "from": 1492,
+      "to": 1612,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L011 moves him"
      }
     ]
    },
@@ -1050,9 +1074,9 @@
   {
    "id": "D014",
    "title": "slow_push CU",
-   "from": 1592,
-   "to": 1708,
-   "key_frame": 1650,
+   "from": 1612,
+   "to": 1673,
+   "key_frame": 1642,
    "scene": "S04",
    "line_ids": [
     "L012"
@@ -1081,7 +1105,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1094,8 +1118,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 1600,
-      "dur": 36
+      "at": 1626,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -1116,17 +1141,18 @@
     }
    ],
    "chapter": "CH1",
-   "short_candidate": "SC1"
+   "short_candidate": "SC1",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D015",
    "title": "pull_back MWS",
-   "from": 1708,
-   "to": 1856,
-   "key_frame": 1782,
-   "scene": "S05",
+   "from": 1673,
+   "to": 1734,
+   "key_frame": 1703,
+   "scene": "S04",
    "line_ids": [
-    "L013"
+    "L012"
    ],
    "size": "MWS",
    "camera": {
@@ -1151,7 +1177,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1164,10 +1190,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 1712,
-      "to": 1850,
+      "from": 1685,
+      "to": 1734,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L012 moves him"
      }
     ]
    },
@@ -1193,12 +1220,12 @@
   {
    "id": "D016",
    "title": "arc_low MS",
-   "from": 1856,
-   "to": 1972,
-   "key_frame": 1914,
+   "from": 1734,
+   "to": 1884,
+   "key_frame": 1809,
    "scene": "S05",
    "line_ids": [
-    "L014"
+    "L013"
    ],
    "size": "MS",
    "camera": {
@@ -1223,7 +1250,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1236,10 +1263,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 1860,
-      "to": 1966,
+      "from": 1746,
+      "to": 1884,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L013 moves him"
      }
     ]
    },
@@ -1265,12 +1293,12 @@
   {
    "id": "D017",
    "title": "crane_down EWS",
-   "from": 1972,
-   "to": 2046,
-   "key_frame": 2009,
+   "from": 1884,
+   "to": 2006,
+   "key_frame": 1945,
    "scene": "S05",
    "line_ids": [
-    "L015"
+    "L014"
    ],
    "size": "EWS",
    "camera": {
@@ -1295,7 +1323,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1328,9 +1356,9 @@
   {
    "id": "D018",
    "title": "push_in MS",
-   "from": 2046,
-   "to": 2120,
-   "key_frame": 2083,
+   "from": 2006,
+   "to": 2081,
+   "key_frame": 2043,
    "scene": "S05",
    "line_ids": [
     "L015"
@@ -1358,7 +1386,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1371,10 +1399,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 2050,
-      "to": 2114,
+      "from": 2018,
+      "to": 2081,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L015 moves him"
      }
     ]
    },
@@ -1400,12 +1429,12 @@
   {
    "id": "D019",
    "title": "rise_overhead WS",
-   "from": 2120,
-   "to": 2236,
-   "key_frame": 2178,
-   "scene": "S06",
+   "from": 2081,
+   "to": 2156,
+   "key_frame": 2118,
+   "scene": "S05",
    "line_ids": [
-    "L016"
+    "L015"
    ],
    "size": "WS",
    "camera": {
@@ -1430,7 +1459,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1443,10 +1472,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 2124,
-      "to": 2230,
+      "from": 2093,
+      "to": 2156,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L015 moves him"
      }
     ]
    },
@@ -1472,12 +1502,12 @@
   {
    "id": "D020",
    "title": "orbit_arc MCU",
-   "from": 2236,
-   "to": 2363,
-   "key_frame": 2299,
+   "from": 2156,
+   "to": 2278,
+   "key_frame": 2217,
    "scene": "S06",
    "line_ids": [
-    "L017"
+    "L016"
    ],
    "size": "MCU",
    "camera": {
@@ -1503,7 +1533,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1516,10 +1546,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 2240,
-      "to": 2357,
+      "from": 2168,
+      "to": 2278,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L016 moves him"
      }
     ]
    },
@@ -1545,12 +1576,12 @@
   {
    "id": "D021",
    "title": "lateral_glide WS",
-   "from": 2363,
-   "to": 2479,
-   "key_frame": 2421,
+   "from": 2278,
+   "to": 2410,
+   "key_frame": 2344,
    "scene": "S06",
    "line_ids": [
-    "L018"
+    "L017"
    ],
    "size": "WS",
    "camera": {
@@ -1611,10 +1642,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 2367,
-      "to": 2473,
+      "from": 2290,
+      "to": 2410,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L017 moves him"
      }
     ]
    },
@@ -1640,12 +1672,12 @@
   {
    "id": "D022",
    "title": "slow_push CU",
-   "from": 2479,
-   "to": 2627,
-   "key_frame": 2553,
-   "scene": "S07",
+   "from": 2410,
+   "to": 2471,
+   "key_frame": 2440,
+   "scene": "S06",
    "line_ids": [
-    "L019"
+    "L018"
    ],
    "size": "CU",
    "camera": {
@@ -1671,7 +1703,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1684,8 +1716,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 2487,
-      "dur": 36
+      "at": 2424,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -1706,17 +1739,18 @@
     }
    ],
    "chapter": "CH1",
-   "short_candidate": "SC1"
+   "short_candidate": "SC1",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D023",
    "title": "pull_back MWS",
-   "from": 2627,
-   "to": 2744,
-   "key_frame": 2685,
-   "scene": "S07",
+   "from": 2471,
+   "to": 2532,
+   "key_frame": 2501,
+   "scene": "S06",
    "line_ids": [
-    "L020"
+    "L018"
    ],
    "size": "MWS",
    "camera": {
@@ -1741,7 +1775,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1754,10 +1788,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 2631,
-      "to": 2738,
+      "from": 2483,
+      "to": 2532,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L018 moves him"
      }
     ]
    },
@@ -1783,12 +1818,12 @@
   {
    "id": "D024",
    "title": "arc_low MS",
-   "from": 2744,
-   "to": 2827,
-   "key_frame": 2785,
+   "from": 2532,
+   "to": 2682,
+   "key_frame": 2607,
    "scene": "S07",
    "line_ids": [
-    "L021"
+    "L019"
    ],
    "size": "MS",
    "camera": {
@@ -1813,7 +1848,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1826,10 +1861,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 2748,
-      "to": 2821,
+      "from": 2544,
+      "to": 2682,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L019 moves him"
      }
     ]
    },
@@ -1855,12 +1891,12 @@
   {
    "id": "D025",
    "title": "crane_down EWS",
-   "from": 2827,
+   "from": 2682,
    "to": 2910,
-   "key_frame": 2868,
+   "key_frame": 2796,
    "scene": "S07",
    "line_ids": [
-    "L021"
+    "L020"
    ],
    "size": "EWS",
    "camera": {
@@ -1885,7 +1921,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -1917,156 +1953,13 @@
   },
   {
    "id": "D026",
-   "title": "push_in MS",
-   "from": 2910,
-   "to": 3048,
-   "key_frame": 2979,
-   "scene": "S08",
-   "line_ids": [
-    "L022"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     55,
-     40
-    ],
-    "dist": [
-     3.4,
-     2.6
-    ],
-    "height": [
-     0.6,
-     0.4
-    ],
-    "fov": [
-     32,
-     30
-    ],
-    "ease": "move",
-    "preset": "push_in",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "afloat_dark"
-   },
-   "island": "far",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_down",
-      "from": 2914,
-      "to": 3042,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH2"
-  },
-  {
-   "id": "D027",
-   "title": "rise_overhead WS",
-   "from": 3048,
-   "to": 3196,
-   "key_frame": 3122,
-   "scene": "S08",
-   "line_ids": [
-    "L023"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     30,
-     60
-    ],
-    "dist": [
-     4.0,
-     14.0
-    ],
-    "height": [
-     0.6,
-     9.0
-    ],
-    "fov": [
-     30,
-     34
-    ],
-    "ease": "move",
-    "preset": "rise_overhead",
-    "motivation": "reveal",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "afloat_dark"
-   },
-   "island": "far",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "hold_rail",
-      "from": 3052,
-      "to": 3190,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH2",
-   "short_candidate": "SC2"
-  },
-  {
-   "id": "D028",
    "title": "suspense_hold MCU",
-   "from": 3196,
-   "to": 3241,
-   "key_frame": 3218,
+   "from": 2910,
+   "to": 2955,
+   "key_frame": 2932,
    "scene": "S08",
    "line_ids": [
-    "L024"
+    "L021"
    ],
    "size": "MCU",
    "camera": {
@@ -2092,7 +1985,7 @@
     "target": "face",
     "preset": "suspense_hold",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2120,18 +2013,162 @@
     }
    ],
    "suspense_hold": true,
+   "chapter": "CH2"
+  },
+  {
+   "id": "D027",
+   "title": "push_in MS",
+   "from": 2955,
+   "to": 3051,
+   "key_frame": 3003,
+   "scene": "S08",
+   "line_ids": [
+    "L021"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     55,
+     40
+    ],
+    "dist": [
+     3.4,
+     2.6
+    ],
+    "height": [
+     0.6,
+     0.4
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 2967,
+      "to": 3051,
+      "in": 8,
+      "out": 8,
+      "why": "push_in MS: the line L021 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH2"
+  },
+  {
+   "id": "D028",
+   "title": "rise_overhead WS",
+   "from": 3051,
+   "to": 3200,
+   "key_frame": 3125,
+   "scene": "S08",
+   "line_ids": [
+    "L022"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     30,
+     60
+    ],
+    "dist": [
+     4.0,
+     14.0
+    ],
+    "height": [
+     0.6,
+     9.0
+    ],
+    "fov": [
+     30,
+     34
+    ],
+    "ease": "move",
+    "preset": "rise_overhead",
+    "motivation": "reveal",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 3063,
+      "to": 3200,
+      "in": 8,
+      "out": 8,
+      "why": "rise_overhead WS: the line L022 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
    "chapter": "CH2",
    "short_candidate": "SC2"
   },
   {
    "id": "D029",
    "title": "orbit_arc MCU",
-   "from": 3241,
-   "to": 3334,
-   "key_frame": 3287,
+   "from": 3200,
+   "to": 3386,
+   "key_frame": 3293,
    "scene": "S08",
    "line_ids": [
-    "L024"
+    "L023"
    ],
    "size": "MCU",
    "camera": {
@@ -2157,7 +2194,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2170,10 +2207,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 3245,
-      "to": 3328,
+      "from": 3212,
+      "to": 3386,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L023 moves him"
      }
     ]
    },
@@ -2199,12 +2237,12 @@
   {
    "id": "D030",
    "title": "lateral_glide WS",
-   "from": 3334,
-   "to": 3460,
-   "key_frame": 3397,
+   "from": 3386,
+   "to": 3452,
+   "key_frame": 3419,
    "scene": "S09",
    "line_ids": [
-    "L025"
+    "L024"
    ],
    "size": "WS",
    "camera": {
@@ -2265,10 +2303,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 3338,
-      "to": 3454,
+      "from": 3398,
+      "to": 3452,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L024 moves him"
      }
     ]
    },
@@ -2289,17 +2328,20 @@
     }
    ],
    "chapter": "CH2",
-   "short_candidate": "SC2"
+   "short_candidate": "SC2",
+   "gaze_away_from": [
+    "T_reef"
+   ]
   },
   {
    "id": "D031",
    "title": "slow_push CU",
-   "from": 3460,
-   "to": 3630,
-   "key_frame": 3545,
+   "from": 3452,
+   "to": 3518,
+   "key_frame": 3485,
    "scene": "S09",
    "line_ids": [
-    "L026"
+    "L024"
    ],
    "size": "CU",
    "camera": {
@@ -2325,7 +2367,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2338,8 +2380,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 3468,
-      "dur": 36
+      "at": 3466,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -2360,17 +2403,18 @@
     }
    ],
    "chapter": "CH2",
-   "short_candidate": "SC2"
+   "short_candidate": "SC2",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D032",
    "title": "pull_back MWS",
-   "from": 3630,
-   "to": 3746,
-   "key_frame": 3688,
+   "from": 3518,
+   "to": 3686,
+   "key_frame": 3602,
    "scene": "S09",
    "line_ids": [
-    "L027"
+    "L025"
    ],
    "size": "MWS",
    "camera": {
@@ -2395,7 +2439,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2408,10 +2452,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 3634,
-      "to": 3740,
+      "from": 3530,
+      "to": 3686,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L025 moves him"
      }
     ]
    },
@@ -2437,12 +2482,12 @@
   {
    "id": "D033",
    "title": "arc_low MS",
-   "from": 3746,
-   "to": 3884,
-   "key_frame": 3815,
-   "scene": "S10",
+   "from": 3686,
+   "to": 3808,
+   "key_frame": 3747,
+   "scene": "S09",
    "line_ids": [
-    "L028"
+    "L026"
    ],
    "size": "MS",
    "camera": {
@@ -2467,7 +2512,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2480,10 +2525,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 3750,
-      "to": 3878,
+      "from": 3698,
+      "to": 3808,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L026 moves him"
      }
     ]
    },
@@ -2509,12 +2555,12 @@
   {
    "id": "D034",
    "title": "crane_down EWS",
-   "from": 3884,
-   "to": 4032,
-   "key_frame": 3958,
+   "from": 3808,
+   "to": 3878,
+   "key_frame": 3843,
    "scene": "S10",
    "line_ids": [
-    "L029"
+    "L027"
    ],
    "size": "EWS",
    "camera": {
@@ -2539,7 +2585,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2572,12 +2618,12 @@
   {
    "id": "D035",
    "title": "push_in MS",
-   "from": 4032,
-   "to": 4101,
-   "key_frame": 4066,
+   "from": 3878,
+   "to": 3949,
+   "key_frame": 3913,
    "scene": "S10",
    "line_ids": [
-    "L030"
+    "L027"
    ],
    "size": "MS",
    "camera": {
@@ -2602,7 +2648,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2615,10 +2661,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 4036,
-      "to": 4095,
+      "from": 3890,
+      "to": 3949,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L027 moves him"
      }
     ]
    },
@@ -2644,12 +2691,12 @@
   {
    "id": "D036",
    "title": "rise_overhead WS",
-   "from": 4101,
-   "to": 4170,
-   "key_frame": 4135,
+   "from": 3949,
+   "to": 4099,
+   "key_frame": 4024,
    "scene": "S10",
    "line_ids": [
-    "L030"
+    "L028"
    ],
    "size": "WS",
    "camera": {
@@ -2674,7 +2721,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2687,10 +2734,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 4105,
-      "to": 4164,
+      "from": 3961,
+      "to": 4099,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L028 moves him"
      }
     ]
    },
@@ -2716,12 +2764,12 @@
   {
    "id": "D037",
    "title": "orbit_arc MCU",
-   "from": 4170,
-   "to": 4297,
-   "key_frame": 4233,
-   "scene": "S11",
+   "from": 4099,
+   "to": 4285,
+   "key_frame": 4192,
+   "scene": "S10",
    "line_ids": [
-    "L031"
+    "L029"
    ],
    "size": "MCU",
    "camera": {
@@ -2747,7 +2795,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2760,10 +2808,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 4174,
-      "to": 4291,
+      "from": 4111,
+      "to": 4285,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L029 moves him"
      }
     ]
    },
@@ -2789,12 +2838,12 @@
   {
    "id": "D038",
    "title": "lateral_glide WS",
-   "from": 4297,
-   "to": 4467,
-   "key_frame": 4382,
+   "from": 4285,
+   "to": 4350,
+   "key_frame": 4317,
    "scene": "S11",
    "line_ids": [
-    "L032"
+    "L030"
    ],
    "size": "WS",
    "camera": {
@@ -2855,10 +2904,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 4301,
-      "to": 4461,
+      "from": 4297,
+      "to": 4350,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L030 moves him"
      }
     ]
    },
@@ -2884,12 +2934,12 @@
   {
    "id": "D039",
    "title": "slow_push CU",
-   "from": 4467,
-   "to": 4583,
-   "key_frame": 4525,
+   "from": 4350,
+   "to": 4416,
+   "key_frame": 4383,
    "scene": "S11",
    "line_ids": [
-    "L033"
+    "L030"
    ],
    "size": "CU",
    "camera": {
@@ -2915,7 +2965,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2928,8 +2978,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 4475,
-      "dur": 36
+      "at": 4364,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -2950,17 +3001,18 @@
     }
    ],
    "chapter": "CH2",
-   "short_candidate": "SC2"
+   "short_candidate": "SC2",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D040",
    "title": "pull_back MWS",
-   "from": 4583,
-   "to": 4720,
-   "key_frame": 4651,
-   "scene": "S12",
+   "from": 4416,
+   "to": 4584,
+   "key_frame": 4500,
+   "scene": "S11",
    "line_ids": [
-    "L034"
+    "L031"
    ],
    "size": "MWS",
    "camera": {
@@ -2985,7 +3037,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -2998,10 +3050,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 4587,
-      "to": 4714,
+      "from": 4428,
+      "to": 4584,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L031 moves him"
      }
     ]
    },
@@ -3027,12 +3080,12 @@
   {
    "id": "D041",
    "title": "arc_low MS",
-   "from": 4720,
-   "to": 4884,
-   "key_frame": 4802,
-   "scene": "S12",
+   "from": 4584,
+   "to": 4706,
+   "key_frame": 4645,
+   "scene": "S11",
    "line_ids": [
-    "L035"
+    "L032"
    ],
    "size": "MS",
    "camera": {
@@ -3057,7 +3110,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "afloat_dark"
@@ -3070,10 +3123,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 4724,
-      "to": 4878,
+      "from": 4596,
+      "to": 4706,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L032 moves him"
      }
     ]
    },
@@ -3098,13 +3152,1215 @@
   },
   {
    "id": "D042",
-   "title": "suspense_hold MCU",
+   "title": "crane_down EWS",
+   "from": 4706,
+   "to": 4795,
+   "key_frame": 4750,
+   "scene": "S12",
+   "line_ids": [
+    "L033"
+   ],
+   "size": "EWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     150,
+     160
+    ],
+    "dist": [
+     42,
+     26
+    ],
+    "height": [
+     30,
+     9
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "arrive",
+    "preset": "crane_down",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH2",
+   "short_candidate": "SC2"
+  },
+  {
+   "id": "D043",
+   "title": "push_in MS",
+   "from": 4795,
+   "to": 4884,
+   "key_frame": 4839,
+   "scene": "S12",
+   "line_ids": [
+    "L033"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     55,
+     40
+    ],
+    "dist": [
+     3.4,
+     2.6
+    ],
+    "height": [
+     0.6,
+     0.4
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "afloat_dark"
+   },
+   "island": "far",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 4807,
+      "to": 4884,
+      "in": 8,
+      "out": 8,
+      "why": "push_in MS: the line L033 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH2",
+   "short_candidate": "SC2"
+  },
+  {
+   "id": "D044",
+   "title": "rise_overhead WS",
    "from": 4884,
-   "to": 4929,
-   "key_frame": 4906,
+   "to": 5015,
+   "key_frame": 4949,
+   "scene": "S13",
+   "line_ids": [
+    "L034"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     30,
+     60
+    ],
+    "dist": [
+     4.0,
+     14.0
+    ],
+    "height": [
+     0.6,
+     9.0
+    ],
+    "fov": [
+     30,
+     34
+    ],
+    "ease": "move",
+    "preset": "rise_overhead",
+    "motivation": "impact",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 4896,
+      "to": 5015,
+      "in": 8,
+      "out": 8,
+      "why": "rise_overhead WS: the line L034 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "impact_handheld": {
+    "impact_frame": 4902,
+    "escape_frames": 4,
+    "lag_frames": 5,
+    "recover_frames": 12,
+    "amplitude_deg": 6.0
+   }
+  },
+  {
+   "id": "D045",
+   "title": "orbit_arc MCU",
+   "from": 5015,
+   "to": 5147,
+   "key_frame": 5081,
+   "scene": "S13",
+   "line_ids": [
+    "L035"
+   ],
+   "size": "MCU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     -20,
+     -5
+    ],
+    "dist": [
+     2.0,
+     1.7
+    ],
+    "height": [
+     0.15,
+     0.1
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_up",
+      "from": 5027,
+      "to": 5147,
+      "in": 8,
+      "out": 8,
+      "why": "orbit_arc MCU: the line L035 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D046",
+   "title": "lateral_glide WS",
+   "from": 5147,
+   "to": 5260,
+   "key_frame": 5203,
    "scene": "S13",
    "line_ids": [
     "L036"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "world",
+      "v": [
+       -25,
+       7,
+       -28
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       -20,
+       6.5,
+       -32
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     }
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "lateral_glide",
+    "motivation": "follow_subject"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 5159,
+      "to": 5260,
+      "in": 8,
+      "out": 8,
+      "why": "lateral_glide WS: the line L036 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D047",
+   "title": "slow_push CU",
+   "from": 5260,
+   "to": 5392,
+   "key_frame": 5326,
+   "scene": "S14",
+   "line_ids": [
+    "L037"
+   ],
+   "size": "CU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     20,
+     12
+    ],
+    "dist": [
+     1.8,
+     1.4
+    ],
+    "height": [
+     0.1,
+     0.05
+    ],
+    "fov": [
+     30,
+     27
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "slow_push",
+    "motivation": "tension_push",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 5274,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
+  },
+  {
+   "id": "D048",
+   "title": "pull_back MWS",
+   "from": 5392,
+   "to": 5532,
+   "key_frame": 5462,
+   "scene": "S14",
+   "line_ids": [
+    "L038"
+   ],
+   "size": "MWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     -60,
+     -45
+    ],
+    "dist": [
+     3.5,
+     6.0
+    ],
+    "height": [
+     0.4,
+     1.2
+    ],
+    "fov": [
+     30,
+     32
+    ],
+    "ease": "move",
+    "preset": "pull_back",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_right",
+      "from": 5404,
+      "to": 5532,
+      "in": 8,
+      "out": 8,
+      "why": "pull_back MWS: the line L038 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D049",
+   "title": "arc_low MS",
+   "from": 5532,
+   "to": 5646,
+   "key_frame": 5589,
+   "scene": "S14",
+   "line_ids": [
+    "L039"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     -70,
+     -50
+    ],
+    "dist": [
+     3.0,
+     2.6
+    ],
+    "height": [
+     -0.2,
+     -0.1
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "arc_low",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "point_ahead",
+      "from": 5544,
+      "to": 5646,
+      "in": 8,
+      "out": 8,
+      "why": "arc_low MS: the line L039 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D050",
+   "title": "crane_down EWS",
+   "from": 5646,
+   "to": 5777,
+   "key_frame": 5711,
+   "scene": "S15",
+   "line_ids": [
+    "L040"
+   ],
+   "size": "EWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     150,
+     160
+    ],
+    "dist": [
+     42,
+     26
+    ],
+    "height": [
+     30,
+     9
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "arrive",
+    "preset": "crane_down",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D051",
+   "title": "push_in MS",
+   "from": 5777,
+   "to": 5908,
+   "key_frame": 5842,
+   "scene": "S15",
+   "line_ids": [
+    "L041"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     55,
+     40
+    ],
+    "dist": [
+     3.4,
+     2.6
+    ],
+    "height": [
+     0.6,
+     0.4
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 5789,
+      "to": 5908,
+      "in": 8,
+      "out": 8,
+      "why": "push_in MS: the line L041 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D052",
+   "title": "rise_overhead WS",
+   "from": 5908,
+   "to": 6022,
+   "key_frame": 5965,
+   "scene": "S15",
+   "line_ids": [
+    "L042"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     30,
+     60
+    ],
+    "dist": [
+     4.0,
+     14.0
+    ],
+    "height": [
+     0.6,
+     9.0
+    ],
+    "fov": [
+     30,
+     34
+    ],
+    "ease": "move",
+    "preset": "rise_overhead",
+    "motivation": "reveal",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 5920,
+      "to": 6022,
+      "in": 8,
+      "out": 8,
+      "why": "rise_overhead WS: the line L042 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D053",
+   "title": "orbit_arc MCU",
+   "from": 6022,
+   "to": 6153,
+   "key_frame": 6087,
+   "scene": "S16",
+   "line_ids": [
+    "L043"
+   ],
+   "size": "MCU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     -20,
+     -5
+    ],
+    "dist": [
+     2.0,
+     1.7
+    ],
+    "height": [
+     0.15,
+     0.1
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_up",
+      "from": 6034,
+      "to": 6153,
+      "in": 8,
+      "out": 8,
+      "why": "orbit_arc MCU: the line L043 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D054",
+   "title": "lateral_glide WS",
+   "from": 6153,
+   "to": 6294,
+   "key_frame": 6223,
+   "scene": "S16",
+   "line_ids": [
+    "L044"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "world",
+      "v": [
+       -25,
+       7,
+       -28
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       -20,
+       6.5,
+       -32
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     }
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "lateral_glide",
+    "motivation": "follow_subject"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 6165,
+      "to": 6294,
+      "in": 8,
+      "out": 8,
+      "why": "lateral_glide WS: the line L044 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D055",
+   "title": "slow_push CU",
+   "from": 6294,
+   "to": 6407,
+   "key_frame": 6350,
+   "scene": "S16",
+   "line_ids": [
+    "L045"
+   ],
+   "size": "CU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     20,
+     12
+    ],
+    "dist": [
+     1.8,
+     1.4
+    ],
+    "height": [
+     0.1,
+     0.05
+    ],
+    "fov": [
+     30,
+     27
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "slow_push",
+    "motivation": "tension_push",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 6308,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
+  },
+  {
+   "id": "D056",
+   "title": "pull_back MWS",
+   "from": 6407,
+   "to": 6539,
+   "key_frame": 6473,
+   "scene": "S17",
+   "line_ids": [
+    "L046"
+   ],
+   "size": "MWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     -60,
+     -45
+    ],
+    "dist": [
+     3.5,
+     6.0
+    ],
+    "height": [
+     0.4,
+     1.2
+    ],
+    "fov": [
+     30,
+     32
+    ],
+    "ease": "move",
+    "preset": "pull_back",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_right",
+      "from": 6419,
+      "to": 6539,
+      "in": 8,
+      "out": 8,
+      "why": "pull_back MWS: the line L046 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D057",
+   "title": "arc_low MS",
+   "from": 6539,
+   "to": 6670,
+   "key_frame": 6604,
+   "scene": "S17",
+   "line_ids": [
+    "L047"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     -70,
+     -50
+    ],
+    "dist": [
+     3.0,
+     2.6
+    ],
+    "height": [
+     -0.2,
+     -0.1
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "arc_low",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "point_ahead",
+      "from": 6551,
+      "to": 6670,
+      "in": 8,
+      "out": 8,
+      "why": "arc_low MS: the line L047 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH3",
+   "short_candidate": "SC3"
+  },
+  {
+   "id": "D058",
+   "title": "suspense_hold MCU",
+   "from": 6670,
+   "to": 6715,
+   "key_frame": 6692,
+   "scene": "S17",
+   "line_ids": [
+    "L048"
    ],
    "size": "MCU",
    "camera": {
@@ -3130,7 +4386,7 @@
     "target": "face",
     "preset": "suspense_hold",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -3158,1193 +4414,15 @@
     }
    ],
    "suspense_hold": true,
-   "chapter": "CH3"
-  },
-  {
-   "id": "D043",
-   "title": "crane_down EWS",
-   "from": 4929,
-   "to": 5011,
-   "key_frame": 4970,
-   "scene": "S13",
-   "line_ids": [
-    "L036"
-   ],
-   "size": "EWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     150,
-     160
-    ],
-    "dist": [
-     42,
-     26
-    ],
-    "height": [
-     30,
-     9
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "arrive",
-    "preset": "crane_down",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3"
-  },
-  {
-   "id": "D044",
-   "title": "push_in MS",
-   "from": 5011,
-   "to": 5138,
-   "key_frame": 5074,
-   "scene": "S13",
-   "line_ids": [
-    "L037"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     55,
-     40
-    ],
-    "dist": [
-     3.4,
-     2.6
-    ],
-    "height": [
-     0.6,
-     0.4
-    ],
-    "fov": [
-     32,
-     30
-    ],
-    "ease": "move",
-    "preset": "push_in",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_down",
-      "from": 5015,
-      "to": 5132,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D045",
-   "title": "rise_overhead WS",
-   "from": 5138,
-   "to": 5233,
-   "key_frame": 5185,
-   "scene": "S13",
-   "line_ids": [
-    "L038"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     30,
-     60
-    ],
-    "dist": [
-     4.0,
-     14.0
-    ],
-    "height": [
-     0.6,
-     9.0
-    ],
-    "fov": [
-     30,
-     34
-    ],
-    "ease": "move",
-    "preset": "rise_overhead",
-    "motivation": "reveal",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "hold_rail",
-      "from": 5142,
-      "to": 5227,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D046",
-   "title": "orbit_arc MCU",
-   "from": 5233,
-   "to": 5296,
-   "key_frame": 5264,
-   "scene": "S14",
-   "line_ids": [
-    "L039"
-   ],
-   "size": "MCU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "BOW",
-    "az": [
-     -20,
-     -5
-    ],
-    "dist": [
-     2.0,
-     1.7
-    ],
-    "height": [
-     0.15,
-     0.1
-    ],
-    "fov": [
-     30,
-     28
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "orbit_arc",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "BOW",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_up",
-      "from": 5237,
-      "to": 5290,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D047",
-   "title": "lateral_glide WS",
-   "from": 5296,
-   "to": 5360,
-   "key_frame": 5328,
-   "scene": "S14",
-   "line_ids": [
-    "L039"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "path",
-    "space": "world",
-    "cam": [
-     {
-      "frame": "world",
-      "v": [
-       -25,
-       7,
-       -28
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       -20,
-       6.5,
-       -32
-      ]
-     }
-    ],
-    "look": [
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     }
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "lateral_glide",
-    "motivation": "follow_subject"
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_left",
-      "from": 5300,
-      "to": 5354,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D048",
-   "title": "slow_push CU",
-   "from": 5360,
-   "to": 5518,
-   "key_frame": 5439,
-   "scene": "S14",
-   "line_ids": [
-    "L040"
-   ],
-   "size": "CU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     20,
-     12
-    ],
-    "dist": [
-     1.8,
-     1.4
-    ],
-    "height": [
-     0.1,
-     0.05
-    ],
-    "fov": [
-     30,
-     27
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "slow_push",
-    "motivation": "tension_push",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "verbs": [
-     {
-      "verb": "breathe_hard",
-      "at": 5368,
-      "dur": 36
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D049",
-   "title": "pull_back MWS",
-   "from": 5518,
-   "to": 5624,
-   "key_frame": 5571,
-   "scene": "S14",
-   "line_ids": [
-    "L041"
-   ],
-   "size": "MWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     -60,
-     -45
-    ],
-    "dist": [
-     3.5,
-     6.0
-    ],
-    "height": [
-     0.4,
-     1.2
-    ],
-    "fov": [
-     30,
-     32
-    ],
-    "ease": "move",
-    "preset": "pull_back",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_right",
-      "from": 5522,
-      "to": 5618,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D050",
-   "title": "arc_low MS",
-   "from": 5624,
-   "to": 5687,
-   "key_frame": 5655,
-   "scene": "S15",
-   "line_ids": [
-    "L042"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "COCKPIT",
-    "az": [
-     -70,
-     -50
-    ],
-    "dist": [
-     3.0,
-     2.6
-    ],
-    "height": [
-     -0.2,
-     -0.1
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "arc_low",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "COCKPIT",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "point_ahead",
-      "from": 5628,
-      "to": 5681,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D051",
-   "title": "crane_down EWS",
-   "from": 5687,
-   "to": 5751,
-   "key_frame": 5719,
-   "scene": "S15",
-   "line_ids": [
-    "L042"
-   ],
-   "size": "EWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     150,
-     160
-    ],
-    "dist": [
-     42,
-     26
-    ],
-    "height": [
-     30,
-     9
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "arrive",
-    "preset": "crane_down",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D052",
-   "title": "push_in MS",
-   "from": 5751,
-   "to": 5878,
-   "key_frame": 5814,
-   "scene": "S15",
-   "line_ids": [
-    "L043"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     55,
-     40
-    ],
-    "dist": [
-     3.4,
-     2.6
-    ],
-    "height": [
-     0.6,
-     0.4
-    ],
-    "fov": [
-     32,
-     30
-    ],
-    "ease": "move",
-    "preset": "push_in",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_down",
-      "from": 5755,
-      "to": 5872,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D053",
-   "title": "rise_overhead WS",
-   "from": 5878,
-   "to": 5972,
-   "key_frame": 5925,
-   "scene": "S15",
-   "line_ids": [
-    "L044"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     30,
-     60
-    ],
-    "dist": [
-     4.0,
-     14.0
-    ],
-    "height": [
-     0.6,
-     9.0
-    ],
-    "fov": [
-     30,
-     34
-    ],
-    "ease": "move",
-    "preset": "rise_overhead",
-    "motivation": "reveal",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "hold_rail",
-      "from": 5882,
-      "to": 5966,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D054",
-   "title": "orbit_arc MCU",
-   "from": 5972,
-   "to": 6035,
-   "key_frame": 6003,
-   "scene": "S16",
-   "line_ids": [
-    "L045"
-   ],
-   "size": "MCU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "BOW",
-    "az": [
-     -20,
-     -5
-    ],
-    "dist": [
-     2.0,
-     1.7
-    ],
-    "height": [
-     0.15,
-     0.1
-    ],
-    "fov": [
-     30,
-     28
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "orbit_arc",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "BOW",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_up",
-      "from": 5976,
-      "to": 6029,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D055",
-   "title": "lateral_glide WS",
-   "from": 6035,
-   "to": 6099,
-   "key_frame": 6067,
-   "scene": "S16",
-   "line_ids": [
-    "L045"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "path",
-    "space": "world",
-    "cam": [
-     {
-      "frame": "world",
-      "v": [
-       -25,
-       7,
-       -28
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       -20,
-       6.5,
-       -32
-      ]
-     }
-    ],
-    "look": [
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     }
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "lateral_glide",
-    "motivation": "follow_subject"
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_left",
-      "from": 6039,
-      "to": 6093,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D056",
-   "title": "slow_push CU",
-   "from": 6099,
-   "to": 6258,
-   "key_frame": 6178,
-   "scene": "S16",
-   "line_ids": [
-    "L046"
-   ],
-   "size": "CU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     20,
-     12
-    ],
-    "dist": [
-     1.8,
-     1.4
-    ],
-    "height": [
-     0.1,
-     0.05
-    ],
-    "fov": [
-     30,
-     27
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "slow_push",
-    "motivation": "tension_push",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "verbs": [
-     {
-      "verb": "breathe_hard",
-      "at": 6107,
-      "dur": 36
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D057",
-   "title": "pull_back MWS",
-   "from": 6258,
-   "to": 6364,
-   "key_frame": 6311,
-   "scene": "S16",
-   "line_ids": [
-    "L047"
-   ],
-   "size": "MWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     -60,
-     -45
-    ],
-    "dist": [
-     3.5,
-     6.0
-    ],
-    "height": [
-     0.4,
-     1.2
-    ],
-    "fov": [
-     30,
-     32
-    ],
-    "ease": "move",
-    "preset": "pull_back",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_right",
-      "from": 6262,
-      "to": 6358,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D058",
-   "title": "arc_low MS",
-   "from": 6364,
-   "to": 6427,
-   "key_frame": 6395,
-   "scene": "S17",
-   "line_ids": [
-    "L048"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "COCKPIT",
-    "az": [
-     -70,
-     -50
-    ],
-    "dist": [
-     3.0,
-     2.6
-    ],
-    "height": [
-     -0.2,
-     -0.1
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "arc_low",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "COCKPIT",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "point_ahead",
-      "from": 6368,
-      "to": 6421,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
    "chapter": "CH3",
    "short_candidate": "SC3"
   },
   {
    "id": "D059",
    "title": "crane_down EWS",
-   "from": 6427,
-   "to": 6490,
-   "key_frame": 6458,
+   "from": 6715,
+   "to": 6858,
+   "key_frame": 6786,
    "scene": "S17",
    "line_ids": [
     "L048"
@@ -4372,7 +4450,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -4405,10 +4483,10 @@
   {
    "id": "D060",
    "title": "push_in MS",
-   "from": 6490,
-   "to": 6617,
-   "key_frame": 6553,
-   "scene": "S17",
+   "from": 6858,
+   "to": 6971,
+   "key_frame": 6914,
+   "scene": "S18",
    "line_ids": [
     "L049"
    ],
@@ -4435,7 +4513,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -4448,321 +4526,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 6494,
-      "to": 6611,
+      "from": 6870,
+      "to": 6971,
       "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D061",
-   "title": "rise_overhead WS",
-   "from": 6617,
-   "to": 6712,
-   "key_frame": 6664,
-   "scene": "S17",
-   "line_ids": [
-    "L050"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     30,
-     60
-    ],
-    "dist": [
-     4.0,
-     14.0
-    ],
-    "height": [
-     0.6,
-     9.0
-    ],
-    "fov": [
-     30,
-     34
-    ],
-    "ease": "move",
-    "preset": "rise_overhead",
-    "motivation": "reveal",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "hold_rail",
-      "from": 6621,
-      "to": 6706,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D062",
-   "title": "orbit_arc MCU",
-   "from": 6712,
-   "to": 6785,
-   "key_frame": 6748,
-   "scene": "S18",
-   "line_ids": [
-    "L051"
-   ],
-   "size": "MCU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "BOW",
-    "az": [
-     -20,
-     -5
-    ],
-    "dist": [
-     2.0,
-     1.7
-    ],
-    "height": [
-     0.15,
-     0.1
-    ],
-    "fov": [
-     30,
-     28
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "orbit_arc",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "BOW",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_up",
-      "from": 6716,
-      "to": 6779,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D063",
-   "title": "lateral_glide WS",
-   "from": 6785,
-   "to": 6858,
-   "key_frame": 6821,
-   "scene": "S18",
-   "line_ids": [
-    "L051"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "path",
-    "space": "world",
-    "cam": [
-     {
-      "frame": "world",
-      "v": [
-       -25,
-       7,
-       -28
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       -20,
-       6.5,
-       -32
-      ]
-     }
-    ],
-    "look": [
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     }
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "lateral_glide",
-    "motivation": "follow_subject"
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_left",
-      "from": 6789,
-      "to": 6852,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH3",
-   "short_candidate": "SC3"
-  },
-  {
-   "id": "D064",
-   "title": "slow_push CU",
-   "from": 6858,
-   "to": 6963,
-   "key_frame": 6910,
-   "scene": "S19",
-   "line_ids": [
-    "L052"
-   ],
-   "size": "CU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     20,
-     12
-    ],
-    "dist": [
-     1.8,
-     1.4
-    ],
-    "height": [
-     0.1,
-     0.05
-    ],
-    "fov": [
-     30,
-     27
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "slow_push",
-    "motivation": "tension_push",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "verbs": [
-     {
-      "verb": "breathe_hard",
-      "at": 6866,
-      "dur": 36
+      "out": 8,
+      "why": "push_in MS: the line L049 moves him"
      }
     ]
    },
@@ -4798,39 +4566,39 @@
    ]
   },
   {
-   "id": "D065",
-   "title": "pull_back MWS",
-   "from": 6963,
-   "to": 7069,
-   "key_frame": 7016,
-   "scene": "S19",
+   "id": "D061",
+   "title": "rise_overhead WS",
+   "from": 6971,
+   "to": 7062,
+   "key_frame": 7058,
+   "scene": "S18",
    "line_ids": [
-    "L053"
+    "L050"
    ],
-   "size": "MWS",
+   "size": "WS",
    "camera": {
     "rig": "orbit",
     "mark": "RAIL",
     "az": [
-     -60,
-     -45
+     30,
+     60
     ],
     "dist": [
-     3.5,
-     6.0
+     4.0,
+     14.0
     ],
     "height": [
-     0.4,
-     1.2
+     0.6,
+     9.0
     ],
     "fov": [
      30,
-     32
+     34
     ],
     "ease": "move",
-    "preset": "pull_back",
-    "motivation": "isolation",
-    "handheld": 0.15
+    "preset": "rise_overhead",
+    "motivation": "reveal",
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -4842,11 +4610,12 @@
     "seed": 2,
     "poses": [
      {
-      "pose": "look_right",
-      "from": 6967,
-      "to": 7063,
+      "pose": "hold_rail",
+      "from": 6983,
+      "to": 7062,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L050 moves him"
      }
     ]
    },
@@ -4869,7 +4638,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     6963,
+     6971,
      [
       1,
       1,
@@ -4883,14 +4652,116 @@
    "short_candidate": "SC4"
   },
   {
-   "id": "D066",
+   "id": "R001",
+   "title": "He sees the watchers: stays aboard",
+   "from": 7062,
+   "to": 7139,
+   "key_frame": 7100,
+   "scene": "S18",
+   "line_ids": [],
+   "size": "CU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     20,
+     12
+    ],
+    "dist": [
+     1.8,
+     1.4
+    ],
+    "height": [
+     0.1,
+     0.05
+    ],
+    "fov": [
+     30,
+     27
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "reserved_cu",
+    "motivation": "character_attention",
+    "handheld": 0.06
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 5,
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 7074,
+      "to": 7139,
+      "in": 12,
+      "out": 8,
+      "why": "a torch moves on the beach: he turns to it"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH4",
+   "turn_then_change": [
+    {
+     "turn": {
+      "from": 7074,
+      "to": 7086,
+      "deg": 60
+     },
+     "settle_frames": 8,
+     "change": {
+      "from": 7094,
+      "to": 7106
+     },
+     "emotion_from": "fear",
+     "emotion_to": "resolve",
+     "mode": "post_turn"
+    }
+   ],
+   "fires": [
+    [
+     7062,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC4"
+  },
+  {
+   "id": "D062",
    "title": "suspense_hold MCU",
-   "from": 7069,
-   "to": 7114,
-   "key_frame": 7091,
-   "scene": "S19",
+   "from": 7139,
+   "to": 7190,
+   "key_frame": 7167,
+   "scene": "S18",
    "line_ids": [
-    "L054"
+    "L051"
    ],
    "size": "MCU",
    "camera": {
@@ -4916,7 +4787,7 @@
     "target": "face",
     "preset": "suspense_hold",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -4947,7 +4818,375 @@
    "chapter": "CH4",
    "fires": [
     [
-     7069,
+     7145,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC4"
+  },
+  {
+   "id": "D063",
+   "title": "orbit_arc MCU",
+   "from": 7190,
+   "to": 7322,
+   "key_frame": 7256,
+   "scene": "S18",
+   "line_ids": [
+    "L051"
+   ],
+   "size": "MCU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "BOW",
+    "az": [
+     -20,
+     -5
+    ],
+    "dist": [
+     2.0,
+     1.7
+    ],
+    "height": [
+     0.15,
+     0.1
+    ],
+    "fov": [
+     30,
+     28
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "orbit_arc",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "BOW",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_up",
+      "from": 7202,
+      "to": 7322,
+      "in": 8,
+      "out": 8,
+      "why": "orbit_arc MCU: the line L051 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH4",
+   "fires": [
+    [
+     7190,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC4"
+  },
+  {
+   "id": "D064",
+   "title": "lateral_glide WS",
+   "from": 7322,
+   "to": 7444,
+   "key_frame": 7383,
+   "scene": "S19",
+   "line_ids": [
+    "L052"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "path",
+    "space": "world",
+    "cam": [
+     {
+      "frame": "world",
+      "v": [
+       -25,
+       7,
+       -28
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       -20,
+       6.5,
+       -32
+      ]
+     }
+    ],
+    "look": [
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     },
+     {
+      "frame": "world",
+      "v": [
+       4,
+       2.5,
+       4
+      ]
+     }
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "lateral_glide",
+    "motivation": "follow_subject"
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_left",
+      "from": 7334,
+      "to": 7444,
+      "in": 8,
+      "out": 8,
+      "why": "lateral_glide WS: the line L052 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH4",
+   "fires": [
+    [
+     7322,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC4"
+  },
+  {
+   "id": "D065",
+   "title": "slow_push CU",
+   "from": 7444,
+   "to": 7585,
+   "key_frame": 7514,
+   "scene": "S19",
+   "line_ids": [
+    "L053"
+   ],
+   "size": "CU",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     20,
+     12
+    ],
+    "dist": [
+     1.8,
+     1.4
+    ],
+    "height": [
+     0.1,
+     0.05
+    ],
+    "fov": [
+     30,
+     27
+    ],
+    "ease": "move",
+    "target": "face",
+    "preset": "slow_push",
+    "motivation": "tension_push",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "verbs": [
+     {
+      "verb": "breathe_hard",
+      "at": 7458,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH4",
+   "fires": [
+    [
+     7444,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC4",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
+  },
+  {
+   "id": "D066",
+   "title": "pull_back MWS",
+   "from": 7585,
+   "to": 7646,
+   "key_frame": 7615,
+   "scene": "S19",
+   "line_ids": [
+    "L054"
+   ],
+   "size": "MWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     -60,
+     -45
+    ],
+    "dist": [
+     3.5,
+     6.0
+    ],
+    "height": [
+     0.4,
+     1.2
+    ],
+    "fov": [
+     30,
+     32
+    ],
+    "ease": "move",
+    "preset": "pull_back",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_right",
+      "from": 7597,
+      "to": 7646,
+      "in": 8,
+      "out": 8,
+      "why": "pull_back MWS: the line L054 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH4",
+   "fires": [
+    [
+     7585,
      [
       1,
       1,
@@ -4963,9 +5202,9 @@
   {
    "id": "D067",
    "title": "arc_low MS",
-   "from": 7114,
-   "to": 7249,
-   "key_frame": 7181,
+   "from": 7646,
+   "to": 7707,
+   "key_frame": 7676,
    "scene": "S19",
    "line_ids": [
     "L054"
@@ -4993,7 +5232,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5006,10 +5245,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 7118,
-      "to": 7243,
+      "from": 7658,
+      "to": 7707,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L054 moves him"
      }
     ]
    },
@@ -5032,7 +5272,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7114,
+     7646,
      [
       1,
       1,
@@ -5048,9 +5288,9 @@
   {
    "id": "D068",
    "title": "crane_down EWS",
-   "from": 7249,
-   "to": 7365,
-   "key_frame": 7307,
+   "from": 7707,
+   "to": 7821,
+   "key_frame": 7764,
    "scene": "S20",
    "line_ids": [
     "L055"
@@ -5078,7 +5318,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5108,7 +5348,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7249,
+     7707,
      [
       1,
       1,
@@ -5124,9 +5364,9 @@
   {
    "id": "D069",
    "title": "push_in MS",
-   "from": 7365,
-   "to": 7492,
-   "key_frame": 7428,
+   "from": 7821,
+   "to": 7934,
+   "key_frame": 7877,
    "scene": "S20",
    "line_ids": [
     "L056"
@@ -5154,7 +5394,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5167,10 +5407,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 7369,
-      "to": 7486,
+      "from": 7833,
+      "to": 7934,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L056 moves him"
      }
     ]
    },
@@ -5193,7 +5434,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7365,
+     7821,
      [
       1,
       1,
@@ -5209,9 +5450,9 @@
   {
    "id": "D070",
    "title": "rise_overhead WS",
-   "from": 7492,
-   "to": 7608,
-   "key_frame": 7550,
+   "from": 7934,
+   "to": 8022,
+   "key_frame": 7978,
    "scene": "S20",
    "line_ids": [
     "L057"
@@ -5239,7 +5480,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5252,10 +5493,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 7496,
-      "to": 7602,
+      "from": 7946,
+      "to": 8022,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L057 moves him"
      }
     ]
    },
@@ -5278,7 +5520,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7492,
+     7934,
      [
       1,
       1,
@@ -5294,12 +5536,12 @@
   {
    "id": "D071",
    "title": "orbit_arc MCU",
-   "from": 7608,
-   "to": 7713,
-   "key_frame": 7660,
-   "scene": "S21",
+   "from": 8022,
+   "to": 8111,
+   "key_frame": 8066,
+   "scene": "S20",
    "line_ids": [
-    "L058"
+    "L057"
    ],
    "size": "MCU",
    "camera": {
@@ -5325,7 +5567,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5338,10 +5580,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 7612,
-      "to": 7707,
+      "from": 8034,
+      "to": 8111,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L057 moves him"
      }
     ]
    },
@@ -5364,7 +5607,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7608,
+     8022,
      [
       1,
       1,
@@ -5380,12 +5623,12 @@
   {
    "id": "D072",
    "title": "lateral_glide WS",
-   "from": 7713,
-   "to": 7819,
-   "key_frame": 7766,
+   "from": 8111,
+   "to": 8234,
+   "key_frame": 8172,
    "scene": "S21",
    "line_ids": [
-    "L059"
+    "L058"
    ],
    "size": "WS",
    "camera": {
@@ -5446,10 +5689,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 7717,
-      "to": 7813,
+      "from": 8123,
+      "to": 8234,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L058 moves him"
      }
     ]
    },
@@ -5472,7 +5716,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7713,
+     8111,
      [
       1,
       1,
@@ -5488,12 +5732,12 @@
   {
    "id": "D073",
    "title": "slow_push CU",
-   "from": 7819,
-   "to": 7909,
-   "key_frame": 7864,
+   "from": 8234,
+   "to": 8374,
+   "key_frame": 8304,
    "scene": "S21",
    "line_ids": [
-    "L060"
+    "L059"
    ],
    "size": "CU",
    "camera": {
@@ -5519,7 +5763,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5532,8 +5776,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 7827,
-      "dur": 36
+      "at": 8248,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -5556,7 +5801,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7819,
+     8234,
      [
       1,
       1,
@@ -5567,14 +5812,15 @@
      ]
     ]
    ],
-   "short_candidate": "SC4"
+   "short_candidate": "SC4",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
    "id": "D074",
    "title": "pull_back MWS",
-   "from": 7909,
-   "to": 7999,
-   "key_frame": 7954,
+   "from": 8374,
+   "to": 8435,
+   "key_frame": 8404,
    "scene": "S21",
    "line_ids": [
     "L060"
@@ -5602,7 +5848,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5615,10 +5861,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 7913,
-      "to": 7993,
+      "from": 8386,
+      "to": 8435,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L060 moves him"
      }
     ]
    },
@@ -5641,7 +5888,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7909,
+     8374,
      [
       1,
       1,
@@ -5657,12 +5904,12 @@
   {
    "id": "D075",
    "title": "arc_low MS",
-   "from": 7999,
-   "to": 8115,
-   "key_frame": 8057,
-   "scene": "S22",
+   "from": 8435,
+   "to": 8497,
+   "key_frame": 8466,
+   "scene": "S21",
    "line_ids": [
-    "L061"
+    "L060"
    ],
    "size": "MS",
    "camera": {
@@ -5687,7 +5934,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5700,10 +5947,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 8003,
-      "to": 8109,
+      "from": 8447,
+      "to": 8497,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L060 moves him"
      }
     ]
    },
@@ -5726,7 +5974,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     7999,
+     8435,
      [
       1,
       1,
@@ -5742,12 +5990,12 @@
   {
    "id": "D076",
    "title": "crane_down EWS",
-   "from": 8115,
-   "to": 8242,
-   "key_frame": 8178,
+   "from": 8497,
+   "to": 8610,
+   "key_frame": 8553,
    "scene": "S22",
    "line_ids": [
-    "L062"
+    "L061"
    ],
    "size": "EWS",
    "camera": {
@@ -5772,7 +6020,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5802,7 +6050,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     8115,
+     8497,
      [
       1,
       1,
@@ -5818,12 +6066,12 @@
   {
    "id": "D077",
    "title": "push_in MS",
-   "from": 8242,
-   "to": 8358,
-   "key_frame": 8300,
+   "from": 8610,
+   "to": 8832,
+   "key_frame": 8721,
    "scene": "S22",
    "line_ids": [
-    "L063"
+    "L062"
    ],
    "size": "MS",
    "camera": {
@@ -5848,7 +6096,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -5861,10 +6109,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 8246,
-      "to": 8352,
+      "from": 8622,
+      "to": 8832,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L062 moves him"
      }
     ]
    },
@@ -5887,7 +6136,7 @@
    "chapter": "CH4",
    "fires": [
     [
-     8242,
+     8610,
      [
       1,
       1,
@@ -5902,545 +6151,13 @@
   },
   {
    "id": "D078",
-   "title": "rise_overhead WS",
-   "from": 8358,
-   "to": 8463,
-   "key_frame": 8410,
-   "scene": "S23",
-   "line_ids": [
-    "L064"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     30,
-     60
-    ],
-    "dist": [
-     4.0,
-     14.0
-    ],
-    "height": [
-     0.6,
-     9.0
-    ],
-    "fov": [
-     30,
-     34
-    ],
-    "ease": "move",
-    "preset": "rise_overhead",
-    "motivation": "reveal",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "hold_rail",
-      "from": 8362,
-      "to": 8457,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH4",
-   "fires": [
-    [
-     8358,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC4"
-  },
-  {
-   "id": "D079",
-   "title": "orbit_arc MCU",
-   "from": 8463,
-   "to": 8569,
-   "key_frame": 8516,
-   "scene": "S23",
-   "line_ids": [
-    "L065"
-   ],
-   "size": "MCU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "BOW",
-    "az": [
-     -20,
-     -5
-    ],
-    "dist": [
-     2.0,
-     1.7
-    ],
-    "height": [
-     0.15,
-     0.1
-    ],
-    "fov": [
-     30,
-     28
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "orbit_arc",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "BOW",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_up",
-      "from": 8467,
-      "to": 8563,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH4",
-   "fires": [
-    [
-     8463,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC4"
-  },
-  {
-   "id": "D080",
-   "title": "lateral_glide WS",
-   "from": 8569,
-   "to": 8700,
-   "key_frame": 8634,
-   "scene": "S23",
-   "line_ids": [
-    "L066"
-   ],
-   "size": "WS",
-   "camera": {
-    "rig": "path",
-    "space": "world",
-    "cam": [
-     {
-      "frame": "world",
-      "v": [
-       -25,
-       7,
-       -28
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       -20,
-       6.5,
-       -32
-      ]
-     }
-    ],
-    "look": [
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     },
-     {
-      "frame": "world",
-      "v": [
-       4,
-       2.5,
-       4
-      ]
-     }
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "lateral_glide",
-    "motivation": "follow_subject"
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_left",
-      "from": 8573,
-      "to": 8694,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH4",
-   "fires": [
-    [
-     8569,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC4"
-  },
-  {
-   "id": "D081",
-   "title": "slow_push CU",
-   "from": 8700,
-   "to": 8832,
-   "key_frame": 8766,
-   "scene": "S23",
-   "line_ids": [
-    "L066"
-   ],
-   "size": "CU",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     20,
-     12
-    ],
-    "dist": [
-     1.8,
-     1.4
-    ],
-    "height": [
-     0.1,
-     0.05
-    ],
-    "fov": [
-     30,
-     27
-    ],
-    "ease": "move",
-    "target": "face",
-    "preset": "slow_push",
-    "motivation": "tension_push",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "verbs": [
-     {
-      "verb": "breathe_hard",
-      "at": 8708,
-      "dur": 36
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH4",
-   "fires": [
-    [
-     8700,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC4"
-  },
-  {
-   "id": "D082",
-   "title": "pull_back MWS",
-   "from": 8832,
-   "to": 8970,
-   "key_frame": 8901,
-   "scene": "S24",
-   "line_ids": [
-    "L067"
-   ],
-   "size": "MWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "RAIL",
-    "az": [
-     -60,
-     -45
-    ],
-    "dist": [
-     3.5,
-     6.0
-    ],
-    "height": [
-     0.4,
-     1.2
-    ],
-    "fov": [
-     30,
-     32
-    ],
-    "ease": "move",
-    "preset": "pull_back",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "RAIL",
-    "stance": "brace",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_right",
-      "from": 8836,
-      "to": 8964,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH5",
-   "fires": [
-    [
-     8832,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ]
-  },
-  {
-   "id": "D083",
-   "title": "arc_low MS",
-   "from": 8970,
-   "to": 9140,
-   "key_frame": 9055,
-   "scene": "S24",
-   "line_ids": [
-    "L068"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "COCKPIT",
-    "az": [
-     -70,
-     -50
-    ],
-    "dist": [
-     3.0,
-     2.6
-    ],
-    "height": [
-     -0.2,
-     -0.1
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "move",
-    "preset": "arc_low",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "COCKPIT",
-    "stance": "stand",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "point_ahead",
-      "from": 8974,
-      "to": 9134,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH5",
-   "fires": [
-    [
-     8970,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC5"
-  },
-  {
-   "id": "D084",
    "title": "suspense_hold MCU",
-   "from": 9140,
-   "to": 9185,
-   "key_frame": 9162,
-   "scene": "S24",
+   "from": 8832,
+   "to": 8877,
+   "key_frame": 8854,
+   "scene": "S23",
    "line_ids": [
-    "L069"
+    "L063"
    ],
    "size": "MCU",
    "camera": {
@@ -6466,7 +6183,7 @@
     "target": "face",
     "preset": "suspense_hold",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -6497,7 +6214,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9140,
+     8832,
      [
       1,
       1,
@@ -6507,179 +6224,17 @@
       1
      ]
     ]
-   ],
-   "short_candidate": "SC5"
+   ]
   },
   {
-   "id": "D085",
-   "title": "crane_down EWS",
-   "from": 9185,
-   "to": 9298,
-   "key_frame": 9241,
-   "scene": "S24",
-   "line_ids": [
-    "L069"
-   ],
-   "size": "EWS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     150,
-     160
-    ],
-    "dist": [
-     42,
-     26
-    ],
-    "height": [
-     30,
-     9
-    ],
-    "fov": [
-     30,
-     30
-    ],
-    "ease": "arrive",
-    "preset": "crane_down",
-    "motivation": "isolation",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH5",
-   "fires": [
-    [
-     9185,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC5"
-  },
-  {
-   "id": "D086",
-   "title": "push_in MS",
-   "from": 9298,
-   "to": 9415,
-   "key_frame": 9356,
-   "scene": "S25",
-   "line_ids": [
-    "L070"
-   ],
-   "size": "MS",
-   "camera": {
-    "rig": "orbit",
-    "mark": "HELM",
-    "az": [
-     55,
-     40
-    ],
-    "dist": [
-     3.4,
-     2.6
-    ],
-    "height": [
-     0.6,
-     0.4
-    ],
-    "fov": [
-     32,
-     30
-    ],
-    "ease": "move",
-    "preset": "push_in",
-    "motivation": "character_attention",
-    "handheld": 0.15
-   },
-   "yacht": {
-    "state": "aground"
-   },
-   "island": "near",
-   "hero": {
-    "mark": "HELM",
-    "stance": "helm",
-    "seed": 2,
-    "poses": [
-     {
-      "pose": "look_down",
-      "from": 9302,
-      "to": 9409,
-      "in": 8,
-      "out": 8
-     }
-    ]
-   },
-   "props": [
-    {
-     "prop": "helm",
-     "attach": "yacht"
-    },
-    {
-     "prop": "lamp",
-     "attach": "yacht",
-     "light": [
-      [
-       0,
-       0.6
-      ]
-     ]
-    }
-   ],
-   "chapter": "CH5",
-   "fires": [
-    [
-     9298,
-     [
-      1,
-      1,
-      1,
-      1,
-      0.9,
-      1
-     ]
-    ]
-   ],
-   "short_candidate": "SC5"
-  },
-  {
-   "id": "D087",
+   "id": "D079",
    "title": "rise_overhead WS",
-   "from": 9415,
-   "to": 9542,
-   "key_frame": 9478,
-   "scene": "S25",
+   "from": 8877,
+   "to": 8973,
+   "key_frame": 8925,
+   "scene": "S23",
    "line_ids": [
-    "L071"
+    "L063"
    ],
    "size": "WS",
    "camera": {
@@ -6704,7 +6259,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -6717,10 +6272,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 9419,
-      "to": 9536,
+      "from": 8889,
+      "to": 8973,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L063 moves him"
      }
     ]
    },
@@ -6743,7 +6299,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9415,
+     8877,
      [
       1,
       1,
@@ -6753,18 +6309,17 @@
       1
      ]
     ]
-   ],
-   "short_candidate": "SC5"
+   ]
   },
   {
-   "id": "D088",
+   "id": "D080",
    "title": "orbit_arc MCU",
-   "from": 9542,
-   "to": 9610,
-   "key_frame": 9576,
-   "scene": "S25",
+   "from": 8973,
+   "to": 9141,
+   "key_frame": 9057,
+   "scene": "S23",
    "line_ids": [
-    "L072"
+    "L064"
    ],
    "size": "MCU",
    "camera": {
@@ -6790,7 +6345,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -6803,10 +6358,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 9546,
-      "to": 9604,
+      "from": 8985,
+      "to": 9141,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L064 moves him"
      }
     ]
    },
@@ -6829,7 +6385,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9542,
+     8973,
      [
       1,
       1,
@@ -6843,14 +6399,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D089",
+   "id": "D081",
    "title": "lateral_glide WS",
-   "from": 9610,
-   "to": 9679,
-   "key_frame": 9644,
-   "scene": "S25",
+   "from": 9141,
+   "to": 9299,
+   "key_frame": 9220,
+   "scene": "S23",
    "line_ids": [
-    "L072"
+    "L065"
    ],
    "size": "WS",
    "camera": {
@@ -6911,10 +6467,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 9614,
-      "to": 9673,
+      "from": 9153,
+      "to": 9299,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L065 moves him"
      }
     ]
    },
@@ -6937,7 +6494,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9610,
+     9141,
      [
       1,
       1,
@@ -6951,14 +6508,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D090",
+   "id": "D082",
    "title": "slow_push CU",
-   "from": 9679,
-   "to": 9849,
-   "key_frame": 9764,
-   "scene": "S26",
+   "from": 9299,
+   "to": 9360,
+   "key_frame": 9329,
+   "scene": "S24",
    "line_ids": [
-    "L073"
+    "L066"
    ],
    "size": "CU",
    "camera": {
@@ -6984,7 +6541,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -6997,8 +6554,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 9687,
-      "dur": 36
+      "at": 9313,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -7021,7 +6579,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9679,
+     9299,
      [
       1,
       1,
@@ -7032,17 +6590,18 @@
      ]
     ]
    ],
-   "short_candidate": "SC5"
+   "short_candidate": "SC5",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
   },
   {
-   "id": "D091",
+   "id": "D083",
    "title": "pull_back MWS",
-   "from": 9849,
-   "to": 10008,
-   "key_frame": 9928,
-   "scene": "S26",
+   "from": 9360,
+   "to": 9422,
+   "key_frame": 9391,
+   "scene": "S24",
    "line_ids": [
-    "L074"
+    "L066"
    ],
    "size": "MWS",
    "camera": {
@@ -7067,7 +6626,7 @@
     "ease": "move",
     "preset": "pull_back",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7080,10 +6639,11 @@
     "poses": [
      {
       "pose": "look_right",
-      "from": 9853,
-      "to": 10002,
+      "from": 9372,
+      "to": 9422,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "pull_back MWS: the line L066 moves him"
      }
     ]
    },
@@ -7106,7 +6666,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     9849,
+     9360,
      [
       1,
       1,
@@ -7120,14 +6680,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D092",
+   "id": "D084",
    "title": "arc_low MS",
-   "from": 10008,
-   "to": 10082,
-   "key_frame": 10045,
-   "scene": "S26",
+   "from": 9422,
+   "to": 9553,
+   "key_frame": 9487,
+   "scene": "S24",
    "line_ids": [
-    "L075"
+    "L067"
    ],
    "size": "MS",
    "camera": {
@@ -7152,7 +6712,7 @@
     "ease": "move",
     "preset": "arc_low",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7165,10 +6725,11 @@
     "poses": [
      {
       "pose": "point_ahead",
-      "from": 10012,
-      "to": 10076,
+      "from": 9434,
+      "to": 9553,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "arc_low MS: the line L067 moves him"
      }
     ]
    },
@@ -7191,7 +6752,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10008,
+     9422,
      [
       1,
       1,
@@ -7205,14 +6766,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D093",
+   "id": "D085",
    "title": "crane_down EWS",
-   "from": 10082,
-   "to": 10156,
-   "key_frame": 10119,
-   "scene": "S26",
+   "from": 9553,
+   "to": 9694,
+   "key_frame": 9623,
+   "scene": "S24",
    "line_ids": [
-    "L075"
+    "L068"
    ],
    "size": "EWS",
    "camera": {
@@ -7237,7 +6798,7 @@
     "ease": "arrive",
     "preset": "crane_down",
     "motivation": "isolation",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7267,7 +6828,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10082,
+     9553,
      [
       1,
       1,
@@ -7281,14 +6842,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D094",
+   "id": "D086",
    "title": "push_in MS",
-   "from": 10156,
-   "to": 10283,
-   "key_frame": 10219,
-   "scene": "S27",
+   "from": 9694,
+   "to": 9778,
+   "key_frame": 9736,
+   "scene": "S25",
    "line_ids": [
-    "L076"
+    "L069"
    ],
    "size": "MS",
    "camera": {
@@ -7313,7 +6874,7 @@
     "ease": "move",
     "preset": "push_in",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7326,10 +6887,11 @@
     "poses": [
      {
       "pose": "look_down",
-      "from": 10160,
-      "to": 10277,
+      "from": 9706,
+      "to": 9778,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "push_in MS: the line L069 moves him"
      }
     ]
    },
@@ -7352,7 +6914,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10156,
+     9694,
      [
       1,
       1,
@@ -7366,14 +6928,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D095",
+   "id": "D087",
    "title": "rise_overhead WS",
-   "from": 10283,
-   "to": 10421,
-   "key_frame": 10352,
-   "scene": "S27",
+   "from": 9778,
+   "to": 9862,
+   "key_frame": 9820,
+   "scene": "S25",
    "line_ids": [
-    "L077"
+    "L069"
    ],
    "size": "WS",
    "camera": {
@@ -7398,7 +6960,7 @@
     "ease": "move",
     "preset": "rise_overhead",
     "motivation": "reveal",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7411,10 +6973,11 @@
     "poses": [
      {
       "pose": "hold_rail",
-      "from": 10287,
-      "to": 10415,
+      "from": 9790,
+      "to": 9862,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "rise_overhead WS: the line L069 moves him"
      }
     ]
    },
@@ -7437,7 +7000,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10283,
+     9778,
      [
       1,
       1,
@@ -7451,14 +7014,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D096",
+   "id": "D088",
    "title": "orbit_arc MCU",
-   "from": 10421,
-   "to": 10540,
-   "key_frame": 10480,
-   "scene": "S27",
+   "from": 9862,
+   "to": 10021,
+   "key_frame": 9941,
+   "scene": "S25",
    "line_ids": [
-    "L078"
+    "L070"
    ],
    "size": "MCU",
    "camera": {
@@ -7484,7 +7047,7 @@
     "target": "face",
     "preset": "orbit_arc",
     "motivation": "character_attention",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7497,10 +7060,11 @@
     "poses": [
      {
       "pose": "look_up",
-      "from": 10425,
-      "to": 10534,
+      "from": 9874,
+      "to": 10021,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "orbit_arc MCU: the line L070 moves him"
      }
     ]
    },
@@ -7523,7 +7087,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10421,
+     9862,
      [
       1,
       1,
@@ -7537,14 +7101,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D097",
+   "id": "D089",
    "title": "lateral_glide WS",
-   "from": 10540,
-   "to": 10659,
-   "key_frame": 10599,
-   "scene": "S27",
+   "from": 10021,
+   "to": 10170,
+   "key_frame": 10095,
+   "scene": "S25",
    "line_ids": [
-    "L078"
+    "L071"
    ],
    "size": "WS",
    "camera": {
@@ -7605,10 +7169,11 @@
     "poses": [
      {
       "pose": "look_left",
-      "from": 10544,
-      "to": 10653,
+      "from": 10033,
+      "to": 10170,
       "in": 8,
-      "out": 8
+      "out": 8,
+      "why": "lateral_glide WS: the line L071 moves him"
      }
     ]
    },
@@ -7631,7 +7196,7 @@
    "chapter": "CH5",
    "fires": [
     [
-     10540,
+     10021,
      [
       1,
       1,
@@ -7645,14 +7210,14 @@
    "short_candidate": "SC5"
   },
   {
-   "id": "D098",
+   "id": "D090",
    "title": "slow_push CU",
-   "from": 10659,
-   "to": 10800,
-   "key_frame": 10729,
-   "scene": "S28",
+   "from": 10170,
+   "to": 10236,
+   "key_frame": 10203,
+   "scene": "S26",
    "line_ids": [
-    "L079"
+    "L072"
    ],
    "size": "CU",
    "camera": {
@@ -7678,7 +7243,7 @@
     "target": "face",
     "preset": "slow_push",
     "motivation": "tension_push",
-    "handheld": 0.15
+    "handheld": 0.1
    },
    "yacht": {
     "state": "aground"
@@ -7691,8 +7256,9 @@
     "verbs": [
      {
       "verb": "breathe_hard",
-      "at": 10667,
-      "dur": 36
+      "at": 10184,
+      "dur": 36,
+      "why": "slow_push CU: fear under the line"
      }
     ]
    },
@@ -7715,7 +7281,427 @@
    "chapter": "CH5",
    "fires": [
     [
-     10659,
+     10170,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC5",
+   "extra_cu_reason": "the breath and the face carry the line (no decision: that close-up is reserved for chapter 4)"
+  },
+  {
+   "id": "D091",
+   "title": "pull_back MWS",
+   "from": 10236,
+   "to": 10302,
+   "key_frame": 10269,
+   "scene": "S26",
+   "line_ids": [
+    "L072"
+   ],
+   "size": "MWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     -60,
+     -45
+    ],
+    "dist": [
+     3.5,
+     6.0
+    ],
+    "height": [
+     0.4,
+     1.2
+    ],
+    "fov": [
+     30,
+     32
+    ],
+    "ease": "move",
+    "preset": "pull_back",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_right",
+      "from": 10248,
+      "to": 10302,
+      "in": 8,
+      "out": 8,
+      "why": "pull_back MWS: the line L072 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH5",
+   "fires": [
+    [
+     10236,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC5"
+  },
+  {
+   "id": "D092",
+   "title": "arc_low MS",
+   "from": 10302,
+   "to": 10442,
+   "key_frame": 10372,
+   "scene": "S26",
+   "line_ids": [
+    "L073"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "COCKPIT",
+    "az": [
+     -70,
+     -50
+    ],
+    "dist": [
+     3.0,
+     2.6
+    ],
+    "height": [
+     -0.2,
+     -0.1
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "move",
+    "preset": "arc_low",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "COCKPIT",
+    "stance": "stand",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "point_ahead",
+      "from": 10314,
+      "to": 10442,
+      "in": 8,
+      "out": 8,
+      "why": "arc_low MS: the line L073 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH5",
+   "fires": [
+    [
+     10302,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC5"
+  },
+  {
+   "id": "D093",
+   "title": "crane_down EWS",
+   "from": 10442,
+   "to": 10679,
+   "key_frame": 10560,
+   "scene": "S26",
+   "line_ids": [
+    "L074"
+   ],
+   "size": "EWS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     150,
+     160
+    ],
+    "dist": [
+     42,
+     26
+    ],
+    "height": [
+     30,
+     9
+    ],
+    "fov": [
+     30,
+     30
+    ],
+    "ease": "arrive",
+    "preset": "crane_down",
+    "motivation": "isolation",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH5",
+   "fires": [
+    [
+     10442,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ],
+   "short_candidate": "SC5"
+  },
+  {
+   "id": "D094",
+   "title": "push_in MS",
+   "from": 10679,
+   "to": 10739,
+   "key_frame": 10709,
+   "scene": "S27",
+   "line_ids": [
+    "L075"
+   ],
+   "size": "MS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "HELM",
+    "az": [
+     55,
+     40
+    ],
+    "dist": [
+     3.4,
+     2.6
+    ],
+    "height": [
+     0.6,
+     0.4
+    ],
+    "fov": [
+     32,
+     30
+    ],
+    "ease": "move",
+    "preset": "push_in",
+    "motivation": "character_attention",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "HELM",
+    "stance": "helm",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "look_down",
+      "from": 10691,
+      "to": 10739,
+      "in": 8,
+      "out": 8,
+      "why": "push_in MS: the line L075 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH5",
+   "fires": [
+    [
+     10679,
+     [
+      1,
+      1,
+      1,
+      1,
+      0.9,
+      1
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "D095",
+   "title": "rise_overhead WS",
+   "from": 10739,
+   "to": 10800,
+   "key_frame": 10769,
+   "scene": "S27",
+   "line_ids": [
+    "L075"
+   ],
+   "size": "WS",
+   "camera": {
+    "rig": "orbit",
+    "mark": "RAIL",
+    "az": [
+     30,
+     60
+    ],
+    "dist": [
+     4.0,
+     14.0
+    ],
+    "height": [
+     0.6,
+     9.0
+    ],
+    "fov": [
+     30,
+     34
+    ],
+    "ease": "move",
+    "preset": "rise_overhead",
+    "motivation": "reveal",
+    "handheld": 0.1
+   },
+   "yacht": {
+    "state": "aground"
+   },
+   "island": "near",
+   "hero": {
+    "mark": "RAIL",
+    "stance": "brace",
+    "seed": 2,
+    "poses": [
+     {
+      "pose": "hold_rail",
+      "from": 10751,
+      "to": 10800,
+      "in": 8,
+      "out": 8,
+      "why": "rise_overhead WS: the line L075 moves him"
+     }
+    ]
+   },
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht"
+    },
+    {
+     "prop": "lamp",
+     "attach": "yacht",
+     "light": [
+      [
+       0,
+       0.6
+      ]
+     ]
+    }
+   ],
+   "chapter": "CH5",
+   "fires": [
+    [
+     10739,
      [
       1,
       1,
@@ -7728,5 +7714,278 @@
    ]
   }
  ],
- "overrides": []
+ "overrides": [],
+ "sequences": [
+  {
+   "id": "SQ0",
+   "beats": [
+    "B0"
+   ],
+   "shots": [
+    "D001",
+    "D002",
+    "D003",
+    "D004",
+    "D005",
+    "D006",
+    "D007"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "torches on the beach",
+     "shot": "D001",
+     "frame": 30,
+     "light_reveal": {
+      "source": "fire",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ1",
+   "beats": [
+    "B2"
+   ],
+   "shots": [
+    "D008",
+    "D009",
+    "D010",
+    "D011",
+    "D012",
+    "D013",
+    "D014",
+    "D015",
+    "D016",
+    "D017",
+    "D018",
+    "D019",
+    "D020",
+    "D021",
+    "D022",
+    "D023",
+    "D024",
+    "D025"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the water around the hull",
+     "shot": "D008",
+     "frame": 966,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "glint"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ2",
+   "beats": [
+    "B3"
+   ],
+   "shots": [
+    "D026",
+    "D027",
+    "D028",
+    "D029",
+    "D030",
+    "D031",
+    "D032",
+    "D033",
+    "D034",
+    "D035",
+    "D036",
+    "D037",
+    "D038",
+    "D039",
+    "D040",
+    "D041",
+    "D042",
+    "D043"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the water around the hull",
+     "shot": "D027",
+     "frame": 2985,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "glint"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ3",
+   "beats": [
+    "B4"
+   ],
+   "shots": [
+    "D044",
+    "D045",
+    "D046",
+    "D047",
+    "D048",
+    "D049",
+    "D050",
+    "D051",
+    "D052",
+    "D053",
+    "D054",
+    "D055",
+    "D056",
+    "D057",
+    "D058",
+    "D059"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the water around the hull",
+     "shot": "D044",
+     "frame": 4914,
+     "light_reveal": {
+      "source": "moon",
+      "kind": "reflection"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ4",
+   "beats": [
+    "B5"
+   ],
+   "shots": [
+    "D060",
+    "D061",
+    "R001",
+    "D062",
+    "D063",
+    "D064",
+    "D065",
+    "D066",
+    "D067",
+    "D068",
+    "D069",
+    "D070",
+    "D071",
+    "D072",
+    "D073",
+    "D074",
+    "D075",
+    "D076",
+    "D077"
+   ],
+   "tension": "plateau",
+   "action": false,
+   "reserved_close_up": {
+    "beat": "B5",
+    "shot": "R001",
+    "reason": "decision: he sees the watchers and stays aboard"
+   },
+   "discovery_map": [
+    {
+     "detail": "torches on the beach",
+     "shot": "D060",
+     "frame": 6888,
+     "light_reveal": {
+      "source": "fire",
+      "kind": "practical_pool"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  },
+  {
+   "id": "SQ5",
+   "beats": [
+    "B10",
+    "B6",
+    "B8",
+    "B9"
+   ],
+   "shots": [
+    "D078",
+    "D079",
+    "D080",
+    "D081",
+    "D082",
+    "D083",
+    "D084",
+    "D085",
+    "D086",
+    "D087",
+    "D088",
+    "D089",
+    "D090",
+    "D091",
+    "D092",
+    "D093",
+    "D094",
+    "D095"
+   ],
+   "tension": "release",
+   "action": false,
+   "reserved_close_up": null,
+   "discovery_map": [
+    {
+     "detail": "the water around the hull",
+     "shot": "D079",
+     "frame": 8907,
+     "light_reveal": {
+      "source": "practical:epirb_strobe",
+      "kind": "glint"
+     },
+     "subordinate": [
+      "the tree line stays dark"
+     ]
+    }
+   ],
+   "action_order": null
+  }
+ ],
+ "lookdev_test": {
+  "view": "deck",
+  "elements": [
+   "boat",
+   "one_practical",
+   "water"
+  ],
+  "practical": "deck lamp",
+  "lighting_preset": "moonlight_practical_mix",
+  "water_material": "oceanfx_night",
+  "hull_material": "yacht_v2"
+ }
 }

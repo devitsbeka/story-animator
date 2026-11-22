@@ -686,6 +686,65 @@ def aerial_flyover(f0, f1, subj, altitude=(60, 45), dist=(240, 160), az=(-25, 10
                    handheld=kw.get("handheld", 0.04), aspect=aspect)
 
 
+# >>> canon: CAN-H1 reactive impact handheld (Greengrass) -------------------------------------------------------------
+def impact_offset_deg(f, impact_frame, escape_frames=4, lag_frames=5, recover_frames=12, amplitude_deg=6.0):
+    """Aim error (degrees) of an operator who did not know the hit was coming: the subject jolts out of the framing
+    within `escape_frames`, the error peaks `lag_frames` after the impact (the camera catches up late), then it is
+    re-found by impact + lag + recover with one overshoot of <= 25 %. 0 outside the window."""
+    u = f - impact_frame
+    if u < 0 or u > lag_frames + recover_frames:
+        return 0.0
+    if u <= lag_frames:
+        x = u / max(1, lag_frames)
+        rise = min(1.0, u / max(1, escape_frames))          # the jolt: most of the error lands in escape_frames
+        return amplitude_deg * (0.75 * rise + 0.25 * (3 * x * x - 2 * x * x * x))
+    x = (u - lag_frames) / max(1, recover_frames)
+    return amplitude_deg * ((1 - (3 * x * x - 2 * x * x * x)) - 0.25 * math.sin(math.pi * x))
+
+
+def impact_handheld_layer(camera, f0, f1, impact_frame, escape_frames=4, lag_frames=5, recover_frames=12, amplitude_deg=6.0,
+                          direction=1.0):
+    """Apply the CAN-H1 impact layer to an episode camera {space, keys, handheld, ...}: the keys are resampled per frame
+    over the shot (exact, linear between frames) and the look point is yawed by impact_offset_deg about the camera, plus
+    a short positional jolt (shakes). Returns the new camera; camera['impact_window'] = [impact, impact+e+l+r]."""
+    keys = camera["keys"]
+    out = []
+    for f in range(f0, f1 + 1):
+        cam, look, fov, roll = G.rig_at(f, keys, handheld=0.0, shakes=(), drift=0.0)
+        a = math.radians(direction * impact_offset_deg(f, impact_frame, escape_frames, lag_frames, recover_frames, amplitude_deg))
+        if a:
+            v = G.sub(look, cam)
+            ca, sa = math.cos(a), math.sin(a)
+            v = [v[0] * ca + v[2] * sa, v[1] - 0.25 * abs(a) * math.hypot(v[0], v[2]), -v[0] * sa + v[2] * ca]
+            look = G.add(cam, v)
+        k = {"f": f, "cam": [round(x, 5) for x in cam], "look": [round(x, 5) for x in look], "fov": round(fov, 4), "ease": "linear"}
+        if roll:
+            k["roll"] = round(roll, 4)
+        out.append(k)
+    cam2 = dict(camera)
+    cam2["keys"] = out
+    cam2["shakes"] = list(camera.get("shakes") or []) + [{"at": int(impact_frame), "px": 14.0 + 2.0 * amplitude_deg, "tau": 3.0}]
+    cam2["impact_window"] = [int(impact_frame), int(impact_frame + escape_frames + lag_frames + recover_frames)]
+    return cam2
+
+
+def impact_handheld(f0, f1, subj, base="handheld_documentary", impact_frame=None, escape_frames=4, lag_frames=5, recover_frames=12,
+                    amplitude_deg=6.0, direction=1.0, **kw):
+    """Preset: any base preset + the reactive impact layer (motivation impact). direction.impact_window feeds the shot
+    validator's H1/C11 exemption (CAN-H1f)."""
+    out = PRESETS[base](f0, f1, subj, **kw)
+    f = impact_frame if impact_frame is not None else f0 + (f1 - f0) // 3
+    out["camera"] = impact_handheld_layer(out["camera"], f0, f1, f, escape_frames, lag_frames, recover_frames, amplitude_deg, direction)
+    out["camera"]["handheld"] = min(out["camera"].get("handheld", 0.1), 0.1)
+    d = out["direction"]
+    d["preset"], d["motivation"] = "impact_handheld", "impact"
+    d["impact_window"] = out["camera"].pop("impact_window")
+    d["impact_handheld"] = {"impact_frame": f, "escape_frames": escape_frames, "lag_frames": lag_frames,
+                            "recover_frames": recover_frames, "amplitude_deg": amplitude_deg}
+    return out
+# <<< canon ------------------------------------------------------------------------------------------------------------
+
+
 PRESETS = {
     "dolly_in": dolly_in, "dolly_out": dolly_out, "truck_left": truck_left, "truck_right": truck_right,
     "pedestal_up": pedestal_up, "pedestal_down": pedestal_down, "crane_rise": crane_rise, "crane_descend": crane_descend,
@@ -698,5 +757,7 @@ PRESETS = {
     "dolly_zoom": dolly_zoom, "rack_focus": rack_focus, "parallax_reveal": parallax_reveal, "orbit_track": orbit_track,
     "product_turntable": product_turntable, "architecture_walkthrough": architecture_walkthrough, "aerial_flyover": aerial_flyover,
 }
+# canon CAN-H1: layers wrap a base preset (not in the atlas catalog of 36 base moves)
+LAYERS = {"impact_handheld": impact_handheld}
 # presets that take a second subject (target) positionally
 TWO_SUBJECT = {"over_shoulder", "pov", "high_reveal", "push_reveal", "whip_pan"}

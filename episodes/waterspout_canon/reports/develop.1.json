@@ -1,0 +1,157 @@
+{
+ "stage": "develop",
+ "ok": false,
+ "passed": [
+  "CAN-N1a",
+  "CAN-N1b",
+  "CAN-N1c",
+  "CAN-N1d",
+  "CAN-N2b",
+  "CAN-N2f-plan",
+  "CAN-N4a",
+  "CAN-N4b",
+  "CAN-N4c",
+  "CAN-N4d",
+  "CAN-N4f",
+  "CAN-S1a",
+  "CAN-S1b",
+  "CAN-S1c",
+  "CAN-S1d",
+  "CAN-S2a",
+  "CAN-S2b",
+  "CAN-S2c",
+  "CAN-S2d",
+  "CAN-S2e",
+  "CAN-S2f",
+  "CAN-S3a",
+  "CAN-S3b",
+  "CAN-S3c",
+  "H-1",
+  "H-5",
+  "H-6",
+  "H-7",
+  "H-banned-openers",
+  "H-hook-keywords",
+  "INTEGRITY.beat_refs",
+  "INTEGRITY.cq_line",
+  "INTEGRITY.duration",
+  "INTEGRITY.fact_refs",
+  "INTEGRITY.hook_lines",
+  "INTEGRITY.line_ids",
+  "INTEGRITY.line_order",
+  "INTEGRITY.line_times",
+  "N-1-hook",
+  "N-1-payoff",
+  "N-10",
+  "N-2",
+  "N-3",
+  "N-4",
+  "N-5-superlatives",
+  "N-6",
+  "N-9",
+  "P5",
+  "R-1",
+  "R-2",
+  "R-2-tokens",
+  "R-3",
+  "R-3-and-then",
+  "R-4",
+  "R-5",
+  "R-6",
+  "R-7",
+  "R-beats-order",
+  "R-beats-window",
+  "S-attempts",
+  "S-essence",
+  "S-flaw",
+  "S1",
+  "S1-causal",
+  "S4",
+  "S5",
+  "S7",
+  "T-3",
+  "T-5"
+ ],
+ "issues": [
+  {
+   "rule": "R-2-midpoint",
+   "severity": "HEUR",
+   "msg": "the midpoint (25.1 s) must sit at 0.40-0.55 D and have the highest visual_scale before the payoff",
+   "overridden": false
+  },
+  {
+   "rule": "R-1-open",
+   "severity": "HEUR",
+   "msg": "no open loop at t = 57.5 s (one must be open for all t in [3, D-3])",
+   "overridden": false
+  },
+  {
+   "rule": "N-1",
+   "severity": "HEUR",
+   "msg": "words/s over the narration span is 2.44, target [2.8, 3.1]",
+   "overridden": false
+  },
+  {
+   "rule": "N-1-budget",
+   "severity": "HEUR",
+   "msg": "155 words vs budget 184 (+-10%) for D = 65 s",
+   "overridden": false
+  },
+  {
+   "rule": "N-4-density",
+   "severity": "HEUR",
+   "msg": "need a concrete number every 10 s (largest gap 11.3 s)",
+   "overridden": false
+  },
+  {
+   "rule": "N-5",
+   "severity": "HEUR",
+   "msg": "tension-word density 6/155 words is below 1 per 20",
+   "overridden": false
+  },
+  {
+   "rule": "N-7",
+   "severity": "HEUR",
+   "msg": "surprise ranking ['F6', 'F2', 'F1'] at [3.5, 29.71, 38.06] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early",
+   "overridden": false
+  }
+ ],
+ "overridden": {},
+ "meta": {
+  "model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 13363
+   },
+   "cache_creation_input_tokens": 13363,
+   "cache_read_input_tokens": 0,
+   "fallback_credit": null,
+   "inference_geo": "global",
+   "input_tokens": 5128,
+   "iterations": [
+    {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 13363
+     },
+     "cache_creation_input_tokens": 13363,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 5128,
+     "model": null,
+     "output_tokens": 63252,
+     "type": "message"
+    }
+   ],
+   "output_tokens": 63252,
+   "output_tokens_details": {
+    "thinking_tokens": 50353
+   },
+   "server_tool_use": null,
+   "service_tier": "standard",
+   "speed": "standard"
+  },
+  "grammar": false
+ }
+}

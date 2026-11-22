@@ -13,13 +13,17 @@ import copy
 import json
 import math
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
 SENTINEL_BD = os.path.join(HERE, "..", "sentinel", "breakdown.1.json")
 FPS = 30
 OFFSET = 6
-WPS = 2.8          # delivery inside a line; with the 0.3 s gaps and act-break pauses the span lands at ~2.5-2.65 w/s
-GAP = 0.3
+WPS = 3.3          # delivery inside a line; with the 1.05 s reserved gaps the span lands at ~2.5-2.6 w/s
+GAP = 1.05         # canon CAN-N2b/N2f: every line is followed by a reserved gap (breath / reaction / key sound)
+REACTION_EXTRA = 2.0   # canon CAN-C2: the reserved close-up plays in a wordless reaction gap (chapter 4)
 
 HOOK = ("excited", "You are drifting onto the forbidden reef. In the dark.")
 COLD = [
@@ -40,25 +44,25 @@ CHAPTERS = [
     ("The current", "open_sea", "afloat_dark", [
         ("dramatic", "But the current does not drift. It pulls you toward the reef."),
         ("serious", "You brace at the rail and read the water. It is moving fast."),
-        ("storytelling", "Sailors warned you about this stretch. They call it the wrong side."),
+        ("storytelling", "Sailors warned you about this stretch. They call it the last place you ever want to be."),
         ("whispers", "Ahead, a dark line of trees rises out of the sea."),
-        ("serious", "You know that shape from the charts. You were told never to go near it."),
+        ("serious", "You know that shape from the charts. Everyone told you never to go near it."),
         ("dramatic", "But there is no anchor that can hold you here."),
     ]),
     ("The reef", "north_sentinel", "aground", [
         ("excited", "Then the keel hits the reef. The whole boat lurches sideways."),
         ("serious", "You are thrown against the helm. Your hands find the wheel."),
-        ("whispers", "The hull holds. For now, the hull holds."),
+        ("whispers", "The hull holds. For now, but only for now."),
         ("storytelling", "The tide is falling. Every minute, the coral rises around you."),
-        ("serious", "You are stuck at the edge of an island nobody is allowed to visit."),
+        ("serious", "You are stuck at the edge of an island nobody may visit."),
         ("dramatic", "But the reef is not the real danger tonight."),
     ]),
     ("The beach", "north_sentinel", "aground", [
         ("dramatic", "But then you see the fires on the beach."),
         ("whispers", "Shapes move between the trees. They are watching you."),
         ("serious", "The people here have lived alone for a very long time. They want it that way."),
-        ("storytelling", "Every visitor before you was turned back. Some never left."),
-        ("serious", "Your instinct says swim for help. That instinct is the mistake."),
+        ("storytelling", "They turned back every visitor before you. Some never left."),
+        ("serious", "Your instinct says swim for help. That instinct would cost you everything."),
         ("dramatic", "But staying aboard means waiting in the dark until dawn."),
     ]),
     ("The beacon", "north_sentinel", "aground", [
@@ -164,6 +168,8 @@ def build_story(D=360.0, n_chapters=5, sid="minidoc"):
             if (tag, text) == ANSWER:
                 answered = True
             t = add(tag, text, t, **kw)
+            if i == 3 and j == 1:
+                t += REACTION_EXTRA       # canon: the reserved close-up's reaction gap
             j += 1
     t = add(*TEASE, max(t, tease_t0), beat="B10", chapter=last["id"])
     answer = next(ln for ln in lines if ln["text"] == ANSWER[1])
@@ -338,10 +344,14 @@ def build_shotplan(story, bd):
             "action_line": "bow-stern axis of the yacht; the island stays screen-left", "shots": shots, "overrides": []}
 
 
-def build_all(D=360.0, n_chapters=5, sid="minidoc"):
+def build_all(D=360.0, n_chapters=5, sid="minidoc", canon=True):
     story = build_story(D, n_chapters, sid)
     bd = build_breakdown(story)
-    return story, bd, build_shotplan(story, bd)
+    plan = build_shotplan(story, bd)
+    if canon:
+        from canon_layer import canonize
+        canonize(story, bd, plan)
+    return story, bd, plan
 
 
 def main(argv=None):

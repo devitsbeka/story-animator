@@ -45,6 +45,7 @@ class Runner:
         self.ph, self.max_attempts, self.force, self.log = ph, max_attempts, force, log
         self.words = words
         self.reports = {}
+        self.canon = os.environ.get("FACTORY_CANON", "1") != "0"  # canon gate in the retry loop (FACTORY_CANON=0: legacy)
         # style system hook: explicit style, else story.style once known (if it names a style), else the format default
         self.style = style or styles.default_style_for_format(fmt)
         self._style_explicit = bool(style)
@@ -79,7 +80,12 @@ class Runner:
         rep = None
         for attempt in range(1, self.max_attempts + 1):
             t0 = time.time()
-            text, meta = self.client.complete(stage, system, messages, schema)
+            try:
+                text, meta = self.client.complete(stage, system, messages, schema)
+            except LLMError as e:  # a billed but failed call still counts toward the stage cost
+                if getattr(e, "meta", None):
+                    _write(self.path(f"reports/{stage}.{attempt}.json"), {"stage": stage, "ok": False, "error": str(e), "meta": e.meta})
+                raise
             os.makedirs(self.path("_llm"), exist_ok=True)
             with open(self.path(f"_llm/{stage}.{attempt}.json"), "w", encoding="utf-8") as fh:
                 fh.write(text)
@@ -111,6 +117,8 @@ class Runner:
             rep = checks.check_story(s)
             if isinstance(s, dict) and s.get("format") and s["format"] != self.fmt:
                 rep.hard("FORMAT", False, f"story.format is {s['format']!r} but {self.fmt!r} was requested")
+            if self.canon and checks.schema_clean(rep):  # canon: the film-craft canon blocks like HARD rules
+                checks.canon_story(rep, s)
             return rep
         return self.llm_stage("develop", {}, validate)
 
@@ -146,8 +154,13 @@ class Runner:
                     rep.issues.append(i)
                 rep.passed += erep.passed
                 holder["episode"] = ep
+            if self.canon and checks.schema_clean(rep):  # canon: shotplan (+ compiled episode) canon rules
+                checks.canon_plan(rep, story, plan, holder.get("episode") if rep.ok else None, words, bd)
             return rep
-        plan = self.llm_stage("direct", {"story.json": story, "breakdown.json": bd, "manifest.json": man}, validate)
+        inputs = {"story.json": story, "breakdown.json": bd, "manifest.json": man}
+        if words and self.canon:  # canon: the recorded narration's measured timing (cut and reveal against it)
+            inputs["voiced_words.json"] = voiced_words(story, words)
+        plan = self.llm_stage("direct", inputs, validate)
         ep = holder.get("episode") or comp.compile_episode(plan, story, man, self.out)
         ep = styles.apply_style_to_episode(ep, self.style)  # style system hook: lighting, grade, captions, fps
         _write(self.path("episode.json"), ep)
@@ -167,6 +180,20 @@ class Runner:
         if "direct" in stages:
             out["shotplan"], out["episode"] = self.direct(story, bd, man)
         return out
+
+
+def voiced_words(story, words):
+    """Per line: the measured words [[w, s, e], ...] (narration-audio seconds) of the recorded narration."""
+    from factory.voice.text import script_words
+    out, i = {}, 0
+    n_total = sum(len(script_words(ln["text"])) for ln in story["narration"])
+    if len(words) != n_total:
+        return {"note": f"words.json has {len(words)} words, the script {n_total}: timing approximate", "words": words[:400]}
+    for ln in story["narration"]:
+        n = len(script_words(ln["text"]))
+        out[ln["id"]] = [[w["w"], round(w["s"], 2), round(w["e"], 2)] for w in words[i:i + n]]
+        i += n
+    return out
 
 
 def load_words(out_dir, explicit=None):

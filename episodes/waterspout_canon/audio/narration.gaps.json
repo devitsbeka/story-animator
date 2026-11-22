@@ -1,0 +1,139 @@
+{
+ "audio": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/audio/narration.mp3",
+ "words": "/home/user/story-animator/.claude/worktrees/agent-a3c46b814d08e02e6/episodes/waterspout_canon/audio/narration.words.json",
+ "max_splice_s": 0.8,
+ "inserts": [],
+ "gaps": [
+  {
+   "id": "G01",
+   "after_line": "L01",
+   "purpose": "key_sfx",
+   "planned_s": 0.7,
+   "measured_s": 0.68,
+   "at_s": 2.74,
+   "ok": true,
+   "before_s": 0.68
+  },
+  {
+   "id": "G02",
+   "after_line": "L02",
+   "purpose": "breath",
+   "planned_s": 0.5,
+   "measured_s": 0.49,
+   "at_s": 7.49,
+   "ok": true,
+   "before_s": 0.49
+  },
+  {
+   "id": "G03",
+   "after_line": "L03",
+   "purpose": "key_sfx",
+   "planned_s": 0.8,
+   "measured_s": 0.77,
+   "at_s": 11.54,
+   "ok": true,
+   "before_s": 0.77
+  },
+  {
+   "id": "G04",
+   "after_line": "L04",
+   "purpose": "reaction",
+   "planned_s": 1.3,
+   "measured_s": 1.31,
+   "at_s": 15.22,
+   "ok": true,
+   "before_s": 1.31
+  },
+  {
+   "id": "G05",
+   "after_line": "L05",
+   "purpose": "breath",
+   "planned_s": 0.5,
+   "measured_s": 0.49,
+   "at_s": 20.46,
+   "ok": true,
+   "before_s": 0.49
+  },
+  {
+   "id": "G06",
+   "after_line": "L06",
+   "purpose": "breath",
+   "planned_s": 0.5,
+   "measured_s": 0.49,
+   "at_s": 24.51,
+   "ok": true,
+   "before_s": 0.49
+  },
+  {
+   "id": "G07",
+   "after_line": "L07",
+   "purpose": "music_swell",
+   "planned_s": 1.26,
+   "measured_s": 1.27,
+   "at_s": 29.74,
+   "ok": true,
+   "before_s": 1.27
+  },
+  {
+   "id": "G08",
+   "after_line": "L08",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 35.46,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G09",
+   "after_line": "L12",
+   "purpose": "reaction",
+   "planned_s": 1.1,
+   "measured_s": 1.05,
+   "at_s": 52.26,
+   "ok": true,
+   "before_s": 1.05
+  },
+  {
+   "id": "G10",
+   "after_line": "L13",
+   "purpose": "key_sfx",
+   "planned_s": 0.8,
+   "measured_s": 0.77,
+   "at_s": 58.42,
+   "ok": true,
+   "before_s": 0.77
+  },
+  {
+   "id": "G11",
+   "after_line": "L14",
+   "purpose": "key_sfx",
+   "planned_s": 0.9,
+   "measured_s": 0.86,
+   "at_s": 62.45,
+   "ok": true,
+   "before_s": 0.86
+  },
+  {
+   "id": "G12",
+   "after_line": "L15",
+   "purpose": "breath",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 67.83,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G13",
+   "after_line": "L16",
+   "purpose": "music_swell",
+   "planned_s": 1.66,
+   "measured_s": 1.67,
+   "at_s": 71.74,
+   "ok": true,
+   "before_s": 1.67
+  }
+ ],
+ "ok": true
+}

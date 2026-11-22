@@ -11,7 +11,7 @@ from .paths import EPISODE_SCHEMA
 from .staging import ISLANDS, MARKS, PROP_DEFAULTS, shore_frame, yacht_state
 
 FPS = 30
-DEFAULT_HANDHELD, DEFAULT_DRIFT = 0.15, 0.08
+DEFAULT_HANDHELD, DEFAULT_DRIFT = 0.12, 0.08   # canon CAN-H1e: baseline handheld <= 0.12; shake is event-driven
 
 
 def _point(p, isl, sf):
@@ -43,7 +43,61 @@ def compile_camera(s, isl, marks=None):
     out["drift"] = c.get("drift", DEFAULT_DRIFT)
     if c.get("shakes"):
         out["shakes"] = c["shakes"]
+    ih = s.get("impact_handheld")  # canon CAN-H1: reactive impact layer (camera_presets.impact_handheld_layer)
+    if ih:
+        out = _impact_layer(out, s, ih)
     return out
+
+
+# >>> canon: CAN-H1 impact layer + CAN-P1 turn-then-change face scheduling ---------------------------------------------
+def _impact_layer(camera, s, ih):
+    import sys
+    d = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "direction")
+    if d not in sys.path:
+        sys.path.insert(0, d)
+    import camera_presets as cp
+    out = cp.impact_handheld_layer(camera, s["from"], s["to"], ih["impact_frame"], ih.get("escape_frames", 4), ih.get("lag_frames", 5),
+                                   ih.get("recover_frames", 12), ih.get("amplitude_deg", 6.0), ih.get("direction", 1.0))
+    out.pop("impact_window", None)
+    return out
+
+
+def _turn_windows(s):
+    h = s.get("hero") or {}
+    w = [(p["from"], p["from"] + int(p.get("in", 8))) for p in h.get("poses", []) if re.search(r"(look_|turn|glance)", p["pose"])]
+    w += [(t["turn"]["from"], t["turn"]["to"]) for t in s.get("turn_then_change") or [] if t.get("turn")]
+    return sorted(w)
+
+
+def schedule_face(s, settle_min=6, blend_default=10):
+    """Turn, settle, then change (Animation Mentor p.19): emotion keys + blinks for the shot's turn_then_change entries.
+    A face change that would land inside a head turn (declared turn or a look_/turn pose's `in` window) is delayed until
+    `settle_frames` (>= settle_min) after that turn settles; a thought blink lands 1 f before the change, and a fast turn
+    (>= 45 deg in <= 10 f) gets a blink at 75 % of the turn. Returns the cloudrig face_spec dict or None."""
+    tts = s.get("turn_then_change") or []
+    if not tts:
+        return None
+    emo, blinks, blend = [[s["from"], tts[0].get("emotion_from") or (s.get("hero") or {}).get("emotion") or "neutral"]], [], blend_default
+    wins = _turn_windows(s)
+    for t in tts:
+        tr, ch = t["turn"], t["change"]
+        n = max(1, ch["to"] - ch["from"])
+        blend = max(6, n)
+        start = ch["from"]
+        if t.get("mode") != "pre_turn":
+            settle = max(settle_min, int(t.get("settle_frames", settle_min)))
+            start = max(start, tr["to"] + settle)
+            for a, b in wins:            # never inside any other head turn either
+                if start < b and start + blend > a:
+                    start = b + settle
+        emo.append([start, t.get("emotion_to") or "neutral"])
+        if not t.get("no_blink"):
+            blinks.append(start - 1)
+        deg = abs(tr.get("deg") or 0)
+        if deg >= 45 and tr["to"] - tr["from"] <= 10:
+            blinks.append(int(round(tr["from"] + 0.75 * (tr["to"] - tr["from"]))))
+    return {"emotion": emo, "blinks": sorted(set(blinks)), "blend": blend, "seed": (s.get("hero") or {}).get("seed", 1)}
+# <<< canon ------------------------------------------------------------------------------------------------------------
 
 
 def compile_hero(h, marks=None, space="yacht"):
@@ -87,6 +141,11 @@ def compile_set_shot(s, kit):
     out["env"].pop("seaState", None)
     if s.get("hero"):
         out["actors"] = compile_hero(s["hero"], marks, "set")
+        face = schedule_face(s)  # canon CAN-P1
+        if face:
+            out["actors"][0]["perf"]["face"] = face
+    if s.get("impact_handheld"):  # canon CAN-H1f
+        out["impact_handheld"] = dict(s["impact_handheld"])
     if s.get("props"):
         out["props"] = [compile_prop(p) for p in s["props"]]
     return out
@@ -113,6 +172,11 @@ def compile_shot(s, world_island, world_set=None):
     out["island"] = isl
     if s.get("hero"):
         out["actors"] = compile_hero(s["hero"])
+        face = schedule_face(s)  # canon CAN-P1
+        if face:
+            out["actors"][0]["perf"]["face"] = face
+    if s.get("impact_handheld"):  # canon CAN-H1f: the window travels with the shot for the validator / QC
+        out["impact_handheld"] = dict(s["impact_handheld"])
     if s.get("props"):
         out["props"] = [compile_prop(p) for p in s["props"]]
     if s.get("fires"):

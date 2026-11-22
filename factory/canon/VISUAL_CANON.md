@@ -584,9 +584,10 @@ stays within +0.5 EV of H31 (L2b).
 | CAN-T1d | Test findings become locks | lighting.py presets/LUT | `lookdev_test.locks` | overrides need `cheat_reason` | **ASC 2018 (Half CTO)** |
 | CAN-T1e | Night by colour, open shadows | lighting.py, grade | none | face shadow ≥0.03; L5 ≥120° | **ASC 2018 (Cameron)** [HOUSE number] |
 
-**Implementation status (2026-11-22).** Already automated: L2a (lighting.py L2/L8/L5), C1a/C1c/C2a-partial/L3f-lens
-(shot_validator C1-C5, C9, C14, CTX, P1, P7), and the plate flicker/clipping checks (qc/plates.py). Everything else is
-**MANUAL** in `python3 -m factory.canon pass` until `factory/canon/checks.py` lands. Each new check needs a golden and
-a failing stress case (`factory/lessons/README.md`). The director schema still has to add `discovery_map`,
-`reserved_close_up`, `action_order`, `impact_handheld`, `turn_then_change`, `lookdev_test`, `establishes`,
-`match_action`, `time_cut` and `sequence.tension`.
+**Implementation status (2026-11-22, canon integration).** `factory/canon/checks.py` implements every rule above that
+can be computed from the plan, the voiced words, `sound.json` and (with `--plates`) the plates: C1a/b/c, C2a/b/c,
+E1a-i, H1a-g, P1a-e/g, P2c, L1a/d/e, L2a/d/g, T1a-d, with thresholds in `factory/canon/thresholds.yaml`. C1c (validator
+C5) is reported as WARN. Still MANUAL: L1b/c (detail masks), L1f, L2b/c/e/f, L3*, P1f, P2a/b/d, T1e (they need plates
+with masks or the baked face/acting tracks). The director schemas carry `sequences[]` (`discovery_map`,
+`reserved_close_up`, `action_order`, `tension`), per-shot `establishes`, `match_action`, `time_cut`, `cut_word`,
+`reaction_windows`, `gaze_away_from`, `impact_handheld`, `turn_then_change`, and `lookdev_test`.

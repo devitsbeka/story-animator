@@ -41,15 +41,19 @@ def test_offline_sentinel_chain_cli_then_resume(tmp_path):
     run = json.loads((d / "run.json").read_text())
     assert run["status"] in ("published", "returned")
     assert [run["stages"][s]["status"] for s in pipeline.ORDER] == ["done"] * len(pipeline.ORDER)
-    for f in ("story.json", "breakdown.json", "manifest.json", "shotplan.json", "episode.json", "audio/narration.mp3",
-              "audio/narration.words.json", "sound.json", "audio/mix_v1.m4a", "audio/mix_v1.report.json",
+    # the canon-directed Sentinel script (fixtures/sentinel/build_canon.py) is not the recorded take, so the offline
+    # voice is the stub (narration.wav) with the reserved gaps measured (narration.gaps.json); the canon gate ran
+    for f in ("story.json", "breakdown.json", "manifest.json", "shotplan.json", "episode.json", "audio/narration.wav",
+              "audio/narration.words.json", "audio/narration.gaps.json", "qc/canon_report.plan.json",
+              "sound.json", "audio/mix_v1.m4a", "audio/mix_v1.report.json",
               "boards/contact_sheet.png", "boards/animatic.mp4", "plates/plates_manifest.json", "final/episode.mp4",
               "qc/report.json", "qc/report.iter0.json"):
         assert (d / f).exists(), f
     ep = json.loads((d / "episode.json").read_text())
-    assert ep["id"] == "sen" and len(ep["shots"]) == 33
-    assert ep["audio"]["narration"].endswith("sen/audio/narration.mp3")
-    assert run["stages"]["voice"]["info"]["provider"] == "reference:episodes/sentinel"
+    assert ep["id"] == "sen" and len(ep["shots"]) == 34
+    assert ep["audio"]["narration"].endswith("sen/audio/narration.wav")
+    assert run["stages"]["voice"]["info"]["provider"] == "stub"
+    assert run["canon"]["plan"]["rc"] == 0                             # canon pass before the previs approval: no FAIL
     assert run["stages"]["sound"]["info"]["mix"] == "ffmpeg"          # the real mixer ran
     # cost/time accounting per stage
     assert set(run["cost"]["byStage"]) == set(pipeline.ORDER) and run["cost"]["totalUSD"] == 0.0

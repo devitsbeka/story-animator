@@ -1,0 +1,84 @@
+# Canon check thresholds (factory/canon/checks.py).
+# Every number here is a threshold from VISUAL_CANON.md / STORY_SOUND_CANON.md. Tags:
+#   [SRC] in the source, [SRC->30fps] source frames converted, [HOUSE] our calibration (tune with goldens,
+#   never by hand for one episode).  Times are seconds, frames are film frames at the episode fps (30).
+fps: 30
+
+story:
+  threat_lead_s: {short: 2.0, docuseries: 4.0}      # CAN-S1a [HOUSE]
+  threat_visible_s: 1.0                              # CAN-S1a [HOUSE]
+  relief_min_s: 1.5                                  # CAN-S1c [HOUSE]
+  surprise_per_s: 90.0                               # CAN-S1d: <= 1 surprise per 90 s [HOUSE]
+  question_change_max_gap_s: {short: 12.0, docuseries: 180.0}   # CAN-S2d [HOUSE; qc R-2]
+  max_new_audience_items: 2                          # CAN-S2e [HOUSE]
+  clock_first_reading_frac: 0.20                     # CAN-S3a [HOUSE]
+  clock_reshow_max_s: {short: 20.0, docuseries: 180.0}          # CAN-S3b [HOUSE]
+  attempt_min_s: 1.5                                 # CAN-S3c [HOUSE]
+  hits_min_spacing_s: 3.0                            # CAN-S3d [HOUSE]
+  anticipation_ratio: 3.0                            # CAN-S3e [HOUSE]
+
+narration:
+  sound_only_row_min_s: 0.6                          # CAN-N1b [HOUSE]
+  bed_tolerance_frames: 2                            # CAN-N1c coverage slack
+  sound_lead_s: [0.4, 2.5]                           # CAN-N2a [HOUSE]
+  sound_lead_clear_s: 0.15                           # CAN-N2a: no word within 0.15 s after the onset
+  gap_min_s: {breath: 0.45, key_sfx: 0.6, reaction: 1.0, music_swell: 0.8}   # CAN-N2b [HOUSE]
+  key_sfx_margin_s: 0.25                             # CAN-N2b: key_sfx >= cue active duration + 0.25
+  beat_gap_min_s: 0.6                                # CAN-N2b: every beat with narration has >= 1 gap this long
+  gap_tolerance_s: 0.05                              # CAN-N2c: measured >= planned - 0.05
+  gap_splice_max_s: 0.8                              # CAN-N2c: the voice engine may lengthen a gap by <= 0.8 s
+  gap_fill_onset_tail_s: 0.15                        # CAN-N2d: onset in [start, start + len - 0.15]
+  gap_fill_overlap_s: 0.05                           # CAN-N2d: peak may overlap the next word by <= 0.05 s
+  silence_max_s: 2.0                                 # CAN-N2e [HOUSE]
+  silences_max: {short: 2, docuseries: 40}           # CAN-N2e [HOUSE]
+  speech_share_max: 0.80                             # CAN-N2f voiced speech / runtime [HOUSE]
+  speech_window_s: 20.0                              # CAN-N2f window
+  speech_window_max: 0.85                            # CAN-N2f per 20 s window [HOUSE]
+  planned_coverage_max: {short: 0.85, docuseries: 0.85}   # CAN-N2f planned line spans / runtime [HOUSE]
+  cut_word_window_s: [-0.10, 0.03]                   # CAN-N3a [HOUSE]
+  reveal_before_s: [0.2, 1.5]                        # CAN-N3b order=before: reveal_t - key_word.s
+  reveal_after_s: [0.25, 2.0]                        # CAN-N3b order=after: key_word.s - reveal_t
+  reveal_on_s: 0.067                                 # CAN-N3b order=on: 2 frames
+  reaction_pad_s: 0.15                               # CAN-N3e [HOUSE]
+  redundancy_overlap_max: 0.50                       # CAN-N4c content-word overlap [HOUSE]
+  sentence_words_max: 14                             # CAN-N4f [HOUSE]
+  wps: [2.2, 3.3]                                    # CAN-N4f per block [HOUSE]
+  voice_speed: [0.9, 1.1]                            # CAN-N4f ElevenLabs speed / tempo correction
+  judgement_tokens: [mistake, mistakes, wrong, right, good, bad, stupid, smart, smartest, saved, foolish, dumb, best, worst]
+
+visual:
+  bookend_frames: 10                                 # CAN-P1c [SRC->30fps: 8 f @24]
+  establish_min_frames: 36                           # CAN-C1b [HOUSE]
+  reserved_cu_min_frames: 45                         # CAN-C2c [HOUSE]
+  reserved_cu_max_s: 6.0                             # CAN-C2c [HOUSE]
+  read_frames: 10                                    # CAN-C2c read / tail frames
+  audience_lead_frames: 60                           # CAN-E1b [HOUSE]
+  reaction_min_frames: 10                            # CAN-E1c [HOUSE]
+  cost_min_frames: 75                                # CAN-E1d [HOUSE]
+  action_min_frames: 18                              # CAN-E1e [SRC Reisz p.49]
+  reestablish_after_impact: 6                        # CAN-E1e / C4
+  mounting_asl_ratio: 0.8                            # CAN-E1g [HOUSE]
+  new_angle_az_deg: 30                               # CAN-E1h [HOUSE]
+  escape_frames: [2, 6]                              # CAN-H1b [HOUSE]
+  lag_frames: [3, 8]                                 # CAN-H1c [HOUSE]
+  recover_frames_max: 15                             # CAN-H1c [HOUSE]
+  impact_min_deg_s: 8.0                              # CAN-H1d [HOUSE]
+  handheld_baseline_max: 0.12                        # CAN-H1e [HOUSE]
+  handheld_pov_max: 0.18                             # CAN-H1e POV allowance
+  settle_frames_min: 6                               # CAN-P1b [HOUSE]
+  pre_turn_frames: 4                                 # CAN-P1b pre_turn mode
+  emotion_blend_frames: 10                           # CAN-P1a default blend (cloudrig_adapter)
+  blink_window: [-4, 3]                              # CAN-P1d [HOUSE]
+  no_blink_max_frames: 300                           # CAN-P1d [SRC p.10]
+  fast_turn_deg: 45                                  # CAN-P1e [HOUSE]
+  fast_turn_frames: 10                               # CAN-P1e [HOUSE]
+  discovery_min_into_shot: 10                        # CAN-L1a
+  reveal_quiet_window: [-6, 15]                      # CAN-L1e [HOUSE]
+  reveal_presets: [push_reveal, low_reveal, high_reveal, pullback_reveal, parallax_reveal]
+  light_sources: [moon, key, rim, lightning, fire, sun, sky, practical]   # CAN-L1a: sources lighting.py builds
+  night_well_lit: [0.02, 0.30]                       # CAN-L1d [HOUSE]
+  night_hot_frac: 0.005                              # CAN-L1d [HOUSE]
+  night_black_frac: 0.15                             # CAN-L1d [HOUSE]
+  lookdev_streak_ratio: 3.0                          # CAN-T1c [HOUSE]
+  lookdev_water_min: 0.02                            # CAN-T1c [HOUSE]
+  lookdev_clip_max: 0.002                            # CAN-T1c [HOUSE]

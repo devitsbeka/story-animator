@@ -75,6 +75,22 @@ How `plan_fix` chooses what to re-run:
 
 Failing shots are found by matching shot ids inside the failing rules' `measured`, `detail` and `expected` fields, and in the failing per-shot framing rows.
 
+## Canon gate
+
+`python3 -m factory.canon pass` (the film-craft canon, `.claude/skills/film-craft-canon/SKILL.md`) runs twice in every
+run, and any FAIL blocks:
+
+- **before the previs approval** (`Pipeline.canon_gate("plan")`, in stage 6 after the boards are made): the stage fails
+  with `CanonFailed` and the report lands in `qc/canon_report.plan.json`;
+- **before publishing** (`canon_gate("publish")`, in stage 9): a PUBLISH decision becomes RETURN. At this stage an
+  unapproved or stale look-dev test FAILs CAN-T1a; approving the previs boards approves the look-dev test (its hash is
+  stamped into `shotplan.json` when stage 7 starts).
+
+`FACTORY_CANON_GATE=0` disables the gate (legacy episodes); `FACTORY_CANON=0` removes the canon from the director's
+retry loop. **Merge gate:** `tools/merge_gate.sh` is not on this branch yet; when it lands it should run, for every
+episode the branch touches, `python3 -m factory.canon pass --episode episodes/<id> --stage plan` and fail on a non-zero
+exit, plus `python3 -m pytest tests/canon`.
+
 ## Cost and time
 
 Every stage records `seconds` and `costUSD`. Totals are kept in `run.json.cost` and `run.json.time`. Stages that run again inside the QC loop add to their totals.

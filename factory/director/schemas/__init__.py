@@ -76,6 +76,19 @@ def render_contract():
     s["properties"]["world"]["properties"]["lighting"] = LIGHTING
     s["$defs"]["actor"]["properties"]["space"] = {"enum": ["yacht", "set"], "description": "yacht: yacht-local; set: world-kit set space (= world)"}
     # <<< world_kits
+    # >>> canon: impact handheld window (CAN-H1, read by shot_validator) + scheduled face keys (CAN-P1)
+    s["$defs"]["shot"]["properties"]["impact_handheld"] = {"type": "object", "description": "CAN-H1 window: impact_frame, escape/lag/recover frames"}
+    s["$defs"]["actor"]["properties"]["perf"]["properties"]["face"] = {
+        "type": "object", "description": "cloudrig_adapter face_spec: emotion [[f, name, amt?]], blinks [f], blend, seed (compile.schedule_face)"}
+    # <<< canon
+    # >>> series defaults (lesson L021, factory/series/default.json): compile binds hero_v4 as a .blend entry and the
+    # procedural yacht as 'proc:yacht_v2'; the render contract has to accept what the compiler emits
+    glb = {"$ref": "#/$defs/glbKey"}
+    s["properties"]["assets"]["properties"]["characters"]["additionalProperties"] = {"oneOf": [
+        glb, {"type": "object", "required": ["kind", "file"], "properties": {"kind": {"enum": ["blend", "glb"]}, "file": {"type": "string"}}}]}
+    s["properties"]["assets"]["properties"]["props"]["additionalProperties"] = {"oneOf": [
+        glb, {"type": "string", "pattern": "^proc:[a-z0-9_]+$"}]}
+    # <<< series defaults
     Draft202012Validator.check_schema(s)
     return s
 

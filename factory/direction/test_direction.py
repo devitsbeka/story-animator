@@ -156,3 +156,25 @@ if __name__ == "__main__":
             n += 1
             print("ok", k)
     print(f"{n} tests passed")
+
+
+def test_impact_handheld_layer_escapes_and_recovers():
+    """canon CAN-H1: the subject leaves the centre after the impact, the aim error peaks lag frames late, re-centred by
+    impact + lag + recover; the validator exempts that window (H1f)."""
+    hero = CP.hero_subject(TILTED, [0.0, 1.9, 4.7], 0.0)
+    f0, f1, imp = 100, 160, 115
+    out = CP.LAYERS["impact_handheld"](f0, f1, hero, base="handheld_documentary", impact_frame=imp, escape_frames=3,
+                                       lag_frames=5, recover_frames=10, amplitude_deg=8)
+    d = out["direction"]
+    assert d["impact_window"] == [imp, imp + 18] and d["motivation"] == "impact"
+    s = shot_of(out, f0, f1)
+    xs = {}
+    for f in range(f0, f1 + 1):
+        c, l, fov, roll = G.camera_world(s, f, jitter=False)
+        x, y, dep = G.project(c, l, roll, fov, 1080 / 1920, SV.track_at(d["subject"]["track"], f))
+        xs[f] = abs(x - 0.5)
+    assert xs[imp - 1] < 0.03 and xs[imp + 3] > 0.08                       # escapes within escape_frames
+    assert max(range(imp, imp + 19), key=lambda f: xs[f]) in range(imp + 3, imp + 7)   # peak ~ lag frames late
+    assert xs[imp + 19] < 0.03                                              # re-found
+    a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
+    assert a["impact_exempt"] == [imp, imp + 18] and a["max_dx"] < 0.08    # centring judged outside the window only

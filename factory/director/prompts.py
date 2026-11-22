@@ -62,6 +62,100 @@ PROPS: {prop, attach yacht|handR|handL, light keys, show keys, strobe frame}; de
 Only props whose manifest render_key is prop:<name> exist in the renderer."""
 
 
+# >>> canon: the film-craft canon (factory/canon/*.md) injected BEFORE drafting; the validator enforces these ids
+# (factory/canon/checks.py story_rules / plan_rules) with the thresholds in factory/canon/thresholds.yaml.
+CANON_DEVELOP = """FILM-CRAFT CANON (mandatory; the validator checks every id below). Plan these with the story, not after it.
+Times are narration-audio seconds like narration[].t0/t1; shot ids are the ids stage 4 will use (plan them now: S01, S02..).
+- CAN-S1 Hitchcock's bomb: every danger is in threats[] {id, desc, planted_shot, planted_t, noticed_shot, noticed_at, peak_t,
+  outcome escaped|averted|survived_with_cost}. The audience sees it >= 2.0 s (short; 4.0 s docuseries) before the character
+  notices (noticed_at - planted_t), with >= 1.0 s of it on screen in that window while the hero is not looking. A feared
+  threat ends in a relief record >= 1.5 s after its peak; it never kills the innocent. Surprise is rare (<= 1 per 90 s,
+  never the climax).
+- CAN-S2 knowledge_timeline[]: one record per beat (more records inside long beats) {beat, t0, t1, mode shared|dramatic_irony|
+  suppression|mystery|surprise|relief, audience_knows[], character_knows[] (threat ids), withheld_from_audience[], who_can_act
+  character|nobody|other:<id>, audience_question, threat_planted_shot, decision?}. dramatic_irony <=> audience_knows strictly
+  contains character_knows on threat ids; shared <=> equal on threat ids. When character_knows gains a threat or who_can_act
+  changes, audience_question changes in that same record and asks what happens next ("Will he look back?" -> "Can he turn
+  in time?"). The question or mode changes at least every 12 s (short); at most 2 new audience_knows items per record; a
+  short has >= 1 dramatic_irony record and >= 2 modes. Every beats[].id has a record. Inside threats' planted..noticed
+  window every record has the threat in audience_knows and not in character_knows.
+- CAN-S3 ticking_clock {what, kind diegetic_prop|environment|badge, deadline, readings[{t, value, severity}]}: first reading
+  <= 20 % of runtime, severity strictly rising, re-shown every <= 20 s. attempts[] after the threat is planted carry t0, t1
+  (>= 1.5 s apart) and clock_before != clock_after (ordinary actions cost visible time).
+- CAN-N1 script_columns[] {row_id, beat, t0, t1, picture, narration, sound, line_ids, gap_id}: PICTURE first, narration only
+  adds. Keep rows terse: picture <= 15 words, narration = the line ids it carries (e.g. "L03 L04", not the text) or "" for
+  a sound-only row, sound = short tokens. Every narration line is in exactly one row whose t0..t1 contains it; rows stay inside their beat; every row's
+  sound names an AMB: bed plus FX:/MUSIC: tokens; every beat has >= 1 sound-only row (narration "", line_ids []) of >= 0.6 s.
+- CAN-N2 narration_gaps[] {id, after_line, start_s, len_s, purpose breath|key_sfx|reaction|music_swell, filled_by, desc}:
+  breath >= 0.45 s, key_sfx >= 0.6 s, reaction >= 1.0 s, music_swell >= 0.8 s. start_s = the after_line's t1 and the next
+  line starts at or after start_s + len_s (plan the line times around the gaps; the voice engine records them as silence).
+  Every beat that has narration contains a gap >= 0.6 s; every dramatic_irony/shared beat has a reaction or key_sfx gap.
+  filled_by: "FX:<sound>" for a key sound (the sound designer places it inside the gap), "room_tone", or "music".
+  Planned line spans cover <= 85 % of duration_s and voiced speech <= 80 %: thin the narration to pay for the gaps.
+  sound_lead {cue: "FX:<sound>", lead_s 0.4-2.5} on a line puts a featured sound before its words.
+- CAN-N3 every line has reveal_order {key_word_idx (0-based index into the line's whitespace words), reveal_shot,
+  reveal_frame (film frame = round(30 x audio seconds) + the stage-4 audio offset, normally 0), order before|on|after}:
+  before = the word primes, the picture pays it off 0.2-1.5 s later (reveal_frame AFTER the word); after = the picture
+  reveals first and the word names its meaning 0.25-2.0 s later (reveal_frame BEFORE the word: word time - reveal time in
+  0.25..2.0; default for a threat: seen before named); on = within 2 frames. Words never play over the
+  reserved close-up, a turn-then-change settle, or a reaction gap.
+- CAN-N4 narrator {person first|second|third_omniscient, persona, authority (why we trust them), knowledge_scope character|
+  omniscient, voice_id, direction}. Every line has purpose (setup|context|authenticity|momentum|inner_state|clarify|bridge|
+  resolution|step) and adds (what picture and sound do not say). Never describe what the picture shows (Rabiger's red
+  raincoat) or restate a key sound ("Nothing." after a dead click). Value judgements (mistake, wrong, right, good, bad,
+  saved, smart, best, worst...) only at or after the evidence on screen: such a line has evidence {shot, frame} and the
+  word plays after that frame. No passive voice; sentences <= 14 words; 2.2-3.3 words/s.
+- Stage 4 reserves ONE hero close-up per sequence for a decision: give it a knowledge_timeline record where
+  character_knows or who_can_act changes (or decision: true), and no narration over it (a reaction gap)."""
+
+CANON_BREAKDOWN = """FILM-CRAFT CANON for the breakdown: each scene's `picture` says concretely what is EVIDENT on screen; the
+validator compares narration against it (CAN-N4c: a line that only describes its picture is cut). Picture the threats[]
+planted shots (the hero not looking), the reserved close-up beat, and the look-dev elements (boat + one practical lamp +
+water, CAN-T1); name the one practical light that carries the night. Keep scenes to <= 2 narration lines."""
+
+CANON_DIRECT = """FILM-CRAFT CANON (mandatory; the validator checks every id below on your shotplan AND the compiled episode).
+- sequences[] {id, beats, shots [ids in order; together they cover every shot exactly once], tension mounting|plateau|
+  release, action bool, reserved_close_up {beat, shot, reason} | null, discovery_map[], action_order {...} | null}.
+- story.json planned shot references (threats[].planted_shot/noticed_shot, narration[].reveal_order, evidence) must point
+  at real shots of your cut: keep those shot ids, or re-point them in story_links {reveal_order: {L01: {key_word_idx,
+  reveal_shot, reveal_frame, order}}, evidence: {L08: {shot, frame}}, threats: {T1: {planted_shot, noticed_shot}}}.
+  reveal_frame lies inside its shot; the planted shot lists gaze_away_from [threat id].
+- CAN-C1 every location's first shots include a WS/EWS (>= 36 frames) whose establishes lists [hero, vessel,
+  threat-or-zone]; put establishes ONLY on WS/EWS shots >= 36 frames; re-establish after <= 6 tighter shots.
+- CAN-C2 ONE hero-face CU/ECU per sequence = reserved_close_up.shot, on the beat where what he knows or can do changes (or
+  a decision: the knowledge_timeline record covering the CU's time must change character_knows / who_can_act or carry
+  decision: true). All other hero shots are MCU or wider (inserts / POV exempt) or carry extra_cu_reason. The reserved CU
+  lasts >= 45 frames and <= 180, carries turn_then_change, and no narration word plays over it (story gap there).
+- CAN-E1 a sequence with action: true has action_order {obstacle_audience, obstacle_character, impact, cost_revealed} as
+  shot ids in strictly increasing order: obstacle_audience starts >= 60 frames before obstacle_character and lists
+  gaze_away_from; obstacle_character is followed by a POV/insert (or a shot whose establishes has "threat") and then a hero
+  reaction shot; cost_revealed is its own held shot >= 75 frames with a discovery_map entry. Action shots >= 18 frames
+  (inserts excepted); consecutive action shots differ in size class (or orbit az by >= 30 deg); a WS/EWS within 6 shots
+  after the impact. tension mounting: last-third average shot length <= 0.8 x the first third. time_cut follows a cutaway.
+- CAN-H1 every impact shot (action_order.impact, or camera.motivation "impact") has impact_handheld {impact_frame inside the
+  shot, escape_frames 2-6, lag_frames 3-8, recover_frames <= 15, amplitude_deg 4-8}: the subject jolts out of frame and the
+  camera catches up late (the compiler adds the layer; validators exempt the window). Never on the reserved CU.
+  camera.handheld <= 0.12 on every shot (POV <= 0.18): shake is caused by events, never decorative. Set it explicitly.
+- CAN-P1 turn then change (Animation Mentor): turn_then_change [{turn {from, to, deg}, settle_frames >= 6, change {from, to},
+  emotion_from, emotion_to, mode post_turn}] with change.from = turn.to + settle_frames (the compiler schedules the emotion
+  key + a thought blink). NO pose onset/release, stance change or emotion change in the first or last 10 frames of a shot:
+  hero.poses[].from >= shot.from + 10 (or < shot.from when it continues from the previous shot), poses[].to >= shot.to
+  (held through the cut) or <= shot.to - 10, stance_changes inside [from + 10, to - 10]. A move that must continue across
+  the cut sets match_action: true on the shot. Every pose and verb has why (the beat or stimulus that causes it).
+- CAN-L1 every sequence has discovery_map [{detail, shot, frame (>= 10 frames into the shot), light_reveal {source moon|key|
+  rim|lightning|fire|practical:<name>, kind reflection|rim|practical_pool|lightning|silhouette|glint}, subordinate[]}]:
+  light shows the viewer where to look; no hero pose/verb onset and no cut in [frame - 6, frame + 15].
+- CAN-T1 lookdev_test {view, elements ["boat", "one_practical", "water"] (no actors/FX), practical, lighting_preset,
+  water_material, hull_material}: tested and approved before FX/weather/acting renders.
+- CAN-N3 cut_word {line, word_idx} on shots whose cut lands on an operative word (cut frame within -3..+1 frames of that
+  word's start); reaction_windows [{from, to, kind}] on breaths/gasps/payoff reactions (no words there).
+  If voiced_words.json is given, the narration is already recorded: cut, time reveals and place reaction windows against
+  those measured times (film frame = audio_offset_frames + round(30 x s)), not the planned t0/t1."""
+
+CANON = {"develop": CANON_DEVELOP, "breakdown": CANON_BREAKDOWN, "direct": CANON_DIRECT}
+# <<< canon
+
+
 def vocab_text():
     v = vocabulary()
     marks = "\n".join(f"  {k}: local {m['local']}, rotY {round(m['rotY'], 4)} - {m['desc']}" for k, m in MARKS.items())
@@ -97,7 +191,7 @@ def style_text(style=None):
 
 
 def system_blocks(stage, style=None):
-    parts = [COMMON, ROLE[stage], style_text(style)]  # style system hook
+    parts = [COMMON, ROLE[stage], CANON[stage], style_text(style)]  # style system hook; canon before drafting
     # >>> quality_gate: LESSONS block (open + closed rules of this stage's gates, factory/lessons/lessons.yaml)
     try:
         from factory.lessons import STAGE_GATES, lessons_block
