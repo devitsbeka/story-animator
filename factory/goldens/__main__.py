@@ -62,6 +62,7 @@ def main(argv=None):
     st.add_argument("--vision", action="store_true")
     st.add_argument("--update-known", action="store_true", help="record today's failures as known (needs --note)")
     st.add_argument("--note")
+    st.add_argument("--strict", action="store_true", help="FAIL on known failures too (every scenario must pass every rule)")
     af = sub.add_parser("affected")
     af.add_argument("--changed-from")
     af.add_argument("--files")
@@ -130,7 +131,7 @@ def main(argv=None):
             srun.update_known(rep, args.note)
             print(f"known_failures.json updated ({len(rep['regressions'])} newly recorded)")
             return 0
-        return 0 if rep["ok"] else 1
+        return 0 if (rep["ok_strict"] if args.strict else rep["ok"]) else 1
     if args.cmd == "affected":
         if args.files:
             print("\n".join(M.affected(args.files.split(","))))

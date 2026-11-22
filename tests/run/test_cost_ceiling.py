@@ -92,3 +92,28 @@ def test_publish_runs_regress_and_delivers(tmp_path):
     doc2 = pipe2.run()
     assert doc2["status"] == "returned" and doc2["qc"]["decision"] == "RETURN"
     assert "REGRESS" in doc2["qc"]["returnReport"]["hard_failures"]
+
+
+def test_shot_gate_pose_qc_enforce_and_warn(tmp_path):
+    # the Blender pose QC joins the per-shot gate: enforce = its failing rules re-direct / block like framing does;
+    # warn = recorded per try. Stubbed stages never start Blender.
+    finding = {"shot": "A01a", "rule": "POSE-PALM.L", "status": "fail", "measured": 139.4, "expected": "palm faces the thigh"}
+    fake = lambda gate, attempt: {"failing": {"A01a": ["POSE-PALM.L"]}, "findings": [finding], "report": "x.json"}  # noqa: E731
+    pipe = Pipeline(opts(tmp_path, regress="enforce", shot_gate_pose="enforce"), "sgp", log=lambda m: None)
+    pipe.shot_gate_pose = fake
+    import pytest
+    from factory.run.pipeline import RegressionBlocked
+    redirects = []
+    pipe.stage_direct = lambda t0, feedback=None: redirects.append(feedback) or {"usd": 0.0}
+    pipe.st.doc["stages"]["direct"]["status"] = "done"
+    os.makedirs(pipe.p(), exist_ok=True)
+    import shutil
+    shutil.copy(os.path.join(os.path.dirname(__file__), "..", "..", "episodes", "sentinel", "episode_v5.json"), pipe.p("episode.json"))
+    with pytest.raises(RegressionBlocked) as e:
+        pipe.shot_gate("previs")
+    assert "A01a" in str(e.value) and len(redirects) == 2
+    assert any(r["id"] == "POSE-PALM.L" for r in redirects[0]["failing_rules"]) and "A01a" in redirects[0]["shots_to_fix"]
+    assert pipe.st.doc["shotGate"]["previs"]["pose"][0]["failing"] == {"A01a": ["POSE-PALM.L"]}
+    # warn: recorded, never blocks on pose; stubbed previs -> the real pose QC is skipped (None)
+    pipe2 = Pipeline(opts(tmp_path, shot_gate_pose="warn"), "sgp2", log=lambda m: None)
+    assert pipe2.shot_gate_pose("previs", 0) is None

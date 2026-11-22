@@ -109,7 +109,19 @@ in every world and pose, not only where it was first seen. `lessons attach-case 
 
 **Per-shot gate in the orchestrator.** `factory/run` runs the same per-shot checks on every shot of every episode
 before previs and before render; failing shots go back to stage 4 with the failing rules as feedback (max 2 tries),
-then the run blocks (`--regress enforce`, the default).
+then the run blocks (`--regress enforce`, the default). The Blender pose QC (palms, wrists, fingers, seat, feet flat
++ natural ankle, grips; FACE-LIFE over the full clip at the render gate) runs in the same gate on every hero shot:
+`--shot-gate-pose warn` (default: recorded in `run.json.shotGate.<gate>.pose`, logged) or `enforce` (its failing rules
+re-direct and block like framing). It defaults to warn while L009/L017/L018 are open, because those defects are in
+the engine and a re-direct cannot fix them; flip to enforce when they close.
+
+**Canon pass.** `python3 -m factory.canon pass` (the film-craft canon, `.claude/skills/film-craft-canon/SKILL.md`)
+runs in `factory/run` with the regress check before previs approval and before publish (a canon FAIL blocks; MANUAL
+rules are listed for the human approval) and in the merge gate (step 4c: no canon rule may newly FAIL vs the base).
+
+**Strict vs ratchet.** `stress` fails on any failure not in `known_failures.json` (the ratchet: nothing may get
+worse, every known failure is owned by an open lesson). `stress --strict` fails on every failing rule of every
+scenario: it is the bar a lesson must reach to close.
 
 ## Pose QC (L009 / L010)
 

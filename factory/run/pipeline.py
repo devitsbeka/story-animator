@@ -76,6 +76,7 @@ class Options:
     previs_shots: tuple = ()
     budget: float = None             # USD ceiling for this episode
     max_qc_fixes: int = 1
+    shot_gate_pose: str = "warn"     # quality_gate: Blender pose QC in the per-shot gate: enforce | warn | off (auto-off when stubbed / no Blender)
     regress: str = "enforce"         # quality_gate: lessons/goldens regress check at previs + publish: enforce | warn | off
     deliver: bool = True             # quality_gate (L006): PUBLISH produces final/delivery/{episode,episode_mobile}.mp4
     parallel_stages: int = 2
@@ -219,6 +220,16 @@ class Pipeline:
             ep = _read(self.p("episode.json"))
             res = shot_checks.check_episode(ep, quality)
             fails = {s: r for s, r in res["failing"].items()}
+            pose = self.shot_gate_pose(gate, hist["tries"])
+            if pose is not None:
+                hist.setdefault("pose", []).append({"try": hist["tries"], "failing": pose["failing"], "mode": self.o.shot_gate_pose,
+                                                    "report": pose.get("report"), "error": pose.get("error")})
+                if self.o.shot_gate_pose == "enforce":
+                    for sid, rules in pose["failing"].items():
+                        fails.setdefault(sid, []).extend(rules)
+                    res["findings"] = res["findings"] + pose["findings"]
+                elif pose["failing"]:
+                    self.log(f"shot gate [{gate}] pose QC (warn): {len(pose['failing'])} shot(s): {dict(list(pose['failing'].items())[:4])}")
             hist["history"].append({"try": hist["tries"], "failing": fails})
             hist["ok"] = not fails
             self.st.save()
@@ -242,14 +253,51 @@ class Pipeline:
             self.st.add_cost("direct", r.get("usd", 0.0), time.time() - t0)
             self.check_ceiling("direct", after=True)
 
+    def shot_gate_pose(self, gate, attempt):
+        """Blender pose QC (cloud/blender/test/pose_qc.py: seat contact, spine, palms, wrists, finger curl, feet flat +
+        natural ankle, grip contact; at the render gate over the full clip with FACE-LIFE) on every hero shot.
+        -> {"failing": {shot: [rules]}, "findings": [...]} or None when off / the stage is stubbed / no Blender."""
+        mode = self.o.shot_gate_pose
+        stage = "previs" if gate == "previs" else "render"
+        blender = self.o.blender or os.environ.get("BLENDER", "/opt/blender/blender-4.2.3-linux-x64/blender")
+        if mode == "off" or self.stub(stage) or not os.path.exists(blender.split()[0]):
+            return None
+        out = self.p("qc", f"pose_qc_{gate}_{attempt}.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        cmd = [*blender.split(), "-b", "--python-exit-code", "1", "--factory-startup", "-P",
+               os.path.join(ROOT, "cloud", "blender", "test", "pose_qc.py"), "--", "--spec", self.p("episode.json"),
+               "--max-frames", "1", "--out", out] + (["--full-clip"] if gate == "render" else [])
+        try:
+            import subprocess as _sp
+            p = _sp.run(cmd, capture_output=True, text=True, timeout=3600, cwd=ROOT)
+            if p.returncode or not os.path.exists(out):
+                raise RuntimeError(f"rc={p.returncode}: {(p.stdout + p.stderr)[-600:]}")
+            doc = _read(out)
+        except Exception as e:  # noqa: BLE001 - a pose QC that cannot run is recorded, never silently 'ok'
+            self.log(f"shot gate [{gate}] pose QC did not run: {e}")
+            return {"failing": {}, "findings": [], "error": str(e)[:800]}
+        fs = [dict(f, expected=f.get("expected"), measured=f.get("measured")) for f in doc.get("findings") or [] if f.get("status") == "fail"]
+        failing = {}
+        for f in fs:
+            failing.setdefault(f["shot"], [])
+            if f["rule"] not in failing[f["shot"]]:
+                failing[f["shot"]].append(f["rule"])
+        return {"failing": failing, "findings": fs, "report": _rel(out)}
+
     def regress(self, gate):
-        """Lessons + goldens regress check (factory/lessons/regress.py) at the previs approval gate and before publish.
+        """Lessons + canon + goldens regress check (factory/lessons/regress.py) at the previs approval gate and before publish.
         Options.regress: enforce (blocking rules stop the gate) | warn (record only) | off."""
         if self.o.regress == "off":
             return {"ok": True, "skipped": True}
         from factory.lessons import regress as lreg
-        rep = lreg.episode_regress(self.p("episode.json"), gate=gate, quality=self.o.quality)
-        self.st.doc.setdefault("regress", {})[gate] = {k: rep.get(k) for k in ("ok", "mode", "blocking", "warnings", "lessons")}
+        # the film-craft canon pass (python3 -m factory.canon pass) runs inside episode_regress; at publish it also
+        # sees the plates and the final video
+        kw = {}
+        if gate == "publish":
+            vid, pl = self.p("final", "episode.mp4"), self.p("plates")
+            kw = {"video": vid if os.path.exists(vid) else None, "plates": pl if os.path.isdir(pl) else None}
+        rep = lreg.episode_regress(self.p("episode.json"), gate=gate, quality=self.o.quality, **kw)
+        self.st.doc.setdefault("regress", {})[gate] = {k: rep.get(k) for k in ("ok", "mode", "blocking", "warnings", "lessons", "canon")}
         self.st.save()
         for w in rep["warnings"]:
             self.log(f"regress[{gate}] warn {w[:160]}")

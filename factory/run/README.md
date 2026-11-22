@@ -123,8 +123,11 @@ Override the prices with `FACTORY_PRICES_JSON` (see `costs.py`). The defaults ar
 - **regress** (`--regress enforce|warn|off`, default enforce): before the previs approval gate and again before
   publish, `factory/lessons/regress.py` runs the episode-level lesson rules on `episode.json` (PROXY: camera inside
   yacht/prop geometry blocks; TIER: assets near the camera must be tier hero - warns, blocks at publish with
-  `--quality final`), records the lessons status and stale goldens in `run.json.regress`. Blocked previs fails the
-  stage; blocked publish turns PUBLISH into RETURN.
+  `--quality final`), runs the **film-craft canon pass** (`python3 -m factory.canon pass`, report in
+  `qc/canon_<gate>.json`; any canon rule FAIL blocks, MANUAL rules are listed for the human approval; at publish it
+  also gets the plates and the final video; `FACTORY_CANON=0` disables it for debugging), records the lessons
+  status and stale goldens in `run.json.regress`. Blocked previs fails the stage; blocked publish turns PUBLISH into
+  RETURN.
 - **delivery** (`--no-deliver` to skip): PUBLISH runs `factory/deliver.py` -> `final/delivery/episode.mp4` +
   `episode_mobile.mp4` (H.264 High, yuv420p, faststart, 1 s GOP, capped bitrate), or the stage fails (L006).
 - **cost ceilings**: `costs.STAGE_CEILINGS_USD` (override `FACTORY_STAGE_CEILINGS_JSON`) per stage; over the ceiling the

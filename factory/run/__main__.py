@@ -40,6 +40,8 @@ def common(ap, defaults=True):
     ap.add_argument("--model", default=None)
     ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
     ap.add_argument("--parallel-stages", type=int, default=None)
+    ap.add_argument("--shot-gate-pose", choices=["enforce", "warn", "off"], default=None,
+                    help="Blender pose QC in the per-shot gate before previs/render (default warn: recorded + logged)")
     ap.add_argument("--regress", choices=["enforce", "warn", "off"], default=None, help="lessons/goldens regress check at previs + publish (quality_gate)")
     ap.add_argument("--no-deliver", dest="deliver", action="store_false", default=None, help="skip the delivery copies at publish (L006)")
 
@@ -49,7 +51,7 @@ def options_from(a, base=None):
     m = {"format": "fmt"}
     for k in ("format", "style", "render", "quality", "offline", "auto_approve", "episodes_dir", "fixtures", "voice", "workers",
               "render_res", "render_samples", "render_engine", "blender", "previs_res", "previs_samples", "budget", "model",
-              "effort", "parallel_stages", "regress", "deliver"):
+              "effort", "parallel_stages", "regress", "deliver", "shot_gate_pose"):
         v = getattr(a, k, None)
         if v is not None:
             setattr(o, m.get(k, k), v)

@@ -158,7 +158,7 @@ def run(only=None, render=True, pose=True, vision=False, out_dir=None, log=print
         known_hit += [(sid, r) for r in sorted(fails & kn)]
         fixed += [(sid, r) for r in sorted(kn - fails) if any(x["rule"] == r for x in rules[sid])]
     report = {"at": stamp, "scenarios": {sid: {"meta": meta[sid], "rules": rules[sid]} for sid in ids}, "regressions": regress,
-              "known_failures_hit": known_hit, "fixed": fixed, "ok": not regress, "out_dir": out_dir,
+              "known_failures_hit": known_hit, "fixed": fixed, "ok": not regress, "ok_strict": not regress and not known_hit, "out_dir": out_dir,
               "diff_sheet": os.path.join(out_dir, "diff_sheet.png") if render else None}
     with open(os.path.join(out_dir, "stress_report.json"), "w") as fh:
         json.dump(report, fh, indent=1, default=str)
@@ -200,5 +200,6 @@ def summary_text(rep):
     lines.append(f"regressions (not in known_failures.json): {rep['regressions'] or 'none'}")
     lines.append(f"known failures still failing: {len(rep['known_failures_hit'])}; now passing (prune): {rep['fixed'] or 'none'}")
     lines.append(f"report: {os.path.join(rep['out_dir'], 'stress_report.json')}" + (f"  diff sheet: {rep['diff_sheet']}" if rep.get("diff_sheet") else ""))
+    lines.append(f"strict (every scenario passes every rule, known failures included): {'PASS' if rep.get('ok_strict') else 'FAIL'}")
     lines.append("STRESS " + ("PASS" if rep["ok"] else "FAIL"))
     return "\n".join(lines)
