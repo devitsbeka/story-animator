@@ -49,13 +49,16 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T13:08:32+00:00",
+ "updated": "2026-11-22T13:20:12+00:00",
  "stages": {
   "develop": {
    "status": "running",
-   "started": "2026-11-22T13:08:32",
-   "attempts": 1,
-   "error": null
+   "started": "2026-11-22T13:20:12",
+   "attempts": 2,
+   "error": null,
+   "costUSD": 0.0,
+   "seconds": 590.85,
+   "finished": "2026-11-22T13:18:23"
   },
   "breakdown": {
    "status": "pending"
@@ -106,9 +109,9 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 0.0,
+  "totalSeconds": 590.85,
   "byStage": {
-   "develop": 0.0,
+   "develop": 590.85,
    "breakdown": 0.0,
    "library": 0.0,
    "voice": 0.0,
@@ -123,5 +126,6 @@
  "events": [],
  "costCeilings": {
   "develop": 1.5
- }
+ },
+ "error": "LLMError: develop: output hit max_tokens=64000"
 }

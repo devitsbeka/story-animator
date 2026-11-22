@@ -2,3 +2,6 @@
 13:08:07 [waterspout_v2] stage develop: FAILED TypeError: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for the `Authorization` header to be explicitly omitted"
 13:08:07 [waterspout_v2] run status: failed  cost $0.00  time 1s
 13:08:32 [waterspout_v2] stage 1 develop: start
+13:18:23 [waterspout_v2] stage develop: FAILED LLMError: develop: output hit max_tokens=64000
+13:18:23 [waterspout_v2] run status: failed  cost $0.00  time 591s
+13:20:12 [waterspout_v2] stage 1 develop: start
