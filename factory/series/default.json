@@ -1,0 +1,8 @@
+{
+ "_doc": "Series defaults: the CURRENT hero-tier assets every new episode uses unless the breakdown asks otherwise (lesson L021: the director must never fall back to superseded placeholders). Update here when an asset is upgraded; the gate's goldens guard the change.",
+ "hero": {"key": "hero_v4",
+          "entry": {"kind": "blend", "file": "library_store/characters/hero_v4/hero_v4.blend", "collection": "CH-jay", "rig": "RIG-jay",
+                    "options": {"Glasses": 0},
+                    "credit": "Hero built from Jay (Sprite Fright) by Blender Studio, (c) Blender Foundation, CC-BY 4.0, studio.blender.org"}},
+ "props": {"yacht": "proc:yacht_v2"}
+}

@@ -1,3 +1,5 @@
+import os
+os.environ.setdefault("FACTORY_SERIES", "none")  # golden fixtures predate series defaults (lesson L021); real runs bind hero_v4 + yacht_v2
 import copy
 import json
 import os
