@@ -48,7 +48,7 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:04:48+00:00",
+ "updated": "2026-11-22T14:05:21+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -159,10 +159,28 @@
    }
   },
   "sound": {
-   "status": "running",
+   "status": "done",
    "started": "2026-11-22T14:04:48",
    "attempts": 1,
-   "error": null
+   "error": null,
+   "costUSD": 0.0,
+   "seconds": 33.8,
+   "finished": "2026-11-22T14:05:21",
+   "artifacts": [
+    "episodes/waterspout_v2/sound.json",
+    "episodes/waterspout_v2/audio/mix_v1.m4a",
+    "episodes/waterspout_v2/audio/mix_v1.report.json"
+   ],
+   "info": {
+    "mix": "ffmpeg",
+    "cues": 62,
+    "soundQC": false,
+    "underSpeechDB": {
+     "music": -20.000000000000004,
+     "ambience": -27.000000000000004,
+     "music_outro": -1.0
+    }
+   }
   },
   "previs": {
    "status": "running",
@@ -201,14 +219,14 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 3128.16,
+  "totalSeconds": 3161.96,
   "byStage": {
    "develop": 1746.65,
    "breakdown": 177.74,
    "library": 1.78,
    "voice": 30.83,
    "direct": 1171.16,
-   "sound": 0.0,
+   "sound": 33.8,
    "previs": 0.0,
    "render": 0.0,
    "finish": 0.0,
@@ -261,5 +279,107 @@
    "costUSD": 3.4233,
    "kind": "attempts"
   }
- ]
+ ],
+ "shotGate": {
+  "previs": {
+   "tries": 1,
+   "history": [
+    {
+     "try": 0,
+     "failing": {
+      "S04": [
+       "COLLIDE"
+      ],
+      "S05": [
+       "COLLIDE"
+      ],
+      "S06": [
+       "COLLIDE"
+      ],
+      "S08": [
+       "FRAME-CROP",
+       "FRAME-EYES"
+      ],
+      "S09": [
+       "COLLIDE"
+      ],
+      "S12": [
+       "COLLIDE"
+      ],
+      "S14": [
+       "FRAME-CROP",
+       "FRAME-EYES"
+      ],
+      "S15": [
+       "FRAME-CROP",
+       "FRAME-EYES"
+      ],
+      "S18": [
+       "COLLIDE"
+      ],
+      "S22": [
+       "FRAME-EYES",
+       "COLLIDE"
+      ],
+      "S25": [
+       "FRAME-CROP",
+       "FRAME-EYES"
+      ],
+      "S26": [
+       "FRAME-EYES",
+       "COLLIDE"
+      ],
+      "S29": [
+       "COLLIDE"
+      ],
+      "S30": [
+       "FRAME-CROP",
+       "FRAME-EYES"
+      ],
+      "S37": [
+       "FRAME-CROP"
+      ]
+     }
+    }
+   ],
+   "pose": [
+    {
+     "try": 0,
+     "failing": {
+      "S02": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S05": [
+       "POSE-PALM.R"
+      ],
+      "S08": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S15": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S30": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S36": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S37": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ]
+     },
+     "mode": "warn",
+     "report": "episodes/waterspout_v2/qc/pose_qc_previs_0.json",
+     "error": null
+    }
+   ],
+   "ok": false
+  }
+ }
 }

@@ -1,0 +1,182 @@
+{
+ "sound": "episodes/waterspout_v2/sound.json",
+ "sources": {
+  "impact_boom": "elevenlabs",
+  "ui_tick": "procedural",
+  "whoosh_fast": "elevenlabs",
+  "thunder": "elevenlabs",
+  "radio_static": "elevenlabs",
+  "switch_click": "procedural",
+  "whoosh_whip": "elevenlabs",
+  "whoosh_low": "elevenlabs",
+  "riser_reverse": "elevenlabs",
+  "coral_crunch": "elevenlabs",
+  "riser_noise": "elevenlabs",
+  "ocean_waves": "elevenlabs",
+  "wind_sea": "elevenlabs"
+ },
+ "voice_leveler": {
+  "refS": -18.4,
+  "gain_dB_min": -2.03448564279582,
+  "gain_dB_max": 5.784600482289703
+ },
+ "voice_LUFS_premaster": -17.7,
+ "master_gain_dB": 3.1999999999999993,
+ "limiter_ceiling_dBFS": -2.0,
+ "wav": {
+  "path": "episodes/waterspout_v2/audio/mix_v1.wav",
+  "I": -14.2,
+  "TP": -2.0,
+  "LRA": 3.9
+ },
+ "m4a": {
+  "path": "episodes/waterspout_v2/audio/mix_v1.m4a",
+  "I": -14.2,
+  "TP": -1.9,
+  "LRA": 3.9
+ },
+ "under_speech_dB": {
+  "music": -20.000000000000004,
+  "ambience": -27.000000000000004,
+  "music_outro": -1.0
+ },
+ "stems": {
+  "voice": "episodes/waterspout_v2/audio/mix_v1_stems/voice.wav",
+  "music": "episodes/waterspout_v2/audio/mix_v1_stems/music.wav",
+  "ambience": "episodes/waterspout_v2/audio/mix_v1_stems/ambience.wav",
+  "sfx": "episodes/waterspout_v2/audio/mix_v1_stems/sfx.wav",
+  "background": "episodes/waterspout_v2/audio/mix_v1_stems/background.wav"
+ },
+ "seconds": 28.8,
+ "qc": {
+  "pass": false,
+  "checks": [
+   {
+    "name": "integrated loudness (wav)",
+    "pass": true,
+    "value": "-14.20 LUFS",
+    "rule": "S-1 -14.0±1.0"
+   },
+   {
+    "name": "true peak (wav)",
+    "pass": true,
+    "value": "-2.00 dBTP",
+    "rule": "S-1 <= -1.0"
+   },
+   {
+    "name": "integrated loudness (m4a)",
+    "pass": true,
+    "value": "-14.20 LUFS",
+    "rule": "S-1 -14.0±1.0"
+   },
+   {
+    "name": "true peak (m4a)",
+    "pass": true,
+    "value": "-1.90 dBTP",
+    "rule": "S-1 <= -1.0"
+   },
+   {
+    "name": "short-term loudness in range",
+    "pass": false,
+    "value": "92.5% of 652 samples in [-17.0,-10.0] (min -18.6, max -12.1)",
+    "rule": "S-1 short-term within -17..-10 outside P-5 (pass at >=95% of 100 ms samples)"
+   },
+   {
+    "name": "music under voice during speech",
+    "pass": true,
+    "value": "20.00 dB",
+    "rule": "S-2 18.0..22.0 dB"
+   },
+   {
+    "name": "ambience under voice during speech",
+    "pass": true,
+    "value": "27.00 dB",
+    "rule": "S-2 24.0..30.0 dB"
+   },
+   {
+    "name": "music rises in narration gaps",
+    "pass": false,
+    "value": "-11.00 dB vs voice over 5 gaps",
+    "rule": "S-2 music -6..-10 dB vs voice in gaps >= 0.8 s"
+   },
+   {
+    "name": "music carries the outro after the last word",
+    "pass": true,
+    "value": "-1.10 dB vs voice over 1.90 s",
+    "rule": "design target -1.0 dB (±3)"
+   },
+   {
+    "name": "music starts at frame 0 (no fade-in > 3 frames)",
+    "pass": true,
+    "value": "first 3 frames -16.7 dBFS vs next 9 frames -30.9",
+    "rule": "S-3/checklist"
+   },
+   {
+    "name": "hard stop at the end (no fade > 6 frames)",
+    "pass": true,
+    "value": "last 100 ms -18.3 dBFS vs -15.1",
+    "rule": "S-3 / MrBeast abrupt end"
+   },
+   {
+    "name": "music section/layer change gap",
+    "pass": true,
+    "value": "max 11.1 s over 12 sections",
+    "rule": "S-3 <= 15 s"
+   },
+   {
+    "name": "energy map: pre-payoff 0 then payoff >= 4",
+    "pass": true,
+    "value": "[4, 3, 3, 4, 2, 5, 4, 4, 4, 4, 0, 5]",
+    "rule": "S-3 energy map"
+   },
+   {
+    "name": "whoosh on >= 60% of cuts",
+    "pass": true,
+    "value": "36/36 (100%)",
+    "rule": "S-4"
+   },
+   {
+    "name": "riser ends on each reveal (±1 frame)",
+    "pass": true,
+    "value": "4 risers",
+    "rule": "S-4 (payoff riser lands on the P-5 drop)"
+   },
+   {
+    "name": "impact on hook, midpoint, payoff and steps",
+    "pass": true,
+    "value": "5 reveals hit",
+    "rule": "S-4"
+   },
+   {
+    "name": "spot SFX per minute",
+    "pass": false,
+    "value": "48.3/min (58 transients)",
+    "rule": "S-4 25..45"
+   },
+   {
+    "name": "max transients in any 0.5 s window",
+    "pass": true,
+    "value": "2",
+    "rule": "S-4 <= 3"
+   },
+   {
+    "name": "exactly one 0.3-0.8 s silence (< -40 dBFS) right before the payoff",
+    "pass": true,
+    "value": "background silences: [(64.2, 64.7)], payoff at 64.70s",
+    "rule": "P-5 / S-1"
+   },
+   {
+    "name": "no ambience gap > 1 s outside the silence",
+    "pass": true,
+    "value": "[]",
+    "rule": "S-6"
+   },
+   {
+    "name": "ASR intelligibility (WER <= 5%)",
+    "pass": null,
+    "value": "not run in this stage (no ASR model wired; see report)",
+    "rule": "checklist (not measured)"
+   }
+  ]
+ }
+}

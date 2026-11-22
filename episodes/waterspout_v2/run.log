@@ -63,3 +63,10 @@
 14:04:48 [waterspout_v2] stage 6 previs: start
 14:04:50 [waterspout_v2] voice leveler: ref S -18.4 LUFS, gain -2.0..+5.8 dB
 14:04:51 [waterspout_v2] voice loudness over speech -17.70 LUFS
+14:05:04 [waterspout_v2] under speech: music -20.00 dB, ambience -27.00 dB vs voice
+14:05:06 [waterspout_v2] outro: music -1.00 dB vs voice (target -1.0)
+14:05:14 [waterspout_v2] shot gate [previs] pose QC (warn): 7 shot(s): {'S02': ['POSE-PALM.L', 'POSE-PALM.R'], 'S05': ['POSE-PALM.R'], 'S08': ['POSE-PALM.L', 'POSE-PALM.R'], 'S15': ['POSE-PALM.L', 'POSE-PALM.R']}
+14:05:14 [waterspout_v2] shot gate [previs]: 15 failing shot(s): {'S04': ['COLLIDE'], 'S05': ['COLLIDE'], 'S06': ['COLLIDE'], 'S08': ['FRAME-CROP', 'FRAME-EYES'], 'S09': ['COLLIDE'], 'S12': ['COLLIDE']}
+14:05:14 [waterspout_v2] shot gate [previs]: re-directing ['S04', 'S05', 'S06', 'S08', 'S09', 'S12', 'S14', 'S15', 'S18', 'S22', 'S25', 'S26', 'S29', 'S30', 'S37'] (try 1/2)
+14:05:14 [waterspout_v2] master pass 0: gain +3.20 dB ceiling -2.0 dBFS -> wav I -14.20 TP -2.00; m4a I -14.20 TP -1.90
+14:05:21 [waterspout_v2] stage sound: done in 33.8s ($0.000)
