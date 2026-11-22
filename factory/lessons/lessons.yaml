@@ -173,3 +173,12 @@
   check: asset gate scans hero-tier assets for emissive materials on glass-named objects (fail); golden 'salon door + windows at night' close-up regression; vision rubric ASSET-2 'windows/doors read as real'.
   gate: [asset, merge]
   status: open
+
+- id: L020
+  found: lead (waterspout previs), 2026-11-22
+  symptom: 7 of 38 previs keyframes failed; the director had chosen EEVEE for them and EEVEE crashed headless (EGL_BAD_MATCH).
+  root_cause: egl_available() only checked that libEGL exists, so the automatic EEVEE->Cycles fallback never triggered on GPU-less machines.
+  rule: Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board.
+  check: egl_available() requires a GPU device node/driver (FORCE_EEVEE=1 override); previs stage fails the run if any key is missing; test renders an EEVEE-tagged shot on CPU and asserts Cycles fallback.
+  gate: [previs, render, merge]
+  status: partially-closed
