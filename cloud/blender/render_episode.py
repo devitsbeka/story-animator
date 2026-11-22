@@ -1527,6 +1527,18 @@ def setup_render(args, spec):
         sc.cycles.blur_glossy = 1.0
         sc.cycles.sample_clamp_indirect = 10.0
         sc.render.use_persistent_data = True
+        # >>> polish_camera hook: the OOM kills hit at "Updating Lights | Importance map" (4k float EXR skies: 128 MB
+        # each in Blender + the Cycles copy + the map; E32/E33 mix two). Previews cap textures at 2k (a 9:16 frame
+        # shows ~1/4 of the sky); finals keep full res unless RENDER_TEX_LIMIT says otherwise ('OFF' = no cap).
+        lim = os.environ.get("RENDER_TEX_LIMIT", "2048" if args.quality == "preview" else "OFF")
+        if lim != "OFF":
+            sc.render.use_simplify = True
+            sc.render.simplify_subdivision_render = 6
+            try:
+                sc.cycles.texture_limit_render = lim
+            except TypeError:
+                warn(f"bad RENDER_TEX_LIMIT {lim!r}")
+        # <<< polish_camera hook
     else:
         sc.render.engine = "BLENDER_EEVEE_NEXT"
         ee = sc.eevee
