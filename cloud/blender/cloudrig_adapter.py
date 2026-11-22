@@ -832,9 +832,11 @@ def lid_follow(ch, pitch):
     """upper lids ride the eye pitch: down-gaze lowers them, up-gaze lifts the eye ring; lower lids drop a
     touch on down-gaze. Modifies + returns ch."""
     for s in SIDES:
-        ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0.0) - pitch * 0.014
+        # up-gaze lifts the lid only about as far as the iris rises, so the lid line still covers the iris top
+        # (measured on B12 close-ups: the old 0.014 / 0.03 gains bared the sclera above the iris = 'crazy stare')
+        ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0.0) - pitch * (0.014 if pitch < 0 else 0.006)
         if pitch > 0:
-            ch[f"eyeWide.{s}"] = ch.get(f"eyeWide.{s}", 0.0) + pitch * 0.03
+            ch[f"eyeWide.{s}"] = ch.get(f"eyeWide.{s}", 0.0) + pitch * 0.008
         else:
             ch[f"lidLo.{s}"] = ch.get(f"lidLo.{s}", 0.0) + pitch * 0.01
     return ch
@@ -863,11 +865,12 @@ def _emotion_pose(k):
 
 def _crossfade(f, keys, blend):
     cur = {}
-    for k in keys or []:
+    for i, k in enumerate(keys or []):
         if f < k[0]:
             break
         tgt = _emotion_pose(k)
-        t = face._smooth((f - k[0]) / max(1, blend))
+        # the first key is the state the shot opens in (mid-performance), not a fade-in from a blank face
+        t = 1.0 if i == 0 else face._smooth((f - k[0]) / max(1, blend))
         names = set(cur) | set(tgt)
         cur = {n: cur.get(n, 0) + (tgt.get(n, 0) - cur.get(n, 0)) * t for n in names}
     return cur
@@ -899,7 +902,8 @@ def emotion_channels(f, keys, blend=10, overlap=True):
     for n in names:
         d = _lag(n)
         if d not in by_lag:
-            by_lag[d] = _crossfade(f - d, keys, blend)
+            fd = max(f - d, keys[0][0]) if f >= keys[0][0] else f - d   # lag only delays changes, not the opening state
+            by_lag[d] = _crossfade(fd, keys, blend)
         out[n] = by_lag[d].get(n, 0.0)
     for i, k in enumerate(keys):
         u = f - (k[0] - 5)
