@@ -226,3 +226,12 @@
   check: "tests/director/test_runaway_thinking.py (runaway_thinking -> lower effort); pipeline adds costs.llm_stage_cost for a failed develop/breakdown/direct stage; run.json cost per stage vs ceiling (L014)."
   gate: [run, merge]
   status: closed
+
+- id: L024
+  found: lead (waterspout v2 run), 2026-11-22
+  symptom: "Stage 1 failed after 3 attempts on N-1 'words/s 2.36, target [2.8, 3.1]' although the story left exactly the narration gaps the canon asks for (15 gaps, 13 s)."
+  root_cause: "Two rules contradicted each other: the engagement pace (N-1) measured words over the whole narration span, so the canon's reserved silence (CAN-N2) read as slow delivery."
+  rule: "Shorts are paced over the time the narrator speaks: declared narration_gaps are excluded from N-1 and from the word budget. A new rule must be checked against every existing rule it touches (run the director tests + a live story through both)."
+  check: "tests/director/test_gap_pace.py; factory/director/checks.py N-1 / N-1-budget subtract story.narration_gaps for shorts."
+  gate: [develop, merge]
+  status: closed

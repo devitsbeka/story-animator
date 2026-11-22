@@ -187,9 +187,17 @@ def check_story(story):
 
     # ---- NARRATION (ENGAGEMENT 3)
     span = lines[-1]["t1"] - lines[0]["t0"]
-    wps = n_words / span if span > 0 else 0
+    # L024: the canon's reserved narration gaps (CAN-N2: key SFX, reactions, the reserved close-up) are deliberate
+    # silence, not slow delivery - the speaking rate is measured over the time the narrator actually speaks.
+    # Shorts only: their 2.8-3.1 w/s target was calibrated on continuous (wall-to-wall) narration. The docuseries
+    # target (2.4-2.7) comes from documentary narration that already includes pauses for featured sound.
+    gap_s = sum(float(g.get("len_s") or g.get("length") or 0) for g in story.get("narration_gaps") or []
+                if lines[0]["t0"] <= float(g.get("start_s", g.get("start", -1)) or -1) <= lines[-1]["t1"]) if fmt == "short" else 0.0
+    speak = max(0.5 * span, span - gap_s)
+    wps = n_words / speak if speak > 0 else 0
     lo, hi = F["wps"]
-    rep.check("N-1", lo <= wps <= hi, f"words/s over the narration span is {wps:.2f}, target [{lo}, {hi}]")
+    rep.check("N-1", lo <= wps <= hi, f"words/s over the spoken time ({span:.1f} s span - {gap_s:.1f} s reserved gaps) "
+                                       f"is {wps:.2f}, target [{lo}, {hi}]")
     if fmt == "short":
         hook_wps = len(hw) / max(0.01, hook_lines[-1]["t1"] - hook_lines[0]["t0"]) if hook_lines else 0
         rep.check("N-1-hook", hook_wps <= 3.3, f"hook words/s {hook_wps:.2f} > 3.3")
@@ -197,7 +205,7 @@ def check_story(story):
         if pay:
             pw = sum(len(tx.words(ln["text"])) for ln in pay) / max(0.01, sum(ln["t1"] - ln["t0"] for ln in pay))
             rep.check("N-1-payoff", 2.3 <= pw <= 2.6, f"payoff words/s {pw:.2f} outside [2.3, 2.6]")
-        budget = 2.83 * D
+        budget = 2.83 * max(0.5 * D, D - gap_s)   # L024: reserved gaps hold no words
         rep.check("N-1-budget", abs(n_words - budget) <= 0.10 * budget, f"{n_words} words vs budget {budget:.0f} (+-10%) for D = {D:.0f} s")
     sents = [len(tx.words(s)) for ln in lines for s in tx.sentences(ln["text"])]
     if sents:
