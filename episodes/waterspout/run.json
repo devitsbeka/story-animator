@@ -43,9 +43,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "running",
+ "status": "awaiting_approval",
  "created": "2026-11-21T22:35:32+00:00",
- "updated": "2026-11-22T00:47:45+00:00",
+ "updated": "2026-11-22T01:35:33+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -173,23 +173,39 @@
    }
   },
   "previs": {
-   "status": "running",
+   "status": "awaiting_approval",
    "started": "2026-11-22T00:47:45",
    "attempts": 3,
    "error": null,
    "info": {
     "contact_sheet": "/home/user/story-animator/episodes/waterspout/boards/contact_sheet.png",
     "animatic": "/home/user/story-animator/episodes/waterspout/boards/animatic.mp4",
-    "keys": 38,
-    "missing": [],
-    "failed": []
+    "keys": 31,
+    "missing": [
+     "H01",
+     "H02",
+     "H03",
+     "H04",
+     "H05",
+     "H06",
+     "H14"
+    ],
+    "failed": [
+     "key_H01_0021",
+     "key_H02_0072",
+     "key_H03_0131",
+     "key_H04_0182",
+     "key_H05_0228",
+     "key_H06_0295",
+     "key_H14_0773"
+    ]
    },
    "artifacts": [
     "episodes/waterspout/boards/contact_sheet.png",
     "episodes/waterspout/boards/animatic.mp4"
    ],
    "costUSD": 0.0,
-   "seconds": 6.42
+   "seconds": 2875.0
   },
   "render": {
    "status": "pending"
@@ -222,7 +238,7 @@
   "budgetUSD": 15.0
  },
  "time": {
-  "totalSeconds": 1790.23,
+  "totalSeconds": 4658.81,
   "byStage": {
    "develop": 800.72,
    "breakdown": 143.52,
@@ -230,7 +246,7 @@
    "voice": 21.9,
    "direct": 787.45,
    "sound": 28.76,
-   "previs": 6.42,
+   "previs": 2875.0,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0

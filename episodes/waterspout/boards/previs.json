@@ -2,7 +2,23 @@
  "keys_dir": "/home/user/story-animator/episodes/waterspout/boards/keys",
  "contact_sheet": "/home/user/story-animator/episodes/waterspout/boards/contact_sheet.png",
  "animatic": "/home/user/story-animator/episodes/waterspout/boards/animatic.mp4",
- "keys": 38,
- "missing": [],
- "failed": []
+ "keys": 31,
+ "missing": [
+  "H01",
+  "H02",
+  "H03",
+  "H04",
+  "H05",
+  "H06",
+  "H14"
+ ],
+ "failed": [
+  "key_H01_0021",
+  "key_H02_0072",
+  "key_H03_0131",
+  "key_H04_0182",
+  "key_H05_0228",
+  "key_H06_0295",
+  "key_H14_0773"
+ ]
 }
