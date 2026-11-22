@@ -47,18 +47,18 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "running",
+ "status": "failed",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T13:20:12+00:00",
+ "updated": "2026-11-22T13:39:27+00:00",
  "stages": {
   "develop": {
-   "status": "running",
+   "status": "failed",
    "started": "2026-11-22T13:20:12",
    "attempts": 2,
-   "error": null,
-   "costUSD": 0.0,
-   "seconds": 590.85,
-   "finished": "2026-11-22T13:18:23"
+   "error": "StageFailed: stage develop failed validation after retries: [N-1] words/s over the narration span is 2.36, target [2.8, 3.1]",
+   "costUSD": 2.8883,
+   "seconds": 1745.78,
+   "finished": "2026-11-22T13:39:27"
   },
   "breakdown": {
    "status": "pending"
@@ -93,9 +93,9 @@
   "iterations": []
  },
  "cost": {
-  "totalUSD": 0.0,
+  "totalUSD": 2.8883,
   "byStage": {
-   "develop": 0.0,
+   "develop": 2.8883,
    "breakdown": 0.0,
    "library": 0.0,
    "voice": 0.0,
@@ -109,9 +109,9 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 590.85,
+  "totalSeconds": 1745.78,
   "byStage": {
-   "develop": 590.85,
+   "develop": 1745.78,
    "breakdown": 0.0,
    "library": 0.0,
    "voice": 0.0,
@@ -127,5 +127,5 @@
  "costCeilings": {
   "develop": 1.5
  },
- "error": "LLMError: develop: output hit max_tokens=64000"
+ "error": "StageFailed: stage develop failed validation after retries: [N-1] words/s over the narration span is 2.36, target [2.8, 3.1]"
 }

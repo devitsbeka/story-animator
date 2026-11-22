@@ -14,3 +14,7 @@
 13:36:30 [waterspout_v2]     [HEUR N-7] surprise ranking ['F1', 'F2', 'F4'] at [31.2, 26.6, 60.2] s: #1 must land in [0.80 D, 0.95 D], #2 at 0.40-0.55 D, none of the top 3 spent early
 13:36:30 [waterspout_v2]     [HARD CAN-N4c] lines that describe the picture/sound: L12 (60% overlap); L18 (75% overlap)
 13:36:30 [waterspout_v2]     [HARD CAN-S2c] STING: new question 'Is that dark spot another one?' is not about what happens next
+13:39:27 [waterspout_v2] [develop] attempt 3: FAIL - 72 checks passed, 1 blocking, 3 overridden (176.9s, claude-opus-5-5)
+13:39:27 [waterspout_v2]     [HEUR N-1] words/s over the narration span is 2.36, target [2.8, 3.1]
+13:39:27 [waterspout_v2] stage develop: FAILED StageFailed: stage develop failed validation after retries: [N-1] words/s over the narration span is 2.36, target [2.8, 3.1]
+13:39:27 [waterspout_v2] run status: failed  cost $2.89  time 1746s

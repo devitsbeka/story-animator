@@ -1,0 +1,146 @@
+{
+ "stage": "develop",
+ "ok": false,
+ "passed": [
+  "CAN-N1a",
+  "CAN-N1b",
+  "CAN-N1c",
+  "CAN-N1d",
+  "CAN-N2b",
+  "CAN-N2f-plan",
+  "CAN-N4a",
+  "CAN-N4b",
+  "CAN-N4c",
+  "CAN-N4d",
+  "CAN-N4f",
+  "CAN-S1a",
+  "CAN-S1b",
+  "CAN-S1c",
+  "CAN-S1d",
+  "CAN-S2a",
+  "CAN-S2b",
+  "CAN-S2c",
+  "CAN-S2d",
+  "CAN-S2e",
+  "CAN-S2f",
+  "CAN-S3a",
+  "CAN-S3b",
+  "CAN-S3c",
+  "H-1",
+  "H-5",
+  "H-6",
+  "H-7",
+  "H-banned-openers",
+  "H-hook-keywords",
+  "INTEGRITY.beat_refs",
+  "INTEGRITY.cq_line",
+  "INTEGRITY.duration",
+  "INTEGRITY.fact_refs",
+  "INTEGRITY.hook_lines",
+  "INTEGRITY.line_ids",
+  "INTEGRITY.line_order",
+  "INTEGRITY.line_times",
+  "N-1-hook",
+  "N-1-payoff",
+  "N-10",
+  "N-2",
+  "N-3",
+  "N-4",
+  "N-5",
+  "N-5-superlatives",
+  "N-6",
+  "N-7",
+  "N-9",
+  "P5",
+  "R-1",
+  "R-1-open",
+  "R-2",
+  "R-2-midpoint",
+  "R-2-tokens",
+  "R-3",
+  "R-3-and-then",
+  "R-4",
+  "R-5",
+  "R-7",
+  "R-beats-order",
+  "R-beats-window",
+  "S-attempts",
+  "S-essence",
+  "S-flaw",
+  "S1",
+  "S1-causal",
+  "S4",
+  "S5",
+  "S7",
+  "T-3",
+  "T-5"
+ ],
+ "issues": [
+  {
+   "rule": "R-6",
+   "severity": "HEUR",
+   "msg": "CQ answer at 55.4 s must be in [0.80 D, 0.95 D] = [53.6, 63.6] with <= 4 s after it",
+   "overridden": true
+  },
+  {
+   "rule": "N-1",
+   "severity": "HEUR",
+   "msg": "words/s over the narration span is 2.36, target [2.8, 3.1]",
+   "overridden": false
+  },
+  {
+   "rule": "N-1-budget",
+   "severity": "HEUR",
+   "msg": "156 words vs budget 190 (+-10%) for D = 67 s",
+   "overridden": true
+  },
+  {
+   "rule": "N-4-density",
+   "severity": "HEUR",
+   "msg": "need a concrete number every 10 s (largest gap 34.6 s)",
+   "overridden": true
+  }
+ ],
+ "overridden": {
+  "N-1-budget": "155 words already put voiced speech at 79.6% of 67 s; CAN-N2 caps voiced speech at 80% to pay for reaction and key-sound gaps, so the 90-95% voiced budget cannot be met without cutting the gaps.",
+  "N-4-density": "We speak only sourced numbers (stage three of five, step ordinals, ninety degrees); the on-screen distance badge carries the countable clock every <= 12 s rather than inventing unsourced spoken figures.",
+  "R-6": "The tail after the answer holds the required relief beat (>= 1.5 s after peak), the NOAA Bermuda fact and the frame-match loop; it runs about 6.8 s instead of 4 s."
+ },
+ "meta": {
+  "model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 13521
+   },
+   "cache_creation_input_tokens": 13521,
+   "cache_read_input_tokens": 0,
+   "fallback_credit": null,
+   "inference_geo": "global",
+   "input_tokens": 19054,
+   "iterations": [
+    {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 13521
+     },
+     "cache_creation_input_tokens": 13521,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 19054,
+     "model": null,
+     "output_tokens": 23440,
+     "type": "message"
+    }
+   ],
+   "output_tokens": 23440,
+   "output_tokens_details": {
+    "thinking_tokens": 9868
+   },
+   "server_tool_use": null,
+   "service_tier": "standard",
+   "speed": "standard"
+  },
+  "grammar": false
+ }
+}
