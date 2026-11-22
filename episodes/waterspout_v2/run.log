@@ -47,3 +47,10 @@
 13:45:04 [waterspout_v2] stage library: done in 1.8s ($0.000)
 13:45:04 [waterspout_v2] stage 4 direct: start
 13:55:05 [waterspout_v2] [direct] attempt 1: output budget spent on thinking; retrying at effort=medium
+14:01:44 [waterspout_v2] [direct] attempt 2: FAIL - 325 checks passed, 6 blocking, 1 overridden (399.8s, claude-opus-5-5)
+14:01:44 [waterspout_v2]     [HARD D-line-shown.L03] L03 must be carried by >= 1 shot whose scene pictures it
+14:01:44 [waterspout_v2]     [HARD D-line-shown.L05] L05 must be carried by >= 1 shot whose scene pictures it
+14:01:44 [waterspout_v2]     [HARD D-line-shown.L06] L06 must be carried by >= 1 shot whose scene pictures it
+14:01:44 [waterspout_v2]     [HARD M-props-resolved] props used but not resolved (render_key prop:<name>) in manifest.json: ['helm']
+14:01:44 [waterspout_v2]     [HEUR P-6] the same camera preset is used twice in a row
+14:01:44 [waterspout_v2]     [HARD CAN-N3e] reserved_close_up S37 (70.13-72.00 s): words ['breaks—']; turn_then_change settle S06 (11.33-11.87 s): words ['spot', 'behind', 'you']; breath S22 (43.27-44.13 
