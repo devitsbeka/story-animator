@@ -1,0 +1,7 @@
+[render_episode] spec=/home/user/story-animator/episodes/waterspout_v2/episode.json root=/home/user/story-animator frames=1775..1775 quality=preview engine=EEVEE blender=4.2.3 LTS
+[render_episode] render lock acquired after 57s
+[render_episode] WARNING: EEVEE requested but no EGL/GPU context here; falling back to Cycles
+[lighting] shot S30: preset=moonlight_practical_mix seq=S key az=-147.3 el=33.5 dawn=0.0
+[render_episode] yacht_v2: 482 objects; materials: 18 restyled; hull foam: {'hull': 'gelcoat_hull', 'length': 13.06, 'beam': 4.11, 'applied': True}
+[render_episode]   hero look-dev: {'jay.eyes': 'cornea', 'jay.eyes_pupils': 'cornea', 'hero.hoodie_black': 'cloth_black', 'hero.hoodie_rib': 'cloth_black', 'hero.hoodie_seam': 'cloth_black', 'hero.joggers_black': 'cloth_black', 'hero.cap_black': 'cap', 'hero.cap_underbrim': 'cap', 'SH-skin': 'skin'}
+[render_episode]   contact anchors: [] + rails
