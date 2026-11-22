@@ -175,6 +175,7 @@ class MemberNodes(Adapter):
     name = "member_node"
     push = False
     trusted = False
+    max_strikes = 2
 
     def __init__(self, pid, cfg, members, clock=None):
         super().__init__(pid, cfg, clock or members.clock)
@@ -214,6 +215,8 @@ class MemberNodes(Adapter):
         for n in self._nodes:
             if not self.members.live(n) or n["node"] in busy:
                 continue
+            if int((n["record"] or {}).get("strikes", 0)) >= self.max_strikes:
+                continue      # rejected results: no more work until the lead looks (revoked at 3 by the broker)
             p = self.node_profile(n)
             hb = n["heartbeat"] or {}
             if p["paused"] or hb.get("state") in ("busy", "rendering", "limit"):

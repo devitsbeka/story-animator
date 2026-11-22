@@ -6,8 +6,8 @@ import pytest
 from factory.compute.broker import Broker, png_size
 from factory.compute.store import S3Store
 
-from conftest import BUCKET
-from fakes import FakeAdapter, png_bytes
+from compute_testkit import BUCKET
+from compute_fakes import FakeAdapter, png_bytes
 
 SPEC = {"id": "ep", "shots": [{"id": "S0", "from": 0, "to": 24}, {"id": "S1", "from": 24, "to": 40}]}
 

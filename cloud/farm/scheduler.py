@@ -597,6 +597,43 @@ def plan_table(cfg, providers_, gpu_hours, workers=None):
     return rows
 
 
+# >>> compute_broker (factory/compute) - delimited block
+def compute_broker_plan(specs, quality, deadline_min=None, providers=None, allow_paid=False):
+    """The multi-provider broker as one more option: its offline mix of FREE capacity (Lambda free tier, member
+    nodes, local CPU, ...) for the same frames, from broker.yaml profiles (no API calls, ledger not read)."""
+    repo = os.path.abspath(os.path.join(HERE, "..", ".."))
+    if repo not in sys.path:
+        sys.path.insert(0, repo)
+    from factory.compute import planner, registry
+    import jobs as jobsplit
+    cfg = registry.load(providers=providers)
+    rows = []
+    for pid, c in cfg["providers"].items():
+        prof = registry.profile(pid, c)
+        q = c.get("quota") or {}
+        free = not c.get("price_usd_h")
+        per_s = None
+        if q.get("unit") == "GB-s":
+            per_s = float((c.get("config") or {}).get("memory_mb", 3008)) / 1024.0
+        elif q.get("unit"):
+            per_s = float(q.get("per_task_s") or 1.0)
+        conc = prof["concurrency"] or (1 if c.get("adapter") != "member_node" else 0)
+        rows.append({"id": pid, "profile": prof, "free": free, "concurrency": conc,
+                     "ledgerFree": (float(q["free"]) * 0.95) if q.get("free") is not None else None,
+                     "usagePerS": per_s, "priceUsdPerS": float(c.get("price_usd_h") or 0) / 3600.0,
+                     "priority": c.get("priority", 50), "available": conc > 0 and c.get("adapter") in (
+                         "aws_lambda", "local_cpu", "presigned_pod", "member_node")})
+    frames = 0
+    for path in specs or []:
+        with open(path) as fh:
+            frames += sum(j["frames"] for j in jobsplit.split_episode(json.load(fh), quality))
+    p = planner.plan(max(1, frames), quality, rows, deadline_min * 60 if deadline_min else None, None, allow_paid)
+    p["gated"] = cfg["gated"]
+    p["run"] = "python -m factory.compute run --spec <episode.json> --quality %s [--deadline-min N] [--allow-paid]" % quality
+    return p
+# <<< compute_broker
+
+
 def speed_calibration_from_manifests(manifests, base_class="A10G"):
     """{gpuClass: speed} from worker manifests: model estimate (A10G-based) / measured seconds, median per class."""
     per = {}
@@ -753,6 +790,7 @@ def main(argv=None):
     sp.add_argument("--quality", default="final")
     sp.add_argument("--gpu-hours", type=float, default=None)
     sp.add_argument("--workers", type=int, default=None)
+    sp.add_argument("--deadline-min", type=float, default=None, help="compute broker mix: finish within N minutes")
     sp = sub.add_parser("dry-run")
     sp.add_argument("--out", required=True)
     sp.add_argument("--commit", default=None)
@@ -778,9 +816,14 @@ def main(argv=None):
                 with open(path) as fh:
                     spec = json.load(fh)
                 gh += jobsplit.estimate(jobsplit.split_episode(spec, a.quality), 1.0, 1)["gpuHours"]
-        return out({"gpuHoursA10G": round(gh, 2),
-                    "options": plan_table(cfg, build_providers(cfg, offline=True, state_dir=a.state_dir), gh,
-                                          a.workers)})
+        res = {"gpuHoursA10G": round(gh, 2),
+               "options": plan_table(cfg, build_providers(cfg, offline=True, state_dir=a.state_dir), gh, a.workers)}
+        if a.spec:   # >>> compute_broker: the free multi-provider mix for the same frames
+            try:
+                res["computeBroker"] = compute_broker_plan(a.spec, a.quality, a.deadline_min)
+            except Exception as e:  # noqa: BLE001 - the farm plan must not depend on the broker
+                res["computeBroker"] = {"error": f"{type(e).__name__}: {e}"}
+        return out(res)
     if a.cmd == "dry-run":
         return out(dry_run(cfg, a.out, commit=a.commit))
     if a.cmd == "calibrate":

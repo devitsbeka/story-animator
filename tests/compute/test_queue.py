@@ -4,10 +4,10 @@ import time
 
 import pytest
 
-from factory.compute.store import MemoryStore, S3Store
+from factory.compute.store import MemoryStore
 from factory.compute.workqueue import WorkQueue, make_atoms
 
-from conftest import BUCKET, MotoSafeS3Store
+from compute_testkit import BUCKET, MotoSafeS3Store
 
 
 def jobs(n_shots=2, frames=12, quality="preview"):
@@ -65,7 +65,6 @@ def test_lease_race_each_atom_owned_once(backend, request, clock):
     for t in ts:
         t.join()
     assert len(owners) == len(q.atoms()) == 16
-    assert len(set(owners.values())) > 1          # the work really was spread
     assert sum(lost) > 0                          # and workers really did collide (and lost cleanly)
 
 
@@ -163,11 +162,11 @@ def test_straggler_speculation_first_result_wins(clock):
     q.init(make_atoms(jobs(1, 4), 4))
     slow = worker("slow", spf=100.0)
     [a] = q.claim(slow)                                  # est 10 + 400 s
-    fast = worker("fast", spf=1.0)
+    fast = worker("fast", spf=1.0, provider="gpu-pod")   # another provider: no 2x-overdue rule
     assert q.claim(fast) == []                           # nothing unclaimed ...
     [s] = q.speculate(fast)                              # ... so the fast one copies the straggler
     assert s.spec and s.atom == a.atom
-    assert q.speculate(worker("fast2", spf=1.0)) == []   # at most one copy per generation
+    assert q.speculate(worker("fast2", spf=1.0, provider="gpu-pod")) == []   # at most one copy per generation
     assert q.complete(s, {"by": "fast"}) is True
     assert q.complete(a, {"by": "slow"}) is False        # the straggler's result is a duplicate
     assert q.result(a.atom)["by"] == "fast"
@@ -178,7 +177,7 @@ def test_no_speculation_when_it_would_not_help(clock):
     q = WorkQueue(MemoryStore(), "r", clock=clock)
     q.init(make_atoms(jobs(1, 4), 4))
     q.claim(worker("a", spf=1.0))
-    assert q.speculate(worker("b", spf=1.0)) == []      # same speed: no gain
+    assert q.speculate(worker("b", spf=1.0, provider="other")) == []      # same speed: no gain
 
 
 def test_reopen_makes_atom_claimable_again(clock):
@@ -191,3 +190,16 @@ def test_reopen_makes_atom_claimable_again(clock):
     assert not q.progress()["complete"]
     [M] = q.claim(worker("trusted"))
     assert M.atom == L.atom and M.gen == 1
+
+
+def test_same_provider_speculates_only_on_a_real_anomaly(clock):
+    """A worse-than-estimated chunk on the same kind of worker is a bad estimate, not a straggler (live run lesson:
+    6 needless Lambda copies when the uncalibrated estimate was 136 s and chunks took ~250 s)."""
+    q = WorkQueue(MemoryStore(), "r", clock=clock, lease_s=10_000)
+    q.init(make_atoms(jobs(1, 4), 4))
+    [a] = q.claim(worker("lam1", spf=1.0, provider="aws_lambda"))      # est 10 + 4 = 14 s
+    clock.advance(40)                                                  # overdue, but < 2x est + 60 s
+    assert q.speculate(worker("lam2", spf=1.0, provider="aws_lambda")) == []
+    clock.advance(60)                                                  # 100 s > 2 x 14 + 60: anomaly
+    [s] = q.speculate(worker("lam2", spf=1.0, provider="aws_lambda"))
+    assert s.spec

@@ -191,3 +191,12 @@
   check: compile applies series defaults; the asset-tier check (L008) blocks previs/placeholder assets within 10 m of camera; test asserts a compiled episode uses hero_v4 + proc:yacht_v2.
   gate: [direct, merge]
   status: partially-closed
+
+- id: L022
+  found: compute_broker live Lambda run, 2026-11-22
+  symptom: A 24-frame Lambda preview launched 6 needless speculative copies (16 invocations for 10 chunks, ~1,650 extra GB-s) because the uncalibrated plan said 136 s per chunk and real chunks took 230-320 s on the account's 3008 MB cap.
+  root_cause: Straggler detection compared elapsed time with an uncalibrated estimate, so every task on the same kind of worker looked overdue at once; measured s/frame was not fed back into later plans.
+  rule: Speculative re-execution on the same provider needs a real anomaly (> 2x estimate + 60 s); a provider's measured s/frame, scene build and cold start are persisted after every run (calibration.json) and used by the next plan.
+  check: tests/compute/test_queue.py::test_same_provider_speculates_only_on_a_real_anomaly; broker.persist_calibration writes ~/.story-compute/calibration.json + s3 compute/calibration.json; registry.load applies it (test_adapters::test_registry_terms_gate_and_registry_merge).
+  gate: [merge]
+  status: partially-closed

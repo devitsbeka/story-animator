@@ -28,7 +28,6 @@ import re
 import subprocess
 import sys
 import time
-import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 VERSION = "1"

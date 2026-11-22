@@ -11,7 +11,9 @@ Steps of `up` (idempotent):
      the image tag is the sha256[:16] of that zip (same sources -> same tag -> no rebuild).
   2. CloudFormation stack `story-compute` (stack.yaml) with CreateFunction=false: ECR repo, CodeBuild project,
      roles, log groups.
-  3. CodeBuild build (BUILD_GENERAL1_SMALL: 100 free build-minutes/month) unless the tag is already in ECR.
+  3. CodeBuild build (BUILD_GENERAL1_SMALL: 100 free build-minutes/month) unless the tag is already in ECR; the
+     official Blender tarball is staged in S3 first (sha256-checked; download.blender.org 403s CodeBuild). With a
+     CodeBuild build quota of 0 (new accounts) `--builder auto` falls back to imagebuild.py (Docker-free).
   4. stack update with CreateFunction=true, ImageTag=<tag>: the function (10240 MB, 10240 MB /tmp, 900 s). If the
      account refuses 10240 MB (new accounts can be capped at 3008 MB) it retries with --memory-fallback.
 

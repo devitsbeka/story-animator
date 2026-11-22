@@ -29,7 +29,7 @@ import time
 from . import planner as planmod
 from . import registry as reg
 from .ledger import BudgetExceeded, Ledger, QuotaExceeded, period_start
-from .members import Members, MemberNodes, spot_check_selected
+from .members import Members, spot_check_selected
 from .store import S3Store
 from .workqueue import Lease, WorkQueue, make_atoms
 
@@ -198,11 +198,22 @@ class Broker:
                             shot_frames=shot_frames,
                             runtime_fraction=float(self.defaults["chunk_runtime_fraction"]))
 
+    def split(self, spec, quality, frames=None, res=None, samples=None, engine=None):
+        """frames: None (whole episode) | (a, b) | [(a, b), ...] (e.g. previs keyframes) -> jobs (deduplicated)."""
+        ranges = [frames] if frames is None or isinstance(frames[0], int) else list(frames)
+        js, seen = [], set()
+        for fr in ranges:
+            for j in self.jobsplit.split_episode(spec, quality, engine=engine, frame_range=fr, res=res, samples=samples):
+                if j["jobId"] not in seen:
+                    seen.add(j["jobId"])
+                    js.append(j)
+        return js
+
     def plan_job(self, spec_path, quality="preview", frames=None, res=None, samples=None, deadline_min=None,
                  budget=None, allow_paid=False):
         with open(spec_path) as fh:
             spec = json.load(fh)
-        js = self.jobsplit.split_episode(spec, quality, frame_range=frames, res=res, samples=samples)
+        js = self.split(spec, quality, frames, res, samples)
         n = sum(j["frames"] for j in js)
         p = self.make_plan(n, quality, deadline_min * 60 if deadline_min else None, budget, allow_paid,
                            shot_frames=max(j["frames"] for j in js) if js else None)
@@ -216,10 +227,11 @@ class Broker:
                extra_args=None, inputs=None):
         with open(spec_path) as fh:
             spec = json.load(fh)
-        js = self.jobsplit.split_episode(spec, quality, engine=engine, frame_range=frames, res=res, samples=samples)
+        js = self.split(spec, quality, frames, res, samples, engine)
         if not js:
             raise SystemExit("no frames selected")
-        self.jobsplit.check_coverage(spec, js)
+        if frames is None or isinstance(frames[0], int):
+            self.jobsplit.check_coverage(spec, js)
         n = sum(j["frames"] for j in js)
         self.observe_meters()
         deadline_s = deadline_min * 60 if deadline_min else None
@@ -301,6 +313,7 @@ class Broker:
                     self._cancel(st, t, "run complete")
             st["status"] = "COMPLETE"
             st["completedAt"] = self.clock()
+            self.persist_calibration(st)
             st["wallS"] = round(st["completedAt"] - st["createdAt"], 1)
             self.event(st, "complete", wallS=st["wallS"], usage=st["usage"], usd=st["spentUsd"])
             self.save(st)
@@ -510,10 +523,13 @@ class Broker:
                         good, why = False, f"frame {f} not a complete PNG of {want_res}: {size}"
                         break
             if not good:
-                q.release(L, reason=f"verify: {why}", failed=not L.spec)
+                # an untrusted node's bad result says nothing about the atom: do not park it, strike the node
+                q.release(L, reason=f"verify: {why}", failed=not L.spec and t["trusted"])
                 self.event(st, "rejected", attempt=t["attempt"], atom=aid, why=why)
                 if not t["trusted"] and t.get("node"):
-                    self.members.update_record(t["node"], strikes=1)
+                    rec = self.members.update_record(t["node"], strikes=1) or {}
+                    if int(rec.get("strikes", 0)) >= 3 and not rec.get("revoked"):
+                        self.distrust(st, q, t["node"], f"3 rejected results (last: {why})")
                 continue
             if not t["trusted"]:
                 if q.result(aid):          # someone else already delivered it
@@ -631,6 +647,26 @@ class Broker:
         c["cold_start_s"] = round(max(0.0, t["seconds"] - render_s), 1) if t.get("seconds") else c.get("cold_start_s")
         c["samples"] = n + 1
         c["res"], c["samplesPerPixel"] = st.get("res"), st.get("samples")
+
+    def persist_calibration(self, st):
+        """Measured s/frame, scene build and cold start per provider -> calibration.json (next plans use them).
+        Kept per (res, spp) only for the broker's default preview/final settings to stay comparable."""
+        cal = reg.load_calibration()
+        for pid, c in (st.get("calibration") or {}).items():
+            if c.get("samples", 0) < 1:
+                continue
+            cur = cal.setdefault(pid, {"spf": {}})
+            cur["spf"][st["quality"]] = c["spf"].get(st["quality"])
+            for k in ("build_s", "cold_start_s"):
+                if c.get(k) is not None:
+                    cur[k] = c[k]
+            cur["measuredAt"] = {"run": st["runId"], "res": st.get("res"), "samples": st.get("samples"),
+                                 "t": round(self.clock())}
+        try:
+            reg.save_calibration(cal)
+            self.store.put_json(f"{self.root}calibration.json", cal)
+        except Exception as e:  # noqa: BLE001 - calibration is advisory
+            self.event(st, "calibration_save_failed", error=str(e)[:200])
 
     # ------------------------------------------------------------------------------------------- loops
     def run_until_done(self, st, interval=10.0, max_s=None, on_tick=None):

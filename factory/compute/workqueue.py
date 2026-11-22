@@ -217,6 +217,8 @@ class WorkQueue:
             if (max_frames and atom["frames"] > max_frames) or (max_s and self.est(worker, [atom]) > max_s):
                 continue
             elapsed, est_s = now - float(rec["t0"]), float(rec.get("estS") or 0)
+            if rec.get("provider") == worker.get("provider") and elapsed < 2.0 * est_s + 60:
+                continue   # same kind of worker: only a real anomaly (2x overdue) is worth a copy, not a bad estimate
             # on schedule: what the estimate says is left; overdue (a straggler): assume it needs as long again
             remaining = est_s - elapsed if elapsed <= est_s else elapsed
             mine = self.est(worker, [atom])

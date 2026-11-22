@@ -6,7 +6,7 @@ import pytest
 from factory.compute.ledger import BudgetExceeded, Ledger, QuotaExceeded, period_id
 from factory.compute.store import LocalDirStore, MemoryStore, S3Store
 
-from conftest import BUCKET, MotoSafeS3Store
+from compute_testkit import BUCKET, MotoSafeS3Store
 
 LAMBDA = {"unit": "GB-s", "free": 400000, "period": "month", "unit_usd": 0.0000166667}
 

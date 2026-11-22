@@ -396,7 +396,8 @@ class Pipeline:
         # keyframes already on disk are reused (render_keys skips them), so re-entering after approval is cheap
         info = previs_mod.run(ep, self.p("episode.json"), bdir, audio=self._abs(ep["audio"]["narration"]),
                               shots=list(self.o.previs_shots) or None, stub=self.stub("previs"), res=self.o.previs_res,
-                              samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log)
+                              samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log,
+                              backend="compute" if self.o.render == "compute" else "local")   # compute_broker
         self.st.update_stage("previs", info={k: v for k, v in info.items() if k != "keys_dir"},
                              artifacts=[_rel(info["contact_sheet"]), _rel(info["animatic"])])
         if self.o.auto_approve and not self.approved():
@@ -429,6 +430,12 @@ class Pipeline:
                 shutil.rmtree(os.path.join(self.plates_dir(), s), ignore_errors=True)
         if self.stub("render"):
             res = render_mod.stub_plates(ep, plates, shots=shots, keys_dir=self.p("boards", "keys"))
+        elif self.o.render == "compute":   # >>> compute_broker: factory/compute, free providers first
+            sel = [(int(s["from"]), int(s["to"]) - 1) for s in ep["shots"] if not shots or s["id"] in shots]
+            remaining = None if self.o.budget is None else max(0.0, self.o.budget - self.st.spent)
+            res = (self.hooks.get("render_compute") or render_mod.render_compute)(
+                spec_path, plates, self.o.quality, shots_frames=sel, res=self.o.render_res,
+                samples=self.o.render_samples, budget=remaining, log=self.log)   # <<< compute_broker
         elif self.o.render == "farm":
             remaining = None if self.o.budget is None else max(0.0, self.o.budget - self.st.spent)
 
