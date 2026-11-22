@@ -28,9 +28,24 @@ def test_points():
 def test_original_defect_shots_flagged():
     ep = json.load(open(os.path.join(ROOT, "episodes", "sentinel", "episode_v5.json")))
     shots = {s["id"]: s for s in ep["shots"]}
-    assert MP.shot_hits(shots["A02"]) and MP.shot_hits(shots["A04"])
-    for ok in ("A01a", "A01b", "B11", "C21", "D25"):                       # deck / orbit / interior-set cameras are fine
-        assert not MP.shot_hits(shots[ok]), ok
+    MP.set_yacht_model({"assets": {"props": {"yacht": "assets/props/yacht.glb"}}})   # the box proxy of the old yacht
+    try:
+        assert MP.shot_hits(shots["A02"]) and MP.shot_hits(shots["A04"])
+        for ok in ("A01a", "A01b", "B11", "C21", "D25"):                       # deck / orbit / interior-set cameras are fine
+            assert not MP.shot_hits(shots[ok]), ok
+    finally:
+        MP.set_yacht_model({"assets": {"props": {"yacht": "proc:yacht_v2"}}})
+
+
+def test_v2_episodes_use_the_v2_proxy():
+    """L028: episodes that render proc:yacht_v2 are checked against its SDF proxy (0.12 m clearance over the move):
+    the in-cabin A02/A04 cameras are caught, and v5's C21 (3 cm from the v2 bench back mid-move) is flagged too."""
+    ep = json.load(open(os.path.join(ROOT, "episodes", "sentinel", "episode_v5.json")))
+    shots = {s["id"]: s for s in ep["shots"]}
+    MP.set_yacht_model(ep)
+    assert MP.YACHT_MODEL.startswith("proc:yacht_v2")
+    assert MP.shot_hits(shots["A02"]) and MP.shot_hits(shots["A04"]) and MP.shot_hits(shots["C21"])
+    assert not MP.shot_hits(shots["A01a"])
 
 
 def test_prop_proxy_transform():
