@@ -1185,6 +1185,16 @@ def build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps):
     holder.matrix_basis = obj_mat(trans(a["local"]) @ rot_y(a.get("rotY", 0))) @ Matrix.Scale(sc, 4)
     arm["cloudrig_bone_alias"] = cloudrig_adapter.BONE_ALIAS
     pup = cloudrig_adapter.CloudRigPuppet(arm, holder)
+    # >>> polish_face: face_spec "look": "camera" -> the shot camera, in yacht space (the yacht root is still at the
+    #     origin while actors bake; buoyancy only moves the whole yacht + its actors later)
+    ck, ysh = shot.get("camera") or {}, shot.get("yacht")
+    if ck.get("keys"):
+        if ck.get("space", "world") == "yacht" or not ysh:
+            pup.camera_fn = lambda f: b3(rig_at(f, ck["keys"], 0.0, (), ck.get("drift", 0.25))[0])
+        else:
+            ymi = (trans((ysh["x"], 0, ysh["z"])) @ rot_y(ysh["heading"])).inverted()
+            pup.camera_fn = lambda f: b3((ymi @ Vector(rig_at(f, ck["keys"], 0.0, (), ck.get("drift", 0.25))[0]).to_4d()).to_3d())
+    # <<< polish_face
     perf = a.get("perf") or {"stance": [[-10000, "stand"]]}
     t0 = time.time()
     pup.bake(perf, a.get("face") or perf.get("face") or {"seed": perf.get("seed", 1)}, shot["from"] - 1, shot["to"] + 1)

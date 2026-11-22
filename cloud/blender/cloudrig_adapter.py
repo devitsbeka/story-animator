@@ -14,10 +14,17 @@ What it drives (all keyed on the rig's own animator controls, never on DEF bones
         ACT-Eyelid_Upper/Lower (close + tilt), MSTR-EyeRing_Upper (wide), MSTR-Eyebrow (up/down,
         inner tilt, squeeze), ACT-MouthCorner (up/down, wide/squash), CTR-LipCorner (pucker),
         Jaw (open / forward), MSTR-Lip_Upper / MSTR-Lip_Lower, ACT-Lip_*_Roll, CTR-CheekPuff, Nostril,
-        MSTR-Mouth (side) -> an authored FACE CHANNEL layer; ARKit-52 units are poses over channels
-        (ARKIT_UNITS), emotions are face.EMOTIONS mixes of those units (FACE_POSES), blended additively.
-  eyes  MSTR-TGT-Eyes is re-placed every frame in front of the head from face.gaze_at() (head-relative
-        yaw/pitch with saccades + micro-saccades); upper lids follow gaze pitch; blinks from blink_at().
+        MSTR-Mouth (side), Eyebrow1/5 (inner / outer brow ends), CTR-Eye scale (pupil dot), LTC-Eye_Lattice scale
+        (eye height) -> an authored FACE CHANNEL layer. FACE_POSES = one hand-posed channel pose per face.EMOTIONS
+        name (asymmetric, calibrated on the rig's Sprite Fright pose assets), cross-faded by emotion_channels();
+        ARKit-52 units over channels (ARKIT_UNITS) remain for other callers / emotions without a pose.
+  eyes  MSTR-TGT-Eyes aims at a real point: face_spec "look" ('camera' via pup.camera_fn, an object name, a world
+        [x,y,z], or keys [[f, target]]), else a fixation point held ahead while the head moves a little (VOR) that
+        pops (1-frame saccade, led into the turn) when the head moves on. face.gaze_at keys + thought darts (on
+        emotion changes) + micro-saccades are offsets on top. TGT-Eye.L/R are pulled in for real convergence, the
+        nasal-turning eye is cheated (Jay's flat eye hides a nasal dot), visual angles are clamped (eye_limit).
+        Upper lids ride the reached eye pitch; blinks from blink_at(): before thought changes, on head turns, withheld
+        while staring in shock/fear/panic (thought_blinks).
   mouth face.viseme_track() -> VISEME_POSES over jaw + lip channels.
 
 Proportions: acting.py speaks metres for a 1.8 m hero (shoulders 1.32, hips 0.93, ankles 0.16).
@@ -55,6 +62,9 @@ def _side_of(key):
 # channel: (bone pattern, kind, axis, amount per unit, mirror-sign for .R, (lo, hi) clamp of the raw value)
 #   kind 'loc' / 'rot' = the bone's LOCAL channel (the one its Action-constraint drivers read; rot in degrees)
 #   kind 'dpos' = a translation in armature space (x mirrored for .R), converted through the rest matrix
+#   kind 'scl' = a LOCAL scale offset (axis = per-axis weights; scale = 1 + v * unit * w), clamp on the offset
+# Calibrated on hero_v4 (Jay) against the rig's own Sprite Fright pose assets (Jay_face_smile / _worried / _panic /
+# _cool in the .blend): their raw control values set units + clamps, so ~1.0 is what the Sprite Fright animators used.
 FACE_CTRL = {
     "lidUp":    ("ACT-Eyelid_Upper.{S}", "loc", 1, -0.025, 1, (-0.025, 0.01)),   # 1 = upper lid fully down
     "lidLo":    ("ACT-Eyelid_Lower.{S}", "loc", 1, 0.015, 1, (-0.015, 0.015)),   # 1 = lower lid fully up
@@ -63,18 +73,23 @@ FACE_CTRL = {
     "browUp":   ("MSTR-Eyebrow.{S}", "loc", 1, 0.012, 1, (-0.015, 0.02)),
     "browIn":   ("MSTR-Eyebrow.{S}", "rot", 2, 16.0, -1, (-35, 35)),            # + = inner end up / outer down
     "browSq":   ("MSTR-Eyebrow.{S}", "loc", 0, 0.006, -1, (-0.012, 0.012)),      # + = towards the nose
-    "cornerUp": ("ACT-MouthCorner.{S}", "loc", 0, 0.03, -1, (-0.03, 0.03)),      # + = smile, - = frown
-    "cornerWide": ("ACT-MouthCorner.{S}", "loc", 1, -0.035, 1, (-0.05, 0.02)),  # + = wide, - = squash
-    "pucker":   ("CTR-LipCorner.{S}", "loc", 1, 0.008, 1, (-0.01, 0.012)),       # + = corner in
+    "browInUp": ("Eyebrow1.{S}", "loc", 1, -0.012, 1, (-0.018, 0.01)),         # + = inner brow end up (SF worried ~1.1)
+    "browInRot": ("Eyebrow1.{S}", "rot", 2, -22.0, -1, (-35, 35)),             # + = inner end twist (keeps the arch smooth)
+    "browOutUp": ("Eyebrow5.{S}", "loc", 1, -0.006, 1, (-0.012, 0.012)),       # + = outer brow end up
+    "cornerUp": ("ACT-MouthCorner.{S}", "loc", 0, 0.03, -1, (-0.035, 0.035)),    # + = smile, - = frown
+    "cornerWide": ("ACT-MouthCorner.{S}", "loc", 1, -0.035, 1, (-0.05, 0.025)),  # + = wide, - = squash
+    "pucker":   ("CTR-LipCorner.{S}", "loc", 1, 0.008, 1, (-0.012, 0.012)),      # + = corner in
     "cheek":    ("CTR-CheekPuff.{S}", "loc", 1, 0.008, 1, (-0.01, 0.012)),       # + = cheek raised
     "sneer":    ("Nostril.{S}", "loc", 1, 0.004, 1, (-0.006, 0.006)),            # + = nostril up
     "jaw":      ("Jaw", "loc", 2, 0.045, 1, (-0.008, 0.05)),                     # + = open
     "jawFwd":   ("Jaw", "loc", 1, 0.006, 1, (-0.01, 0.01)),
-    "upLip":    ("MSTR-Lip_Upper", "loc", 1, -0.004, 1, (-0.008, 0.006)),        # + = upper lip up
-    "loLip":    ("MSTR-Lip_Lower", "loc", 1, -0.004, 1, (-0.008, 0.006)),        # + = lower lip down
+    "upLip":    ("MSTR-Lip_Upper", "loc", 1, -0.004, 1, (-0.01, 0.008)),         # + = upper lip up
+    "loLip":    ("MSTR-Lip_Lower", "loc", 1, -0.004, 1, (-0.016, 0.008)),        # + = lower lip down
     "rollUp":   ("ACT-Lip_Upper_Roll", "rot", 0, 30.0, 1, (-60, 60)),            # + = roll in (press)
     "rollLo":   ("ACT-Lip_Lower_Roll", "rot", 0, 30.0, 1, (-60, 60)),
     "mouthSide": ("MSTR-Mouth", "dpos", 0, 0.010, 1, (-0.02, 0.02)),             # + = towards his left
+    "pupil":    ("CTR-Eye.{S}", "scl", (1, 0, 1), 0.3, 1, (-0.6, 0.35)),         # + = bigger pupil dot (SF panic ~ -1.8)
+    "eyeBig":   ("LTC-Eye_Lattice.{S}", "scl", (0.25, 0.25, 1.0), 0.4, 1, (-0.3, 0.7)),  # + = taller eye (SF panic ~1.7)
 }
 
 CHANNELS = []
@@ -173,8 +188,71 @@ def _add(a, b, k=1.0):
     return a
 
 
-# The FACE POSE LIBRARY: one channel pose per emotion (ARKit mix from face.EMOTIONS + stylisation).
-FACE_POSES = {name: _add(channels_from_arkit(w), EMOTION_EXTRA.get(name, {})) for name, w in face.EMOTIONS.items()}
+# Legacy pose library (ARKit mix from face.EMOTIONS + stylisation), kept for reference / non-Jay CloudRig faces.
+FACE_POSES_ARKIT = {name: _add(channels_from_arkit(w), EMOTION_EXTRA.get(name, {})) for name, w in face.EMOTIONS.items()}
+
+# Resting upper lid (0 = wide open .. 1 = shut): the lid line just covers the top of the iris (no 'crazy stare').
+REST_LIDS = 0.3
+# Resting pupil dot size (channel units): a touch bigger than the rig default reads softer / more appealing.
+REST_PUPIL = 0.3
+
+
+def _pose(asym=0.1, lead="L", L=None, R=None, **kw):
+    """author one expression: kw = channel values on both sides (centre channels as-is); `asym` makes the lead
+    side that much stronger and the other weaker (5-15% keeps a face alive); L / R = one-sided additions."""
+    out = {}
+    for k, v in kw.items():
+        if k in FACE_CTRL and "{S}" in FACE_CTRL[k][0]:
+            for s in SIDES:
+                out[f"{k}.{s}"] = v * (1 + asym if s == lead else 1 - asym)
+        else:
+            out[k] = v
+    for s, extra in (("L", L), ("R", R)):
+        for k, v in (extra or {}).items():
+            out[f"{k}.{s}"] = out.get(f"{k}.{s}", 0.0) + v
+    return out
+
+
+# The FACE POSE LIBRARY, hand-posed on Jay's controls (every face.EMOTIONS key). Read with the rig's Sprite Fright
+# pose assets as reference (smile: corners up+wide with the cheeks; worried: inner brow ends up, lower lip rolled out,
+# small pupils; panic: tall eyes, tiny pupils, wide frown). Values are channel units (see FACE_CTRL); the resting lid
+# REST_LIDS is added on top at run time, so lidUp here is relative to it.
+FACE_POSES = {
+    "neutral":    _pose(0.0, cheek=0.05, upLip=0.15, loLip=0.25, pucker=-0.1, L={"cornerUp": 0.18}, R={"cornerUp": 0.06}),  # resting lopsided half-smile
+    "calm":       _pose(0.1, cornerUp=0.3, cornerWide=0.12, cheek=0.3, lidLo=0.28, lidUp=-0.02, browIn=0.1),
+    "content":    _pose(0.12, cornerUp=0.75, cornerWide=0.45, cheek=0.8, lidLo=0.5, lidUp=-0.08, browUp=0.15, browInUp=0.15,
+                        pupil=0.2, loLip=0.2),
+    "concern":    _pose(0.1, browInUp=0.6, browInRot=0.4, browIn=0.35, browSq=0.4, browUp=-0.1, lidTilt=0.3, lidLo=0.15,
+                        cornerUp=-0.25, cornerWide=-0.15, pucker=0.1, rollLo=-0.3),
+    "worried":    _pose(0.12, browInUp=1.1, browInRot=0.9, browIn=0.6, browSq=0.35, browUp=-0.2, browOutUp=-0.3, lidTilt=0.7,
+                        lidUp=-0.05, lidLo=0.1, cornerUp=-0.35, cornerWide=-0.4, rollLo=-1.5, jaw=0.15, pupil=-0.5),
+    "fear":       _pose(0.08, browUp=1.0, browIn=0.7, browInUp=0.8, browSq=0.3, eyeWide=0.9, eyeBig=0.5, lidUp=-0.35,
+                        lidLo=-0.4, cornerWide=0.9, cornerUp=-0.45, jaw=0.3, loLip=0.8, pupil=-1.2),
+    "shock":      _pose(0.06, browUp=1.3, browIn=0.3, browOutUp=0.5, eyeWide=1.2, eyeBig=0.9, lidUp=-0.4, lidLo=-0.6,
+                        jaw=0.45, cornerWide=-0.8, pucker=0.45, rollUp=-0.3, rollLo=-0.3, pupil=-1.0),
+    "panic":      _pose(0.0, browUp=1.05, browIn=1.0, browInUp=0.2, eyeBig=1.6, lidUp=-0.35, rollLo=-2.0, jaw=1.1,
+                        pupil=-1.8, L={"cornerUp": -0.5, "cornerWide": 1.25}, R={"cornerUp": -0.93, "cornerWide": 1.4}),
+    "pain":       _pose(0.15, browSq=1.0, browUp=-0.6, browInUp=0.7, browIn=0.4, lidUp=0.45, lidLo=0.8, cheek=0.8, sneer=0.8,
+                        cornerWide=0.9, cornerUp=-0.3, upLip=0.8, jaw=0.2, lidTilt=-0.2),
+    "determined": _pose(0.12, browUp=-0.75, browSq=0.9, browIn=-0.6, browInUp=-0.4, browOutUp=0.2, lidUp=-0.06, lidLo=0.5,
+                        lidTilt=-0.25, cornerUp=-0.15, cornerWide=0.1, rollUp=0.7, rollLo=0.7, jawFwd=0.5, pupil=0.0, mouthSide=0.15),
+    "shout":      _pose(0.1, browUp=-0.7, browSq=1.0, browIn=-0.8, browInUp=-0.4, lidLo=0.5, lidUp=0.05, jaw=1.0, cornerWide=1.0, cornerUp=-0.1,
+                        upLip=1.5, loLip=1.0, sneer=0.6, cheek=0.4),
+    "hopeful":    _pose(0.1, browInUp=0.6, browIn=0.4, browUp=0.35, cornerUp=0.35, cornerWide=0.1, cheek=0.3, lidUp=-0.12,
+                        pupil=0.25, lidLo=0.15),
+    "relief":     _pose(0.1, browInUp=0.5, browIn=0.3, browUp=0.1, lidUp=0.3, lidLo=0.3, cornerUp=0.5, cornerWide=0.3, cheek=0.4,
+                        jaw=0.12, loLip=0.3),
+    "sneeze_build": _pose(0.15, browInUp=1.2, browUp=0.6, browIn=0.6, lidUp=0.35, lidLo=0.45, cheek=0.7, sneer=1.0, upLip=1.5,
+                          jaw=0.45, cornerWide=0.3),
+    "sneeze":     _pose(0.1, lidUp=1.0, lidLo=0.7, browUp=-0.9, browSq=1.0, browIn=-0.3, cheek=1.0, sneer=1.0, upLip=1.0,
+                        jaw=0.65, cornerWide=0.7, cornerUp=-0.2),
+    "secret":     _pose(0.05, pucker=1.0, cornerWide=-0.8, rollUp=-0.5, rollLo=-0.5, jaw=0.05, browInUp=0.3, lidUp=0.2,
+                        lidLo=0.3, mouthSide=0.3, cornerUp=0.15, L={"browUp": 1.0, "browOutUp": 0.6}, R={"browUp": -0.3}),
+    "wince":      _pose(0.2, browSq=0.8, browUp=-0.4, browInUp=0.4, lidUp=0.4, lidLo=0.7, cheek=0.7, sneer=0.5, cornerWide=0.7,
+                        cornerUp=-0.2, mouthSide=-0.4, rollUp=0.3, rollLo=0.3),
+}
+for _n in face.EMOTIONS:                     # any emotion added to face.py later still gets a (legacy) pose
+    FACE_POSES.setdefault(_n, FACE_POSES_ARKIT[_n])
 
 # face.VIS viseme keys -> channel poses (jaw + lips); co-articulated weights come from face.visemes_at
 VISEME_POSES = {
@@ -267,6 +345,22 @@ class CloudRigPuppet:
         self._prev_eul = {}
         # Jay's flat cartoon eyeballs lose the pupil past ~15 deg of yaw: eye rotation = gaze * gain
         self.gaze_gain = (0.55, 0.75)
+        # EYE CRAFT. The eyes aim at a real point (the camera, an object, or a held fixation point ahead) instead of a
+        # head-locked direction: TGT-Eye.L/R are pulled in towards the master target so the two eyes converge on it
+        # (vergence 1 = both eye targets on the point; the rig's rest spreads them 13 cm = parallel/wall-eyed).
+        self.eyetgt_lr = {s: opt(f"TGT-Eye.{s}") for s in SIDES}
+        self.vergence = 1.0                  # 1 = geometric convergence for the target distance, 0 = parallel
+        self.ipd = 0.06                      # pupil-dot separation (armature m) used for the convergence angle
+        self._eye_dist_real = 1.6
+        self._eye_yaw = 0.0
+        self.nasal_gain = 0.45
+        self.debug_eyes = False
+        self.eye_limit = (28.0, 14.0)        # max VISUAL eye-in-head yaw / pitch (deg) before the dot slides off
+        self.eye_gain = (0.55, 0.5)          # visual angle -> rig angle (the dot on the flat eye reads ~2x the bone turn)
+        self.camera_fn = None                # f -> world-space camera position (set by the shot builder / sheets)
+        self.fix_hold = 9.0                  # deg: head motion inside this keeps the fixation (VOR), beyond = saccade
+        self._fix = self._fix_frame = self._last_head_pt = None
+        self._eye_pitch = 0.0
 
     # ---------------------------------------------------------------- setup
     def _set_ik_mode(self):
@@ -291,6 +385,7 @@ class CloudRigPuppet:
             out.append(self.neck)
         if self.eyetgt:
             out.append(self.eyetgt)
+        out += [b for b in (getattr(self, "eyetgt_lr", None) or {}).values() if b is not None]
         out += [v[0] for v in self.facectl.values()]
         return list(dict.fromkeys(out))
 
@@ -482,15 +577,30 @@ class CloudRigPuppet:
                 v = Vector((0, -1, 0))
             kp = (hip + ft) * 0.5 + v.normalized() * max(0.25, dd.length)
             self._set_pose_matrix(self.lpole[s], Matrix.Translation(kp) @ self._rest3(self.lpole[s]).to_4x4())
-        # 3. eyes: target in front of the (posed) head
+        # 3. eyes: a real fixation point (look target / held point ahead), converged, clamped to the eye's range
         if self.eyetgt is not None and gaze is not None:
-            yaw, pitch = gaze[0] * self.gaze_gain[0], gaze[1] * self.gaze_gain[1]
-            dvec = Quaternion((0, 0, 1), math.radians(yaw)) @ Quaternion((1, 0, 0), math.radians(-pitch)) @ Vector((0, -1, 0))
             cen = self.eyecen.matrix @ (self.eyecen.bone.matrix_local.inverted() @ self.eyecen.bone.head_local) if self.eyecen else head_c
-            tgt = cen + hq @ (dvec * self.eye_dist)
+            tgt = self._eye_target(gaze, cen, hq)
             self._set_pose_matrix(self.eyetgt, Matrix.Translation(tgt) @ self._rest3(self.eyetgt).to_4x4())
-        # 4. face channels
-        self.apply_face(face_ch or {})
+            # vergence: the rig's rest spreads the two eye targets (13 cm at 0.71 m = its 'parallel' look). Pull them
+            # in by the real convergence angle for the target distance so both pupils meet on the point.
+            k = min(0.6, self.vergence * self.eye_gain[0] * self.eye_dist * (self.ipd * 0.5) / max(0.25, self._eye_dist_real) /
+                    max(1e-4, abs(self.eyetgt_lr["L"].bone.head_local.x - self.eyetgt.bone.head_local.x))) if self.eyetgt_lr.get("L") else 0.0
+            # nasal cheat: an eye turning towards the nose slides its dot behind the flattened eye shape (reads as a
+            # missing pupil on the far eye of a 3/4), so the nasal-turning eye rotates only `nasal_gain` as far.
+            ylat = self.eye_dist * math.tan(math.radians(self._eye_yaw * self.eye_gain[0])) * (1.0 - self.nasal_gain)
+            for s, b in self.eyetgt_lr.items():
+                if b is not None:
+                    off = b.bone.head_local - self.eyetgt.bone.head_local
+                    d = -off * k
+                    if (s == "R" and self._eye_yaw > 0) or (s == "L" and self._eye_yaw < 0):
+                        d = d + Vector((-ylat, 0.0, 0.0))
+                    b.location = self._rest3(b).inverted() @ d
+        # 4. face channels (lids follow the eye pitch actually reached, then the blink closes over them)
+        face_ch = face_ch or {}
+        if "_blink" in face_ch:
+            face_ch = compose_lids(dict(face_ch), self._eye_pitch if gaze is not None else 0.0)
+        self.apply_face(face_ch)
         bpy.context.view_layer.update()
         # 5. hand orientation: rest hand rotated onto the solved forearm, then the acting handRot
         for s in SIDES:
@@ -515,7 +625,11 @@ class CloudRigPuppet:
             if not v:
                 continue
             sign = msign if s == "R" else 1
-            if kind == "dpos":
+            if kind == "scl":
+                for i in range(3):
+                    acc[key][1][i] += v * unit * axis[i]
+                acc[key][2].append((None, lo, hi))
+            elif kind == "dpos":
                 dv = Vector((0, 0, 0))
                 dv[axis] = v * unit * (-1 if (s == "R" and axis == 0) else 1) if s else v * unit
                 local = self._rest3(pb).inverted() @ dv
@@ -534,50 +648,127 @@ class CloudRigPuppet:
                     val[axis] = min(hi, max(lo, val[axis]))
             if kind == "rot":
                 pb.rotation_euler = [math.radians(x) for x in val]
+            elif kind == "scl":
+                pb.scale = [1.0 + x for x in val]
             else:
                 pb.location = val
 
     # ---------------------------------------------------------------- face timeline
-    def face_at(self, f, face_spec, perf, events, extra_blinks):
+    def face_at(self, f, face_spec, perf, events, extra_blinks, quiet=()):
+        """channels + gaze for frame f. The returned ch carries '_blink' (0..1); apply() then lets the lids follow
+        the real eye pitch and closes them over whatever they are doing (see compose_lids)."""
         fs = face_spec or {}
         seed = fs.get("seed", perf.get("seed", 1) if perf else 1)
-        w = face.emotion_at(f, fs.get("emotion") or [], fs.get("blend", 10))
-        ch = channels_from_arkit(w)
-        # emotion stylisation, weighted by the active emotion amounts
-        if fs.get("emotion"):
-            # recompute the extra layer with the same cross-fade as emotion_at
-            cur = {}
-            for k in fs["emotion"]:
-                if f < k[0]:
-                    break
-                amt = k[2] if len(k) > 2 else 1.0
-                tgt = {n: v * amt for n, v in EMOTION_EXTRA.get(k[1], {}).items()}
-                t = face._smooth((f - k[0]) / max(1, fs.get("blend", 10)))
-                names = set(cur) | set(tgt)
-                cur = {n: cur.get(n, 0) + (tgt.get(n, 0) - cur.get(n, 0)) * t for n in names}
-            _add(ch, cur)
-        # resting lid height (0 = wide awake .. 1 = closed)
-        relax = fs.get("lids", 0.12)
+        ch = emotion_channels(f, fs.get("emotion") or [], fs.get("blend", 10))
+        _add(ch, face_life(f, seed, fs.get("life", 1.0)))
+        # resting lid height (0 = wide awake .. 1 = closed): the upper lid just covers the top of the iris
+        relax = fs.get("lids", REST_LIDS)
         for s in SIDES:
             ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0.0) + relax
+            ch[f"pupil.{s}"] = ch.get(f"pupil.{s}", 0.0) + fs.get("pupil", REST_PUPIL)
         # speech
         if events:
             vis = face.visemes_at(f, events, fs.get("speech", 1.0))
             for vn, vw in vis.items():
                 _add(ch, VISEME_POSES.get(vn, {}), vw)
-        # gaze + lids follow the eye pitch
-        gaze = face.gaze_at(f, fs.get("gaze") or [], seed)
-        lid_follow(ch, gaze[1])
+        # gaze: base direction (keys) + thought darts + micro-saccades, aimed at the look target when there is one
+        base = face.gaze_at(f, fs.get("gaze") or [], seed, micro=False)
+        micro = face.gaze_at(f, [], seed)
+        dart = _dart_at(f, fs, seed)
+        cur_emo = next((k[1] for k in reversed(fs.get("emotion") or []) if f >= k[0]), None)
+        scan = (0.0, 0.0) if cur_emo in STARE else _scan_at(f, seed)
+        gaze = {"yaw": base[0] + dart[0] + scan[0] + micro[0] * 0.5, "pitch": base[1] + dart[1] + scan[1] + micro[1] * 0.5,
+                "point": self.look_point(f, _look_at(f, fs.get("look")))}
         # blinks close fully (whatever the lids were doing), lower lid meets it a little
-        b = face.blink_at(f, seed, extra_blinks)
+        b = face.blink_at(f, seed, extra_blinks, quiet=quiet)
         if fs.get("noBlink"):
             b = 0.0
-        for s in SIDES:
-            u = min(1.0, max(-0.4, ch.get(f"lidUp.{s}", 0.0)))
-            ch[f"lidUp.{s}"] = u + (1.0 - u) * b
-            ch[f"lidLo.{s}"] = ch.get(f"lidLo.{s}", 0.0) * (1 - b) + 0.22 * b
-            ch[f"eyeWide.{s}"] = ch.get(f"eyeWide.{s}", 0.0) * (1 - b)
+        ch["_blink"] = b
         return ch, gaze
+
+    def look_point(self, f, target):
+        """look target -> armature-space point, or None (= hold a fixation point ahead of the head).
+        target: 'camera' (self.camera_fn), an object name, or a world-space [x, y, z]."""
+        if target in (None, "ahead", ""):
+            return None
+        w = None
+        if target == "camera":
+            if self.camera_fn is None:
+                cam = bpy.context.scene.camera
+                w = cam.matrix_world.translation.copy() if cam else None
+            else:
+                w = Vector(self.camera_fn(f))
+        elif isinstance(target, str):
+            ob = bpy.data.objects.get(target)
+            w = ob.matrix_world.translation.copy() if ob else None
+        elif isinstance(target, (list, tuple, Vector)) and len(target) == 3:
+            w = Vector(target)
+        if w is None:
+            return None
+        return self.arm.matrix_world.inverted() @ w
+
+    def _eye_target(self, gaze, cen, hq):
+        """gaze (dict from face_at, or a legacy (yaw, pitch) head-relative tuple) -> armature-space eye target.
+        Without a look point the eyes hold a fixation point ~1.6 m ahead while the head moves inside fix_hold (VOR),
+        then pop to the new point (a 1-frame saccade, led a few frames into the head move)."""
+        if not isinstance(gaze, dict):
+            gaze = {"yaw": gaze[0] * self.gaze_gain[0], "pitch": gaze[1] * self.gaze_gain[1], "point": None, "legacy": True}
+        hqi = hq.inverted()
+        dist = max(0.3, self.eye_dist)
+
+        def ang(d):
+            d = hqi @ d
+            return math.degrees(math.atan2(d.x, -d.y)), math.degrees(math.atan2(d.z, math.hypot(d.x, d.y)))
+
+        def vec(yaw, pitch):
+            return Quaternion((0, 0, 1), math.radians(yaw)) @ Quaternion((1, 0, 0), math.radians(-pitch)) @ Vector((0, -1, 0))
+
+        point = gaze.get("point")
+        if point is not None:
+            d = point - cen
+            by, bp = ang(d)
+            if abs(by) > self.eye_limit[0] * 1.7 or abs(bp) > self.eye_limit[1] * 1.9:
+                point = None                      # target behind / far off-axis: the head is not facing it
+            else:
+                dist = max(0.3, d.length)
+        if point is None:
+            if gaze.get("legacy"):
+                by, bp = 0.0, 0.0
+            else:
+                head_pt = cen + hq @ (vec(0, 0) * 1.6)
+                if self._fix is None or self._fix_frame is None:
+                    self._fix = head_pt
+                else:
+                    a = (self._fix - cen).angle(head_pt - cen, 0.0)
+                    if math.degrees(a) > self.fix_hold:
+                        lead = head_pt + (head_pt - self._last_head_pt) * 3.0 if self._last_head_pt is not None else head_pt
+                        self._fix = lead
+                self._last_head_pt = head_pt
+                self._fix_frame = True
+                by, bp = ang(self._fix - cen)
+                dist = 1.6
+        yaw = max(-self.eye_limit[0], min(self.eye_limit[0], by + gaze.get("yaw", 0.0)))
+        pitch = max(-self.eye_limit[1], min(self.eye_limit[1], bp + gaze.get("pitch", 0.0)))
+        self._eye_pitch, self._eye_yaw = pitch, yaw
+        self._eye_dist_real = dist
+        if gaze.get("legacy"):
+            return cen + hq @ (vec(yaw, pitch) * self.eye_dist)
+        # visual angle -> rig angle: the pupil dot rides a lattice-flattened eye on a deep pivot, so it reads ~2x the
+        # bone rotation; the master target stays at the rig's own distance (its rest spread is calibrated there)
+        if self.debug_eyes:
+            print(f"EYES want yaw {by:.1f} pitch {bp:.1f} -> {yaw:.1f} {pitch:.1f} point {point is not None}")
+        return cen + hq @ (vec(yaw * self.eye_gain[0], pitch * self.eye_gain[1]) * self.eye_dist)
+
+    def static_face(self, spec, f=0):
+        """one held expression for sheets/tests: spec = {"emotion": [[f, name, amt]], "blinkNow": 0..1,
+        "gazeOffset": (yaw, pitch), "look": target (default 'camera'), "lids": rest}. -> (ch, gaze)"""
+        ch = emotion_channels(f, spec.get("emotion") or [], 1)
+        for s in SIDES:
+            ch[f"lidUp.{s}"] = ch.get(f"lidUp.{s}", 0.0) + spec.get("lids", REST_LIDS)
+            ch[f"pupil.{s}"] = ch.get(f"pupil.{s}", 0.0) + spec.get("pupil", REST_PUPIL)
+        ch["_blink"] = spec.get("blinkNow", 0.0)
+        g = spec.get("gazeOffset", (0.0, 0.0))
+        return ch, {"yaw": g[0], "pitch": g[1], "point": self.look_point(f, spec.get("look", "camera"))}
 
     # ---------------------------------------------------------------- bake
     def bake(self, perf, *args, face=None, step=1):
@@ -602,19 +793,27 @@ class CloudRigPuppet:
             if abs(gk[i][1] - gk[i - 1][1]) + abs(gk[i][2] - gk[i - 1][2]) > 20:
                 extra.append(gk[i][0])
         for v in (perf.get("verbs") or []):  # flinch / sneeze punctuation
-            if v.get("verb") in ("flinch", "sneeze", "shake_head"):
+            if v.get("verb") in ("flinch", "shake_head"):
                 extra.append(v["at"])
+        fs = turn_then_change(fs, perf, f0, f1)
+        ev_blinks, quiet = thought_blinks(fs, perf, f0, f1)
+        extra += ev_blinks
         ctr = self._controls()
+        scl = {v[0].name for v in self.facectl.values() if v[1][1] == "scl"}
         keyed = {}
         self._prev_eul = {}
+        self._fix = self._fix_frame = self._last_head_pt = None
+        bpy.context.view_layer.update()          # holder placement -> arm.matrix_world (look targets are world space)
         for f in range(int(f0), int(f1) + 1, step):
-            ch, gaze = self.face_at(f, fs, perf, events, extra)
+            ch, gaze = self.face_at(f, fs, perf, events, extra, quiet)
             self.apply(acting.pose_at(f, perf), ch, gaze)
             for pb in ctr:
                 pb.keyframe_insert("location", frame=f)
                 pb.keyframe_insert("rotation_euler", frame=f)
+                if pb.name in scl:
+                    pb.keyframe_insert("scale", frame=f)
         for pb in ctr:
-            keyed[pb.name] = ["location", "rotation_euler"]
+            keyed[pb.name] = ["location", "rotation_euler"] + (["scale"] if pb.name in scl else [])
         return keyed
 
 
@@ -628,6 +827,222 @@ def lid_follow(ch, pitch):
         else:
             ch[f"lidLo.{s}"] = ch.get(f"lidLo.{s}", 0.0) + pitch * 0.01
     return ch
+
+
+def compose_lids(ch, eye_pitch):
+    """lids ride the real eye pitch, then the blink ('_blink' 0..1) closes over whatever they were doing."""
+    b = ch.pop("_blink", 0.0)
+    lid_follow(ch, eye_pitch)
+    for s in SIDES:
+        u = min(1.0, max(-0.4, ch.get(f"lidUp.{s}", 0.0)))
+        ch[f"lidUp.{s}"] = u + (1.0 - u) * b
+        ch[f"lidLo.{s}"] = ch.get(f"lidLo.{s}", 0.0) * (1 - b) + 0.22 * b
+        ch[f"eyeWide.{s}"] = ch.get(f"eyeWide.{s}", 0.0) * (1 - b)
+        ch[f"eyeBig.{s}"] = ch.get(f"eyeBig.{s}", 0.0) * (1 - b)
+    return ch
+
+
+def _emotion_pose(k):
+    amt = k[2] if len(k) > 2 else 1.0
+    pose = FACE_POSES.get(k[1])
+    if pose is None:
+        pose = channels_from_arkit(face.EMOTIONS.get(k[1], {}))
+    return {n: v * amt for n, v in pose.items()}
+
+
+def _crossfade(f, keys, blend):
+    cur = {}
+    for k in keys or []:
+        if f < k[0]:
+            break
+        tgt = _emotion_pose(k)
+        t = face._smooth((f - k[0]) / max(1, blend))
+        names = set(cur) | set(tgt)
+        cur = {n: cur.get(n, 0) + (tgt.get(n, 0) - cur.get(n, 0)) * t for n in names}
+    return cur
+
+
+# OVERLAP: brows lead an expression change, lids follow 1 frame later, cheeks/nose 2, the mouth 3-4 frames later
+OVERLAP = (("brow", 0), ("lid", 1), ("eyeWide", 1), ("eyeBig", 1), ("pupil", 2), ("cheek", 2), ("sneer", 2))
+MOUTH_LAG = 4
+
+
+def _lag(ch):
+    base = ch.split(".")[0]
+    for pre, d in OVERLAP:
+        if base.startswith(pre):
+            return d
+    return MOUTH_LAG
+
+
+def emotion_channels(f, keys, blend=10, overlap=True):
+    """face.emotion_at's eased cross-fade over the FACE_POSES library, with OVERLAP (each feature group crosses at
+    its own lag) and ANTICIPATION (brows + lids dip ~20% against the coming change over the 5 frames before it)."""
+    if not overlap or not keys:
+        return _crossfade(f, keys, blend)
+    by_lag = {}
+    out = {}
+    names = set()
+    for k in keys:
+        names |= set(_emotion_pose(k))
+    for n in names:
+        d = _lag(n)
+        if d not in by_lag:
+            by_lag[d] = _crossfade(f - d, keys, blend)
+        out[n] = by_lag[d].get(n, 0.0)
+    for i, k in enumerate(keys):
+        u = f - (k[0] - 5)
+        if i == 0 or u < 0 or u > 6:
+            continue
+        bump = math.sin(math.pi * u / 6.0)
+        prev, tgt = _crossfade(k[0] - 1, keys, blend), _emotion_pose(k)
+        for n in tgt.keys() | prev.keys():
+            if n.startswith(("brow", "lid", "eyeWide")):
+                out[n] = out.get(n, 0.0) - 0.2 * (tgt.get(n, 0.0) - prev.get(n, 0.0)) * bump
+    return out
+
+
+def _wave(f, seed, period, salt):
+    """smooth deterministic noise in -1..1 (two incommensurate sines with hashed phases)."""
+    p1 = face._hash(seed * 1.7 + salt) * 6.283
+    p2 = face._hash(seed * 2.9 + salt * 3.1) * 6.283
+    return 0.65 * math.sin(f * 6.283 / period + p1) + 0.35 * math.sin(f * 6.283 / (period * 0.61) + p2)
+
+
+def face_life(f, seed=1, amount=1.0):
+    """LIFE layer: the face is never a held mask. Brow micro-drift, lid tension, mouth-corner shifts (L/R apart),
+    nostril + cheek + jaw breathing (~3.3 s cycle). Small channel offsets, pure function of the frame."""
+    if amount <= 0:
+        return {}
+    ch = {}
+    breath = 0.5 + 0.5 * math.sin(f * 6.283 / 100.0 + face._hash(seed) * 6.283)
+    for i, s in enumerate(SIDES):
+        ch[f"browUp.{s}"] = 0.07 * _wave(f, seed, 83, 1 + i * 0.3) + 0.03 * _wave(f, seed, 37, 7 + i)
+        ch[f"browIn.{s}"] = 0.05 * _wave(f, seed, 61, 3)
+        ch[f"lidLo.{s}"] = 0.05 * _wave(f, seed, 71, 11 + i * 0.2)
+        ch[f"lidUp.{s}"] = 0.03 * _wave(f, seed, 53, 13)
+        ch[f"cornerUp.{s}"] = 0.06 * _wave(f, seed, 67, 17 + i * 5)
+        ch[f"cornerWide.{s}"] = 0.04 * _wave(f, seed, 91, 19 + i * 3)
+        ch[f"sneer.{s}"] = 0.12 * breath
+        ch[f"cheek.{s}"] = 0.04 * breath
+    ch["jaw"] = 0.012 * breath
+    ch["mouthSide"] = 0.05 * _wave(f, seed, 113, 23)
+    return {k: v * amount for k, v in ch.items()}
+
+
+def _scan_at(f, seed):
+    """conversational saccades: a new fixation spot every 0.5-2 s (15-60 f), 1-3 deg off the target (e.g. between
+    the viewer's two eyes / across the object). Step function: the eyes pop."""
+    t, i, cur = -60, 0, (0.0, 0.0)
+    while True:
+        h = face._hash(i * 2.13 + seed * 0.71)
+        nxt = t + int(15 + 45 * h)
+        if nxt > f:
+            break
+        t = nxt
+        i += 1
+        a, b = face._hash(i * 5.3 + seed), face._hash(i * 7.9 + seed * 1.3)
+        cur = ((a - 0.5) * 5.0, (b - 0.5) * 2.4)
+    return cur
+
+
+STARE = ("shock", "fear", "panic")            # no darts, spontaneous blinks withheld for ~2 s after the onset
+EYES_SHUT = ("sneeze", "sneeze_build")
+
+
+def _look_at(f, look):
+    """face_spec 'look': a target, or keys [[frame, target], ...] (target 'camera' | object name | [x,y,z] | 'ahead')."""
+    if isinstance(look, list) and look and isinstance(look[0], list) and len(look[0]) == 2 and not isinstance(look[0][0], float):
+        cur = None
+        for kf, tgt in look:
+            if f >= kf:
+                cur = tgt
+        return cur
+    return look
+
+
+def _dart_at(f, fs, seed):
+    """thought darts: on every emotion change (and fs['darts'] frames) the eyes flick 2-3 small saccades
+    (3-5 deg, 6-8 frames apart) and settle back - the 'deciding' beat. Step function = the eyes pop."""
+    starts = [k[0] - 4 for i, k in enumerate(fs.get("emotion") or []) if i > 0 and k[1] not in STARE + EYES_SHUT]  # eyes lead
+    starts += list(fs.get("darts") or [])
+    y = p = 0.0
+    for i, s0 in enumerate(starts):
+        d = f - s0
+        if d < 1 or d > 22:
+            continue
+        h = face._hash(s0 * 0.37 + seed * 3.1)
+        sx = 1 if h > 0.5 else -1
+        if d < 8:
+            y, p = sx * (3.0 + 2.0 * h), 1.2
+        elif d < 15:
+            y, p = -sx * (2.5 + 1.5 * h), -0.6
+        else:
+            y, p = sx * 0.8, 0.0
+    return y, p
+
+
+def _head_track(perf, f0, f1):
+    def ang(f):
+        p = acting.pose_at(f, perf)
+        return (p["hipsRot"][1] + p["chest"][1] + p["head"][1], p["hipsRot"][0] + p["chest"][0] + p["head"][0])
+    return {f: ang(f) for f in range(int(f0) - 2, int(f1) + 40)}
+
+
+def turn_then_change(fs, perf, f0, f1, speed=1.2):
+    """canon CAN-P1 (Animation Mentor): an expression change never lands during a head turn - he turns, settles,
+    then the thought reaches the face. Emotion keys that fall while the head is turning (> `speed` deg/frame) wait
+    for the settle. Startle reactions (STARE) and eyes-shut beats stay on their frame. Returns a new face_spec."""
+    keys = fs.get("emotion") or []
+    if not perf or len(keys) < 2 or fs.get("turnThenChange") is False:
+        return fs
+    tr = _head_track(perf, f0, f1)
+
+    def moving(f):
+        a, b = tr.get(f - 1), tr.get(f + 1)
+        if a is None or b is None:
+            return False
+        return (abs(b[0] - a[0]) + 0.6 * abs(b[1] - a[1])) / 2.0 > speed
+
+    out = []
+    for i, k in enumerate(keys):
+        k = list(k)
+        if i > 0 and k[1] not in STARE + EYES_SHUT:
+            f = int(k[0])
+            n = 0
+            while moving(f) and n < 30:
+                f += 1
+                n += 1
+            if n:
+                k[0] = f + 2                          # settle a beat, then change
+        out.append(k)
+    return dict(fs, emotion=out)
+
+
+def thought_blinks(fs, perf, f0, f1):
+    """(extra blink frames, quiet ranges): a blink just before each thought change (a 'blink take' into shock),
+    blinks on head turns (eyes + lids lead the turn), and no spontaneous blinks while staring in shock/fear."""
+    out, quiet = [], []
+    keys = fs.get("emotion") or []
+    for i, k in enumerate(keys):
+        if k[1] in EYES_SHUT:
+            continue
+        if i > 0 or k[0] > f0 + 4:
+            out.append(k[0] - 1)
+        if k[1] in STARE:
+            quiet.append((k[0] + 4, k[0] + 64))
+    last = -100
+    if perf:
+        def ang(f):
+            p = acting.pose_at(f, perf)
+            return (p["hipsRot"][1] + p["chest"][1] + p["head"][1], p["hipsRot"][0] + p["chest"][0] + p["head"][0])
+        prev = [ang(f) for f in range(int(f0), int(f1) + 6)]
+        for i in range(len(prev) - 4):
+            dy = abs(prev[i + 4][0] - prev[i][0]) + 0.6 * abs(prev[i + 4][1] - prev[i][1])
+            if dy > 7.0 and (i + f0) - last > 18:
+                last = i + f0
+                out.append(last + 1)
+    return out, quiet
 
 
 def face_mod_viseme(fs):
