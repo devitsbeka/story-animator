@@ -17,3 +17,20 @@ YACHT = os.environ.get("SENTINEL_YACHT", "proc:yacht_v2")
 MARKS = MARKS_V2 if YACHT.startswith("proc:yacht_v2") else MARKS_V1
 HELM, SWITCH, RAIL, BOW, COCKPIT, SITMARK = (MARKS[k] for k in ("HELM", "SWITCH", "RAIL", "BOW", "COCKPIT", "SITMARK"))
 BENCH = MARKS.get("BENCH")
+
+# >>> polish_hands_pose: the seat anchor for 'sit_bench' (cloudrig_adapter seats the pelvis ON it for Jay's real
+# proportions). On yacht_v2 BENCH = the aft cockpit bench; the butt sits SEAT_SETBACK behind the seat front, at the
+# SITMARK's lateral position (SITMARK = where his planted feet are).
+SEAT_SETBACK = 0.16
+
+
+def bench_seat(x=None):
+    """spec yacht point on the bench top under the butt (None if this yacht has no bench)."""
+    if not BENCH:
+        return None
+    x = SITMARK["local"][0] if x is None else x
+    return [round(x, 3), round(BENCH["seat_y"], 3), round(BENCH["front_z"] - SEAT_SETBACK, 3)]
+
+
+SIT_ANCHORS = {"bench_seat": {"p": bench_seat(), "space": "yacht"}} if BENCH else {}
+# <<< polish_hands_pose

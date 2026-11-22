@@ -46,7 +46,19 @@ def vlerp(a, b, t):
     return [lerp(x, y, t) for x, y in zip(a, b)]
 
 # ---------------------------------------------------------------- the pose model
-CHANNELS = ("hips", "hipsRot", "chest", "head", "handL", "handR", "handRotL", "handRotR", "footL", "footR", "poleL", "poleR")
+CHANNELS = ("hips", "hipsRot", "chest", "head", "handL", "handR", "handRotL", "handRotR", "footL", "footR", "poleL", "poleR",
+            # >>> hands/contact channels (polish_hands_pose)
+            "handShapeL", "handShapeR", "anchorL", "anchorR", "anchorHips", "palmL", "palmR", "fingL", "fingR")
+# Dict channels blend as weight maps (a missing key = weight 0):
+#   handShapeL/R  {shape: w} over hand_poses.SHAPES (a string = that shape at 1.0) -> finger poses (CloudRig hero)
+#   anchorL/R     {anchor: w}: put the hand's contact point ON a named anchor (helm wheel rim, rail, knee, mouth,
+#                 bench...) instead of the free hand target, by that weight; anchors come from the shot
+#                 (contact.py: props, rails, marks) or from the body itself (knee_L/R, mouth, seat_L/R)
+#   anchorHips    {anchor: w}: seat the pelvis on an anchor (bench seat / deck) - absolute, for Jay's real proportions
+# Vector channels palmL/R + fingL/R: the direction the palm faces / the fingers point (char space); their LENGTH is
+# the blend weight against the default (hand continuing the forearm), so [0,0,0] = no orientation authored.
+DICT_CHANNELS = ("handShapeL", "handShapeR", "anchorL", "anchorR", "anchorHips")
+# <<< hands/contact channels
 
 # relaxed standing (measured from the hero rig: shoulders ~1.32 m, hips 0.93 m, ankles 0.16 m)
 STANCES = {
@@ -56,41 +68,62 @@ STANCES = {
         "handRotL": [0, 0, 0], "handRotR": [0, 0, 0],
         "footL": [0.13, -0.05, 0.16], "footR": [-0.13, -0.03, 0.16],
         "poleL": [0.45, 0.45, 1.05], "poleR": [-0.45, 0.45, 1.05],
+        "handShapeL": "relaxed", "handShapeR": "relaxed", "anchorL": {}, "anchorR": {}, "anchorHips": {},
+        "palmL": [-1, 0.25, 0], "palmR": [1, 0.25, 0], "fingL": [0, 0, 0], "fingR": [0, 0, 0],   # palms to the thighs, thumbs forward
     },
     # feet wider, knees soft, centre of mass low: riding a moving deck
     "brace": {
         "hips": [0, 0.02, -0.06], "hipsRot": [4, 0, 0], "chest": [6, 0, 0], "head": [-4, 0, 0],
         "handL": [0.30, -0.12, 0.92], "handR": [-0.30, -0.12, 0.92],
         "footL": [0.22, -0.02, 0.16], "footR": [-0.22, 0.02, 0.16],
+        "handShapeL": {"relaxed": 0.7, "brace_spread": 0.3}, "handShapeR": {"relaxed": 0.7, "brace_spread": 0.3},
+        "palmL": [-0.75, 0.1, -0.65], "palmR": [0.75, 0.1, -0.65],
     },
-    # both hands on a wheel in front of him at waist height
+    # both hands on a wheel in front of him at waist height (on the rim at 10 and 2 when the shot has a helm prop)
     "helm": {
         "hips": [0, 0.0, -0.02], "chest": [5, 0, 0],
         "handL": [0.17, -0.30, 1.06], "handR": [-0.17, -0.30, 1.06],
         "poleL": [0.6, 0.1, 0.9], "poleR": [-0.6, 0.1, 0.9],
+        "handShapeL": "grip_cylinder", "handShapeR": "grip_cylinder", "anchorL": {"helm_L": 1}, "anchorR": {"helm_R": 1},
     },
-    # sitting on the deck, back against the cabin, knees up, hands on knees
+    # sitting on the deck, back against the cabin, knees up, hands on knees (legacy; prefer sit_deck_relaxed / sit_bench)
     "sit_deck": {
-        "hips": [0, 0.10, -0.70], "hipsRot": [-14, 0, 0], "chest": [14, 0, 0], "head": [-8, 0, 0],
+        "hips": [0, 0.10, -0.70], "hipsRot": [-6, 0, 0], "chest": [10, 0, 0], "head": [-4, 0, 0],
         "footL": [0.17, -0.34, 0.09], "footR": [-0.17, -0.32, 0.09],
         "handL": [0.20, -0.36, 0.50], "handR": [-0.20, -0.36, 0.50],
         "poleL": [0.5, 0.2, 0.6], "poleR": [-0.5, 0.2, 0.6],
+        "anchorL": {"knee_L": 1}, "anchorR": {"knee_R": 1}, "anchorHips": {"floor": 1},
+        "palmL": [0, 0, -1], "palmR": [0, 0, -1], "fingL": [0.1, -1, -0.5], "fingR": [-0.1, -1, -0.5],
     },
-    # >>> polish_yacht: sitting ON the yacht_v2 cockpit bench (seat 0.45 m, actor origin = planted feet, seat behind).
-    # Placeholder until polish_hands_pose authors the definitive sit_bench; pelvis on the seat, back upright.
+    # >>> sitting stances (polish_hands_pose). Hips go ON the seat anchor (marks.py 'bench_seat' = the yacht_v2 aft
+    # cockpit bench, seat 0.45 m above the sole) - the actor's mark (SITMARK) is where his feet are, the seat ~0.5 m behind.
+    # Back upright / slightly forward (whole torso pitched +6, chest +8 more), feet planted, forearms on the knees.
     "sit_bench": {
-        "hips": [0, 0.50, -0.36], "hipsRot": [0, 0, 0], "chest": [6, 0, 0], "head": [2, 0, 0],
-        "footL": [0.16, -0.02, 0.09], "footR": [-0.16, 0.0, 0.09],
-        "handL": [0.19, -0.02, 0.56], "handR": [-0.19, -0.02, 0.56],
-        "poleL": [0.45, -0.6, 0.5], "poleR": [-0.45, -0.6, 0.5],
+        "hips": [0, 0.50, -0.36], "hipsRot": [9, 0, 0], "chest": [12, 0, 0], "head": [-12, 0, 0],
+        "footL": [0.15, -0.04, 0.16], "footR": [-0.14, -0.01, 0.16],
+        "handL": [0.17, -0.22, 0.62], "handR": [-0.17, -0.20, 0.62],
+        "poleL": [0.6, 0.3, 0.5], "poleR": [-0.6, 0.3, 0.5],
+        "anchorL": {"knee_L": 1}, "anchorR": {"knee_R": 1}, "anchorHips": {"bench_seat": 1},
+        "palmL": [0, 0, -1], "palmR": [0, 0, -1], "fingL": [0.15, -1, -0.7], "fingR": [-0.15, -1, -0.7],
     },
-    # <<< polish_yacht
+    # on the deck, legs bent, back upright (leans only on a padded surface when the shot gives one: anchor 'backrest')
+    "sit_deck_relaxed": {
+        "hips": [0, 0.32, -0.74], "hipsRot": [4, 0, 0], "chest": [6, 0, 0], "head": [-6, 0, 0],
+        "footL": [0.17, -0.18, 0.16], "footR": [-0.16, -0.14, 0.16],
+        "handL": [0.20, -0.20, 0.42], "handR": [-0.20, -0.18, 0.42],
+        "poleL": [0.6, 0.2, 0.4], "poleR": [-0.6, 0.2, 0.4],
+        "anchorL": {"knee_L": 1}, "anchorR": {"knee_R": 1}, "anchorHips": {"floor": 1},
+        "palmL": [0, 0, -1], "palmR": [0, 0, -1], "fingL": [0.15, -1, -0.7], "fingR": [-0.15, -1, -0.7],
+    },
+    # <<< sitting stances
     # thrown onto hands and knees by an impact
     "down": {
         "hips": [0, 0.15, -0.55], "hipsRot": [55, 0, 6], "chest": [25, 0, 0], "head": [-35, 0, 0],
         "footL": [0.14, 0.45, 0.08], "footR": [-0.16, 0.42, 0.08],
         "handL": [0.25, -0.45, 0.06], "handR": [-0.25, -0.42, 0.06],
         "poleL": [0.3, -0.6, 0.3], "poleR": [-0.3, -0.6, 0.3],
+        "handShapeL": "brace_spread", "handShapeR": "brace_spread",
+        "palmL": [0, 0, -1], "palmR": [0, 0, -1], "fingL": [0.2, -1, 0], "fingR": [-0.2, -1, 0],
     },
 }
 
@@ -121,10 +154,61 @@ POSES = {
     "recoil":        {"chest": [-12, 0, 0], "head": [-10, 0, 0], "hips": [0, 0.06, 0]},
 }
 
+# >>> hand shapes / palm orientation / anchors for every pose (polish_hands_pose). Merged into POSES so a pose
+# carries its hands with it; a pose that does not name a hand leaves that hand's channels to the stance.
+_RADIO = {"handShapeR": "grip_flat", "palmR": [0.1, 1, 0.35], "fingR": [0.25, -0.35, 1]}   # phone-style hold, palm to the face
+_HANDS = {
+    "radio_mouth":  dict(_RADIO, anchorR={"mouth_radio": 1}),
+    "radio_shout":  dict(_RADIO, anchorR={"mouth_radio": 1}, handShapeL="brace_spread"),
+    "radio_wait":   dict(_RADIO),
+    "press_ahead":  {"handShapeR": "press", "palmR": [0.25, 0, -1], "fingR": [0, -1, -0.15], "anchorR": {"switch_R": 1}},
+    "beacon_pull":  {"handShapeR": "grip_flat", "handShapeL": "grip_cylinder",
+                     "palmR": [0.6, 0, -0.8], "fingR": [0, -1, 0], "palmL": [-0.6, 0, -0.8], "fingL": [0, -1, 0]},
+    "beacon_raise": {"handShapeR": "grip_flat", "palmR": [0.9, 0.2, 0], "fingR": [0.15, -0.1, 1],
+                     "handR": [-0.16, -0.10, 1.72], "poleR": [-0.8, 0.0, 1.3],
+                     "handShapeL": {"relaxed": 0.5, "brace_spread": 0.5}},
+    "shush":        {"handShapeR": "shush", "anchorR": {"mouth": 1}, "palmR": [1, 0.15, 0], "fingR": [0, 0, 1]},
+    "cover_mouth":  {"handShapeR": "relaxed", "anchorR": {"mouth_palm": 1}, "palmR": [0, 1, 0], "fingR": [1, 0, 0.35]},
+    "phone_up":     {"handShapeR": "grip_flat", "palmR": [0.15, 1, 0.45], "fingR": [0.1, -0.4, 1],
+                     "handR": [-0.09, -0.40, 1.17], "poleR": [-0.5, 0.1, 0.8], "head": [16, -4, 0], "chest": [6, 0, 0],
+                     "handL": [0.22, -0.06, 0.90], "poleL": [0.45, 0.45, 1.05], "handShapeL": "relaxed"},
+    "wave":         {"handShapeR": "open_palm_wave", "palmR": [0.1, -1, 0], "fingR": [-0.15, 0, 1]},
+    "point_ahead":  {"handShapeR": "point", "palmR": [0.7, 0, -0.7], "fingR": [0, -1, 0]},
+    "hold_rail":    {"handShapeL": "grip_cylinder", "handShapeR": "grip_cylinder", "anchorL": {"rail_L": 1}, "anchorR": {"rail_R": 1}},
+    "rail_ahead":   {"handShapeL": "grip_cylinder", "handShapeR": "grip_cylinder", "anchorL": {"rail_L": 1}, "anchorR": {"rail_R": 1}},
+    "tie_bag":      {"handShapeL": "grip_cylinder", "handShapeR": "grip_cylinder", "anchorL": {"bag_L": 1}, "anchorR": {"bag_R": 1},
+                     "palmR": [0.6, 0, -0.8], "fingR": [0, -1, 0], "palmL": [-0.6, 0, -0.8], "fingL": [0, -1, 0]},
+    "hands_up":     {"handShapeL": "open_palm_wave", "handShapeR": "open_palm_wave",
+                     "palmL": [-0.1, -1, 0], "fingL": [0.15, 0, 1], "palmR": [0.1, -1, 0], "fingR": [-0.15, 0, 1]},
+    "hands_face":   {"handShapeL": "relaxed", "handShapeR": "relaxed",
+                     "palmL": [-0.3, 1, 0], "fingL": [0, 0, 1], "palmR": [0.3, 1, 0], "fingR": [0, 0, 1]},
+}
+for _p, _h in _HANDS.items():
+    POSES[_p].update(_h)
+# <<< hand shapes
+
 
 def _ch(stance, name):
     v = STANCES.get(stance, {}).get(name)
-    return list(v) if v is not None else list(STANCES["stand"][name])
+    if v is None:
+        v = STANCES["stand"][name]
+    return _copy(v)
+
+
+def _copy(v):
+    if isinstance(v, str):
+        return {v: 1.0}
+    if isinstance(v, dict):
+        return dict(v)
+    return list(v)
+
+
+def mix(a, b, t):
+    """blend two channel values: lists lerp, weight maps (dict channels) cross-fade key by key."""
+    if isinstance(a, (dict, str)) or isinstance(b, (dict, str)):
+        a, b = _copy(a), _copy(b)
+        return {k: a.get(k, 0.0) + (b.get(k, 0.0) - a.get(k, 0.0)) * t for k in set(a) | set(b)}
+    return vlerp(a, b, t)
 
 
 def _env(f, a, b, fin, fout, ease):
@@ -164,19 +248,33 @@ def pose_at(f, perf):
         if f >= kf:
             t = EASE[perf.get("stanceEase", "heavy")]((f - kf) / max(1, blend))
             nxt = {c: _ch(name, c) for c in CHANNELS}
-            pose = {c: vlerp(pose[c], nxt[c], t) for c in CHANNELS}
+            pose = {c: mix(pose[c], nxt[c], t) for c in CHANNELS}
     # timed pose overlays, in order (later wins while active)
     for p in perf.get("poses", []):
         d = POSES[p["pose"]] if isinstance(p.get("pose"), str) else p["pose"]
         w = _env(f, p["from"], p["to"], p.get("in", 8), p.get("out", 10), p.get("ease", "smooth"))
         if w <= 0:
             continue
+        d = dict(d)
+        for s in "LR":   # a pose that moves a hand frees it from the stance's anchor / palm orientation
+            if "hand" + s in d:
+                d.setdefault("anchor" + s, {})
+                d.setdefault("palm" + s, [-1, 0.15, 0] if s == "L" else [1, 0.15, 0])   # neutral forearm: palm in
+                d.setdefault("fing" + s, [0, 0, 0])
+            if "anchor" + s in d and "hand" + s not in d and "handShape" + s not in d:
+                d.setdefault("handShape" + s, "relaxed")
         for c, v in d.items():
-            if c in ("head", "chest", "hipsRot"):
-                # rotations: overlay replaces toward the target but keeps a share of the base attitude
-                pose[c] = vlerp(pose[c], v, w)
-            else:
-                pose[c] = vlerp(pose[c], v, w)
+            if c in pose:
+                pose[c] = mix(pose[c], v, w)
+    # per-shot hand overrides: [{"hand": "R", "shape": ..., "anchor": {...}, "from", "to", "in", "out"}]
+    for h in perf.get("hands", []):
+        w = _env(f, h.get("from", -10 ** 6), h.get("to", 10 ** 6), h.get("in", 6), h.get("out", 6), h.get("ease", "smooth"))
+        if w <= 0:
+            continue
+        s = h.get("hand", "R")
+        for key, ch in (("shape", "handShape"), ("anchor", "anchor"), ("palm", "palm"), ("fing", "fing")):
+            if key in h:
+                pose[ch + s] = mix(pose[ch + s], h[key], w)
     # procedural verbs (additive)
     for v in perf.get("verbs", []):
         _verb(f, v, pose)

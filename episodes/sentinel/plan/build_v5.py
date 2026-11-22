@@ -41,6 +41,27 @@ def words_in(words, f0, f1, offset):
     return [w for w in words if f0 <= w["s"] * 30 + offset < f1]
 
 
+# >>> polish_hands_pose: every hero that sits on the bench (stance 'sit_bench', after use_yacht_v2 moved the sit beat
+# onto the yacht_v2 aft bench) gets the bench seat anchor (marks.py) so the pelvis lands ON the cushion.
+def anchor_sit(ep):
+    import sys
+    sys.path.insert(0, HERE)
+    import marks
+    if not marks.SIT_ANCHORS:
+        return 0
+    n = 0
+    for sh in ep["shots"]:
+        for a in sh.get("actors") or []:
+            perf = a.get("perf") or {}
+            st = perf.get("stance")
+            names = [k[1] for k in st] if isinstance(st, list) else [st]
+            if "sit_bench" in names:
+                perf.setdefault("anchors", {}).update(marks.SIT_ANCHORS)
+                n += 1
+    return n
+# <<< polish_hands_pose
+
+
 def main():
     ep = json.load(open(os.path.join(EP, "episode_v4.json")))
     words = json.load(open(os.path.join(EP, "audio", "narration.words.json")))
@@ -69,6 +90,7 @@ def main():
                         k["cam"][1] = round(k["cam"][1] - EYE_DROP, 4)
                         n_cam += 1
     n_yacht = use_yacht_v2(ep)
+    anchor_sit(ep)
     ep["source"] = {"builder": "episodes/sentinel/plan/build_v5.py", "base": "episode_v4.json"}
     out = os.path.join(EP, "episode_v5.json")
     json.dump(ep, open(out, "w"), indent=1)

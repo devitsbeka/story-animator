@@ -15213,7 +15213,17 @@
       "verbs": [],
       "breath": 1.0,
       "seed": 12,
-      "blend": 12
+      "blend": 12,
+      "anchors": {
+       "bench_seat": {
+        "p": [
+         -0.95,
+         1.87,
+         -6.46
+        ],
+        "space": "yacht"
+       }
+      }
      },
      "face": {
       "emotion": [
@@ -15833,7 +15843,17 @@
       "verbs": [],
       "breath": 1.0,
       "seed": 12,
-      "blend": 12
+      "blend": 12,
+      "anchors": {
+       "bench_seat": {
+        "p": [
+         -0.95,
+         1.87,
+         -6.46
+        ],
+        "space": "yacht"
+       }
+      }
      },
      "face": {
       "emotion": [
