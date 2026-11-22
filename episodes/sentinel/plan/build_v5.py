@@ -41,59 +41,24 @@ def words_in(words, f0, f1, offset):
     return [w for w in words if f0 <= w["s"] * 30 + offset < f1]
 
 
-# >>> polish_hands_pose: the sit beat (C21 sits down, C22 stays seated) moves from the deck against the white cabin
-# wall onto the cockpit bench (marks.py), facing the bow, stance 'sit_bench' with the pelvis anchored on the seat.
-# The cameras are mirrored through the plane half-way between the old and new seat (z' = z_old + z_new - z) and
-# lifted by the extra seat height, so each shot keeps its framing / move (orbit, crane) around the new position.
-SIT_SHOTS = ("C21", "C22")
-OLD_SIT_Z = -3.7        # v4 'SITMARK' (deck, back to the cabin)
-SIT_LIFT = 0.35         # bench seat 0.41 m above the deck, minus what the deck sit already raised the look by
-
-
-def restage_sit(ep):
+# >>> polish_hands_pose: every hero that sits on the bench (stance 'sit_bench', after use_yacht_v2 moved the sit beat
+# onto the yacht_v2 aft bench) gets the bench seat anchor (marks.py) so the pelvis lands ON the cushion.
+def anchor_sit(ep):
     import sys
     sys.path.insert(0, HERE)
     import marks
-    new_z = marks.SIT_ANCHORS["bench_seat"]["p"][2]
+    if not marks.SIT_ANCHORS:
+        return 0
+    n = 0
     for sh in ep["shots"]:
-        if sh["id"] not in SIT_SHOTS:
-            continue
         for a in sh.get("actors") or []:
-            if a.get("asset") != "hero_v4":
-                continue
-            a["local"] = list(marks.SIT_MARK["local"])
-            a["rotY"] = marks.SIT_MARK["rotY"]
-            perf = a.setdefault("perf", {})
-            perf["stance"] = [[k[0], "sit_bench" if k[1] == "sit_deck" else k[1]] for k in perf.get("stance", [])]
-            perf["anchors"] = dict(marks.SIT_ANCHORS)
-        keys = sh["camera"]["keys"]
-        f0, f1 = keys[0]["f"], keys[-1]["f"]
-        for k in keys:
-            for key in ("cam", "look"):
-                x, y, z = k[key]
-                k[key] = [x, round(y + SIT_LIFT, 4), round(OLD_SIT_Z + new_z - z, 4)]
-        # the mirrored C21 orbit / C22 crane start too close for Jay's big head: re-author the near part.
-        # C21 = a slow orbit in front of him, between the cabin's aft wall (z -3.33) and the bench, clear of the helm;
-        # C22 starts there and keeps its crane to the extreme wide.
-        sx, sz = marks.SIT_X, new_z
-        if sh["id"] == "C21":
-            a_, b_ = [sx - 0.45, 2.95, -3.42], [sx + 0.2, 2.9, -3.42]
-            for k in keys:
-                u = (k["f"] - f0) / max(1, f1 - f0)
-                e = u * u * (3 - 2 * u)
-                k["cam"] = [round(a_[i] + (b_[i] - a_[i]) * e, 4) for i in range(3)]
-                k["fov"] = 64.0
-                s = min(1.0, max(0.0, (k["f"] - 1400) / 20.0))     # stands, then sits at 1405
-                s = s * s * (3 - 2 * s)
-                k["look"] = [sx, round(2.78 + (2.45 - 2.78) * s, 4), round(sz + 0.35 - 0.25 * s, 4)]
-        elif sh["id"] == "C22":
-            start = [sx + 0.2, 2.9, -3.42]
-            c0 = list(keys[0]["cam"])
-            for k in keys:
-                u = (k["f"] - f0) / max(1, f1 - f0)
-                w = (1 - u) ** 2
-                k["cam"] = [round(k["cam"][i] + (start[i] - c0[i]) * w, 4) for i in range(3)]
-                k["look"] = [sx, 2.45, round(sz + 0.1, 4)]
+            perf = a.get("perf") or {}
+            st = perf.get("stance")
+            names = [k[1] for k in st] if isinstance(st, list) else [st]
+            if "sit_bench" in names:
+                perf.setdefault("anchors", {}).update(marks.SIT_ANCHORS)
+                n += 1
+    return n
 # <<< polish_hands_pose
 
 
@@ -124,11 +89,56 @@ def main():
                         k["look"][1] = round(ly - EYE_DROP, 4)
                         k["cam"][1] = round(k["cam"][1] - EYE_DROP, 4)
                         n_cam += 1
-    restage_sit(ep)
+    n_yacht = use_yacht_v2(ep)
+    anchor_sit(ep)
     ep["source"] = {"builder": "episodes/sentinel/plan/build_v5.py", "base": "episode_v4.json"}
     out = os.path.join(EP, "episode_v5.json")
     json.dump(ep, open(out, "w"), indent=1)
-    print(f"wrote {out}: {n_hero} hero actors -> hero_v4, {n_cam} camera keys re-aimed to Jay's eye line")
+    print(f"wrote {out}: {n_hero} hero actors -> hero_v4, {n_cam} camera keys re-aimed to Jay's eye line; yacht_v2 remaps: {n_yacht}")
+
+
+# >>> polish_yacht: the procedural high-detail yacht (cloud/blender/yacht_v2.py) + its marks (cloud/blender/yacht_marks.py)
+YACHT = os.environ.get("SENTINEL_YACHT", "proc:yacht_v2")  # 'assets/props/yacht.glb' = the old crude yacht
+
+
+def use_yacht_v2(ep):
+    """Point the episode at yacht_v2 and move actors on marks that changed (SITMARK: cabin wall -> aft bench). The
+    shot's yacht-space camera keys and yacht-attached props are carried rigidly with the mark (yaw about it)."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "cloud", "blender"))
+    import yacht_marks as YM
+    ep["assets"].setdefault("props", {})["yacht"] = YACHT
+    if not YACHT.startswith("proc:yacht_v2"):
+        return 0
+    n = 0
+    for sh in ep["shots"]:
+        for a in sh.get("actors") or []:
+            if a.get("space", "yacht") != "yacht":
+                continue
+            r = YM.remap(a["local"], a.get("rotY", 0.0))
+            if not r:
+                continue
+            name, new, rot, dyaw = r
+            old = list(a["local"])
+            dy = YM.CAM_DY_V2.get(name, 0.0)
+            a["local"], a["rotY"] = new, rot
+            swap = YM.STANCE_V2.get(name, {})
+            perf = a.get("perf") or {}
+            if isinstance(perf.get("stance"), list):
+                perf["stance"] = [[f, swap.get(s, s)] for f, s in perf["stance"]]
+            elif isinstance(perf.get("stance"), str):
+                perf["stance"] = swap.get(perf["stance"], perf["stance"])
+            if sh["camera"].get("space") == "yacht":
+                for k in sh["camera"]["keys"]:
+                    k["cam"] = YM.move_point(k["cam"], old, new, dyaw, dy, YM.CAM_SCALE_V2.get(name, 1.0))
+                    k["look"] = YM.move_point(k["look"], old, new, dyaw, dy)
+            for p in sh.get("props") or []:
+                if p.get("attach", "yacht") == "yacht" and "local" in p:
+                    p["local"] = YM.move_point(p["local"], old, new, dyaw)
+                    p["rotY"] = p.get("rotY", 0.0) + dyaw
+            n += 1
+    return n
+# <<< polish_yacht
 
 
 if __name__ == "__main__":

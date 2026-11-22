@@ -95,11 +95,11 @@ STANCES = {
         "anchorL": {"knee_L": 1}, "anchorR": {"knee_R": 1}, "anchorHips": {"floor": 1},
         "palmL": [0, 0, -1], "palmR": [0, 0, -1], "fingL": [0.1, -1, -0.5], "fingR": [-0.1, -1, -0.5],
     },
-    # >>> sitting stances (polish_hands_pose). Hips go ON the seat anchor (marks.py 'bench_seat' = the cockpit bench,
-    # top 0.41 m above the deck) - the actor's mark is the spot just in front of the seat where his feet are.
+    # >>> sitting stances (polish_hands_pose). Hips go ON the seat anchor (marks.py 'bench_seat' = the yacht_v2 aft
+    # cockpit bench, seat 0.45 m above the sole) - the actor's mark (SITMARK) is where his feet are, the seat ~0.5 m behind.
     # Back upright / slightly forward (whole torso pitched +6, chest +8 more), feet planted, forearms on the knees.
     "sit_bench": {
-        "hips": [0, 0.30, -0.42], "hipsRot": [9, 0, 0], "chest": [12, 0, 0], "head": [-12, 0, 0],
+        "hips": [0, 0.50, -0.36], "hipsRot": [9, 0, 0], "chest": [12, 0, 0], "head": [-12, 0, 0],
         "footL": [0.15, -0.04, 0.16], "footR": [-0.14, -0.01, 0.16],
         "handL": [0.17, -0.22, 0.62], "handR": [-0.17, -0.20, 0.62],
         "poleL": [0.6, 0.3, 0.5], "poleR": [-0.6, 0.3, 0.5],

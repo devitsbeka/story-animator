@@ -23,3 +23,5 @@ cloud/**/.cache/
 asset_sources/motions_raw/
 library_store/
 .claude/worktrees/
+episodes/*/plates/
+episodes/*/plates_vertical/
