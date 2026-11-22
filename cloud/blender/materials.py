@@ -10,13 +10,14 @@ name (falling back to object name) prefix:
   teak*          teak deck from the CC0 Poly Haven texture brown_planks_05 (library_store), re-tinted honey
                  teak, ~5.5 cm planks running fore-aft; procedural planks if the texture is missing
   steel*         brushed 316 stainless: anisotropic, streaky roughness
-  glass_cabin*   tinted smoked glass, glossy; the cabin glow (Emission) keeps its socket and value
+  glass*         real tinted thin-pane glass (reflection IOR 1.5 + tinted transmission), NEVER emissive (L019);
+                 lit windows glow from the lit interior behind them (yacht_v2 builds a salon with real lights)
   upholstery_*   dark marine fabric with sheen and a fine weave bump
   fender*        navy PVC fender: semi-gloss coat, light grime
   nav_*          lens look only (coat); emission untouched
 
 The Principled BSDF node of every material is KEPT (only its inputs are re-driven), so render_episode's
-collect_light_targets() still finds and keys the emissive sockets (cabin glass glow, nav lights).
+collect_light_targets() still finds and keys the emissive sockets (nav lights, interior lamp fixtures).
 Everything is deterministic and CPU-cheap (one 2k texture set, a few procedural noises).
 """
 import os
@@ -259,15 +260,34 @@ def steel(mat):
 
 
 def glass(mat):
+    """Real tinted glazing (lesson L019): never an emissive panel. A thin pane = dielectric reflection (Principled,
+    IOR 1.5, near-mirror, so the sky and moon reflect) + tinted transmission (Transparent BSDF weighted by 1 - Fresnel),
+    so lit windows glow only because the interior behind them is lit by real lights, and those lights spill out through
+    the tint. The transmission does not cost diffuse/glossy bounces (render_episode runs max_bounces 3 in preview).
+    Tint: the material's custom property 'tint' (yacht_v2 sets dark bronze / grey per pane), else smoked bronze."""
     b = _principled(mat)
     N = Nodes(mat)
-    emit_col = tuple(b.inputs["Emission Color"].default_value)
+    tint = tuple(mat.get("tint", (0.30, 0.26, 0.21)))[:3]
+    _set_inputs(b, base=(0.0, 0.0, 0.0), metal=0.0, ior=1.5, spec=1.0, coat=0.0, transmission=0.0)
+    b.inputs["Emission Strength"].default_value = 0.0
+    b.inputs["Emission Color"].default_value = (0.0, 0.0, 0.0, 1.0)
     tc = N.node("ShaderNodeTexCoord")
-    # interior glow is not flat: a soft falloff across the pane so lit windows read as rooms
-    n = N.noise(tc.outputs["Object"], 1.4, 2.0)
-    glow = N.mixc(rgba((emit_col[0] * 0.45, emit_col[1] * 0.4, emit_col[2] * 0.35)), rgba(emit_col[:3]), N.maprange(n.outputs["Fac"], 0.35, 0.65))
-    N.set(b.inputs["Emission Color"], glow)
-    _set_inputs(b, base=(0.006, 0.011, 0.013), rough=0.03, metal=0.0, ior=1.52, spec=1.0, coat=0.6, coat_rough=0.02)
+    # faint water spots / wiping marks: roughness 0.01..0.05, never milky
+    spots = N.noise(tc.outputs["Object"], 9.0, 3.0, 0.6)
+    N.set(b.inputs["Roughness"], N.maprange(spots.outputs["Fac"], 0.5, 0.8, 0.008, 0.05))
+    fr = N.node("ShaderNodeFresnel", {"IOR": 1.5})
+    trans = N.node("ShaderNodeBsdfTransparent")
+    N.set(trans.inputs["Color"], N.mixc(rgba(tint), rgba((0.0, 0.0, 0.0)), fr.outputs["Fac"]))
+    add = N.node("ShaderNodeAddShader")
+    N.set(add.inputs[0], b.outputs[0])
+    N.set(add.inputs[1], trans.outputs[0])
+    out = next(n for n in mat.node_tree.nodes if n.type == "OUTPUT_MATERIAL")
+    N.set(out.inputs["Surface"], add.outputs[0])
+    for attr, val in (("surface_render_method", "BLENDED"), ("use_transparent_shadow", True), ("blend_method", "BLEND")):
+        try:
+            setattr(mat, attr, val)
+        except (AttributeError, TypeError):
+            pass
     return mat
 
 
