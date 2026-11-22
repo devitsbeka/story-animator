@@ -144,3 +144,9 @@
 14:52:23 [waterspout_v2] shot gate [previs] pose QC (warn): 7 shot(s): {'S02': ['POSE-PALM.L', 'POSE-PALM.R'], 'S05': ['POSE-PALM.R'], 'S08': ['POSE-PALM.L', 'POSE-PALM.R'], 'S15': ['POSE-PALM.L', 'POSE-PALM.R']}
 14:52:23 [waterspout_v2] shot gate [previs]: all 37 shots pass
 14:52:23 [waterspout_v2] [previs] rendering 37 keyframe(s) at 144x256, 4 spp (0 cached)
+14:52:41 [waterspout_v2] stage 6 previs: start
+14:53:17 [waterspout_v2] shot gate [previs] pose QC (warn): 7 shot(s): {'S02': ['POSE-PALM.L', 'POSE-PALM.R'], 'S05': ['POSE-PALM.R'], 'S08': ['POSE-PALM.L', 'POSE-PALM.R'], 'S15': ['POSE-PALM.L', 'POSE-PALM.R']}
+14:53:17 [waterspout_v2] shot gate [previs]: all 37 shots pass
+14:53:17 [waterspout_v2] [previs] rendering 37 keyframe(s) at 540x960, 12 spp (0 cached)
+14:54:55 [waterspout_v2] [render] key_S03_0137: rc=0 (98.1s)
+14:55:58 [waterspout_v2] [render] key_S02_0068: rc=0 (161.1s)

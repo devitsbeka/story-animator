@@ -262,3 +262,12 @@
   check: "mesh_proxy.set_yacht_model + SDF hits; factory/run/previs.py black_keys + _cached/_stamp; tests/direction/test_camera_fix.py; re-render of waterspout v2 S05/S06/S12/S18/S22/S26/S29."
   gate: [previs, render, merge]
   status: closed
+
+- id: L029
+  found: lead (waterspout v2 canon gate), 2026-11-22
+  symptom: "The canon gate failed a correctly planted threat (0.93 s 'on screen' vs 1.0 s) and the payoff silence sat over the narrator's last word ('you.')."
+  root_cause: "CAN-S1a measured the plant window with pre-voice story estimates (planted_t / noticed_at) against shots cut to the voiced words; the sound designer's silence_slot fell back to the unmoved window whenever no full 0.5 s slot with 0.15 s clearance existed near the payoff."
+  rule: "Once a plan is cut to measured words, canon timing checks measure the cut (planted shot start -> noticed shot start). The P-5 silence is shortened (>= 0.3 s, 0.1 s clearance) and slid back up to 1 s before it may touch a word; it never lies over the narrator."
+  check: "tests/canon (S1a on shot frames), factory/sound/test_sound.py (silence still ends on the payoff); waterspout v2: T1 visible 1.7 s, silence 1928-1941 clear of 'you.' (ends 1925)."
+  gate: [direct, sound, merge]
+  status: closed

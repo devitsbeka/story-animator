@@ -206,6 +206,16 @@ def silence_slot(want_from, want_to, words_f, search=120, pad=5):
         a, b = want_from - d, want_to - d
         if a >= 0 and clear(a, b):
             return a, b
+    # L029: no full-length slot near the payoff (continuous narration): shorten the silence (down to 0.3 s) with a
+    # tighter clearance, then look just after the target, instead of silently laying it over the narrator
+    # (still ending within 1 s before the payoff, which the mix QC requires)
+    n = want_to - want_from
+    for d in range(0, 31):
+        for ln in range(n - 1, max(8, int(n * 0.6)) - 1, -1):
+            b = want_to - d
+            a = b - ln
+            if a >= 0 and not any(w["f0"] < b + 3 and w["f1"] > a - 3 for w in words_f):
+                return a, b
     return want_from, want_to
 # <<< canon ----------------------------------------------------------------------------------------------------------
 

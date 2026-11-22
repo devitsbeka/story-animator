@@ -35,8 +35,8 @@
   "render_samples": null,
   "render_engine": null,
   "blender": null,
-  "previs_res": "144x256",
-  "previs_samples": 4,
+  "previs_res": "540x960",
+  "previs_samples": 12,
   "previs_shots": [],
   "budget": 11.0,
   "max_qc_fixes": 1,
@@ -48,7 +48,7 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:52:23+00:00",
+ "updated": "2026-11-22T14:53:17+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -184,8 +184,8 @@
   },
   "previs": {
    "status": "running",
-   "started": "2026-11-22T14:51:46",
-   "attempts": 3,
+   "started": "2026-11-22T14:52:41",
+   "attempts": 4,
    "error": null,
    "costUSD": 0.0,
    "seconds": 2068.55,
@@ -265,6 +265,10 @@
   },
   {
    "t": "2026-11-22T14:51:46+00:00",
+   "msg": "reset from previs"
+  },
+  {
+   "t": "2026-11-22T14:52:41+00:00",
    "msg": "reset from previs"
   }
  ],
@@ -366,6 +370,10 @@
     {
      "try": 1,
      "failing": {}
+    },
+    {
+     "try": 1,
+     "failing": {}
     }
    ],
    "pose": [
@@ -402,6 +410,41 @@
      },
      "mode": "warn",
      "report": "episodes/waterspout_v2/qc/pose_qc_previs_0.json",
+     "error": null
+    },
+    {
+     "try": 1,
+     "failing": {
+      "S02": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S05": [
+       "POSE-PALM.R"
+      ],
+      "S08": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S15": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S30": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S36": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S37": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ]
+     },
+     "mode": "warn",
+     "report": "episodes/waterspout_v2/qc/pose_qc_previs_1.json",
      "error": null
     },
     {

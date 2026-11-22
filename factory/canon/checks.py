@@ -266,9 +266,12 @@ def check_S(c, R):
                 if not ps:
                     bad_a.append(f"{th['id']}: planted_shot {th['planted_shot']} is not a shot")
                 else:
-                    f0 = c.offset + th["planted_t"] * c.fps
-                    f1 = c.offset + th["noticed_at"] * c.fps
-                    vis = max(0.0, min(ps["to"], f1) - max(ps["from"], f0)) / c.fps
+                    # story times are pre-voice estimates; once the plan is cut to the voiced words, the planted SHOT
+                    # is the plant and the noticed shot is the notice (L029) - measure the real screen time between them
+                    f0 = ps["from"]
+                    ns = c.smap.get(th.get("noticed_shot"))
+                    f1 = ns["from"] if ns else c.offset + th["noticed_at"] * c.fps
+                    vis = max(0.0, min(ps["to"], f1) - f0) / c.fps
                     if vis + 1e-6 < st["threat_visible_s"]:
                         bad_a.append(f"{th['id']}: on screen {vis:.2f} s in the audience-only window (< {st['threat_visible_s']} s)")
                     if ps.get("hero") and th["id"] not in (ps.get("gaze_away_from") or []):
