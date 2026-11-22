@@ -267,7 +267,20 @@ def pose_at(f, perf):
             if c in pose:
                 pose[c] = mix(pose[c], v, w)
     # per-shot hand overrides: [{"hand": "R", "shape": ..., "anchor": {...}, "from", "to", "in", "out"}]
-    for h in perf.get("hands", []):
+    hands = perf.get("hands") or []
+    if isinstance(hands, dict):   # legacy {"L": shape, "R": shape}
+        hands = [{"hand": s, "shape": v} for s, v in hands.items() if s in ("L", "R")]
+    sched = [h for h in hands if isinstance(h, (list, tuple))]   # legacy schedule [[frame, shapeL, shapeR?], ...]
+    if sched:
+        cur = None
+        for k in sorted(sched, key=lambda k: k[0]):
+            if k[0] <= f:
+                cur = k
+        if cur is not None:
+            pose["handShapeL"], pose["handShapeR"] = cur[1], cur[2] if len(cur) > 2 else cur[1]
+    for h in hands:
+        if not isinstance(h, dict):
+            continue
         w = _env(f, h.get("from", -10 ** 6), h.get("to", 10 ** 6), h.get("in", 6), h.get("out", 6), h.get("ease", "smooth"))
         if w <= 0:
             continue
