@@ -18,3 +18,10 @@
 13:39:27 [waterspout_v2]     [HEUR N-1] words/s over the narration span is 2.36, target [2.8, 3.1]
 13:39:27 [waterspout_v2] stage develop: FAILED StageFailed: stage develop failed validation after retries: [N-1] words/s over the narration span is 2.36, target [2.8, 3.1]
 13:39:27 [waterspout_v2] run status: failed  cost $2.89  time 1746s
+13:41:31 [waterspout_v2] run status: budget_exceeded  cost $2.89  time 1746s
+13:42:04 [waterspout_v2] stage 1 develop: start
+13:42:05 [waterspout_v2] [develop] reusing valid /home/user/story-animator/episodes/waterspout_v2/story.json
+13:42:05 [waterspout_v2] stage develop: done in 0.9s ($0.000)
+13:42:05 [waterspout_v2] ALERT: stage develop took 3 attempts
+13:42:05 [waterspout_v2] stage 2 breakdown: start
+13:42:05 [waterspout_v2] stage 5a voice: start
