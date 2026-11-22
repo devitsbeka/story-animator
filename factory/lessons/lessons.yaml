@@ -82,6 +82,7 @@
   rule: Seated poses sit on a real seat surface (pelvis contact), upright or forward-leaning unless the story says otherwise; backs only rest on detailed surfaces.
   check: 'cloud/blender/test/pose_qc.py + cloud/blender/pose_rules.py: seat gap <= 3 cm, spine pitch per stance (fails v5 C21/C22: pitch -9 deg, gap 10-14 cm); golden hero_pose_sheet. Not yet run automatically at previs (slow lesson check: python -m factory.lessons check --slow)'
   gate: [direct, merge]
+  regression_cases: [d_sit_rock_sneeze, j_sit_log, l009_abandoned_sit, s_sit_bench, y_sit_deck]
   status: partially-closed
 
 - id: L010
@@ -91,6 +92,7 @@
   rule: Every pose has an explicit hand shape (relaxed curl default, never flat-splayed); holding = palm contact with the object.
   check: 'pose_qc.py finger curl >= 20 deg unless open_palm (fails every v5 shot: 4.7 deg, fingers never driven), palm->prop surface <= 3.5 cm for grips (radio passes at 9-12 mm). Not yet run automatically at previs'
   gate: [direct, merge]
+  regression_cases: [c_radio_mouth, j_phone, l010_desert_grip, s_beacon, y_radio_shout]
   status: partially-closed
 
 - id: L011
@@ -100,6 +102,7 @@
   rule: Every emotion reads instantly and appealingly (clear brow shape, lid tension, mouth corners, 5-15% asymmetry); eyes converge on a target.
   check: golden hero_face_sheet (SSIM + vision 'better/same/worse' review on change); FACE-2 per-emotion vision rubric in QC not yet automated
   gate: [merge, qc]
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
   status: partially-closed
 
 - id: L012
@@ -109,6 +112,7 @@
   rule: Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
   check: factory/direction/mesh_proxy.py (yacht glTF proxies + Blender-exported prop proxies) -> shot_validator PROXY, blocks the previs/publish regress check (catches v3/v5 A02, A04); render runner/previs fail on any missing plate (blender --python-exit-code 1); farm worker/orchestrator already fail on missing plates. Rig-head-metric close-up framing + per-shot memory budget still open
   gate: [direct, render, qc]
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
   status: partially-closed
 
 - id: L013
@@ -145,4 +149,14 @@
   rule: "Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur."
   check: golden 'night sky under motion' frame + vision rubric SKY-1 ("no streaks in the sky unless it rains").
   gate: [merge, qc]
+  status: open
+
+- id: L017
+  found: quality_gate stress suite, 2026-11-22
+  symptom: 'Stress suite: the renderer has no kneel, crouch, walk, rope or bench/rock/log sit vocabulary; prompts asking for them fall back to stand/down/sit_deck'
+  root_cause: acting.py STANCES/POSES cover only the Sentinel story (stand, brace, helm, sit_deck, down + hand-target poses)
+  rule: Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
+  check: stress VOCAB rule on every scenario (factory/goldens/stress); director vocabulary in prompts
+  gate: [direct, merge]
+  regression_cases: [d_sit_rock_sneeze, j_sit_log, l017_abandoned_vocab, l017_sea_vocab, s_sit_bench]
   status: open

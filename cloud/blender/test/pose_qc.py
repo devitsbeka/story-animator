@@ -38,6 +38,7 @@ ap.add_argument("--shots", default=None)
 ap.add_argument("--out", default=None)
 ap.add_argument("--strict", action="store_true")
 ap.add_argument("--max-frames", type=int, default=3, help="frames measured per shot (key frame + pose windows)")
+ap.add_argument("--full-clip", action="store_true", help="bake the whole shot and measure face-life (frozen face) over it")
 args = ap.parse_args(argv)
 
 if args.spec is None:
@@ -139,6 +140,64 @@ def palm_centre(arm, side):
     return sum(pts, Vector()) / len(pts) if pts else None
 
 
+def wrist_bend(arm, side):
+    pb = arm.pose.bones
+    fa = pb.get(f"DEF-Forearm2.{side}") or pb.get(f"DEF-Forearm1.{side}")
+    mid = pb.get(f"DEF-Finger_Middle_Carpal.{side}")
+    if fa is None or mid is None:
+        return None
+    return math.degrees((fa.tail - fa.head).angle(mid.tail - mid.head))
+
+
+def palm_normal(arm, side):
+    """Palm-side normal from the carpal fan (index/pinky across x middle along); orientation per side chosen so it
+    points out of the palm for the rig's bone layout (left = mirrored)."""
+    pb = arm.pose.bones
+    i, p, m = (pb.get(f"DEF-Finger_{n}_Carpal.{side}") for n in ("Index", "Pinky", "Middle"))
+    if None in (i, p, m):
+        return None
+    W = arm.matrix_world.to_3x3()
+    across = W @ (i.tail - p.tail)
+    along = W @ (m.tail - m.head)
+    n = along.cross(across).normalized()
+    return n if side == "R" else -n
+
+
+def surface_point(p, objs):
+    best = None
+    for o in objs:
+        if o.type != "MESH":
+            continue
+        ok, loc, _n, _i = o.closest_point_on_mesh(o.matrix_world.inverted() @ p)
+        if ok:
+            w = o.matrix_world @ loc
+            if best is None or (w - p).length < (best - p).length:
+                best = w
+    return best
+
+
+def face_life(arm, pup, f0, f1, fps=30):
+    bones = [pb for pb in pup._controls()] if hasattr(pup, "_controls") else []
+    head = arm.pose.bones.get("DEF-Head")
+    prev, deltas = None, []
+    sc = bpy.context.scene
+    for f in range(f0, f1):
+        sc.frame_set(f)
+        vec = []
+        for pb in bones:
+            vec += list(pb.location) + list(pb.rotation_euler)
+        if head is not None:
+            vec += list(head.matrix.to_quaternion())
+        if prev is not None:
+            deltas.append(sum(abs(a - b) for a, b in zip(vec, prev)) / max(1, len(vec)))
+        prev = vec
+    run = best = 0
+    for d in deltas:
+        run = run + 1 if d < 1e-5 else 0
+        best = max(best, run)
+    return {"frozen_max_s": best / fps, "motion": sum(deltas) / max(1, len(deltas)) * 100, "frames": len(deltas) + 1}
+
+
 def surface_dist(p, objs):
     best = None
     for o in objs:
@@ -207,7 +266,9 @@ def main():
                               if shot["from"] <= (p["from"] + p["to"]) // 2 < shot["to"]]
             frames = sorted(set(frames))[:args.max_frames]
             pup = cra.CloudRigPuppet(arm, holder)
-            pup.bake(perf, a.get("face") or perf.get("face") or {"seed": perf.get("seed", 1)}, min(frames) - 1, max(frames) + 1)
+            b0, b1 = (shot["from"] - 1, shot["to"] + 1) if args.full_clip else (min(frames) - 1, max(frames) + 1)
+            pup.bake(perf, a.get("face") or perf.get("face") or {"seed": perf.get("seed", 1)}, b0, b1)
+            fl = face_life(arm, pup, shot["from"], shot["to"]) if args.full_clip else None
             # hand props
             props = []
             for i, p in enumerate(shot.get("props") or []):
@@ -248,11 +309,17 @@ def main():
                     if keyed_step(p.get("show"), f, 1.0) < 0.5:
                         continue
                     pc = palm_centre(arm, side)
-                    d = surface_dist(pc, [root] + list(root.children_recursive)) if pc is not None else None
-                    grips.append({"prop": p["prop"], "hand": side, "dist_m": d})
+                    objs_p = [root] + list(root.children_recursive)
+                    d = surface_dist(pc, objs_p) if pc is not None else None
+                    sp = surface_point(pc, objs_p) if pc is not None else None
+                    nrm = palm_normal(arm, side)
+                    ang = math.degrees(nrm.angle(sp - pc)) if (nrm is not None and sp is not None and (sp - pc).length > 1e-4) else None
+                    grips.append({"prop": p["prop"], "hand": side, "dist_m": d, "palm_angle_deg": ang})
                 m = {"shot": shot["id"], "frame": f, "stance": stance, "seated": seated, "seat_gap_m": gap,
                      "spine_pitch_deg": pitch, "finger_curl_deg": {"L": finger_curl(arm, "L"), "R": finger_curl(arm, "R")},
-                     "hand_shape": hand_shapes(perf, f), "grips": grips, "allow_lean_back": bool(perf.get("allow_lean_back"))}
+                     "hand_shape": hand_shapes(perf, f), "grips": grips, "allow_lean_back": bool(perf.get("allow_lean_back")),
+                     "wrist_bend_deg": {"L": wrist_bend(arm, "L"), "R": wrist_bend(arm, "R")},
+                     "face_life": fl if f == frames[0] else None}
                 fs = pose_rules.evaluate(m)
                 measurements.append(m)
                 findings += fs

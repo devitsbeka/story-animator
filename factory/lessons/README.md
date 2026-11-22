@@ -59,6 +59,30 @@ changed golden "better / same / worse" on its rubric; `approve` refuses a "worse
 `--accept-worse`, and `--auto-approve-better` never approves anything but "better". Every approval is logged in
 `factory/goldens/CHANGELOG.md`.
 
+## Fixes must scale: the scenario stress suite (`factory/goldens/stress/`)
+
+A fix that only makes Sentinel look right is not a fix. `generator.py` builds, in code and seeded, one-shot scenarios
+crossing **stance x hand use x world kit x shot size x emotion** (stand, brace, helm, sit on deck/log/rock/bench,
+kneel, crouch, walk; relaxed, wheel, radio, phone, beacon, rail, point, wave, shush, reach, rope, hands up; all five
+worlds; wide/medium/close; neutral, fear, shout, relief, determined, sneeze) into `stress_episode.json`. The camera
+of every scenario is planned from the rig's head metrics and moved to a collision-free side.
+
+`python -m factory.goldens stress [--vision]` runs on every scenario: the per-shot checks (FRAME-CROP, FRAME-EYES,
+COLLIDE, VIS), VOCAB (does the renderer have the stance/hand use), Blender pose QC over the 2 s clip (seat contact,
+spine, finger curl, wrist bend, palm normal, grip contact, FACE-LIFE = no frozen face > 0.5 s), the stress goldens
+(`stress_<id>`, 360x640) and optionally the vision rubric (HANDS-1, FACE-2, FACE-3, FRAME-1). It FAILS on any failure
+not recorded in `known_failures.json` - where every entry is owned by an open lesson - and lists known failures that
+now pass (prune them when a fix lands: `--update-known --note ...`). The merge gate runs it on every branch.
+
+**Regression cases.** Every lesson carries `regression_cases`: `lessons add` derives a stress selector from the
+symptom (or takes `--case "stance=sit*,hands=radio|phone,size=close"`), writes it to `stress/cases.json`, and the
+generator expands it to one scenario per world kit (reusing a matching base scenario), so the defect class is tested
+in every world and pose, not only where it was first seen. `lessons attach-case L0NN --case ...` adds one later.
+
+**Per-shot gate in the orchestrator.** `factory/run` runs the same per-shot checks on every shot of every episode
+before previs and before render; failing shots go back to stage 4 with the failing rules as feedback (max 2 tries),
+then the run blocks (`--regress enforce`, the default).
+
 ## Pose QC (L009 / L010)
 
 `blender -b -P cloud/blender/test/pose_qc.py -- --spec <episode> [--shots ...] --out pose.json [--strict]` bakes each

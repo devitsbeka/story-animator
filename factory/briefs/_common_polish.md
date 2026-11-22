@@ -18,6 +18,7 @@ LESSONS (factory/lessons/lessons.yaml: defects already found once; each rule is 
 - L009 (PARTIALLY-CLOSED): Seated poses sit on a real seat surface (pelvis contact), upright or forward-leaning unless the story says otherwise; backs only rest on detailed surfaces.
 - L010 (PARTIALLY-CLOSED): Every pose has an explicit hand shape (relaxed curl default, never flat-splayed); holding = palm contact with the object.
 - L012 (PARTIALLY-CLOSED): Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
+- L017 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
 [gate render]
 - L015 (PARTIALLY-CLOSED): Every asset the spec references ships with the job; a missing actor/prop/set is a hard failure, never a silent skip.
 [gate qc]

@@ -12,6 +12,7 @@ import json
 import os
 import shutil
 import subprocess
+import time
 
 from . import manifest as M
 from . import metrics
@@ -119,7 +120,14 @@ def run_compare(gids=None, root=M.ROOT, candidates=None, out_dir=None, render_fn
 
 def _render(gid, out_png, root, log):
     from .render import render_golden
-    return render_golden(gid, out_png, root, log)
+    try:
+        return render_golden(gid, out_png, root, log)
+    except RuntimeError as e:
+        if "rc=-9" not in str(e):        # -9: OOM-killed by the shared memory cgroup (or timeout): retry once
+            raise
+        log(f"[goldens] {gid}: killed (rc=-9, memory pressure?) - retrying once")
+        time.sleep(20)
+        return render_golden(gid, out_png, root, log)
 
 
 def render_only(gids=None, root=M.ROOT, out_dir=None, render_fn=None, log=print):

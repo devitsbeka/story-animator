@@ -55,13 +55,24 @@ def test_attempts_alert_at_two(tmp_path):
     assert len(pipe.st.doc["alerts"]) == 1
 
 
-def test_regress_enforce_blocks_camera_inside_cabin(tmp_path):
-    # the recorded Sentinel direct fixture puts C28's camera inside the cabin (L012): enforce stops at previs
+def test_shot_gate_redirects_twice_then_blocks(tmp_path):
+    # the recorded Sentinel direct fixture puts C28's camera inside the cabin and crops close-ups (L012): every shot is
+    # checked before previs; failing shots go back to stage 4 with the failing rules (twice), then the gate blocks
     pipe = Pipeline(opts(tmp_path, regress="enforce"), "reg", log=lambda m: None)
     doc = pipe.run()
     assert doc["status"] == "failed" and doc["stages"]["previs"]["status"] == "failed"
-    assert "RegressionBlocked" in doc["stages"]["previs"]["error"] and "PROXY" in doc["stages"]["previs"]["error"]
-    assert doc["regress"]["previs"]["ok"] is False and doc["stages"]["render"]["status"] == "pending"
+    err = doc["stages"]["previs"]["error"]
+    assert "RegressionBlocked" in err and "shot gate before previs" in err and "COLLIDE" in err
+    sg = doc["shotGate"]["previs"]
+    assert sg["tries"] == 2 and len(sg["history"]) == 3 and "C28" in sg["history"][0]["failing"]
+    assert doc["stages"]["render"]["status"] == "pending"
+
+
+def test_shot_gate_warn_records_every_shot(tmp_path):
+    pipe = Pipeline(opts(tmp_path), "sgw", log=lambda m: None, hooks={"qc": lambda p, i: {"decision": "PUBLISH", "rules": []}})
+    doc = pipe.run()
+    assert doc["shotGate"]["previs"]["ok"] is False and doc["shotGate"]["previs"]["tries"] == 0
+    assert "render" in doc["shotGate"] and doc["status"] == "published"
 
 
 def test_publish_runs_regress_and_delivers(tmp_path):
@@ -76,6 +87,7 @@ def test_publish_runs_regress_and_delivers(tmp_path):
     assert json.load(open(os.path.join(d, "delivery.json")))["ok"] and "delivery" in info
     # enforce at publish: the episode is RETURNed instead of published
     pipe2 = Pipeline(opts(tmp_path, regress="enforce"), "pub2", log=lambda m: None, hooks={"qc": pub})
+    pipe2.shot_gate = lambda gate, max_tries=2: None      # isolate the publish-time regress check
     pipe2.regress = (lambda orig: (lambda gate: None if gate == "previs" else orig(gate)))(pipe2.regress)
     doc2 = pipe2.run()
     assert doc2["status"] == "returned" and doc2["qc"]["decision"] == "RETURN"

@@ -58,6 +58,9 @@ CHECKS = {
     "L013": [{"name": "schema-too-large fallback", "kind": "pytest", "target": "tests/director/test_llm_anthropic.py"}],
     "L014": [{"name": "per-stage cost ceiling + attempts alert", "kind": "pytest", "target": "tests/run/test_cost_ceiling.py"}],
     "L015": [{"name": "farm ships library_store-prefixed spec assets (select_library)", "kind": "pytest", "target": "tests/farm/test_presigned.py"}],
+    "L017": [{"name": "stress suite fast checks (VOCAB + shot checks on every scenario, no new failures)", "kind": "cmd",
+              "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render", "--no-pose"]},
+             {"name": "stress suite full (pose QC + stress goldens)", "kind": "cmd", "target": ["{python}", "-m", "factory.goldens", "stress"], "slow": True}],
     "L016": [{"name": "golden night sky under camera motion (TODO: recipe not defined yet)", "kind": "golden", "target": "night_sky_motion", "slow": True}],
 }
 

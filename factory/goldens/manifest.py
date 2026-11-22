@@ -24,9 +24,28 @@ def baseline_path(root=ROOT):
     return os.path.join(root, "factory", "goldens", "baseline.json")
 
 
+STRESS_SPEC = "factory/goldens/stress/stress_episode.json"
+STRESS_INPUTS = ["@hero_rig", "@renderer", "@world_kits", "@yacht", "@golden_tooling"]
+
+
+def stress_goldens(root=ROOT):
+    """Every stress scenario is a golden too (stress_<id>): its key frame of the generated stress episode."""
+    p = os.path.join(root, STRESS_SPEC)
+    if not os.path.exists(p):
+        return {}
+    with open(p) as fh:
+        meta = json.load(fh).get("stress", {}).get("scenarios", [])
+    return {f"stress_{s['id']}": {"kind": "episode", "spec": STRESS_SPEC, "frames": [s["keyFrame"]], "lib": "curated", "stress": s["id"],
+                                  "inputs": list(STRESS_INPUTS), "thresholds": {"ssim_min": 0.96},
+                                  "rubric": f"{s['stance']} / {s['hands']} hands / {s['size']} shot / {s['emotion']} in {s['kit']}: hands natural, "
+                                            "expression reads, face framed, no camera inside geometry"} for s in meta}
+
+
 def load(root=ROOT):
     with open(manifest_path(root)) as fh:
         m = json.load(fh)
+    for gid, g in stress_goldens(root).items():
+        m["goldens"].setdefault(gid, g)
     for gid, g in m["goldens"].items():
         g["id"] = gid
         for k, v in m["defaults"].items():

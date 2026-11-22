@@ -37,14 +37,17 @@ def test_rules_for_gate(ledger):
 
 def test_add_appends_next_id_open_and_keeps_comments(ledger, capsys):
     before = open(ledger).read()
+    nid = L.next_id(ledger)
+    n = int(nid[1:])
     rc = cli.main(["--ledger", ledger, "add", "--symptom", "Rain: streaks look like snow", "--root-cause", "particle size: 1 cm",
                    "--rule", "Rain streaks are motion-blurred lines >= 20 cm", "--gate", "direct,qc", "--found", "user, test"])
-    assert rc == 0 and "added L017" in capsys.readouterr().out
+    assert rc == 0 and f"added {nid}" in capsys.readouterr().out
     text = open(ledger).read()
     assert text.startswith(before.rstrip("\n")) and "# LESSONS LEDGER" in text
-    d = L.get("L017", ledger)
+    d = L.get(nid, ledger)
     assert d["status"] == "open" and d["gate"] == ["direct", "qc"] and d["found"] == "user, test"
-    assert L.next_id(ledger) == "L018"
+    assert L.next_id(ledger) == f"L{n + 1:03d}"
+    assert len(d["regression_cases"]) == 5                       # a stress case in every world kit (scratch cases file)
     # colons and quotes in free text survive (the ledger once had unparseable 'check:' lines)
     lid = L.add_lesson("a: b 'c'", "x: \"y\"", "rule: z", "qc", path=ledger)
     assert L.get(lid, ledger)["symptom"] == "a: b 'c'"

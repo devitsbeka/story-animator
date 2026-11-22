@@ -116,6 +116,10 @@ Override the prices with `FACTORY_PRICES_JSON` (see `costs.py`). The defaults ar
 
 ## Quality gate (lessons, regress, delivery, ceilings)
 
+- **per-shot gate**: before previs and before render, `factory/direction/shot_checks.py` checks EVERY shot (head
+  framing with the rig's head metrics, eye band on close-ups, camera collision, hero visible; TIER at final quality).
+  Failing shots are sent back to stage 4 with the failing rules as feedback (max 2 tries, `run.json.shotGate`), then
+  the run blocks (enforce) or records (warn).
 - **regress** (`--regress enforce|warn|off`, default enforce): before the previs approval gate and again before
   publish, `factory/lessons/regress.py` runs the episode-level lesson rules on `episode.json` (PROXY: camera inside
   yacht/prop geometry blocks; TIER: assets near the camera must be tier hero - warns, blocks at publish with

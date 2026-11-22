@@ -19,6 +19,10 @@ SEAT_TOL = 0.03
 CURL_MIN = 20.0
 GRIP_TOL = 0.02
 PALM_HALF = 0.015
+WRIST_MAX = 65.0            # deg between forearm and hand axes
+PALM_MAX = 75.0             # deg between the palm normal and the direction to the held prop
+FROZEN_MAX_S = 0.5          # longest run with (almost) no face/eye/head motion
+FACE_MOTION_MIN = 0.002     # mean per-frame change of the face controls (blinks, saccades, breath, emotion)
 # allowed pelvis->neck pitch (deg, + forward) by stance family
 SPINE_RANGE = {"stand": (-10.0, 25.0), "helm": (-8.0, 25.0), "brace": (-8.0, 35.0), "sit": (-5.0, 40.0)}
 SKIP_SPINE = {"down"}          # thrown onto hands and knees: intentional extreme
@@ -58,6 +62,18 @@ def evaluate(m):
             add(f"POSE-FINGERS.{side}", True, round(c, 1), f"open hand shape '{shape}': curl not required")
         else:
             add(f"POSE-FINGERS.{side}", c >= CURL_MIN, round(c, 1), f"mean finger flexion >= {CURL_MIN} deg (shape {shape})")
+    for side, b in (m.get("wrist_bend_deg") or {}).items():
+        if b is not None:
+            add(f"POSE-WRIST.{side}", b <= WRIST_MAX, round(b, 1), f"forearm->hand bend <= {WRIST_MAX} deg (no broken wrists)")
+    for g in m.get("grips") or []:
+        if g.get("palm_angle_deg") is not None:
+            add(f"POSE-PALM.{g.get('hand')}", g["palm_angle_deg"] <= PALM_MAX, round(g["palm_angle_deg"], 1),
+                f"palm normal within {PALM_MAX} deg of the held {g.get('prop')} (palm faces the object)")
+    fl = m.get("face_life")
+    if fl:
+        add("FACE-LIFE", fl["frozen_max_s"] <= FROZEN_MAX_S and fl["motion"] >= FACE_MOTION_MIN,
+            {"frozen_max_s": round(fl["frozen_max_s"], 2), "motion": round(fl["motion"], 4)},
+            f"no frozen face > {FROZEN_MAX_S} s over the clip; face motion >= {FACE_MOTION_MIN}")
     for g in m.get("grips") or []:
         d = g.get("dist_m")
         add(f"POSE-GRIP.{g.get('hand')}", d is not None and d <= GRIP_TOL + PALM_HALF, None if d is None else round(d, 4),

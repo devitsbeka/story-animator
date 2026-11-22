@@ -55,6 +55,13 @@ def main(argv=None):
     a.add_argument("--note", required=True)
     a.add_argument("--accept-worse", action="store_true", help="a human overrides a 'worse' vision verdict (recorded)")
     sub.add_parser("status")
+    st = sub.add_parser("stress", help="scenario stress suite: shot checks + pose QC + stress goldens (+ vision)")
+    st.add_argument("--only")
+    st.add_argument("--no-render", action="store_true")
+    st.add_argument("--no-pose", action="store_true")
+    st.add_argument("--vision", action="store_true")
+    st.add_argument("--update-known", action="store_true", help="record today's failures as known (needs --note)")
+    st.add_argument("--note")
     af = sub.add_parser("affected")
     af.add_argument("--changed-from")
     af.add_argument("--files")
@@ -113,6 +120,17 @@ def main(argv=None):
             s = "stale" if gid in st["stale"] else ("UNBASELINED" if gid in st["unbaselined"] else "fresh")
             print(f"{gid:26} {s:12} " + (f"approved {b['approved_at']} sha {b['sha256'][:10]} luma {b['stats']['mean_luma']}" if b else ""))
         return 0
+    if args.cmd == "stress":
+        from .stress import run as srun
+        rep = srun.run(only, render=not args.no_render, pose=not args.no_pose, vision=args.vision)
+        print(srun.summary_text(rep))
+        if args.update_known:
+            if not args.note:
+                ap.error("--update-known needs --note")
+            srun.update_known(rep, args.note)
+            print(f"known_failures.json updated ({len(rep['regressions'])} newly recorded)")
+            return 0
+        return 0 if rep["ok"] else 1
     if args.cmd == "affected":
         if args.files:
             print("\n".join(M.affected(args.files.split(","))))

@@ -1,0 +1,3441 @@
+{
+ "version": 1,
+ "id": "stress_suite",
+ "title": "Scenario stress suite (generated)",
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationFrames": 1560,
+ "audio": {},
+ "world": {
+  "moonDir": [
+   0.12,
+   0.3,
+   1
+  ],
+  "seaState": 1.6,
+  "dawn": 0,
+  "island": null
+ },
+ "assets": {
+  "characters": {
+   "hero_v4": {
+    "kind": "blend",
+    "file": "library_store/characters/hero_v4/hero_v4.blend",
+    "collection": "CH-jay",
+    "rig": "RIG-jay",
+    "options": {
+     "Glasses": 0
+    },
+    "credit": "Hero built from Jay (Sprite Fright) by Blender Studio, (c) Blender Foundation, CC-BY 4.0, studio.blender.org"
+   }
+  },
+  "motions": {},
+  "props": {
+   "yacht": "assets/props/yacht.glb",
+   "island": "assets/props/island_sentinel.glb"
+  }
+ },
+ "shots": [
+  {
+   "id": "y_helm_wheel",
+   "title": "stress sea_yacht helm wheel medium determined",
+   "from": 0,
+   "to": 60,
+   "keyFrame": 40,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      0.55,
+      1.42,
+      -4.3
+     ],
+     "rotY": 0.1426,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "helm"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 1,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        0,
+        "determined",
+        1.0
+       ]
+      ],
+      "seed": 1
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 0,
+      "cam": [
+       2.4137,
+       2.8436,
+       -2.2697
+      ],
+      "look": [
+       0.55,
+       2.716,
+       -4.3
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 59,
+      "cam": [
+       2.3082,
+       2.8394,
+       -2.3846
+      ],
+      "look": [
+       0.55,
+       2.716,
+       -4.3
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "helm",
+     "attach": "yacht",
+     "local": [
+      0.55,
+      1.42,
+      -3.72
+     ],
+     "rotY": 3.141592653589793
+    }
+   ]
+  },
+  {
+   "id": "y_radio_shout",
+   "title": "stress sea_yacht brace radio close shout",
+   "from": 60,
+   "to": 120,
+   "keyFrame": 100,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      0.0,
+      1.42,
+      -4.6
+     ],
+     "rotY": 0.0505,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "brace"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "radio_shout",
+        "from": 64,
+        "to": 120,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 2,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        60,
+        "shout",
+        1.0
+       ]
+      ],
+      "seed": 2
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 60,
+      "cam": [
+       1.7103,
+       2.9252,
+       -4.0326
+      ],
+      "look": [
+       0.0,
+       2.8911,
+       -4.6
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 119,
+      "cam": [
+       1.6135,
+       2.9242,
+       -4.0647
+      ],
+      "look": [
+       0.0,
+       2.8911,
+       -4.6
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "radio",
+     "attach": "handR",
+     "local": [
+      0.0,
+      -0.03,
+      0.0
+     ],
+     "rot": [
+      -90,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "y_sit_deck",
+   "title": "stress sea_yacht sit_deck relaxed medium neutral",
+   "from": 120,
+   "to": 180,
+   "keyFrame": 160,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      -0.55,
+      1.42,
+      -3.7
+     ],
+     "rotY": 3.2328,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "sit_deck"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 3,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        120,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 3
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 120,
+      "cam": [
+       -0.7908,
+       2.2648,
+       -6.4455
+      ],
+      "look": [
+       -0.55,
+       2.1976,
+       -3.7
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 179,
+      "cam": [
+       -0.7772,
+       2.2626,
+       -6.2901
+      ],
+      "look": [
+       -0.55,
+       2.1976,
+       -3.7
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null
+  },
+  {
+   "id": "y_rail_fear",
+   "title": "stress sea_yacht brace rail wide fear",
+   "from": 180,
+   "to": 240,
+   "keyFrame": 220,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      1.45,
+      1.42,
+      -4.8
+     ],
+     "rotY": 1.5685,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "brace"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "hold_rail",
+        "from": 184,
+        "to": 240,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 4,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        180,
+        "fear",
+        1.0
+       ]
+      ],
+      "seed": 4
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 180,
+      "cam": [
+       7.889,
+       2.6027,
+       -2.3483
+      ],
+      "look": [
+       1.45,
+       2.32,
+       -4.8
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 239,
+      "cam": [
+       7.5246,
+       2.5902,
+       -2.487
+      ],
+      "look": [
+       1.45,
+       2.32,
+       -4.8
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null
+  },
+  {
+   "id": "y_bow_point",
+   "title": "stress sea_yacht stand point wide determined",
+   "from": 240,
+   "to": 300,
+   "keyFrame": 280,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      0.0,
+      1.9,
+      4.7
+     ],
+     "rotY": 0.0085,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "point_ahead",
+        "from": 244,
+        "to": 300,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 5,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "point"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        240,
+        "determined",
+        1.0
+       ]
+      ],
+      "seed": 5
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 240,
+      "cam": [
+       2.5286,
+       3.1877,
+       11.1092
+      ],
+      "look": [
+       0.0,
+       2.8,
+       4.7
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 299,
+      "cam": [
+       2.3855,
+       3.1706,
+       10.7464
+      ],
+      "look": [
+       0.0,
+       2.8,
+       4.7
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null
+  },
+  {
+   "id": "j_sit_log",
+   "title": "stress jungle_clearing sit_log relaxed medium relief",
+   "from": 300,
+   "to": 360,
+   "keyFrame": 340,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -1.3,
+      0.0076,
+      2.1
+     ],
+     "rotY": 1.8652,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "sit_deck"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 6,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        300,
+        "relief",
+        1.0
+       ]
+      ],
+      "seed": 6
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 300,
+      "cam": [
+       1.456,
+       0.9855,
+       2.0992
+      ],
+      "look": [
+       -1.3,
+       0.7852,
+       2.1
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 359,
+      "cam": [
+       1.3,
+       0.9789,
+       2.0992
+      ],
+      "look": [
+       -1.3,
+       0.7852,
+       2.1
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "jungle_clearing",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "j_shush_close",
+   "title": "stress jungle_clearing stand shush close fear",
+   "from": 360,
+   "to": 420,
+   "keyFrame": 400,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.4,
+      0.0236,
+      0.4
+     ],
+     "rotY": 0.9899,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "shush",
+        "from": 364,
+        "to": 420,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 7,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "point"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        360,
+        "fear",
+        1.0
+       ]
+      ],
+      "seed": 7
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 360,
+      "cam": [
+       1.9389,
+       1.58,
+       1.3375
+      ],
+      "look": [
+       0.4,
+       1.4947,
+       0.4
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 419,
+      "cam": [
+       1.8518,
+       1.5777,
+       1.2844
+      ],
+      "look": [
+       0.4,
+       1.4947,
+       0.4
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "jungle_clearing",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "j_phone",
+   "title": "stress jungle_clearing stand phone medium neutral",
+   "from": 420,
+   "to": 480,
+   "keyFrame": 460,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      0.0269,
+      0.0
+     ],
+     "rotY": -0.0393,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "phone_up",
+        "from": 424,
+        "to": 480,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 8,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        420,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 8
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 420,
+      "cam": [
+       -0.4219,
+       1.4844,
+       2.7235
+      ],
+      "look": [
+       0.0,
+       1.3229,
+       0.0
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 479,
+      "cam": [
+       -0.398,
+       1.479,
+       2.5694
+      ],
+      "look": [
+       0.0,
+       1.3229,
+       0.0
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "jungle_clearing",
+    "seed": 11
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "phone",
+     "attach": "handR",
+     "local": [
+      0.0,
+      -0.02,
+      0.0
+     ],
+     "rot": [
+      -90,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "j_kneel",
+   "title": "stress jungle_clearing kneel relaxed medium fear",
+   "from": 480,
+   "to": 540,
+   "keyFrame": 520,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      3.0,
+      -0.0166,
+      -1.7
+     ],
+     "rotY": -0.5027,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "down"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 9,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        480,
+        "fear",
+        1.0
+       ]
+      ],
+      "seed": 9
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 480,
+      "cam": [
+       0.838,
+       0.7823,
+       0.0092
+      ],
+      "look": [
+       3.0,
+       0.6314,
+       -1.7
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 539,
+      "cam": [
+       0.9604,
+       0.7773,
+       -0.0876
+      ],
+      "look": [
+       3.0,
+       0.6314,
+       -1.7
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "jungle_clearing",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "j_walk",
+   "title": "stress jungle_clearing walk relaxed wide neutral",
+   "from": 540,
+   "to": 600,
+   "keyFrame": 580,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      0.0352,
+      -8.5
+     ],
+     "rotY": -0.0842,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 10,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        540,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 10
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 540,
+      "cam": [
+       -3.905,
+       1.1719,
+       -2.8234
+      ],
+      "look": [
+       0.0,
+       0.9352,
+       -8.5
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 599,
+      "cam": [
+       -3.6839,
+       1.1614,
+       -3.1448
+      ],
+      "look": [
+       0.0,
+       0.9352,
+       -8.5
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "jungle_clearing",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "d_wave",
+   "title": "stress desert_canyon stand wave wide relief",
+   "from": 600,
+   "to": 660,
+   "keyFrame": 640,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      -0.0168,
+      0.0
+     ],
+     "rotY": 0.032,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "wave",
+        "from": 604,
+        "to": 660,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 11,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "open_palm"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        600,
+        "relief",
+        1.0
+       ]
+      ],
+      "seed": 11
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 600,
+      "cam": [
+       -4.7446,
+       1.0404,
+       4.9961
+      ],
+      "look": [
+       0.0,
+       0.8832,
+       0.0
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 659,
+      "cam": [
+       -4.476,
+       1.0335,
+       4.7133
+      ],
+      "look": [
+       0.0,
+       0.8832,
+       0.0
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "desert_canyon",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "d_sit_rock_sneeze",
+   "title": "stress desert_canyon sit_rock relaxed close sneeze",
+   "from": 660,
+   "to": 720,
+   "keyFrame": 700,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      2.4,
+      0.2619,
+      10.0
+     ],
+     "rotY": 3.3849,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "sit_deck"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 12,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        660,
+        "sneeze",
+        1.0
+       ]
+      ],
+      "seed": 12
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 660,
+      "cam": [
+       2.9664,
+       1.1635,
+       8.2893
+      ],
+      "look": [
+       2.4,
+       1.085,
+       10.0
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 719,
+      "cam": [
+       2.9344,
+       1.1614,
+       8.3862
+      ],
+      "look": [
+       2.4,
+       1.085,
+       10.0
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "desert_canyon",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "d_reach",
+   "title": "stress desert_canyon stand reach medium determined",
+   "from": 720,
+   "to": 780,
+   "keyFrame": 760,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -4.6,
+      0.024,
+      3.6
+     ],
+     "rotY": 0.716,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "press_ahead",
+        "from": 724,
+        "to": 780,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 13,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "reach"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        720,
+        "determined",
+        1.0
+       ]
+      ],
+      "seed": 13
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 720,
+      "cam": [
+       -1.8597,
+       1.4938,
+       3.8939
+      ],
+      "look": [
+       -4.6,
+       1.32,
+       3.6
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 779,
+      "cam": [
+       -2.0148,
+       1.488,
+       3.8773
+      ],
+      "look": [
+       -4.6,
+       1.32,
+       3.6
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "desert_canyon",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "d_rope",
+   "title": "stress desert_canyon brace rope medium determined",
+   "from": 780,
+   "to": 840,
+   "keyFrame": 820,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -1.0,
+      0.0785,
+      -10.0
+     ],
+     "rotY": 0.0294,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "brace"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 14,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        780,
+        "determined",
+        1.0
+       ]
+      ],
+      "seed": 14
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 780,
+      "cam": [
+       -2.6462,
+       1.5081,
+       -7.7897
+      ],
+      "look": [
+       -1.0,
+       1.3745,
+       -10.0
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 839,
+      "cam": [
+       -2.553,
+       1.5037,
+       -7.9148
+      ],
+      "look": [
+       -1.0,
+       1.3745,
+       -10.0
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "desert_canyon",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "s_brace_wide",
+   "title": "stress snow_mountain_ridge brace relaxed wide fear",
+   "from": 840,
+   "to": 900,
+   "keyFrame": 880,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      -0.0241,
+      0.0
+     ],
+     "rotY": -0.0227,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "brace"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 15,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        840,
+        "fear",
+        1.0
+       ]
+      ],
+      "seed": 15
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 840,
+      "cam": [
+       -3.4846,
+       1.1392,
+       5.9439
+      ],
+      "look": [
+       0.0,
+       0.8759,
+       0.0
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 899,
+      "cam": [
+       -3.2874,
+       1.1276,
+       5.6074
+      ],
+      "look": [
+       0.0,
+       0.8759,
+       0.0
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "snow_mountain_ridge",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "s_sit_bench",
+   "title": "stress snow_mountain_ridge sit_bench relaxed medium sneeze",
+   "from": 900,
+   "to": 960,
+   "keyFrame": 940,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -2.0,
+      0.0203,
+      -3.0
+     ],
+     "rotY": 0.3748,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "sit_deck"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 16,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        900,
+        "sneeze",
+        1.0
+       ]
+      ],
+      "seed": 16
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 900,
+      "cam": [
+       -1.8487,
+       0.9886,
+       -0.2482
+      ],
+      "look": [
+       -2.0,
+       0.7979,
+       -3.0
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 959,
+      "cam": [
+       -1.8573,
+       0.9823,
+       -0.4039
+      ],
+      "look": [
+       -2.0,
+       0.7979,
+       -3.0
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "snow_mountain_ridge",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "s_beacon",
+   "title": "stress snow_mountain_ridge stand beacon medium relief",
+   "from": 960,
+   "to": 1020,
+   "keyFrame": 1000,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      1.0,
+      -0.3381,
+      5.8
+     ],
+     "rotY": 1.461,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "beacon_raise",
+        "from": 964,
+        "to": 1020,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 17,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        960,
+        "relief",
+        1.0
+       ]
+      ],
+      "seed": 17
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 960,
+      "cam": [
+       3.756,
+       1.0771,
+       5.7926
+      ],
+      "look": [
+       1.0,
+       0.9579,
+       5.8
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1019,
+      "cam": [
+       3.6,
+       1.0731,
+       5.793
+      ],
+      "look": [
+       1.0,
+       0.9579,
+       5.8
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "snow_mountain_ridge",
+    "seed": 11
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "beacon",
+     "attach": "handR",
+     "local": [
+      0.0,
+      -0.03,
+      0.0
+     ],
+     "rot": [
+      -90,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s_crouch_close",
+   "title": "stress snow_mountain_ridge crouch relaxed close determined",
+   "from": 1020,
+   "to": 1080,
+   "keyFrame": 1060,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.3,
+      -0.0533,
+      -12.0
+     ],
+     "rotY": -0.0412,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "down"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 18,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1020,
+        "determined",
+        1.0
+       ]
+      ],
+      "seed": 18
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1020,
+      "cam": [
+       -0.1949,
+       0.7514,
+       -10.2673
+      ],
+      "look": [
+       0.3,
+       0.6078,
+       -12.0
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1079,
+      "cam": [
+       -0.1669,
+       0.7475,
+       -10.3654
+      ],
+      "look": [
+       0.3,
+       0.6078,
+       -12.0
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "snow_mountain_ridge",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "c_radio_mouth",
+   "title": "stress abandoned_city_street stand radio_mouth close neutral",
+   "from": 1080,
+   "to": 1140,
+   "keyFrame": 1120,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      0.04,
+      0.0
+     ],
+     "rotY": 0.1252,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "radio_mouth",
+        "from": 1084,
+        "to": 1140,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 19,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1080,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 19
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1080,
+      "cam": [
+       0.0103,
+       1.5976,
+       1.802
+      ],
+      "look": [
+       0.0,
+       1.5111,
+       0.0
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1139,
+      "cam": [
+       0.0098,
+       1.5953,
+       1.7
+      ],
+      "look": [
+       0.0,
+       1.5111,
+       0.0
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "radio",
+     "attach": "handR",
+     "local": [
+      0.0,
+      -0.03,
+      0.0
+     ],
+     "rot": [
+      -90,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c_cover_fear",
+   "title": "stress abandoned_city_street brace cover_mouth close fear",
+   "from": 1140,
+   "to": 1200,
+   "keyFrame": 1180,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      1.1,
+      0.0381,
+      4.0
+     ],
+     "rotY": 3.0402,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "brace"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "cover_mouth",
+        "from": 1144,
+        "to": 1200,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 20,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1140,
+        "fear",
+        1.0
+       ]
+      ],
+      "seed": 20
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1140,
+      "cam": [
+       2.4297,
+       1.5783,
+       2.7838
+      ],
+      "look": [
+       1.1,
+       1.5092,
+       4.0
+      ],
+      "fov": 30.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1199,
+      "cam": [
+       2.3544,
+       1.5764,
+       2.8526
+      ],
+      "look": [
+       1.1,
+       1.5092,
+       4.0
+      ],
+      "fov": 30.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "CLOSE",
+     "CLOSE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "c_hands_up",
+   "title": "stress abandoned_city_street stand hands_up wide shout",
+   "from": 1200,
+   "to": 1260,
+   "keyFrame": 1240,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      6.9,
+      0.16,
+      8.2
+     ],
+     "rotY": -1.4906,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "hands_up",
+        "from": 1204,
+        "to": 1260,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 21,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "open_palm"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1200,
+        "shout",
+        1.0
+       ]
+      ],
+      "seed": 21
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1200,
+      "cam": [
+       0.8214,
+       1.1693,
+       4.9562
+      ],
+      "look": [
+       6.9,
+       1.06,
+       8.2
+      ],
+      "fov": 40.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1259,
+      "cam": [
+       1.1654,
+       1.1645,
+       5.1398
+      ],
+      "look": [
+       6.9,
+       1.06,
+       8.2
+      ],
+      "fov": 40.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "WIDE",
+     "WIDE"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "c_doorway_sneeze",
+   "title": "stress abandoned_city_street stand relaxed medium sneeze",
+   "from": 1260,
+   "to": 1320,
+   "keyFrame": 1300,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -7.5,
+      0.16,
+      4.6
+     ],
+     "rotY": 1.5673,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 22,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1260,
+        "sneeze",
+        1.0
+       ]
+      ],
+      "seed": 22
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1260,
+      "cam": [
+       -5.2661,
+       1.5435,
+       2.9859
+      ],
+      "look": [
+       -7.5,
+       1.456,
+       4.6
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1319,
+      "cam": [
+       -5.3925,
+       1.5406,
+       3.0773
+      ],
+      "look": [
+       -7.5,
+       1.456,
+       4.6
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "l009_abandoned_sit",
+   "title": "stress abandoned_city_street sit_deck relaxed medium neutral",
+   "from": 1320,
+   "to": 1380,
+   "keyFrame": 1360,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      -7.5,
+      0.16,
+      4.6
+     ],
+     "rotY": 1.5608,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "sit_deck"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 23,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1320,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 23
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1320,
+      "cam": [
+       -5.2289,
+       1.0168,
+       6.1613
+      ],
+      "look": [
+       -7.5,
+       0.9376,
+       4.6
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1379,
+      "cam": [
+       -5.3575,
+       1.0142,
+       6.073
+      ],
+      "look": [
+       -7.5,
+       0.9376,
+       4.6
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null
+  },
+  {
+   "id": "l010_desert_grip",
+   "title": "stress desert_canyon stand radio medium neutral",
+   "from": 1380,
+   "to": 1440,
+   "keyFrame": 1420,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      2.4,
+      0.2619,
+      10.0
+     ],
+     "rotY": 3.3707,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "stand"
+       ]
+      ],
+      "poses": [
+       {
+        "pose": "radio_shout",
+        "from": 1384,
+        "to": 1440,
+        "in": 8,
+        "out": 1,
+        "ease": "smooth"
+       }
+      ],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 24,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "grip"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1380,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 24
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1380,
+      "cam": [
+       3.5328,
+       1.6272,
+       7.4876
+      ],
+      "look": [
+       2.4,
+       1.5579,
+       10.0
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1439,
+      "cam": [
+       3.4687,
+       1.6249,
+       7.6298
+      ],
+      "look": [
+       2.4,
+       1.5579,
+       10.0
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "desert_canyon",
+    "seed": 11
+   },
+   "island": null,
+   "props": [
+    {
+     "prop": "radio",
+     "attach": "handR",
+     "local": [
+      0.0,
+      -0.03,
+      0.0
+     ],
+     "rot": [
+      -90,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "l017_sea_vocab",
+   "title": "stress sea_yacht kneel relaxed medium neutral",
+   "from": 1440,
+   "to": 1500,
+   "keyFrame": 1480,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "yacht",
+     "local": [
+      0.55,
+      1.42,
+      -4.3
+     ],
+     "rotY": -0.0063,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "down"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 25,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1440,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 25
+     }
+    }
+   ],
+   "camera": {
+    "space": "yacht",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1440,
+      "cam": [
+       2.0917,
+       2.2241,
+       -2.0156
+      ],
+      "look": [
+       0.55,
+       2.068,
+       -4.3
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1499,
+      "cam": [
+       2.0045,
+       2.2189,
+       -2.1449
+      ],
+      "look": [
+       0.55,
+       2.068,
+       -4.3
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "yacht": {
+    "x": 0.0,
+    "z": 0.0,
+    "heading": 0.0,
+    "lights": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "island": null
+  },
+  {
+   "id": "l017_abandoned_vocab",
+   "title": "stress abandoned_city_street kneel relaxed medium neutral",
+   "from": 1500,
+   "to": 1560,
+   "keyFrame": 1540,
+   "actors": [
+    {
+     "asset": "hero_v4",
+     "space": "set",
+     "local": [
+      0.0,
+      0.04,
+      0.0
+     ],
+     "rotY": 0.0478,
+     "height": 1.8,
+     "perf": {
+      "stance": [
+       [
+        -10000,
+        "down"
+       ]
+      ],
+      "poses": [],
+      "verbs": [],
+      "breath": 1.0,
+      "seed": 26,
+      "blend": 8,
+      "hands": [
+       [
+        -10000,
+        "relaxed",
+        "relaxed"
+       ]
+      ]
+     },
+     "face": {
+      "emotion": [
+       [
+        1500,
+        "neutral",
+        1.0
+       ]
+      ],
+      "seed": 26
+     }
+    }
+   ],
+   "camera": {
+    "space": "world",
+    "handheld": 0.0,
+    "drift": 0.0,
+    "keys": [
+     {
+      "f": 1500,
+      "cam": [
+       -0.9365,
+       0.8018,
+       2.592
+      ],
+      "look": [
+       0.0,
+       0.688,
+       0.0
+      ],
+      "fov": 34.0,
+      "ease": "linear"
+     },
+     {
+      "f": 1559,
+      "cam": [
+       -0.8835,
+       0.7981,
+       2.4453
+      ],
+      "look": [
+       0.0,
+       0.688,
+       0.0
+      ],
+      "fov": 34.0,
+      "ease": "move"
+     }
+    ]
+   },
+   "direction": {
+    "preset": "stress",
+    "motivation": "stress",
+    "size": [
+     "MEDIUM",
+     "MEDIUM"
+    ],
+    "subject": {
+     "kind": "hero",
+     "name": "hero",
+     "height": 1.8
+    }
+   },
+   "set": {
+    "kit": "abandoned_city_street",
+    "seed": 11
+   },
+   "island": null
+  }
+ ],
+ "captions": [],
+ "stress": {
+  "seed": 20261122,
+  "generator": "factory/goldens/stress/generator.py",
+  "scenarios": [
+   {
+    "id": "y_helm_wheel",
+    "kit": "sea_yacht",
+    "mark": "HELM",
+    "stance": "helm",
+    "render_stance": "helm",
+    "hands": "wheel",
+    "hand_shape": "grip",
+    "size": "medium",
+    "emotion": "determined",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 40
+   },
+   {
+    "id": "y_radio_shout",
+    "kit": "sea_yacht",
+    "mark": "COCKPIT",
+    "stance": "brace",
+    "render_stance": "brace",
+    "hands": "radio",
+    "hand_shape": "grip",
+    "size": "close",
+    "emotion": "shout",
+    "vocab_missing": [],
+    "lessons": [
+     "L010",
+     "L011",
+     "L012"
+    ],
+    "keyFrame": 100
+   },
+   {
+    "id": "y_sit_deck",
+    "kit": "sea_yacht",
+    "mark": "SITMARK",
+    "stance": "sit_deck",
+    "render_stance": "sit_deck",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [],
+    "lessons": [
+     "L009"
+    ],
+    "keyFrame": 160
+   },
+   {
+    "id": "y_rail_fear",
+    "kit": "sea_yacht",
+    "mark": "RAIL",
+    "stance": "brace",
+    "render_stance": "brace",
+    "hands": "rail",
+    "hand_shape": "grip",
+    "size": "wide",
+    "emotion": "fear",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 220
+   },
+   {
+    "id": "y_bow_point",
+    "kit": "sea_yacht",
+    "mark": "BOW",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "point",
+    "hand_shape": "point",
+    "size": "wide",
+    "emotion": "determined",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 280
+   },
+   {
+    "id": "j_sit_log",
+    "kit": "jungle_clearing",
+    "mark": "LOG_SIT",
+    "stance": "sit_log",
+    "render_stance": "sit_deck",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "relief",
+    "vocab_missing": [
+     "sit_log"
+    ],
+    "lessons": [
+     "L009",
+     "L017"
+    ],
+    "keyFrame": 340
+   },
+   {
+    "id": "j_shush_close",
+    "kit": "jungle_clearing",
+    "mark": "FIRESIDE",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "shush",
+    "hand_shape": "point",
+    "size": "close",
+    "emotion": "fear",
+    "vocab_missing": [],
+    "lessons": [
+     "L011",
+     "L012"
+    ],
+    "keyFrame": 400
+   },
+   {
+    "id": "j_phone",
+    "kit": "jungle_clearing",
+    "mark": "CENTER",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "phone",
+    "hand_shape": "grip",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [],
+    "lessons": [
+     "L010"
+    ],
+    "keyFrame": 460
+   },
+   {
+    "id": "j_kneel",
+    "kit": "jungle_clearing",
+    "mark": "BOULDER",
+    "stance": "kneel",
+    "render_stance": "down",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "fear",
+    "vocab_missing": [
+     "kneel"
+    ],
+    "lessons": [],
+    "keyFrame": 520
+   },
+   {
+    "id": "j_walk",
+    "kit": "jungle_clearing",
+    "mark": "TRAIL_EDGE",
+    "stance": "walk",
+    "render_stance": "stand",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "wide",
+    "emotion": "neutral",
+    "vocab_missing": [
+     "walk"
+    ],
+    "lessons": [],
+    "keyFrame": 580
+   },
+   {
+    "id": "d_wave",
+    "kit": "desert_canyon",
+    "mark": "CANYON_FLOOR",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "wave",
+    "hand_shape": "open_palm",
+    "size": "wide",
+    "emotion": "relief",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 640
+   },
+   {
+    "id": "d_sit_rock_sneeze",
+    "kit": "desert_canyon",
+    "mark": "SHADE",
+    "stance": "sit_rock",
+    "render_stance": "sit_deck",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "close",
+    "emotion": "sneeze",
+    "vocab_missing": [
+     "sit_rock"
+    ],
+    "lessons": [
+     "L009",
+     "L011",
+     "L012",
+     "L017"
+    ],
+    "keyFrame": 700
+   },
+   {
+    "id": "d_reach",
+    "kit": "desert_canyon",
+    "mark": "DEAD_TREE",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "reach",
+    "hand_shape": "reach",
+    "size": "medium",
+    "emotion": "determined",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 760
+   },
+   {
+    "id": "d_rope",
+    "kit": "desert_canyon",
+    "mark": "WALK_IN",
+    "stance": "brace",
+    "render_stance": "brace",
+    "hands": "rope",
+    "hand_shape": "grip",
+    "size": "medium",
+    "emotion": "determined",
+    "vocab_missing": [
+     "rope"
+    ],
+    "lessons": [],
+    "keyFrame": 820
+   },
+   {
+    "id": "s_brace_wide",
+    "kit": "snow_mountain_ridge",
+    "mark": "CREST",
+    "stance": "brace",
+    "render_stance": "brace",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "wide",
+    "emotion": "fear",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 880
+   },
+   {
+    "id": "s_sit_bench",
+    "kit": "snow_mountain_ridge",
+    "mark": "SHELTER",
+    "stance": "sit_bench",
+    "render_stance": "sit_deck",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "sneeze",
+    "vocab_missing": [
+     "sit_bench"
+    ],
+    "lessons": [
+     "L009",
+     "L017"
+    ],
+    "keyFrame": 940
+   },
+   {
+    "id": "s_beacon",
+    "kit": "snow_mountain_ridge",
+    "mark": "LOOKOUT",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "beacon",
+    "hand_shape": "grip",
+    "size": "medium",
+    "emotion": "relief",
+    "vocab_missing": [],
+    "lessons": [
+     "L010"
+    ],
+    "keyFrame": 1000
+   },
+   {
+    "id": "s_crouch_close",
+    "kit": "snow_mountain_ridge",
+    "mark": "CLIMB_UP",
+    "stance": "crouch",
+    "render_stance": "down",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "close",
+    "emotion": "determined",
+    "vocab_missing": [
+     "crouch"
+    ],
+    "lessons": [
+     "L011",
+     "L012"
+    ],
+    "keyFrame": 1060
+   },
+   {
+    "id": "c_radio_mouth",
+    "kit": "abandoned_city_street",
+    "mark": "STREET_CENTER",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "radio_mouth",
+    "hand_shape": "grip",
+    "size": "close",
+    "emotion": "neutral",
+    "vocab_missing": [],
+    "lessons": [
+     "L010",
+     "L011",
+     "L012"
+    ],
+    "keyFrame": 1120
+   },
+   {
+    "id": "c_cover_fear",
+    "kit": "abandoned_city_street",
+    "mark": "CAR_COVER",
+    "stance": "brace",
+    "render_stance": "brace",
+    "hands": "cover_mouth",
+    "hand_shape": "relaxed",
+    "size": "close",
+    "emotion": "fear",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 1180
+   },
+   {
+    "id": "c_hands_up",
+    "kit": "abandoned_city_street",
+    "mark": "LAMP_POST",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "hands_up",
+    "hand_shape": "open_palm",
+    "size": "wide",
+    "emotion": "shout",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 1240
+   },
+   {
+    "id": "c_doorway_sneeze",
+    "kit": "abandoned_city_street",
+    "mark": "DOORWAY",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "sneeze",
+    "vocab_missing": [],
+    "lessons": [],
+    "keyFrame": 1300
+   },
+   {
+    "id": "l009_abandoned_sit",
+    "kit": "abandoned_city_street",
+    "mark": "DOORWAY",
+    "stance": "sit_deck",
+    "render_stance": "sit_deck",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [],
+    "lessons": [
+     "L009"
+    ],
+    "keyFrame": 1360
+   },
+   {
+    "id": "l010_desert_grip",
+    "kit": "desert_canyon",
+    "mark": "SHADE",
+    "stance": "stand",
+    "render_stance": "stand",
+    "hands": "radio",
+    "hand_shape": "grip",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [],
+    "lessons": [
+     "L010"
+    ],
+    "keyFrame": 1420
+   },
+   {
+    "id": "l017_sea_vocab",
+    "kit": "sea_yacht",
+    "mark": "HELM",
+    "stance": "kneel",
+    "render_stance": "down",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [
+     "kneel"
+    ],
+    "lessons": [
+     "L017"
+    ],
+    "keyFrame": 1480
+   },
+   {
+    "id": "l017_abandoned_vocab",
+    "kit": "abandoned_city_street",
+    "mark": "STREET_CENTER",
+    "stance": "kneel",
+    "render_stance": "down",
+    "hands": "relaxed",
+    "hand_shape": "relaxed",
+    "size": "medium",
+    "emotion": "neutral",
+    "vocab_missing": [
+     "kneel"
+    ],
+    "lessons": [
+     "L017"
+    ],
+    "keyFrame": 1540
+   }
+  ]
+ }
+}

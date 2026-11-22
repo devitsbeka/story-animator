@@ -8,6 +8,8 @@ In throw-away worktrees of <branch> and of the base (default: the current HEAD o
   3. validator  factory/direction/shot_validator.py on each side's current episode: FAIL on (rule, shot) failures
                 the base does not have
   4. lighting   cloud/blender/lighting.py --check on the current episode: FAIL on new problems
+  4b. stress    python -m factory.goldens stress --no-render: every generated scenario (stances x hands x kits x sizes x
+                emotions) through the shot checks + Blender pose QC; FAIL on failures not in known_failures.json
   5. goldens    python -m factory.goldens compare --changed-from <base> (only goldens whose inputs the branch
                 changed; renders at 360x640, low samples, one at a time) -> diff sheet
 Prints PASS/FAIL with reasons and writes <out>/merge_gate.json. Exit 0 = PASS.
@@ -97,6 +99,7 @@ def validator_fails(root, env, out_json):
     if not os.path.exists(out_json):
         return None, (err or out)[-600:]
     rep = json.load(open(out_json))
+    validator_fails.rule_ids = {r["id"] for r in rep["rules"]}
     pairs = set()
     for r in rep["rules"]:
         if r["status"] == "fail":
@@ -117,6 +120,7 @@ def main(argv=None):
     ap.add_argument("--out", default=None)
     ap.add_argument("--skip-goldens", action="store_true")
     ap.add_argument("--skip-pytest", action="store_true")
+    ap.add_argument("--skip-pose", action="store_true", help="stress suite without the Blender pose QC")
     ap.add_argument("--keep", action="store_true", help="keep the temp worktrees")
     a = ap.parse_args(argv)
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -171,12 +175,21 @@ def main(argv=None):
         # 3 shot validator
         log("[3/5] shot validator on the current episode (no new failures vs base)")
         vb, epb = validator_fails(wt_b, env, os.path.join(out_dir, "validator_branch.json"))
+        rules_branch = getattr(validator_fails, "rule_ids", set())
         va, epa = validator_fails(wt_base, env, os.path.join(out_dir, "validator_base.json"))
+        rules_base = getattr(validator_fails, "rule_ids", set())
         if vb is None:
             reasons.append(f"shot validator did not run on the branch: {epb}")
             new_v = []
         else:
-            new_v = sorted(vb - (va or set()))
+            diff = sorted(vb - (va or set()))
+            # a rule the base does not have is a NEW CHECK: its findings are pre-existing defects it now reveals
+            # (reported, not blocking); a failure of a rule the base already had is a regression
+            new_checks = [p for p in diff if p[0] not in rules_base]
+            new_v = [p for p in diff if p[0] in rules_base]
+            if new_checks:
+                log(f"  new validator rules on this branch reveal existing defects (not blocking): {new_checks[:12]}")
+            report["steps"]["validator_new_checks"] = new_checks
             if new_v:
                 reasons.append(f"shot validator: new failures {new_v[:10]} on {epb}")
         report["steps"]["validator"] = {"episode": epb, "base_episode": epa, "new_failures": new_v,
@@ -191,6 +204,17 @@ def main(argv=None):
         if new_l:
             reasons.append(f"lighting --check: new problems {new_l[:5]}")
         log(f"  lighting: {len(lb)} problem(s), new: {new_l[:5] or 'none'}")
+        # 4b stress suite (fast shot checks + VOCAB + Blender pose QC on every scenario; the stress goldens themselves
+        # are compared in step 5 when the branch affects them). FAIL on any failure not in known_failures.json.
+        log("[4b] scenario stress suite (shot checks + pose QC on every scenario)")
+        scmd = [PY, "-m", "factory.goldens", "stress", "--no-render"] + (["--no-pose"] if a.skip_pose else [])
+        rc, out, err, secs = sh(scmd, wt_b, env, timeout=3 * 3600)
+        report["steps"]["stress"] = {"rc": rc, "output": out[-4000:], "seconds": secs}
+        for line in out.splitlines()[-4:]:
+            log("  " + line)
+        if rc:
+            reasons.append("stress suite: scenarios failing outside known_failures.json - " +
+                           next((l for l in out.splitlines() if l.startswith("regressions")), (err or out)[-300:]))
         # 5 goldens
         if a.skip_goldens:
             report["steps"]["goldens"] = {"skipped": True}
