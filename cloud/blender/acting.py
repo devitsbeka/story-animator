@@ -76,6 +76,15 @@ STANCES = {
         "handL": [0.20, -0.36, 0.50], "handR": [-0.20, -0.36, 0.50],
         "poleL": [0.5, 0.2, 0.6], "poleR": [-0.5, 0.2, 0.6],
     },
+    # >>> polish_yacht: sitting ON the yacht_v2 cockpit bench (seat 0.45 m, actor origin = planted feet, seat behind).
+    # Placeholder until polish_hands_pose authors the definitive sit_bench; pelvis on the seat, back upright.
+    "sit_bench": {
+        "hips": [0, 0.50, -0.36], "hipsRot": [0, 0, 0], "chest": [6, 0, 0], "head": [2, 0, 0],
+        "footL": [0.16, -0.02, 0.09], "footR": [-0.16, 0.0, 0.09],
+        "handL": [0.19, -0.02, 0.56], "handR": [-0.19, -0.02, 0.56],
+        "poleL": [0.45, -0.6, 0.5], "poleR": [-0.45, -0.6, 0.5],
+    },
+    # <<< polish_yacht
     # thrown onto hands and knees by an impact
     "down": {
         "hips": [0, 0.15, -0.55], "hipsRot": [55, 0, 6], "chest": [25, 0, 0], "head": [-35, 0, 0],
