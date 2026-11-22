@@ -63,6 +63,13 @@ ANCHOR_ELBOW_STEER = 0.3
 # feet: ankle dorsiflexion limit (shin forward lean before the heel must come up), max heel roll, toe-out, and how
 # much the feet turn with a hips yaw
 ANKLE_DF_MAX = math.radians(30.0)
+# plantarflexion limit for a planted flat foot (shin->foot angle closing vs rest; pose QC FOOT-ANKLE allows 25) and
+# how far the leg may turn out (hip external rotation: knee + toes out together) to keep the ankle inside it. Jay's
+# stylised legs (thigh = shin = 1.75 x ankle height) cannot raise the knee over a flat foot when the pelvis sits on
+# the floor: the shin reclines >= 45 deg, so a flat foot pointing forward would be a broken, pointed ankle.
+ANKLE_PF_MAX = math.radians(16.0)
+TURN_OUT_MAX = math.radians(60.0)
+FOOT_SPLAY_FOLLOW = 0.6      # the foot turns out this fraction of the knee's splay (feet follow the knees)
 HEEL_LIFT_MAX = math.radians(70.0)
 FOOT_TOE_OUT = 7.0
 FOOT_YAW_FOLLOW = 0.35
@@ -375,6 +382,8 @@ class CloudRigPuppet:
         self.toes = {s: P.get(f"IK-Toes.{s}") for s in SIDES}
         self._toe_m = {}
         self.foot_lift = {"L": 0.0, "R": 0.0}
+        self.knee_splay = {"L": 0.0, "R": 0.0}   # per frame: hip external rotation chosen by _plant_foot
+        self._knee_fwd = {}
         # <<< hands/contact
         self._set_ik_mode()
         for pb in self._controls():
@@ -430,6 +439,18 @@ class CloudRigPuppet:
             if self.toes.get(s) is not None:
                 out.append(self.toes[s])
         return list(dict.fromkeys(out))
+
+    def life_controls(self):
+        """the controls face-life QC watches (body, head, eyes, face): every keyed control except the finger FK
+        chains and toe pivots, which are held shapes. Watching ~30 static finger bones as well diluted the mean
+        per-channel motion about 2x and failed FACE-LIFE on a face that moves as much as before (merge of the
+        hands/feet polish, which added them to _controls())."""
+        held = set()
+        for s in SIDES:
+            held.update(pb.name for pb in self.fingers.get(s, []))
+            if self.toes.get(s) is not None:
+                held.add(self.toes[s].name)
+        return [pb for pb in self._controls() if pb.name not in held]
 
     def _measure(self):
         """rest landmarks in armature space -> the proportion map."""
@@ -488,12 +509,15 @@ class CloudRigPuppet:
         # feet: ball of the foot (toe pivot) and leg segment lengths for the planted-foot solve
         self.rest_ball = {}
         self.leg_l = {}
+        self.rest_ankle = {}
         for s in SIDES:
             tb = self.toes.get(s)
             self.rest_ball[s] = h(tb) if tb is not None else self.rest_foot[s] + Vector((0, -0.1, -0.05))
             hp, an = h(self.thigh[s]), self.rest_foot[s]
             kn = h(self.shin[s]) if self.shin.get(s) else (hp + an) * 0.5 + Vector((0, -0.01, 0))
             self.leg_l[s] = ((kn - hp).length, (an - kn).length)
+            # rest shin->foot angle (what pose QC's FOOT-ANKLE measures against): knee->ankle vs ankle->ball
+            self.rest_ankle[s] = (an - kn).angle(self.rest_ball[s] - an, math.pi / 2)
         zt = knee + 0.55 * (hipj - knee)
         ty = []
         for o in arm.children_recursive:
@@ -637,13 +661,8 @@ class CloudRigPuppet:
             # knee pole: perpendicular to hip->ankle, biased toward where the toes point + up (knee over the toes)
             hip = self.thigh[s].head.copy()
             dd = ft - hip
-            v = fwd_of[s] + Vector((0, 0, 0.6))
-            if dd.length > 1e-4:
-                dn = dd.normalized()
-                v = v - dn * v.dot(dn)
-            if v.length < 1e-4:
-                v = Vector((0, -1, 0))
-            kp = (hip + ft) * 0.5 + v.normalized() * max(0.25, dd.length)
+            v = self._knee_dir(s, hip, ft, self._knee_fwd.get(s, fwd_of[s]))
+            kp = (hip + ft) * 0.5 + v * max(0.25, dd.length)
             self._set_pose_matrix(self.lpole[s], Matrix.Translation(kp) @ self._rest3(self.lpole[s]).to_4x4())
         bpy.context.view_layer.update()
         # 2. limb targets from the posed body
@@ -746,7 +765,7 @@ class CloudRigPuppet:
             self._set_pose_matrix(self.wrist[s], M)
 
     # ---------------------------------------------------------------- feet (polish_hands_pose)
-    def _knee_est(self, s, hip, ankle, fwd):
+    def _knee_est(self, s, hip, ankle, fwd, splay=None):
         """analytic 2-bone knee position (thigh/shin rest lengths, knee toward fwd + up)."""
         L1, L2 = self.leg_l[s]
         dv = ankle - hip
@@ -754,29 +773,60 @@ class CloudRigPuppet:
         dn = dv.normalized() if dv.length > 1e-6 else Vector((0, 0, -1))
         a = (L1 * L1 - L2 * L2 + dl * dl) / (2 * dl)
         h = math.sqrt(max(0.0, L1 * L1 - a * a))
+        return hip + dn * a + self._knee_dir(s, hip, ankle, fwd, splay) * h
+
+    def _knee_dir(self, s, hip, ankle, fwd, splay=None):
+        """unit knee direction, perpendicular to hip->ankle: toward where the toes point + up, then turned OUT about
+        the hip->ankle axis by `splay` rad (hip external rotation; default: the splay _plant_foot chose)."""
+        dv = ankle - hip
+        dn = dv.normalized() if dv.length > 1e-6 else Vector((0, 0, -1))
         pv = fwd + Vector((0, 0, 0.6))
         pv = pv - dn * pv.dot(dn)
         if pv.length < 1e-5:
             pv = Vector((0, -1, 0))
-        return hip + dn * a + pv.normalized() * h
+        e1 = pv.normalized()
+        splay = self.knee_splay.get(s, 0.0) if splay is None else splay
+        if splay <= 1e-6:
+            return e1
+        out = Vector((1.0 if s == "L" else -1.0, 0.0, 0.0))
+        q = Quaternion(dn, splay)
+        if (q @ e1).dot(out) < (q.inverted() @ e1).dot(out):
+            q = q.inverted()
+        return (q @ e1).normalized()
 
     def _plant_foot(self, s, ft, pose):
         """(IK-MSTR-Foot pose matrix, toe forward dir) for an ankle target ft: foot flat on the deck (no roll, the
         ankle never below its rest height), yawed with the hips + FOOT_TOE_OUT, and rolled up onto the ball (heel
         up, toes kept flat by self._toe_m) by however much the shin leans forward past ANKLE_DF_MAX."""
         R0 = self._rest3(self.foot[s])
-        yaw = math.radians(pose["hipsRot"][1] * FOOT_YAW_FOLLOW + (FOOT_TOE_OUT if s == "L" else -FOOT_TOE_OUT))
-        Qy = Quaternion(Vector((0, 0, 1)), yaw)
+        yaw0 = math.radians(pose["hipsRot"][1] * FOOT_YAW_FOLLOW + (FOOT_TOE_OUT if s == "L" else -FOOT_TOE_OUT))
         ft = ft.copy()
         ft.z = max(ft.z, self.rest_foot[s].z)
         ball_off = self.rest_ball[s] - self.rest_foot[s]
-        ball = ft + Qy @ ball_off
-        fwd = Qy @ Vector((ball_off.x, ball_off.y, 0)).normalized()
-        lat = fwd.cross(Vector((0, 0, 1))).normalized()       # foot's right side
         hip = self.thigh[s].head.copy()
+        # a flat foot under a reclined shin (seated on the deck) plantarflexes: open the leg out (hip external
+        # rotation: the knee falls out about the hip->ankle line and the foot turns out with it) until the
+        # shin->foot angle is back inside ANKLE_PF_MAX of rest; at most TURN_OUT_MAX. Standing / bent-over-the-toes
+        # legs never need it (dev >= -ANKLE_PF_MAX at splay 0), so they keep their pose exactly.
+        out_sign = 1.0 if s == "L" else -1.0
+        Qy0 = Quaternion(Vector((0, 0, 1)), yaw0)
+        fwd0 = Qy0 @ Vector((ball_off.x, ball_off.y, 0)).normalized()
+        splay = 0.0
+        while True:
+            Qy = Quaternion(Vector((0, 0, 1)), yaw0 + out_sign * splay * FOOT_SPLAY_FOLLOW)
+            fwd = Qy @ Vector((ball_off.x, ball_off.y, 0)).normalized()
+            K = self._knee_est(s, hip, ft, fwd0, splay)
+            dev = (ft - K).angle(Qy @ ball_off, 0.0) - self.rest_ankle.get(s, 0.0)
+            if dev >= -ANKLE_PF_MAX or splay >= TURN_OUT_MAX - 1e-6:
+                break
+            splay = min(TURN_OUT_MAX, splay + math.radians(2.5))
+        self.knee_splay[s] = splay
+        self._knee_fwd[s] = fwd0
+        ball = ft + Qy @ ball_off
+        lat = fwd.cross(Vector((0, 0, 1))).normalized()       # foot's right side
         lift, ankle = 0.0, ft
         for _ in range(4):
-            K = self._knee_est(s, hip, ankle, fwd)
+            K = self._knee_est(s, hip, ankle, fwd0)
             u = (K - ankle)
             lean = math.atan2(u.dot(fwd), max(1e-5, u.z)) if u.z > 0 else math.pi / 2
             want = max(0.0, min(HEEL_LIFT_MAX, lean - ANKLE_DF_MAX))
@@ -1534,3 +1584,19 @@ def natural_height(arm):
 
 
 BONE_ALIAS = {"handR": "ORG-Wrist.R", "handL": "ORG-Wrist.L", "head": "DEF-Head", "chest": "DEF-Chest"}
+
+
+def hand_prop_basis(arm, bone_name, p, s_arm=1.0):
+    """matrix_basis for a prop spec `p` parented to a CloudRig hand bone (BONE_ALIAS, rest axes at the bone tail):
+    known props sit in the palm by hand_poses.PROP_GRIPS unless the spec asks for its raw local/rot with
+    "grip": "raw". None = use the spec's raw local/rot. The ONE placement both render_episode.py and pose QC use
+    (pose QC placing the raw DEF-Wrist offsets on ORG-Wrist measured a phone the renderer never shows)."""
+    if p.get("grip", "auto") != "auto" or p.get("attach") not in ("handR", "handL"):
+        return None
+    bone = arm.data.bones.get(bone_name)
+    g = hand_poses.prop_grip(p.get("prop"), p["attach"][-1], bone.length) if bone else None
+    if not g:
+        return None
+    Mg = Matrix((g[1][0], g[1][1], g[1][2])).transposed().to_4x4()
+    Mg.translation = Vector(g[0])
+    return Mg @ Matrix.Scale(p.get("scale", 1.0) / s_arm, 4)

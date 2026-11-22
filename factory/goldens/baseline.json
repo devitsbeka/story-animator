@@ -2,20 +2,26 @@
  "goldens": {
   "hero_face_sheet": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:57+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "59fd8a3a80b000f4fe13d9491413ec359b53b2a1388d78461eabaf19df8e81a5",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "d5c25e9b504a70b4b02ca39e3cddfd5df36310dd580551bc8e39955f278a2f63",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "9af197df7375bd2230930765b6248e675f9f47142e2e413dc4977be1b8e90a2b",
+   "metrics_vs_previous": {
+    "edge_delta": 0.00151,
+    "luma_delta": 0.00066,
+    "rgb_delta": 0.00097,
+    "ssim": 0.97019,
+    "tile_ssim": 0.91446
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "e0b682751c81f0dd865b4f2575997d0e51be37ce86ab0e0df99d19976fc6d217",
    "stats": {
-    "edge_density": 0.05979,
-    "mean_luma": 0.41577,
+    "edge_density": 0.05988,
+    "mean_luma": 0.41511,
     "mean_rgb": [
-     0.44622,
-     0.40729,
-     0.41008
+     0.44525,
+     0.4067,
+     0.4096
     ],
     "size": [
      2180,
@@ -26,20 +32,26 @@
   },
   "hero_pose_sheet": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "dbb84f79130b4c655224f2170e4e6bb0579aa13827731463e39c6e9ca4c6021e",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "8be9ee32a2e039433f7733b6ea75467f16f68e2dc2fcc830a0fe87e46afaab09",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "68c8f0ba518b478855a62375e30128aff9fc20d7e637e062f41c3220925ac000",
+   "metrics_vs_previous": {
+    "edge_delta": 0.00779,
+    "luma_delta": 0.00022,
+    "rgb_delta": 0.00027,
+    "ssim": 0.97389,
+    "tile_ssim": 0.87403
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "b9dc205841c7ed517ca5e6d4d6300acf18ba1bd583d8735d25287ec9ba72d8da",
    "stats": {
-    "edge_density": 0.02825,
-    "mean_luma": 0.50417,
+    "edge_density": 0.02847,
+    "mean_luma": 0.50395,
     "mean_rgb": [
-     0.49824,
-     0.50417,
-     0.52152
+     0.49808,
+     0.50395,
+     0.52125
     ],
     "size": [
      2180,
@@ -74,20 +86,26 @@
   },
   "kit_abandoned_city_street": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "debdbe6ed4c216fdcebfce5d96cf4a89798499f210d9a29226d07d1105eb146b",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "b48c403ee9ade6adc337f066299564d4a2f3626313cc327dc78ecc5c48cebf19",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "415bf6bfa4b86899d908b2ed93d7de390627af0ccab8cd10d01801049a8dbc5f",
+   "metrics_vs_previous": {
+    "edge_delta": 0.28835,
+    "luma_delta": 0.02287,
+    "rgb_delta": 0.02548,
+    "ssim": 0.88449,
+    "tile_ssim": 0.35558
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "ca50eebb5cf88636893da0f65a7c8d94df2ddf2e286c9bb68c78e49528a13a81",
    "stats": {
-    "edge_density": 0.02653,
-    "mean_luma": 0.12217,
+    "edge_density": 0.03418,
+    "mean_luma": 0.14504,
     "mean_rgb": [
-     0.18298,
-     0.11111,
-     0.05268
+     0.20568,
+     0.13377,
+     0.07816
     ],
     "size": [
      360,
@@ -98,20 +116,26 @@
   },
   "kit_desert_canyon": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "278687d482da2ae9ba47c097170f50be3f3225536e2cc4a7b1cc1969f8dd1ffc",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "64d2cddbf2fa91589ea722f8ffc691ad7866ee6248e905dfacae0bbcba06311e",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "29e7ba120092b3a10a6fe5bfca026583db5c172ee105e43476e194d9188898fc",
+   "metrics_vs_previous": {
+    "edge_delta": 0.05499,
+    "luma_delta": 0.04414,
+    "rgb_delta": 0.04877,
+    "ssim": 0.89057,
+    "tile_ssim": 0.66053
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "4f9c7bc5684bc5734cf16a658370d55bd7703dba52976cde64d5e58fa4dcf238",
    "stats": {
-    "edge_density": 0.0802,
-    "mean_luma": 0.21205,
+    "edge_density": 0.07579,
+    "mean_luma": 0.25619,
     "mean_rgb": [
-     0.32155,
-     0.19091,
-     0.09898
+     0.35978,
+     0.23634,
+     0.14775
     ],
     "size": [
      360,
@@ -122,20 +146,26 @@
   },
   "kit_jungle_clearing": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "451f39ad08ef446d38b7465393389ef827552ea8f4339a4fb7145d060ea9d44a",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "68fdf211b54c6509a9145a83a58c38246a4560b5fe77083392e454f03d8766c1",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "2e251997a3353447bc8aa3ae5de01c6daa8cd3dd3f3c275295bfef7022f2f6ca",
+   "metrics_vs_previous": {
+    "edge_delta": 0.04218,
+    "luma_delta": 0.0037,
+    "rgb_delta": 0.00438,
+    "ssim": 0.97221,
+    "tile_ssim": 0.88392
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "b3510a91b96afa9ae642aa7f1e56c0de3ce93eaa52c406c68a05fdfd46bb7741",
    "stats": {
-    "edge_density": 0.04362,
-    "mean_luma": 0.10146,
+    "edge_density": 0.04178,
+    "mean_luma": 0.10516,
     "mean_rgb": [
-     0.14232,
-     0.09369,
-     0.05809
+     0.14573,
+     0.09741,
+     0.06247
     ],
     "size": [
      360,
@@ -146,20 +176,26 @@
   },
   "kit_snow_mountain_ridge": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "d6581612361ba4143663677cbb27924c29a475b0e42b3e89f110a82b50c9d5ec",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "9e33bc95e792a8d2c94a27c1d610554cf1645b5780f9e22d8b4896900d7bad20",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "a3f4f908b3fbf25998b7a649839cca8b673a13669040f0a8c54e2b251e65b470",
+   "metrics_vs_previous": {
+    "edge_delta": 0.09872,
+    "luma_delta": 0.02016,
+    "rgb_delta": 0.02111,
+    "ssim": 0.99004,
+    "tile_ssim": 0.97478
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "cbd04591ad03deba21199a89ca9cff3c14878860c33f9ef3dc8055de92b3ac3e",
    "stats": {
-    "edge_density": 0.03667,
-    "mean_luma": 0.6224,
+    "edge_density": 0.03305,
+    "mean_luma": 0.60224,
     "mean_rgb": [
-     0.63235,
-     0.61897,
-     0.62705
+     0.61124,
+     0.59917,
+     0.60603
     ],
     "size": [
      360,
@@ -170,20 +206,26 @@
   },
   "sentinel_A01a": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "e7f31166e4ecd307c070ed0cf27fd3b98463fd3317fe4454da1e226a13d09bdc",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "e814345f7768947b44913db71d5b350b92014b08616bfe92f339a3ca36949010",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "66036d744b70705467044b22b1ec407e7c36c1dcc2ac533aa783799e4dbf8dce",
+   "metrics_vs_previous": {
+    "edge_delta": 0.47023,
+    "luma_delta": 0.03484,
+    "rgb_delta": 0.04565,
+    "ssim": 0.90332,
+    "tile_ssim": 0.78458
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "9a42ecf819e7df1377404846b8f2cd1e839f78b60b9ded9377f7c62792c34f4e",
    "stats": {
-    "edge_density": 0.14865,
-    "mean_luma": 0.14379,
+    "edge_density": 0.07875,
+    "mean_luma": 0.10895,
     "mean_rgb": [
-     0.10091,
-     0.14964,
-     0.21205
+     0.07368,
+     0.11364,
+     0.1664
     ],
     "size": [
      360,
@@ -218,20 +260,26 @@
   },
   "sentinel_B11": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "f67d241443d1a98baa9517072207bdd118cdee0b545ee48c13a2c65891db2eca",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "f7fa12e17cfec70aca2d694bc2dac3498c22f00c89a7f778492f8dafb540d5e9",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "7599e2421e8255963c2d08f7642f5282b50d2896e5bb176bebae73037004e338",
+   "metrics_vs_previous": {
+    "edge_delta": 0.01383,
+    "luma_delta": 0.07983,
+    "rgb_delta": 0.10232,
+    "ssim": 0.5268,
+    "tile_ssim": 0.06858
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "63730117fa59757ff28d392ba5bfbbe31a3e5d4684135761aac8fb3ff3ed66b4",
    "stats": {
-    "edge_density": 0.06943,
-    "mean_luma": 0.23877,
+    "edge_density": 0.06847,
+    "mean_luma": 0.15894,
     "mean_rgb": [
-     0.20967,
-     0.24229,
-     0.28955
+     0.14598,
+     0.15993,
+     0.18723
     ],
     "size": [
      360,
@@ -242,20 +290,26 @@
   },
   "sentinel_C13": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "810832ce1fedb4a8a29d4452b7691694a392e26256f9601a825b9337a3dbc0ca",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "77a5cf7ef75c8047714c969823e15da3d2f96344f88472f346b619021c4ff5a7",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "1ea5c63c6234cdb1cbb0c25b1a5926282f9ee49f7fbb6df3c7eea06e59356721",
+   "metrics_vs_previous": {
+    "edge_delta": 0.42038,
+    "luma_delta": 0.00104,
+    "rgb_delta": 0.006,
+    "ssim": 0.47276,
+    "tile_ssim": 0.21097
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "9a540318494135117b7a4ecea7d2357b996012e961c0065c0c7d7ba0a94701a5",
    "stats": {
-    "edge_density": 0.04829,
-    "mean_luma": 0.29243,
+    "edge_density": 0.06859,
+    "mean_luma": 0.29347,
     "mean_rgb": [
-     0.27836,
-     0.29301,
-     0.32807
+     0.28436,
+     0.29252,
+     0.32964
     ],
     "size": [
      360,
@@ -266,20 +320,26 @@
   },
   "sentinel_C21": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "f90891a55e6ef52f06a6b48e76f3caf24d18f38f8113814c727dab95b5d2c7ff",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "64fbccffc8509e47f3bc92e51c1c58caf7ec83fb4fe480a430ba55fe572944fb",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "f9088773531c7f8bc01ee71ebaae78d02eb3e92efb02f43640bf054071673ca8",
+   "metrics_vs_previous": {
+    "edge_delta": 0.23932,
+    "luma_delta": 0.29481,
+    "rgb_delta": 0.30194,
+    "ssim": 0.30135,
+    "tile_ssim": 0.11219
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "a8edc15cc4e07be5b06a9b872070db30a95cfecc1e18bc1e536059598aa7f225",
    "stats": {
-    "edge_density": 0.05641,
-    "mean_luma": 0.41317,
+    "edge_density": 0.04291,
+    "mean_luma": 0.11836,
     "mean_rgb": [
-     0.40714,
-     0.41205,
-     0.44195
+     0.1052,
+     0.11844,
+     0.15624
     ],
     "size": [
      360,
@@ -290,20 +350,26 @@
   },
   "sentinel_E31": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "35dec3c63dd446634b3250ac8aac028a2951d36d42c7637dbdec71ee43fab77c",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "19300005b9f96c1de50007d528f301733ded3ccecbde8e146130cb22e1ceed13",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "e122c86921c1d0deecf1bfb3ebee8370d5307fd7ad4773cfa2320a720b67b148",
+   "metrics_vs_previous": {
+    "edge_delta": 0.05729,
+    "luma_delta": 0.06009,
+    "rgb_delta": 0.06913,
+    "ssim": 0.52539,
+    "tile_ssim": 0.26635
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "10497badd4cecdb10300828f57f34da311327618771669608f974b14fab8f11f",
    "stats": {
-    "edge_density": 0.09408,
-    "mean_luma": 0.35623,
+    "edge_density": 0.09947,
+    "mean_luma": 0.29614,
     "mean_rgb": [
-     0.38413,
-     0.34712,
-     0.36432
+     0.315,
+     0.2895,
+     0.30644
     ],
     "size": [
      360,
@@ -314,20 +380,26 @@
   },
   "stress_c_cover_fear": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "6da189e9dbeae803d09f73c652a19d4da8502e96176eef3da032dc47eefcb158",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "c126d35d7beddb07d9ed08ea94b1e44766cf77cc0bcc497ce1722e84bdd2218c",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "fae2e6d52ad64d242505b32df64d95fb1a3e538802bcb874a5c90a0250c9cafd",
+   "metrics_vs_previous": {
+    "edge_delta": 0.33762,
+    "luma_delta": 0.07046,
+    "rgb_delta": 0.07918,
+    "ssim": 0.76992,
+    "tile_ssim": 0.43975
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "32b1514098938b86f064f49e36e9114613d9809246f2c90d37c6e8988bf57422",
    "stats": {
-    "edge_density": 0.03501,
-    "mean_luma": 0.17037,
+    "edge_density": 0.04683,
+    "mean_luma": 0.24083,
     "mean_rgb": [
-     0.20044,
-     0.16224,
-     0.16232
+     0.27113,
+     0.23175,
+     0.2415
     ],
     "size": [
      360,
@@ -338,20 +410,26 @@
   },
   "stress_c_doorway_sneeze": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "96c2a44aaf260408de6dfd895be9d3fea046c80ec82f78144252b72a006d2b85",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "624bf5b1c98523ee1be4b5f57031cb3e3e9c10e7860d05e8fadf67acdcb93825",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "9673e85d69c4808ec375fa72834c7dae04097f204ff361d877a070e715715079",
+   "metrics_vs_previous": {
+    "edge_delta": 0.19238,
+    "luma_delta": 0.02615,
+    "rgb_delta": 0.02975,
+    "ssim": 0.89261,
+    "tile_ssim": 0.56749
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "f7dd9415f36accbfd5e93cdb59097b15456f824b93f0e5ed2ae2fd772574eb85",
    "stats": {
-    "edge_density": 0.0302,
-    "mean_luma": 0.23191,
+    "edge_density": 0.03601,
+    "mean_luma": 0.25806,
     "mean_rgb": [
-     0.24785,
-     0.22637,
-     0.23976
+     0.27445,
+     0.25203,
+     0.26951
     ],
     "size": [
      360,
@@ -386,20 +464,26 @@
   },
   "stress_c_radio_mouth": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "8e15628271553812e0f8150276b97b0b1ee9fb62288844d8166f2b5e5bbd2c80",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "b29455d39562a1ffa07dbf6114e8ef6b5f0921023dc9d445556f6bba009d74d5",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "21dd3f0b68ac97b537b555defff1982a1340f4eb7d4880445e9d22d195ce3ed7",
+   "metrics_vs_previous": {
+    "edge_delta": 0.30162,
+    "luma_delta": 0.0547,
+    "rgb_delta": 0.06313,
+    "ssim": 0.82505,
+    "tile_ssim": 0.53593
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "4d471281ba94840899bc44311a0725ff3d8685f131de0b425b2e31332e825c8d",
    "stats": {
-    "edge_density": 0.03385,
-    "mean_luma": 0.10886,
+    "edge_density": 0.04406,
+    "mean_luma": 0.16356,
     "mean_rgb": [
-     0.12385,
-     0.1042,
-     0.11086
+     0.18698,
+     0.15636,
+     0.16596
     ],
     "size": [
      360,
@@ -410,20 +494,26 @@
   },
   "stress_d_reach": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "b0ca5f91a28c6a9d04854c1c668f8702e5d554499e3f0dfa1f4a6d531cc50d21",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "b8b2065eada5673673b9d41a04ffdfcc3e4905ea7bfc10343b7937296ac13ce5",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "8847a7a6ca59bfff902e2fbd71cb643997a9cbc3089d371a1520169d1f496629",
+   "metrics_vs_previous": {
+    "edge_delta": 0.14928,
+    "luma_delta": 0.01587,
+    "rgb_delta": 0.04066,
+    "ssim": 0.90294,
+    "tile_ssim": 0.63287
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "aafedeb0d2147a64b5fc1d996de71b72956ab622910f28da6542d5ce745a4645",
    "stats": {
-    "edge_density": 0.02981,
-    "mean_luma": 0.43384,
+    "edge_density": 0.02536,
+    "mean_luma": 0.44971,
     "mean_rgb": [
-     0.59189,
-     0.40222,
-     0.28165
+     0.58351,
+     0.4228,
+     0.32231
     ],
     "size": [
      360,
@@ -434,20 +524,26 @@
   },
   "stress_d_rope": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "5a45018f7c6f72998c1487d4602b403476dafccc22836792bacdcb69efbc735f",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "a11cd0bf182b8e2d10ce189b3a65e333e5b8f8f07f197c567529748872a1e44b",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "69cb3641d95109f6f342848b9562f6c11b6012922ed75755de824e0652def426",
+   "metrics_vs_previous": {
+    "edge_delta": 0.16628,
+    "luma_delta": 0.03784,
+    "rgb_delta": 0.06201,
+    "ssim": 0.88473,
+    "tile_ssim": 0.59179
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "664caf81a160bcf2d8fea416fd3816cb3757f43e7eb14a49dd092edc1d5c8226",
    "stats": {
-    "edge_density": 0.03043,
-    "mean_luma": 0.31632,
+    "edge_density": 0.03549,
+    "mean_luma": 0.35416,
     "mean_rgb": [
-     0.47015,
-     0.28518,
-     0.17182
+     0.48731,
+     0.32673,
+     0.23383
     ],
     "size": [
      360,
@@ -458,20 +554,26 @@
   },
   "stress_d_sit_rock_sneeze": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "da623b2ece90dd2747dc1451caecb06b6fbd818440b479c712602853c8ff6499",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "1fe0fdc89d43307a889fda0e9a9b52f09c46f13fb51e9725cd7b0d589d7fa2e3",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "c9dcc6698930ce57ef1d619eee8da11ad0bdee01a96bd8d787d87274c1de4895",
+   "metrics_vs_previous": {
+    "edge_delta": 0.03106,
+    "luma_delta": 0.06822,
+    "rgb_delta": 0.08099,
+    "ssim": 0.67324,
+    "tile_ssim": 0.31459
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "f95d43cc3e1f9370cafb041c79ddb0ee7297ca252b0bc597e2d374df3d5176de",
    "stats": {
-    "edge_density": 0.03509,
-    "mean_luma": 0.39241,
+    "edge_density": 0.03618,
+    "mean_luma": 0.46063,
     "mean_rgb": [
-     0.50766,
-     0.36879,
-     0.28707
+     0.56633,
+     0.43855,
+     0.36806
     ],
     "size": [
      360,
@@ -482,20 +584,26 @@
   },
   "stress_d_wave": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "bf4ae0b54280e6fe13ba4901ac5e4c402977eb12b31cfbccaf2e265195c5b18f",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "93df00ef2a1af652e4997a959fa66dc4eaf877a66f640f2f27e1576583fd5142",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "7b74f005ccd74d9ebfa82e17f8c6c9586fe2c859f1480a8ced3469db9b58dfcb",
+   "metrics_vs_previous": {
+    "edge_delta": 0.06067,
+    "luma_delta": 0.0055,
+    "rgb_delta": 0.03857,
+    "ssim": 0.96622,
+    "tile_ssim": 0.83821
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "c207a3ca3ff625b58bdc7b97f0535de1a639576fe95f32833d34627eb09a032a",
    "stats": {
-    "edge_density": 0.0178,
-    "mean_luma": 0.4389,
+    "edge_density": 0.01672,
+    "mean_luma": 0.4444,
     "mean_rgb": [
-     0.61795,
-     0.40383,
-     0.25914
+     0.59539,
+     0.41433,
+     0.29771
     ],
     "size": [
      360,
@@ -506,20 +614,26 @@
   },
   "stress_j_kneel": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "dbe3d9e4fdf660a32b758aa06e614ec995b2c90a3edf3347a44d4fef857fba21",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "ba233d217056eafb18bf7ba45c7e873b9eb84d9c5e6019e56daf72e4d7d2b899",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "bbf658cd6e6230f78e2a14d27839c0429a1991ba5e5512028c494300a1bfb53f",
+   "metrics_vs_previous": {
+    "edge_delta": 1.33262,
+    "luma_delta": 0.02518,
+    "rgb_delta": 0.03183,
+    "ssim": 0.84298,
+    "tile_ssim": 0.41442
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "35494ab987662147ad88df5209342caf858afbc7c23e5105b98b5960515c77e4",
    "stats": {
-    "edge_density": 0.01398,
-    "mean_luma": 0.1525,
+    "edge_density": 0.03261,
+    "mean_luma": 0.17768,
     "mean_rgb": [
-     0.16247,
-     0.14763,
-     0.17145
+     0.1943,
+     0.17081,
+     0.19685
     ],
     "size": [
      360,
@@ -530,20 +644,26 @@
   },
   "stress_j_phone": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "1545b2c1ac9d96f86ce79fde2e11fab602fa7507c2893877c3a71ca4531c70c7",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "dcec08afa94f68f617242dd3c9dc743aa9b2dfe0e4a14aa821c867bb13dda31d",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "998067b791b86ced1524460745be09759ef5396e6d986542bdc77c0b52936438",
+   "metrics_vs_previous": {
+    "edge_delta": 0.28793,
+    "luma_delta": 0.00852,
+    "rgb_delta": 0.01273,
+    "ssim": 0.85134,
+    "tile_ssim": 0.43939
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "ac303859180374845b7669583bbba2b14c4adda10397f925231e786d0f792496",
    "stats": {
-    "edge_density": 0.02511,
-    "mean_luma": 0.13437,
+    "edge_density": 0.03234,
+    "mean_luma": 0.14289,
     "mean_rgb": [
-     0.15492,
-     0.12781,
-     0.13888
+     0.16765,
+     0.13532,
+     0.1449
     ],
     "size": [
      360,
@@ -554,20 +674,26 @@
   },
   "stress_j_shush_close": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "411795d5ba468c8341c41813806f27299f735578738513da9b76f4baf2748087",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "34d5f1a169f7b809cabcd2eaf328abcd0ea4e6da532d88c76bc8b27e79358bb2",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "e314dcae6d6adcfb0f1a8c582c8d663cf6478c88bb60e2710ed33655237fa65c",
+   "metrics_vs_previous": {
+    "edge_delta": 0.25207,
+    "luma_delta": 0.02849,
+    "rgb_delta": 0.03418,
+    "ssim": 0.86412,
+    "tile_ssim": 0.49715
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "a61d5f21939b3a25823fac41198f210f13d494e426454cb55ee59ffc2b9e3eae",
    "stats": {
-    "edge_density": 0.04098,
-    "mean_luma": 0.1603,
+    "edge_density": 0.05131,
+    "mean_luma": 0.18879,
     "mean_rgb": [
-     0.2074,
-     0.14808,
-     0.14274
+     0.24158,
+     0.17467,
+     0.17317
     ],
     "size": [
      360,
@@ -578,20 +704,26 @@
   },
   "stress_j_sit_log": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "7509b9ae214761c8841aeba469bb08dd70ed524514d7f24dc3cb5453fae05b07",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "472b1501c21e9ecc226ccd96eeb3a886ae425855f81474b3f790c92b8731d853",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "bb88845e66094b2bd80a11fd2c48743fc466aefa690e760363bd3f80b6927a3e",
+   "metrics_vs_previous": {
+    "edge_delta": 0.32374,
+    "luma_delta": 0.02423,
+    "rgb_delta": 0.03429,
+    "ssim": 0.74769,
+    "tile_ssim": 0.29546
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "d0e0f15596c421fafadf5c65c80f920d0f30f57789028f70fd8ee4b8172d9414",
    "stats": {
-    "edge_density": 0.03404,
-    "mean_luma": 0.11657,
+    "edge_density": 0.04506,
+    "mean_luma": 0.1408,
     "mean_rgb": [
-     0.14645,
-     0.10787,
-     0.11474
+     0.18074,
+     0.12963,
+     0.13383
     ],
     "size": [
      360,
@@ -602,20 +734,26 @@
   },
   "stress_j_walk": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "20eff96d6dae6bb3c8663387f9cf521158d21924e2f4b83dd5aefe66fd061ab2",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "32a13bacdb718fce75674dc1e0845585f075961d5adcc5bf104a907a3a700cb1",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "e502896f57ec24e2905e5aa9fdf6a60b03c3db0fbc376e0cf52e538563668efc",
+   "metrics_vs_previous": {
+    "edge_delta": 0.30308,
+    "luma_delta": 0.0025,
+    "rgb_delta": 0.00337,
+    "ssim": 0.97229,
+    "tile_ssim": 0.84121
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "6a3853dc12155eae28fecc25927c9febcf39b60aaf8891a726f65995903e427f",
    "stats": {
-    "edge_density": 0.01201,
-    "mean_luma": 0.15072,
+    "edge_density": 0.01565,
+    "mean_luma": 0.15322,
     "mean_rgb": [
-     0.15556,
-     0.14636,
-     0.17966
+     0.15796,
+     0.14881,
+     0.18303
     ],
     "size": [
      360,
@@ -626,20 +764,26 @@
   },
   "stress_l009_abandoned_sit": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "544bd9899f73256fa2b534963f43cfc2f526d627bb8b81b3b6503dc2be345cf7",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "1e60632770b497b5b05a6a67cc3eb5ad157199534106749b2547b0fbdd8683f4",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "2a8fd750bab02474524f9bdcccb424e8c403c1e40e11ce1de50cc0d766a807c5",
+   "metrics_vs_previous": {
+    "edge_delta": 0.42934,
+    "luma_delta": 0.03332,
+    "rgb_delta": 0.03785,
+    "ssim": 0.73056,
+    "tile_ssim": 0.1531
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "5ef380574d514ee03a95425a34dc5726a0e550d19e68e0ed6ac7b214d359e8eb",
    "stats": {
-    "edge_density": 0.03694,
-    "mean_luma": 0.17917,
+    "edge_density": 0.0528,
+    "mean_luma": 0.21249,
     "mean_rgb": [
-     0.19828,
-     0.1728,
-     0.18603
+     0.23613,
+     0.20467,
+     0.22033
     ],
     "size": [
      360,
@@ -650,20 +794,26 @@
   },
   "stress_l010_desert_grip": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "16ec58d5c43fc37f677f10281a87fc0c8358571b0b35e899828253f8a7a331b1",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "fec1c69754a889ebb3134301b6fe6317cae68d891a438d51758ca8328fa47c84",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "9763e23c8a0fa4e2d2c937359281c57aba9816763ff1b0e9a703db364c3d7c83",
+   "metrics_vs_previous": {
+    "edge_delta": 0.07016,
+    "luma_delta": 0.02409,
+    "rgb_delta": 0.04535,
+    "ssim": 0.87208,
+    "tile_ssim": 0.57826
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "0dc36cf3c9fecaacea0e513823226e353b642ff3ec6ec3e51e3d37dc3e86b289",
    "stats": {
-    "edge_density": 0.02922,
-    "mean_luma": 0.44616,
+    "edge_density": 0.02717,
+    "mean_luma": 0.47025,
     "mean_rgb": [
-     0.59807,
-     0.41564,
-     0.30122
+     0.60253,
+     0.44342,
+     0.34657
     ],
     "size": [
      360,
@@ -674,20 +824,26 @@
   },
   "stress_l022_abandoned_vocab": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "852326503139421c402291b029beffbfce8b89ae93445d3e76a0345893dc64ee",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "87b8d94fd4207b4b1dd8bc9b0e9c576f2e68ee42d25a3dee2e1a5a3c5719aaed",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "35b9f5fe6f2d55c48bdc8c82bdd99038992d8e30b680db078c008c8bfce3d564",
+   "metrics_vs_previous": {
+    "edge_delta": 0.6619,
+    "luma_delta": 0.03931,
+    "rgb_delta": 0.0432,
+    "ssim": 0.83118,
+    "tile_ssim": 0.41436
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "d6c8a643a0e98eaa636c6be2236ede3b9dd1aa7cdd61afd48a2533f2966be5ab",
    "stats": {
-    "edge_density": 0.02934,
-    "mean_luma": 0.11227,
+    "edge_density": 0.04876,
+    "mean_luma": 0.15158,
     "mean_rgb": [
-     0.14578,
-     0.10535,
-     0.08214
+     0.18898,
+     0.14318,
+     0.12461
     ],
     "size": [
      360,
@@ -722,20 +878,26 @@
   },
   "stress_s_beacon": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "d870ad6a1f2cf3b0f2539998e1c3fa62160b40c3b34a2706d96fddef265c6e74",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "e321fe02721d646f72be4250742ed18a3ae3ae1424561e487aabfd970b61e398",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "3a080ffd56a1ccb4049e2663ccedb7b3e58d18266ad48967e0c774fc7e27f1ed",
+   "metrics_vs_previous": {
+    "edge_delta": 0.00609,
+    "luma_delta": 0.0028,
+    "rgb_delta": 0.00451,
+    "ssim": 0.88778,
+    "tile_ssim": 0.50192
+   },
+   "note": "Face polish (converged eyes, lids covering the top of the iris, stronger asymmetric expressions) and the hands polish: props held in the palm per hand_poses.PROP_GRIPS with the authored pose shapes (grip_flat / press / point), no longer overridden by the stress intent list (L031). Neutral to better. j_phone's phone still reads edge-on across the fingers, as in the merge candidate (staging of phone_up, not a regression).",
+   "sha256": "5d72c4ac188c2ac3e9e576113bf4f9fa3903351469645156dbbd5d121bdbb303",
    "stats": {
-    "edge_density": 0.04104,
-    "mean_luma": 0.57694,
+    "edge_density": 0.04079,
+    "mean_luma": 0.57974,
     "mean_rgb": [
-     0.59297,
-     0.57221,
-     0.57659
+     0.59748,
+     0.57478,
+     0.57657
     ],
     "size": [
      360,
@@ -746,20 +908,26 @@
   },
   "stress_s_brace_wide": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:07+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "81acd4d0bb7cb4c165588cb00be10d1fc4bdbb4dc820b63d8a667a0004e714d1",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "6a475c258232ba93a1d9e57fbbe8c59e0feb3dd49026ab0ee201f9c2c460760e",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "9b15dde7fe60d54057e1b587104ee71311960b28496e410a34724a4868fe65e3",
+   "metrics_vs_previous": {
+    "edge_delta": 0.04924,
+    "luma_delta": 0.02727,
+    "rgb_delta": 0.02943,
+    "ssim": 0.98031,
+    "tile_ssim": 0.87851
+   },
+   "note": "Look-dev lighting (face key cheat, readable skin) and relaxed hands (palms to the thighs, curled fingers). Neutral to better. j_kneel / l022_abandoned_vocab still use the 'down' fallback with the head at the frame edge (L022 vocab gap, same framing as the ref).",
+   "sha256": "20b25e97cdfb1b777d4c4db2f1d51525030b116eeb6b6942f055e4b1e2c76a3a",
    "stats": {
-    "edge_density": 0.02579,
-    "mean_luma": 0.67916,
+    "edge_density": 0.02452,
+    "mean_luma": 0.65189,
     "mean_rgb": [
-     0.69012,
-     0.67438,
-     0.69425
+     0.66069,
+     0.64785,
+     0.66598
     ],
     "size": [
      360,
@@ -794,20 +962,26 @@
   },
   "stress_s_sit_bench": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:45+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "5d5b744ef7f1408dfbd9c36b52f59210ffa86c27d4bae6434062c5e7ce744e16",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "18e830dd0da5f4e98e8465c08e9466aac05d3835c0356c500d9fdb682625e017",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "6fa6a5b136b526a66aefc9262b8da1cad10e28b774c2718586bc940fde317332",
+   "metrics_vs_previous": {
+    "edge_delta": 0.014,
+    "luma_delta": 0.00679,
+    "rgb_delta": 0.01141,
+    "ssim": 0.75783,
+    "tile_ssim": 0.3282
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "7420b7e07803646a90fff66a569346e34162cefab0567d51bede1c6f4a27213b",
    "stats": {
-    "edge_density": 0.04501,
-    "mean_luma": 0.54784,
+    "edge_density": 0.04564,
+    "mean_luma": 0.54105,
     "mean_rgb": [
-     0.58468,
-     0.53691,
-     0.54762
+     0.57903,
+     0.53025,
+     0.53621
     ],
     "size": [
      360,
@@ -818,20 +992,26 @@
   },
   "stress_y_bow_point": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "5e366475ca6ba92e54b958f409e0e84aa84432985cf49f6be7a00f3a75407fee",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "937b544f0b5f2229312ff6d7941d6f21455e826d1e1fed80342f0ef10d45ea51",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "ee1c4b2fe2891753f43f2bdb074c4c61c9eb24bd9e579b6358085100fa97095f",
+   "metrics_vs_previous": {
+    "edge_delta": 0.12334,
+    "luma_delta": 0.05561,
+    "rgb_delta": 0.06134,
+    "ssim": 0.86063,
+    "tile_ssim": 0.65048
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "3ac164b524c86f7456b6b0a631298aacdacd1d27767d37843eb487905360e968",
    "stats": {
-    "edge_density": 0.10548,
-    "mean_luma": 0.27878,
+    "edge_density": 0.09247,
+    "mean_luma": 0.22317,
     "mean_rgb": [
-     0.24093,
-     0.28353,
-     0.34322
+     0.1886,
+     0.22752,
+     0.28188
     ],
     "size": [
      360,
@@ -866,20 +1046,26 @@
   },
   "stress_y_radio_shout": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "94251c694ba9c96d9a255bb703fb3f021ba1a7505678d928f3b63cae27ee23c9",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "2f4c98edaad9b8500290706a5275af23ba91bbb0abc9041a5aec778673938cbb",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "f4d45ca9d94f3a75eac426f8477317f4ae004c0b9724c59d149a423fa5d58dce",
+   "metrics_vs_previous": {
+    "edge_delta": 0.62938,
+    "luma_delta": 0.03835,
+    "rgb_delta": 0.04406,
+    "ssim": 0.76122,
+    "tile_ssim": 0.4283
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "40e6e09e14dcd6b60335e869f49d695d1166dbb105a8e2888f4db1a114a24e55",
    "stats": {
-    "edge_density": 0.01484,
-    "mean_luma": 0.0764,
+    "edge_density": 0.02418,
+    "mean_luma": 0.11475,
     "mean_rgb": [
-     0.07456,
-     0.07469,
-     0.09872
+     0.11439,
+     0.11203,
+     0.14278
     ],
     "size": [
      360,
@@ -890,20 +1076,26 @@
   },
   "stress_y_rail_fear": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "7bb4d38b59d262af8ca58ab72ac7da560570307c26ba63f3e398149415696ebf",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "2ef2c0702a994ddbee0c19f57f12cb1cefe35c4fc068a3ec360520a2c89fdb0b",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "856cf941a9ecc29ebb8837ada13c8f8a7a642085f909cb10ef9cbf48c7e70393",
+   "metrics_vs_previous": {
+    "edge_delta": 0.39834,
+    "luma_delta": 0.05129,
+    "rgb_delta": 0.06208,
+    "ssim": 0.88522,
+    "tile_ssim": 0.73589
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "fc7d5f197f7d2ecd749f10d36b43d1bea184947dbfe3f7bff39460aadd6e9f59",
    "stats": {
-    "edge_density": 0.0602,
-    "mean_luma": 0.18007,
+    "edge_density": 0.03622,
+    "mean_luma": 0.12878,
     "mean_rgb": [
-     0.14228,
-     0.18493,
-     0.24326
+     0.09837,
+     0.13253,
+     0.18118
     ],
     "size": [
      360,
@@ -914,20 +1106,26 @@
   },
   "stress_y_sit_deck": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T02:39:44+00:00",
+   "approved_at": "2026-11-22T15:50:06+00:00",
    "by": "operator",
-   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
-   "inputs_hash": "7316f2141a6a17801f87528a9b2f24c9b3b27a0595521e74da7c487665538064",
-   "metrics_vs_previous": null,
-   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
-   "sha256": "68e99527d10342d787b2564653d951c095eeece5536d33611c93ad7dbbcc932b",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "d344c0a8104483dd92c49ee51a4d0566c4c934beedc31690b5b3440a8cdd540b",
+   "metrics_vs_previous": {
+    "edge_delta": 0.35273,
+    "luma_delta": 0.28078,
+    "rgb_delta": 0.28325,
+    "ssim": 0.39579,
+    "tile_ssim": 0.07737
+   },
+   "note": "Seated poses (L032): the leg opens out (knee falls out, foot turns out with it) instead of a flat foot pointed past the ankle's range with the knees caved in past the midline; feet on the deck, hands relaxed on the knees, face lighting from the look-dev pass. Better than the ref (hovering splayed hands, sunk feet) and than the merge candidate (knock-kneed). Seated stress cameras still frame Jay chest-up with the sneakers big in the foreground, as before (not changed by this). hero_pose_sheet also shows the relaxed finger cascade and the phone hold.",
+   "sha256": "2f58d2fb944142ef18839230a5ee781bd1a1178832041028689003994bb44445",
    "stats": {
-    "edge_density": 0.03025,
-    "mean_luma": 0.40764,
+    "edge_density": 0.04092,
+    "mean_luma": 0.12686,
     "mean_rgb": [
-     0.44426,
-     0.40101,
-     0.36548
+     0.16659,
+     0.11776,
+     0.10007
     ],
     "size": [
      360,
@@ -938,20 +1136,26 @@
   },
   "yacht_turnaround": {
    "accepted_worse": false,
-   "approved_at": "2026-11-22T00:32:58+00:00",
+   "approved_at": "2026-11-22T15:49:55+00:00",
    "by": "operator",
-   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
-   "inputs_hash": "1de2c7be818549ea987e95b3458fa861aa7690b8fa7ad9bd2b89ab3e899f26d8",
-   "metrics_vs_previous": null,
-   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
-   "sha256": "a392dbc1ac5d283589db337585ef7d4e4285c851f25cbc93292bbdc3614f65a3",
+   "commit": "9b5d3a7ee7ff4c858d817a62b09b471f5d8bf12a",
+   "inputs_hash": "c1b70f91fe3177a4954ea790f20c0f366cd499e6e1db485341d5f1d5fbe62e3c",
+   "metrics_vs_previous": {
+    "edge_delta": 0.0944,
+    "luma_delta": 0.03026,
+    "rgb_delta": 0.0366,
+    "ssim": 0.68715,
+    "tile_ssim": 0.39147
+   },
+   "note": "yacht_v2 (detailed hull, cabin glazing that reads as glass, nav lights) and the look-dev night lighting replace the box yacht. Reviewed side by side (lead + fix agent): a real improvement. y_radio_shout also gets the authored palm hold of the radio instead of a fist (the stress hand-intent list no longer overrides pose shapes, L031).",
+   "sha256": "b7193293cefe8c7122b6ab2d14f3cf3c246c781eee71ca8e532c47629ba8a2b5",
    "stats": {
-    "edge_density": 0.05932,
-    "mean_luma": 0.15899,
+    "edge_density": 0.05372,
+    "mean_luma": 0.12873,
     "mean_rgb": [
-     0.12736,
-     0.16309,
-     0.21161
+     0.10178,
+     0.13207,
+     0.17501
     ],
     "size": [
      1452,

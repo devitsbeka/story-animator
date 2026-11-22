@@ -270,14 +270,10 @@ def pose_at(f, perf):
     hands = perf.get("hands") or []
     if isinstance(hands, dict):   # legacy {"L": shape, "R": shape}
         hands = [{"hand": s, "shape": v} for s, v in hands.items() if s in ("L", "R")]
-    sched = [h for h in hands if isinstance(h, (list, tuple))]   # legacy schedule [[frame, shapeL, shapeR?], ...]
-    if sched:
-        cur = None
-        for k in sorted(sched, key=lambda k: k[0]):
-            if k[0] <= f:
-                cur = k
-        if cur is not None:
-            pose["handShapeL"], pose["handShapeR"] = cur[1], cur[2] if len(cur) > 2 else cur[1]
+    # A list entry [frame, shapeL, shapeR?] is the stress generator's hand-shape INTENT annotation (read by pose QC
+    # to pick the finger rule, cloud/blender/test/pose_qc.py hand_shapes), never a render instruction: applying it
+    # here overrode the shapes the stance / pose authors (phone_up's grip_flat became a fist, hands_up's open palms
+    # became relaxed - stress j_phone POSE-PALM regression). Only dict entries drive the hands.
     for h in hands:
         if not isinstance(h, dict):
             continue

@@ -32,7 +32,7 @@ FACE_MOTION_MIN = 0.002     # mean per-frame change of the face controls (blinks
 PALM_REST_MAX = 50.0        # deg, relaxed hanging hand: palm normal vs direction to the body midline
 FOOT_TILT_MAX = 15.0
 FOOT_GAP_TOL = 0.03
-ANKLE_RANGE = (-25.0, 30.0)  # deg vs rest (+ = toes down)
+ANKLE_RANGE = (-25.0, 30.0)  # deg vs rest (+ = dorsiflexion, shin over the toes; - = pointed foot)
 PLANTED = {"stand", "brace", "helm", "sit"}   # families whose feet must be planted flat (down/kneel/crouch: no)
 # allowed pelvis->neck pitch (deg, + forward) by stance family
 SPINE_RANGE = {"stand": (-10.0, 25.0), "helm": (-8.0, 25.0), "brace": (-8.0, 35.0), "sit": (-5.0, 40.0)}

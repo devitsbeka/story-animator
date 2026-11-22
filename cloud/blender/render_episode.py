@@ -50,7 +50,6 @@ import cloudrig_adapter  # noqa: E402
 # <<< cloudrig hook
 # >>> hands/contact hook (polish_hands_pose): prop grips + set anchors for CloudRig hands
 import contact  # noqa: E402
-import hand_poses  # noqa: E402
 # <<< hands/contact hook
 import scatter_lod  # noqa: E402  (island_lod: camera-aware LOD for the island's library instances)
 
@@ -1447,13 +1446,10 @@ def build_props(shot, yacht_root, frames):
             root.scale = (p.get("scale", 1.0) / s_arm,) * 3
             # >>> hands/contact hook: CloudRig hands hold known props in the palm (hand_poses.PROP_GRIPS), unless
             # the spec asks for its raw local/rot with "grip": "raw"
-            if alias is not None and p.get("grip", "auto") == "auto" and att in ("handR", "handL"):
-                bone = arm.data.bones.get(root.parent_bone)
-                g = hand_poses.prop_grip(p["prop"], att[-1], bone.length) if bone else None
-                if g:
-                    Mg = Matrix((g[1][0], g[1][1], g[1][2])).transposed().to_4x4()
-                    Mg.translation = Vector(g[0])
-                    root.matrix_basis = Mg @ Matrix.Scale(p.get("scale", 1.0) / s_arm, 4)
+            if alias is not None:
+                Mg = cloudrig_adapter.hand_prop_basis(arm, root.parent_bone, p, s_arm)
+                if Mg is not None:
+                    root.matrix_basis = Mg
             # <<< hands/contact hook
         else:
             if att == "yacht" and yacht_root is not None:

@@ -81,6 +81,13 @@ CHECKS = {
                       "cap + cost ceiling; pace stress scenarios)", "kind": "pytest", "target": "tests/voice/test_pace_retake.py"},
              {"name": "canon CAN-N4f-pace shares pacing.block_pace and checks retake speed / total tempo", "kind": "pytest",
               "target": "tests/canon/test_checks.py"}],
+    "L031": [
+        {"name": "stress hand-intent list never overrides authored pose hand shapes", "kind": "pytest", "target": "tests/blender/test_acting_hands.py"},
+        {"name": "stress suite full in suite order (POSE-PALM / POSE-GRIP with the renderer's prop placement, FACE-LIFE)", "kind": "cmd",
+         "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render"], "slow": True},
+    ],
+    "L032": [{"name": "stress suite full (FOOT-ANKLE / FOOT-FLAT / FOOT-CONTACT on every seated + planted scenario)", "kind": "cmd",
+              "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render"], "slow": True}],
 }
 
 

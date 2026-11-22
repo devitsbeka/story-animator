@@ -270,7 +270,6 @@
   rule: "Once a plan is cut to measured words, canon timing checks measure the cut (planted shot start -> noticed shot start). The P-5 silence is shortened (>= 0.3 s, 0.1 s clearance) and slid back up to 1 s before it may touch a word; it never lies over the narrator."
   check: "tests/canon (S1a on shot frames), factory/sound/test_sound.py (silence still ends on the payoff); waterspout v2: T1 visible 1.7 s, silence 1928-1941 clear of 'you.' (ends 1925)."
   gate: [direct, sound, merge]
-  status: closed
 
 - id: L030
   found: lead (waterspout v2 canon gate), 2026-11-22
@@ -279,4 +278,24 @@
   rule: 'The voice stage measures every block with the gate''s own function (pacing.block_pace) and fixes each out-of-band block itself: local atempo first (TOTAL tempo on that audio, global x local, inside voice_speed 0.9-1.1), then tightening of over-long internal pauses (never below 0.25 s, never a reserved gap), else a re-voice of that block alone (ElevenLabs speed 0.9-1.1, a new seed, previous_text/next_text), gain-matched and spliced with crossfades inside the surrounding silence so every narration gap is kept. At most 3 blocks x 2 takes per run, never past the voice stage cost ceiling; every attempt and its cost go to narration.voice.json pace_retake. A word ends where its sound ends.'
   check: 'tests/voice/test_pace_retake.py (tempo-only, global-tempo limit, pause tightening, retake, gaps preserved, cap, cost ceiling, import backend, pace stress 1.6-4.2 w/s); CAN-N4f-pace measures with factory/voice/pacing.block_pace and FAILs a retake outside voice_speed; factory/sound/designer.py caps a gap''s key sound at planned len - 0.25 s (N2b); live proof on a copy of waterspout v2: CAN-N4f-pace PASS.'
   gate: [run, qc, merge]
+  status: closed
+
+- id: L031
+  found: merge gate after the six polish merges, 2026-11-22
+  symptom: After merging hands/feet polish with face polish and the quality gate, the stress suite failed POSE-PALM on j_phone and FACE-LIFE on 7 scenarios although neither the hands nor the face had got worse.
+  root_cause: 'Pose QC measured something other than what the renderer shows: (1) palm_normal returned the back-of-hand normal (a phone in the palm read 177 deg, relaxed palms on the thigh 174 deg); (2) held props were placed with the spec''s raw DEF-Wrist offsets on ORG-Wrist instead of render_episode''s hand_poses.PROP_GRIPS placement; (3) FACE-LIFE averaged motion over the ~30 held finger/toe controls the hands merge added to _controls(), halving the mean; (4) natural_height was re-read per scenario from the deformed mesh, so a seated scenario made the next actor taller (order-dependent POSE-GRIP); (5) the lead turned the generator''s hand-intent list into a render override that replaced authored pose shapes (phone_up grip_flat -> fist).'
+  rule: 'QC measures exactly what the renderer renders: it shares the renderer''s placement code (cloudrig_adapter.hand_prop_basis), metrics watch only the controls they name (CloudRigPuppet.life_controls), measurements are order-independent (rest measures taken once), geometric conventions are verified on a render with the vector drawn, and QC annotations (perf.hands intent lists) never drive the render.'
+  check: stress suite pose QC in suite order (POSE-PALM/POSE-GRIP with cloudrig_adapter.hand_prop_basis, FACE-LIFE via life_controls, rest height once); tests/blender/test_acting_hands.py
+  gate: [qc, merge]
+  regression_cases: [j_phone, s_beacon, c_radio_mouth, l010_desert_grip, y_sit_deck, j_walk, d_rope]
+  status: closed
+
+- id: L032
+  found: merge gate after the six polish merges, 2026-11-22
+  symptom: 'Every seated stress scenario (y_sit_deck, j_sit_log, d_sit_rock_sneeze, s_sit_bench, l009_abandoned_sit) failed FOOT-ANKLE at -30..-34 deg: flat feet under a reclined shin, knees caved in past the midline.'
+  root_cause: 'The hands/feet polish planted the feet flat on the deck and seated the pelvis on the floor, but its planted-foot solve only guarded dorsiflexion (heel lift). Jay''s legs (thigh = shin = 1.75 x ankle height) cannot raise the knee over a flat foot with the pelvis on the floor: the shin reclines >= 45 deg, so a forward-pointing flat foot is pointed far past the ankle''s range; the fwd+up knee pole then collapsed the knees inward.'
+  rule: 'A planted foot never breaks the ankle in either direction: shin leaning over the toes -> heel rolls up (ANKLE_DF_MAX); shin reclined behind the foot -> the leg opens out (hip external rotation: knee falls out about the hip-ankle line, foot turns out with it) until the shin->foot angle is within ANKLE_PF_MAX of rest.'
+  check: stress pose QC FOOT-ANKLE/FLAT/CONTACT on every seated and planted scenario (cloudrig_adapter._plant_foot knee splay)
+  gate: [asset, merge]
+  regression_cases: [y_sit_deck, j_sit_log, d_sit_rock_sneeze, s_sit_bench, l009_abandoned_sit]
   status: closed

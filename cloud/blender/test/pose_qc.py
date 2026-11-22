@@ -150,8 +150,10 @@ def wrist_bend(arm, side):
 
 
 def palm_normal(arm, side):
-    """Palm-side normal from the carpal fan (index/pinky across x middle along); orientation per side chosen so it
-    points out of the palm for the rig's bone layout (left = mirrored)."""
+    """Palm-side normal from the carpal fan (index/pinky across x middle along), pointing out of the palm (left =
+    mirrored). The sign was inverted before (it returned the back-of-hand normal): a phone held in the palm by
+    hand_poses.PROP_GRIPS (offset along the adapter's palm axis N) measured 177 deg, relaxed hands with fingers
+    curled toward the thigh 174 deg, and a render with the normal drawn showed it leaving the back of the hand."""
     pb = arm.pose.bones
     i, p, m = (pb.get(f"DEF-Finger_{n}_Carpal.{side}") for n in ("Index", "Pinky", "Middle"))
     if None in (i, p, m):
@@ -160,7 +162,7 @@ def palm_normal(arm, side):
     across = W @ (i.tail - p.tail)
     along = W @ (m.tail - m.head)
     n = along.cross(across).normalized()
-    return n if side == "R" else -n
+    return -n if side == "R" else n
 
 
 def _rest_world3(arm, name):
@@ -172,7 +174,7 @@ def foot_metrics(arm, side, floor):
     """Planted-foot measurements (L017 class: feet must sit flat with a natural ankle).
     tilt   deg between the foot's posed and rest 'up' axes in world space (pitch + roll; yaw is free) -> flat sole
     gap    m, (posed ball height above the floor under it) - (rest ball height above the rest ground) -> contact
-    ankle  deg, posed shin->foot angle minus the rest angle (+ = plantarflexion / toes down) -> natural ankle"""
+    ankle  deg, posed shin->foot angle minus the rest angle (+ = dorsiflexion: shin leaning over the toes; - = plantarflexion: pointed foot) -> natural ankle"""
     pb = arm.pose.bones
     foot, toes, shin = pb.get(f"DEF-Foot.{side}"), pb.get(f"DEF-Toes.{side}"), pb.get(f"DEF-Knee2.{side}")
     if foot is None or toes is None:
@@ -228,7 +230,7 @@ def surface_point(p, objs):
 
 
 def face_life(arm, pup, f0, f1, fps=30):
-    bones = [pb for pb in pup._controls()] if hasattr(pup, "_controls") else []
+    bones = (pup.life_controls() if hasattr(pup, "life_controls") else pup._controls()) if hasattr(pup, "_controls") else []
     head = arm.pose.bones.get("DEF-Head")
     prev, deltas = None, []
     sc = bpy.context.scene
@@ -304,11 +306,13 @@ def main():
                         o.parent = holder
                 cra.set_character_options(arm, entry.get("options", {"Glasses": 0}))
                 meshes = [o for o in objs if o.type == "MESH" and any(k in o.name for k in ("joggers", "pants", "body"))]
-                rigs[a["asset"]] = (arm, holder, meshes)
+                # natural height ONCE, in the pose the file loads in (as render_episode does): bound_box follows the
+                # deformed mesh, so measuring it per shot read the previous scenario's pose (a seated pose made the
+                # next actor ~5% taller and moved his held prop ~3 cm off the palm - order-dependent POSE-GRIP)
+                rigs[a["asset"]] = (arm, holder, meshes, cra.natural_height(arm))
             if rigs[a["asset"]] is None:
                 continue
-            arm, holder, meshes = rigs[a["asset"]]
-            h = cra.natural_height(arm)
+            arm, holder, meshes, h = rigs[a["asset"]]
             scale = float(a.get("height") or entry.get("height") or h) / h
             holder.matrix_basis = bl_mat(a["local"], a.get("rotY", 0.0), scale)
             perf = a.get("perf") or {"stance": [[-10000, "stand"]]}
@@ -336,6 +340,9 @@ def main():
                 root.location = Vector(p.get("local", (0, 0, 0))) / s_arm
                 root.rotation_euler = tuple(math.radians(x) for x in p.get("rot", (0, 0, 0)))
                 root.scale = (p.get("scale", 1.0) / s_arm,) * 3
+                Mg = cra.hand_prop_basis(arm, root.parent_bone, p, s_arm)   # same palm placement as render_episode
+                if Mg is not None:
+                    root.matrix_basis = Mg
                 props.append((p, att[-1], root))
             for f in frames:
                 sc.frame_set(f)
