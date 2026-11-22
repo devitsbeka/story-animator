@@ -24,16 +24,17 @@ LESSONS (factory/lessons/lessons.yaml: defects already found once; each rule is 
 - L018 (OPEN): Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth.
 - L021 (PARTIALLY-CLOSED): New episodes bind the series' current hero-tier assets (factory/series/default.json); superseded placeholders can't be selected for close or medium shots.
 - L022 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
+- L020 (closed): CAN-C2 one hero close-up per sequence, on the beat the director marks reserved_close_up; CAN-H1 impacts use impact_handheld (subject escapes the frame 2-12 f, the camera catches up 2-10 f late, then re-centres); CAN-C1 a wide holding hero + boat + island/tree line comes before any coverage of a location.
 [gate render]
 - L015 (PARTIALLY-CLOSED): Every asset the spec references ships with the job; a missing actor/prop/set is a hard failure, never a silent skip.
-- L020 (PARTIALLY-CLOSED): Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board.
 [gate qc]
 - L006 (closed): Deliverables are H.264 High, yuv420p, +faststart, keyframe every 1 s, capped bitrate; a mobile-safe copy accompanies every delivery.
 - L007 (closed): Finals are true 30 fps (no duplicated frames), captions inside the platform safe area, -14 LUFS +-1 / TP <= -1 dBTP, no black/frozen frames, audio from frame 0.
 - L011 (PARTIALLY-CLOSED): Every emotion reads instantly and appealingly (clear brow shape, lid tension, mouth corners, 5-15% asymmetry); eyes converge on a target.
-- L016 (OPEN): Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur.
+- L016 (PARTIALLY-CLOSED): Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur.
 [gate merge]
 - L013 (closed): LLM stages fall back to JSON-in-prompt + local validation when a schema is too large; never fail the run on that.
+- L023 (closed): A call that hits max_tokens with >= 80% of the output spent on thinking is retried once at the next lower effort with a 'plan briefly, then write the JSON' note; it never fails the run on the first occurrence. Every billed attempt counts toward run cost, including attempts of a failed stage.
 [gate run]
 - L014 (closed): Use 1-hour cache on recipe blocks; put the blocking checklist in the drafting prompt; cheaper model/effort for mechanical stages; per-stage cost ceiling.
 <!-- LESSONS:END -->

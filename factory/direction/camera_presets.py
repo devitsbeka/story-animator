@@ -1024,7 +1024,7 @@ def impact_handheld_layer(camera, f0, f1, impact_frame, escape_frames=4, lag_fra
     return cam2
 
 
-def impact_handheld(f0, f1, subj, base="handheld_documentary", impact_frame=None, escape_frames=4, lag_frames=5, recover_frames=12,
+def impact_handheld_over(f0, f1, subj, base="handheld_documentary", impact_frame=None, escape_frames=4, lag_frames=5, recover_frames=12,
                     amplitude_deg=6.0, direction=1.0, **kw):
     """Preset: any base preset + the reactive impact layer (motivation impact). direction.impact_window feeds the shot
     validator's H1/C11 exemption (CAN-H1f)."""
@@ -1054,7 +1054,7 @@ PRESETS = {
     "product_turntable": product_turntable, "architecture_walkthrough": architecture_walkthrough, "aerial_flyover": aerial_flyover,
 }
 # canon CAN-H1: layers wrap a base preset (not in the atlas catalog of 36 base moves)
-LAYERS = {"impact_handheld": impact_handheld}
+LAYERS = {"impact_handheld": impact_handheld_over}  # canon: the layered form (wraps a base preset)
 # craft-canon presets added on top of the 36-preset catalog (atlas camera_presets.yaml)
 CANON_PRESETS = {"impact_handheld"}
 # presets that take a second subject (target) positionally

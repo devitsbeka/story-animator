@@ -227,8 +227,10 @@ def test_validator_flags_bad_and_passes_v3():
         # quality_gate: v3 passed every shot-language rule, but its A02/A04 cameras sit inside the cabin (L012,
         # rendered brown/black) - the mesh-proxy rule must catch exactly that
         fails = [r for r in r3["rules"] if r["status"] == "fail"]
-        assert [r["id"] for r in fails] == ["PROXY"], fails
-        assert {"A02", "A04"} <= set(fails[0]["shots"])
+        # since polish_camera the real-geometry collision rule (COL) and the camera canon rules also flag v3; the
+        # mesh-proxy rule must still catch exactly the in-cabin A02/A04 cameras
+        prox = [r for r in fails if r["id"] == "PROXY"]
+        assert prox and {"A02", "A04"} <= set(prox[0]["shots"]), fails
         c17 = next(x for x in r3["shots"] if x["id"] == "C17")
         assert c17["anchors"]["island"] > 0 and c17["ots"]
         if G.yacht_proxy() is not None:      # polish_camera: v3's A02/A04 lenses sit in the cabin (brown / black frames)
