@@ -76,7 +76,7 @@ STANCES = {
         "hips": [0, 0.02, -0.06], "hipsRot": [4, 0, 0], "chest": [6, 0, 0], "head": [-4, 0, 0],
         "handL": [0.30, -0.12, 0.92], "handR": [-0.30, -0.12, 0.92],
         "footL": [0.22, -0.02, 0.16], "footR": [-0.22, 0.02, 0.16],
-        "handShapeL": {"relaxed": 0.55, "brace_spread": 0.45}, "handShapeR": {"relaxed": 0.55, "brace_spread": 0.45},
+        "handShapeL": {"relaxed": 0.7, "brace_spread": 0.3}, "handShapeR": {"relaxed": 0.7, "brace_spread": 0.3},
         "palmL": [-0.75, 0.1, -0.65], "palmR": [0.75, 0.1, -0.65],
     },
     # both hands on a wheel in front of him at waist height (on the rim at 10 and 2 when the shot has a helm prop)

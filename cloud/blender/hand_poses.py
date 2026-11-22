@@ -31,7 +31,8 @@ def _f(i, m, r, p, thumb):
 # (carpal, k1, k2, k3, spread) / thumb (t1x, t1z, t2x, t3x)
 SHAPES = {
     # natural rest: each finger a little more curled than the one before it (index -> pinky cascade), thumb soft
-    "relaxed": _f((2, 10, 16, 10, 0), (3, 15, 20, 12, 0), (4, 20, 24, 14, 0), (5, 25, 28, 16, 0), (22, 10, 14, 10)),
+    # (index least curled -> pinky most, fingers gently converging, never splayed; thumb soft beside the index)
+    "relaxed": _f((2, 12, 24, 13, 0), (3, 17, 30, 15, -0.5), (4, 23, 35, 17, -1.5), (6, 29, 40, 19, -3), (20, 12, 16, 12)),
     "fist": _f((4, 80, 95, 55, 0), (5, 85, 95, 55, 0), (6, 88, 95, 55, 0), (8, 90, 95, 55, 0), (40, 30, 30, 35)),
     # wrapped round a tube ~ the size of a wheel rim / rail / radio body: big k1, softer k2/k3, thumb opposed
     "grip_cylinder": _f((3, 56, 52, 26, 0), (4, 60, 54, 26, 0), (5, 62, 56, 26, 0), (7, 66, 56, 26, 0), (44, 22, 18, 14)),
@@ -42,9 +43,9 @@ SHAPES = {
     # 'shh': index straight up at the lips, others curled, thumb holding them
     "shush": _f((0, 2, 4, 2, 2), (5, 76, 88, 48, 0), (6, 82, 88, 48, 0), (8, 86, 88, 48, 0), (58, 34, 26, 26)),
     # open hand facing out for a wave: fingers long, gently spread, slight natural curl so it never reads as a paddle
-    "open_palm_wave": _f((0, 4, 6, 4, 9), (0, 5, 7, 4, 3), (1, 7, 8, 5, 6), (2, 9, 10, 6, 12), (-6, -6, 4, 4)),
+    "open_palm_wave": _f((0, 5, 8, 5, 6), (0, 6, 9, 5, 2), (1, 8, 11, 6, 4), (2, 11, 13, 7, 8), (-4, -4, 6, 5)),
     # bracing: fingers spread wide, a little hooked, thumb out
-    "brace_spread": _f((1, 16, 22, 14, 10), (1, 18, 22, 14, 3), (2, 22, 24, 14, 7), (3, 26, 26, 16, 13), (4, -4, 10, 8)),
+    "brace_spread": _f((1, 14, 20, 12, 5), (1, 16, 22, 13, 1), (2, 20, 25, 14, 3), (3, 24, 28, 16, 6), (8, 0, 12, 8)),
     # pressing a button: index extended (slightly bent), the rest curled
     "press": _f((0, 8, 10, 6, 2), (4, 64, 80, 44, 0), (5, 72, 82, 44, 0), (7, 78, 82, 44, 0), (54, 30, 24, 24)),
 }
@@ -125,8 +126,8 @@ def bone_names(side):
     return list(finger_euler("relaxed", side).keys())
 
 
-# ---------------------------------------------------------------- hand-held props on DEF-Wrist.<S>
-# A prop parented to a bone sits at the bone's TAIL, in the bone's rest axes. DEF-Wrist (hero_v4) bone axes in the
+# ---------------------------------------------------------------- hand-held props on ORG-Wrist.<S> (BONE_ALIAS; DEF-Wrist only takes HALF the hand rotation)
+# A prop parented to a bone sits at the bone's TAIL, in the bone's rest axes. ORG-Wrist = DEF-Wrist rest (hero_v4) bone axes in the
 # canonical frame: Y = F on both sides; X = -N on .L (back of the hand) / +N on .R; Z = -T on both sides.
 # PROP_GRIPS: 'loc' = the prop origin (its grip point, props.py) in the canonical frame (F, N, T) from the wrist
 # pivot, rig units; 'axes' = which canonical axis the prop's +Z (long axis) and -Y (front face) point along;

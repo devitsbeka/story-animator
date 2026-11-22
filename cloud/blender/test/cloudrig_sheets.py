@@ -136,21 +136,24 @@ def body_props(tests):
             bpy.ops.mesh.primitive_cube_add(size=1)
             b = bpy.context.object
             b.name = "bench"
-            b.scale = (2.4 / k, 0.7 / k, 0.41 / k)
-            # actor mark FEET_FROM_EDGE in front of the bench edge, seat SEAT_SETBACK behind it (marks.py)
-            b.location = (0, (MK.FEET_FROM_EDGE + 0.35) / k, 0.205 / k)
+            # yacht_v2 aft bench (marks.py BENCH): the actor mark (feet) is `fe` in front of the seat front
+            fe = MK.SITMARK["local"][2] - MK.BENCH["front_z"]
+            sh_ = MK.BENCH["seat_y"] - MK.SITMARK["local"][1]
+            dp = MK.BENCH["depth"]
+            b.scale = (2.4 / k, dp / k, sh_ / k)
+            b.location = (0, (fe + dp / 2) / k, sh_ / 2 / k)
             mb = bpy.data.materials.new("bench")
             mb.use_nodes = True
             mb.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.05, 0.07, 0.1, 1)
             b.data.materials.append(mb)
-            anchors["bench_seat"] = {"p": Vector((0, (MK.FEET_FROM_EDGE + MK.SEAT_SETBACK) / k, 0.41 / k))}
+            anchors["bench_seat"] = {"p": Vector((0, (fe + MK.SEAT_SETBACK) / k, sh_ / k))}
             _show_only([b], on, f_all)
         for prop, pose in (("radio", "radio_shout"), ("phone", "phone_up")):
             if ps == pose:
                 r = getattr(propkit, {"radio": "vhf_handset", "phone": "phone"}[prop])(prop)
-                bone = arm.data.bones["DEF-Wrist.R"]
+                bone = arm.data.bones["ORG-Wrist.R"]
                 loc, axes = hand_poses.prop_grip(prop, "R", bone.length)
-                r.parent, r.parent_type, r.parent_bone = arm, "BONE", "DEF-Wrist.R"
+                r.parent, r.parent_type, r.parent_bone = arm, "BONE", "ORG-Wrist.R"
                 r.matrix_parent_inverse = Matrix.Identity(4)
                 M = Matrix((axes[0], axes[1], axes[2])).transposed().to_4x4()
                 M.translation = Vector(loc)

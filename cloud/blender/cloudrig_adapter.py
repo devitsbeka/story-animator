@@ -39,6 +39,20 @@ import acting
 import face
 import hand_poses  # polish_hands_pose: finger shapes + contact points
 
+# >>> hands/contact: wrist limits (radians). Free hands: the fingers stay within WRIST_BEND of the forearm line;
+# hands on a contact anchor (helm rim, rail...) may bend a little more; a hand with no finger direction gets a
+# relaxed flex of RELAX_FLEX (tan) toward the palm, like a real resting wrist.
+WRIST_BEND = math.radians(22.0)
+WRIST_BEND_GRIP = math.radians(32.0)
+RELAX_FLEX = 0.14
+# feet: ankle dorsiflexion limit (shin forward lean before the heel must come up), max heel roll, toe-out, and how
+# much the feet turn with a hips yaw
+ANKLE_DF_MAX = math.radians(30.0)
+HEEL_LIFT_MAX = math.radians(70.0)
+FOOT_TOE_OUT = 7.0
+FOOT_YAW_FOLLOW = 0.35
+# <<< hands/contact
+
 # ---------------------------------------------------------------- acting.py reference body (metres)
 ACT_LM = {"ankle": 0.16, "hipjoint": 0.849, "hips": 0.93, "shoulder": 1.32, "mouth": 1.42, "eyes": 1.55, "top": 1.75}
 ACT_SHOULDER_X = 0.16
@@ -268,6 +282,9 @@ class CloudRigPuppet:
         self.anchors = {}          # name -> (p, n, d, kind) in armature space (static: props, rails, marks)
         self.rail_snap = None      # callable(world point) -> (world point, world tangent) | None
         self._dirw = {"L": 0.0, "R": 0.0}   # per-frame: how strongly the finger direction is authored
+        self.toes = {s: P.get(f"IK-Toes.{s}") for s in SIDES}
+        self._toe_m = {}
+        self.foot_lift = {"L": 0.0, "R": 0.0}
         # <<< hands/contact
         self._set_ik_mode()
         for pb in self._controls():
@@ -303,6 +320,8 @@ class CloudRigPuppet:
         out += [v[0] for v in self.facectl.values()]
         for s in SIDES:
             out += self.fingers.get(s, [])
+            if self.toes.get(s) is not None:
+                out.append(self.toes[s])
         return list(dict.fromkeys(out))
 
     def _measure(self):
@@ -359,6 +378,15 @@ class CloudRigPuppet:
         self.eye_dist = (h(self.eyetgt) - h(self.eyecen)).length if (self.eyetgt and self.eyecen) else 0.7
         # >>> hands/contact: thigh thickness (seat height of the pelvis), rest hand frame
         knee = h(self.shin["L"]).z if self.shin.get("L") else hipj - 0.45 * (hipj - ankle)
+        # feet: ball of the foot (toe pivot) and leg segment lengths for the planted-foot solve
+        self.rest_ball = {}
+        self.leg_l = {}
+        for s in SIDES:
+            tb = self.toes.get(s)
+            self.rest_ball[s] = h(tb) if tb is not None else self.rest_foot[s] + Vector((0, -0.1, -0.05))
+            hp, an = h(self.thigh[s]), self.rest_foot[s]
+            kn = h(self.shin[s]) if self.shin.get(s) else (hp + an) * 0.5 + Vector((0, -0.01, 0))
+            self.leg_l[s] = ((kn - hp).length, (an - kn).length)
         zt = knee + 0.55 * (hipj - knee)
         ty = []
         for o in arm.children_recursive:
@@ -483,18 +511,26 @@ class CloudRigPuppet:
         for s in SIDES:
             self.wrist[s].location = (0, 0, 0)
         # feet + knees first (knee anchors for the hands need the legs solved)
+        bpy.context.view_layer.update()
+        fwd_of = {}
         for s in SIDES:
-            # feet: relative to rest, leg-length ratio
+            # feet: relative to rest, leg-length ratio; planted flat (never under the deck), toes a little out,
+            # heel rolling up over the ball only when the shin leans past the ankle's dorsiflexion limit
             fa = Vector(pose["foot" + s]) - Vector(ACT_STAND["foot" + s])
             ft = self.rest_foot[s] + fa * self.k_leg
-            self._set_pose_matrix(self.foot[s], Matrix.Translation(ft) @ self._rest3(self.foot[s]).to_4x4())
+            M_f, fwd_of[s] = self._plant_foot(s, ft, pose)
+            self._set_pose_matrix(self.foot[s], M_f)
+        bpy.context.view_layer.update()
+        for s in SIDES:
+            if self.toes.get(s) is not None and s in self._toe_m:
+                self._set_pose_matrix(self.toes[s], self._toe_m[s])
         bpy.context.view_layer.update()
         for s in SIDES:
             ft = self.foot[s].matrix.to_translation()
-            # knee pole: perpendicular to hip->ankle, biased front + up (knees forward standing, up sitting)
+            # knee pole: perpendicular to hip->ankle, biased toward where the toes point + up (knee over the toes)
             hip = self.thigh[s].head.copy()
             dd = ft - hip
-            v = Vector((0, -1, 0.6))
+            v = fwd_of[s] + Vector((0, 0, 0.6))
             if dd.length > 1e-4:
                 dn = dd.normalized()
                 v = v - dn * v.dot(dn)
@@ -587,6 +623,53 @@ class CloudRigPuppet:
             M = Matrix.Translation(t) @ q.to_matrix().to_4x4() @ self._rest3(self.wrist[s]).to_4x4()
             self._set_pose_matrix(self.wrist[s], M)
 
+    # ---------------------------------------------------------------- feet (polish_hands_pose)
+    def _knee_est(self, s, hip, ankle, fwd):
+        """analytic 2-bone knee position (thigh/shin rest lengths, knee toward fwd + up)."""
+        L1, L2 = self.leg_l[s]
+        dv = ankle - hip
+        dl = min(max(dv.length, 1e-4), (L1 + L2) * 0.9999)
+        dn = dv.normalized() if dv.length > 1e-6 else Vector((0, 0, -1))
+        a = (L1 * L1 - L2 * L2 + dl * dl) / (2 * dl)
+        h = math.sqrt(max(0.0, L1 * L1 - a * a))
+        pv = fwd + Vector((0, 0, 0.6))
+        pv = pv - dn * pv.dot(dn)
+        if pv.length < 1e-5:
+            pv = Vector((0, -1, 0))
+        return hip + dn * a + pv.normalized() * h
+
+    def _plant_foot(self, s, ft, pose):
+        """(IK-MSTR-Foot pose matrix, toe forward dir) for an ankle target ft: foot flat on the deck (no roll, the
+        ankle never below its rest height), yawed with the hips + FOOT_TOE_OUT, and rolled up onto the ball (heel
+        up, toes kept flat by self._toe_m) by however much the shin leans forward past ANKLE_DF_MAX."""
+        R0 = self._rest3(self.foot[s])
+        yaw = math.radians(pose["hipsRot"][1] * FOOT_YAW_FOLLOW + (FOOT_TOE_OUT if s == "L" else -FOOT_TOE_OUT))
+        Qy = Quaternion(Vector((0, 0, 1)), yaw)
+        ft = ft.copy()
+        ft.z = max(ft.z, self.rest_foot[s].z)
+        ball_off = self.rest_ball[s] - self.rest_foot[s]
+        ball = ft + Qy @ ball_off
+        fwd = Qy @ Vector((ball_off.x, ball_off.y, 0)).normalized()
+        lat = fwd.cross(Vector((0, 0, 1))).normalized()       # foot's right side
+        hip = self.thigh[s].head.copy()
+        lift, ankle = 0.0, ft
+        for _ in range(4):
+            K = self._knee_est(s, hip, ankle, fwd)
+            u = (K - ankle)
+            lean = math.atan2(u.dot(fwd), max(1e-5, u.z)) if u.z > 0 else math.pi / 2
+            want = max(0.0, min(HEEL_LIFT_MAX, lean - ANKLE_DF_MAX))
+            if abs(want - lift) < 1e-3:
+                break
+            lift = want
+            ankle = ball + Quaternion(lat, -lift) @ (ft - ball)    # heel UP over the ball
+        Ql = Quaternion(lat, -lift)
+        M = Matrix.Translation(ankle) @ (Ql @ Qy).to_matrix().to_4x4() @ R0.to_4x4()
+        # toes stay flat on the deck (bend at the ball): their pose = yaw only, pivot at the ball
+        if self.toes.get(s) is not None:
+            self._toe_m[s] = Matrix.Translation(ball) @ Qy.to_matrix().to_4x4() @ self._rest3(self.toes[s]).to_4x4()
+        self.foot_lift[s] = lift
+        return M, fwd
+
     # ---------------------------------------------------------------- hands/contact (polish_hands_pose)
     def set_anchors(self, anchors_world=None, rail_snap=None):
         """anchors_world: {name: {"p": world Vector, "n": palm normal (world, optional), "d": finger dir (optional),
@@ -671,6 +754,29 @@ class CloudRigPuppet:
         Rr = Matrix((F0, N0, F0.cross(N0))).transposed()
         return (Rt @ Rr.transposed()).to_quaternion()
 
+    def _wrist_orient(self, s, q_base, n, dvec, max_bend):
+        """hand rotation that never breaks the wrist: the fingers continue the forearm (q_base @ F0), bent at most
+        max_bend (radians) toward an authored finger direction dvec (None = straight, with a natural ~8 deg relaxed
+        flex toward the palm); the palm normal is the target n made perpendicular to the fingers, i.e. the forearm
+        TWISTS the palm to face its target instead of the hand folding at the wrist."""
+        F0, N0, T0 = self.hand_rest[s]
+        Fa = (q_base @ F0).normalized()
+        n = Vector(n).normalized()
+        if dvec is None or Vector(dvec).length < 1e-5:
+            nn = n - Fa * n.dot(Fa)
+            Fd = (Fa + nn.normalized() * RELAX_FLEX).normalized() if nn.length > 1e-4 else Fa
+        else:
+            Fd = Vector(dvec).normalized()
+            ang = Fa.angle(Fd, 0.0)
+            if ang > max_bend:
+                ax = Fa.cross(Fd)
+                Fd = (Quaternion(ax.normalized(), max_bend) @ Fa) if ax.length > 1e-6 else Fa
+        nn = n - Fd * n.dot(Fd)
+        if nn.length < 0.25:          # target along the fingers: keep the forearm's own twist
+            nb = q_base @ N0
+            nn = nb - Fd * nb.dot(Fd)
+        return self._orient(s, nn.normalized(), Fd)
+
     def _hand_target(self, pose, s, t_free, sh_pose, q_base):
         """(wrist target, hand rotation) for one hand: free target blended toward the anchored contact, rotation
         blended toward the authored palm / anchor orientation. q_base None = provisional (forearm ~ shoulder->target)."""
@@ -681,11 +787,12 @@ class CloudRigPuppet:
             v = t_free - sh_pose
             q_base = d_rest.rotation_difference(v.normalized()) if v.length > 1e-5 else Quaternion()
         q = q_base
-        # authored palm orientation (length = weight)
+        # authored palm orientation (length = weight): wrist = forearm direction + a twist that turns the palm
+        # toward the target, plus at most WRIST_BEND of flex/deviation toward an authored finger direction
         pv, fv = Vector(pose.get("palm" + s) or (0, 0, 0)), Vector(pose.get("fing" + s) or (0, 0, 0))
         wp = min(1.0, pv.length)
         if wp > 1e-3:
-            q = q.slerp(self._orient(s, pv, fv if fv.length > 1e-4 else q @ F0), wp)
+            q = q.slerp(self._wrist_orient(s, q_base, pv, fv if fv.length > 1e-4 else None, WRIST_BEND), wp)
         # how strongly the finger direction is authored (steers the elbow so the forearm can deliver it)
         self._dirw[s] = min(wp, min(1.0, fv.length)) if fv.length > 1e-4 else 0.0
         # anchors
@@ -709,7 +816,7 @@ class CloudRigPuppet:
         P /= W
         W = min(1.0, W)
         if Wn > 1e-6 and Nn.length > 1e-5:
-            q = q.slerp(self._orient(s, Nn, Dn), min(1.0, Wn))
+            q = q.slerp(self._wrist_orient(s, q_base, Nn, Dn, WRIST_BEND_GRIP), min(1.0, Wn))
             self._dirw[s] = max(self._dirw[s], min(1.0, Wn))
         kind = max(kinds.items(), key=lambda kv: kv[1])[0] if kinds else None
         c = hand_poses.contact_point(pose.get("handShape" + s), kind)
@@ -923,4 +1030,4 @@ def natural_height(arm):
     return (max(zs) - min(0.0, min(zs))) if zs else 1.26
 
 
-BONE_ALIAS = {"handR": "DEF-Wrist.R", "handL": "DEF-Wrist.L", "head": "DEF-Head", "chest": "DEF-Chest"}
+BONE_ALIAS = {"handR": "ORG-Wrist.R", "handL": "ORG-Wrist.L", "head": "DEF-Head", "chest": "DEF-Chest"}
