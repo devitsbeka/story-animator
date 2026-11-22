@@ -71,3 +71,30 @@ def test_blender_pose_qc_on_v5(tmp_path):
     assert "C21" in doc["summary"]["by_rule"]["POSE-SPINE"] and "C21" in doc["summary"]["by_rule"]["POSE-SEAT"]
     grips = [g for m in doc["measurements"] if m["shot"] == "C13" for g in m["grips"]]
     assert grips and all(g["dist_m"] < 0.035 for g in grips)
+
+
+def test_feet_planted_flat_rules():
+    good = {"L": {"tilt_deg": 0.0, "gap_m": 0.004, "ankle_dev_deg": 5.0}, "R": {"tilt_deg": 2.0, "gap_m": 0.0, "ankle_dev_deg": 12.0}}
+    assert all(v == "pass" for k, v in _status(PR.evaluate(_m(feet=good))).items() if k.startswith("FOOT"))
+    # measured on stress y_sit_deck (feet sunk 5.5 cm into the deck) + a tiptoe / broken-ankle foot
+    bad = {"L": {"tilt_deg": 0.0, "gap_m": -0.055, "ankle_dev_deg": -11.5}, "R": {"tilt_deg": 32.0, "gap_m": 0.0, "ankle_dev_deg": 48.0}}
+    st = _status(PR.evaluate(_m(stance="sit_deck", seated=True, seat_gap_m=0.0, feet=bad)))
+    assert st["FOOT-CONTACT.L"] == "fail" and st["FOOT-FLAT.R"] == "fail" and st["FOOT-ANKLE.R"] == "fail"
+    assert st["FOOT-FLAT.L"] == "pass" and st["FOOT-ANKLE.L"] == "pass"
+    # kneeling / thrown down: feet are not required to be planted
+    assert not any(k.startswith("FOOT") for k in _status(PR.evaluate(_m(stance="down", feet=bad))))
+
+
+def test_relaxed_palm_faces_thigh():
+    # measured on stress s_brace_wide: relaxed palms turned ~139 deg away from the thighs (the L017 'palms wrong way')
+    st = _status(PR.evaluate(_m(relaxed_palm_deg={"L": 139.4, "R": 20.0})))
+    assert st["POSE-PALM.L"] == "fail" and st["POSE-PALM.R"] == "pass"
+    # a hand holding a prop or posed open is not judged as a relaxed hand
+    st = _status(PR.evaluate(_m(hand_shape={"L": "open_palm", "R": "grip"}, relaxed_palm_deg={"L": 150.0, "R": 150.0})))
+    assert "POSE-PALM.L" not in st and "POSE-PALM.R" not in st
+
+
+def test_face_life_rule():
+    st = _status(PR.evaluate(_m(face_life={"frozen_max_s": 1.2, "motion": 0.0001})))
+    assert st["FACE-LIFE"] == "fail"
+    assert _status(PR.evaluate(_m(face_life={"frozen_max_s": 0.2, "motion": 0.05})))["FACE-LIFE"] == "pass"

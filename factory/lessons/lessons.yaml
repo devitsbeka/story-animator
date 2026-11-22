@@ -152,11 +152,41 @@
   status: open
 
 - id: L017
+  found: user, 2026-11-22
+  symptom: Hands and palms look weird in ALL scenes (wrists bent, palms facing the wrong way, fingers splayed).
+  root_cause: IK placed wrists by position only; palm orientation and finger shapes were never authored per pose.
+  rule: Every frame's hands have a valid palm orientation for the pose (relaxed = palms toward thighs, thumbs forward; grips wrap the object; rails = palms down) and a finger shape (relaxed curl by default).
+  check: pose_qc palm-normal vs per-shape target (< 25 deg), wrist bend limit, finger curl > threshold; hands close-up golden sheet; vision rubric HANDS-1 on every hero shot keyframe.
+  gate: [direct, merge, qc]
+  regression_cases: [c_doorway_sneeze, d_sit_rock_sneeze, j_sit_log, s_sit_bench, y_sit_deck]
+  status: open
+
+- id: L018
+  found: user, 2026-11-22
+  symptom: Facial expressions look like a dummy/mannequin even when the emotion is posed.
+  root_cause: Expressions were static held poses; no facial life, no anticipation/overlap, weak eye behaviour.
+  rule: "Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth."
+  check: face-channel temporal variance over every hero shot > threshold (no frozen face > 0.5 s); golden face CLIP (not still) compared over time; vision rubric FACE-3 'reads as alive, not a mannequin' on sampled clip frames.
+  gate: [direct, merge, qc]
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
+  status: open
+
+- id: L019
+  found: user, 2026-11-22
+  symptom: Yacht doors and windows look unrealistic (flat milky panels).
+  root_cause: Windows were emissive planes with no interior; doors were flat panels without frames, handles, tracks or gaskets.
+  rule: Glazing is real tinted glass with frames and gaskets that reflects the environment; lit windows glow from interior lights behind the glass, never from emissive panels; doors have frames, hardware and thresholds.
+  check: asset gate scans hero-tier assets for emissive materials on glass-named objects (fail); golden 'salon door + windows at night' close-up regression; vision rubric ASSET-2 'windows/doors read as real'.
+  gate: [asset, merge]
+  regression_cases: [c_hands_up, d_wave, j_walk, s_brace_wide, y_rail_fear]
+  status: open
+
+- id: L020
   found: quality_gate stress suite, 2026-11-22
   symptom: 'Stress suite: the renderer has no kneel, crouch, walk, rope or bench/rock/log sit vocabulary; prompts asking for them fall back to stand/down/sit_deck'
   root_cause: acting.py STANCES/POSES cover only the Sentinel story (stand, brace, helm, sit_deck, down + hand-target poses)
   rule: Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
   check: stress VOCAB rule on every scenario (factory/goldens/stress); director vocabulary in prompts
   gate: [direct, merge]
-  regression_cases: [d_sit_rock_sneeze, j_sit_log, l017_abandoned_vocab, l017_sea_vocab, s_sit_bench]
+  regression_cases: [d_sit_rock_sneeze, j_sit_log, l020_abandoned_vocab, l020_sea_vocab, s_sit_bench]
   status: open

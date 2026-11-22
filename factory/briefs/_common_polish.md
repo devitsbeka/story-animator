@@ -12,13 +12,16 @@ LESSONS (factory/lessons/lessons.yaml: defects already found once; each rule is 
 [gate asset]
 - L001 (PARTIALLY-CLOSED): Heroes must be production rigs with real eyeballs, eyelids and a face rig (CloudRig/ARKit-class). Neutral upper lid covers the top of the iris; no full-sclera stare unless the emotion is shock/fear.
 - L003 (closed): Rigs must pass an IK sanity test (limbs bend, targets reached within 2 cm) before use; performances are authored per shot.
+- L019 (OPEN): Glazing is real tinted glass with frames and gaskets that reflects the environment; lit windows glow from interior lights behind the glass, never from emissive panels; doors have frames, hardware and thresholds.
 [gate direct]
 - L004 (closed): Story-first framing - <= 25% of shots CU or tighter, no more than 3 tight shots in a row, each location established with a wide, hero shots show the island/fires/boat context.
 - L005 (closed): One world-fixed key per sequence (azimuth within +-15 deg), motivated sources, face exposure continuity within 1/3 stop between adjacent shots.
 - L009 (PARTIALLY-CLOSED): Seated poses sit on a real seat surface (pelvis contact), upright or forward-leaning unless the story says otherwise; backs only rest on detailed surfaces.
 - L010 (PARTIALLY-CLOSED): Every pose has an explicit hand shape (relaxed curl default, never flat-splayed); holding = palm contact with the object.
 - L012 (PARTIALLY-CLOSED): Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
-- L017 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
+- L017 (OPEN): Every frame's hands have a valid palm orientation for the pose (relaxed = palms toward thighs, thumbs forward; grips wrap the object; rails = palms down) and a finger shape (relaxed curl by default).
+- L018 (OPEN): Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth.
+- L020 (OPEN): Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
 [gate render]
 - L015 (PARTIALLY-CLOSED): Every asset the spec references ships with the job; a missing actor/prop/set is a hard failure, never a silent skip.
 [gate qc]

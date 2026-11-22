@@ -26,3 +26,14 @@ def test_shell_wrapper_syntax():
     assert subprocess.run(["bash", "-n", os.path.join(ROOT, "tools", "merge_gate.sh")]).returncode == 0
     r = subprocess.run(["bash", os.path.join(ROOT, "tools", "merge_gate.sh")], capture_output=True, text=True)
     assert r.returncode == 2 and "usage" in r.stderr
+
+
+def test_canon_pass_step(tmp_path):
+    fails, err = MG.canon_fails(ROOT, dict(os.environ), str(tmp_path / "c.json"))
+    assert err is None and isinstance(fails, set)
+    rules = json.load(open(tmp_path / "c.json"))["rules"]
+    assert {"CAN-C1", "CAN-P2"} <= set(rules) and fails == {k for k, r in rules.items() if r["status"] == "FAIL"}
+    # a side without factory/canon (an old base) reports "did not run" instead of crashing
+    (tmp_path / "episodes" / "sentinel").mkdir(parents=True)
+    (tmp_path / "episodes" / "sentinel" / "episode_v1.json").write_text("{}")
+    assert MG.canon_fails(str(tmp_path), dict(os.environ), str(tmp_path / "x.json"))[0] is None

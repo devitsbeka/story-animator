@@ -182,9 +182,9 @@ def update_known(report, note, path=KNOWN):
     return doc
 
 
-OWNERS = {"POSE-FINGERS": "L010", "POSE-PALM": "L010", "POSE-GRIP": "L010", "POSE-WRIST": "L010", "HANDS-1": "L010",
-          "POSE-SEAT": "L009", "POSE-SPINE": "L009", "FACE-LIFE": "L011", "FACE-2": "L011", "FACE-3": "L001",
-          "FRAME-CROP": "L012", "FRAME-EYES": "L012", "FRAME-1": "L012", "COLLIDE": "L012", "VIS": "L012", "VOCAB": "L017",
+OWNERS = {"POSE-FINGERS": "L017", "POSE-PALM": "L017", "POSE-GRIP": "L010", "POSE-WRIST": "L017", "HANDS-1": "L017",
+          "POSE-SEAT": "L009", "POSE-SPINE": "L009", "FACE-LIFE": "L018", "FACE-2": "L011", "FACE-3": "L018",
+          "FRAME-CROP": "L012", "FRAME-EYES": "L012", "FRAME-1": "L012", "COLLIDE": "L012", "VIS": "L012", "VOCAB": "L020",
           "GOLDEN": "-", "POSE-QC": "L003"}
 
 

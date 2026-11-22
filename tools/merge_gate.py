@@ -10,6 +10,8 @@ In throw-away worktrees of <branch> and of the base (default: the current HEAD o
   4. lighting   cloud/blender/lighting.py --check on the current episode: FAIL on new problems
   4b. stress    python -m factory.goldens stress --no-render: every generated scenario (stances x hands x kits x sizes x
                 emotions) through the shot checks + Blender pose QC; FAIL on failures not in known_failures.json
+  4c. canon     python3 -m factory.canon pass on each side's current episode (film-craft canon, SKILL.md): FAIL on a
+                canon rule that FAILs on the branch and not on the base, or when the pass cannot run on the branch
   5. goldens    python -m factory.goldens compare --changed-from <base> (only goldens whose inputs the branch
                 changed; renders at 360x640, low samples, one at a time) -> diff sheet
 Prints PASS/FAIL with reasons and writes <out>/merge_gate.json. Exit 0 = PASS.
@@ -113,6 +115,20 @@ def lighting_problems(root, env):
     return set(re.findall(r"^\s+- (.+)$", out, re.M)), rc
 
 
+def canon_fails(root, env, out_json):
+    """-> (set of FAIL canon rule ids, None) or (None, error) when the pass did not run (no factory/canon yet = base)."""
+    ep = current_episode(root)
+    if not ep:
+        return None, "no episode"
+    if not os.path.exists(os.path.join(root, "factory", "canon", "__main__.py")):
+        return None, "no factory/canon on this side"
+    rc, out, err, _ = sh([PY, "-m", "factory.canon", "pass", "--episode", ep, "--out", out_json], root, env, timeout=900)
+    if not os.path.exists(out_json):
+        return None, (err or out)[-600:]
+    rules = json.load(open(out_json)).get("rules") or {}
+    return {k for k, r in rules.items() if r.get("status") == "FAIL"}, None
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="merge gate for an agent branch")
     ap.add_argument("branch")
@@ -204,6 +220,20 @@ def main(argv=None):
         if new_l:
             reasons.append(f"lighting --check: new problems {new_l[:5]}")
         log(f"  lighting: {len(lb)} problem(s), new: {new_l[:5] or 'none'}")
+        # 4c canon pass (film-craft canon) - no new FAIL vs the base
+        log("[4c] canon pass (python3 -m factory.canon pass)")
+        cb, eb = canon_fails(wt_b, env, os.path.join(out_dir, "canon_branch.json"))
+        ca, _ = canon_fails(wt_base, env, os.path.join(out_dir, "canon_base.json"))
+        if cb is None:
+            reasons.append(f"canon pass did not run on the branch: {eb}")
+            new_c = []
+        else:
+            new_c = sorted(cb - (ca or set()))
+            if new_c:
+                reasons.append(f"canon pass: new FAIL {new_c}")
+        report["steps"]["canon"] = {"branch_fail": sorted(cb or []), "base_fail": sorted(ca or []), "new": new_c,
+                                    "report": os.path.join(out_dir, "canon_branch.json")}
+        log(f"  canon: FAIL on branch {sorted(cb or []) or 'none'}, new vs base: {new_c or 'none'}")
         # 4b stress suite (fast shot checks + VOCAB + Blender pose QC on every scenario; the stress goldens themselves
         # are compared in step 5 when the branch affects them). FAIL on any failure not in known_failures.json.
         log("[4b] scenario stress suite (shot checks + pose QC on every scenario)")

@@ -163,6 +163,57 @@ def palm_normal(arm, side):
     return n if side == "R" else -n
 
 
+def _rest_world3(arm, name):
+    b = arm.data.bones.get(name)
+    return None if b is None else arm.matrix_world.to_3x3().normalized() @ b.matrix_local.to_3x3()
+
+
+def foot_metrics(arm, side, floor):
+    """Planted-foot measurements (L017 class: feet must sit flat with a natural ankle).
+    tilt   deg between the foot's posed and rest 'up' axes in world space (pitch + roll; yaw is free) -> flat sole
+    gap    m, (posed ball height above the floor under it) - (rest ball height above the rest ground) -> contact
+    ankle  deg, posed shin->foot angle minus the rest angle (+ = plantarflexion / toes down) -> natural ankle"""
+    pb = arm.pose.bones
+    foot, toes, shin = pb.get(f"DEF-Foot.{side}"), pb.get(f"DEF-Toes.{side}"), pb.get(f"DEF-Knee2.{side}")
+    if foot is None or toes is None:
+        return None
+    W = arm.matrix_world
+    rest = _rest_world3(arm, foot.name)
+    posed = W.to_3x3().normalized() @ foot.matrix.to_3x3()
+    up = Vector((0.0, 0.0, 1.0))
+    r_up = (rest.inverted() @ up)
+    tilt = math.degrees((posed @ r_up).angle(up))
+    s_arm = W.to_scale()[2] or 1.0
+    rb = arm.data.bones[toes.name].head_local
+    rest_ball_h = (rb.z - min(arm.data.bones[toes.name].tail_local.z, rb.z, 0.0)) * s_arm
+    ball = W @ toes.head
+    ground = seat_top_under(ball.x, -ball.y, ball.z + 0.05, floor)
+    gap = (ball.z - ground) - rest_ball_h
+    ankle = None
+    if shin is not None:
+        rs, rf = arm.data.bones[shin.name], arm.data.bones[foot.name]
+        a_rest = math.degrees((rs.tail_local - rs.head_local).angle(rf.tail_local - rf.head_local))
+        a_pose = math.degrees((shin.tail - shin.head).angle(foot.tail - foot.head))
+        ankle = a_pose - a_rest
+    return {"tilt_deg": tilt, "gap_m": gap, "ankle_dev_deg": ankle}
+
+
+def relaxed_palm_angle(arm, side):
+    """deg between the palm normal and the horizontal direction from the palm to the body midline (relaxed hands hang
+    with palms toward the thighs). None when the hand is not hanging at the side (above the pelvis)."""
+    pb = arm.pose.bones
+    pc, nrm, spine = palm_centre(arm, side), palm_normal(arm, side), pb.get("DEF-Spine")
+    if pc is None or nrm is None or spine is None:
+        return None
+    pel = arm.matrix_world @ spine.head
+    if pc.z > pel.z + 0.05:
+        return None
+    to_mid = Vector((pel.x - pc.x, pel.y - pc.y, 0.0))
+    if to_mid.length < 1e-4:
+        return None
+    return math.degrees(nrm.angle(to_mid))
+
+
 def surface_point(p, objs):
     best = None
     for o in objs:
@@ -319,7 +370,9 @@ def main():
                      "spine_pitch_deg": pitch, "finger_curl_deg": {"L": finger_curl(arm, "L"), "R": finger_curl(arm, "R")},
                      "hand_shape": hand_shapes(perf, f), "grips": grips, "allow_lean_back": bool(perf.get("allow_lean_back")),
                      "wrist_bend_deg": {"L": wrist_bend(arm, "L"), "R": wrist_bend(arm, "R")},
-                     "face_life": fl if f == frames[0] else None}
+                     "face_life": fl if f == frames[0] else None,
+                     "feet": {sd: foot_metrics(arm, sd, a["local"][1]) for sd in ("L", "R")},
+                     "relaxed_palm_deg": {sd: relaxed_palm_angle(arm, sd) for sd in ("L", "R")}}
                 fs = pose_rules.evaluate(m)
                 measurements.append(m)
                 findings += fs

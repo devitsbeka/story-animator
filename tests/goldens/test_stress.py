@@ -75,10 +75,10 @@ def test_lesson_add_attaches_regression_cases(tmp_path):
 def test_repo_lessons_have_regression_cases():
     import factory.lessons as L
     d = {x["id"]: x for x in L.load_lessons()}
-    for lid in ("L009", "L010", "L011", "L012", "L017"):
+    for lid in ("L009", "L010", "L011", "L012", "L017", "L018", "L019", "L020"):
         assert len(d[lid].get("regression_cases") or []) == len(SG.KITS), lid
     ids = {m["id"] for m in json.load(open(SG.SPEC_PATH))["stress"]["scenarios"]}
-    assert all(c in ids for lid in ("L009", "L017") for c in d[lid]["regression_cases"])
+    assert all(c in ids for lid in ("L009", "L020") for c in d[lid]["regression_cases"])
 
 
 def test_run_known_failures_logic(tmp_path, monkeypatch):
@@ -97,7 +97,7 @@ def test_run_known_failures_logic(tmp_path, monkeypatch):
     assert (ids[0], "POSE-FINGERS.R") in rep["known_failures_hit"]
     assert (ids[2], "POSE-FINGERS.R") in rep["fixed"] and not rep["ok"]
     doc = SR.update_known(rep, "test", path=str(known))
-    assert doc["failures"][ids[1]] == {"POSE-FINGERS.R": "L010"} and ids[2] not in doc["failures"]
+    assert doc["failures"][ids[1]] == {"POSE-FINGERS.R": "L017"} and ids[2] not in doc["failures"]
     assert "STRESS FAIL" in SR.summary_text(rep)
 
 

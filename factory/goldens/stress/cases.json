@@ -26,7 +26,7 @@
    "tag": "frame"
   },
   {
-   "lesson": "L017",
+   "lesson": "L020",
    "stance": [
     "kneel",
     "crouch",
@@ -36,6 +36,31 @@
     "sit_bench"
    ],
    "tag": "vocab"
+  },
+  {
+   "lesson": "L017",
+   "hands": [
+    "relaxed",
+    "rail",
+    "wave",
+    "point",
+    "hands_up"
+   ],
+   "size": [
+    "close",
+    "medium"
+   ],
+   "tag": "palms"
+  },
+  {
+   "lesson": "L018",
+   "size": "close",
+   "tag": "alive"
+  },
+  {
+   "lesson": "L019",
+   "size": "wide",
+   "tag": "glazing"
   }
  ]
 }

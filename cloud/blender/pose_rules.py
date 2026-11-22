@@ -13,6 +13,12 @@ Rules (ids):
                shot allows a lean-back (actor.perf.allow_lean_back)
   POSE-FINGERS mean flexion of index..pinky >= CURL_MIN unless that hand's shape is open_palm (never flat-splayed)
   POSE-GRIP    a prop held in a hand: palm-centre to prop surface <= GRIP_TOL (+ palm half-thickness)
+  POSE-WRIST   forearm -> hand bend <= WRIST_MAX
+  POSE-PALM    held prop: palm normal faces the object; relaxed hanging hand: palm faces the thigh (<= PALM_REST_MAX)
+  FOOT-FLAT    planted stances: sole tilt vs rest <= FOOT_TILT_MAX (pitch + roll, yaw free)
+  FOOT-CONTACT planted stances: ball of the foot on the floor under it (|gap| <= FOOT_GAP_TOL; no hover / sinking)
+  FOOT-ANKLE   planted stances: shin->foot angle within ANKLE_RANGE of rest (natural ankle, no broken ankles)
+  FACE-LIFE    over the full clip: no frozen face > FROZEN_MAX_S and mean face motion >= FACE_MOTION_MIN
 """
 
 SEAT_TOL = 0.03
@@ -23,6 +29,11 @@ WRIST_MAX = 65.0            # deg between forearm and hand axes
 PALM_MAX = 75.0             # deg between the palm normal and the direction to the held prop
 FROZEN_MAX_S = 0.5          # longest run with (almost) no face/eye/head motion
 FACE_MOTION_MIN = 0.002     # mean per-frame change of the face controls (blinks, saccades, breath, emotion)
+PALM_REST_MAX = 50.0        # deg, relaxed hanging hand: palm normal vs direction to the body midline
+FOOT_TILT_MAX = 15.0
+FOOT_GAP_TOL = 0.03
+ANKLE_RANGE = (-25.0, 30.0)  # deg vs rest (+ = toes down)
+PLANTED = {"stand", "brace", "helm", "sit"}   # families whose feet must be planted flat (down/kneel/crouch: no)
 # allowed pelvis->neck pitch (deg, + forward) by stance family
 SPINE_RANGE = {"stand": (-10.0, 25.0), "helm": (-8.0, 25.0), "brace": (-8.0, 35.0), "sit": (-5.0, 40.0)}
 SKIP_SPINE = {"down"}          # thrown onto hands and knees: intentional extreme
@@ -69,6 +80,21 @@ def evaluate(m):
         if g.get("palm_angle_deg") is not None:
             add(f"POSE-PALM.{g.get('hand')}", g["palm_angle_deg"] <= PALM_MAX, round(g["palm_angle_deg"], 1),
                 f"palm normal within {PALM_MAX} deg of the held {g.get('prop')} (palm faces the object)")
+    for side, ang in (m.get("relaxed_palm_deg") or {}).items():
+        shape = (m.get("hand_shape") or {}).get(side) or "unset"
+        held = any(g.get("hand") == side for g in m.get("grips") or [])
+        if ang is not None and not held and shape in ("relaxed", "unset"):
+            add(f"POSE-PALM.{side}", ang <= PALM_REST_MAX, round(ang, 1),
+                f"relaxed hand: palm faces the thigh (normal within {PALM_REST_MAX} deg of the body midline)")
+    if fam in PLANTED and m.get("stance") != "walk":
+        for side, ft in (m.get("feet") or {}).items():
+            if not ft:
+                continue
+            add(f"FOOT-FLAT.{side}", ft["tilt_deg"] <= FOOT_TILT_MAX, round(ft["tilt_deg"], 1), f"sole tilt <= {FOOT_TILT_MAX} deg (flat)")
+            add(f"FOOT-CONTACT.{side}", abs(ft["gap_m"]) <= FOOT_GAP_TOL, round(ft["gap_m"], 3), f"|ball - floor| <= {FOOT_GAP_TOL} m")
+            if ft.get("ankle_dev_deg") is not None:
+                lo, hi = ANKLE_RANGE
+                add(f"FOOT-ANKLE.{side}", lo <= ft["ankle_dev_deg"] <= hi, round(ft["ankle_dev_deg"], 1), f"ankle {lo}..{hi} deg vs rest")
     fl = m.get("face_life")
     if fl:
         add("FACE-LIFE", fl["frozen_max_s"] <= FROZEN_MAX_S and fl["motion"] >= FACE_MOTION_MIN,

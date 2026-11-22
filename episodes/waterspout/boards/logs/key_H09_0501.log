@@ -1,0 +1,91 @@
+[render_episode] spec=/home/user/story-animator/episodes/waterspout/episode.json root=/home/user/story-animator frames=501..501 quality=preview engine=EEVEE blender=4.2.3 LTS
+[lighting] shot H09: preset=moonlight_practical_mix seq=H key az=-23.1 el=26.8 dawn=0.0
+00:55:25 | INFO: Data are loaded, start creating Blender stuff
+00:55:25 | INFO: Blender create Mesh node 0
+00:55:25 | INFO: Blender create Mesh node 1
+00:55:25 | INFO: Blender create Mesh node 2
+00:55:25 | INFO: Blender create Mesh node 3
+00:55:25 | INFO: Blender create Mesh node 4
+00:55:25 | INFO: Blender create Mesh node 5
+00:55:25 | INFO: Blender create Mesh node 6
+00:55:25 | INFO: Blender create Mesh node 7
+00:55:25 | INFO: Blender create Mesh node 8
+00:55:25 | INFO: Blender create Mesh node 9
+00:55:25 | INFO: Blender create Mesh node 10
+00:55:25 | INFO: Blender create Mesh node 11
+00:55:25 | INFO: Blender create Mesh node 12
+00:55:25 | INFO: Blender create Mesh node 13
+00:55:25 | INFO: Blender create Mesh node 14
+00:55:25 | INFO: Blender create Mesh node 15
+00:55:25 | INFO: Blender create Mesh node 16
+00:55:25 | INFO: Blender create Mesh node 17
+00:55:25 | INFO: Blender create Mesh node 18
+00:55:25 | INFO: Blender create Mesh node 19
+00:55:25 | INFO: Blender create Mesh node 20
+00:55:25 | INFO: Blender create Mesh node 21
+00:55:25 | INFO: Blender create Mesh node 22
+00:55:25 | INFO: Blender create Mesh node 23
+00:55:25 | INFO: Blender create Mesh node 24
+00:55:25 | INFO: Blender create Mesh node 25
+00:55:25 | INFO: Blender create Mesh node 26
+00:55:25 | INFO: Blender create Mesh node 27
+00:55:25 | INFO: Blender create Mesh node 28
+00:55:25 | INFO: Blender create Mesh node 29
+00:55:25 | INFO: Blender create Mesh node 30
+00:55:25 | INFO: Blender create Mesh node 31
+00:55:25 | INFO: Blender create Mesh node 32
+00:55:25 | INFO: Blender create Mesh node 33
+00:55:25 | INFO: Blender create Mesh node 34
+00:55:25 | INFO: Blender create Mesh node 35
+00:55:25 | INFO: Blender create Mesh node 36
+00:55:25 | INFO: Blender create Mesh node 37
+00:55:25 | INFO: Blender create Mesh node 38
+00:55:25 | INFO: Blender create Mesh node 39
+00:55:25 | INFO: Blender create Mesh node 40
+00:55:25 | INFO: Blender create Mesh node 41
+00:55:25 | INFO: Blender create Mesh node 42
+00:55:25 | INFO: Blender create Mesh node 43
+00:55:25 | INFO: Blender create Mesh node 44
+00:55:25 | INFO: Blender create Mesh node 45
+00:55:25 | INFO: Blender create Mesh node 46
+00:55:25 | INFO: Blender create Mesh node 47
+00:55:25 | INFO: glTF import finished in 0.08s
+[render_episode] yacht materials: 14 restyled; hull foam: {'hull': 'gelcoat_hull_0', 'length': 14.0, 'beam': 4.21, 'applied': True}
+00:55:25 | INFO: Data are loaded, start creating Blender stuff
+00:55:25 | INFO: Blender create Mesh node output_unwrapped
+00:55:26 | INFO: glTF import finished in 0.66s
+[lighting] rig: key=1.8, face_wrap=0.2381, face_fill=0.7205, rim=27.7839 | hdri: [('ph:moonlit_golf', 1.0452, 94.0)] | checks: {'L1_all_motivated': True, 'L3_key_fill': 6.5, 'L5_hue_sep_key_practical': 166.5, 'L6_eye_light': False, 'L7_rim': True, 'L9_shadow_side_est': 0.0397, 'key_E': 1.8}
+[render_episode] shot H09: buoyancy + camera keyed in 0.7s (18 ocean evals)
+[render_episode] shot H09: built in 3.3s; engine=EEVEE device=GPU
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+Blender 4.2.3 LTS (hash 0e22e4fcea03 built 2024-10-14 23:31:34)
+Fra:501 Mem:599.45M (Peak 726.24M) | Time:00:38.38 | Rendering 1 / 12 samples
+Fra:501 Mem:507.61M (Peak 726.24M) | Time:01:25.91 | Rendering 12 / 12 samples
+Fra:501 Mem:319.64M (Peak 726.24M) | Time:01:25.93 | Compositing
+Fra:501 Mem:319.64M (Peak 726.24M) | Time:01:25.94 | Compositing | Initializing execution
+Fra:501 Mem:319.65M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 2-19
+Fra:501 Mem:319.65M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 3-19
+Fra:501 Mem:321.69M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 4-19
+Fra:501 Mem:321.69M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 5-19
+Fra:501 Mem:321.69M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 6-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 7-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 8-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 9-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 10-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.94 | Compositing | Operation 11-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.96 | Compositing | Operation 12-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.96 | Compositing | Operation 13-19
+Fra:501 Mem:321.81M (Peak 726.24M) | Time:01:25.96 | Compositing | Operation 14-19
+Fra:501 Mem:323.67M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 15-19
+Fra:501 Mem:323.67M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 16-19
+Fra:501 Mem:323.67M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 17-19
+Fra:501 Mem:323.67M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 18-19
+Fra:501 Mem:321.69M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 19-19
+Fra:501 Mem:321.69M (Peak 726.24M) | Time:01:25.98 | Compositing | Operation 20-19
+Saved: '/home/user/story-animator/episodes/waterspout/boards/keys/H09/0501.png'
+Time: 01:26.29 (Saving: 00:00.30)
+
+[render_episode] shot H09 frame 501: 86.73s
+[render_episode] done: 1 frames in 90.1s
+
+Blender quit

@@ -58,9 +58,22 @@ CHECKS = {
     "L013": [{"name": "schema-too-large fallback", "kind": "pytest", "target": "tests/director/test_llm_anthropic.py"}],
     "L014": [{"name": "per-stage cost ceiling + attempts alert", "kind": "pytest", "target": "tests/run/test_cost_ceiling.py"}],
     "L015": [{"name": "farm ships library_store-prefixed spec assets (select_library)", "kind": "pytest", "target": "tests/farm/test_presigned.py"}],
-    "L017": [{"name": "stress suite fast checks (VOCAB + shot checks on every scenario, no new failures)", "kind": "cmd",
+    "L020": [{"name": "stress suite fast checks (VOCAB + shot checks on every scenario, no new failures)", "kind": "cmd",
               "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render", "--no-pose"]},
              {"name": "stress suite full (pose QC + stress goldens)", "kind": "cmd", "target": ["{python}", "-m", "factory.goldens", "stress"], "slow": True}],
+    "L017": [
+        {"name": "pose QC evaluator (palm normal incl. relaxed palms-to-thighs, wrist bend, finger curl, feet flat)", "kind": "pytest",
+         "target": "tests/blender/test_pose_qc.py"},
+        {"name": "stress suite full (pose QC on every scenario, HANDS regression cases)", "kind": "cmd",
+         "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render"], "slow": True},
+    ],
+    "L018": [
+        {"name": "FACE-LIFE evaluator (no frozen face > 0.5 s, face motion floor)", "kind": "pytest", "target": "tests/blender/test_pose_qc.py"},
+        {"name": "stress suite full (FACE-LIFE over the 2 s clip of every scenario)", "kind": "cmd",
+         "target": ["{python}", "-m", "factory.goldens", "stress", "--no-render"], "slow": True},
+    ],
+    "L019": [{"name": "glazing asset gate (no emissive glass, glass transmits/reflects) on the hero yacht", "kind": "blender",
+              "target": "cloud/blender/test/glazing_check.py", "args": ["--strict"], "slow": True}],
     "L016": [{"name": "golden night sky under camera motion (TODO: recipe not defined yet)", "kind": "golden", "target": "night_sky_motion", "slow": True}],
 }
 

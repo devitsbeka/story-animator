@@ -32,7 +32,7 @@
   },
   "motions": {},
   "props": {
-   "yacht": "assets/props/yacht.glb",
+   "yacht": "proc:yacht_v2",
    "island": "assets/props/island_sentinel.glb"
   }
  },
@@ -2793,7 +2793,7 @@
    ]
   },
   {
-   "id": "l017_sea_vocab",
+   "id": "l020_sea_vocab",
    "title": "stress sea_yacht kneel relaxed medium neutral",
    "from": 1440,
    "to": 1500,
@@ -2905,7 +2905,7 @@
    "island": null
   },
   {
-   "id": "l017_abandoned_vocab",
+   "id": "l020_abandoned_vocab",
    "title": "stress abandoned_city_street kneel relaxed medium neutral",
    "from": 1500,
    "to": 1560,
@@ -3043,7 +3043,8 @@
     "lessons": [
      "L010",
      "L011",
-     "L012"
+     "L012",
+     "L018"
     ],
     "keyFrame": 100
    },
@@ -3059,7 +3060,8 @@
     "emotion": "neutral",
     "vocab_missing": [],
     "lessons": [
-     "L009"
+     "L009",
+     "L017"
     ],
     "keyFrame": 160
    },
@@ -3074,7 +3076,9 @@
     "size": "wide",
     "emotion": "fear",
     "vocab_missing": [],
-    "lessons": [],
+    "lessons": [
+     "L019"
+    ],
     "keyFrame": 220
    },
    {
@@ -3106,6 +3110,7 @@
     ],
     "lessons": [
      "L009",
+     "L020",
      "L017"
     ],
     "keyFrame": 340
@@ -3123,7 +3128,8 @@
     "vocab_missing": [],
     "lessons": [
      "L011",
-     "L012"
+     "L012",
+     "L018"
     ],
     "keyFrame": 400
    },
@@ -3172,7 +3178,9 @@
     "vocab_missing": [
      "walk"
     ],
-    "lessons": [],
+    "lessons": [
+     "L019"
+    ],
     "keyFrame": 580
    },
    {
@@ -3186,7 +3194,9 @@
     "size": "wide",
     "emotion": "relief",
     "vocab_missing": [],
-    "lessons": [],
+    "lessons": [
+     "L019"
+    ],
     "keyFrame": 640
    },
    {
@@ -3206,7 +3216,9 @@
      "L009",
      "L011",
      "L012",
-     "L017"
+     "L020",
+     "L017",
+     "L018"
     ],
     "keyFrame": 700
    },
@@ -3251,7 +3263,9 @@
     "size": "wide",
     "emotion": "fear",
     "vocab_missing": [],
-    "lessons": [],
+    "lessons": [
+     "L019"
+    ],
     "keyFrame": 880
    },
    {
@@ -3269,6 +3283,7 @@
     ],
     "lessons": [
      "L009",
+     "L020",
      "L017"
     ],
     "keyFrame": 940
@@ -3304,7 +3319,8 @@
     ],
     "lessons": [
      "L011",
-     "L012"
+     "L012",
+     "L018"
     ],
     "keyFrame": 1060
    },
@@ -3322,7 +3338,8 @@
     "lessons": [
      "L010",
      "L011",
-     "L012"
+     "L012",
+     "L018"
     ],
     "keyFrame": 1120
    },
@@ -3351,7 +3368,9 @@
     "size": "wide",
     "emotion": "shout",
     "vocab_missing": [],
-    "lessons": [],
+    "lessons": [
+     "L019"
+    ],
     "keyFrame": 1240
    },
    {
@@ -3365,7 +3384,9 @@
     "size": "medium",
     "emotion": "sneeze",
     "vocab_missing": [],
-    "lessons": [],
+    "lessons": [
+     "L017"
+    ],
     "keyFrame": 1300
    },
    {
@@ -3401,7 +3422,7 @@
     "keyFrame": 1420
    },
    {
-    "id": "l017_sea_vocab",
+    "id": "l020_sea_vocab",
     "kit": "sea_yacht",
     "mark": "HELM",
     "stance": "kneel",
@@ -3414,12 +3435,12 @@
      "kneel"
     ],
     "lessons": [
-     "L017"
+     "L020"
     ],
     "keyFrame": 1480
    },
    {
-    "id": "l017_abandoned_vocab",
+    "id": "l020_abandoned_vocab",
     "kit": "abandoned_city_street",
     "mark": "STREET_CENTER",
     "stance": "kneel",
@@ -3432,7 +3453,7 @@
      "kneel"
     ],
     "lessons": [
-     "L017"
+     "L020"
     ],
     "keyFrame": 1540
    }
