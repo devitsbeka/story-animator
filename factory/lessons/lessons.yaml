@@ -147,9 +147,9 @@
   symptom: Night sky stars smear into streaks under camera motion blur and read as rain.
   root_cause: Final profile enables motion blur; handheld camera rotation during the shutter smears point-like stars.
   rule: "Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur."
-  check: golden 'night sky under motion' frame + vision rubric SKY-1 ("no streaks in the sky unless it rains").
+  check: "golden 'night sky under motion' frame + vision rubric SKY-1 (\"no streaks in the sky unless it rains\"); lighting.star_safe_shutter (final profile) sets one shutter per night shot from the 90th-percentile sky speed of the shot's camera rig (streak <= 1.2 px at render resolution, floor 0.06 frame) and keys the star layer down on frames where the keyed camera still smears them; render report lighting.stars records sky px/frame, shutter, streak and dimmed frames (verified on A01b 40-51 with motion blur on)."
   gate: [merge, qc]
-  status: open
+  status: partially-closed
 
 - id: L017
   found: user, 2026-11-22

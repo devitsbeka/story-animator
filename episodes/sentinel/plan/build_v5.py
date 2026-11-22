@@ -99,6 +99,7 @@ def main():
                         n_cam += 1
     n_yacht = use_yacht_v2(ep)
     anchor_sit(ep)
+    ep["discovery_map"] = DISCOVERY_MAP  # polish_light: CAN-L1
     ep["source"] = {"builder": "episodes/sentinel/plan/build_v5.py", "base": "episode_v4.json"}
     out = os.path.join(EP, "episode_v5.json")
     json.dump(ep, open(out, "w"), indent=1)
@@ -148,6 +149,26 @@ def use_yacht_v2(ep):
     return n
 # <<< polish_yacht
 
+
+
+# >>> polish_light: CAN-L1 discovery map (Calahan) - per sequence, the story detail the light reveals, in which shot,
+# with which motivated source; cloud/blender/lighting.py builds the reveal (light-linked to the detail only).
+DISCOVERY_MAP = {
+    "A": [{"detail": "the dead gauges: the moon, not the power, is what shows him the helm has died", "shot": "A03",
+           "reveal": "moon_glint", "match": "helm_gauge|helm_screen", "motivation": "moon", "at": 142, "ramp": 4}],
+    "B": [{"detail": "the cost: the heeled, wet hull side after the crunch", "shot": "B11", "reveal": "moon_glint",
+           "match": "gelcoat_hull", "point": [-2.1, 1.3, -4.4], "motivation": "moon", "size": 0.8}],
+    "C": [{"detail": "the VHF handset (channel 16) in his hand", "shot": "C14", "reveal": "raking_practical",
+           "match": "radio_body|radio_lcd|radio_rubber", "motivation": "practical:radio_backlight"},
+          {"detail": "the yacht he must stay with: moonlight along the cabin he leans on", "shot": "C21",
+           "reveal": "moon_glint", "match": "gelcoat", "point": [-1.2, 2.3, -3.4], "motivation": "moon", "size": 1.2}],
+    "D": [{"detail": "lightning reveals the Primrose wreck on the reef", "shot": "D23", "reveal": "moon_pool",
+           "match": "pr_hull", "motivation": "lightning", "at": 1541, "ramp": 1, "until": 1545, "radius": 9.0,
+           "distance": 40.0, "gain": 1.5}],
+    "E": [{"detail": "first light catches the helm he will steer out with", "shot": "E31", "reveal": "sun_glint",
+           "match": "helm_steel|helm_gel", "motivation": "sun", "size": 0.6}],
+}
+# <<< polish_light
 
 if __name__ == "__main__":
     main()

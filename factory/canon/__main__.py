@@ -71,6 +71,19 @@ def main():
         canon_checks = cc.run_all(ep, plates=a.plates, video=a.video, stage=a.stage)
     except Exception as e:
         checks["canon_checks"] = {"rc": None, "note": f"not implemented yet ({type(e).__name__}); rules reported MANUAL"}
+    # >>> polish_light: lighting canon (CAN-L1 discovery map, CAN-L2 night face-exposure continuity) from lighting.py
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "cloud", "blender"))
+        import lighting as _lighting  # pure-python part (no bpy)
+        with open(ep) as fh:
+            _lc = _lighting.canon_lighting(json.load(fh), plates=a.plates)
+        canon_checks = dict(canon_checks or {})
+        for _rid, _r in _lc.items():
+            canon_checks.setdefault(_rid, _r)
+        checks["lighting_canon"] = {"rc": 0, "rules": sorted(_lc)}
+    except Exception as e:  # pragma: no cover
+        checks["lighting_canon"] = {"rc": None, "note": f"lighting canon unavailable ({type(e).__name__}: {e})"}
+    # <<< polish_light
     for rid, desc in CANON:
         if canon_checks and rid in canon_checks:
             st = canon_checks[rid]["status"]
