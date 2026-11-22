@@ -343,8 +343,11 @@ def check_breakdown(bd, story):
     rep.check("B-unused-elements", not unused, f"elements never used on screen: {unused}")
     # S6: anything that solves the climax is planted on screen before 40% of runtime
     first_t = {}
+    last_t = 0.0
     for s in bd["scenes"]:
-        t0 = min((lmap[i]["t0"] for i in s["line_ids"] if i in lmap), default=D)
+        # a sound-only scene (no line_ids, canon CAN-N1) plays where it sits: right after the previous scene
+        t0 = min((lmap[i]["t0"] for i in s["line_ids"] if i in lmap), default=last_t)
+        last_t = t0
         for r in s["elements"]:
             first_t[r] = min(first_t.get(r, D), t0)
     late = [e["id"] for e in bd["elements"] if e.get("solves_climax") and first_t.get(e["id"], D) > 0.40 * D]

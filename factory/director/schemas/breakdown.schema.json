@@ -19,7 +19,7 @@
      "location": {"type": "string", "description": "elements[].id of kind 'location' or 'set'"},
      "time_of_day": {"enum": ["night", "dawn", "day", "dusk"]},
      "weather": {"enum": ["clear", "overcast", "storm", "rain", "fog"]},
-     "line_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+     "line_ids": {"type": "array", "items": {"type": "string"}, "description": "narration lines this scene pictures; empty for a sound-only scene (canon CAN-N1/N2: picture + sound, no words)"},
      "picture": {"type": "string", "minLength": 1, "description": "What the viewer sees while these lines play."},
      "elements": {"type": "array", "items": {"type": "string"}},
      "chapter": {"type": "string"}
