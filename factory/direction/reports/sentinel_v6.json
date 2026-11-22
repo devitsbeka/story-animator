@@ -2215,8 +2215,8 @@
    "geo_frames": [],
    "impact": null,
    "face_vis": {
-    "angle": 55.9,
-    "above_normal": 22.6
+    "angle": 36.9,
+    "above_normal": 6.4
    },
    "impact_declared": false,
    "reserved_cu": true,
@@ -2229,30 +2229,30 @@
    "size": "CU",
    "size_start": "MCU",
    "size_end": "CU",
-   "frame_h": 0.725,
-   "lens_mm": 62.7,
-   "max_dx": 0.0075,
-   "key_sx": 0.5014,
-   "key_sy": 0.3843,
+   "frame_h": 0.741,
+   "lens_mm": 45.5,
+   "max_dx": 0.034,
+   "key_sx": 0.5277,
+   "key_sy": 0.4135,
    "behind": [],
    "offscreen": [],
-   "eye_y_key": 0.384,
-   "hero_sx_key": 0.808,
+   "eye_y_key": 0.413,
+   "hero_sx_key": 0.835,
    "hero_size_key": "CU",
-   "motion_rate": 0.9472,
+   "motion_rate": 1.7335,
    "static_at": null,
    "collisions": [],
    "occluded": [],
    "side": {
     "start": 1,
     "end": 1,
-    "az_start": 60.1,
-    "az_end": 48.8,
+    "az_start": 46.5,
+    "az_end": 33.3,
     "facing": -2.592446278347443
    },
    "face_crop": [],
-   "key_top_y": 0.02,
-   "key_chin_y": 0.798,
+   "key_top_y": 0.098,
+   "key_chin_y": 0.841,
    "has_hero": true,
    "anchors": {
     "island": 0,
@@ -2271,7 +2271,7 @@
    "time_jump": false,
    "location": "reef",
    "sequence": "C_helm",
-   "key_spacing": 3
+   "key_spacing": 2
   },
   {
    "id": "C29",

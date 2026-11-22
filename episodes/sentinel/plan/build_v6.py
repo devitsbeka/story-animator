@@ -125,7 +125,8 @@ CAMS = {
     "C22": lambda: CP.crane_rise(1461, 1523, H("C22", "sit"), size=("MS", 30.0), az=(20, 35), el=(10, 50), lens=(35, 24), ease="exit"),
     "C27": lambda: CP.crane_descend(1931, 1995, H("C27"), size=(22.0, 3.6), az=(70, 55), el=(35, 8), lens=28),
     # C28: v3 az 30->25 at 75 mm put the lens in the cabin's aft wall. 3/4 from his left over the side deck.
-    "C28": lambda: CP.dolly_in(1995, 2029, H("C28"), size=("MCU", "CU"), az=(64, 56), el=1, lens=65, emotion="intimate", ease="arrive"),
+    # (reserved CU) first v6 render: from 1 deg above his eyes the cap brim covered them -> low (el -8), more frontal.
+    "C28": lambda: CP.dolly_in(1995, 2029, H("C28"), size=("MCU", "CU"), az=(50, 42), el=-8, lens=65, emotion="intimate", ease="arrive"),
     "C29": lambda: CP.tilt_down(2029, 2076, H("C29"), aim_from="face", aim_to="hands", size="MS", az=35, el=12, lens=35, emotion="procedure"),
     "E30": lambda: CP.pedestal_up(2076, 2140, H("E30"), size=8.0, az=az_away(H("E30"), BEACH, 2076) - 30, el=8, amount=1.5, lens=28, emotion="relief"),
     "E31": lambda: CP.pullback_reveal(2140, 2200, H("E31"), size=("WS", 45.0), az=(150, 170), el=(12, 40), lens=(28, 24), ease="exit"),
