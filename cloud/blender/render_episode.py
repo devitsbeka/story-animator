@@ -48,6 +48,10 @@ import set_assembly  # noqa: E402  world_kits hook: any-idea sets (factory/world
 # >>> cloudrig hook: Blender Studio CloudRig humans (Jay / Phil / Rex) as actors (cloud/blender/cloudrig_adapter.py)
 import cloudrig_adapter  # noqa: E402
 # <<< cloudrig hook
+# >>> hands/contact hook (polish_hands_pose): prop grips + set anchors for CloudRig hands
+import contact  # noqa: E402
+import hand_poses  # noqa: E402
+# <<< hands/contact hook
 
 
 def log(*a):
@@ -1186,6 +1190,16 @@ def build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps):
     arm["cloudrig_bone_alias"] = cloudrig_adapter.BONE_ALIAS
     pup = cloudrig_adapter.CloudRigPuppet(arm, holder)
     perf = a.get("perf") or {"stance": [[-10000, "stand"]]}
+    # >>> hands/contact hook: helm rim / rails / marks (bench seat) as anchors the hands and pelvis can touch
+    try:
+        mine = set(holder.children_recursive)
+        yobjs = [o for o in yacht_root.children_recursive if o.type == "MESH" and o not in mine] if yacht_root is not None else None
+        anchors, snap = contact.actor_anchors(a, shot, yacht_root, holder, b3, obj_mat, trans, rot_y, yobjs)
+        pup.set_anchors(anchors, snap)
+        log(f"  contact anchors: {sorted(anchors)}{' + rails' if snap else ''}")
+    except Exception as e:  # never lose a shot to a contact solve
+        warn(f"contact anchors failed: {e}")
+    # <<< hands/contact hook
     t0 = time.time()
     pup.bake(perf, a.get("face") or perf.get("face") or {"seed": perf.get("seed", 1)}, shot["from"] - 1, shot["to"] + 1)
     log(f"  cloudrig actor {a['asset']}: {arm.name} h={h:.3f} scale={sc:.3f} baked {shot['from'] - 1}..{shot['to'] + 1} in {time.time() - t0:.1f}s")
@@ -1402,6 +1416,16 @@ def build_props(shot, yacht_root, frames):
             r = p.get("rot", (0, 0, 0))
             root.rotation_euler = tuple(math.radians(x) for x in r)
             root.scale = (p.get("scale", 1.0) / s_arm,) * 3
+            # >>> hands/contact hook: CloudRig hands hold known props in the palm (hand_poses.PROP_GRIPS), unless
+            # the spec asks for its raw local/rot with "grip": "raw"
+            if alias is not None and p.get("grip", "auto") == "auto" and att in ("handR", "handL"):
+                bone = arm.data.bones.get(root.parent_bone)
+                g = hand_poses.prop_grip(p["prop"], att[-1], bone.length) if bone else None
+                if g:
+                    Mg = Matrix((g[1][0], g[1][1], g[1][2])).transposed().to_4x4()
+                    Mg.translation = Vector(g[0])
+                    root.matrix_basis = Mg @ Matrix.Scale(p.get("scale", 1.0) / s_arm, 4)
+            # <<< hands/contact hook
         else:
             if att == "yacht" and yacht_root is not None:
                 root.parent = yacht_root

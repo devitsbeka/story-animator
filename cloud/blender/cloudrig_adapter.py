@@ -37,6 +37,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 
 import acting
 import face
+import hand_poses  # polish_hands_pose: finger shapes + contact points
 
 # ---------------------------------------------------------------- acting.py reference body (metres)
 ACT_LM = {"ankle": 0.16, "hipjoint": 0.849, "hips": 0.93, "shoulder": 1.32, "mouth": 1.42, "eyes": 1.55, "top": 1.75}
@@ -260,6 +261,14 @@ class CloudRigPuppet:
             bn = spec[0].replace("{S}", s or "")
             if bn in P:
                 self.facectl[ch] = (P[bn], spec, s)
+        # >>> hands/contact (polish_hands_pose): FK finger controls, leg bones for knee anchors, anchor sources
+        self.fingers = {s: [P[n] for n in hand_poses.bone_names(s) if n in P] for s in SIDES}
+        self.shin = {s: P.get(f"IK-Shin.{s}") or P.get(f"FK-Shin.{s}") for s in SIDES}
+        self.mouth = P.get("MSTR-Mouth")
+        self.anchors = {}          # name -> (p, n, d, kind) in armature space (static: props, rails, marks)
+        self.rail_snap = None      # callable(world point) -> (world point, world tangent) | None
+        self._dirw = {"L": 0.0, "R": 0.0}   # per-frame: how strongly the finger direction is authored
+        # <<< hands/contact
         self._set_ik_mode()
         for pb in self._controls():
             pb.rotation_mode = "XYZ" if pb.rotation_mode == "QUATERNION" else pb.rotation_mode
@@ -292,6 +301,8 @@ class CloudRigPuppet:
         if self.eyetgt:
             out.append(self.eyetgt)
         out += [v[0] for v in self.facectl.values()]
+        for s in SIDES:
+            out += self.fingers.get(s, [])
         return list(dict.fromkeys(out))
 
     def _measure(self):
@@ -346,12 +357,40 @@ class CloudRigPuppet:
         self.height = top
         self.rest_torso = h(self.torso)
         self.eye_dist = (h(self.eyetgt) - h(self.eyecen)).length if (self.eyetgt and self.eyecen) else 0.7
+        # >>> hands/contact: thigh thickness (seat height of the pelvis), rest hand frame
+        knee = h(self.shin["L"]).z if self.shin.get("L") else hipj - 0.45 * (hipj - ankle)
+        zt = knee + 0.55 * (hipj - knee)
+        ty = []
+        for o in arm.children_recursive:
+            if o.type != "MESH" or o.hide_render or o == head_me or len(o.data.vertices) < 200:
+                continue
+            if not any(m.type == "ARMATURE" for m in o.modifiers):
+                continue
+            M = inv @ o.matrix_world
+            for v in o.data.vertices:
+                p = M @ v.co
+                if abs(p.z - zt) < 0.012 and 0.0 < p.x < 0.2:
+                    ty.append(p.y)
+        self.thigh_r = (max(ty) - min(ty)) * 0.5 if ty else 0.05
+        # pelvis pivot above the seat surface when sitting with level thighs
+        self.seat_h = (torso - hipj) + self.thigh_r * 0.95
+        self.knee_z = knee
+        self.hand_rest = {}
+        for s in SIDES:
+            w = self.wrist[s].bone
+            F = (w.tail_local - w.head_local).normalized()
+            N = Vector((0, 0, -1))
+            N = (N - F * N.dot(F)).normalized()
+            T = Vector((0, -1, 0))
+            self.hand_rest[s] = (F, N, T)
+        # <<< hands/contact
 
     def describe(self):
         return {"landmarks": {k: round(v, 4) for k, v in self.LM.items()}, "k_xy": round(self.k_xy, 4), "k_leg": round(self.k_leg, 4),
                 "arm_len": {s: round(v, 4) for s, v in self.arm_len.items()}, "head_c": tuple(round(x, 4) for x in self.head_c),
                 "head_r": tuple(round(x, 4) for x in self.head_r), "torso_rx": round(self.torso_rx, 4),
-                "torso_y": tuple(round(x, 4) for x in self.torso_y)}
+                "torso_y": tuple(round(x, 4) for x in self.torso_y), "thigh_r": round(self.thigh_r, 4),
+                "seat_h": round(self.seat_h, 4), "fingers": {s: len(v) for s, v in self.fingers.items()}}
 
     # ---------------------------------------------------------------- mapping
     def map_point(self, p):
@@ -425,6 +464,11 @@ class CloudRigPuppet:
         arm = self.arm
         # 1. torso / chest / neck / head
         d = Vector(pose["hips"]) * self.k_leg
+        # >>> hands/contact: seat the pelvis on an anchor (bench / deck) for Jay's real proportions
+        hw, hp = self._anchor_mix(pose.get("anchorHips"), d=d)
+        if hw > 0:
+            d = d.lerp(hp + Vector((0, 0, self.seat_h)) - self.rest_torso, hw)
+        # <<< hands/contact
         q_h = _q_char(*pose["hipsRot"])
         R0 = self._rest3(self.torso).to_4x4()
         self._set_pose_matrix(self.torso, Matrix.Translation(self.rest_torso + d) @ q_h.to_matrix().to_4x4() @ R0)
@@ -438,39 +482,15 @@ class CloudRigPuppet:
         # provisional limb targets so pass-1 has sane IK
         for s in SIDES:
             self.wrist[s].location = (0, 0, 0)
-        bpy.context.view_layer.update()
-        # 2. limb targets from the posed body
-        hq = (self.headdef.matrix.to_quaternion() @ self.headdef.bone.matrix_local.to_quaternion().inverted())
-        head_c = self.headdef.matrix @ (self.headdef.bone.matrix_local.inverted() @ self.head_c)
-        spine_a = self.torso.head.copy()
-        spine_b = Vector((0, 0, 0))
-        n = 0
+        # feet + knees first (knee anchors for the hands need the legs solved)
         for s in SIDES:
-            spine_b += self.upper[s].head
-            n += 1
-        spine_b /= n
-        for s in SIDES:
-            sh_pose = self.upper[s].head.copy()
-            t = self.map_point(pose["hand" + s])
-            t = self._clear_hand(t, s, sh_pose, head_c, hq, spine_a, spine_b)
-            # elbow pole: the acting pole direction, re-anchored between Jay's shoulder and wrist
-            sh_act = Vector((ACT_SHOULDER_X if s == "L" else -ACT_SHOULDER_X, 0.0, ACT_LM["shoulder"]))
-            hand_act = Vector(pose["hand" + s])
-            pd = Vector(pose["pole" + s]) - (sh_act + hand_act) * 0.5
-            ax = (t - sh_pose)
-            if ax.length > 1e-5:
-                an = ax.normalized()
-                pd = pd - an * pd.dot(an)
-            if pd.length < 1e-4:
-                pd = Vector((1 if s == "L" else -1, 0.6, -0.3))
-            pole = (sh_pose + t) * 0.5 + pd.normalized() * (self.arm_len[s] * 0.9)
-            Rw = self._rest3(self.wrist[s]).to_4x4()
-            self._set_pose_matrix(self.wrist[s], Matrix.Translation(t) @ Rw)
-            self._set_pose_matrix(self.apole[s], Matrix.Translation(pole) @ self._rest3(self.apole[s]).to_4x4())
             # feet: relative to rest, leg-length ratio
             fa = Vector(pose["foot" + s]) - Vector(ACT_STAND["foot" + s])
             ft = self.rest_foot[s] + fa * self.k_leg
             self._set_pose_matrix(self.foot[s], Matrix.Translation(ft) @ self._rest3(self.foot[s]).to_4x4())
+        bpy.context.view_layer.update()
+        for s in SIDES:
+            ft = self.foot[s].matrix.to_translation()
             # knee pole: perpendicular to hip->ankle, biased front + up (knees forward standing, up sitting)
             hip = self.thigh[s].head.copy()
             dd = ft - hip
@@ -482,6 +502,55 @@ class CloudRigPuppet:
                 v = Vector((0, -1, 0))
             kp = (hip + ft) * 0.5 + v.normalized() * max(0.25, dd.length)
             self._set_pose_matrix(self.lpole[s], Matrix.Translation(kp) @ self._rest3(self.lpole[s]).to_4x4())
+        bpy.context.view_layer.update()
+        # 2. limb targets from the posed body
+        hq = (self.headdef.matrix.to_quaternion() @ self.headdef.bone.matrix_local.to_quaternion().inverted())
+        head_c = self.headdef.matrix @ (self.headdef.bone.matrix_local.inverted() @ self.head_c)
+        self._hq = hq
+        spine_a = self.torso.head.copy()
+        spine_b = Vector((0, 0, 0))
+        n = 0
+        for s in SIDES:
+            spine_b += self.upper[s].head
+            n += 1
+        spine_b /= n
+        hand_t = {}
+        for s in SIDES:
+            sh_pose = self.upper[s].head.copy()
+            t = self.map_point(pose["hand" + s])
+            t = self._clear_hand(t, s, sh_pose, head_c, hq, spine_a, spine_b)
+            # >>> hands/contact: anchored hands (provisional orientation: forearm ~ shoulder->target)
+            t_free = t.copy()
+            hand_t[s] = t_free
+            t, q_t = self._hand_target(pose, s, t_free, sh_pose, None)
+            # <<< hands/contact
+            # elbow pole: the acting pole direction, re-anchored between Jay's shoulder and wrist
+            sh_act = Vector((ACT_SHOULDER_X if s == "L" else -ACT_SHOULDER_X, 0.0, ACT_LM["shoulder"]))
+            hand_act = Vector(pose["hand" + s])
+            pd = Vector(pose["pole" + s]) - (sh_act + hand_act) * 0.5
+            ax = (t - sh_pose)
+            if ax.length > 1e-5:
+                an = ax.normalized()
+                pd = pd - an * pd.dot(an)
+            if pd.length < 1e-4:
+                pd = Vector((1 if s == "L" else -1, 0.6, -0.3))
+            # >>> hands/contact: the rig's wrist only bends so far off the forearm, so an authored finger direction
+            # is delivered by the ARM: put the elbow where the forearm points along the fingers (elbow ~ wrist - F*L)
+            wd = self._dirw.get(s, 0.0)
+            if wd > 1e-3 and ax.length > 1e-5:
+                F_t = q_t @ self.hand_rest[s][0]
+                e_star = t - F_t * self.fore[s].bone.length
+                pd2 = e_star - (sh_pose + t) * 0.5
+                pd2 = pd2 - an * pd2.dot(an)
+                if pd2.length > 1e-4:
+                    pd = pd.normalized().lerp(pd2.normalized(), wd)
+                    if pd.length < 1e-4:
+                        pd = pd2
+            # <<< hands/contact
+            pole = (sh_pose + t) * 0.5 + pd.normalized() * (self.arm_len[s] * 0.9)
+            Rw = self._rest3(self.wrist[s]).to_4x4()
+            self._set_pose_matrix(self.wrist[s], Matrix.Translation(t) @ Rw)
+            self._set_pose_matrix(self.apole[s], Matrix.Translation(pole) @ self._rest3(self.apole[s]).to_4x4())
         # 3. eyes: target in front of the (posed) head
         if self.eyetgt is not None and gaze is not None:
             yaw, pitch = gaze[0] * self.gaze_gain[0], gaze[1] * self.gaze_gain[1]
@@ -491,8 +560,19 @@ class CloudRigPuppet:
             self._set_pose_matrix(self.eyetgt, Matrix.Translation(tgt) @ self._rest3(self.eyetgt).to_4x4())
         # 4. face channels
         self.apply_face(face_ch or {})
+        # >>> hands/contact: finger shapes
+        for s in SIDES:
+            if self.fingers.get(s):
+                eul = hand_poses.finger_euler(pose.get("handShape" + s), s)
+                for pb in self.fingers[s]:
+                    e = eul.get(pb.name)
+                    if e is not None:
+                        pb.location = (0, 0, 0)
+                        pb.rotation_euler = e
+        # <<< hands/contact
         bpy.context.view_layer.update()
-        # 5. hand orientation: rest hand rotated onto the solved forearm, then the acting handRot
+        # 5. hand orientation: rest hand rotated onto the solved forearm, then the acting handRot, then the authored
+        #    palm orientation / the anchor's grip orientation (hands/contact); anchored wrists re-placed for it
         for s in SIDES:
             fo = self.fore[s]
             d_now = (fo.tail - fo.head)
@@ -501,8 +581,146 @@ class CloudRigPuppet:
                 continue
             q_align = d_rest.normalized().rotation_difference(d_now.normalized())
             q = _q_char(*pose["handRot" + s]) @ q_align
-            M = Matrix.Translation(self.wrist[s].matrix.to_translation()) @ q.to_matrix().to_4x4() @ self._rest3(self.wrist[s]).to_4x4()
+            t, q = self._hand_target(pose, s, hand_t[s], self.upper[s].head.copy(), q)
+            if t is None:
+                t = self.wrist[s].matrix.to_translation()
+            M = Matrix.Translation(t) @ q.to_matrix().to_4x4() @ self._rest3(self.wrist[s]).to_4x4()
             self._set_pose_matrix(self.wrist[s], M)
+
+    # ---------------------------------------------------------------- hands/contact (polish_hands_pose)
+    def set_anchors(self, anchors_world=None, rail_snap=None):
+        """anchors_world: {name: {"p": world Vector, "n": palm normal (world, optional), "d": finger dir (optional),
+        "kind": 'grip' | 'palm' | 'flat' | 'tip' (optional)}} -> stored in armature space. rail_snap: callable
+        (world point) -> (world point, world tangent) | None, for the rail_L / rail_R anchors."""
+        bpy.context.view_layer.update()
+        Mi = self.arm.matrix_world.inverted()
+        R = Mi.to_quaternion()
+        self.anchors = {}
+        for name, a in (anchors_world or {}).items():
+            p = Mi @ Vector(a["p"])
+            nn = (R @ Vector(a["n"])).normalized() if a.get("n") is not None else None
+            dd = (R @ Vector(a["d"])).normalized() if a.get("d") is not None else None
+            self.anchors[name] = (p, nn, dd, a.get("kind"))
+        self.rail_snap = rail_snap
+
+    def _anchor(self, name, s=None, t_free=None, d=None):
+        """(p, n, d, kind) in armature space for a static or body anchor, or None when it does not exist here."""
+        if name in self.anchors:
+            return self.anchors[name]
+        hq = getattr(self, "_hq", Quaternion())
+        if name in ("knee_L", "knee_R"):
+            sh = self.shin.get(name[-1])
+            if sh is None:
+                return None
+            # on top of the knee cap, a touch forward: the palm rests there
+            p = sh.head + Vector((0, -0.25 * self.thigh_r, self.thigh_r * 1.15))
+            return (p, None, None, "palm")
+        if name.startswith("mouth") and self.mouth is not None:
+            m = self.mouth.head.copy()
+            off = {"mouth": Vector((0, -0.016, -0.004)), "mouth_palm": Vector((0, -0.03, 0.0)),
+                   "mouth_radio": Vector((0.0, -0.065, -0.058))}.get(name)
+            if off is None:
+                return None
+            kind = {"mouth": "tip", "mouth_palm": "palm", "mouth_radio": "flat"}[name]
+            return (m + hq @ off, None, None, kind)
+        if name in ("seat_L", "seat_R") and "bench_seat" in self.anchors:
+            p = self.anchors["bench_seat"][0] + Vector((0.16 if name[-1] == "L" else -0.16, 0.03, 0.0))
+            return (p, Vector((0, 0, -1)), Vector((0.3 if name[-1] == "L" else -0.3, -1, 0)).normalized(), "palm")
+        if name == "floor" and d is not None:
+            p = self.rest_torso + d
+            return (Vector((p.x, p.y, 0.0)), None, None, None)
+        if name in ("rail_L", "rail_R") and self.rail_snap is not None and t_free is not None:
+            Mw = self.arm.matrix_world
+            hit = self.rail_snap(Mw @ t_free)
+            if hit is None:
+                return None
+            Mi = Mw.inverted()
+            p = Mi @ Vector(hit[0])
+            tan = (Mi.to_quaternion() @ Vector(hit[1])).normalized()
+            out = p - self.upper[name[-1]].head
+            out.z = 0
+            out = out - tan * out.dot(tan)
+            dd = out.normalized() if out.length > 1e-5 else Vector((0, -1, 0))
+            return (p, Vector((0, 0, -1)), dd, "grip")
+        return None
+
+    def _anchor_mix(self, weights, s=None, t_free=None, d=None):
+        """weighted anchor blend -> (weight, point) (weight 0 when none of the named anchors exist)."""
+        W, P = 0.0, Vector((0, 0, 0))
+        for name, w in (weights or {}).items():
+            if w <= 1e-4:
+                continue
+            a = self._anchor(name, s, t_free, d)
+            if a is None:
+                continue
+            W += w
+            P += a[0] * w
+        if W <= 1e-6:
+            return 0.0, None
+        return min(1.0, W), P / W
+
+    def _orient(self, s, n, dvec):
+        """rotation (armature space) taking the rest hand onto palm normal n / finger direction dvec."""
+        F0, N0, T0 = self.hand_rest[s]
+        n = n.normalized()
+        dvec = dvec - n * dvec.dot(n)
+        if dvec.length < 1e-5:
+            dvec = F0 - n * F0.dot(n)
+        dvec = dvec.normalized()
+        Rt = Matrix((dvec, n, dvec.cross(n))).transposed()
+        Rr = Matrix((F0, N0, F0.cross(N0))).transposed()
+        return (Rt @ Rr.transposed()).to_quaternion()
+
+    def _hand_target(self, pose, s, t_free, sh_pose, q_base):
+        """(wrist target, hand rotation) for one hand: free target blended toward the anchored contact, rotation
+        blended toward the authored palm / anchor orientation. q_base None = provisional (forearm ~ shoulder->target)."""
+        F0, N0, T0 = self.hand_rest[s]
+        if q_base is None:
+            fo = self.fore[s]
+            d_rest = (fo.bone.tail_local - fo.bone.head_local).normalized()
+            v = t_free - sh_pose
+            q_base = d_rest.rotation_difference(v.normalized()) if v.length > 1e-5 else Quaternion()
+        q = q_base
+        # authored palm orientation (length = weight)
+        pv, fv = Vector(pose.get("palm" + s) or (0, 0, 0)), Vector(pose.get("fing" + s) or (0, 0, 0))
+        wp = min(1.0, pv.length)
+        if wp > 1e-3:
+            q = q.slerp(self._orient(s, pv, fv if fv.length > 1e-4 else q @ F0), wp)
+        # how strongly the finger direction is authored (steers the elbow so the forearm can deliver it)
+        self._dirw[s] = min(wp, min(1.0, fv.length)) if fv.length > 1e-4 else 0.0
+        # anchors
+        W, P, Wn, Nn, Dn, kinds = 0.0, Vector((0, 0, 0)), 0.0, Vector((0, 0, 0)), Vector((0, 0, 0)), {}
+        for name, w in (pose.get("anchor" + s) or {}).items():
+            if w <= 1e-4:
+                continue
+            a = self._anchor(name, s, t_free)
+            if a is None:
+                continue
+            W += w
+            P += a[0] * w
+            if a[1] is not None:
+                Wn += w
+                Nn += a[1] * w
+                Dn += (a[2] if a[2] is not None else q @ F0) * w
+            if a[3]:
+                kinds[a[3]] = kinds.get(a[3], 0.0) + w
+        if W <= 1e-6:
+            return t_free, q
+        P /= W
+        W = min(1.0, W)
+        if Wn > 1e-6 and Nn.length > 1e-5:
+            q = q.slerp(self._orient(s, Nn, Dn), min(1.0, Wn))
+            self._dirw[s] = max(self._dirw[s], min(1.0, Wn))
+        kind = max(kinds.items(), key=lambda kv: kv[1])[0] if kinds else None
+        c = hand_poses.contact_point(pose.get("handShape" + s), kind)
+        c_rest = F0 * c[0] + N0 * c[1] + T0 * c[2]
+        t_anchor = P - q @ c_rest
+        # never past the arm's reach (IK stretch is off): pull the wrist in along the shoulder line
+        v = t_anchor - sh_pose
+        L = self.arm_len[s] * 0.995
+        if v.length > L:
+            t_anchor = sh_pose + v.normalized() * L
+        return t_free.lerp(t_anchor, W), q
 
     def apply_face(self, ch):
         # reset all face controls, then accumulate (several channels share a bone)

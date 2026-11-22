@@ -17,7 +17,7 @@ import subprocess
 import sys
 
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
@@ -34,6 +34,10 @@ ap.add_argument("--samples", type=int, default=16)
 ap.add_argument("--blend", default=os.path.join("/home/user/story-animator", "library_store", "characters", "jay.blend"))
 ap.add_argument("--only", default=None, help="comma list of indices to render")
 ap.add_argument("--focus", default="face", help="face | mouth | eyes (close-up framing for face/channels)")
+ap.add_argument("--res", default=None, help="WxH override for body / hands frames (e.g. 540x960)")
+ap.add_argument("--lens", type=float, default=42.0, help="body mode lens (mm)")
+ap.add_argument("--closeup", action="store_true", help="body mode: hands-only close-up per pose")
+ap.add_argument("--legacy", action="store_true", help="body mode: the pre-polish 12 poses (sit_deck, no props)")
 args = ap.parse_args(argv)
 os.makedirs(args.out, exist_ok=True)
 
@@ -92,9 +96,77 @@ sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.vi
 stand = acting.pose_at(0, {"stance": [[-100, "stand"]], "breath": 0})
 
 
+def _res(default):
+    if args.res:
+        w_, h_ = (int(x) for x in args.res.lower().split("x"))
+        return w_, h_
+    return default
+
+
+def _show_only(objs, frames_on, f_all):
+    """keyframe hide_render so these objects only appear on frames_on."""
+    for o in objs:
+        for f in f_all:
+            o.hide_render = f not in frames_on
+            o.keyframe_insert("hide_render", frame=f)
+
+
+def body_props(tests):
+    """helm (for 'helm'), radio / phone in the right hand, the cockpit bench (for the sit test) - at episode scale
+    relative to Jay (episodes scale him to 1.8 m; here the holder is unscaled, so props shrink by 1/k)."""
+    import contact
+    import hand_poses
+    import props as propkit
+    sys.path.insert(0, os.path.join(REPO, "episodes", "sentinel", "plan"))
+    import marks as MK
+    k = 1.8 / cra.natural_height(arm)
+    f_all = list(range(-1, len(tests) * 10 + 2))
+    anchors = {}
+    for i, (st, ps) in enumerate(tests):
+        on = set(range(i * 10, i * 10 + 10))
+        if st == "helm":
+            r = propkit.helm_console("helm")
+            r.scale = (1 / k,) * 3
+            r.rotation_euler = (0, 0, math.pi)
+            r.location = (0, -0.58 / k, 0)
+            bpy.context.view_layer.update()
+            anchors.update(contact.helm_anchors(r.matrix_world, (1, 0, 0)))
+            _show_only([r, *r.children_recursive], on, f_all)
+        if st.startswith("sit_bench"):
+            bpy.ops.mesh.primitive_cube_add(size=1)
+            b = bpy.context.object
+            b.name = "bench"
+            b.scale = (2.4 / k, 0.7 / k, 0.41 / k)
+            # actor mark FEET_FROM_EDGE in front of the bench edge, seat SEAT_SETBACK behind it (marks.py)
+            b.location = (0, (MK.FEET_FROM_EDGE + 0.35) / k, 0.205 / k)
+            mb = bpy.data.materials.new("bench")
+            mb.use_nodes = True
+            mb.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.05, 0.07, 0.1, 1)
+            b.data.materials.append(mb)
+            anchors["bench_seat"] = {"p": Vector((0, (MK.FEET_FROM_EDGE + MK.SEAT_SETBACK) / k, 0.41 / k))}
+            _show_only([b], on, f_all)
+        for prop, pose in (("radio", "radio_shout"), ("phone", "phone_up")):
+            if ps == pose:
+                r = getattr(propkit, {"radio": "vhf_handset", "phone": "phone"}[prop])(prop)
+                bone = arm.data.bones["DEF-Wrist.R"]
+                loc, axes = hand_poses.prop_grip(prop, "R", bone.length)
+                r.parent, r.parent_type, r.parent_bone = arm, "BONE", "DEF-Wrist.R"
+                r.matrix_parent_inverse = Matrix.Identity(4)
+                M = Matrix((axes[0], axes[1], axes[2])).transposed().to_4x4()
+                M.translation = Vector(loc)
+                r.matrix_basis = M @ Matrix.Scale(1 / k, 4)
+                _show_only([r, *r.children_recursive], on, f_all)
+    pup.set_anchors(anchors)
+    return k
+
+
 def body_mode():
     tests = [("stand", None), ("helm", None), ("brace", None), ("stand", "radio_shout"), ("stand", "shush"), ("stand", "phone_up"),
-             ("stand", "wave"), ("stand", "hands_face"), ("stand", "look_back"), ("sit_deck", None), ("down", None), ("stand", "point_ahead")]
+             ("stand", "wave"), ("stand", "hands_face"), ("stand", "look_back"), ("sit_bench", None), ("down", None), ("stand", "point_ahead")]
+    if args.legacy:
+        tests[9] = ("sit_deck", None)
+    else:
+        body_props(tests)
     perf = {"stance": [], "poses": [], "blend": 1, "seed": 2}
     for i, (st, ps) in enumerate(tests):
         perf["stance"].append([i * 10, st])
@@ -106,13 +178,54 @@ def body_mode():
     keyed = pup.bake(perf, fs, 0, len(tests) * 10)
     print("KEYED", len(keyed), sorted(keyed)[:8])
     cam.location = (-1.25, -2.7, 0.95)
-    cam.data.lens = 42
+    cam.data.lens = args.lens
     aim.location = (0, 0, 0.58)
     light("key", (-1.8, -2.4, 2.4), 260, 1.5, (1, 0.96, 0.9))
     light("rim", (1.6, 1.8, 1.9), 220, 1.0, (0.8, 0.88, 1))
     light("fill", (2.0, -1.8, 0.9), 60, 2.5)
-    sc.render.resolution_x, sc.render.resolution_y = 360, 540
+    sc.render.resolution_x, sc.render.resolution_y = _res((360, 540))
     frames = [(i * 10 + 8, f"{st}{'+' + ps if ps else ''}") for i, (st, ps) in enumerate(tests)]
+    if args.closeup:
+        # hands-only close-ups: camera on the two wrists of each pose (front-left 3/4, a little above)
+        out = []
+        for f, label in frames:
+            sc.frame_set(f)
+            bpy.context.view_layer.update()
+            wl = arm.matrix_world @ arm.pose.bones["DEF-Wrist.L"].tail
+            wr = arm.matrix_world @ arm.pose.bones["DEF-Wrist.R"].tail
+            r_only = any(k in label for k in ("radio", "shush", "phone", "wave", "point"))
+            mid = wr if r_only else (wl + wr) * 0.5
+            dist = 0.34 if r_only else (wl - wr).length * 0.9 + 0.22
+            dv = Vector((-0.45, -1.0, 0.25)).normalized()
+            out.append((f, label, tuple(mid + dv * dist), tuple(mid)))
+        cam.data.lens = 50
+        return out
+    return frames
+
+
+def hands_mode():
+    """every hand_poses shape on both hands, raised in front of the chest: palm view + back view per shape."""
+    import hand_poses
+    shapes = list(hand_poses.SHAPES)
+    perf = {"stance": [[-100, "stand"]], "poses": [], "blend": 1, "seed": 2, "breath": 0}
+    for i, s in enumerate(shapes):
+        perf["poses"].append({"pose": {"handR": [-0.20, -0.34, 1.22], "handL": [0.20, -0.34, 1.22],
+                                       "poleR": [-0.6, 0.2, 0.9], "poleL": [0.6, 0.2, 0.9],
+                                       "handShapeR": s, "handShapeL": s,
+                                       "palmR": [0.35, -1, 0], "fingR": [0, 0, 1], "palmL": [0, 0.2, -1], "fingL": [-0.2, -1, 0]},
+                              "from": i * 10, "to": i * 10 + 9, "in": 1, "out": 1})
+    pup.bake(perf, {"emotion": [[0, "calm"]], "noBlink": True}, 0, len(shapes) * 10)
+    bpy.context.view_layer.update()
+    c = (pup.upper["L"].head + pup.upper["R"].head) * 0.5
+    aim.location = (0, c.y - 0.20, c.z + 0.0)
+    cam.data.lens = 60
+    light("key", (-1.2, -1.8, 1.8), 120, 1.0, (1, 0.96, 0.9))
+    light("rim", (1.0, 1.2, 1.4), 80, 0.8, (0.8, 0.88, 1))
+    light("fill", (1.2, -1.4, 0.6), 40, 1.5)
+    sc.render.resolution_x, sc.render.resolution_y = _res((360, 360))
+    frames = []
+    for i, s in enumerate(shapes):
+        frames.append((i * 10 + 8, s, (-0.10, c.y - 0.95, c.z + 0.05)))
     return frames
 
 
@@ -173,15 +286,22 @@ def channel_items():
 
 if args.mode == "body":
     frames = body_mode()
+elif args.mode == "hands":
+    frames = hands_mode()
 elif args.mode == "face":
     frames = face_mode(face_items())
 else:
     frames = face_mode(channel_items())
 only = set(int(x) for x in args.only.split(",")) if args.only else None
 paths = []
-for n, (f, label) in enumerate(frames):
+for n, fr in enumerate(frames):
+    f, label = fr[0], fr[1]
     if only is not None and n not in only:
         continue
+    if len(fr) > 2:
+        cam.location = fr[2]
+    if len(fr) > 3:
+        aim.location = fr[3]
     sc.frame_set(f)
     p = os.path.join(args.out, f"{args.mode}_{n:02d}_{label}.png")
     sc.render.filepath = p
@@ -193,6 +313,6 @@ if paths and only is None:
     cmd = ["montage"]
     for p, lab in paths:
         cmd += ["-label", lab, p]
-    cmd += ["-tile", "6x" if args.mode == "body" else "8x", "-geometry", "+2+2", "-pointsize", "12", "-background", "#222", "-fill", "#ddd", sheet]
+    cmd += ["-tile", "6x" if args.mode in ("body", "hands") else "8x", "-geometry", "+2+2", "-pointsize", "12", "-background", "#222", "-fill", "#ddd", sheet]
     subprocess.run(cmd, check=False)
     print("SHEET", sheet)
