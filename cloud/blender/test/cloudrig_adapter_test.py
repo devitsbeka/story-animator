@@ -105,7 +105,8 @@ for f, want in ((30, (25, 0)), (48, (0, -20))):
     yaw = math.degrees(math.atan2(d.x, -d.y)) - math.degrees(math.atan2(rest.x, -rest.y))
     pitch = math.degrees(math.asin(max(-1, min(1, d.z)))) - math.degrees(math.asin(max(-1, min(1, rest.z))))
     g = face.gaze_at(f, fs["gaze"], 3)
-    g = (g[0] * pup.gaze_gain[0], g[1] * pup.gaze_gain[1])
+    # eye craft: visual angle clamped to the eye's range (eye_limit), then visual -> rig angle (eye_gain)
+    g = tuple(max(-lim, min(lim, v)) * k for v, lim, k in zip(g, pup.eye_limit, pup.eye_gain))
     check(f"gaze f{f} yaw", abs(yaw - g[0]) < 6, f"eye yaw {yaw:.1f} vs {g[0]:.1f}")
     check(f"gaze f{f} pitch", abs(pitch - g[1]) < 6, f"eye pitch {pitch:.1f} vs {g[1]:.1f}")
 
@@ -115,7 +116,7 @@ v = P["ACT-Eyelid_Upper.L"].location.y
 check("blink closes the upper lid", v <= -0.024, f"lid loc.y {v:.4f}")
 sc.frame_set(50)
 v2 = P["ACT-Eyelid_Upper.L"].location.y
-check("open between blinks", v2 > -0.012, f"lid loc.y {v2:.4f}")
+check("open between blinks", v2 > -0.019, f"lid loc.y {v2:.4f}")  # resting lid 0.3 + down-gaze lid follow, not shut
 # viseme 'aa' around 77 -> jaw open
 sc.frame_set(77)
 check("viseme opens the jaw", P["Jaw"].location.z > 0.015, f"jaw z {P['Jaw'].location.z:.4f}")
@@ -141,6 +142,21 @@ jw = def_z(["DEF-Jaw"], {"jaw": 1})
 check("jaw opens down", jw["DEF-Jaw"].z - base["DEF-Jaw"].z < -0.02, f"{jw['DEF-Jaw'].z - base['DEF-Jaw'].z:.4f}")
 wd = def_z(["DEF-Lip_Corner.L", "DEF-Lip_Corner.R"], {"cornerWide.L": 1, "cornerWide.R": 1})
 check("wide moves corners outward", wd["DEF-Lip_Corner.L"].x - base["DEF-Lip_Corner.L"].x > 0.004 and wd["DEF-Lip_Corner.R"].x - base["DEF-Lip_Corner.R"].x < -0.004)
+
+# lesson L018: a held expression is never a frozen mask (face life), every 15-frame window moves brows + mouth
+hold = {"stance": [[-100, "stand"]], "seed": 5}
+pup.bake(hold, {"emotion": [[0, "worried"]], "seed": 5, "noBlink": True}, 200, 290)
+for bn, path, idx in (("MSTR-Eyebrow.L", "location", 1), ("ACT-MouthCorner.L", "location", 0)):
+    for w0 in range(215, 290, 15):
+        vals = []
+        for f in range(w0, w0 + 15):
+            sc.frame_set(f)
+            vals.append(getattr(P[bn], path)[idx])
+        check(f"face life {bn} f{w0}-{w0 + 14}", max(vals) - min(vals) > 2e-5, f"range {max(vals) - min(vals):.6f}")
+# canon CAN-P1: turn, then change - an emotion key inside a head turn waits for the settle
+tt = cra.turn_then_change({"emotion": [[300, "calm"], [312, "worried"]]},
+                          {"stance": [[-100, "stand"]], "poses": [{"pose": "look_back", "from": 305, "to": 340, "in": 8, "out": 6}]}, 300, 340)
+check("turn-then-change delays the change past the turn", tt["emotion"][1][0] > 312, str(tt["emotion"]))
 
 print(f"RESULT {'FAIL' if FAILS else 'PASS'}: {len(FAILS)} failures", FAILS)
 sys.exit(1 if FAILS else 0)

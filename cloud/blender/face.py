@@ -65,7 +65,7 @@ def _hash(n):
     return s - math.floor(s)
 
 
-def gaze_at(f, gaze_keys, seed=1):
+def gaze_at(f, gaze_keys, seed=1, micro=True):
     """gaze_keys: [[frame, yaw_deg, pitch_deg]] in head space (+yaw = his left, +pitch = up).
     Returns (yaw, pitch) with saccadic arrival (3 frames) and micro-saccades on holds."""
     yaw, pitch = 0.0, 0.0
@@ -82,10 +82,12 @@ def gaze_at(f, gaze_keys, seed=1):
     seg = int((f + seed * 7) / 18)
     jy = (_hash(seg * 3.1 + seed) - 0.5) * 1.6
     jp = (_hash(seg * 5.7 + seed) - 0.5) * 1.0
+    if not micro:
+        return yaw, pitch
     return yaw + jy, pitch + jp
 
 
-def blink_at(f, seed=1, extra=()):
+def blink_at(f, seed=1, extra=(), quiet=()):
     """Natural blink curve: 0 open .. 1 closed. Close in 2 frames, hold 1, open over 5 (ease-out)."""
     def curve(d):
         if d < 0 or d > 8:
@@ -101,7 +103,8 @@ def blink_at(f, seed=1, extra=()):
     i = 0
     while t < f + 10:
         t += int(75 + _hash(i * 1.37 + seed) * 90)
-        v = max(v, curve(f - t))
+        if not any(q0 <= t <= q1 for q0, q1 in quiet):   # withheld while staring (shock, intense focus)
+            v = max(v, curve(f - t))
         i += 1
     for e in extra:                                    # punctuation blinks (thought changes, big saccades)
         v = max(v, curve(f - e))

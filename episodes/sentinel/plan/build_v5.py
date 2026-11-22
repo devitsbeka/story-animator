@@ -37,6 +37,12 @@ ARC = {
 }
 
 
+# >>> polish_face: where the eyes go (cloudrig_adapter face_spec 'look'); default = a held fixation point ahead.
+# Direct-to-lens only for deliberate address: the decision (B12) and the shush to the audience (C28).
+LOOK = {"B12": "camera", "C28": "camera"}
+# <<< polish_face
+
+
 def words_in(words, f0, f1, offset):
     return [w for w in words if f0 <= w["s"] * 30 + offset < f1]
 
@@ -76,6 +82,8 @@ def main():
             arc = ARC.get(sh["id"], [(0, "calm", 0.6)])
             face = {"emotion": [[sh["from"] + t[0], t[1], t[2] if len(t) > 2 else 1.0] for t in arc],
                     "seed": (a.get("perf") or {}).get("seed", 1)}
+            if sh["id"] in LOOK:  # polish_face
+                face["look"] = LOOK[sh["id"]]
             if sh["id"] == "C13":
                 face["words"] = words_in(words, sh["from"], sh["to"], offset)
             a["face"] = face
