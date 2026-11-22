@@ -9,7 +9,7 @@ This project's films follow a fixed craft canon. You **must** run this pass on e
 
 Sources and full distilled rules (with quotes and page references) live in:
 - `factory/canon/SOURCES.md`: the 11 founding sources.
-- `factory/canon/VISUAL_CANON.md`: lighting, coverage, editing, handheld, performance, look-dev.
+- `factory/canon/VISUAL_CANON.md`: lighting, coverage, editing, handheld, performance, look-dev (quotes, sub-rules `CAN-L1a`…, engines, fields, thresholds).
 - `factory/canon/STORY_SOUND_CANON.md`: suspense, knowledge, narration, sound and picture.
 - `factory/lessons/lessons.yaml`: every past defect turned into a rule. Never repeat one.
 
@@ -31,24 +31,24 @@ Go through each item. For every item, write one line: PASS, FAIL (with the reaso
 - [ ] CAN-S3 There's a **ticking clock in the decor** the viewer can read, and its deadline is known before the danger peaks. It only gets worse. Ordinary actions (restarting the engine) cost visible time once the danger is known, and attacks are spaced so the anticipation outlasts the bang ("no terror in the bang, only in the anticipation of it").
 
 **Coverage and camera (UW two-shot; Greengrass)**
-- [ ] CAN-C1 The **wide establishes geography**: the man, the boat or wreck, and the threat or tree line in one composition before any coverage.
-- [ ] CAN-C2 **The close-up is reserved** for the reaction or decision the scene builds toward, e.g. the instant he hears something inland and changes his mind. No casual close-ups.
-- [ ] CAN-H1 **Impact handheld reacts:** on an impact the subject briefly escapes the frame, and the camera catches up a few frames late, like an operator reacting. No locked-off impacts.
+- [ ] CAN-C1 The **wide establishes geography**: the man, the boat or wreck, and the threat or tree line in one composition before any coverage. Hold it long enough to read: ≥1.2 s, since a new angle alone takes 8 film frames to register (Animation Mentor p.20). Re-establish after ≤6 tighter shots. Never confuse the audience about the geographical relationship (Reisz p.49).
+- [ ] CAN-C2 **The close-up is reserved** for the reaction or decision the scene builds toward, e.g. the instant he hears something inland and changes his mind. Use one hero-face CU per sequence (`reserved_close_up`), on a beat where what he knows or can do changes. It must be long enough to see the thought land (≥1.5 s). No casual close-ups.
+- [ ] CAN-H1 **Impact handheld reacts:** on an impact the subject briefly escapes the frame (2-6 f), and the camera catches up a few frames late (3-8 f lag, re-found within 15 f), like an operator who didn't know it was coming. No locked-off impacts. No constant decorative wobble either: the shake is caused by the event. The shot validator's centring and eye-trace rules are exempt inside the impact window.
 
 **Editing order in action (Reisz & Millar)**
-- [ ] CAN-E1 Action follows **information order**: obstacle seen by the audience → seen by the character → impact → **cost revealed**. Each step is a deliberate shot or beat, and the pace comes from these choices.
+- [ ] CAN-E1 Action follows **information order**: obstacle seen by the audience → seen by the character (look → POV → reaction, as in *Naked City* shots 8-9-10) → impact → **cost revealed** in its own held shot (≥2.5 s; the dead dog in *Naked City* holds 3.75 s). Each step is a deliberate shot or beat. The pace comes from what each cut tells, not from cutting fast. Reisz p.49: cutting so fast that it confuses the physical details defeats the object. Every action cut goes to a new angle or a parallel action. Close static shots run shorter than moving long shots. Accelerate only into a mounting climax.
 
 **Performance (Animation Mentor)**
-- [ ] CAN-P1 **Turn, then change:** a key expression change never happens during a head turn. He turns, settles, then the thought lands on his face. Check it with the sound off: can you see the thought land?
-- [ ] CAN-P2 Faces are alive (lessons L011, L018): eyes lead, saccades, no frozen mask. Hands have shapes and correct palms (L010, L017).
+- [ ] CAN-P1 **Turn, then change:** "Never stage an important face change to occur mid-motion. Ever." (Animation Mentor p.19). He turns, settles and lets it sink in, then the thought lands on his face, marked by a blink. Alternatively, start the change just before the turn. Make no expression, pose or direction change in the first or last 8 film frames of a shot (10 f at our 30 fps) unless the action matches across the cut. Check it with the sound off: can you point to the frame where the thought lands?
+- [ ] CAN-P2 Faces are alive (lessons L011, L018): eyes lead the head, saccades, no frozen mask. Blinks mark thought shifts and fast head turns, never a 2-second metronome. Holding blinks back is allowed for fear or a transfixed stare, for up to 10 s. Nothing moves without a reason. Hands have shapes and correct palms (L010, L017).
 
 **Lighting (Calahan; CML "Filming at night")**
-- [ ] CAN-L1 **Discovery map:** for each sequence, decide which detail the viewer discovers and when, and let the light reveal it, e.g. a reflection reveals the damaged hull while the forest stays dark. Light leads the eye to the story point. Everything else stays subordinate.
-- [ ] CAN-L2 **Night continuity:** the close-up must not suddenly feel like daylight next to its wide. Face exposure and key direction stay consistent across the cut, and every light is motivated (moon, a practical lamp, fire).
-- [ ] CAN-L3 Light creates depth: foreground, midground and background are separated by value and colour, with a rim on dark subjects against a dark sea.
+- [ ] CAN-L1 **Discovery map:** for each sequence, decide which detail the viewer discovers and when, and let the light reveal it, e.g. a reflection reveals the damaged hull while the forest stays dark. "The primary objective of good lighting is to show the viewer where to look" (Calahan §3). One focal point dominates. Before its beat the detail is only hinted, and everything else stays subordinate. Night is low key, "dark but not murky": real blacks, plus at least one hot area.
+- [ ] CAN-L2 **Night continuity:** the close-up must not suddenly feel like daylight next to its wide. Face exposure stays within +0.5 EV of the wide, with little frontal fill (≥4:1), and the key comes from the same direction (three-quarter back at night). The close-up may only darken its background (Calahan §9). Every light has one motive and one job (moon, a practical lamp, fire). A practical in frame sets the light direction. Night is cued by colour (cool moon, warm practicals), and the face's shadows stay readable (Cameron, ASC).
+- [ ] CAN-L3 Light creates depth: foreground, midground and background are separated by value and colour (warm subject over a cool ground). Put a rim on dark subjects against a dark sea, but no heavy blue backlight wash. Background accents sit at least 1 stop under the subject (CML p.140). Close-ups are shallow, and night shots are not deep-focus.
 
 **Look-dev order (Carpenter, Titanic)**
-- [ ] CAN-T1 Before spending on spray, weather or animation, **test the boat + one deck lamp + water together** (the look-dev test frame in previs). The light-on-water look is approved first.
+- [ ] CAN-T1 Before spending on spray, weather or animation, **test the boat + one deck lamp + water together** (the look-dev test frame in previs: `cloud/blender/test/yachtsea_lookdev.py`). This is the Titanic model in Mylar "water", lit for how its practicals "would play". The light-on-water look is approved first, and what the test discovers (gels, LUT, lamp colour) becomes locked parameters. FX and acting renders are refused until the approved test's hash matches the current lighting and materials.
 
 **Narration and sound (Rabiger; Das)**
 - [ ] CAN-N1 **Three columns:** every beat has PICTURE, NARRATION and SOUND rows. Picture comes first, and narration "does not lead the narrative" (Das). Each sequence has at least one sound-only row, and ambience runs continuously under everything.
@@ -63,4 +63,4 @@ Go through each item. For every item, write one line: PASS, FAIL (with the reaso
 
 ## Data the director must output (so the pass can check it)
 - `story.json`: `knowledge_timeline[]` (per beat: audience_knows, character_knows, who_can_act, audience_question, threat_planted_shot); `script_columns[]` (picture, narration, sound per beat); `narration_gaps[]` (start, length, filled_by); per line `reveal_order` (key word before or after the reveal).
-- `shotplan`/`episode.json`, per sequence: `discovery_map[]` (detail, shot, light_reveal); `reserved_close_up` (beat id); `action_order` (obstacle_audience, obstacle_character, impact, cost_revealed shot ids); `impact_handheld` (escape_frames, lag_frames); acting `turn_then_change` timing; `lookdev_test` frame.
+- `shotplan`/`episode.json`, per sequence: `discovery_map[]` (detail, shot, light_reveal); `reserved_close_up` (beat id); `action_order` (obstacle_audience, obstacle_character, impact, cost_revealed shot ids); `impact_handheld` (escape_frames, lag_frames); acting `turn_then_change` timing (turn, settle_frames, change); `lookdev_test` (frame, elements, hash, approval, locks). Per shot: `establishes[]`, `match_action`, `time_cut`; per sequence: `tension`. See the field and threshold tables in `VISUAL_CANON.md`.
