@@ -43,9 +43,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "awaiting_approval",
+ "status": "running",
  "created": "2026-11-21T22:35:32+00:00",
- "updated": "2026-11-21T23:29:40+00:00",
+ "updated": "2026-11-22T00:47:45+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -173,9 +173,9 @@
    }
   },
   "previs": {
-   "status": "awaiting_approval",
-   "started": "2026-11-21T23:29:37",
-   "attempts": 2,
+   "status": "running",
+   "started": "2026-11-22T00:47:45",
+   "attempts": 3,
    "error": null,
    "info": {
     "contact_sheet": "/home/user/story-animator/episodes/waterspout/boards/contact_sheet.png",
@@ -239,6 +239,10 @@
  "events": [
   {
    "t": "2026-11-21T23:29:37+00:00",
+   "msg": "reset from previs"
+  },
+  {
+   "t": "2026-11-22T00:47:45+00:00",
    "msg": "reset from previs"
   }
  ]

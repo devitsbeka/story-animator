@@ -76,10 +76,55 @@ def main():
                         k["look"][1] = round(ly - EYE_DROP, 4)
                         k["cam"][1] = round(k["cam"][1] - EYE_DROP, 4)
                         n_cam += 1
+    n_yacht = use_yacht_v2(ep)
     ep["source"] = {"builder": "episodes/sentinel/plan/build_v5.py", "base": "episode_v4.json"}
     out = os.path.join(EP, "episode_v5.json")
     json.dump(ep, open(out, "w"), indent=1)
-    print(f"wrote {out}: {n_hero} hero actors -> hero_v4, {n_cam} camera keys re-aimed to Jay's eye line")
+    print(f"wrote {out}: {n_hero} hero actors -> hero_v4, {n_cam} camera keys re-aimed to Jay's eye line; yacht_v2 remaps: {n_yacht}")
+
+
+# >>> polish_yacht: the procedural high-detail yacht (cloud/blender/yacht_v2.py) + its marks (cloud/blender/yacht_marks.py)
+YACHT = os.environ.get("SENTINEL_YACHT", "proc:yacht_v2")  # 'assets/props/yacht.glb' = the old crude yacht
+
+
+def use_yacht_v2(ep):
+    """Point the episode at yacht_v2 and move actors on marks that changed (SITMARK: cabin wall -> aft bench). The
+    shot's yacht-space camera keys and yacht-attached props are carried rigidly with the mark (yaw about it)."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "cloud", "blender"))
+    import yacht_marks as YM
+    ep["assets"].setdefault("props", {})["yacht"] = YACHT
+    if not YACHT.startswith("proc:yacht_v2"):
+        return 0
+    n = 0
+    for sh in ep["shots"]:
+        for a in sh.get("actors") or []:
+            if a.get("space", "yacht") != "yacht":
+                continue
+            r = YM.remap(a["local"], a.get("rotY", 0.0))
+            if not r:
+                continue
+            name, new, rot, dyaw = r
+            old = list(a["local"])
+            dy = YM.CAM_DY_V2.get(name, 0.0)
+            a["local"], a["rotY"] = new, rot
+            swap = YM.STANCE_V2.get(name, {})
+            perf = a.get("perf") or {}
+            if isinstance(perf.get("stance"), list):
+                perf["stance"] = [[f, swap.get(s, s)] for f, s in perf["stance"]]
+            elif isinstance(perf.get("stance"), str):
+                perf["stance"] = swap.get(perf["stance"], perf["stance"])
+            if sh["camera"].get("space") == "yacht":
+                for k in sh["camera"]["keys"]:
+                    k["cam"] = YM.move_point(k["cam"], old, new, dyaw, dy, YM.CAM_SCALE_V2.get(name, 1.0))
+                    k["look"] = YM.move_point(k["look"], old, new, dyaw, dy)
+            for p in sh.get("props") or []:
+                if p.get("attach", "yacht") == "yacht" and "local" in p:
+                    p["local"] = YM.move_point(p["local"], old, new, dyaw)
+                    p["rotY"] = p.get("rotY", 0.0) + dyaw
+            n += 1
+    return n
+# <<< polish_yacht
 
 
 if __name__ == "__main__":

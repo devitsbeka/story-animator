@@ -346,6 +346,62 @@ would put Vast first. The default stays `priority` with AWS first because AWS wo
    python3 cloud/farm/scheduler.py --stack $STACK stop-all           # terminate every farm worker everywhere
    ```
 
+## Presigned mode: GPU pods with no cloud credentials (`cloud/farm/presigned.py`)
+
+External pods (RunPod first, Vast.ai) must not hold AWS keys, and creating IAM keys is not allowed. In presigned
+mode the operator machine does every AWS call; a pod gets ONE env var, `MANIFEST_URL` (a presigned S3 GET of its
+pod manifest), plus the non-secret `NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics` the container runtime
+needs at create time to mount OptiX. No SQS, no DynamoDB, no tokens in the pod.
+
+```
+operator (AWS creds)                                   pod (no creds)
+  split episode -> jobs (jobs.py), LPT onto N pods
+  upload code tarball <root>code/<sha>.tar.gz           presigned_startup.sh  (container cmd, gzip+base64)
+  reuse library_store/<rel> (sync-library) or upload      apt tools -> GET manifest -> GPU fail-fast
+  spec snapshot, pod manifest (presigned URLs, 7 d) ->    Blender 4.2.3 (sha256) -> GET code (sha256)
+  POST /v2/pods {env: {MANIFEST_URL}}                   presigned_pod.py
+  watch: heartbeat/done/plates in S3, provider list       GET spec + library (sha256), render each job with
+    dead -> terminate + new pod for missing frames         render_episode.py --skip-existing (OptiX/CUDA),
+    done/idle -> terminate; budget -> stop all             PUT each PNG as soon as it is logged, PUT heartbeat
+    complete -> pull plates -> episodes/<id>/plates/       every 60 s, job logs/manifests, done marker, idle
+```
+
+The manifest (`kind: story-farm-presigned-pod`) holds GET URLs for code/spec/library files (with sha256) and PUT
+URLs (Content-Type signed) for every expected plate `<root>plates/<run>/<shot>/<frame>.png`, each job's log and
+manifest, the heartbeat object (overwritten each beat), the pod log and the done marker. Keys: see the module
+docstring. Presigned URLs expire after at most 7 days (SigV4 limit; sign with the IAM-user profile, not session
+credentials, or URLs die with the session).
+
+```bash
+OP="env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN"   # use ~/.aws default profile
+$OP python3 cloud/farm/presigned.py plan   --spec episodes/sentinel/episode_v4.json --quality preview --workers 4
+$OP python3 cloud/farm/presigned.py submit --spec episodes/sentinel/episode_v4.json --quality preview \
+      --provider runpod --gpu RTX4090 --workers 2 --budget 10 --frames 0-119 --dry-run   # prints create payloads
+$OP python3 cloud/farm/presigned.py submit ... (same, without --dry-run)               # launches pods
+$OP python3 cloud/farm/presigned.py watch --run <run>        # loop; --once for one tick; pulls plates when done
+$OP python3 cloud/farm/presigned.py stop  --run <run>        # terminate every pod of the run
+```
+
+- RunPod: `POST https://api.runpod.io/v2/pods` (v2 OpenAPI, the same shape `providers/runpod.py` uses):
+  `image nvidia/cuda:12.4.1-base-ubuntu22.04`, `gpu {id: "NVIDIA GeForce RTX 4090", count 1, minCudaVersion}`,
+  `cloud SECURE`, `disk 40`, `entrypoint ["/bin/bash","-c"]`, `cmd [<bootstrap>]`, `ports []`. The key is
+  injected by the network proxy for api.runpod.io: `RUNPOD_API_KEY` defaults to `proxy-injected`. The proxied key
+  lists pods but has no `catalog:read`, so prices fall back to list prices (`--price` overrides).
+- Vast.ai: the env field is a docker-flag string that rejects `&`/`%`, so the manifest URL rides inside the
+  base64 startup script instead.
+- Library: `--library auto` (default) ships catalog assets the spec / its world kits name plus the ones the
+  renderer's own sources reference (HDRIs, deck texture, island trees + their `lod/` caches; ~860 MB for Sentinel);
+  `spec` = spec/kits only; `none`. Audio kinds never ship.
+- Code: `--code head` (default) = `git archive HEAD` of cloud/, factory/, studio/src/data, the assets symlink, plus
+  the spec and every asset it references read from disk. `--code worktree` for uncommitted changes.
+- Watch policy (`DEFAULTS` in presigned.py): no heartbeat 1800 s after launch or silent 600 s or provider says
+  gone -> dead; up to 3 replacement generations per pod; `--budget` total and `--max-usd-per-hour` (default
+  providers.yaml runpod.max_usd_per_hour) are enforced at submit, on replacements and every tick.
+- Verified: `tests/farm/test_presigned.py` (moto S3 + mocked RunPod; and a local pod = subprocess running the real
+  bootstrap command against a moto S3 server with curl), and `PRESIGNED_LIVE=1 ... tests/farm/test_presigned_live.py`
+  (the REAL bucket under a throw-away prefix, real local CPU Blender, 2 frames at 64x112, everything deleted
+  afterwards). No real pod has been launched.
+
 ## Not done / open
 
 - **compute_fallback**: no real RunPod/Vast launch, account or key was created (no spend allowed); request shapes
