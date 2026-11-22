@@ -11,6 +11,23 @@ import time
 
 from . import checks, compile as comp, librarian, prompts, schemas
 from .llm import LLMError
+
+EFFORT_DOWN = {"max": "xhigh", "xhigh": "high", "high": "medium", "medium": "low"}
+THINK_BRIEFLY = ("Your previous attempt spent its whole output budget thinking and wrote no answer. Plan briefly (a few "
+                 "short notes at most), then write the complete JSON object. Every requirement still applies.")
+
+
+def runaway_thinking(err, effort):
+    """L023: max_tokens hit with >= 80% of the output spent on thinking -> the next lower effort, else None."""
+    meta = getattr(err, "meta", None) or {}
+    if meta.get("stop_reason") != "max_tokens":
+        return None
+    u = meta.get("usage") if isinstance(meta.get("usage"), dict) else {}
+    out = u.get("output_tokens") or 0
+    think = ((u.get("output_tokens_details") or {}).get("thinking_tokens")) or 0
+    if out and think >= 0.8 * out:
+        return EFFORT_DOWN.get(effort)
+    return None
 from factory import styles  # style system hook
 
 STAGES = ("develop", "breakdown", "library", "direct")
@@ -85,6 +102,20 @@ class Runner:
             except LLMError as e:  # a billed but failed call still counts toward the stage cost
                 if getattr(e, "meta", None):
                     _write(self.path(f"reports/{stage}.{attempt}.json"), {"stage": stage, "ok": False, "error": str(e), "meta": e.meta})
+                # L023: the output budget went to thinking and no answer was written. Retry once at a lower effort
+                # with an explicit "think briefly" note instead of failing the run (and paying for the same loop again).
+                lower = runaway_thinking(e, getattr(self.client, "effort", None))
+                if lower and attempt < self.max_attempts:
+                    self.log(f"[{stage}] attempt {attempt}: output budget spent on thinking; retrying at effort={lower}")
+                    self.client.effort = lower
+                    last = dict(messages[-1])
+                    c = last["content"]
+                    if isinstance(c, str):
+                        last["content"] = [{"type": "text", "text": c}, {"type": "text", "text": THINK_BRIEFLY}]
+                    else:
+                        last["content"] = list(c) + [{"type": "text", "text": THINK_BRIEFLY}]
+                    messages = messages[:-1] + [last]
+                    continue
                 raise
             os.makedirs(self.path("_llm"), exist_ok=True)
             with open(self.path(f"_llm/{stage}.{attempt}.json"), "w", encoding="utf-8") as fh:

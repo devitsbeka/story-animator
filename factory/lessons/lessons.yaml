@@ -217,3 +217,12 @@
   check: shot_validator CAN-C1 / CAN-C2 / CAN-H1 (measured through the renderer's camera maths; mapped into `python3 -m factory.canon pass` by factory/canon/checks.py); test_direction.py test_impact_handheld_escape_and_late_catch_up, test_reserved_close_up_and_geography (stress - escape/lag 4/3, 6/5, 9/6; a shake without reaction fails; an unreserved CU fails).
   gate: [direct, merge]
   status: closed
+
+- id: L023
+  found: lead (waterspout v2 run), 2026-11-22
+  symptom: "Stage 1 (develop) failed after 10 minutes: the model spent 60,324 of its 64,000 output tokens thinking and never wrote the story; the run recorded $0.00 although the call cost $1.37."
+  root_cause: "The canon checklist made the develop prompt much heavier; at effort=high the thinking ran away. A failed stage's billed attempts were never added to the run cost."
+  rule: "A call that hits max_tokens with >= 80% of the output spent on thinking is retried once at the next lower effort with a 'plan briefly, then write the JSON' note; it never fails the run on the first occurrence. Every billed attempt counts toward run cost, including attempts of a failed stage."
+  check: "tests/director/test_runaway_thinking.py (runaway_thinking -> lower effort); pipeline adds costs.llm_stage_cost for a failed develop/breakdown/direct stage; run.json cost per stage vs ceiling (L014)."
+  gate: [run, merge]
+  status: closed

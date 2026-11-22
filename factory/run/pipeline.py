@@ -404,7 +404,9 @@ class Pipeline:
             st.update_stage(name, status=AWAITING)
             raise
         except Exception as e:
-            st.add_cost(name, 0.0, time.time() - t0)
+            # a failed stage still paid for its billed LLM attempts (reports/<stage>.<n>.json carry the usage)
+            spent = costs.llm_stage_cost(self.dir, name, since=t0)["usd"] if name in ("develop", "breakdown", "direct") else 0.0
+            st.add_cost(name, spent, time.time() - t0)
             st.update_stage(name, status=FAILED, error=f"{type(e).__name__}: {e}", finished=time.strftime("%Y-%m-%dT%H:%M:%S"))
             self.log(f"stage {name}: FAILED {type(e).__name__}: {e}")
             raise
