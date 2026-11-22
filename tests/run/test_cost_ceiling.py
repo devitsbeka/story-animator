@@ -65,7 +65,10 @@ def test_shot_gate_redirects_twice_then_blocks(tmp_path):
     # since L027 the geometry repair fixes what it can (COLLIDE) first; what remains still blocks after 2 re-directs
     assert "RegressionBlocked" in err and "shot gate before previs" in err and "still failing after 2 re-direct" in err
     sg = doc["shotGate"]["previs"]
-    assert sg["tries"] == 2 and len(sg["history"]) == 3 and "C28" in sg["history"][0]["failing"]
+    assert sg["tries"] == 2 and len(sg["history"]) == 3 and sg["history"][0]["failing"]
+    # C28's in-cabin camera is now repaired by geometry before the first re-direct (L027); what is left (VIS) is not
+    # something geometry may change, so it still goes back to the director and blocks
+    assert any("C28" in r["fixed"] for r in sg.get("camera_repairs", [])) and "C28" not in sg["history"][0]["failing"]
     assert doc["stages"]["render"]["status"] == "pending"
 
 
