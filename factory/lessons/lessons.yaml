@@ -146,3 +146,21 @@
   check: golden 'night sky under motion' frame + vision rubric SKY-1 ("no streaks in the sky unless it rains").
   gate: [merge, qc]
   status: open
+
+- id: L017
+  found: user, 2026-11-22
+  symptom: Hands and palms look weird in ALL scenes (wrists bent, palms facing the wrong way, fingers splayed).
+  root_cause: IK placed wrists by position only; palm orientation and finger shapes were never authored per pose.
+  rule: Every frame's hands have a valid palm orientation for the pose (relaxed = palms toward thighs, thumbs forward; grips wrap the object; rails = palms down) and a finger shape (relaxed curl by default).
+  check: pose_qc palm-normal vs per-shape target (< 25 deg), wrist bend limit, finger curl > threshold; hands close-up golden sheet; vision rubric HANDS-1 on every hero shot keyframe.
+  gate: [direct, merge, qc]
+  status: open
+
+- id: L018
+  found: user, 2026-11-22
+  symptom: Facial expressions look like a dummy/mannequin even when the emotion is posed.
+  root_cause: Expressions were static held poses; no facial life, no anticipation/overlap, weak eye behaviour.
+  rule: Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth.
+  check: face-channel temporal variance over every hero shot > threshold (no frozen face > 0.5 s); golden face CLIP (not still) compared over time; vision rubric FACE-3 'reads as alive, not a mannequin' on sampled clip frames.
+  gate: [direct, merge, qc]
+  status: open
