@@ -147,7 +147,7 @@ BASE = {
     # one per-sequence target, so a close-up never reads brighter ('daylight') than its wide. Only the hero-linked
     # cheats (face key / fill / wrap) are trimmed; the moon, practicals and the set are untouched.
     "face_normalize": True,
-    "face_target": 0.55,          # target face incident irradiance, x key_energy (calibrated on A01a/A03/C21)
+    "face_target": 1.35,          # target face incident irradiance, x key_energy (calibrated: untrimmed A03 MS 1.51, B12 MCU 1.56, C16 1.14, C21 0.76)
     "face_ev_offset": 0.0,        # deliberate per-shot exposure change in stops (needs cheat_reason/light_event)
     "face_ev_tol": 1.0 / 3.0,     # wide <-> close-up tolerance, stops
     # <<< polish_light
