@@ -38,7 +38,7 @@ import camgeo as G  # noqa: E402
 
 TIGHT = {"CU", "ECU"}
 FACE_VIS_MAX = 80.0      # polish_camera: deg between the lens and the face normal beyond which the face does not read
-FACE_ABOVE_MAX = 40.0    # deg the lens may sit above a lowered face's normal before the cap brim hides it
+FACE_ABOVE_MAX = 30.0    # deg the lens may sit above a lowered face's normal before the cap brim hides it
 COL_CLEAR = 0.15        # polish_camera: minimum air (m) between the lens and any yacht surface
 WIDE = {"WS", "EWS"}
 CENTRE_TOL = 0.08

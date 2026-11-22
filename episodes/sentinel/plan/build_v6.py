@@ -155,6 +155,10 @@ def main():
             sh["camera"], sh["direction"] = cam, d
             n_cam += 1
             n_fix += bool(d.get("collision_fix"))
+        if sh["id"] == "A02":
+            # his look-down at the gauges (perf 92-108) buries the face under the cap brim from every lens position
+            # that fits between the console and the coaming (FACEVIS warns); the key still is taken before it
+            sh["keyFrame"] = 86
         for seq, (sid, beat) in RESERVED_CU.items():
             if sh["id"] == sid:
                 sh["direction"]["reserved_close_up"] = beat

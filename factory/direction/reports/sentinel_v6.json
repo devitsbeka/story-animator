@@ -164,7 +164,7 @@
   },
   {
    "id": "FACEVIS",
-   "name": "face readable on MCU-and-tighter: lens within 80 deg of the face normal, <= 40 deg above it (cap brim)",
+   "name": "face readable on MCU-and-tighter: lens within 80 deg of the face normal, <= 30 deg above it (cap brim)",
    "status": "warn",
    "detail": "A04 angle 85.9 above 24.7",
    "shots": [
@@ -399,8 +399,8 @@
    "geo_frames": [],
    "impact": null,
    "face_vis": {
-    "angle": 54.5,
-    "above_normal": 34.9
+    "angle": 49.8,
+    "above_normal": 5.0
    },
    "impact_declared": false,
    "reserved_cu": false,
@@ -416,12 +416,12 @@
    "frame_h": 1.223,
    "lens_mm": 24.5,
    "max_dx": 0.0151,
-   "key_sx": 0.4903,
-   "key_sy": 0.4232,
+   "key_sx": 0.4989,
+   "key_sy": 0.3866,
    "behind": [],
    "offscreen": [],
-   "eye_y_key": 0.423,
-   "hero_sx_key": 0.689,
+   "eye_y_key": 0.386,
+   "hero_sx_key": 0.561,
    "hero_size_key": "MS",
    "motion_rate": 1.1466,
    "static_at": null,
@@ -435,8 +435,8 @@
     "facing": -2.592446278347443
    },
    "face_crop": [],
-   "key_top_y": 0.184,
-   "key_chin_y": 0.625,
+   "key_top_y": 0.195,
+   "key_chin_y": 0.621,
    "has_hero": true,
    "anchors": {
     "island": 0,
