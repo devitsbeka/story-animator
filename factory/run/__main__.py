@@ -171,7 +171,30 @@ def batch_main(argv):
     return 0 if all(it["status"] in ("published", "awaiting_approval", "returned") for it in doc["items"]) else 1
 
 
+def load_secrets(path=None):
+    """Fill missing API keys from the secrets file (~/.factory_secrets.env, lines `export NAME=value`). Values are
+    never printed or logged; variables already set in the environment win."""
+    path = path or os.environ.get("FACTORY_SECRETS", os.path.expanduser("~/.factory_secrets.env"))
+    if not os.path.isfile(path):
+        return []
+    got = []
+    with open(path) as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("export "):
+                line = line[7:]
+            k, sep, v = line.partition("=")
+            k, v = k.strip(), v.strip().strip("'\"")
+            if sep and k.isidentifier() and v and not os.environ.get(k):
+                os.environ[k] = v
+                got.append(k)
+    return got
+
+
 def main(argv=None):
+    load_secrets()
     argv = list(sys.argv[1:] if argv is None else argv)
     sub = {"batch": batch_main, "approve": approve_main, "status": status_main}
     if argv and argv[0] in sub:
