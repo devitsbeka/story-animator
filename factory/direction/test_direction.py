@@ -45,7 +45,7 @@ def call(name, f0, f1, hero, far):
         S = hero.point(f0, None)
         return fn(f0, f1, hero, [G.add(S, [6, 1, -8]), G.add(S, [7, 1, -2]), G.add(S, [5, 1, 4])])
     if name in ("product_turntable", "extreme_closeup"):
-        obj = CP.object_subject(TILTED, [0.3, 2.4, -3.0], size=0.3)
+        obj = CP.object_subject(TILTED, [0.3, 2.4, -4.9], size=0.3)   # in the open cockpit (-3.0 is inside the cabin wall)
         return fn(f0, f1, obj)
     return fn(f0, f1, hero)
 
@@ -57,7 +57,7 @@ def shot_of(out, f0, f1):
 def test_catalog_complete():
     names = catalog_names()
     assert len(names) == 36, names
-    assert set(names) == set(CP.PRESETS), set(names) ^ set(CP.PRESETS)
+    assert set(names) == set(CP.PRESETS) - CP.CANON_PRESETS, set(names) ^ (set(CP.PRESETS) - CP.CANON_PRESETS)
 
 
 def test_lens_roundtrip():
@@ -97,7 +97,10 @@ def test_all_presets():
         s = shot_of(out, f0, f1)
         a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
         cf = d.get("centre_from", f0)
+        cex = d.get("centre_exempt") or []
         for f in range(cf, f1 + 1, 3):
+            if any(w0 <= f <= w1 for w0, w1 in cex):
+                continue
             c, l, fov, roll = G.camera_world(s, f, jitter=False)
             S = SV.track_at(d["subject"]["track"], f)
             x, y, dep = G.project(c, l, roll, fov, 1080 / 1920, S)
@@ -130,6 +133,88 @@ def test_far_target_survives_tilted_yacht():
     assert abs(x - 0.5) < 1e-3 and abs(y - 0.5) < 1e-3, (x, y)
 
 
+# >>> polish_camera
+LEVEL = {"x": 0.0, "z": 0.0, "heading": 0.0, "lights": [[0, 0]]}
+
+
+def test_jay_profile_frames_whole_face():
+    """Jay's 0.55 m head: CU = forehead-to-chin with the cap inside, eyes on the 0.38 line, MS waist up."""
+    prof = G.hero_profile("hero_v4")
+    if prof is None:
+        return
+    assert 0.84 < prof.rest["eye"] < 0.89 and 0.66 < prof.rest["chin"] < 0.73
+    hero = CP.hero_subject(LEVEL, [0.0, 1.9, 4.7], 0.0, profile=prof, acting_stance="stand")
+    actor = {"asset": "hero_v4", "local": [0.0, 1.9, 4.7], "rotY": 0.0, "height": 1.8, "perf": {"stance": [[-10000, "stand"]]}}
+    for size in ("MS", "MCU", "CU"):
+        out = CP.dolly_in(0, 30, hero, size=(size, size), lens=CP.LENS_BY_SIZE[size])
+        rep = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, shot_of(out, 0, 30) | {"yacht": LEVEL, "actors": [actor]})
+        assert rep["size"] == size, (size, rep["size"], rep["frame_h"])
+        assert abs(rep["eye_y_key"] - G.EYE_LINE) < 0.03, (size, rep["eye_y_key"])
+        assert rep["key_top_y"] >= 0.0 and rep["key_chin_y"] <= 1.0 and not rep["face_crop"], (size, rep["key_top_y"], rep["face_crop"])
+
+
+def test_collision_avoidance_on_the_real_yacht():
+    """v3's A02 framing (front-left of the helm at 35 mm) puts the lens inside the cabin; the presets now move it out."""
+    P = G.yacht_proxy()
+    if P is None:
+        return
+    assert P.sdf([-0.09, 2.80, -2.69]) < 0          # v5 A04 lens: inside the (hollow) cabin
+    assert P.sdf([0.0, 3.0, -5.0]) > 0.3            # open cockpit air
+    hero = CP.hero_subject(LEVEL, [0.55, 1.42, -4.3], 0.0, profile=G.hero_profile("hero_v4"), acting_stance="helm")
+    CP.COLLIDE = False
+    raw = CP.arc_track(75, 118, hero, size=("MS", "MS"), az=(50, 35), el=4, lens=35)
+    CP.COLLIDE = True
+    fixed = CP.arc_track(75, 118, hero, size=("MS", "MS"), az=(50, 35), el=4, lens=35)
+    body = lambda k: G.YachtFrame(LEVEL, k["f"]).world_to_body(G.YachtFrame(LEVEL, k["f"]).cam_to_world(k["cam"]))
+    assert min(P.sdf(body(k)) for k in raw["camera"]["keys"]) < CP.CLEARANCE
+    assert min(P.sdf(body(k)) for k in fixed["camera"]["keys"]) >= CP.CLEARANCE - 1e-6
+    assert fixed["direction"]["collision_fix"]["keys_moved"] > 0
+# <<< polish_camera
+
+
+# >>> craft canon camera rules
+def test_impact_handheld_escape_and_late_catch_up():
+    """CAN-H1: the subject leaves the frame for exactly escape_frames, the operator reacts lag_frames late."""
+    prof = G.hero_profile("hero_v4")
+    hero = CP.hero_subject(LEVEL, [0.0, 1.9, 4.7], 0.0, profile=prof, acting_stance="stand")
+    actor = {"asset": "hero_v4", "local": [0.0, 1.9, 4.7], "rotY": 0.0, "height": 1.8, "perf": {"stance": [[-10000, "stand"]]}}
+    for esc, lag in ((6, 5), (4, 3), (9, 6)):
+        out = CP.impact_handheld(0, 50, hero, impact=15, escape_frames=esc, lag_frames=lag, size="MS", az=(30, 20), el=8)
+        ih = out["direction"]["impact_handheld"]
+        assert ih["escape_frames"] == esc, ih
+        s = shot_of(out, 0, 50) | {"yacht": LEVEL, "actors": [actor]}
+        m = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)["impact"]
+        assert abs(m["escape_frames"] - esc) <= 1 and abs(m["lag_frames"] - lag) <= 1 and m["recentred_at"], (esc, lag, m)
+    # a strong shake without the reaction is a locked-off impact -> CAN-H1 fails; with it, it passes
+    locked = CP.handheld_documentary(0, 50, hero, size="MS")
+    locked["camera"]["shakes"] = [{"at": 15, "px": 14, "tau": 2.2}]
+    ok = CP.impact_handheld(0, 50, hero, impact=15)
+    for out, want in ((locked, "fail"), (ok, "pass")):
+        a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, shot_of(out, 0, 50) | {"yacht": LEVEL, "actors": [actor]})
+        r = next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-H1")
+        assert r["status"] == want, r
+
+
+def test_reserved_close_up_and_geography():
+    """CAN-C2: an unreserved hero CU fails, the reserved one passes. CAN-C1: v6 establishes every location."""
+    prof = G.hero_profile("hero_v4")
+    hero = CP.hero_subject(LEVEL, [0.0, 1.9, 4.7], 0.0, profile=prof, acting_stance="stand")
+    actor = {"asset": "hero_v4", "local": [0.0, 1.9, 4.7], "rotY": 0.0, "height": 1.8, "perf": {"stance": [[-10000, "stand"]]}}
+    out = CP.dolly_in(0, 30, hero, size=("CU", "CU"), lens=75)
+    s = shot_of(out, 0, 30) | {"yacht": LEVEL, "actors": [actor]}
+    a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
+    assert next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-C2")["status"] == "fail"
+    s["direction"] = dict(s["direction"], reserved_close_up="decides")
+    a = SV.analyse_shot({"width": 1080, "height": 1920, "fps": 30}, s)
+    assert next(r for r in SV.canon_rules({}, [a]) if r["id"] == "CAN-C2")["status"] == "pass"
+    p6 = os.path.join(ROOT, "episodes/sentinel/episode_v6.json")
+    if os.path.exists(p6):
+        SV.load_coast(ROOT)
+        st = {r["id"]: r["status"] for r in SV.validate(json.load(open(p6)))["rules"]}
+        assert st["CAN-C1"] == st["CAN-C2"] == st["CAN-H1"] == "pass", st
+# <<< craft canon camera rules
+
+
 def test_validator_flags_bad_and_passes_v3():
     v2 = json.load(open(os.path.join(ROOT, "episodes/sentinel/episode_v2.json")))
     SV.load_coast(ROOT)
@@ -146,6 +231,13 @@ def test_validator_flags_bad_and_passes_v3():
         assert {"A02", "A04"} <= set(fails[0]["shots"])
         c17 = next(x for x in r3["shots"] if x["id"] == "C17")
         assert c17["anchors"]["island"] > 0 and c17["ots"]
+        if G.yacht_proxy() is not None:      # polish_camera: v3's A02/A04 lenses sit in the cabin (brown / black frames)
+            col = next(r for r in r3["rules"] if r["id"] == "COL")
+            assert col["status"] == "fail" and {"A02", "A04"} <= set(col["shots"]), col
+    p6 = os.path.join(ROOT, "episodes/sentinel/episode_v6.json")
+    if os.path.exists(p6):
+        r6 = SV.validate(json.load(open(p6)))
+        assert r6["summary"]["fail"] == 0, [r for r in r6["rules"] if r["status"] == "fail"]
 
 
 if __name__ == "__main__":

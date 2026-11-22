@@ -1,0 +1,717 @@
+# Free (and near-free) compute registry for the Blender render factory.
+# Written by the free_compute_hunt brief (factory/briefs/free_compute_hunt.md), verified 2026-11-22
+# against provider pages and 2026 trackers (see each entry's `sources`). Narrative: FREE_COMPUTE.md.
+#
+# Consumed by the compute broker (factory/briefs/compute_broker.md):
+#   - only verdict USE is schedulable by default; USE-WITH-CARE needs an explicit opt-in
+#     (`--providers <id>` or `enable_with_care: [<id>]`); AVOID is never schedulable.
+#   - `free_quota` is the ledger cap; `reset` says when the ledger period rolls over.
+#   - `throughput` is the planner's starting estimate; replace it with measured calibration
+#     (cloud/farm/jobs.py calibration_from_manifests) after the first real run on that provider.
+#   - priority: 1 = fill first. Paid baselines have priority >= 90 and need --allow-paid.
+#
+# Throughput model (all estimates, Blender 4.2.3 Cycles, Sentinel-class shots):
+#   base measurement: 270x480 @16 spp = 8.6-13.5 s/frame on 2 shared x86 threads (docs/farm.md)
+#   CPU preview  270x480 @12 spp      ~ 20 vCPU-s/frame (render 16.5 + build/startup amortised)
+#   CPU final    1080x1920 @64 spp+OIDN ~ 1100 vCPU-s/frame (x16 pixels, x4 samples, + denoise)
+#   Arm (Ampere A1) core              ~ 1.25x the x86 vCPU-seconds
+#   GPU final (64 spp + OptiX denoise): RTX 4090 ~25 s, L40S ~28 s, A100 ~45 s, L4/A10G ~50 s,
+#     T4 ~150 s, P100 (CUDA only, OIDN on CPU) ~220 s.  GPU preview: 2-5 s (overhead-bound).
+#   Ratios from the measured RTX 4090 farm (~40 s/frame at 128 spp, factory/briefs/_gpu_verify.md)
+#   and Blender Open Data relative scores.
+
+schema_version: 1
+verified_on: "2026-11-22"
+blender_version: "4.2.3"
+throughput_model:
+  cpu_preview_vcpu_s_per_frame: 20
+  cpu_final_vcpu_s_per_frame: 1100
+  arm_core_factor: 1.25
+  gpu_final_s_per_frame: {rtx4090: 25, l40s: 28, a100: 45, l4: 50, a10g: 50, a10: 50, t4: 150, p100: 220, rtx3090: 40, rtx5090: 18, a5000: 60}
+  gpu_preview_s_per_frame: {rtx4090: 2, l4: 2.5, a10g: 2.5, t4: 4, p100: 5}
+
+sources:
+
+  # ------------------------------------------------------------------ recurring, free, schedulable
+  - id: oracle_a1_always_free
+    name: Oracle Cloud Always Free - Ampere A1 (VM.Standard.A1.Flex)
+    category: always_free_vm
+    type: cpu
+    hardware: {cpu: "2 OCPU Ampere Altra (arm64) for Always-Free tenancies; 4 OCPU possibly on PAYG (disputed)", ram_gb: 12, disk_gb: 200, gpu: null}
+    free_quota: {amount: "1500 OCPU-hours + 9000 GB-hours", unit: per_month, reset: "calendar month; effectively 2 OCPU/12 GB running 24/7"}
+    max_runtime: unlimited (persistent VM)
+    concurrency: "1-2 VMs sharing the 2 OCPU / 12 GB allowance"
+    cold_start: "none once provisioned; provisioning often fails with 'out of host capacity' in popular regions"
+    arbitrary_binaries: true
+    container: "yes (Docker/Podman on the VM)"
+    arch: arm64
+    blender_note: "No official Blender linux-arm64 build exists (blender.org ships x64 only). Need a community/arm64 build of 4.2.3 or a source build; verify pixel parity against x86 goldens before using for finals."
+    egress: "10 TB/month outbound free"
+    api: "OCI CLI / Terraform (oci_core_instance); worker pulls chunks from the S3 lease queue"
+    account: {card: true, phone: true, kyc: "address + card verification; no charge on Always-Free"}
+    terms:
+      automated_batch_allowed: true
+      clause: "Idle Always Free compute instances may be reclaimed by Oracle ... if, during a 7-day period ... CPU utilization for the 95th percentile is less than 20%"
+      url: https://docs.oracle.com/en-us/iaas/Content/FreeTier/resourceref.htm
+      commercial_use: true
+      ban_risk: low
+      notes: "A busy render worker is never 'idle'. Allowance was halved from 4 OCPU/24 GB to 2 OCPU/12 GB in mid-2026 (InfoQ, Jun/Aug 2026); exceeding it disables then deletes A1 instances after 30 days."
+    setup: ["Sign up for OCI Always Free (pick a home region with A1 capacity, it cannot be changed)", "Create one VM.Standard.A1.Flex 2 OCPU/12 GB Ubuntu 24.04 arm64", "Install arm64 Blender 4.2.3 + factory worker (adapter oracle_always_free)"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "only after an arm64 Blender 4.2.3 build passes the goldens; stay within 2 OCPU/12 GB"
+    throughput: {preview_s_per_frame: 12.5, final_s_per_frame: 690}
+    free_frames_month: {preview: 210000, final: 3750}
+    adapter: oracle_always_free
+    priority: 2
+    sources: [https://docs.oracle.com/en-us/iaas/Content/FreeTier/resourceref.htm, https://infoq.com/news/2026/07/oracle-cloud-free-tier-limits/]
+
+  - id: kaggle_gpu
+    name: Kaggle Notebooks (GPU T4 x2 / P100) via Kaggle Kernels API
+    category: free_gpu_notebook
+    type: gpu
+    hardware: {gpu: "2x Tesla T4 16 GB or 1x P100 16 GB", cpu: 4, ram_gb: 29, disk_gb: 20}
+    free_quota: {amount: "~30 GPU-hours (floating; shown in account settings)", unit: per_week, reset: "weekly (Saturday 00:00 UTC rolling)"}
+    max_runtime: "12 h per GPU/CPU session (9 h TPU)"
+    concurrency: "a few concurrent GPU sessions per account (historically 2)"
+    cold_start: "1-3 min kernel start + Blender download (~350 MB) per session; attach Blender as a private Kaggle Dataset to skip it"
+    arbitrary_binaries: true
+    container: "no custom image; Blender tarball runs inside the Kaggle Docker image"
+    egress: "internet must be switched on (requires phone-verified account); outputs via /kaggle/working (20 GB) or presigned S3 PUT"
+    api: "kaggle CLI: `kaggle kernels push` (kernel-metadata.json enable_gpu/enable_internet) -> `kaggle kernels status` -> `kaggle kernels output`"
+    account: {card: false, phone: true, kyc: none}
+    terms:
+      automated_batch_allowed: unclear
+      clause: "AUP: users agree not to abuse resources offered as part of the Services, e.g. cryptomining, DDOS attacks, server farming, and creation of harmful or offensive content"
+      url: https://www.kaggle.com/aup
+      commercial_use: "not prohibited for your own notebooks; the platform is meant for data science / ML"
+      ban_risk: medium
+      notes: "Rendering a film is not data science; 'server farming' is undefined. Keep notebooks private, stay inside the weekly quota, one account only (no quota farming)."
+    setup: ["Create Kaggle account, verify phone (enables internet + GPU)", "Create API token (kaggle.json) and store it in ~/.factory_secrets.env, never in git", "Upload Blender 4.2.3 tarball as a private Dataset", "adapter kaggle pushes one private kernel per chunk"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "explicit opt-in; private kernels; one account; accept that Kaggle may terminate access"
+    throughput: {preview_s_per_frame: 2, final_s_per_frame: 75}
+    free_frames_month: {preview: 200000, final: 5600}
+    adapter: kaggle
+    priority: 3
+    sources: [https://www.kaggle.com/docs/notebooks, https://www.kaggle.com/aup, https://gpuperhour.com/blog/free-cloud-gpus-and-credits]
+
+  - id: modal_starter
+    name: Modal Starter plan ($30/month free credit)
+    category: free_gpu_platform
+    type: gpu
+    hardware: {gpu: "T4, L4, A10, L40S, A100 40/80, H100 (pick L4 for value)", cpu: "configurable", ram_gb: "configurable", disk_gb: "ephemeral, image-defined"}
+    free_quota: {amount: 30, unit: usd_credit_per_month, reset: "monthly billing cycle"}
+    pricing_per_hour: {t4: 0.59, l4: 0.80, a10: 1.10, l40s: 1.95, a100_40: 2.10, a100_80: 2.50, h100: 3.95, cpu_physical_core: 0.047, ram_gib: 0.008}
+    max_runtime: "function timeout configurable up to 24 h"
+    concurrency: "100 containers, 10 concurrent GPUs on Starter"
+    cold_start: "~5-30 s (image cached); first image build a few minutes"
+    arbitrary_binaries: true
+    container: "yes - modal.Image from Debian + Blender tarball, or from a registry image"
+    egress: "normal internet; PUT frames to S3 presigned URLs"
+    api: "Python SDK: `modal run` / `.spawn()` / `.map()` over chunks; `modal app stop`"
+    account: {card: "required to keep using compute beyond trial (verify at sign-up)", phone: false, kyc: none}
+    terms:
+      automated_batch_allowed: true
+      clause: "Prohibited: cryptocurrency mining ... denial-of-service ... general file-hosting or media-serving platform services (s1.5); rendering/batch compute is not restricted"
+      url: https://modal.com/legal/terms
+      commercial_use: "yes, for the customer's internal business"
+      ban_risk: low
+    setup: ["Create Modal account (GitHub login), set a $0 / spend limit equal to the credit in Settings > Usage", "`pip install modal && modal token new` (token in ~/.factory_secrets.env)", "adapter modal builds an image with Blender 4.2.3 and maps chunks to L4 containers"]
+    verdict: USE
+    throughput: {preview_s_per_frame: 2.5, final_s_per_frame: 50}
+    free_frames_month: {preview: 40000, final: 2000}
+    adapter: modal
+    priority: 1
+    sources: [https://modal.com/pricing, https://modal.com/legal/terms]
+
+  - id: aws_lambda
+    name: AWS Lambda (container image) always-free tier
+    category: serverless
+    type: cpu
+    hardware: {cpu: "~5.8 vCPU at 10240 MB (1 vCPU per 1769 MB)", ram_gb: 10, disk_gb: "10 (/tmp, >512 MB billed)", gpu: null}
+    free_quota: {amount: "400000 GB-s + 1M requests", unit: per_month, reset: "calendar month, always free (all accounts)"}
+    max_runtime: "30 min (1800 s) per invocation (raised from 15 min)"
+    concurrency: "1000 default; new accounts get a reduced quota (this account: 10, increase requested)"
+    cold_start: "~5-20 s for a 1-2 GB image (cached after first pull)"
+    arbitrary_binaries: true
+    container: "yes, up to 10 GB uncompressed image from ECR"
+    egress: "625 Mbps per environment; S3 presigned PUT for frames; first 100 GB/month internet egress free on AWS"
+    api: "boto3 lambda.invoke(InvocationType='Event') per chunk; frames land in S3"
+    account: {card: true, phone: true, kyc: none, note: "existing AWS profile already configured"}
+    terms:
+      automated_batch_allowed: true
+      clause: "AWS Acceptable Use Policy prohibits illegal/abusive use only; batch compute is a supported Lambda use case"
+      url: https://aws.amazon.com/aup/
+      commercial_use: true
+      ban_risk: none
+      notes: "Free tier does not apply with Provisioned Concurrency. /tmp above 512 MB is billed (tiny)."
+    setup: ["Already have AWS account", "Build image with CodeBuild (compute_broker brief), deploy 10240 MB / 1800 s function", "Ledger caps at 400k GB-s"]
+    verdict: USE
+    throughput: {preview_s_per_frame: 3.5, final_s_per_frame: 190}
+    free_frames_month: {preview: 11300, final: 200}
+    adapter: aws_lambda
+    priority: 4
+    sources: [https://aws.amazon.com/lambda/pricing/, https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html]
+
+  - id: gcp_cloud_run_jobs
+    name: Google Cloud Run jobs free tier
+    category: serverless
+    type: cpu
+    hardware: {cpu: "up to 8 vCPU per task", ram_gb: "up to 32", disk_gb: "in-memory fs or GCS volume", gpu: "L4 available but not free (see gcp_trial_credit)"}
+    free_quota: {amount: "240000 vCPU-s + 450000 GiB-s (jobs, Tier-1 regions)", unit: per_month, reset: "calendar month, always free, per billing account"}
+    max_runtime: "task timeout up to 168 h (GPU tasks: 1 h per task-timeout doc)"
+    concurrency: "up to 10000 tasks per execution; parallelism limited by regional vCPU quota"
+    cold_start: "~10-30 s image pull"
+    arbitrary_binaries: true
+    container: "yes (Artifact Registry image; build with Cloud Build 120 free build-min/day)"
+    egress: "1 GiB/month free egress from North America; write frames to S3 presigned URLs or GCS"
+    api: "gcloud run jobs create/execute --tasks N --cpu 4 --memory 7.5Gi --task-timeout 3600; CLOUD_RUN_TASK_INDEX picks the chunk"
+    account: {card: true, phone: false, kyc: none}
+    terms:
+      automated_batch_allowed: true
+      clause: "Cloud Run jobs are designed for batch work; Google Cloud AUP prohibits only abuse (mining without permission etc.)"
+      url: https://cloud.google.com/terms/aup
+      commercial_use: true
+      ban_risk: none
+      notes: "Egress beyond 1 GiB is billed (~$0.12/GB): ~300 KB preview PNG / ~6 MB final EXR; keep frames small or write to GCS same-region."
+    setup: ["Create GCP project + billing account", "Enable Cloud Run + Artifact Registry", "Push Blender image, create job (adapter gcp_cloud_run_jobs)"]
+    verdict: USE
+    throughput: {preview_s_per_frame: 5, final_s_per_frame: 275}
+    free_frames_month: {preview: 12000, final: 218}
+    adapter: gcp_cloud_run_jobs
+    priority: 5
+    sources: [https://cloud.google.com/run/pricing, https://docs.cloud.google.com/run/docs/configuring/task-timeout, https://docs.cloud.google.com/run/quotas]
+
+  - id: azure_container_apps_jobs
+    name: Azure Container Apps jobs (Consumption) monthly free grant
+    category: serverless
+    type: cpu
+    hardware: {cpu: "up to 4 vCPU per replica", ram_gb: 8, disk_gb: "ephemeral ~8", gpu: "serverless GPU (T4/A100) exists on workload profiles, not free"}
+    free_quota: {amount: "180000 vCPU-s + 360000 GiB-s", unit: per_month, reset: "calendar month, per subscription"}
+    max_runtime: "replicaTimeout configurable (verify current max)"
+    concurrency: "parallelism per job execution; regional core quota"
+    cold_start: "~20-60 s"
+    arbitrary_binaries: true
+    container: "yes (ACR or any registry)"
+    egress: "first 100 GB/month internet egress free"
+    api: "az containerapp job create --trigger-type Manual --parallelism N --replica-completion-count N; az containerapp job start"
+    account: {card: true, phone: true, kyc: none}
+    terms:
+      automated_batch_allowed: true
+      clause: "Container Apps jobs are documented for batch/scheduled processing; Microsoft AUP prohibits only abuse"
+      url: https://azure.microsoft.com/pricing/details/container-apps/
+      commercial_use: true
+      ban_risk: none
+    setup: ["Create Azure account (card + phone)", "Create Container Apps environment (Consumption)", "Push Blender image, create Manual job (adapter azure_container_apps)"]
+    verdict: USE
+    throughput: {preview_s_per_frame: 5, final_s_per_frame: 275}
+    free_frames_month: {preview: 9000, final: 160}
+    adapter: azure_container_apps
+    priority: 6
+    sources: [https://azure.microsoft.com/pricing/details/container-apps/, https://learn.microsoft.com/azure/container-apps/billing]
+
+  - id: ibm_code_engine
+    name: IBM Cloud Code Engine always-free tier
+    category: serverless
+    type: cpu
+    hardware: {cpu: "up to 12 vCPU per job instance (verify)", ram_gb: "up to 48 (verify)", gpu: null}
+    free_quota: {amount: "100000 vCPU-s + 200000 GB-s + 100k HTTP requests", unit: per_month, reset: "calendar month"}
+    max_runtime: "not stated on the pricing page; verify job maxexecutiontime"
+    concurrency: "array jobs (array indices) per job run"
+    cold_start: "~30 s"
+    arbitrary_binaries: true
+    container: "yes"
+    egress: "standard IBM egress"
+    api: "ibmcloud ce job create/submit --array-indices 0-N"
+    account: {card: true, phone: false, kyc: "IBMid + card"}
+    terms:
+      automated_batch_allowed: true
+      clause: "Code Engine batch jobs are a documented use case"
+      url: https://www.ibm.com/products/code-engine/pricing
+      commercial_use: true
+      ban_risk: none
+    setup: ["Create IBM Cloud Pay-As-You-Go account", "Create Code Engine project, push image (adapter ibm_code_engine - stub)"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "verify job max runtime and per-instance limits on the first test run"
+    throughput: {preview_s_per_frame: 5, final_s_per_frame: 275}
+    free_frames_month: {preview: 5000, final: 90}
+    adapter: ibm_code_engine
+    priority: 7
+    sources: [https://www.ibm.com/products/code-engine/pricing]
+
+  - id: cloudflare_containers
+    name: Cloudflare Containers (needs Workers Paid $5/month)
+    category: serverless
+    type: cpu
+    hardware: {cpu: "up to 4 vCPU", ram_gb: 12, disk_gb: 20, gpu: null}
+    free_quota: {amount: "375 vCPU-min + 25 GiB-h memory + 200 GB-h disk included", unit: per_month, reset: "monthly, Workers Paid plan"}
+    max_runtime: "container lives while its Durable Object keeps it; designed for request-driven work"
+    concurrency: "account instance limits"
+    cold_start: "seconds"
+    arbitrary_binaries: true
+    container: "yes"
+    egress: "1 TB NA/EU included"
+    api: "wrangler deploy; Worker fetch() starts the container"
+    account: {card: true, phone: false, kyc: none, cost: "5 USD/month"}
+    terms: {automated_batch_allowed: true, clause: "Cloudflare self-serve terms; no batch restriction found", url: https://developers.cloudflare.com/containers/pricing/, commercial_use: true, ban_risk: low}
+    setup: ["Only if the user already pays for Workers Paid"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "not free ($5/month); only 22,500 vCPU-s included - worth it only if Workers Paid is already in use"
+    throughput: {preview_s_per_frame: 5, final_s_per_frame: 275}
+    free_frames_month: {preview: 1100, final: 20}
+    adapter: cloudflare_containers
+    priority: 20
+    sources: [https://developers.cloudflare.com/containers/pricing/, https://www.cloudflare.com/en-in/rates/]
+
+  # ------------------------------------------------------------------ one-time credits / trials
+  - id: gcp_trial_credit
+    name: Google Cloud $300 / 90-day trial credit (Cloud Run GPU L4 or Compute Engine L4 spot)
+    category: trial_credit
+    type: gpu
+    hardware: {gpu: "NVIDIA L4 24 GB (Cloud Run GPU or g2-standard-4)", cpu: 4, ram_gb: 16}
+    free_quota: {amount: 300, unit: usd_one_time, reset: "never; expires after 90 days"}
+    pricing_per_hour: {cloud_run_l4_gpu_only: 0.67, cloud_run_l4_with_4vcpu_16gib: 1.05}
+    max_runtime: "Cloud Run GPU task 1 h (doc) / VMs unlimited"
+    concurrency: "GPU quota; trial accounts cannot request quota increases"
+    cold_start: "Cloud Run GPU ~10-30 s"
+    arbitrary_binaries: true
+    container: true
+    egress: "billed beyond free tier"
+    api: "gcloud run jobs create --gpu 1 --gpu-type nvidia-l4"
+    account: {card: true, phone: false, kyc: none}
+    terms:
+      automated_batch_allowed: true
+      clause: "Free Trial restriction: credit cannot be used to add GPUs to VM instances; you cannot request a quota increase during the trial"
+      url: https://docs.cloud.google.com/free/docs/free-cloud-features
+      commercial_use: true
+      ban_risk: none
+      notes: "Upgrade the billing account to paid to unlock GPUs; remaining credit still applies, but after it runs out charges start - set a budget alert + the ledger cap."
+    setup: ["New GCP customer only", "Upgrade to paid billing to unlock L4", "Ledger cap = 300 USD, hard stop"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "new-customer only; billing upgraded; ledger stops at the credit"
+    throughput: {preview_s_per_frame: 2.5, final_s_per_frame: 50}
+    free_frames_once: {final: 20000}
+    free_frames_month: {preview: 0, final: 0}
+    adapter: gcp_cloud_run_jobs
+    priority: 10
+    sources: [https://docs.cloud.google.com/free/docs/free-cloud-features, https://cloud.google.com/run/pricing]
+
+  - id: aws_free_plan_credit
+    name: AWS Free plan credits ($100 + up to $100, 6 months)
+    category: trial_credit
+    type: gpu
+    hardware: {gpu: "EC2 G-family (g6 L4 / g5 A10G) once on a paid plan"}
+    free_quota: {amount: 200, unit: usd_one_time, reset: "never; 6 months or until spent"}
+    max_runtime: unlimited
+    concurrency: "EC2 vCPU quotas (G/VT quota currently 2 workers on this account)"
+    cold_start: "~2-4 min instance boot"
+    arbitrary_binaries: true
+    container: true
+    egress: "100 GB/month free"
+    api: "existing cloud/farm aws_ec2 provider"
+    account: {card: true, phone: true, kyc: none}
+    terms: {automated_batch_allowed: true, clause: "Free plan and credits are available only to new AWS customers (accounts created on/after 2025-07-15)", url: https://aws.amazon.com/free/, commercial_use: true, ban_risk: none}
+    setup: ["Not available to the existing AWS account - listed for completeness"]
+    verdict: AVOID
+    verdict_reason: "the factory already has an AWS account; making new accounts to farm credits breaches the 'one per customer' terms"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: aws_ec2
+    priority: 99
+    sources: [https://aws.amazon.com/about-aws/whats-new/2025/07/aws-free-tier-credits-month-free-plan, https://aws.amazon.com/free/faqs/]
+
+  - id: azure_trial_credit
+    name: Azure free account ($200 / 30 days)
+    category: trial_credit
+    type: cpu
+    hardware: {note: "spend on Container Apps / CPU VMs; GPU quota on trial subscriptions is normally 0"}
+    free_quota: {amount: 200, unit: usd_one_time, reset: "never; 30 days"}
+    max_runtime: unlimited
+    concurrency: "trial core quota (low)"
+    arbitrary_binaries: true
+    container: true
+    api: "az containerapp job (same adapter)"
+    account: {card: true, phone: true, kyc: none}
+    terms: {automated_batch_allowed: true, clause: "There is a limit of one account with free services and USD$200 credit per new customer", url: https://azure.microsoft.com/pricing/purchase-options/azure-account, commercial_use: true, ban_risk: none}
+    setup: ["Use it in the same 30 days the factory renders a big job"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "30-day window; CPU only in practice"
+    throughput: {final_s_per_frame: 275}
+    free_frames_once: {preview: 330000, final: 6000, note: "assumes ACA consumption ~$0.000024/vCPU-s + $0.000003/GiB-s (unverified) at 4 vCPU/8 GiB; limited by the 30-day window and trial core quota"}
+    free_frames_month: {preview: 0, final: 0}
+    adapter: azure_container_apps
+    priority: 11
+    sources: [https://azure.microsoft.com/pricing/purchase-options/azure-account]
+
+  - id: lightning_ai_free
+    name: Lightning AI free plan (up to 30 one-time credits, ~50 interruptible GPU-hours)
+    category: free_gpu_platform
+    type: gpu
+    hardware: {gpu: "single GPU per Studio (T4/L4 class on free credits), up to 32 CPU cores", disk_gb: 50}
+    free_quota: {amount: "5 credits on sign-up + 25 with a card", unit: credits_one_time, reset: "never; credits expire after 12 months"}
+    max_runtime: "free Studio restarts every 4 h"
+    concurrency: "1 free Studio, max 2 concurrent GPUs"
+    cold_start: "~1-2 min Studio start"
+    arbitrary_binaries: true
+    container: "Studio is a full Linux VM; Jobs accept docker images"
+    egress: normal
+    api: "lightning_sdk: Studio(...).start(machine=...), studio.run('bash render.sh'), Job.run(...)"
+    account: {card: "optional (+25 credits)", phone: true, kyc: none}
+    terms: {automated_batch_allowed: true, clause: "free tier limits only (4 h restarts, single GPU); no rendering restriction found", url: https://lightning.ai/pricing, commercial_use: "verify", ban_risk: low}
+    setup: ["Sign up, verify phone, add card for +25 credits", "API key into ~/.factory_secrets.env", "adapter lightning (stub)"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "one-time grant (was monthly until late 2026); interruptible machines need chunk checkpointing"
+    throughput: {final_s_per_frame: 150}
+    free_frames_once: {final: 1200}
+    free_frames_month: {preview: 0, final: 0}
+    adapter: lightning
+    priority: 12
+    sources: [https://lightning.ai/pricing, https://pricingsaas.com/companies/lightning/diffs/2026W46]
+
+  - id: alibaba_fc_trial
+    name: Alibaba Cloud Function Compute 3.0 trial (USD 29.7, 3 months)
+    category: trial_credit
+    type: gpu
+    hardware: {gpu: "serverless GPU (T4 / A10 slices)", note: "trial covers vCPU, memory and GPU-memory seconds"}
+    free_quota: {amount: "500k vCPU-s + 2M GB-s memory + 1M GB-s GPU memory + 8M invocations", unit: one_time_3_months, reset: never}
+    max_runtime: "up to 24 h async tasks (verify)"
+    arbitrary_binaries: true
+    container: true
+    api: "Serverless Devs `s deploy` / FC OpenAPI"
+    account: {card: true, phone: true, kyc: "international account real-name verification"}
+    terms: {automated_batch_allowed: true, clause: "trial plan can be bought only once per user", url: https://www.alibabacloud.com/help/en/functioncompute/fc-3-0/product-overview/trial-quota-1, commercial_use: true, ban_risk: low}
+    verdict: USE-WITH-CARE
+    verdict_condition: "one-time; KYC; ~17 T4-hours of GPU memory-seconds; low priority"
+    throughput: {final_s_per_frame: 150}
+    free_frames_once: {preview: 25000, final: 850}
+    free_frames_month: {preview: 0, final: 0}
+    adapter: alibaba_fc
+    priority: 15
+    sources: [https://www.alibabacloud.com/help/en/functioncompute/fc-3-0/product-overview/trial-quota-1]
+
+  # ------------------------------------------------------------------ credit programs (application needed)
+  - id: startup_credit_programs
+    name: Startup credit programs (Google for Startups, AWS Activate, Microsoft for Startups, NVIDIA Inception, Modal, Intel Liftoff)
+    category: credit_program
+    type: gpu
+    hardware: {note: "spend on L4/A10G/4090-class GPUs of each cloud"}
+    free_quota:
+      google_for_startups: "Start tier ~$2,000; Scale up to $200k (AI-first up to $350k) over 2 years; activate within 90 days"
+      aws_activate_founders: "$1,000 (select startups up to $5,000); Portfolio via an Activate provider up to $100k-200k"
+      microsoft_for_startups: "up to $1,000, then up to $5,000 after verification (activation via Azure portal since 2026-05-29)"
+      nvidia_inception: "no direct cash credits; partner cloud credits and discounts"
+      modal_startups: "application-based credits; extra for AWS Activate members"
+      intel_liftoff: "Intel Tiber AI Cloud credits"
+      reset: "one-time per program"
+    account: {kyc: "company details, website, sometimes funding/investor proof"}
+    terms: {automated_batch_allowed: true, clause: "credits apply to normal paid usage; eligibility must be represented truthfully", url: https://cloud.google.com/startup, commercial_use: true, ban_risk: none}
+    setup: ["User decides whether the studio qualifies as a startup and applies; Claude never applies on the user's behalf"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "only if the user honestly meets eligibility; credits feed the existing paid adapters"
+    free_frames_once: {final: "Founders-tier $1k at ~$0.60/h L4 spot ~ 120,000 final frames per $1k"}
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 9
+    sources: [https://cloud.google.com/startup/pre-seed, https://aws.amazon.com/aws-startups/learn/everything-you-need-to-know-about-aws-activate-credits/, https://learn.microsoft.com/en-gb/microsoft-for-startups/benefits/azure, https://modal.com/pricing]
+
+  # ------------------------------------------------------------------ community
+  - id: sheepit
+    name: SheepIt Render Farm (free community Blender farm)
+    category: community
+    type: gpu
+    hardware: {note: "~500 volunteer machines (CPU + NVIDIA GPU; no AMD)"}
+    free_quota: {amount: "points-gated queue priority; earn by rendering for others (own frames earn 30%)", unit: points, reset: "continuous"}
+    max_runtime: "per-frame time limits set by the farm"
+    concurrency: "3 projects rendering at once (1 during floods)"
+    arbitrary_binaries: false
+    container: false
+    egress: "download frames from the web UI"
+    api: "no official upload API (web upload only); official CLI client for contributing"
+    account: {card: false, phone: false, kyc: none}
+    terms:
+      automated_batch_allowed: partial
+      clause: "Abuse: operating a custom client designed to cheat the scoring system ...; operating multiple accounts to circumvent SheepIt limitations; uploading pornographic or other NSFW projects. FAQ: project owners cannot supply their own scripts; 2,048 MB per project"
+      url: https://www.sheepit-renderfarm.com/termsofuse
+      commercial_use: "owner keeps all rights; SheepIt does not lay claim on generated images"
+      ban_risk: low
+      notes: "Your .blend and textures are downloaded by strangers' machines - zero confidentiality. Python drivers/scripts are disabled, so scenes must be fully baked."
+    setup: ["Optional: account + run the SheepIt client on idle machines to bank points", "Upload baked, non-confidential .blend by hand"]
+    verdict: USE-WITH-CARE
+    verdict_condition: "only for non-confidential, fully baked scenes; manual upload; not schedulable by the broker"
+    free_frames_month: {preview: 0, final: 0, note: "not counted - depends on points contributed"}
+    adapter: null
+    priority: 30
+    sources: [https://www.sheepit-renderfarm.com/faq, https://www.sheepit-renderfarm.com/termsofuse]
+
+  # ------------------------------------------------------------------ CI / dev environments (tests only)
+  - id: github_actions
+    name: GitHub Actions hosted runners
+    category: ci
+    type: cpu
+    hardware: {cpu: "4 vCPU / 16 GB standard runner on public repos; 2 vCPU / 7 GB on private"}
+    free_quota: {amount: "unlimited standard minutes on public repos; 2,000 min/month on private (GitHub Free; reported to become a $12 pool from 2026-10-28)", unit: per_month, reset: monthly}
+    max_runtime: "6 h per job"
+    concurrency: "20 jobs (Free)"
+    arbitrary_binaries: true
+    container: true
+    api: "gh workflow run"
+    account: {card: false}
+    terms:
+      automated_batch_allowed: false
+      clause: "don't use Actions as a content delivery network or as part of a serverless application ... any other activity unrelated to the production, testing, deployment, or publication of the software project"
+      url: https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features
+      commercial_use: true
+      ban_risk: "high if used as a farm"
+    verdict: USE-WITH-CARE
+    verdict_condition: "only for the factory's own test renders (goldens, stress scenarios in tools/merge_gate.sh); never episode production frames"
+    free_frames_month: {preview: 0, final: 0, note: "test renders only - not farm capacity"}
+    adapter: null
+    priority: 40
+    sources: [https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features, https://docs.github.com/en/billing/concepts/product-billing/github-actions]
+
+  - id: github_codespaces
+    name: GitHub Codespaces (120 core-hours/month personal)
+    category: ci
+    type: cpu
+    terms:
+      automated_batch_allowed: false
+      clause: "don't use Codespaces as a content delivery network, as part of a serverless application ... any other activity unrelated to the development or testing of the software project"
+      url: https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features
+      ban_risk: high
+    verdict: AVOID
+    verdict_reason: "dev/test only by terms; interactive, no batch API worth using"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  # ------------------------------------------------------------------ AVOID
+  - id: google_colab
+    name: Google Colab (free)
+    category: free_gpu_notebook
+    type: gpu
+    hardware: {gpu: "T4 (unpublished, variable)"}
+    terms:
+      automated_batch_allowed: false
+      clause: "disallowed on free-of-charge managed runtimes: remote control such as SSH shells, remote desktops; bypassing the notebook UI to interact primarily via a web UI; ... running distributed computing workers"
+      url: https://research.google.com/colaboratory/faq.html
+      ban_risk: high
+    verdict: AVOID
+    verdict_reason: "a farm worker is exactly a 'distributed computing worker'; no launch API; idle/12 h limits"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: hf_zerogpu
+    name: Hugging Face ZeroGPU
+    category: free_gpu_platform
+    type: gpu
+    hardware: {gpu: "shared RTX PRO 6000 Blackwell slice (48 GB)"}
+    free_quota: {amount: "5 GPU-min/day (free account), 60 s default per call, Gradio Spaces only"}
+    verdict: AVOID
+    verdict_reason: "5 GPU-minutes/day is ~10 final frames; Gradio-only demo hardware, not a batch platform"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+    sources: [https://gpuperhour.com/blog/free-cloud-gpus-and-credits]
+
+  - id: hf_spaces_cpu
+    name: Hugging Face Spaces CPU Basic (2 vCPU / 16 GB)
+    category: free_platform
+    type: cpu
+    hardware: {cpu: 2, ram_gb: 16}
+    free_quota: {amount: "free per docs; mid-2026 forum reports of 'CPU-basic quota limit' and staff saying PRO is required"}
+    max_runtime: "sleeps after 48 h without visitors"
+    verdict: AVOID
+    verdict_reason: "free quota now unreliable/disputed; Spaces are for hosting ML demos, keeping a worker awake by self-pinging games the sleep policy"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: hf_spaces
+    priority: 99
+    sources: [https://huggingface.co/docs/hub/en/spaces-overview, https://discuss.huggingface.co/t/free-cpu-basic-quota-is-0-on-new-account/180764]
+
+  - id: sagemaker_studio_lab
+    name: Amazon SageMaker Studio Lab
+    category: free_gpu_notebook
+    type: gpu
+    verdict: AVOID
+    verdict_reason: "closed to new customers (2026); existing users 4 h/session, 4 h/24 h, notebook-only"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+    sources: [https://gpuperhour.com/blog/free-cloud-gpus-and-credits]
+
+  - id: paperspace_free
+    name: Paperspace Gradient Free (DigitalOcean)
+    category: free_gpu_notebook
+    type: gpu
+    hardware: {gpu: "Quadro M4000 8 GB (2015)"}
+    verdict: AVOID
+    verdict_reason: "free notebooks are public, capacity rarely available since 2023, 6 h auto-shutdown, card required, M4000 has no RT cores (~1/15 of a 4090)"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+    sources: [https://docs.digitalocean.com/products/paperspace/pricing, https://gpuperhour.com/blog/free-cloud-gpus-and-credits]
+
+  - id: saturn_cloud_free
+    name: Saturn Cloud free tier
+    category: free_gpu_notebook
+    type: gpu
+    verdict: AVOID
+    verdict_reason: "free hours no longer published (150 h/month figure is from 2023); unverifiable without signing up - re-check later"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+    sources: [https://saturncloud.io/try]
+
+  - id: deepnote_free
+    name: Deepnote free
+    category: free_platform
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "no GPU on free/student plans; small CPU machines, notebook-only"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: intel_tiber_free
+    name: Intel Tiber AI Cloud Standard (free)
+    category: free_platform
+    type: gpu
+    hardware: {gpu: "Intel Data Center GPU Max (Cycles supports oneAPI)"}
+    terms: {automated_batch_allowed: false, clause: "Premium or Enterprise account is required to deploy or test production workloads", url: https://intel.com/content/www/us/en/developer/tools/devcloud/prelaunch-services.html}
+    verdict: AVOID
+    verdict_reason: "free tier is evaluation-only; production rendering needs a paid tier (Max GPU from $0.39/h is a possible paid option)"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: nvidia_brev
+    name: NVIDIA Brev / LaunchPad
+    category: credit_program
+    type: gpu
+    terms: {clause: "Customer must prepurchase NVIDIA credits, which are nonrefundable", url: https://www.nvidia.com/en-us/agreements/cloud-services/service-specific-terms-for-brev}
+    verdict: AVOID
+    verdict_reason: "no published free credit (only ad-hoc student/forum grants); LaunchPad labs are curated, time-boxed, not batch"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: vercel_netlify_functions
+    name: Vercel / Netlify functions
+    category: serverless
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "bundle limit ~250 MB (Blender 4.2 is ~1 GB unpacked), short max duration, no container images; Vercel Hobby is non-commercial"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: cloudflare_workers
+    name: Cloudflare Workers (isolates)
+    category: serverless
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "V8 isolates cannot run native binaries; use cloudflare_containers instead"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: gcp_e2_micro
+    name: Google Compute Engine e2-micro (always free) / OCI VM.Standard.E2.1.Micro
+    category: always_free_vm
+    type: cpu
+    hardware: {cpu: "0.25-2 shared vCPU / 1/8 OCPU", ram_gb: 1}
+    verdict: AVOID
+    verdict_reason: "1 GB RAM cannot load a Sentinel shot in Blender; throughput would be negligible even with swap"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: azure_functions
+    name: Azure Functions Consumption / Flex Consumption
+    category: serverless
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "Consumption plan has no custom containers and a 10-min cap; Flex grant unverified. Azure Container Apps jobs give the same free grant with containers."
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: gcp_cloud_functions
+    name: Google Cloud Run functions (ex Cloud Functions)
+    category: serverless
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "shares the Cloud Run services free tier; no benefit over gcp_cloud_run_jobs, which allows 168 h tasks and containers"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  - id: huawei_tencent_functions
+    name: Huawei FunctionGraph / Tencent SCF free tiers
+    category: serverless
+    type: cpu
+    verdict: AVOID
+    verdict_reason: "current free quotas could not be verified on 2026-11-22; mainland real-name KYC; small CPU-only quotas"
+    free_frames_month: {preview: 0, final: 0}
+    adapter: null
+    priority: 99
+
+  # ------------------------------------------------------------------ paid baselines (need --allow-paid)
+  - id: salad_batch
+    name: SaladCloud (consumer GPUs, batch priority)
+    category: paid_baseline
+    type: gpu
+    pricing_per_hour: {rtx5090: 0.25, rtx4090: 0.16, rtx3090: 0.09}
+    usd_per_1000_final_frames: {rtx4090: 1.11, rtx3090: 1.00}
+    notes: "per-second billing, no minimum, no free trial; nodes are home PCs and may be reallocated after ~30 min - small chunks + leases; assets leave your control"
+    verdict: USE-WITH-CARE
+    verdict_condition: "paid overflow; non-confidential scenes only"
+    adapter: salad
+    priority: 90
+    sources: [https://salad.com/pricing]
+
+  - id: vast_interruptible
+    name: Vast.ai marketplace
+    category: paid_baseline
+    type: gpu
+    pricing_per_hour: {rtx4090_min: 0.27, rtx4090_median: 0.50, rtx3090_min: 0.09, rtx3090_median: 0.20}
+    usd_per_1000_final_frames: {rtx4090_min: 1.88, rtx3090_min: 1.00}
+    notes: "interruptible bids 50%+ below on-demand; existing cloud/farm/providers/vastai.py"
+    verdict: USE
+    adapter: vastai
+    priority: 91
+    sources: [https://vast.ai/pricing, https://markaicode.com/pricing/vast-ai-pricing/]
+
+  - id: runpod_community
+    name: Runpod Community Cloud
+    category: paid_baseline
+    type: gpu
+    pricing_per_hour: {rtx4090: 0.34, rtx3090: 0.22, l4: 0.44, a5000: 0.16, a40: 0.35, l40s: 0.79}
+    pricing_per_hour_secure: {rtx4090: 0.89, rtx3090: 0.50, l4: 0.69}
+    usd_per_1000_final_frames: {rtx4090: 2.36, a5000: 2.67, rtx3090: 2.44}
+    notes: "existing cloud/farm/providers/runpod.py (the measured 4090 farm)"
+    verdict: USE
+    adapter: runpod
+    priority: 92
+    sources: [https://www.runpod.io/pricing]
+
+  - id: aws_ec2_spot_g6
+    name: AWS EC2 g6/g5 spot (existing story-farm stack)
+    category: paid_baseline
+    type: gpu
+    pricing_per_hour: {g6_xlarge_spot: 0.60, g5_xlarge_spot: 0.51, g4dn_xlarge_spot: 0.22}
+    usd_per_1000_final_frames: {g6_l4: 8.33}
+    verdict: USE
+    adapter: aws_ec2
+    priority: 95
+    sources: [docs/farm.md]
+
+  - id: modal_paid
+    name: Modal pay-as-you-go beyond the $30 credit
+    category: paid_baseline
+    type: gpu
+    pricing_per_hour: {l4: 0.80, t4: 0.59, a10: 1.10, l40s: 1.95}
+    usd_per_1000_final_frames: {l4: 14.2}
+    verdict: USE
+    adapter: modal
+    priority: 96
+    sources: [https://modal.com/pricing]
