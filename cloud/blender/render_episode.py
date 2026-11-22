@@ -1684,9 +1684,19 @@ def build_shot(shot, frames, args):
     if y:
         yacht_root = new_empty("YachtRoot")
         yacht_root.rotation_mode = "QUATERNION"
-        ypath = resolve(spec["assets"].get("props", {}).get("yacht", "assets/props/yacht.glb"))
+        yref = spec["assets"].get("props", {}).get("yacht", "assets/props/yacht.glb")
+        ypath = None if str(yref).startswith("proc:") else resolve(yref)
         hatch = None
-        if ypath:
+        # >>> polish_yacht hook: 'proc:yacht_v2' = the procedural high-detail yacht (cloud/blender/yacht_v2.py)
+        if str(yref).startswith("proc:"):
+            import yacht_v2  # noqa: E402
+            built = yacht_v2.build(yacht_root)
+            objs = yobjs = built["objs"]
+            hatch = built["hatch"]
+            done = yachtmats.apply_yacht_materials(objs, store=LIB_STORE or os.path.join(ROOT, "library_store"))
+            log(f"yacht_v2: {len(objs)} objects; materials: {len(done)} restyled; hull foam: {oceanfx.add_hull_foam(yacht_root, objs)}")
+        # <<< polish_yacht hook
+        elif ypath:
             objs = import_glb(ypath)
             for o in roots_of(objs):
                 o.parent = yacht_root

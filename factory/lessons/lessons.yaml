@@ -164,3 +164,12 @@
   check: face-channel temporal variance over every hero shot > threshold (no frozen face > 0.5 s); golden face CLIP (not still) compared over time; vision rubric FACE-3 'reads as alive, not a mannequin' on sampled clip frames.
   gate: [direct, merge, qc]
   status: open
+
+- id: L019
+  found: user, 2026-11-22
+  symptom: Yacht doors and windows look unrealistic (flat milky panels).
+  root_cause: Windows were emissive planes with no interior; doors were flat panels without frames, handles, tracks or gaskets.
+  rule: Glazing is real tinted glass with frames and gaskets that reflects the environment; lit windows glow from interior lights behind the glass, never from emissive panels; doors have frames, hardware and thresholds.
+  check: asset gate scans hero-tier assets for emissive materials on glass-named objects (fail); golden 'salon door + windows at night' close-up regression; vision rubric ASSET-2 'windows/doors read as real'.
+  gate: [asset, merge]
+  status: open

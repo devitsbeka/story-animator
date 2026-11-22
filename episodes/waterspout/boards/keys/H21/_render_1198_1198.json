@@ -1,0 +1,62 @@
+{
+ "shot": "H21",
+ "frames": [
+  1198,
+  1198
+ ],
+ "engine": "EEVEE",
+ "device": "GPU",
+ "quality": "preview",
+ "resolution": [
+  270,
+  480
+ ],
+ "camera": "main",
+ "samples": 12,
+ "blender": "4.2.3 LTS",
+ "secondsPerFrame": {
+  "1198": 64.11
+ },
+ "warnings": [],
+ "lighting": {
+  "preset": "moonlight_practical_mix",
+  "sequence": "H",
+  "dawn": 0.0,
+  "lights": [
+   {
+    "name": "Moon",
+    "role": "key",
+    "motivation": "moon",
+    "energy": 1.8
+   }
+  ],
+  "checks": {
+   "L1_all_motivated": true,
+   "L3_key_fill": null,
+   "L5_hue_sep_key_practical": 166.5,
+   "L6_eye_light": false,
+   "L7_rim": false,
+   "L9_shadow_side_est": null,
+   "key_E": 1.8
+  },
+  "warnings": [],
+  "key_az_deg": -23.11,
+  "key_elev_deg": 26.78,
+  "hdri": [
+   {
+    "id": "ph:moonlit_golf",
+    "weight": 1.0,
+    "strength": 1.0452,
+    "rot_deg": 94.0,
+    "src_mean": 0.04784,
+    "has_moon": true
+   }
+  ],
+  "removed": [
+   "CamFill"
+  ],
+  "practicals_retinted": 1,
+  "exposure": 1.0
+ },
+ "islandLod": {}
+}

@@ -1,0 +1,62 @@
+[render_episode] spec=/home/user/story-animator/episodes/waterspout/episode.json root=/home/user/story-animator frames=2124..2124 quality=preview engine=EEVEE blender=4.2.3 LTS
+[lighting] shot H36: preset=moonlight_practical_mix seq=H key az=-23.1 el=26.8 dawn=0.0
+01:33:01 | INFO: Data are loaded, start creating Blender stuff
+01:33:01 | INFO: Blender create Mesh node 0
+01:33:01 | INFO: Blender create Mesh node 1
+01:33:01 | INFO: Blender create Mesh node 2
+01:33:01 | INFO: Blender create Mesh node 3
+01:33:01 | INFO: Blender create Mesh node 4
+01:33:01 | INFO: Blender create Mesh node 5
+01:33:01 | INFO: Blender create Mesh node 6
+01:33:01 | INFO: Blender create Mesh node 7
+01:33:01 | INFO: Blender create Mesh node 8
+01:33:01 | INFO: Blender create Mesh node 9
+01:33:01 | INFO: Blender create Mesh node 10
+01:33:01 | INFO: Blender create Mesh node 11
+01:33:01 | INFO: Blender create Mesh node 12
+01:33:01 | INFO: Blender create Mesh node 13
+01:33:01 | INFO: Blender create Mesh node 14
+01:33:01 | INFO: Blender create Mesh node 15
+01:33:01 | INFO: Blender create Mesh node 16
+01:33:01 | INFO: Blender create Mesh node 17
+01:33:01 | INFO: Blender create Mesh node 18
+01:33:01 | INFO: Blender create Mesh node 19
+01:33:01 | INFO: Blender create Mesh node 20
+01:33:01 | INFO: Blender create Mesh node 21
+01:33:01 | INFO: Blender create Mesh node 22
+01:33:01 | INFO: Blender create Mesh node 23
+01:33:01 | INFO: Blender create Mesh node 24
+01:33:01 | INFO: Blender create Mesh node 25
+01:33:01 | INFO: Blender create Mesh node 26
+01:33:01 | INFO: Blender create Mesh node 27
+01:33:01 | INFO: Blender create Mesh node 28
+01:33:01 | INFO: Blender create Mesh node 29
+01:33:01 | INFO: Blender create Mesh node 30
+01:33:01 | INFO: Blender create Mesh node 31
+01:33:01 | INFO: Blender create Mesh node 32
+01:33:01 | INFO: Blender create Mesh node 33
+01:33:01 | INFO: Blender create Mesh node 34
+01:33:01 | INFO: Blender create Mesh node 35
+01:33:01 | INFO: Blender create Mesh node 36
+01:33:01 | INFO: Blender create Mesh node 37
+01:33:01 | INFO: Blender create Mesh node 38
+01:33:01 | INFO: Blender create Mesh node 39
+01:33:01 | INFO: Blender create Mesh node 40
+01:33:01 | INFO: Blender create Mesh node 41
+01:33:01 | INFO: Blender create Mesh node 42
+01:33:01 | INFO: Blender create Mesh node 43
+01:33:01 | INFO: Blender create Mesh node 44
+01:33:01 | INFO: Blender create Mesh node 45
+01:33:01 | INFO: Blender create Mesh node 46
+01:33:01 | INFO: Blender create Mesh node 47
+01:33:01 | INFO: glTF import finished in 0.09s
+[render_episode] yacht materials: 14 restyled; hull foam: {'hull': 'gelcoat_hull_0', 'length': 14.0, 'beam': 4.21, 'applied': True}
+01:33:01 | INFO: Data are loaded, start creating Blender stuff
+01:33:01 | INFO: Blender create Mesh node output_unwrapped
+01:33:02 | INFO: glTF import finished in 0.41s
+[lighting] rig: key=1.8, face_wrap=0.2381, face_fill=0.7205, rim=31.147 | hdri: [('ph:moonlit_golf', 1.0452, 94.0)] | checks: {'L1_all_motivated': True, 'L3_key_fill': 6.5, 'L5_hue_sep_key_practical': 166.5, 'L6_eye_light': False, 'L7_rim': True, 'L9_shadow_side_est': 0.0397, 'key_E': 1.8}
+[render_episode] shot H36: buoyancy + camera keyed in 0.4s (18 ocean evals)
+[render_episode] shot H36: built in 2.2s; engine=EEVEE device=GPU
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+Blender 4.2.3 LTS (hash 0e22e4fcea03 built 2024-10-14 23:31:34)
+Fra:2124 Mem:599.52M (Peak 726.30M) | Time:00:13.83 | Rendering 1 / 12 samples
