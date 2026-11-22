@@ -1,0 +1,341 @@
+{
+ "goldens": {
+  "hero_face_sheet": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:57+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "59fd8a3a80b000f4fe13d9491413ec359b53b2a1388d78461eabaf19df8e81a5",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "d5c25e9b504a70b4b02ca39e3cddfd5df36310dd580551bc8e39955f278a2f63",
+   "stats": {
+    "edge_density": 0.05979,
+    "mean_luma": 0.41577,
+    "mean_rgb": [
+     0.44622,
+     0.40729,
+     0.41008
+    ],
+    "size": [
+     2180,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "hero_pose_sheet": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "dbb84f79130b4c655224f2170e4e6bb0579aa13827731463e39c6e9ca4c6021e",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "8be9ee32a2e039433f7733b6ea75467f16f68e2dc2fcc830a0fe87e46afaab09",
+   "stats": {
+    "edge_density": 0.02825,
+    "mean_luma": 0.50417,
+    "mean_rgb": [
+     0.49824,
+     0.50417,
+     0.52152
+    ],
+    "size": [
+     2180,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "hero_turnaround": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "b45304f3f8702310c7fb74b9fddbaaccd90e09ab356ca2026fda6c5bcabac59a",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "5e8702a3a6433b06e660a7a343d04552b43500092f456ab15d4934c378691ba6",
+   "stats": {
+    "edge_density": 0.02885,
+    "mean_luma": 0.46924,
+    "mean_rgb": [
+     0.46311,
+     0.46928,
+     0.4869
+    ],
+    "size": [
+     1452,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_abandoned_city_street": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "debdbe6ed4c216fdcebfce5d96cf4a89798499f210d9a29226d07d1105eb146b",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "b48c403ee9ade6adc337f066299564d4a2f3626313cc327dc78ecc5c48cebf19",
+   "stats": {
+    "edge_density": 0.02653,
+    "mean_luma": 0.12217,
+    "mean_rgb": [
+     0.18298,
+     0.11111,
+     0.05268
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_desert_canyon": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "278687d482da2ae9ba47c097170f50be3f3225536e2cc4a7b1cc1969f8dd1ffc",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "64d2cddbf2fa91589ea722f8ffc691ad7866ee6248e905dfacae0bbcba06311e",
+   "stats": {
+    "edge_density": 0.0802,
+    "mean_luma": 0.21205,
+    "mean_rgb": [
+     0.32155,
+     0.19091,
+     0.09898
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_jungle_clearing": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "451f39ad08ef446d38b7465393389ef827552ea8f4339a4fb7145d060ea9d44a",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "68fdf211b54c6509a9145a83a58c38246a4560b5fe77083392e454f03d8766c1",
+   "stats": {
+    "edge_density": 0.04362,
+    "mean_luma": 0.10146,
+    "mean_rgb": [
+     0.14232,
+     0.09369,
+     0.05809
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_snow_mountain_ridge": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "d6581612361ba4143663677cbb27924c29a475b0e42b3e89f110a82b50c9d5ec",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "9e33bc95e792a8d2c94a27c1d610554cf1645b5780f9e22d8b4896900d7bad20",
+   "stats": {
+    "edge_density": 0.03667,
+    "mean_luma": 0.6224,
+    "mean_rgb": [
+     0.63235,
+     0.61897,
+     0.62705
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_A01a": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "e7f31166e4ecd307c070ed0cf27fd3b98463fd3317fe4454da1e226a13d09bdc",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "e814345f7768947b44913db71d5b350b92014b08616bfe92f339a3ca36949010",
+   "stats": {
+    "edge_density": 0.14865,
+    "mean_luma": 0.14379,
+    "mean_rgb": [
+     0.10091,
+     0.14964,
+     0.21205
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_A02": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "5969430aa150a77fcea43ea1a3042cd86e7f9a6fef75b6dc3b3bf3953cdc70eb",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "ed6e032fcdb6c38643d5e94f8f1394d1ccc5d03262ddb39b78d6165895155d63",
+   "stats": {
+    "edge_density": 0.0,
+    "mean_luma": 0.36373,
+    "mean_rgb": [
+     0.4653,
+     0.35043,
+     0.19643
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_B11": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "f67d241443d1a98baa9517072207bdd118cdee0b545ee48c13a2c65891db2eca",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "f7fa12e17cfec70aca2d694bc2dac3498c22f00c89a7f778492f8dafb540d5e9",
+   "stats": {
+    "edge_density": 0.06943,
+    "mean_luma": 0.23877,
+    "mean_rgb": [
+     0.20967,
+     0.24229,
+     0.28955
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_C13": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "810832ce1fedb4a8a29d4452b7691694a392e26256f9601a825b9337a3dbc0ca",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "77a5cf7ef75c8047714c969823e15da3d2f96344f88472f346b619021c4ff5a7",
+   "stats": {
+    "edge_density": 0.04829,
+    "mean_luma": 0.29243,
+    "mean_rgb": [
+     0.27836,
+     0.29301,
+     0.32807
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_C21": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "f90891a55e6ef52f06a6b48e76f3caf24d18f38f8113814c727dab95b5d2c7ff",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "64fbccffc8509e47f3bc92e51c1c58caf7ec83fb4fe480a430ba55fe572944fb",
+   "stats": {
+    "edge_density": 0.05641,
+    "mean_luma": 0.41317,
+    "mean_rgb": [
+     0.40714,
+     0.41205,
+     0.44195
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_E31": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "35dec3c63dd446634b3250ac8aac028a2951d36d42c7637dbdec71ee43fab77c",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "19300005b9f96c1de50007d528f301733ded3ccecbde8e146130cb22e1ceed13",
+   "stats": {
+    "edge_density": 0.09408,
+    "mean_luma": 0.35623,
+    "mean_rgb": [
+     0.38413,
+     0.34712,
+     0.36432
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "yacht_turnaround": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "1de2c7be818549ea987e95b3458fa861aa7690b8fa7ad9bd2b89ab3e899f26d8",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "a392dbc1ac5d283589db337585ef7d4e4285c851f25cbc93292bbdc3614f65a3",
+   "stats": {
+    "edge_density": 0.05932,
+    "mean_luma": 0.15899,
+    "mean_rgb": [
+     0.12736,
+     0.16309,
+     0.21161
+    ],
+    "size": [
+     1452,
+     640
+    ]
+   },
+   "vision": null
+  }
+ },
+ "schema": "factory.goldens.baseline/1"
+}

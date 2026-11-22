@@ -51,7 +51,9 @@ def farm_estimate(spec, quality, workers=8, usd_per_gpu_hour=None):
 
 
 def blender_cmd(job, spec_path, plates, blender=None, threads=None, extra=()):
-    cmd = [*shlex.split(blender or DEFAULT_BLENDER), "-b", "--factory-startup", "-P", RENDER_PY, "--",
+    # --python-exit-code 1 (before -P): a Python exception in render_episode.py exits non-zero instead of rc 0 with
+    # missing plates (lesson L012: no silent render failures)
+    cmd = [*shlex.split(blender or DEFAULT_BLENDER), "-b", "--python-exit-code", "1", "--factory-startup", "-P", RENDER_PY, "--",
            "--spec", spec_path, "--start", str(job["frameStart"]), "--end", str(job["frameEnd"]),
            "--out", plates, "--quality", job["quality"], "--engine", job["engine"], "--root", ROOT, "--skip-existing"]
     if job.get("res"):

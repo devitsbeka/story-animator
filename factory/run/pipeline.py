@@ -43,6 +43,14 @@ class BudgetExceeded(Exception):
     pass
 
 
+class CostCeilingExceeded(BudgetExceeded):  # quality_gate (L014): one stage over its own ceiling
+    pass
+
+
+class RegressionBlocked(Exception):  # quality_gate: lessons/goldens regress check failed at a gate
+    pass
+
+
 @dataclasses.dataclass
 class Options:
     idea: str = ""
@@ -68,6 +76,8 @@ class Options:
     previs_shots: tuple = ()
     budget: float = None             # USD ceiling for this episode
     max_qc_fixes: int = 1
+    regress: str = "enforce"         # quality_gate: lessons/goldens regress check at previs + publish: enforce | warn | off
+    deliver: bool = True             # quality_gate (L006): PUBLISH produces final/delivery/{episode,episode_mobile}.mp4
     parallel_stages: int = 2
     farm_poll_s: int = 60
 
@@ -181,6 +191,44 @@ class Pipeline:
         b = self.o.budget
         if b is not None and self.st.spent > b:
             raise BudgetExceeded(f"spent ${self.st.spent:.2f} > budget ${b:.2f} before stage {stage}")
+        self.check_ceiling(stage)
+
+    # >>> quality_gate (L014): per-stage cost ceiling + attempts alert
+    def check_ceiling(self, stage, after=False):
+        cap = costs.stage_ceilings().get(stage)
+        spent = float(self.st.stage(stage).get("costUSD") or 0)
+        self.st.doc.setdefault("costCeilings", {})[stage] = cap
+        if cap is not None and (spent > cap if after else spent >= cap and spent > 0):
+            self.st.update_stage(stage, ceilingExceeded={"spentUSD": round(spent, 4), "ceilingUSD": cap})
+            raise CostCeilingExceeded(f"stage {stage} spent ${spent:.2f} {'>' if after else '>='} its ceiling ${cap:.2f}")
+
+    def regress(self, gate):
+        """Lessons + goldens regress check (factory/lessons/regress.py) at the previs approval gate and before publish.
+        Options.regress: enforce (blocking rules stop the gate) | warn (record only) | off."""
+        if self.o.regress == "off":
+            return {"ok": True, "skipped": True}
+        from factory.lessons import regress as lreg
+        rep = lreg.episode_regress(self.p("episode.json"), gate=gate, quality=self.o.quality)
+        self.st.doc.setdefault("regress", {})[gate] = {k: rep.get(k) for k in ("ok", "mode", "blocking", "warnings", "lessons")}
+        self.st.save()
+        for w in rep["warnings"]:
+            self.log(f"regress[{gate}] warn {w[:160]}")
+        if not rep["ok"]:
+            self.log(f"regress[{gate}] BLOCKING: {rep['blocking']}")
+            if self.o.regress == "enforce":
+                raise RegressionBlocked(f"regress check before {gate} failed: {rep['blocking']}")
+        return rep
+
+    def attempts_alert(self, stage, res):
+        s = self.st.stage(stage)
+        n = max(int(s.get("attempts") or 0), int((res or {}).get("llmAttempts") or 0))
+        if n >= costs.ATTEMPT_ALERT:
+            alerts = self.st.doc.setdefault("alerts", [])
+            alerts.append({"stage": stage, "attempts": n, "costUSD": s.get("costUSD"), "kind": "attempts"})
+            self.st.event(f"ALERT: stage {stage} took {n} attempts (cost ${float(s.get('costUSD') or 0):.2f}); "
+                          f"check the cache TTL / drafting checklist (L014)", level="warn")
+            self.log(f"ALERT: stage {stage} took {n} attempts")
+    # <<< quality_gate
 
     # ------------------------------------------------------------------ executor
     def run(self):
@@ -271,6 +319,8 @@ class Pipeline:
         st.add_cost(name, usd, time.time() - t0)
         st.update_stage(name, status=DONE, finished=time.strftime("%Y-%m-%dT%H:%M:%S"), artifacts=arts, info=res)
         self.log(f"stage {name}: done in {time.time() - t0:.1f}s (${usd:.3f})")
+        self.attempts_alert(name, res)   # quality_gate (L014)
+        self.check_ceiling(name, after=True)
 
     def _artifacts_ok(self, name):
         arts = self.st.stage(name).get("artifacts") or []
@@ -399,6 +449,10 @@ class Pipeline:
                               samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log)
         self.st.update_stage("previs", info={k: v for k, v in info.items() if k != "keys_dir"},
                              artifacts=[_rel(info["contact_sheet"]), _rel(info["animatic"])])
+        if info.get("missing"):  # quality_gate (L012): every shot renders; a board with holes is not reviewable
+            raise RuntimeError(f"previs: {len(info['missing'])} keyframe(s) did not render: {info['missing'][:8]} "
+                               f"(logs in {os.path.join(bdir, 'logs')}) - no silent render failures (L012)")
+        self.regress("previs")   # quality_gate: lessons + goldens regress check before the approval gate
         if self.o.auto_approve and not self.approved():
             self.approve(by="auto (--auto-approve)")
         if not self.approved():
@@ -500,9 +554,24 @@ class Pipeline:
                 continue
             hist.append(entry)
             final = dec if dec in ("PUBLISH", "RETURN") else ("RETURN" if dec == "AUTO_FIX" else dec)
+            # >>> quality_gate: regress check before publish, then the delivery copies (L006) or a refusal
+            arts, extra = [path], {}
+            if final == "PUBLISH":
+                try:
+                    self.regress("publish")
+                except RegressionBlocked as e:
+                    final = "RETURN"
+                    entry["regress"] = str(e)
+                    rep = dict(rep, hard_failures=list(rep.get("hard_failures") or []) + ["REGRESS"])
+                if final == "PUBLISH" and self.o.deliver:
+                    from factory import deliver as deliver_mod
+                    d = deliver_mod.deliver_or_raise(self.p("final", "episode.mp4"), self.p("final", "delivery"), log=self.log)
+                    arts += [d["outputs"]["final"]["path"], d["outputs"]["mobile"]["path"]]
+                    extra["delivery"] = {k: _rel(o["path"]) for k, o in d["outputs"].items()}
             self._record_qc(hist, final, rep)
-            return {"artifacts": [path], "decision": final, "rawDecision": dec, "iterations": len(hist),
-                    "score": rep.get("engagement_score")}
+            return {"artifacts": arts, "decision": final, "rawDecision": dec, "iterations": len(hist),
+                    "score": rep.get("engagement_score"), **extra}
+            # <<< quality_gate
 
     def _record_qc(self, hist, final, rep=None):
         q = self.st.doc["qc"]
@@ -594,7 +663,8 @@ def failing_shots(rep, shot_ids):
 def plan_fix(rep, ep):
     """AUTO_FIX -> which stages to re-run: TECH-only failures re-render (7) the failing shots; anything in a scored
     section or FRAMING re-directs (4) then re-renders the failing + changed shots."""
-    fails = [r for r in rep.get("rules", []) if r.get("status") == "fail"]
+    # DELIVERY (master encode profile) is fixed by factory/deliver.py at publish, not by re-directing / re-rendering
+    fails = [r for r in rep.get("rules", []) if r.get("status") == "fail" and r.get("section") != "DELIVERY"]
     stages = sorted({SECTION_STAGE.get(r.get("section"), 4) for r in fails}) or [7]
     if 4 in stages and 7 not in stages:
         stages.append(7)

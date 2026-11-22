@@ -24,6 +24,23 @@ EST_LLM_USD = {"short": 1.50, "docuseries": 12.00}       # develop + breakdown +
 EST_VOICE_CHARS = {"short": 1400, "docuseries": 18000}
 
 
+# >>> quality_gate (L014): per-stage cost ceilings (USD, accumulated over every attempt of the stage incl. QC-loop
+# re-runs). A stage at/over its ceiling is not started again and the run stops (status budget_exceeded); >= 2 attempts
+# (orchestrator or director LLM attempts) raise an alert event. Override: FACTORY_STAGE_CEILINGS_JSON='{"direct": 4}'.
+STAGE_CEILINGS_USD = {"develop": 1.50, "breakdown": 0.75, "library": 0.25, "voice": 1.50, "direct": 2.50, "sound": 0.25,
+                      "previs": 0.50, "render": 40.0, "finish": 0.50, "qc": 0.75}
+ATTEMPT_ALERT = 2
+
+
+def stage_ceilings():
+    c = dict(STAGE_CEILINGS_USD)
+    raw = os.environ.get("FACTORY_STAGE_CEILINGS_JSON")
+    if raw:
+        c.update({k: float(v) for k, v in json.loads(raw).items()})
+    return c
+# <<< quality_gate
+
+
 def prices():
     p = {"llm": dict(LLM_PRICES), "voice_usd_per_1k_chars": VOICE_USD_PER_1K_CHARS,
          "farm_usd_per_gpu_hour": FARM_USD_PER_GPU_HOUR}

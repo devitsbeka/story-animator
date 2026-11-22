@@ -98,6 +98,15 @@ def style_text(style=None):
 
 def system_blocks(stage, style=None):
     parts = [COMMON, ROLE[stage], style_text(style)]  # style system hook
+    # >>> quality_gate: LESSONS block (open + closed rules of this stage's gates, factory/lessons/lessons.yaml)
+    try:
+        from factory.lessons import STAGE_GATES, lessons_block
+        lb = lessons_block(STAGE_GATES.get(stage, [stage]))
+        if lb:
+            parts.append(lb)
+    except (OSError, ValueError, ImportError):
+        pass
+    # <<< quality_gate
     if stage == "direct":
         parts.append(vocab_text())
     rec = stage_recipe_text(stage)
