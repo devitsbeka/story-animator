@@ -39,3 +39,10 @@
 13:43:58 [waterspout_v2]     [HARD SCHEMA] scenes/6/line_ids: [] should be non-empty
 13:43:58 [waterspout_v2]     [HARD SCHEMA] scenes/7/id: 'SC08' does not match '^S[0-9]{2,3}$'
 13:43:58 [waterspout_v2]     [HARD SCHEMA] scenes/8/id: 'SC09' does not match '^S[0-9]{2,3}$'
+13:45:02 [waterspout_v2] [breakdown] attempt 2: PASS - 9 checks passed, 0 blocking, 0 overridden (64.6s, claude-opus-5-5)
+13:45:02 [waterspout_v2] stage breakdown: done in 177.7s ($0.642)
+13:45:02 [waterspout_v2] ALERT: stage breakdown took 2 attempts
+13:45:02 [waterspout_v2] stage 3 library: start
+13:45:04 [waterspout_v2] [library] PASS - REUSE 11, SOURCE 0, BUILD 22 (to_fetch 0, to_build 22); catalog gaps: ['int:hero']
+13:45:04 [waterspout_v2] stage library: done in 1.8s ($0.000)
+13:45:04 [waterspout_v2] stage 4 direct: start

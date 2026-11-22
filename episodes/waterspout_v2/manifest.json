@@ -1,0 +1,323 @@
+{
+ "id": "ep_waterspout_night_solo",
+ "entries": [
+  {
+   "element": "loc_open_sea",
+   "kind": "location",
+   "decision": "REUSE",
+   "catalog_id": "int:ocean_fft",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: FFT ocean (Blender Ocean modifier) with sea state, foam, buoyancy probe (matched 'ocean')"
+  },
+  {
+   "element": "set_sloop_cockpit",
+   "kind": "set",
+   "decision": "BUILD",
+   "recipe": "proc:set_sloop_cockpit",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'cockpit': procedural bpy recipe to write"
+  },
+  {
+   "element": "world_ocean",
+   "kind": "world",
+   "decision": "REUSE",
+   "catalog_id": "int:ocean_fft",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: FFT ocean (Blender Ocean modifier) with sea state, foam, buoyancy probe (matched 'ocean')"
+  },
+  {
+   "element": "chr_mateo",
+   "kind": "character",
+   "decision": "REUSE",
+   "catalog_id": "int:hero",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Series hero (sailor) rig with face and eye engine (matched 'sailor'); NOTE: not yet listed in factory/library/catalog.json",
+   "render_key": "characters/hero"
+  },
+  {
+   "element": "veh_sloop",
+   "kind": "vehicle",
+   "decision": "BUILD",
+   "recipe": "proc:veh_sloop",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'sailboat': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_tiller",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_tiller",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'tiller': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_mast",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_mast",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'mast': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_cabin_lamp",
+   "kind": "prop",
+   "decision": "REUSE",
+   "catalog_id": "int:prop_lamp",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Warm deck lamp, keyable (matched 'lamp')",
+   "render_key": "prop:lamp"
+  },
+  {
+   "element": "prop_headlamp",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_headlamp",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'headlamp': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_masthead_light",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_masthead_light",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'navigation light': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_vhf_radio",
+   "kind": "prop",
+   "decision": "REUSE",
+   "catalog_id": "int:prop_radio",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Handheld marine VHF with lit LCD (CH 16) (matched 'radio')",
+   "render_key": "prop:radio"
+  },
+  {
+   "element": "prop_dock_line",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_dock_line",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'rope': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_mainsail",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_mainsail",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'sail': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_boom",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_boom",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'boom': procedural bpy recipe to write"
+  },
+  {
+   "element": "prop_oilskins",
+   "kind": "prop",
+   "decision": "BUILD",
+   "recipe": "proc:prop_oilskins",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'raincoat': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_dark_spot",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_dark_spot",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'vortex': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_waterspout",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_waterspout",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'waterspout': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_spray_ring",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_rotor_wash",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Spinning translucent spray disc under a hovering helicopter (matched 'spray')"
+  },
+  {
+   "element": "fx_sea_spray",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_rotor_wash",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Spinning translucent spray disc under a hovering helicopter (matched 'spray')"
+  },
+  {
+   "element": "fx_lens_droplets",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_lens_droplets",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'droplets': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_wake",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_wake",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'wake': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_lightning",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_storm",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather (matched 'lightning')"
+  },
+  {
+   "element": "fx_cloud_deck",
+   "kind": "fx",
+   "decision": "BUILD",
+   "recipe": "proc:fx_cloud_deck",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'cloud': procedural bpy recipe to write"
+  },
+  {
+   "element": "fx_rain",
+   "kind": "fx",
+   "decision": "REUSE",
+   "catalog_id": "int:fx_storm",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Storm weather: camera-space cyclic rain streaks, lightning flashes (sun + sky + rain), overcast sky, rivulets on glass; env.weather (matched 'rain')"
+  },
+  {
+   "element": "hdri_night_moon",
+   "kind": "hdri",
+   "decision": "BUILD",
+   "recipe": "proc:hdri_night_moon",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'night sky': procedural bpy recipe to write"
+  },
+  {
+   "element": "hdri_dusk_sky",
+   "kind": "hdri",
+   "decision": "BUILD",
+   "recipe": "proc:hdri_dusk_sky",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "no library or Poly Haven match for 'dusk sky': procedural bpy recipe to write"
+  },
+  {
+   "element": "ovl_title_card",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_title_card",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_clock_badge",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_clock_badge",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_step_badge",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_step_badge",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_course_line",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_course_line",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "ovl_captions",
+   "kind": "overlay",
+   "decision": "BUILD",
+   "recipe": "remotion:ovl_captions",
+   "licence": "proprietary (ours)",
+   "status": "to_build",
+   "reason": "kinetic overlay, composited at stage 8 (Remotion)"
+  },
+  {
+   "element": "sys_acting_rig",
+   "kind": "system",
+   "decision": "REUSE",
+   "catalog_id": "int:sys_acting",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: IK control rig, stances, pose overlays, procedural verbs, breathing (matched 'rig')"
+  },
+  {
+   "element": "sys_camera_rig",
+   "kind": "system",
+   "decision": "REUSE",
+   "catalog_id": "int:sys_camera",
+   "provider": "internal",
+   "licence": "proprietary (ours)",
+   "status": "ready",
+   "reason": "internal library: Orbit/path camera with eased curves, handheld, shakes (matched 'camera')"
+  }
+ ],
+ "attributions": [],
+ "summary": {
+  "REUSE": 11,
+  "ready": 11,
+  "BUILD": 22,
+  "to_build": 22
+ }
+}

@@ -49,7 +49,7 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T13:42:36+00:00",
+ "updated": "2026-11-22T13:45:04+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -75,13 +75,43 @@
    }
   },
   "breakdown": {
-   "status": "running",
+   "status": "done",
    "started": "2026-11-22T13:42:05",
    "attempts": 1,
-   "error": null
+   "error": null,
+   "costUSD": 0.6423,
+   "seconds": 177.74,
+   "finished": "2026-11-22T13:45:02",
+   "artifacts": [
+    "episodes/waterspout_v2/breakdown.json"
+   ],
+   "info": {
+    "tokens": {
+     "input": 39801,
+     "output": 22954
+    },
+    "llmAttempts": 2
+   }
   },
   "library": {
-   "status": "pending"
+   "status": "done",
+   "started": "2026-11-22T13:45:02",
+   "attempts": 1,
+   "error": null,
+   "costUSD": 0.0,
+   "seconds": 1.78,
+   "finished": "2026-11-22T13:45:04",
+   "artifacts": [
+    "episodes/waterspout_v2/manifest.json"
+   ],
+   "info": {
+    "summary": {
+     "REUSE": 11,
+     "ready": 11,
+     "BUILD": 22,
+     "to_build": 22
+    }
+   }
   },
   "voice": {
    "status": "done",
@@ -103,7 +133,10 @@
    }
   },
   "direct": {
-   "status": "pending"
+   "status": "running",
+   "started": "2026-11-22T13:45:04",
+   "attempts": 1,
+   "error": null
   },
   "sound": {
    "status": "pending"
@@ -126,10 +159,10 @@
   "iterations": []
  },
  "cost": {
-  "totalUSD": 3.1409,
+  "totalUSD": 3.7832,
   "byStage": {
    "develop": 2.8883,
-   "breakdown": 0.0,
+   "breakdown": 0.6423,
    "library": 0.0,
    "voice": 0.2526,
    "direct": 0.0,
@@ -142,11 +175,11 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 1777.48,
+  "totalSeconds": 1957.0,
   "byStage": {
    "develop": 1746.65,
-   "breakdown": 0.0,
-   "library": 0.0,
+   "breakdown": 177.74,
+   "library": 1.78,
    "voice": 30.83,
    "direct": 0.0,
    "sound": 0.0,
@@ -161,12 +194,19 @@
    "t": "2026-11-22T13:42:05+00:00",
    "msg": "ALERT: stage develop took 3 attempts (cost $2.89); check the cache TTL / drafting checklist (L014)",
    "level": "warn"
+  },
+  {
+   "t": "2026-11-22T13:45:02+00:00",
+   "msg": "ALERT: stage breakdown took 2 attempts (cost $0.64); check the cache TTL / drafting checklist (L014)",
+   "level": "warn"
   }
  ],
  "costCeilings": {
   "develop": 3.5,
   "breakdown": 0.75,
-  "voice": 1.5
+  "voice": 1.5,
+  "library": 0.25,
+  "direct": 2.5
  },
  "error": "stage develop spent $2.89 >= its ceiling $1.50",
  "alerts": [
@@ -174,6 +214,12 @@
    "stage": "develop",
    "attempts": 3,
    "costUSD": 2.8883,
+   "kind": "attempts"
+  },
+  {
+   "stage": "breakdown",
+   "attempts": 2,
+   "costUSD": 0.6423,
    "kind": "attempts"
   }
  ]
