@@ -70,3 +70,25 @@
 14:05:14 [waterspout_v2] shot gate [previs]: re-directing ['S04', 'S05', 'S06', 'S08', 'S09', 'S12', 'S14', 'S15', 'S18', 'S22', 'S25', 'S26', 'S29', 'S30', 'S37'] (try 1/2)
 14:05:14 [waterspout_v2] master pass 0: gain +3.20 dB ceiling -2.0 dBFS -> wav I -14.20 TP -2.00; m4a I -14.20 TP -1.90
 14:05:21 [waterspout_v2] stage sound: done in 33.8s ($0.000)
+14:13:01 [waterspout_v2] [direct] attempt 1: FAIL - 280 checks passed, 16 blocking, 1 overridden (465.6s, claude-opus-5-5)
+14:13:01 [waterspout_v2]     [HEUR INTEGRITY.duration] cut ends at 67.00 s; the voiced narration ends at 70.60 s (+offset)
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L07] L07 plays 640-758 but its shots cover 624-738
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L08] L08 plays 775-856 but its shots cover 738-813
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L10] L10 plays 996-1138 but its shots cover 948-1074
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L11] L11 plays 1161-1297 but its shots cover 1074-1230
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L12] L12 plays 1325-1388 but its shots cover 1230-1344
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L13] L13 plays 1406-1495 but its shots cover 1344-1440
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L14] L14 plays 1518-1627 but its shots cover 1440-1536
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L15] L15 plays 1644-1753 but its shots cover 1536-1620
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L16] L16 plays 1796-1925 but its shots cover 1665-1836
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L17] L17 plays 1954-2047 but its shots cover 1836-1941
+14:13:01 [waterspout_v2]     [HEUR D-line-sync.L18] L18 plays 2056-2103 but its shots cover 1941-2010
+14:17:57 [waterspout_v2] [direct] attempt 2: FAIL - 292 checks passed, 4 blocking, 1 overridden (296.2s, claude-opus-5-5)
+14:17:57 [waterspout_v2]     [HARD D-line-shown.L08] L08 must be carried by >= 1 shot whose scene pictures it
+14:17:57 [waterspout_v2]     [HARD CAN-C2c] S29: 43 f (need 45..180 f)
+14:17:57 [waterspout_v2]     [HARD CAN-N3a] S08: cut -0.13 s from 'Your' (window -0.1..0.03) [measured words]
+14:17:57 [waterspout_v2]     [HARD CAN-N3e] reserved_close_up S29 (58.43-59.87 s): words ['instinct.', 'Step']; breath S21 (43.33-44.07 s): words ['path.', 'But']; reserved_close_up S29 (58.50-59.80 s): w
+14:20:42 [waterspout_v2] [direct] attempt 3: FAIL - 456 checks passed, 1 blocking, 1 overridden (165.1s, claude-opus-5-5)
+14:20:42 [waterspout_v2]     [HARD CAN-C2a] no sequence reserves a close-up for the decisive reaction
+14:20:42 [waterspout_v2] stage previs: FAILED StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction
+14:20:42 [waterspout_v2] run status: failed  cost $7.21  time 4116s

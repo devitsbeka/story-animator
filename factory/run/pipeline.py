@@ -223,6 +223,15 @@ class Pipeline:
         while True:
             ep = _read(self.p("episode.json"))
             res = shot_checks.check_episode(ep, quality)
+            if res["failing"]:
+                # L027: solve camera geometry deterministically (no LLM, no money) before any re-direct
+                import camera_fix
+                fixed, still = camera_fix.repair_episode(ep, sorted(res["failing"]))
+                if fixed:
+                    _write(self.p("episode.json"), ep)
+                    hist.setdefault("camera_repairs", []).append({"try": hist["tries"], "fixed": fixed, "still": still})
+                    self.log(f"shot gate [{gate}]: camera repair fixed {len(fixed)} shot(s) by geometry {fixed}; still failing: {still}")
+                    res = shot_checks.check_episode(ep, quality)
             fails = {s: r for s, r in res["failing"].items()}
             pose = self.shot_gate_pose(gate, hist["tries"])
             if pose is not None:
@@ -253,7 +262,12 @@ class Pipeline:
                                      "detail": f"shot {f['shot']}"} for f in res["findings"] if f["status"] == "fail"][:40],
                   "shots_to_fix": sorted(fails)}
             self.log(f"shot gate [{gate}]: re-directing {sorted(fails)} (try {hist['tries']}/{max_tries})")
-            r = self.stage_direct(t0, feedback=fb)
+            try:
+                r = self.stage_direct(t0, feedback=fb)
+            except Exception:
+                # L027: a failed re-direct still paid for its LLM attempts
+                self.st.add_cost("direct", costs.llm_stage_cost(self.dir, "direct", since=t0)["usd"], time.time() - t0)
+                raise
             self.st.add_cost("direct", r.get("usd", 0.0), time.time() - t0)
             self.check_ceiling("direct", after=True)
 

@@ -46,9 +46,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "running",
+ "status": "failed",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:05:21+00:00",
+ "updated": "2026-11-22T14:20:42+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -183,10 +183,13 @@
    }
   },
   "previs": {
-   "status": "running",
+   "status": "failed",
    "started": "2026-11-22T14:04:48",
    "attempts": 1,
-   "error": null
+   "error": "StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction",
+   "costUSD": 0.0,
+   "seconds": 954.08,
+   "finished": "2026-11-22T14:20:42"
   },
   "render": {
    "status": "pending"
@@ -219,7 +222,7 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 3161.96,
+  "totalSeconds": 4116.04,
   "byStage": {
    "develop": 1746.65,
    "breakdown": 177.74,
@@ -227,7 +230,7 @@
    "voice": 30.83,
    "direct": 1171.16,
    "sound": 33.8,
-   "previs": 0.0,
+   "previs": 954.08,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0
@@ -259,7 +262,7 @@
   "sound": 0.25,
   "previs": 0.5
  },
- "error": "stage direct spent $3.42 > its ceiling $2.50",
+ "error": "StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction",
  "alerts": [
   {
    "stage": "develop",

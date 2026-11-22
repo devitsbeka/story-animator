@@ -244,3 +244,12 @@
   check: tests/compute/test_queue.py::test_same_provider_speculates_only_on_a_real_anomaly; broker.persist_calibration writes ~/.story-compute/calibration.json + s3 compute/calibration.json; registry.load applies it (test_adapters::test_registry_terms_gate_and_registry_merge).
   gate: [merge]
   status: partially-closed
+
+- id: L027
+  found: lead (waterspout v2 run), 2026-11-22
+  symptom: "15 of 37 shots failed the per-shot checks (cameras inside the yacht_v2 walls, close-ups cropping Jay's head); the gate sent the WHOLE plan back to the LLM, three re-directs cost ~$3.01 (recorded as $0), the last one broke a canon rule and the run died."
+  root_cause: "Geometry problems were routed to the language model, which cannot see the yacht's collision mesh; a failed re-direct's spend was never added to the run cost."
+  rule: "Camera geometry is repaired deterministically first (dolly/rise/orbit out of walls; tilt/lens/step-back for framing; every candidate re-checked against all per-shot rules, the move recorded on the shot). Only shots geometry cannot fix go back to the director. Every billed attempt counts toward run cost, including failed re-directs."
+  check: "tests/direction/test_camera_fix.py (all 15 waterspout v2 failures fixed by geometry, rise <= 1 m); factory/run/pipeline.py shot_gate runs camera_fix before re-direct and books a failed re-direct's cost."
+  gate: [previs, render, merge]
+  status: closed
