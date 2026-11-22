@@ -38,7 +38,7 @@
   "previs_res": "144x256",
   "previs_samples": 4,
   "previs_shots": [],
-  "budget": 10.0,
+  "budget": 11.0,
   "max_qc_fixes": 1,
   "shot_gate_pose": "warn",
   "regress": "enforce",
@@ -46,9 +46,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "failed",
+ "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:20:42+00:00",
+ "updated": "2026-11-22T14:23:22+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -136,7 +136,7 @@
    "started": "2026-11-22T13:45:04",
    "attempts": 1,
    "error": null,
-   "costUSD": 3.4233,
+   "costUSD": 6.4333,
    "seconds": 1171.16,
    "finished": "2026-11-22T14:04:35",
    "artifacts": [
@@ -183,10 +183,10 @@
    }
   },
   "previs": {
-   "status": "failed",
-   "started": "2026-11-22T14:04:48",
-   "attempts": 1,
-   "error": "StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction",
+   "status": "running",
+   "started": "2026-11-22T14:23:22",
+   "attempts": 2,
+   "error": null,
    "costUSD": 0.0,
    "seconds": 954.08,
    "finished": "2026-11-22T14:20:42"
@@ -206,20 +206,20 @@
   "iterations": []
  },
  "cost": {
-  "totalUSD": 7.2065,
+  "totalUSD": 10.2165,
   "byStage": {
    "develop": 2.8883,
    "breakdown": 0.6423,
    "library": 0.0,
    "voice": 0.2526,
-   "direct": 3.4233,
+   "direct": 6.4333,
    "sound": 0.0,
    "previs": 0.0,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0
   },
-  "budgetUSD": 10.0
+  "budgetUSD": 11.0
  },
  "time": {
   "totalSeconds": 4116.04,
@@ -384,5 +384,8 @@
    ],
    "ok": false
   }
- }
+ },
+ "notes": [
+  "2026-11-22: +$3.01 booked to direct: failed shot-gate re-directs during previs were unrecorded (lesson L027)"
+ ]
 }

@@ -92,3 +92,5 @@
 14:20:42 [waterspout_v2]     [HARD CAN-C2a] no sequence reserves a close-up for the decisive reaction
 14:20:42 [waterspout_v2] stage previs: FAILED StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction
 14:20:42 [waterspout_v2] run status: failed  cost $7.21  time 4116s
+14:23:22 [waterspout_v2] stage 6 previs: start
+14:23:22 [waterspout_v2] shot gate [previs]: camera repair fixed 15 shot(s) by geometry {'S04': {'orbit_deg': 40}, 'S05': {'rise': 0.25}, 'S06': {'dolly': 0.18}, 'S08': {'tilt': 0.08}, 'S09': {'orbit_deg': 30}, 'S12': {'rise': 0.25}, 'S14': {'dolly': -0.2, 'tilt': 0.3}, 'S15': {'tilt': 0.04}, 'S18': {'dolly': 0.26}, 'S22': {'rise': 0.5}, 'S25': {'dolly': -0.2, 'tilt': 0.3}, 'S26': {'rise': 0.5}, 'S29': {'dolly': 0.26}, 'S30': {'tilt': 0.12}, 'S37': {'widen': 0.12}}; still failing: []
