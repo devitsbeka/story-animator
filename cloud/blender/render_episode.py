@@ -1169,7 +1169,8 @@ ACTORS = {}
 #   actor.perf  -> body (acting.pose_at), actor.face (or actor.perf.face) -> emotion/gaze/words/blinks (face.py)
 def _cloudrig_file(entry):
     f = entry.get("file") or ""
-    cands = [f, resolve(f), os.path.join(ROOT, f), os.path.join(ROOT, "library_store", f), lib_path(f),
+    rel = f[len("library_store/"):] if f.startswith("library_store/") else f
+    cands = [f, resolve(f), os.path.join(ROOT, f), os.path.join(ROOT, "library_store", rel), lib_path(rel), lib_path(f),
              os.path.join(ROOT, "library_store", "characters", os.path.basename(f))]
     return next((p for p in cands if p and os.path.isfile(p)), None)
 
@@ -1179,7 +1180,10 @@ def build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps):
     holder.matrix_parent_inverse = Matrix.Identity(4)
     path = _cloudrig_file(entry)
     if not path:
-        warn(f"CloudRig character '{a['asset']}' not found ({entry.get('file')}); skipped")
+        # lesson L015: a missing hero is a hard failure, never a silent skip (a frame without its actor is wrong)
+        if os.environ.get("ALLOW_MISSING_ACTORS") != "1":
+            raise SystemExit(f"FATAL: CloudRig character '{a['asset']}' not found ({entry.get('file')})")
+        warn(f"CloudRig character '{a['asset']}' not found ({entry.get('file')}); skipped (ALLOW_MISSING_ACTORS=1)")
         return None
     coll, arm, objs = cloudrig_adapter.append_character(path, entry.get("collection", "CH-jay"), entry.get("rig", "RIG-jay"))
     if arm is None:

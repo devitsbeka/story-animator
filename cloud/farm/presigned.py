@@ -418,9 +418,10 @@ def select_library(spec, catalog, repo=REPO, store=None, include_renderer=True):
                         chosen.setdefault(rel, {"asset": cid, "why": why + ":lod", "sha256": None})
     # explicit library_store/ paths in the spec that the catalog does not list (e.g. characters/jay.blend)
     for s in sorted(strs):
-        if "/" in s and not s.startswith(("assets/", "/", "episodes/")) and ".." not in s.split("/") \
-                and os.path.isfile(os.path.join(store, s)):
-            chosen.setdefault(s, {"asset": None, "why": "spec:path", "sha256": None})
+        rel = s[len("library_store/"):] if s.startswith("library_store/") else s   # lesson L015: spec paths may carry the prefix
+        if "/" in rel and not rel.startswith(("assets/", "/", "episodes/")) and ".." not in rel.split("/") \
+                and os.path.isfile(os.path.join(store, rel)):
+            chosen.setdefault(rel, {"asset": None, "why": "spec:path", "sha256": None})
     return chosen
 
 

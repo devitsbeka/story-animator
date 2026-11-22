@@ -128,3 +128,21 @@
   check: run.json cost per stage vs ceiling; alert when attempts > 2.
   gate: [run]
   status: open
+
+- id: L015
+  found: lead (Runpod smoke test), 2026-11-22
+  symptom: Final GPU frames rendered without the hero; the job reported success.
+  root_cause: The farm's library selection missed spec paths prefixed 'library_store/' (hero_v4.blend never shipped) and the renderer only warned when an actor's file was missing.
+  rule: Every asset the spec references ships with the job; a missing actor/prop/set is a hard failure, never a silent skip.
+  check: render_episode raises on a missing CloudRig character (ALLOW_MISSING_ACTORS=1 only for debugging); presigned.select_library normalises the prefix; QC 'actor present' check on plates (vision rubric + projected-actor mask) - TODO.
+  gate: [render, qc]
+  status: partially-closed
+
+- id: L016
+  found: lead (Runpod smoke test), 2026-11-22
+  symptom: Night sky stars smear into streaks under camera motion blur and read as rain.
+  root_cause: Final profile enables motion blur; handheld camera rotation during the shutter smears point-like stars.
+  rule: Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur.
+  check: golden 'night sky under motion' frame + vision rubric SKY-1 ("no streaks in the sky unless it rains").
+  gate: [merge, qc]
+  status: open
