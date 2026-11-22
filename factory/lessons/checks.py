@@ -77,6 +77,10 @@ CHECKS = {
     "L020": [{"name": "EEVEE only with a real GPU context (egl_available)", "kind": "pytest", "target": "tests/lessons/test_lead_lessons.py"}],
     "L021": [{"name": "series defaults bind hero_v4 + proc:yacht_v2", "kind": "pytest", "target": "tests/lessons/test_lead_lessons.py"}],
     "L016": [{"name": "golden night sky under camera motion (TODO: recipe not defined yet)", "kind": "golden", "target": "night_sky_motion", "slow": True}],
+    "L030": [{"name": "voice pace retake: every canon block in 2.2-3.3 w/s (tempo, pause tightening, re-voice; gaps kept; "
+                      "cap + cost ceiling; pace stress scenarios)", "kind": "pytest", "target": "tests/voice/test_pace_retake.py"},
+             {"name": "canon CAN-N4f-pace shares pacing.block_pace and checks retake speed / total tempo", "kind": "pytest",
+              "target": "tests/canon/test_checks.py"}],
 }
 
 

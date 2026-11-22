@@ -931,31 +931,28 @@ def check_N_audio(c, R):
         R.manual("CAN-N2f", "no words.json yet (planned coverage is CAN-N2f-plan)")
     # N4f pace per block + voice speed
     if c.words and measured:
+        # one measurement shared with the voice stage's pace retake (factory/voice/pacing.block_pace, lesson L030)
+        from factory.voice.pacing import block_pace
         bad = []
         lo, hi = nt["wps"]
-        blocks, cur = [], []
-        gap_after = {g["after_line"] for g in c.gaps}
-        for ln in c.lines:
-            cur.append(ln["id"])
-            if ln["id"] in gap_after:
-                blocks.append(cur)
-                cur = []
-        if cur:
-            blocks.append(cur)
-        for bl in blocks:
-            ws = [w for i in bl for w in lw.get(i, [])]
-            if len(ws) < 6:
-                continue
-            span = ws[-1]["e"] - ws[0]["s"]
-            wps = len(ws) / max(1e-6, span)
-            if not (lo - 1e-6 <= wps <= hi + 1e-6):
-                bad.append(f"block {bl[0]}-{bl[-1]}: {wps:.2f} w/s")
+        ws_all = [w for ln in c.lines for w in lw.get(ln["id"], [])]
+        for bl in block_pace(c.lines, c.gaps, ws_all, (lo, hi)):
+            if bl["measured"] and not bl["in_band"]:
+                bad.append(f"block {bl['lines'][0]}-{bl['lines'][-1]}: {bl['wps_exact']:.2f} w/s")
         v = c.voice or {}
         sp = v.get("speed_requested") or 1.0
         tc = v.get("tempo_correction") or 1.0
         vlo, vhi = nt["voice_speed"]
         if not (vlo <= sp <= vhi) or not (vlo <= tc <= vhi):
             bad.append(f"voice speed {sp} / tempo {tc} outside {vlo}-{vhi}")
+        # pace retakes (L030): a re-voiced block's ElevenLabs speed and the total atempo on any block stay in band
+        for fx in ((v.get("pace_retake") or {}).get("fixes") or []):
+            if not fx.get("applied"):
+                continue
+            ttot, spd = fx.get("tempo_total") or 1.0, fx.get("speed") or 1.0
+            if not (vlo - 1e-6 <= ttot <= vhi + 1e-6) or not (vlo - 1e-6 <= spd <= vhi + 1e-6):
+                bad.append(f"pace retake {'-'.join(fx['lines'][:1] + fx['lines'][-1:])}: speed {spd} / tempo {ttot} "
+                           f"outside {vlo}-{vhi}")
         R.ok("CAN-N4f-pace", not bad, "; ".join(bad[:6]))
     # N4g tryout record
     if c.story.get("animatic_tryout"):

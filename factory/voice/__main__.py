@@ -36,6 +36,9 @@ def main(argv=None):
             p.add_argument("--takes", default="auto")
             p.add_argument("--no-normalize", action="store_true")
             p.add_argument("--no-tempo-fix", action="store_true")
+            p.add_argument("--no-pace-retake", action="store_true", help="skip the per-block pace retake (CAN-N4f-pace)")
+            p.add_argument("--retake-lines", type=int, help="max blocks re-voiced per run (default 3)")
+            p.add_argument("--retake-takes", type=int, help="max takes per re-voiced block (default 2)")
             p.add_argument("--cache-dir")
             p.add_argument("--basename", default="narration")
         if name == "synth":
@@ -53,10 +56,13 @@ def main(argv=None):
     res = synthesize(a.story, a.out, voice=a.voice, model=a.model, backend=backend, takes=a.takes,
                      cache_dir=a.cache_dir, fmt=a.fmt, normalize=not a.no_normalize,
                      tempo_fix=not a.no_tempo_fix, max_chars=a.max_chars, basename=a.basename,
+                     pace_retake=not a.no_pace_retake, retake_max_lines=a.retake_lines, retake_max_takes=a.retake_takes,
                      log=lambda m: print(m, file=sys.stderr))
     with open(res["report"]) as fh:
         rep = json.load(fh)
+    pr = rep.get("pace_retake") or {}
     print(json.dumps({**res, "pacing": rep["pacing"], "loudness": rep["loudness"],
+                      "pace_retake": {k: pr.get(k) for k in ("ok", "usd", "chars")} if pr else None,
                       "timing_sources": rep["timing_sources"], "clipping": rep["clipping"]}, indent=1))
     return 0
 

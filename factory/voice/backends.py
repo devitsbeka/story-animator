@@ -63,18 +63,34 @@ class RestBackend:
             h["Content-Type"] = "application/json"
         return h
 
-    def tts(self, text, voice_id, model_id, out_path, speed=None, seed=None, **_):
+    def tts(self, text, voice_id, model_id, out_path, speed=None, seed=None, previous_text=None, next_text=None, **_):
+        """previous_text / next_text: the neighbouring narration (not voiced, not billed) so a single re-voiced line
+        keeps the prosody of its context (pace retake). A model that refuses the context gets the request without it
+        (recorded as meta.context_dropped)."""
         body = {"text": text, "model_id": model_id}
         if speed and abs(speed - 1.0) > 1e-3:
             body["voice_settings"] = {"speed": speed}
         if seed is not None:
             body["seed"] = int(seed)
-        tried = []
-        for mid in [model_id] + MODEL_FALLBACKS.get(model_id, []):
+        if previous_text:
+            body["previous_text"] = previous_text
+        if next_text:
+            body["next_text"] = next_text
+        tried, context_dropped = [], False
+        mids = [model_id] + MODEL_FALLBACKS.get(model_id, [])
+        while mids:
+            mid = mids[0]
             body["model_id"] = mid
-            tried.append(mid)
+            if mid not in tried:
+                tried.append(mid)
             url = f"{self.base}/v1/text-to-speech/{voice_id}/with-timestamps?output_format={self.output_format}"
             r = self.s.post(url, headers=self._headers(), data=json.dumps(body), timeout=self.timeout)
+            if r.status_code in (400, 422) and _context_refused(r) and ("previous_text" in body or "next_text" in body):
+                body.pop("previous_text", None)
+                body.pop("next_text", None)
+                context_dropped = True
+                continue
+            mids.pop(0)
             if r.status_code == 200:
                 d = r.json()
                 os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
@@ -84,7 +100,9 @@ class RestBackend:
                 toks = align.tokens_from_char_alignment(al) if al else None
                 return Take(out_path, toks or None, "char_alignment" if toks else None,
                             {"model_id": mid, "voice_id": voice_id, "speed": speed, "seed": seed,
-                             "request_id": r.headers.get("request-id")})
+                             "request_id": r.headers.get("request-id"),
+                             **({"context": bool(previous_text or next_text), "context_dropped": context_dropped}
+                                if (previous_text or next_text) else {})})
             if r.status_code in (400, 404, 422) and _model_refused(r):
                 continue
             raise BackendError(f"ElevenLabs TTS {r.status_code}: {r.text[:300]}")
@@ -98,6 +116,11 @@ class RestBackend:
         if r.status_code != 200:
             return None
         return align.tokens_from_transcript(r.json()) or None
+
+
+def _context_refused(r):
+    t = (r.text or "").lower()
+    return any(k in t for k in ("previous_text", "next_text", "request stitching", "previous_request_ids"))
 
 
 def _model_refused(r):
@@ -146,15 +169,29 @@ class PlaceholderBackend:
     supports_speed = True
     cheap_chars = 10 ** 6
 
-    def __init__(self, wps=2.95, peak=0.5, emit_tokens=True):
+    def __init__(self, wps=2.95, peak=0.5, emit_tokens=True, line_wps=None, seed_spread=0.03, stop_pause=0.25):
+        """line_wps: {text fragment: native w/s} overrides the pace of any request containing the fragment (tests:
+        one slow or rushed line). seed_spread: pace change per seed step (seeds cycle 1, 2, 3)."""
         self.wps = wps
         self.peak = peak
         self.emit_tokens = emit_tokens
+        self.line_wps = dict(line_wps or {})
+        self.seed_spread = seed_spread
+        self.stop_pause = stop_pause    # silence after . ! ? (tests: a long internal pause)
+        self.calls = []
 
-    def tts(self, text, voice_id, model_id, out_path, speed=None, seed=None, **_):
+    def native_wps(self, text):
+        for frag, v in self.line_wps.items():
+            if frag in text:
+                return v
+        return self.wps
+
+    def tts(self, text, voice_id, model_id, out_path, speed=None, seed=None, previous_text=None, next_text=None, **_):
         from .text import script_words, syllables
         words = script_words(text)
-        rate = self.wps * (speed or 1.0) * (1.0 + 0.03 * ((seed or 1) - 1))
+        self.calls.append({"text": text, "speed": speed, "seed": seed, "previous_text": previous_text,
+                           "next_text": next_text})
+        rate = self.native_wps(text) * (speed or 1.0) * (1.0 + self.seed_spread * (((seed or 1) - 1) % 3))
         mean_syl = np.mean([syllables(w) for w in words]) if words else 1.0
         t, toks, segs = 0.15, [], []
         for w in words:
@@ -163,7 +200,7 @@ class PlaceholderBackend:
             segs.append((t, t + d))
             t += d + (0.06 / rate * 3)
             if w[-1:] in ".!?":
-                t += 0.25
+                t += self.stop_pause
             elif w[-1:] in ",;:" or w.endswith("..."):
                 t += 0.12
         total = t + 0.2
@@ -181,7 +218,8 @@ class PlaceholderBackend:
         if p.returncode != 0:
             raise BackendError(p.stderr.decode()[-500:])
         return Take(out_path, toks if self.emit_tokens else None, "placeholder" if self.emit_tokens else None,
-                    {"voice_id": voice_id, "model_id": model_id, "speed": speed, "seed": seed})
+                    {"voice_id": voice_id, "model_id": model_id, "speed": speed, "seed": seed,
+                     **({"context": True} if (previous_text or next_text) else {})})
 
     def transcribe(self, path):
         return None

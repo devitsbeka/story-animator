@@ -176,6 +176,8 @@ def canon_cues(story, words, fps, offset, cue, notes):
         if fb.lower().startswith("fx:") or g.get("purpose") == "key_sfx":
             on = f0 + max(1, int(round(0.08 * fps)))
             room = (f1 - on) / fps - 0.30   # CAN-N2b/N2d: gap >= sound + 0.25 s; tail clear of the next word
+            if g.get("len_s"):  # CAN-N2b judges the PLANNED gap: a longer measured gap (true word ends, L030) never
+                room = min(room, float(g["len_s"]) - 0.25)  # buys a key sound longer than the plan reserved
             if room >= 0.12:
                 c = cue("spot", sfx_for(fb if fb.lower().startswith("fx:") else g.get("desc", "")), on, "onset",
                         LEVEL.get("impact", -3.0) - 2.0, dur=round(min(1.6, room), 2), fadeOutMs=int(min(250, room * 300)),

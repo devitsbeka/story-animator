@@ -5,10 +5,15 @@
 
 Steps: chunk the narration (one request per chunk, <= max_chars, split at chapters for docuseries)
 -> per chunk, 1 or 2 takes (2 only when cheap) from the backend, cached by a hash of the request
--> word timings (character alignment, else transcript, else syllables over speech regions)
+-> word timings (character alignment, else transcript, else syllables over speech regions); word ends stop where
+   the sound stops (align.trim_ends_to_speech, per take and on the joined stem)
 -> pick the take by pacing fit (format band), no clipping, alignment coverage
 -> concatenate chunks -> tempo correction if the whole is still outside the band
--> loudness normalisation (two-pass loudnorm to -16 LUFS, TP -1.5 dBTP) -> words, lines, report.
+-> loudness normalisation (two-pass loudnorm to -16 LUFS, TP -1.5 dBTP)
+-> reserved narration gaps measured and topped up (gaps.enforce, canon CAN-N2c)
+-> pace retake (retake.pace_retake, canon CAN-N4f-pace, lesson L030): every block between gaps brought into the
+   per-block band by local tempo, pause tightening or a re-voice of that block alone; gaps re-measured
+-> words, lines, report (narration.voice.json: takes, tempo, pace_retake with every attempt and its cost).
 """
 import hashlib
 import json
@@ -23,6 +28,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 VOICES = os.path.join(HERE, "voices.json")
 CACHE_VERSION = 1
 CHUNK_GAP_S = 0.35
+TRIM_DB, TRIM_MIN_S = -45.0, 0.15   # silence that ends a word (align.trim_ends_to_speech)
 
 
 # ---------------------------------------------------------------- config
@@ -75,9 +81,12 @@ def chunk_lines(lines, model_id, max_chars=2500, gap_after=()):
 
 
 # ---------------------------------------------------------------- cache
-def cache_key(backend_name, text, voice_id, model_id, speed, seed):
-    payload = json.dumps({"v": CACHE_VERSION, "b": backend_name, "t": text, "voice": voice_id,
-                          "model": model_id, "speed": speed, "seed": seed}, sort_keys=True)
+def cache_key(backend_name, text, voice_id, model_id, speed, seed, context=None):
+    d = {"v": CACHE_VERSION, "b": backend_name, "t": text, "voice": voice_id, "model": model_id, "speed": speed,
+         "seed": seed}
+    if context:  # pace retakes send previous/next text; plain chunk keys stay what they always were
+        d["ctx"] = context
+    payload = json.dumps(d, sort_keys=True)
     return hashlib.sha256(payload.encode()).hexdigest()[:24]
 
 
@@ -85,11 +94,13 @@ def default_cache_dir():
     return os.environ.get("VOICE_CACHE_DIR", os.path.expanduser("~/.cache/story_animator/voice"))
 
 
-def _cached_tts(backend, cache_dir, text, voice_id, model_id, speed, seed, chunk, take, work):
+def _cached_tts(backend, cache_dir, text, voice_id, model_id, speed, seed, chunk, take, work, context=None):
+    """context: optional {"previous_text", "next_text"} sent with the request (pace retakes)."""
+    ctx = {k: v for k, v in (context or {}).items() if v}
     if not getattr(backend, "cacheable", False) or not cache_dir:
-        out = os.path.join(work, f"c{chunk:03d}_t{take}.mp3")
-        return backend.tts(text, voice_id, model_id, out, speed=speed, seed=seed, chunk=chunk, take=take), False
-    key = cache_key(backend.name, text, voice_id, model_id, speed, seed)
+        out = os.path.join(work, f"c{chunk:03d}_t{take}.mp3" if not ctx else f"r{chunk:03d}_t{take}_s{seed}.mp3")
+        return backend.tts(text, voice_id, model_id, out, speed=speed, seed=seed, chunk=chunk, take=take, **ctx), False
+    key = cache_key(backend.name, text, voice_id, model_id, speed, seed, ctx or None)
     mp3, meta = os.path.join(cache_dir, key + ".mp3"), os.path.join(cache_dir, key + ".json")
     if os.path.exists(mp3) and os.path.exists(meta):
         with open(meta) as fh:
@@ -98,7 +109,7 @@ def _cached_tts(backend, cache_dir, text, voice_id, model_id, speed, seed, chunk
         return Take(mp3, toks, d.get("source"), d.get("meta")), True
     os.makedirs(cache_dir, exist_ok=True)
     tmp = mp3 + ".part.mp3"
-    tk = backend.tts(text, voice_id, model_id, tmp, speed=speed, seed=seed, chunk=chunk, take=take)
+    tk = backend.tts(text, voice_id, model_id, tmp, speed=speed, seed=seed, chunk=chunk, take=take, **ctx)
     os.replace(tmp, mp3)
     tk.audio = mp3
     with open(meta + ".part", "w") as fh:
@@ -122,7 +133,10 @@ def n_takes_for(takes, backend, total_chars, chunk):
     return max(1, int(takes))
 
 
-def words_for_take(tk, words, backend, transcribe_fallback):
+def words_for_take(tk, words, backend, transcribe_fallback, trim=True):
+    """Timed script words of one take. trim: word ends stop where the take's sound stops (L030: character alignment
+    lets a final '.' or ',' run through the pause after it), so pacing, gaps and the pace retake measure real speech;
+    stats["trimmed"] / stats["trimmed_s"] record it."""
     dur = audio.duration(tk.audio)
     regions = align.speech_regions(audio.silences(tk.audio), dur)
     tokens, source = tk.tokens, tk.source
@@ -131,15 +145,24 @@ def words_for_take(tk, words, backend, transcribe_fallback):
         source = "transcript" if tokens else None
     stats = {}
     timed = align.align_to_script(words, tokens, dur, regions, stats)
+    if trim:
+        timed, stats["trimmed"], stats["trimmed_s"] = align.trim_ends_to_speech(
+            timed, audio.silences(tk.audio, TRIM_DB, TRIM_MIN_S) + [(dur, float("inf"))])  # nothing sounds past EOF
     source = source or "proportional_syllables"
     cov = (stats["matched"] + stats["mapped"]) / max(1, stats["words"])
     return timed, source, cov, stats, dur
 
 
+def voice_usd_of(chars):
+    from factory.run.costs import voice_usd
+    return voice_usd(chars)
+
+
 # ---------------------------------------------------------------- main
 def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes="auto", cache_dir=None,
                fmt=None, normalize=True, tempo_fix=True, max_chars=2500, transcribe_fallback=True,
-               basename="narration", target_lufs=audio.VOICE_LUFS, target_tp=audio.VOICE_TP, log=None):
+               basename="narration", target_lufs=audio.VOICE_LUFS, target_tp=audio.VOICE_TP, log=None,
+               pace_retake=True, trim_word_ends=True, retake_max_lines=None, retake_max_takes=None, retake_ceiling_usd="stage"):
     log = log or (lambda *a: None)
     story, story_path = _load_story(story_json)
     fmt = fmt or story.get("format", "short")
@@ -165,7 +188,7 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
         best = None
         for k in range(n):
             tk, hit = _cached_tts(backend, cache_dir, text, vc["voice_id"], model_id, speed, k + 1, ci, k, work)
-            timed, source, cov, stats, dur = words_for_take(tk, words, backend, transcribe_fallback)
+            timed, source, cov, stats, dur = words_for_take(tk, words, backend, transcribe_fallback, trim_word_ends)
             clip = audio.clipping(tk.audio)
             w = pacing.wps(timed)
             sc = score_take(w, fmt, clip["clipped_samples"] > 0, cov)
@@ -192,6 +215,10 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
     words = []
     for off, p in zip(offsets, picked):
         words += align.shift(p[2], off)
+    stem_trim = (0, 0.0)
+    if trim_word_ends:  # L030: the joined stem shows the silence after each take's last word (the pads follow it)
+        words, n_tr, s_tr = align.trim_ends_to_speech(words, audio.silences(raw, TRIM_DB, TRIM_MIN_S))
+        stem_trim = (n_tr, s_tr)
 
     measured = pacing.wps(words)
     tempo = pacing.tempo_correction(measured, fmt) if tempo_fix else 1.0
@@ -208,8 +235,45 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
     if abs(tempo - 1.0) > 1e-4:
         words = align.scale(words, tempo)
     final_clip = audio.clipping(out_audio)
+    trim = None
+    if trim_word_ends:  # L030: a word ends where its sound ends (measured per take, words_for_take)
+        al = [p[3]["alignment"] for p in picked]
+        trim = {"take_words": sum(a.get("trimmed", 0) for a in al),
+                "take_seconds": round(sum(a.get("trimmed_s", 0) for a in al), 3),
+                "stem_words": stem_trim[0], "stem_seconds": stem_trim[1], "noise_db": TRIM_DB, "min_silence_s": TRIM_MIN_S}
 
-    # per-line timings
+    words_path = os.path.join(out_dir, basename + ".words.json")
+    lines_path = os.path.join(out_dir, basename + ".lines.json")
+    report_path = os.path.join(out_dir, basename + ".voice.json")
+    gaps_path = os.path.join(out_dir, basename + ".gaps.json")
+    with open(words_path, "w") as fh:
+        json.dump(words, fh, indent=0)
+    gaps_rep = None
+    if story.get("narration_gaps"):  # canon CAN-N2c: measure the gaps in the voiced words, top up short ones
+        from .gaps import enforce
+        gaps_rep = enforce(story, out_audio, words_path, gaps_path, log=log)
+        with open(words_path) as fh:
+            words = json.load(fh)
+    pace_rep = None
+    if pace_retake:  # canon CAN-N4f-pace: every block in the per-block band (tempo, else re-voice that block alone)
+        from .retake import pace_retake as _pace_retake
+        from factory.run.costs import voice_usd
+        words, pace_rep = _pace_retake(
+            story, out_audio, words, backend, vc["voice_id"], model_id, fmt=fmt, speed=speed, global_tempo=tempo,
+            cache_dir=cache_dir, work=os.path.join(work, "pace"), spent_usd=voice_usd(total_chars),
+            ceiling_usd=retake_ceiling_usd, max_lines=retake_max_lines, max_takes=retake_max_takes,
+            transcribe_fallback=transcribe_fallback, target_lufs=target_lufs, target_tp=target_tp, log=log,
+            trim_word_ends=trim_word_ends)
+        if any(f.get("applied") for f in pace_rep["fixes"]):
+            with open(words_path, "w") as fh:
+                json.dump(words, fh, indent=0)
+            loud = pace_rep.get("loudness_after") or audio.loudness(out_audio)
+            final_clip = audio.clipping(out_audio)
+            if story.get("narration_gaps"):  # re-measure: the splice keeps every gap, the report proves it
+                from .gaps import enforce
+                gaps_rep = enforce(story, out_audio, words_path, gaps_path, log=log)
+                with open(words_path) as fh:
+                    words = json.load(fh)
     line_rows, i = [], 0
     for ln in lines:
         n = len(script_words(ln["text"]))
@@ -218,26 +282,6 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
         if seg:
             line_rows.append({"id": ln["id"], "t0": seg[0]["s"], "t1": seg[-1]["e"], "words": n,
                               "wps": round(pacing.wps(seg), 3)})
-
-    words_path = os.path.join(out_dir, basename + ".words.json")
-    lines_path = os.path.join(out_dir, basename + ".lines.json")
-    report_path = os.path.join(out_dir, basename + ".voice.json")
-    with open(words_path, "w") as fh:
-        json.dump(words, fh, indent=0)
-    gaps_rep = None
-    if story.get("narration_gaps"):  # canon CAN-N2c: measure the gaps in the voiced words, top up short ones
-        from .gaps import enforce
-        gaps_rep = enforce(story, out_audio, words_path, os.path.join(out_dir, basename + ".gaps.json"), log=log)
-        with open(words_path) as fh:
-            words = json.load(fh)
-        line_rows, i = [], 0
-        for ln in lines:
-            n = len(script_words(ln["text"]))
-            seg = words[i:i + n]
-            i += n
-            if seg:
-                line_rows.append({"id": ln["id"], "t0": seg[0]["s"], "t1": seg[-1]["e"], "words": n,
-                                  "wps": round(pacing.wps(seg), 3)})
     with open(lines_path, "w") as fh:
         json.dump(line_rows, fh, indent=1)
     final_wps = pacing.wps(words)
@@ -255,6 +299,9 @@ def synthesize(story_json, out_dir, voice=None, model=None, backend=None, takes=
         "clipping": final_clip,
         "timing_sources": sorted({p[3]["timing_source"] for p in picked}),
         "gaps": None if gaps_rep is None else {"ok": gaps_rep["ok"], "inserts": len(gaps_rep["inserts"])},
+        "word_end_trim": trim,
+        "pace_retake": pace_rep,
+        "usd": {"voice": voice_usd_of(total_chars), "retakes": (pace_rep or {}).get("usd", 0.0)},
         "outputs": {"audio": out_audio, "words": words_path, "lines": lines_path},
     }
     with open(report_path, "w") as fh:

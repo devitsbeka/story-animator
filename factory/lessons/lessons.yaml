@@ -271,3 +271,12 @@
   check: "tests/canon (S1a on shot frames), factory/sound/test_sound.py (silence still ends on the payoff); waterspout v2: T1 visible 1.7 s, silence 1928-1941 clear of 'you.' (ends 1925)."
   gate: [direct, sound, merge]
   status: closed
+
+- id: L030
+  found: lead (waterspout v2 canon gate), 2026-11-22
+  symptom: After ElevenLabs voiced the waterspout v2 narration, three blocks sat outside the canon per-block pace band 2.2-3.3 w/s (L02 2.10, L10 2.11, L12 4.29 rushed) and the run simply failed CAN-N4f-pace; nothing fixed it.
+  root_cause: The voice stage only corrected the WHOLE narration's pace (one global atempo) and never measured blocks the way the gate does; char-alignment word ends ran through the pause after a final '.' or ',' so blocks and gaps were measured on silence; a re-voice of one line was impossible.
+  rule: 'The voice stage measures every block with the gate''s own function (pacing.block_pace) and fixes each out-of-band block itself: local atempo first (TOTAL tempo on that audio, global x local, inside voice_speed 0.9-1.1), then tightening of over-long internal pauses (never below 0.25 s, never a reserved gap), else a re-voice of that block alone (ElevenLabs speed 0.9-1.1, a new seed, previous_text/next_text), gain-matched and spliced with crossfades inside the surrounding silence so every narration gap is kept. At most 3 blocks x 2 takes per run, never past the voice stage cost ceiling; every attempt and its cost go to narration.voice.json pace_retake. A word ends where its sound ends.'
+  check: 'tests/voice/test_pace_retake.py (tempo-only, global-tempo limit, pause tightening, retake, gaps preserved, cap, cost ceiling, import backend, pace stress 1.6-4.2 w/s); CAN-N4f-pace measures with factory/voice/pacing.block_pace and FAILs a retake outside voice_speed; factory/sound/designer.py caps a gap''s key sound at planned len - 0.25 s (N2b); live proof on a copy of waterspout v2: CAN-N4f-pace PASS.'
+  gate: [run, qc, merge]
+  status: closed
