@@ -191,6 +191,29 @@ def _finish(timed):
     return out
 
 
+def trim_ends_to_speech(words, silences, release=0.04, min_word=0.05):
+    """Word ends never run into silence. Character alignment gives the final punctuation of a word ("gap.", "alone,")
+    the duration of the pause after it, so the word seems to last until the next one starts: block pace (canon
+    CAN-N4f-pace), gap lengths (CAN-N2c) and speech share (CAN-N2f) were all measured on sound that was not there.
+    For every word whose [s, e] contains the start of a detected silence that lasts to e (or past it), e moves to that
+    silence start + `release` (the word's natural decay). Starts are never moved. Returns (words, n_trimmed, seconds)."""
+    out, n, tot = [], 0, 0.0
+    sil = sorted((a, b if b == b else float("inf")) for a, b in silences)  # NaN end = silent to the end of file
+    for k, w in enumerate(words):
+        e = w["e"]
+        nxt = words[k + 1]["s"] if k + 1 < len(words) else float("inf")
+        for a, b in sil:
+            if w["s"] + min_word < a < e and b >= min(e, nxt) - 0.02:
+                ne = round(max(w["s"] + min_word, a + release), ROUND)
+                if ne < e - 0.02:
+                    tot += e - ne
+                    n += 1
+                    e = ne
+                break
+        out.append({**w, "e": e})
+    return out, n, round(tot, 3)
+
+
 def shift(words, offset):
     return [{"w": x["w"], "s": round(x["s"] + offset, ROUND), "e": round(x["e"] + offset, ROUND)} for x in words]
 

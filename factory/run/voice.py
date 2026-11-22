@@ -125,8 +125,14 @@ def _synthesize(story_path, ep_dir, offline=False, mode="auto", log=print):
         except (TypeError, AttributeError, KeyError):
             res = mod.synthesize(story, audio_dir)   # implementations that take the parsed story dict
         from . import costs
+        retake_usd, retake_chars = 0.0, 0
+        try:  # canon CAN-N4f-pace retakes (L030) are billed requests too: book them on the voice stage
+            pr = (json.load(open(res["report"])) or {}).get("pace_retake") or {}
+            retake_usd, retake_chars = float(pr.get("usd") or 0.0), int(pr.get("chars") or 0)
+        except (OSError, ValueError, KeyError, TypeError):
+            pass
         return {"audio": os.path.abspath(res["audio"]), "words": os.path.abspath(res["words"]), "provider": "factory.voice",
-                "chars": chars, "usd": costs.voice_usd(chars)}
+                "chars": chars + retake_chars, "usd": round(costs.voice_usd(chars) + retake_usd, 4)}
     if mode == "auto" and mod is None and not offline:
         log("[voice] factory.voice not available: using the stub narration")
     ref = os.path.join(ROOT, "episodes", str(story.get("id", "")), "audio")
