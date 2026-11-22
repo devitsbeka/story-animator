@@ -1,0 +1,163 @@
+{
+ "failures": {
+  "c_cover_fear": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017"
+  },
+  "c_doorway_sneeze": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "c_hands_up": {
+   "POSE-FINGERS.L": "L017"
+  },
+  "c_radio_mouth": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "d_reach": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017"
+  },
+  "d_rope": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "VOCAB": "L020"
+  },
+  "d_sit_rock_sneeze": {
+   "FOOT-CONTACT.L": "L009",
+   "FOOT-CONTACT.R": "L009",
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-SEAT": "L009",
+   "POSE-SPINE": "L009",
+   "VOCAB": "L020"
+  },
+  "d_wave": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-PALM.L": "L017"
+  },
+  "j_kneel": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017",
+   "VOCAB": "L020"
+  },
+  "j_phone": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017"
+  },
+  "j_shush_close": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017"
+  },
+  "j_sit_log": {
+   "FOOT-CONTACT.L": "L009",
+   "FOOT-CONTACT.R": "L009",
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-SEAT": "L009",
+   "POSE-SPINE": "L009",
+   "VOCAB": "L020"
+  },
+  "j_walk": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017",
+   "VOCAB": "L020"
+  },
+  "l009_abandoned_sit": {
+   "FOOT-CONTACT.L": "L009",
+   "FOOT-CONTACT.R": "L009",
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-SEAT": "L009",
+   "POSE-SPINE": "L009"
+  },
+  "l010_desert_grip": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "l020_abandoned_vocab": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017",
+   "VOCAB": "L020"
+  },
+  "l020_sea_vocab": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017",
+   "VOCAB": "L020"
+  },
+  "s_beacon": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "s_brace_wide": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "s_crouch_close": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017",
+   "POSE-PALM.R": "L017",
+   "VOCAB": "L020"
+  },
+  "s_sit_bench": {
+   "FOOT-CONTACT.L": "L009",
+   "FOOT-CONTACT.R": "L009",
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-SEAT": "L009",
+   "POSE-SPINE": "L009",
+   "VOCAB": "L020"
+  },
+  "y_bow_point": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.L": "L017"
+  },
+  "y_helm_wheel": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017"
+  },
+  "y_radio_shout": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-PALM.R": "L017"
+  },
+  "y_rail_fear": {
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017"
+  },
+  "y_sit_deck": {
+   "FOOT-CONTACT.L": "L009",
+   "FOOT-CONTACT.R": "L009",
+   "POSE-FINGERS.L": "L017",
+   "POSE-FINGERS.R": "L017",
+   "POSE-SEAT": "L009",
+   "POSE-SPINE": "L009"
+  }
+ },
+ "note": "baseline 2026-11-22 (quality_gate, merged lead 6a6c643): every entry is owned by an open lesson (L009 seat/spine/feet contact on seats, L017 fingers/palms/feet, L020 vocab). Prune with stress --update-known when fixes land; stress --strict is the closing bar.",
+ "schema": "factory.goldens.stress.known/1",
+ "updated": "2026-11-22T02:39:56+00:00"
+}
