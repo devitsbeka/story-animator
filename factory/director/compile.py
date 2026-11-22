@@ -138,6 +138,14 @@ def captions(story, offset):
     return caps
 
 
+def _series_defaults():
+    f = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "series", os.environ.get("FACTORY_SERIES", "default") + ".json")
+    if os.environ.get("FACTORY_SERIES") == "none" or not os.path.isfile(f):
+        return None
+    import json as _json
+    return _json.load(open(f))
+
+
 def compile_episode(plan, story, manifest, out_dir):
     shots = [compile_shot(s, plan["world"]["island"], plan["world"].get("set")) for s in plan["shots"]]
     chars, props = {}, {}
@@ -147,6 +155,17 @@ def compile_episode(plan, story, manifest, out_dir):
             chars[rk.split("/", 1)[1]] = _glb_for(e)
         elif rk.startswith("props/"):
             props[rk.split("/", 1)[1]] = _glb_for(e)
+    # series defaults (lesson L021): bind the current hero-tier assets, never superseded placeholders
+    series = _series_defaults()
+    if series:
+        hk = series["hero"]["key"]
+        chars.pop("hero", None)
+        chars[hk] = series["hero"]["entry"]
+        for sh in shots:
+            for a in sh.get("actors") or []:
+                if a.get("asset") == "hero":
+                    a["asset"] = hk
+        props.update(series.get("props", {}))
     eid = story["id"]
     w = plan["world"]
     fmt = story.get("format", "short")

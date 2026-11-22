@@ -1465,13 +1465,22 @@ def build_props(shot, yacht_root, frames):
 
 
 def egl_available():
+    """EEVEE needs a working GPU OpenGL/EGL context, not just libEGL on disk (lesson L020: headless CPU boxes have
+    libEGL but EEVEE fails with EGL_BAD_MATCH). Require a real GPU (nvidia driver) unless FORCE_EEVEE=1."""
+    if os.environ.get("FORCE_EEVEE") == "1":
+        return True
+    if sys.platform in ("darwin", "win32"):
+        return True
+    has_gpu = os.path.exists("/proc/driver/nvidia/version") or os.path.exists("/dev/nvidia0") or os.path.exists("/dev/dri/renderD128")
+    if not has_gpu:
+        return False
     for lib in ("libEGL.so.1", "libEGL.so"):
         try:
             ctypes.CDLL(lib)
             return True
         except OSError:
             pass
-    return sys.platform in ("darwin", "win32")
+    return False
 
 
 def setup_cycles_device(scene):

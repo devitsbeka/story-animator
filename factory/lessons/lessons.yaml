@@ -190,3 +190,21 @@
   gate: [direct, merge]
   regression_cases: [d_sit_rock_sneeze, j_sit_log, l020_abandoned_vocab, l020_sea_vocab, s_sit_bench]
   status: open
+
+- id: L020
+  found: lead (waterspout previs), 2026-11-22
+  symptom: 7 of 38 previs keyframes failed; the director had chosen EEVEE for them and EEVEE crashed headless (EGL_BAD_MATCH).
+  root_cause: egl_available() only checked that libEGL exists, so the automatic EEVEE->Cycles fallback never triggered on GPU-less machines.
+  rule: Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board.
+  check: egl_available() requires a GPU device node/driver (FORCE_EEVEE=1 override); previs stage fails the run if any key is missing; test renders an EEVEE-tagged shot on CPU and asserts Cycles fallback.
+  gate: [previs, render, merge]
+  status: partially-closed
+
+- id: L021
+  found: lead (waterspout previs), 2026-11-22
+  symptom: The factory's waterspout episode used the old placeholder hero and the old box yacht.
+  root_cause: Director stage 4 bound assets from a static render map pointing at superseded GLBs.
+  rule: New episodes bind the series' current hero-tier assets (factory/series/default.json); superseded placeholders can't be selected for close or medium shots.
+  check: compile applies series defaults; the asset-tier check (L008) blocks previs/placeholder assets within 10 m of camera; test asserts a compiled episode uses hero_v4 + proc:yacht_v2.
+  gate: [direct, merge]
+  status: partially-closed
