@@ -17,6 +17,22 @@ THINK_BRIEFLY = ("Your previous attempt spent its whole output budget thinking a
                  "short notes at most), then write the complete JSON object. Every requirement still applies.")
 
 
+ORDER_EFFORT = ["low", "medium", "high", "xhigh", "max"]
+STAGE_EFFORT_CAP = {"develop": "medium", "direct": "medium"}
+
+
+def effort_for(stage, base):
+    """The run's effort, capped per stage (STAGE_EFFORT_CAP; override DIRECTOR_STAGE_EFFORT_JSON='{"develop":"high"}')."""
+    caps = dict(STAGE_EFFORT_CAP)
+    raw = os.environ.get("DIRECTOR_STAGE_EFFORT_JSON")
+    if raw:
+        caps.update(json.loads(raw))
+    cap = caps.get(stage)
+    if not cap or base not in ORDER_EFFORT or cap not in ORDER_EFFORT:
+        return base
+    return base if ORDER_EFFORT.index(base) <= ORDER_EFFORT.index(cap) else cap
+
+
 def runaway_thinking(err, effort):
     """L023: max_tokens hit with >= 80% of the output spent on thinking -> the next lower effort, else None."""
     meta = getattr(err, "meta", None) or {}
@@ -95,6 +111,12 @@ class Runner:
         messages = [prompts.user_message(stage, self.idea, self.fmt, inputs)]
         schema = schemas.api_schema(SCHEMA[stage])
         rep = None
+        # L023: the canon-heavy stages start at their effort cap (high ran away in 3/3 live attempts); every stage
+        # starts from the run's base effort, so a lowered retry never leaks into the next stage
+        if hasattr(self.client, "effort"):
+            base = getattr(self, "_base_effort", None) or self.client.effort
+            self._base_effort = base
+            self.client.effort = effort_for(stage, base)
         for attempt in range(1, self.max_attempts + 1):
             t0 = time.time()
             try:

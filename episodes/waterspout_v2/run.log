@@ -46,3 +46,4 @@
 13:45:04 [waterspout_v2] [library] PASS - REUSE 11, SOURCE 0, BUILD 22 (to_fetch 0, to_build 22); catalog gaps: ['int:hero']
 13:45:04 [waterspout_v2] stage library: done in 1.8s ($0.000)
 13:45:04 [waterspout_v2] stage 4 direct: start
+13:55:05 [waterspout_v2] [direct] attempt 1: output budget spent on thinking; retrying at effort=medium
