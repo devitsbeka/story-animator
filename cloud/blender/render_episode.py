@@ -1196,6 +1196,7 @@ def build_cloudrig_actor(idx, a, entry, yacht_root, camera, shot, fps):
     cloudrig_adapter.set_character_options(arm, entry.get("options", {"Glasses": 0}))
     if entry.get("hair", "mesh") == "mesh":
         cloudrig_adapter.prefer_mesh_hair(coll)
+    log(f"  hero look-dev: {yachtmats.apply_hero_materials(objs)}")  # polish_light: skin SSS, cloth sheen, cornea
     sc = float(a.get("height", entry.get("height", 0)) or 0)
     h = cloudrig_adapter.natural_height(arm)
     sc = sc / h if sc > 0 else 1.0
@@ -1516,7 +1517,7 @@ def setup_render(args, spec):
     sc.render.image_settings.color_depth = "8"
     sc.render.image_settings.compression = 15
     sc.render.film_transparent = False
-    sc.render.use_motion_blur = not args.no_motion_blur
+    sc.render.use_motion_blur = not args.no_motion_blur and args.quality == "final"  # polish_light: preview stays fast
     sc.render.motion_blur_shutter = 0.5
     if args.threads:
         sc.render.threads_mode = "FIXED"
@@ -1544,6 +1545,23 @@ def setup_render(args, spec):
         sc.cycles.blur_glossy = 1.0
         sc.cycles.sample_clamp_indirect = 10.0
         sc.render.use_persistent_data = True
+        # >>> polish_light: final render profile (adaptive sampling + OIDN with albedo/normal guides; preview: fast)
+        final = args.quality == "final"
+        sc.cycles.adaptive_threshold = 0.02 if final else 0.05  # 0.02: keeps a 4090 under ~60 s at 1080x1920
+        sc.cycles.adaptive_min_samples = 0 if final else 4
+        try:
+            sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"
+            sc.cycles.denoising_prefilter = "ACCURATE" if final else "FAST"
+            sc.cycles.denoising_quality = "HIGH" if final else "FAST"
+        except (AttributeError, TypeError):
+            pass
+        sc.cycles.diffuse_bounces = 3 if final else 2
+        sc.cycles.volume_bounces = 0
+        sc.cycles.volume_step_rate = 1.0 if final else 4.0
+        sc.cycles.light_sampling_threshold = 0.01
+        sc.render.film_transparent = False
+        sc.render.dither_intensity = 1.0  # night gradients: dither so the sky does not band on phones
+        # <<< polish_light
     else:
         sc.render.engine = "BLENDER_EEVEE_NEXT"
         ee = sc.eevee
@@ -1774,6 +1792,10 @@ def build_shot(shot, frames, args):
         cam, range(shot["from"], shot["to"]), (spec.get("width", 1080), spec.get("height", 1920)), lib_collection, log,
         cam_at=lambda f: lod_cam_at(shot, f)))
     # <<< island_lod
+    # >>> polish_light: depth of field on the hero's eyes (final only; f-stop by shot size)
+    if lighting.active():
+        lighting.setup_dof(sc, cam, ACTORS.get("hero") or next(iter(ACTORS.values()), None), None, shot, args.quality)
+    # <<< polish_light
     storm.apply(shot, env, frames, cam, fps, log)  # props2 hook: rain, lightning, overcast, sepia grade
     if lighting.active():  # lighting hook: drops CamFill, warms practicals, haze, exposure offset
         lighting.finalize_shot(sc, shot, b3(centre))

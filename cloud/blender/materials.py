@@ -146,7 +146,7 @@ def _set_inputs(bsdf, **kw):
 # ---------------------------------------------------------------------------------------------
 # material builders (each restyles `mat` in place and returns it)
 # ---------------------------------------------------------------------------------------------
-GELCOAT = (0.80, 0.81, 0.79)      # warm off-white (linear)
+GELCOAT = (0.55, 0.55, 0.53)     # polish_light: warm off-white, exposure-safe (was 0.80: clipped under the moon)
 BOOT_NAVY = (0.006, 0.012, 0.045)
 ANTIFOUL = (0.012, 0.016, 0.03)
 
@@ -159,7 +159,7 @@ def gelcoat(mat, hull=False, waterline_z=None):
     # large soft roughness variation (polish / wear) + fine speckle
     n1 = N.noise(obj, 0.9, 3.0, 0.55)
     n2 = N.noise(obj, 18.0, 2.0, 0.5)
-    rough = N.math("ADD", N.maprange(n1.outputs["Fac"], 0.35, 0.65, 0.16, 0.34), N.maprange(n2.outputs["Fac"], 0.3, 0.7, -0.03, 0.04))
+    rough = N.math("ADD", N.maprange(n1.outputs["Fac"], 0.35, 0.65, 0.24, 0.42), N.maprange(n2.outputs["Fac"], 0.3, 0.7, -0.03, 0.04))  # polish_light: satin base under the coat
     # vertical grime streaks (rain/salt runs) - noise stretched along z
     streak = N.noise(N.stretch(obj, 6.0, 6.0, 0.35), 2.2, 4.0, 0.6)
     grime = N.maprange(streak.outputs["Fac"], 0.55, 0.8, 0.0, 0.10)
@@ -184,7 +184,7 @@ def gelcoat(mat, hull=False, waterline_z=None):
     N.set(b.inputs["Roughness"], rough)
     bump = N.node("ShaderNodeBump", {"Strength": 0.04, "Distance": 0.002, "Height": n2.outputs["Fac"]})
     N.set(b.inputs["Normal"], bump.outputs[0])
-    _set_inputs(b, metal=0.0, ior=1.5, spec=0.5, coat=0.35, coat_rough=0.06)
+    _set_inputs(b, metal=0.0, ior=1.5, spec=0.5, coat=0.22, coat_rough=0.2)  # polish_light: soft moon glint, no hot spot
     return mat
 
 
@@ -375,3 +375,100 @@ def apply_yacht_materials(objs, store=None, waterline=0.05):
                 nav_lens(m)
             done[m.name] = kind
     return done
+
+
+# >>> polish_light: hero (Blender Studio Jay / hero_v4) look-dev, applied after the character is appended.
+# Edits material/node-group INPUTS only (no topology changes to the studio shaders), so it is safe to re-run.
+CLOTH_FLOOR = (0.02, 0.02, 0.022)  # black cotton ~2% albedo, not 1% (1% crushes to a hole at night)
+
+
+def _lift_black(mat, floor=CLOTH_FLOOR, sheen=0.4, sheen_rough=0.32, sheen_tint=(0.75, 0.82, 1.0)):
+    """Black fabric: lift the albedo floor (LIGHTEN keeps prints / white stripes), cotton sheen so folds and the
+    silhouette catch the moon/rim (separation from the night sea)."""
+    nt = mat.node_tree
+    b = next((n for n in nt.nodes if n.type == "BSDF_PRINCIPLED"), None)
+    if b is None or mat.get("polish_light_cloth"):
+        return False
+    base = b.inputs["Base Color"]
+    if base.is_linked:
+        src = base.links[0].from_socket
+        lt = nt.nodes.new("ShaderNodeMix")
+        lt.data_type, lt.blend_type = "RGBA", "LIGHTEN"
+        lt.inputs[0].default_value = 1.0
+        nt.links.new(src, lt.inputs[6])
+        lt.inputs[7].default_value = rgba(floor)
+        nt.links.new(lt.outputs[2], base)
+    else:
+        c = base.default_value
+        base.default_value = (max(c[0], floor[0]), max(c[1], floor[1]), max(c[2], floor[2]), 1.0)
+    sw = b.inputs["Sheen Weight"]
+    if sw.is_linked:  # hoodie: print drives sheen off; keep the link, raise the cloth branch via its Mix input A
+        mx = sw.links[0].from_node
+        if mx.type == "MIX" and not mx.inputs[2].is_linked:
+            mx.inputs[2].default_value = max(mx.inputs[2].default_value, sheen)
+    else:
+        sw.default_value = max(sw.default_value, sheen)
+    b.inputs["Sheen Roughness"].default_value = sheen_rough
+    b.inputs["Sheen Tint"].default_value = rgba(sheen_tint)
+    mat["polish_light_cloth"] = 1
+    return True
+
+
+def _skin(groups):
+    """SH-skin: softer, less saturated scatter (red 2 cm, green/blue wider) so the moon-lit face reads as skin, not
+    red wax; a faint specular so the key/eye light models the cheeks without blowing them."""
+    ng = groups.get("SH-skin")
+    if ng is None or ng.get("polish_light"):
+        return False
+    cx = next((n for n in ng.nodes if n.type == "COMBXYZ"), None)
+    if cx is not None:
+        for k, v in zip("XYZ", (1.0, 0.42, 0.26)):
+            if not cx.inputs[k].is_linked:
+                cx.inputs[k].default_value = v
+    vm = next((n for n in ng.nodes if n.type == "VECT_MATH" and n.operation == "SCALE"), None)
+    if vm is not None and not vm.inputs["Scale"].is_linked:
+        vm.inputs["Scale"].default_value = 0.016
+    b = next((n for n in ng.nodes if n.type == "BSDF_PRINCIPLED"), None)
+    if b is not None:
+        b.inputs["Coat Weight"].default_value = 0.08  # thin oily layer: a soft broad highlight, no hot spot
+        b.inputs["Coat Roughness"].default_value = 0.38
+    ng["polish_light"] = 1
+    return True
+
+
+def _cornea(mat):
+    """Eyes: a clear coat (cornea) so the eye light gives a crisp catchlight; the sclera stays matte under it."""
+    b = next((n for n in mat.node_tree.nodes if n.type == "BSDF_PRINCIPLED"), None) if mat.use_nodes else None
+    if b is None:
+        return False
+    b.inputs["Coat Weight"].default_value = 1.0
+    b.inputs["Coat Roughness"].default_value = 0.02
+    b.inputs["Coat IOR"].default_value = 1.376
+    return True
+
+
+def apply_hero_materials(objs):
+    """Look-dev pass for an appended hero_v4 / Jay character. Returns {material: kind}."""
+    done = {}
+    mats = {}
+    for ob in objs:
+        for slot in getattr(ob, "material_slots", []):
+            if slot.material is not None:
+                mats[slot.material.name] = slot.material
+    for name, m in mats.items():
+        base = re.sub(r"\.\d{3}$", "", name)
+        if not m.use_nodes:
+            continue
+        if base in ("hero.hoodie_black", "hero.hoodie_rib", "hero.hoodie_seam", "hero.joggers_black"):
+            if _lift_black(m):
+                done[name] = "cloth_black"
+        elif base in ("hero.cap_black", "hero.cap_underbrim"):
+            if _lift_black(m, floor=(0.024, 0.024, 0.027), sheen=0.3):
+                done[name] = "cap"
+        elif base in ("jay.eyes", "jay.eyes_pupils"):
+            if _cornea(m):
+                done[name] = "cornea"
+    if _skin(bpy.data.node_groups):
+        done["SH-skin"] = "skin"
+    return done
+# <<< polish_light

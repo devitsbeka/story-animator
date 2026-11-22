@@ -133,13 +133,25 @@ BASE = {
     "eye_light_energy": 0.45,
     "shadow_floor": 0.03,         # L9: min shadow-side face radiance (linear) for a 0.45 albedo face
     "face_albedo": 0.45,
+    # >>> polish_light look-dev
+    "face_key": 1.3,              # face key cheat, x key irradiance when the moon misses the visible face side
+    "face_key_min": 0.5,          # ...and a share even when the moon keys the face: the hero outshines the set
+    "face_key_max_deg": 50.0,     # max azimuth of the face key off the camera axis (3/4 key)
+    "face_key_elev_deg": 18.0,    # low enough to get under the cap brim into the eyes
+    "face_key_size_m": 1.1,
+    "face_key_warmth": 0.55,      # moon blue -> warm-neutral: protects the skin hue band (recipe 6.3 appeal cheat)
+    "view_look": None,            # AgX look; None = by family (night: Medium High Contrast, storm: Punchy, dawn: Base)
+    "practical_glow": 2.2,        # deck-lamp glass emission strength (warm, not clipping)
+    "practical_bulb_scale": 0.3,  # deck-lamp bulb power scale (props author 60 W)
+    # <<< polish_light
 }
 
 DAWN = {"family": "dawn", "key_energy": 2.2, "key_color": (1.0, 0.70, 0.52), "fill_ratio": 3.0,
         "fill_color": (0.55, 0.55, 0.75), "rim_energy": 0.9, "rim_color": (1.0, 0.78, 0.62),
         "hdri": "ph:kloppenheim_02_puresky", "hdri_ambient": 0.11, "hdri_saturation": 0.7,
         "hdri_tint": (1.0, 0.86, 0.80), "exposure_ev": -0.3, "shadow_softness": 2.5,
-        "key_motivation": "sun", "rim_motivation": "sun", "retint_practicals": False}
+        "key_motivation": "sun", "rim_motivation": "sun", "retint_practicals": False,
+        "haze_color": (0.92, 0.74, 0.66)}  # polish_light: dawn mist picks up the pink-gold sky
 
 STUDIO = {"family": "studio", "key_source": "subject", "key_motivation": "softbox", "hdri": None,
           "fill_motivation": "bounce:card", "rim_motivation": "kicker", "key_color": kelvin_rgb(5600),
@@ -165,10 +177,11 @@ def _p(*parts, **kw):
 
 PRESETS = {
     # ---- the night set this episode lives in
-    "moonlight": _p(),
-    "moonlight_practical_mix": _p(fill_ratio=6.5),
+    # polish_light: low moonlit sea mist (homogeneous, 12 m deep: horizon depth, stars stay clear) for depth on every night preset of the episode
+    "moonlight": _p(haze_density=0.0011, haze_size_m=(700.0, 700.0, 12.0), exposure_ev=-0.4),
+    "moonlight_practical_mix": _p(fill_ratio=6.5, haze_density=0.0011, haze_size_m=(700.0, 700.0, 12.0), exposure_ev=-0.4),
     "low_key_portrait": _p(fill_ratio=10.0, rim_energy=1.3),
-    "rim_silhouette": _p(fill_ratio=14.0, rim_energy=2.2, key_energy=1.2, eye_light=False),
+    "rim_silhouette": _p(fill_ratio=14.0, rim_energy=2.2, key_energy=1.2, eye_light=False, face_key=0.0),
     "blue_hour": _p(key_energy=0.8, key_color=(0.45, 0.60, 1.0), fill_ratio=3.0, hdri_ambient=0.07,
                     hdri="ph:qwantani_night", exposure_ev=0.2, rim_energy=0.8),
     "storm_night": _p(key_energy=0.8, key_color=(0.50, 0.60, 0.85), fill_ratio=8.0, rim_energy=1.5,
@@ -227,7 +240,7 @@ PRESETS = {
 
 # numeric/colour fields interpolated when a night preset drifts toward dawn (env.dawn > 0)
 _BLEND = ("key_energy", "key_color", "fill_ratio", "fill_color", "rim_energy", "rim_color", "hdri_ambient",
-          "hdri_saturation", "hdri_tint", "exposure_ev", "shadow_softness")
+          "hdri_saturation", "hdri_tint", "exposure_ev", "shadow_softness", "haze_color")  # polish_light: + haze
 
 DEFAULT_PRESET = "moonlight_practical_mix"
 LEGACY = ("legacy", "off", "none")
@@ -705,12 +718,61 @@ def _camera_mean(shot):
     return cs / n, ls / n
 
 
+# >>> polish_light: hero-rig helpers (head bone of any rig, true world head position for yacht-space shots)
+HEAD_BONES = ("def-head", "head", "mixamorig:head", "fk-head")
+
+
+def head_bone_of(arm):
+    names = {b.name.lower(): b.name for b in arm.data.bones}
+    return next((names[n] for n in HEAD_BONES if n in names), None)
+
+
+def eye_point_rest(arm):
+    """Mid-eye point in armature space (rest): centre of the eyelid-corner bones, else 0.12 m above the head
+    bone head, pushed slightly forward."""
+    pts = [b.head_local for b in arm.data.bones if b.name.startswith(("DEF-Eyelid_Upper1", "DEF-Eyelid_Lower1",
+                                                                         "DEF-Eyelid_Upper4", "DEF-Eyelid_Lower4"))]
+    if pts:
+        c = sum(pts, Vector((0, 0, 0))) / len(pts)
+        return c + Vector((0, 0.02, 0))  # the lid bones sit on the cornea: the eyeball centre is a bit behind
+    hb = head_bone_of(arm)
+    b = arm.data.bones[hb] if hb else None
+    return (b.head_local + Vector((0, -0.08, 0.12))) if b else Vector((0, 0, 1.6))
+
+
+def _shot_yacht_matrix(shot):
+    """Blender-space matrix of the yacht's nominal (spec x/z/heading) pose; identity without a yacht."""
+    from mathutils import Matrix
+    y = shot.get("yacht")
+    if not y:
+        return Matrix.Identity(4)
+    return Matrix.Translation(_b3((y["x"], 0.0, y["z"]))) @ Matrix.Rotation(y.get("heading", 0.0), 4, "Z")
+
+
+def hero_world_point(holder, arm, shot, p_arm):
+    """World position of an armature-space point at the shot's nominal yacht pose. During the build the yacht
+    root is not yet moved to (x, z, heading) (that is keyed per frame later), so arm.matrix_world is
+    yacht-local: re-place it with the spec yacht pose so camera distances / rim sides are right."""
+    bpy.context.view_layer.update()
+    root = holder
+    while root.parent is not None:
+        root = root.parent
+    local = root.matrix_world.inverted() @ (arm.matrix_world @ p_arm)
+    return _shot_yacht_matrix(shot) @ local if root is not holder else arm.matrix_world @ p_arm
+
+
+def _posed_head(arm, hb):
+    pb = arm.pose.bones.get(hb) if hb else None
+    return pb.head.copy() if pb else Vector((0, 0, 1.6))
+# <<< polish_light
+
+
 def build_hero_rig(idx, holder, arm, actor, camera, shot):
     """Hero lights for the sequence rig: world-direction face fill, camera-aware rim cheat, eye light.
     Replaces the legacy hero-parented 'GAFFER moonlight portrait' lights."""
     cfg = STATE["cfg"]
     key_dir = STATE.get("key_dir") or _key_dir_blender(cfg)
-    head_bone = next((b.name for b in arm.data.bones if b.name.lower() in ("head", "mixamorig:head")), None)
+    head_bone = head_bone_of(arm)  # polish_light: CloudRig heads are DEF-Head
     # head follower: world position of the head, NO rotation -> children keep world-fixed directions
     fol = bpy.data.objects.new(f"light_head_{idx}", None)
     _link(fol)
@@ -770,7 +832,9 @@ def build_hero_rig(idx, holder, arm, actor, camera, shot):
     # --- rim cheat: behind the hero as seen from the shot's camera, biased to the moon side
     cam_mean, look_mean = _camera_mean(shot)
     bpy.context.view_layer.update()
-    head_w = fol.matrix_world.translation if head_bone is None else (arm.matrix_world @ arm.data.bones[head_bone].head_local)
+    # polish_light: true world eye position at the shot's yacht pose (was the yacht-local rest head -> 600 m
+    # camera distances on yacht shots away from the origin, so no eye light and a wrong rim side)
+    head_w = hero_world_point(holder, arm, shot, eye_point_rest(arm) if head_bone else _posed_head(arm, head_bone))
     to_cam = (cam_mean - head_w)
     to_cam.z = 0
     to_cam = to_cam.normalized() if to_cam.length > 1e-4 else Vector((0, -1, 0))
@@ -793,10 +857,33 @@ def build_hero_rig(idx, holder, arm, actor, camera, shot):
         _aim(r, fol)
         _light_link(r, recv, shadows=False)
         _tag(r, cfg["rim_motivation"], "rim")
+    # >>> polish_light: soft face key cheat. The world-fixed moon only models the face when the camera is on the
+    # moon side; when it is not (moon behind / beside the hero) the face falls into the 6:1 fill and reads as a
+    # black mask. A large soft area light, light-linked to the hero only, keeps the moon's elevation and side
+    # but is swung toward the camera (max `face_key_max_deg` off the lens axis) and is faded in as the real moon
+    # stops lighting the visible side of the face. Logged as a cheat (recipe 4.3.4 'kicker on face').
+    frontness = to_cam.dot(kh)  # +1 moon behind camera (moon keys the face), -1 moon behind hero
+    E_fk = cfg["face_key"] * E_key * max(cfg["face_key_min"], 1.0 - max(0.0, frontness))
+    if cfg["face_key"] > 0 and cfg["key_source"] == "celestial" and E_fk > 0.02:
+        cam_az = math.atan2(to_cam.y, to_cam.x)
+        rel_az = math.atan2(to_cam.cross(kh).z, to_cam.dot(kh))  # signed angle camera->moon (azimuth)
+        lim = math.radians(cfg["face_key_max_deg"])
+        faz = cam_az + max(-lim, min(lim, rel_az)) if abs(rel_az) > 1e-3 else cam_az + lim * side
+        fel = math.radians(cfg["face_key_elev_deg"])
+        d = 1.6
+        fdir = Vector((math.cos(faz) * math.cos(fel), math.sin(faz) * math.cos(fel), math.sin(fel)))
+        fk = _area(f"hero_facekey_{idx}", E_fk * math.pi * d * d, cfg["face_key_size_m"],
+                   _lerp(tuple(cfg["key_color"]), (1.0, 0.93, 0.86), cfg["face_key_warmth"]), fol, fdir * d)
+        _aim(fk, fol)
+        _light_link(fk, recv)
+        _tag(fk, cfg["key_motivation"], "face_key")
+        rep.setdefault("cheats", []).append(f"face_key: moon swung {math.degrees(rel_az - (faz - cam_az)):+.0f} deg toward camera")
+    # <<< polish_light
     # --- eye light (spec only), only when the camera is close (MCU or tighter)
     cam_dist = (cam_mean - head_w).length
-    if cfg["eye_light"] and cam_dist < 3.0:
-        e = _area(f"hero_eyelight_{idx}", 1.0, 0.25, (1.0, 1.0, 1.0), camera, (0.12, 0.08, 0.0))
+    if cfg["eye_light"] and cam_dist < 3.5:
+        # polish_light: small source (crisp catchlight on the coated cornea), just above the lens
+        e = _area(f"hero_eyelight_{idx}", 1.0, 0.12, (1.0, 0.97, 0.92), camera, (0.10, 0.12, 0.0))
         e.data.energy = cfg["eye_light_energy"] * E_key * math.pi * cam_dist * cam_dist
         for attr in ("visible_diffuse", "visible_transmission", "visible_volume_scatter"):
             try:
@@ -909,6 +996,229 @@ def _lightning(cfg, shot, key):
     return events
 
 
+# >>> polish_light: practicals, per-sequence look, camera depth of field
+def _scale_animated(idblock, data_path, k):
+    ad = getattr(idblock, "animation_data", None)
+    if ad and ad.action:
+        for fc in ad.action.fcurves:
+            if fc.data_path == data_path:
+                for kp in fc.keyframe_points:
+                    kp.co[1] *= k
+                    kp.handle_left[1] *= k
+                    kp.handle_right[1] *= k
+                return True
+    return False
+
+
+def _practicals(scene, cfg):
+    """Deck-lamp look: the glass glows warm amber instead of clipping to white, the bulb is a soft source the
+    size of the glass (soft shadows, inverse-square falloff) so it pools warm light on the console / face."""
+    n = 0
+    target = float(cfg["practical_glow"])
+    warm = tuple(cfg["practical_color"])
+    for m in bpy.data.materials:
+        if not m.name.startswith("lamp_glass") or not m.use_nodes:
+            continue
+        b = m.node_tree.nodes.get("Principled BSDF")
+        if b is None:
+            continue
+        es = b.inputs["Emission Strength"]
+        base = es.default_value
+        k = target / 8.0  # props.anchor_lamp authors 8.0
+        if not _scale_animated(m.node_tree, f'nodes["{b.name}"].inputs[{list(b.inputs).index(es)}].default_value', k):
+            es.default_value = base * k
+        b.inputs["Emission Color"].default_value = (1.0, warm[1] * 0.85, warm[2] * 0.55, 1.0)
+        b.inputs["Base Color"].default_value = (0.9, 0.62, 0.32, 1.0)
+        b.inputs["Roughness"].default_value = 0.35  # frosted glass: no hot specular
+        n += 1
+    for m in bpy.data.materials:  # instrument glow: readable, not clipping cyan-white blobs next to the face
+        if m.name.startswith(("helm_gauge", "panel_led")) and m.use_nodes and m.node_tree.nodes.get("Principled BSDF"):
+            b = m.node_tree.nodes["Principled BSDF"]
+            es = b.inputs["Emission Strength"]
+            if _scale_animated(m.node_tree, f'nodes["{b.name}"].inputs[{list(b.inputs).index(es)}].default_value', 0.35):
+                n += 1
+    for ob in scene.objects:
+        if ob.type == "LIGHT" and ob.data.type == "POINT" and ob.name.startswith("lamp") and ob.name.split(".")[0].endswith("_bulb"):
+            ob.data.shadow_soft_size = 0.045
+            ob.data.color = warm
+            k = float(cfg["practical_bulb_scale"])  # 60 W at arm's length is ~10x the moon on the face
+            if not _scale_animated(ob.data, "energy", k):
+                ob.data.energy *= k
+            n += 1
+    return n
+
+
+ALBEDO_WHITE_MAX = 0.6  # code-built white props (helm console, panels): off-white, never a clipping 0.8-0.9
+
+
+def _albedo_safe(scene):
+    """Exposure-safe albedo: flat (untextured) near-white Principled base colours are scaled to <= 0.6 so
+    moonlit white boxes do not clip next to the hero. Textured / emissive / character materials are left alone."""
+    n = 0
+    seen = set()
+    for ob in scene.objects:
+        if ob.type != "MESH" or ob.get("lighting_rig"):
+            continue
+        for slot in ob.material_slots:
+            m = slot.material
+            if m is None or m.name in seen or not m.use_nodes or m.name.startswith(("hero.", "jay.")):
+                continue
+            seen.add(m.name)
+            for b in m.node_tree.nodes:
+                if b.type != "BSDF_PRINCIPLED" or b.inputs["Base Color"].is_linked:
+                    continue
+                if b.inputs["Emission Strength"].default_value > 0 and max(b.inputs["Emission Color"].default_value[:3]) > 0:
+                    continue
+                c = b.inputs["Base Color"].default_value
+                if min(c[:3]) > 0.45 and max(c[:3]) > ALBEDO_WHITE_MAX:
+                    k = ALBEDO_WHITE_MAX / max(c[:3])
+                    b.inputs["Base Color"].default_value = (c[0] * k, c[1] * k, c[2] * k, c[3])
+                    n += 1
+    return n
+
+
+LOOKS = {"night": "AgX - Medium High Contrast", "storm": "AgX - Punchy", "dawn": "AgX - Base Contrast",
+         "day": "AgX - Base Contrast", "interior": "AgX - Medium High Contrast", "studio": "AgX - Base Contrast",
+         "underwater": "AgX - Medium Contrast"}
+
+
+def _grade(scene, cfg):
+    fam = cfg["family"]
+    if fam == "night" and cfg.get("lightning_per_s", 0) > 0:
+        fam = "storm"
+    if fam == "night" and cfg["dawn"] >= 0.3:
+        fam = "dawn"
+    look = cfg.get("view_look") or LOOKS.get(fam)
+    if look:
+        try:
+            scene.view_settings.look = look
+        except TypeError:
+            pass
+    return scene.view_settings.look
+
+
+def motion_blur_policy(scene, arm):
+    """Motion blur where it reads: camera + object (yacht, props) transform blur everywhere, deformation blur
+    only on the hero. The ocean / island meshes are millions of vertices; deform blur on them triples their
+    memory (OOM on shared 15 GB boxes) for blur nobody sees under the camera's own motion blur."""
+    if not scene.render.use_motion_blur:
+        return "off"
+    hero = set()
+    if arm is not None:
+        root = arm.parent or arm
+        hero = {o.name for o in root.children_recursive}
+    n = 0
+    for ob in scene.objects:
+        if ob.type not in ("MESH", "CURVES", "CURVE"):
+            continue
+        cy = getattr(ob, "cycles", None)
+        if cy is None:
+            continue
+        if ob.name not in hero:
+            cy.use_deform_motion = False
+            n += 1
+    try:
+        scene.cycles.motion_blur_position = "CENTER"
+    except AttributeError:
+        pass
+    scene.render.motion_blur_shutter = 0.5  # 180-degree shutter
+    star = star_safe_shutter(scene)  # L016: stars must not streak into 'rain'
+    return f"camera+object; deform on hero only ({n} meshes rigid); shutter {scene.render.motion_blur_shutter:.2f} ({star})"
+
+
+STAR_STREAK_MAX_PX = 1.2  # a star may smear at most this many pixels at render resolution
+
+
+def _cam_rate_px(scene, cam):
+    """Max image-space speed (pixels per frame) of a point at infinity, from the camera's keyed rotation and
+    lens over the frames being rendered (rotation only: translation does not move the sky)."""
+    import mathutils
+    ad = cam.animation_data
+    if not (ad and ad.action):
+        return 0.0
+    fcs = {fc.array_index: fc for fc in ad.action.fcurves if fc.data_path == "rotation_quaternion"}
+    lens = next((fc for fc in (cam.data.animation_data.action.fcurves if cam.data.animation_data and cam.data.animation_data.action else [])
+                 if fc.data_path == "lens"), None)
+    if len(fcs) < 4:
+        return 0.0
+    H = scene.render.resolution_y * scene.render.resolution_percentage / 100.0
+    worst = 0.0
+    prev = None
+    for i in range(scene.frame_start * 4 - 4, scene.frame_end * 4 + 5):  # quarter-frame steps
+        f = i / 4.0
+        q = mathutils.Quaternion([fcs[k].evaluate(f) for k in range(4)]).normalized()
+        if prev is not None:
+            ang = q.rotation_difference(prev).angle  # includes roll (sky rotates about the centre)
+            L = lens.evaluate(f) if lens else cam.data.lens
+            fov = 2 * math.atan((cam.data.sensor_height / 2) / max(L, 1e-3))
+            worst = max(worst, ang * 4.0 * H / fov)  # px per frame
+        prev = q
+    return worst
+
+
+def star_safe_shutter(scene):
+    """Shorten the shutter on night shots (stars in the sky) so a star never streaks more than
+    STAR_STREAK_MAX_PX; never below 0.06 frame (a whip pan keeps a hint of blur). Day/dawn keep 180 degrees."""
+    cfg = STATE.get("cfg")
+    cam = scene.camera
+    if cfg is None or cam is None or cfg["family"] != "night" or cfg["dawn"] >= 0.5:
+        return "no stars"
+    rate = _cam_rate_px(scene, cam)
+    sh = scene.render.motion_blur_shutter
+    if rate * sh > STAR_STREAK_MAX_PX:
+        sh = max(0.06, STAR_STREAK_MAX_PX / rate)
+        scene.render.motion_blur_shutter = sh
+    out = f"sky {rate:.1f} px/frame -> streak {rate * sh:.1f} px"
+    (STATE.get("report") or {})["star_streak_px"] = round(rate * sh, 2)
+    return out
+
+
+# shot size -> f-stop (frame height at the subject, metres). Wides stay deep; CUs get a soft background.
+FSTOPS = ((0.55, 2.8, "CU"), (1.0, 4.0, "MCU"), (1.8, 5.6, "MS"), (3.5, 8.0, "MLS"), (1e9, 16.0, "WS"))
+
+
+def setup_dof(scene, cam, arm, holder, shot, quality="final"):
+    """Depth of field focused on the hero's eyes (an empty riding the head bone at the mid-eye point, so the
+    focus follows the performance and the camera every frame); f-stop from the shot size at the keyframe."""
+    rep = STATE.get("report")
+    if rep is None:
+        rep = STATE["report"] = {}
+    camd = cam.data
+    rep["motion_blur"] = motion_blur_policy(scene, arm)
+    log(f"motion blur: {rep['motion_blur']}")
+    if quality != "final" or arm is None:
+        camd.dof.use_dof = False
+        return None
+    hb = head_bone_of(arm)
+    if hb is None:
+        return None
+    bone = arm.data.bones[hb]
+    from mathutils import Matrix
+    foc = bpy.data.objects.new("focus_eyes", None)
+    _link(foc)
+    foc.parent, foc.parent_type, foc.parent_bone = arm, "BONE", hb
+    foc.matrix_parent_inverse = Matrix.Identity(4)
+    tail_m = bone.matrix_local @ Matrix.Translation((0, bone.length, 0))
+    foc.location = tail_m.inverted() @ eye_point_rest(arm)
+    kf = int(shot.get("keyFrame", (shot["from"] + shot["to"]) // 2))
+    cur = scene.frame_current
+    scene.frame_set(kf)
+    d = (cam.matrix_world.translation - foc.matrix_world.translation).length
+    fov = 2 * math.atan((camd.sensor_height / 2) / max(camd.lens, 1e-3))
+    frame_h = 2 * d * math.tan(fov / 2)
+    fstop, size = next((f, n) for lim, f, n in FSTOPS if frame_h < lim)
+    scene.frame_set(cur)
+    camd.dof.use_dof = True
+    camd.dof.focus_object = foc
+    camd.dof.aperture_fstop = fstop
+    camd.dof.aperture_blades = 7
+    camd.dof.aperture_rotation = math.radians(12)
+    rep["dof"] = {"focus": "eyes", "shot_size": size, "fstop": fstop, "focus_m": round(d, 2), "frame_h_norm": round(frame_h, 2)}
+    log(f"dof: {size} f/{fstop} focus {d:.2f} m on the eyes")
+    return rep["dof"]
+# <<< polish_light
+
+
 def finalize_shot(scene, shot, centre=(0, 0, 0)):
     """After everything is built: drop the legacy camera-relative fill, warm the practicals, add haze,
     storm flashes, exposure offset, and record the checks in the report."""
@@ -921,6 +1231,10 @@ def finalize_shot(scene, shot, centre=(0, 0, 0)):
             rep.setdefault("removed", []).append(nm)
     if cfg["retint_practicals"]:
         rep["practicals_retinted"] = _retint(scene, cfg)
+    rep["practicals_lookdev"] = _practicals(scene, cfg)  # polish_light
+    rep["albedo_clamped"] = _albedo_safe(scene)  # polish_light
+    rep["look"] = _grade(scene, cfg)  # polish_light: AgX look per sequence family
+    cfg["haze_density"] *= float(os.environ.get("LIGHTING_HAZE_SCALE", "1"))  # polish_light: debug/perf knob
     if cfg["haze_density"] > 0:
         _haze(scene, cfg, Vector(centre))
         rep["haze_density"] = cfg["haze_density"]
