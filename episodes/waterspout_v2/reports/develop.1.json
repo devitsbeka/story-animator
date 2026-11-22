@@ -31,7 +31,7 @@
    ],
    "output_tokens": 64000,
    "output_tokens_details": {
-    "thinking_tokens": 60324
+    "thinking_tokens": 64000
    },
    "server_tool_use": null,
    "service_tier": "standard",
