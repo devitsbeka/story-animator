@@ -209,7 +209,7 @@
   regression_cases: [d_sit_rock_sneeze, j_sit_log, l022_abandoned_vocab, l022_sea_vocab, s_sit_bench]
   status: open
 
-- id: L020
+- id: L026
   found: craft canon review (polish_camera), 2026-11-22
   symptom: Close-ups used casually (C14 radio insert, C21/C22 punch-ins) so the decisive reaction had no weight; the reef impact (B10) was a locked-off handheld with a shake, the subject never left the frame.
   root_cause: Presets chose sizes per shot with no sequence-level budget for the close-up; impacts were covered with a generic noise layer instead of an operator reaction.
@@ -235,3 +235,12 @@
   check: "tests/director/test_gap_pace.py; factory/director/checks.py N-1 / N-1-budget subtract story.narration_gaps for shorts. Same class, found in the same run: the breakdown schema demanded line_ids on every scene, which forbade the canon's sound-only scenes (CAN-N1); line_ids may now be empty and S6 places such a scene after the previous one."
   gate: [develop, merge]
   status: closed
+
+- id: L025
+  found: compute_broker live Lambda run, 2026-11-22
+  symptom: A 24-frame Lambda preview launched 6 needless speculative copies (16 invocations for 10 chunks, ~1,650 extra GB-s) because the uncalibrated plan said 136 s per chunk and real chunks took 230-320 s on the account's 3008 MB cap.
+  root_cause: Straggler detection compared elapsed time with an uncalibrated estimate, so every task on the same kind of worker looked overdue at once; measured s/frame was not fed back into later plans.
+  rule: Speculative re-execution on the same provider needs a real anomaly (> 2x estimate + 60 s); a provider's measured s/frame, scene build and cold start are persisted after every run (calibration.json) and used by the next plan.
+  check: tests/compute/test_queue.py::test_same_provider_speculates_only_on_a_real_anomaly; broker.persist_calibration writes ~/.story-compute/calibration.json + s3 compute/calibration.json; registry.load applies it (test_adapters::test_registry_terms_gate_and_registry_merge).
+  gate: [merge]
+  status: partially-closed

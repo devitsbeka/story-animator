@@ -5,6 +5,8 @@ local: shard the episode into jobs with cloud/farm/jobs.py (one contiguous frame
        episodes/<id>/plates/<shot>/####.png; --skip-existing makes a re-run resume where it stopped.
 farm:  cloud/farm/orchestrator.py Farm.submit -> tick until RENDERED -> pull_plates (AWS; needs FARM_STACK or
        FARM_BUCKET/FARM_QUEUE_URL/FARM_TABLE).
+compute: factory/compute (the multi-provider broker): free capacity first (AWS Lambda free tier, member nodes, local
+       CPU), paid GPU pods only with COMPUTE_ALLOW_PAID=1 inside the budget; plates pulled into episodes/<id>/plates/.
 stub:  in-process placeholder plates (tiny PNGs, a slow push-in on the previs keyframe when there is one) so the whole
        chain runs in CI time.
 """
@@ -187,3 +189,18 @@ def render_farm(spec, ep_dir, episodes_root, quality, budget=None, shots=None, r
         raise RuntimeError(f"farm run {run_id}: {len(pulled['missing'])} plates missing after pull")
     return {"mode": "farm", "runId": run_id, "plates": pulled["plates"], "usd": float(info.get("spentUsd") or 0),
             "frames": info.get("frames"), "missing": [], "missingCount": 0}
+
+
+# ------------------------------------------------------------------------------------------------ compute broker
+# >>> compute_broker (factory/compute) - delimited block
+def render_compute(spec_path, plates, quality="preview", shots_frames=None, res=None, samples=None, budget=None,
+                   deadline_min=None, providers=None, api=None, log=print):
+    """Render through the compute broker (many providers at once, $0 capacity first) and pull plates."""
+    if api is None:
+        from factory.compute import api
+    res_ = api.render(spec_path, quality, frames=shots_frames, res=res, samples=samples, dest=plates,
+                      providers=providers, deadline_min=deadline_min, budget=0.0 if budget is None else budget, log=log)
+    if res_.get("missingCount"):
+        raise RuntimeError(f"compute run {res_.get('runId')} {res_.get('status')}: {res_['missingCount']} frames missing")
+    return res_
+# <<< compute_broker

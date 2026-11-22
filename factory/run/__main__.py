@@ -20,7 +20,7 @@ def common(ap, defaults=True):
     d = (lambda v: v) if defaults else (lambda v: None)
     ap.add_argument("--format", choices=["short", "docuseries"], default=d("short"))
     ap.add_argument("--style", default=d("pixar_night_survival"))
-    ap.add_argument("--render", choices=["local", "farm"], default=d("local"))
+    ap.add_argument("--render", choices=["local", "farm", "compute"], default=d("local"))
     ap.add_argument("--quality", choices=["preview", "final"], default=d("preview"))
     ap.add_argument("--offline", action="store_true", default=None, help="replay recorded LLM responses, stub/reference voice, no vision model")
     ap.add_argument("--stub", default=None, help=f"comma list of heavy steps to stub: {','.join(sorted(STUBBABLE))} (or 'all')")

@@ -19,10 +19,21 @@ def key_frame(shot):
 
 
 def render_keys(spec, spec_path, keys_dir, shots=None, res="144x256", samples=4, engine="EEVEE", workers=1,
-                threads=2, blender=None, log_dir=None, stub=False, log=print):
+                threads=2, blender=None, log_dir=None, stub=False, log=print, backend="local", compute=None):
     sel = [s for s in spec["shots"] if not shots or s["id"] in shots]
     if stub:
         return _stub_keys(sel, keys_dir, res)
+    if backend == "compute":   # >>> compute_broker: one frame per shot, spread over the free providers
+        todo = [(key_frame(s), key_frame(s)) for s in sel
+                if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))]
+        if todo:
+            if compute is None:
+                from factory.compute import api as compute
+            log(f"[previs] {len(todo)} keyframe(s) through the compute broker at {res}, {samples} spp")
+            compute.render(spec_path, "preview", frames=todo, res=res, samples=samples, dest=keys_dir, log=log)
+        missing = [s["id"] for s in sel if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))]
+        return {"keys": len(sel) - len(missing), "missing": missing, "failed": [], "backend": "compute"}
+    # <<< compute_broker
     cmds = []
     for s in sel:
         f = key_frame(s)
@@ -114,10 +125,10 @@ def animatic(spec, keys_dir, out_mp4, audio=None, offset_frames=0, size=(270, 48
 
 
 def run(spec, spec_path, boards_dir, audio=None, shots=None, stub=False, res="144x256", samples=4, workers=1,
-        blender=None, log=print):
+        blender=None, log=print, backend="local"):
     keys = os.path.join(boards_dir, "keys")
     k = render_keys(spec, spec_path, keys, shots=shots, res=res, samples=samples, workers=workers, blender=blender,
-                    log_dir=os.path.join(boards_dir, "logs"), stub=stub, log=log)
+                    log_dir=os.path.join(boards_dir, "logs"), stub=stub, log=log, backend=backend)
     sheet = contact_sheet(spec, keys, os.path.join(boards_dir, "contact_sheet.png"))
     anim = animatic(spec, keys, os.path.join(boards_dir, "animatic.mp4"), audio,
                     (spec.get("audio") or {}).get("offsetFrames", 0))
