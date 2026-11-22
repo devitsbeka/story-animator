@@ -1,0 +1,965 @@
+{
+ "goldens": {
+  "hero_face_sheet": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:57+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "59fd8a3a80b000f4fe13d9491413ec359b53b2a1388d78461eabaf19df8e81a5",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "d5c25e9b504a70b4b02ca39e3cddfd5df36310dd580551bc8e39955f278a2f63",
+   "stats": {
+    "edge_density": 0.05979,
+    "mean_luma": 0.41577,
+    "mean_rgb": [
+     0.44622,
+     0.40729,
+     0.41008
+    ],
+    "size": [
+     2180,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "hero_pose_sheet": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "dbb84f79130b4c655224f2170e4e6bb0579aa13827731463e39c6e9ca4c6021e",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "8be9ee32a2e039433f7733b6ea75467f16f68e2dc2fcc830a0fe87e46afaab09",
+   "stats": {
+    "edge_density": 0.02825,
+    "mean_luma": 0.50417,
+    "mean_rgb": [
+     0.49824,
+     0.50417,
+     0.52152
+    ],
+    "size": [
+     2180,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "hero_turnaround": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "b45304f3f8702310c7fb74b9fddbaaccd90e09ab356ca2026fda6c5bcabac59a",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "5e8702a3a6433b06e660a7a343d04552b43500092f456ab15d4934c378691ba6",
+   "stats": {
+    "edge_density": 0.02885,
+    "mean_luma": 0.46924,
+    "mean_rgb": [
+     0.46311,
+     0.46928,
+     0.4869
+    ],
+    "size": [
+     1452,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_abandoned_city_street": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "debdbe6ed4c216fdcebfce5d96cf4a89798499f210d9a29226d07d1105eb146b",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "b48c403ee9ade6adc337f066299564d4a2f3626313cc327dc78ecc5c48cebf19",
+   "stats": {
+    "edge_density": 0.02653,
+    "mean_luma": 0.12217,
+    "mean_rgb": [
+     0.18298,
+     0.11111,
+     0.05268
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_desert_canyon": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "278687d482da2ae9ba47c097170f50be3f3225536e2cc4a7b1cc1969f8dd1ffc",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "64d2cddbf2fa91589ea722f8ffc691ad7866ee6248e905dfacae0bbcba06311e",
+   "stats": {
+    "edge_density": 0.0802,
+    "mean_luma": 0.21205,
+    "mean_rgb": [
+     0.32155,
+     0.19091,
+     0.09898
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_jungle_clearing": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "451f39ad08ef446d38b7465393389ef827552ea8f4339a4fb7145d060ea9d44a",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "68fdf211b54c6509a9145a83a58c38246a4560b5fe77083392e454f03d8766c1",
+   "stats": {
+    "edge_density": 0.04362,
+    "mean_luma": 0.10146,
+    "mean_rgb": [
+     0.14232,
+     0.09369,
+     0.05809
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "kit_snow_mountain_ridge": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "d6581612361ba4143663677cbb27924c29a475b0e42b3e89f110a82b50c9d5ec",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "9e33bc95e792a8d2c94a27c1d610554cf1645b5780f9e22d8b4896900d7bad20",
+   "stats": {
+    "edge_density": 0.03667,
+    "mean_luma": 0.6224,
+    "mean_rgb": [
+     0.63235,
+     0.61897,
+     0.62705
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_A01a": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "e7f31166e4ecd307c070ed0cf27fd3b98463fd3317fe4454da1e226a13d09bdc",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "e814345f7768947b44913db71d5b350b92014b08616bfe92f339a3ca36949010",
+   "stats": {
+    "edge_density": 0.14865,
+    "mean_luma": 0.14379,
+    "mean_rgb": [
+     0.10091,
+     0.14964,
+     0.21205
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_A02": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "5969430aa150a77fcea43ea1a3042cd86e7f9a6fef75b6dc3b3bf3953cdc70eb",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "ed6e032fcdb6c38643d5e94f8f1394d1ccc5d03262ddb39b78d6165895155d63",
+   "stats": {
+    "edge_density": 0.0,
+    "mean_luma": 0.36373,
+    "mean_rgb": [
+     0.4653,
+     0.35043,
+     0.19643
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_B11": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "f67d241443d1a98baa9517072207bdd118cdee0b545ee48c13a2c65891db2eca",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "f7fa12e17cfec70aca2d694bc2dac3498c22f00c89a7f778492f8dafb540d5e9",
+   "stats": {
+    "edge_density": 0.06943,
+    "mean_luma": 0.23877,
+    "mean_rgb": [
+     0.20967,
+     0.24229,
+     0.28955
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_C13": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "810832ce1fedb4a8a29d4452b7691694a392e26256f9601a825b9337a3dbc0ca",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "77a5cf7ef75c8047714c969823e15da3d2f96344f88472f346b619021c4ff5a7",
+   "stats": {
+    "edge_density": 0.04829,
+    "mean_luma": 0.29243,
+    "mean_rgb": [
+     0.27836,
+     0.29301,
+     0.32807
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_C21": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "f90891a55e6ef52f06a6b48e76f3caf24d18f38f8113814c727dab95b5d2c7ff",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "64fbccffc8509e47f3bc92e51c1c58caf7ec83fb4fe480a430ba55fe572944fb",
+   "stats": {
+    "edge_density": 0.05641,
+    "mean_luma": 0.41317,
+    "mean_rgb": [
+     0.40714,
+     0.41205,
+     0.44195
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "sentinel_E31": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "35dec3c63dd446634b3250ac8aac028a2951d36d42c7637dbdec71ee43fab77c",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "19300005b9f96c1de50007d528f301733ded3ccecbde8e146130cb22e1ceed13",
+   "stats": {
+    "edge_density": 0.09408,
+    "mean_luma": 0.35623,
+    "mean_rgb": [
+     0.38413,
+     0.34712,
+     0.36432
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_c_cover_fear": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "6da189e9dbeae803d09f73c652a19d4da8502e96176eef3da032dc47eefcb158",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "c126d35d7beddb07d9ed08ea94b1e44766cf77cc0bcc497ce1722e84bdd2218c",
+   "stats": {
+    "edge_density": 0.03501,
+    "mean_luma": 0.17037,
+    "mean_rgb": [
+     0.20044,
+     0.16224,
+     0.16232
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_c_doorway_sneeze": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "96c2a44aaf260408de6dfd895be9d3fea046c80ec82f78144252b72a006d2b85",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "624bf5b1c98523ee1be4b5f57031cb3e3e9c10e7860d05e8fadf67acdcb93825",
+   "stats": {
+    "edge_density": 0.0302,
+    "mean_luma": 0.23191,
+    "mean_rgb": [
+     0.24785,
+     0.22637,
+     0.23976
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_c_hands_up": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "6c5a2f2515d372a23f7a76fdb40ebb7f33e886169ae296a1d0434a32f1ce5ce3",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "edc6e59a343b4e07f69bb5b44a15e0397bdf901cd3063c6c566441387549bb19",
+   "stats": {
+    "edge_density": 0.00523,
+    "mean_luma": 0.08302,
+    "mean_rgb": [
+     0.14455,
+     0.07036,
+     0.02727
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_c_radio_mouth": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "8e15628271553812e0f8150276b97b0b1ee9fb62288844d8166f2b5e5bbd2c80",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "b29455d39562a1ffa07dbf6114e8ef6b5f0921023dc9d445556f6bba009d74d5",
+   "stats": {
+    "edge_density": 0.03385,
+    "mean_luma": 0.10886,
+    "mean_rgb": [
+     0.12385,
+     0.1042,
+     0.11086
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_d_reach": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "b0ca5f91a28c6a9d04854c1c668f8702e5d554499e3f0dfa1f4a6d531cc50d21",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "b8b2065eada5673673b9d41a04ffdfcc3e4905ea7bfc10343b7937296ac13ce5",
+   "stats": {
+    "edge_density": 0.02981,
+    "mean_luma": 0.43384,
+    "mean_rgb": [
+     0.59189,
+     0.40222,
+     0.28165
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_d_rope": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "5a45018f7c6f72998c1487d4602b403476dafccc22836792bacdcb69efbc735f",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "a11cd0bf182b8e2d10ce189b3a65e333e5b8f8f07f197c567529748872a1e44b",
+   "stats": {
+    "edge_density": 0.03043,
+    "mean_luma": 0.31632,
+    "mean_rgb": [
+     0.47015,
+     0.28518,
+     0.17182
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_d_sit_rock_sneeze": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "da623b2ece90dd2747dc1451caecb06b6fbd818440b479c712602853c8ff6499",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "1fe0fdc89d43307a889fda0e9a9b52f09c46f13fb51e9725cd7b0d589d7fa2e3",
+   "stats": {
+    "edge_density": 0.03509,
+    "mean_luma": 0.39241,
+    "mean_rgb": [
+     0.50766,
+     0.36879,
+     0.28707
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_d_wave": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "bf4ae0b54280e6fe13ba4901ac5e4c402977eb12b31cfbccaf2e265195c5b18f",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "93df00ef2a1af652e4997a959fa66dc4eaf877a66f640f2f27e1576583fd5142",
+   "stats": {
+    "edge_density": 0.0178,
+    "mean_luma": 0.4389,
+    "mean_rgb": [
+     0.61795,
+     0.40383,
+     0.25914
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_j_kneel": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "dbe3d9e4fdf660a32b758aa06e614ec995b2c90a3edf3347a44d4fef857fba21",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "ba233d217056eafb18bf7ba45c7e873b9eb84d9c5e6019e56daf72e4d7d2b899",
+   "stats": {
+    "edge_density": 0.01398,
+    "mean_luma": 0.1525,
+    "mean_rgb": [
+     0.16247,
+     0.14763,
+     0.17145
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_j_phone": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "1545b2c1ac9d96f86ce79fde2e11fab602fa7507c2893877c3a71ca4531c70c7",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "dcec08afa94f68f617242dd3c9dc743aa9b2dfe0e4a14aa821c867bb13dda31d",
+   "stats": {
+    "edge_density": 0.02511,
+    "mean_luma": 0.13437,
+    "mean_rgb": [
+     0.15492,
+     0.12781,
+     0.13888
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_j_shush_close": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "411795d5ba468c8341c41813806f27299f735578738513da9b76f4baf2748087",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "34d5f1a169f7b809cabcd2eaf328abcd0ea4e6da532d88c76bc8b27e79358bb2",
+   "stats": {
+    "edge_density": 0.04098,
+    "mean_luma": 0.1603,
+    "mean_rgb": [
+     0.2074,
+     0.14808,
+     0.14274
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_j_sit_log": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "7509b9ae214761c8841aeba469bb08dd70ed524514d7f24dc3cb5453fae05b07",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "472b1501c21e9ecc226ccd96eeb3a886ae425855f81474b3f790c92b8731d853",
+   "stats": {
+    "edge_density": 0.03404,
+    "mean_luma": 0.11657,
+    "mean_rgb": [
+     0.14645,
+     0.10787,
+     0.11474
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_j_walk": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "20eff96d6dae6bb3c8663387f9cf521158d21924e2f4b83dd5aefe66fd061ab2",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "32a13bacdb718fce75674dc1e0845585f075961d5adcc5bf104a907a3a700cb1",
+   "stats": {
+    "edge_density": 0.01201,
+    "mean_luma": 0.15072,
+    "mean_rgb": [
+     0.15556,
+     0.14636,
+     0.17966
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_l009_abandoned_sit": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "544bd9899f73256fa2b534963f43cfc2f526d627bb8b81b3b6503dc2be345cf7",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "1e60632770b497b5b05a6a67cc3eb5ad157199534106749b2547b0fbdd8683f4",
+   "stats": {
+    "edge_density": 0.03694,
+    "mean_luma": 0.17917,
+    "mean_rgb": [
+     0.19828,
+     0.1728,
+     0.18603
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_l010_desert_grip": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "16ec58d5c43fc37f677f10281a87fc0c8358571b0b35e899828253f8a7a331b1",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "fec1c69754a889ebb3134301b6fe6317cae68d891a438d51758ca8328fa47c84",
+   "stats": {
+    "edge_density": 0.02922,
+    "mean_luma": 0.44616,
+    "mean_rgb": [
+     0.59807,
+     0.41564,
+     0.30122
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_l022_abandoned_vocab": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "852326503139421c402291b029beffbfce8b89ae93445d3e76a0345893dc64ee",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "87b8d94fd4207b4b1dd8bc9b0e9c576f2e68ee42d25a3dee2e1a5a3c5719aaed",
+   "stats": {
+    "edge_density": 0.02934,
+    "mean_luma": 0.11227,
+    "mean_rgb": [
+     0.14578,
+     0.10535,
+     0.08214
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_l022_sea_vocab": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "34861092a6b8d01ef9d393de4461792713e386fb7b0ffad66a9954cbf61d30f7",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "3c428965139d692fcb474c46eec04d2854f53813b9f6fb103bd2d0e1d33d29f9",
+   "stats": {
+    "edge_density": 0.02442,
+    "mean_luma": 0.48756,
+    "mean_rgb": [
+     0.50725,
+     0.48432,
+     0.46169
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_s_beacon": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "d870ad6a1f2cf3b0f2539998e1c3fa62160b40c3b34a2706d96fddef265c6e74",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "e321fe02721d646f72be4250742ed18a3ae3ae1424561e487aabfd970b61e398",
+   "stats": {
+    "edge_density": 0.04104,
+    "mean_luma": 0.57694,
+    "mean_rgb": [
+     0.59297,
+     0.57221,
+     0.57659
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_s_brace_wide": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "81acd4d0bb7cb4c165588cb00be10d1fc4bdbb4dc820b63d8a667a0004e714d1",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "6a475c258232ba93a1d9e57fbbe8c59e0feb3dd49026ab0ee201f9c2c460760e",
+   "stats": {
+    "edge_density": 0.02579,
+    "mean_luma": 0.67916,
+    "mean_rgb": [
+     0.69012,
+     0.67438,
+     0.69425
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_s_crouch_close": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "525ff36878702bb73b918d4c486d766c60b9114c2f83c11126e855e7fba707e6",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "d132d66bb1587ce732ee8b48c949f62facc99132588560d880fdd9695f0fc8ff",
+   "stats": {
+    "edge_density": 0.00825,
+    "mean_luma": 0.55516,
+    "mean_rgb": [
+     0.57477,
+     0.54774,
+     0.57095
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_s_sit_bench": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:45+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "5d5b744ef7f1408dfbd9c36b52f59210ffa86c27d4bae6434062c5e7ce744e16",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "18e830dd0da5f4e98e8465c08e9466aac05d3835c0356c500d9fdb682625e017",
+   "stats": {
+    "edge_density": 0.04501,
+    "mean_luma": 0.54784,
+    "mean_rgb": [
+     0.58468,
+     0.53691,
+     0.54762
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_y_bow_point": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "5e366475ca6ba92e54b958f409e0e84aa84432985cf49f6be7a00f3a75407fee",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "937b544f0b5f2229312ff6d7941d6f21455e826d1e1fed80342f0ef10d45ea51",
+   "stats": {
+    "edge_density": 0.10548,
+    "mean_luma": 0.27878,
+    "mean_rgb": [
+     0.24093,
+     0.28353,
+     0.34322
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_y_helm_wheel": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "2f9d410d303a81b8b030e0c18f151c5e9740b8df6cfe8a775b083b7966947be0",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "3548d4e1087d96d7165c40187faf7cadd5ac548ceaede4e5bfffb771ffe076f4",
+   "stats": {
+    "edge_density": 0.04701,
+    "mean_luma": 0.25726,
+    "mean_rgb": [
+     0.23298,
+     0.26013,
+     0.30033
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_y_radio_shout": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "94251c694ba9c96d9a255bb703fb3f021ba1a7505678d928f3b63cae27ee23c9",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "2f4c98edaad9b8500290706a5275af23ba91bbb0abc9041a5aec778673938cbb",
+   "stats": {
+    "edge_density": 0.01484,
+    "mean_luma": 0.0764,
+    "mean_rgb": [
+     0.07456,
+     0.07469,
+     0.09872
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_y_rail_fear": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "7bb4d38b59d262af8ca58ab72ac7da560570307c26ba63f3e398149415696ebf",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "2ef2c0702a994ddbee0c19f57f12cb1cefe35c4fc068a3ec360520a2c89fdb0b",
+   "stats": {
+    "edge_density": 0.0602,
+    "mean_luma": 0.18007,
+    "mean_rgb": [
+     0.14228,
+     0.18493,
+     0.24326
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "stress_y_sit_deck": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T02:39:44+00:00",
+   "by": "operator",
+   "commit": "242050a7e5816f45409efc3bb94a8e9b5c1fa5d3",
+   "inputs_hash": "7316f2141a6a17801f87528a9b2f24c9b3b27a0595521e74da7c487665538064",
+   "metrics_vs_previous": null,
+   "note": "stress suite baseline (quality_gate): generated scenarios rendered at 360x640/8spp from the merged lead state; they show today's open defects (flat fingers L010/L017, palms turned back L017, seated hover L009, missing kneel/crouch/walk vocab L022) and must be re-approved as those fixes land",
+   "sha256": "68e99527d10342d787b2564653d951c095eeece5536d33611c93ad7dbbcc932b",
+   "stats": {
+    "edge_density": 0.03025,
+    "mean_luma": 0.40764,
+    "mean_rgb": [
+     0.44426,
+     0.40101,
+     0.36548
+    ],
+    "size": [
+     360,
+     640
+    ]
+   },
+   "vision": null
+  },
+  "yacht_turnaround": {
+   "accepted_worse": false,
+   "approved_at": "2026-11-22T00:32:58+00:00",
+   "by": "operator",
+   "commit": "6253651bdb4107b0fd449b5e7b85c9779eb3e6a7",
+   "inputs_hash": "1de2c7be818549ea987e95b3458fa861aa7690b8fa7ad9bd2b89ab3e899f26d8",
+   "metrics_vs_previous": null,
+   "note": "Initial baseline rendered from the current lead branch (claude/nice-tesla-xwtpsi @ 6253651: hero_v4 Jay rig with unposed flat fingers and the lean-back sit, box-built yacht, v5 cameras incl. A02 inside the cabin). These are NOT quality targets: the polish sprint (yacht detail, hands/pose, face, look-dev, camera) will intentionally improve several goldens and must re-render them and 'python -m factory.goldens approve --only <ids> --note ...' with a note per change. sentinel D23-D26 (set 'primrose') currently fail to render (unknown world kit 'primrose'), so E31 stands in; kit_snow_mountain_ridge uses the curated library (the full fir scatter OOMs the 15 GB cgroup).",
+   "sha256": "a392dbc1ac5d283589db337585ef7d4e4285c851f25cbc93292bbdc3614f65a3",
+   "stats": {
+    "edge_density": 0.05932,
+    "mean_luma": 0.15899,
+    "mean_rgb": [
+     0.12736,
+     0.16309,
+     0.21161
+    ],
+    "size": [
+     1452,
+     640
+    ]
+   },
+   "vision": null
+  }
+ },
+ "schema": "factory.goldens.baseline/1"
+}

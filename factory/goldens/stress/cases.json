@@ -1,0 +1,66 @@
+{
+ "schema": "factory.goldens.stress.cases/1",
+ "cases": [
+  {
+   "lesson": "L009",
+   "stance": "sit*",
+   "tag": "sit"
+  },
+  {
+   "lesson": "L010",
+   "hands": [
+    "radio*",
+    "phone",
+    "beacon"
+   ],
+   "tag": "grip"
+  },
+  {
+   "lesson": "L011",
+   "size": "close",
+   "tag": "face"
+  },
+  {
+   "lesson": "L012",
+   "size": "close",
+   "tag": "frame"
+  },
+  {
+   "lesson": "L022",
+   "stance": [
+    "kneel",
+    "crouch",
+    "walk",
+    "sit_log",
+    "sit_rock",
+    "sit_bench"
+   ],
+   "tag": "vocab"
+  },
+  {
+   "lesson": "L017",
+   "hands": [
+    "relaxed",
+    "rail",
+    "wave",
+    "point",
+    "hands_up"
+   ],
+   "size": [
+    "close",
+    "medium"
+   ],
+   "tag": "palms"
+  },
+  {
+   "lesson": "L018",
+   "size": "close",
+   "tag": "alive"
+  },
+  {
+   "lesson": "L019",
+   "size": "wide",
+   "tag": "glazing"
+  }
+ ]
+}

@@ -289,7 +289,30 @@ SECTIONS = [  # name, start(D), end(D), ASL range (s), target
 ]
 
 
-def validate(ep):
+# >>> quality_gate: rules that enforce lessons (factory/lessons/lessons.yaml)
+def lesson_rules(ep, mode=None):
+    """TIER (L008, warn in previs / fail in final) and PROXY (L012, camera inside yacht/prop geometry)."""
+    import asset_tier
+    import mesh_proxy
+    mode = mode or ep.get("quality") or os.environ.get("FACTORY_VALIDATOR_MODE") or "previs"
+    out = []
+    try:
+        t = asset_tier.tier_rule(ep, mode)
+        out.append(rule("TIER", t["name"], t["status"], t["detail"], t["shots"]))
+    except (OSError, KeyError, ValueError) as e:
+        out.append(rule("TIER", "asset tier vs camera distance", "skip", f"catalog unavailable: {e}"))
+    if mesh_proxy.load("yacht") is None:
+        out.append(rule("PROXY", "camera not inside yacht/prop geometry (mesh proxies)", "skip", "factory/direction/proxies/yacht.json missing"))
+        return out
+    hits = {s["id"]: mesh_proxy.shot_hits(s) for s in ep["shots"]}
+    bad = {k: v for k, v in hits.items() if v}
+    det = "; ".join(f"{k}: inside {sorted({p for _, ps in v for p in ps})[:3]} @ {v[0][0]}" for k, v in bad.items())
+    out.append(rule("PROXY", "camera not inside yacht/prop geometry (mesh proxies)", "fail" if bad else "pass", det or "ok", list(bad)))
+    return out
+# <<< quality_gate
+
+
+def validate(ep, mode=None):
     shots = sorted(ep["shots"], key=lambda s: s["from"])
     A = [analyse_shot(ep, s) for s in shots]
     fps = ep.get("fps", 30)
@@ -486,6 +509,7 @@ def validate(ep):
     R.append(rule("VIS", "subject in front of the camera and inside the frame", "fail" if vis else "pass",
                   f"not visible on some frames: {vis}" if vis else "ok", vis))
 
+    R += lesson_rules(ep, mode)  # quality_gate: L008 asset tier + L012 camera inside geometry (mesh proxies)
     counts = {k: sum(1 for r in R if r["status"] == k) for k in ("pass", "fail", "warn", "skip")}
     evald = counts["pass"] + counts["fail"] + counts["warn"]
     score = round(100 * (counts["pass"] + 0.5 * counts["warn"]) / max(1, evald), 1)
@@ -522,13 +546,14 @@ def main():
     ap.add_argument("--out", help="write the JSON report here")
     ap.add_argument("--strict", action="store_true", help="exit 1 if any rule fails")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--mode", choices=["previs", "final"], default=None, help="asset-tier severity (default: spec quality or previs)")
     args = ap.parse_args()
     ep = json.load(open(args.episode))
     root = os.path.dirname(os.path.abspath(args.episode))
     while root != "/" and not os.path.isdir(os.path.join(root, "factory")):
         root = os.path.dirname(root)
     load_coast(root)
-    rep = validate(ep)
+    rep = validate(ep, args.mode)
     if args.out:
         os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
         json.dump(rep, open(args.out, "w"), indent=1)

@@ -97,6 +97,16 @@ def run(episode=None, spec=None, video_path=None, plates_dir=None, out_dir=None,
                                 "cuts_detected": rnd(m["video"]["cuts_merged"], 2), "unique_frames": m["video"].get("unique_frames"),
                                 "loudness": {k: a.get(k) for k in ("integrated", "lra", "true_peak")}, "silences": rnd(a.get("silences"), 3),
                                 "motion_0_05": rnd(m.get("motion_0_05"), 5), "loop_ssim": rnd(m.get("loop_ssim"), 4)}
+            # >>> quality_gate (L006): delivery profile of the master (informational section DELIVERY; the
+            # deliverables themselves are produced and enforced by factory/deliver.py)
+            try:
+                from . import delivery
+                dm = delivery.measure(video_path)
+                rules += delivery.delivery_rules(dm, delivery.FINAL)
+                details["delivery"] = dm
+            except Exception as e:  # noqa: BLE001 - measured again (and enforced) at delivery
+                details["delivery"] = {"error": str(e)}
+            # <<< quality_gate
     if plates_dir:
         inputs["plates"] = plates_dir
         log(f"[qc] checking plates in {plates_dir}")
@@ -112,6 +122,12 @@ def run(episode=None, spec=None, video_path=None, plates_dir=None, out_dir=None,
         rules += vr
         details["vision"] = info
     s = score(rules, iteration)
+    try:  # >>> quality_gate: lessons ledger status rides in every QC report
+        from factory.lessons import checks as lesson_checks
+        details["lessons"] = lesson_checks.summary()
+    except Exception as e:  # noqa: BLE001
+        details["lessons"] = {"error": str(e)}
+    s["gates"]["delivery"] = all(r["status"] != FAIL for r in rules if r["section"] == "DELIVERY")  # <<< quality_gate
     report = {
         "schema": "factory.qc.report/1",
         "created": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),

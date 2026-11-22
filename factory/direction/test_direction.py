@@ -139,7 +139,11 @@ def test_validator_flags_bad_and_passes_v3():
     p3 = os.path.join(ROOT, "episodes/sentinel/episode_v3.json")
     if os.path.exists(p3):
         r3 = SV.validate(json.load(open(p3)))
-        assert r3["summary"]["fail"] == 0, [r for r in r3["rules"] if r["status"] == "fail"]
+        # quality_gate: v3 passed every shot-language rule, but its A02/A04 cameras sit inside the cabin (L012,
+        # rendered brown/black) - the mesh-proxy rule must catch exactly that
+        fails = [r for r in r3["rules"] if r["status"] == "fail"]
+        assert [r["id"] for r in fails] == ["PROXY"], fails
+        assert {"A02", "A04"} <= set(fails[0]["shots"])
         c17 = next(x for x in r3["shots"] if x["id"] == "C17")
         assert c17["anchors"]["island"] > 0 and c17["ots"]
 

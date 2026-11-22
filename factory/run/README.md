@@ -114,6 +114,28 @@ Override the prices with `FACTORY_PRICES_JSON` (see `costs.py`). The defaults ar
 
 `--stub all` turns on all five. Stubs let the whole chain run in CI time.
 
+## Quality gate (lessons, regress, delivery, ceilings)
+
+- **per-shot gate**: before previs and before render, `factory/direction/shot_checks.py` checks EVERY shot (head
+  framing with the rig's head metrics, eye band on close-ups, camera collision, hero visible; TIER at final quality).
+  Failing shots are sent back to stage 4 with the failing rules as feedback (max 2 tries, `run.json.shotGate`), then
+  the run blocks (enforce) or records (warn).
+- **regress** (`--regress enforce|warn|off`, default enforce): before the previs approval gate and again before
+  publish, `factory/lessons/regress.py` runs the episode-level lesson rules on `episode.json` (PROXY: camera inside
+  yacht/prop geometry blocks; TIER: assets near the camera must be tier hero - warns, blocks at publish with
+  `--quality final`), runs the **film-craft canon pass** (`python3 -m factory.canon pass`, report in
+  `qc/canon_<gate>.json`; any canon rule FAIL blocks, MANUAL rules are listed for the human approval; at publish it
+  also gets the plates and the final video; `FACTORY_CANON=0` disables it for debugging), records the lessons
+  status and stale goldens in `run.json.regress`. Blocked previs fails the stage; blocked publish turns PUBLISH into
+  RETURN.
+- **delivery** (`--no-deliver` to skip): PUBLISH runs `factory/deliver.py` -> `final/delivery/episode.mp4` +
+  `episode_mobile.mp4` (H.264 High, yuv420p, faststart, 1 s GOP, capped bitrate), or the stage fails (L006).
+- **cost ceilings**: `costs.STAGE_CEILINGS_USD` (override `FACTORY_STAGE_CEILINGS_JSON`) per stage; over the ceiling the
+  run stops with `budget_exceeded` and that stage is never started again; >= 2 attempts add an alert (L014).
+- **no silent render failures**: a missing plate fails render; a missing previs keyframe fails previs (L012).
+
+See `factory/lessons/README.md` for the whole loop and `tools/merge_gate.sh` for the merge gate.
+
 ## Tests
 
 ```bash

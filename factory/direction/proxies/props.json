@@ -1,0 +1,1541 @@
+{
+ "schema": "factory.direction.proxies/1",
+ "frame": "prop-local, spec axes (x right, y up, z forward)",
+ "blender": "4.2.3 LTS",
+ "props": {
+  "bag": {
+   "source": "cloud/blender/props.py:trash_bag",
+   "boxes": [
+    {
+     "part": "bag_proxy_knot",
+     "min": [
+      -0.025,
+      -0.025,
+      -0.025
+     ],
+     "max": [
+      0.025,
+      0.025,
+      0.025
+     ]
+    },
+    {
+     "part": "bag_proxy_sack",
+     "min": [
+      -0.1662,
+      -0.3508,
+      -0.1453
+     ],
+     "max": [
+      0.1661,
+      0.0276,
+      0.1479
+     ]
+    }
+   ]
+  },
+  "beacon": {
+   "source": "cloud/blender/props.py:epirb",
+   "boxes": [
+    {
+     "part": "beacon_proxy_ant",
+     "min": [
+      -0.005,
+      0.11,
+      -0.005
+     ],
+     "max": [
+      0.005,
+      0.23,
+      0.005
+     ]
+    },
+    {
+     "part": "beacon_proxy_band",
+     "min": [
+      -0.037,
+      -0.035,
+      -0.037
+     ],
+     "max": [
+      0.037,
+      -0.005,
+      0.037
+     ]
+    },
+    {
+     "part": "beacon_proxy_body",
+     "min": [
+      -0.035,
+      -0.055,
+      -0.035
+     ],
+     "max": [
+      0.035,
+      0.115,
+      0.035
+     ]
+    },
+    {
+     "part": "beacon_proxy_dome",
+     "min": [
+      -0.03,
+      0.09,
+      -0.03
+     ],
+     "max": [
+      0.03,
+      0.15,
+      0.03
+     ]
+    }
+   ]
+  },
+  "helm": {
+   "source": "cloud/blender/props.py:helm_console",
+   "boxes": [
+    {
+     "part": "helm_proxy_box",
+     "min": [
+      -0.45,
+      0.0,
+      -0.25
+     ],
+     "max": [
+      0.45,
+      0.95,
+      0.25
+     ]
+    },
+    {
+     "part": "helm_proxy_dash",
+     "min": [
+      -0.43,
+      0.7724,
+      -0.6301
+     ],
+     "max": [
+      0.43,
+      1.0035,
+      -0.3204
+     ]
+    },
+    {
+     "part": "helm_proxy_gauge0",
+     "min": [
+      -0.3,
+      0.9862,
+      0.1372
+     ],
+     "max": [
+      -0.2,
+      1.0738,
+      0.2028
+     ]
+    },
+    {
+     "part": "helm_proxy_gauge1",
+     "min": [
+      -0.05,
+      0.9862,
+      0.1372
+     ],
+     "max": [
+      0.05,
+      1.0738,
+      0.2028
+     ]
+    },
+    {
+     "part": "helm_proxy_gauge2",
+     "min": [
+      0.2,
+      0.9862,
+      0.1372
+     ],
+     "max": [
+      0.3,
+      1.0738,
+      0.2028
+     ]
+    },
+    {
+     "part": "helm_proxy_hub",
+     "min": [
+      -0.035,
+      1.0247,
+      0.2665
+     ],
+     "max": [
+      0.035,
+      1.1153,
+      0.3535
+     ]
+    },
+    {
+     "part": "helm_proxy_wheel",
+     "min": [
+      -0.214,
+      0.8928,
+      0.216
+     ],
+     "max": [
+      0.214,
+      1.2672,
+      0.444
+     ]
+    }
+   ]
+  },
+  "lamp": {
+   "source": "cloud/blender/props.py:anchor_lamp",
+   "boxes": [
+    {
+     "part": "lamp_proxy_base",
+     "min": [
+      -0.05,
+      0.0,
+      -0.05
+     ],
+     "max": [
+      0.05,
+      0.04,
+      0.05
+     ]
+    },
+    {
+     "part": "lamp_proxy_glass",
+     "min": [
+      -0.04,
+      0.04,
+      -0.04
+     ],
+     "max": [
+      0.04,
+      0.14,
+      0.04
+     ]
+    }
+   ]
+  },
+  "phone": {
+   "source": "cloud/blender/props.py:phone",
+   "boxes": [
+    {
+     "part": "phone_proxy_body",
+     "min": [
+      -0.036,
+      -0.055,
+      -0.004
+     ],
+     "max": [
+      0.036,
+      0.095,
+      0.004
+     ]
+    },
+    {
+     "part": "phone_proxy_screen",
+     "min": [
+      -0.033,
+      -0.051,
+      0.004
+     ],
+     "max": [
+      0.033,
+      0.091,
+      0.005
+     ]
+    }
+   ]
+  },
+  "radio": {
+   "source": "cloud/blender/props.py:vhf_handset",
+   "boxes": [
+    {
+     "part": "radio_proxy_ant",
+     "min": [
+      0.011,
+      0.1,
+      -0.007
+     ],
+     "max": [
+      0.025,
+      0.21,
+      0.007
+     ]
+    },
+    {
+     "part": "radio_proxy_body",
+     "min": [
+      -0.03,
+      -0.04,
+      -0.0175
+     ],
+     "max": [
+      0.03,
+      0.1,
+      0.0175
+     ]
+    }
+   ]
+  },
+  "switches": {
+   "source": "cloud/blender/props.py:switch_panel",
+   "boxes": [
+    {
+     "part": "switches_proxy_plate",
+     "min": [
+      -0.14,
+      -0.09,
+      -0.01
+     ],
+     "max": [
+      0.14,
+      0.09,
+      0.01
+     ]
+    }
+   ]
+  },
+  "beach_torches": {
+   "source": "cloud/blender/props_vehicles.py:beach_torches",
+   "boxes": [
+    {
+     "part": "beach_torches_proxy_0_flame_torch_flame",
+     "min": [
+      -19.632,
+      1.6076,
+      -2.0643
+     ],
+     "max": [
+      -19.3848,
+      2.1676,
+      -1.8043
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_0_torch_stick",
+     "min": [
+      -19.6347,
+      0.4531,
+      -2.0216
+     ],
+     "max": [
+      -19.3821,
+      1.6421,
+      -1.8469
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_1_flame_torch_flame",
+     "min": [
+      -13.5945,
+      1.5345,
+      -3.6769
+     ],
+     "max": [
+      -13.3472,
+      2.0945,
+      -3.4169
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_1_torch_stick",
+     "min": [
+      -13.5042,
+      0.3771,
+      -3.669
+     ],
+     "max": [
+      -13.4375,
+      1.5719,
+      -3.4248
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_2_flame_torch_flame",
+     "min": [
+      -6.6153,
+      1.2166,
+      -0.7215
+     ],
+     "max": [
+      -6.368,
+      1.7766,
+      -0.4615
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_2_torch_stick",
+     "min": [
+      -6.6165,
+      0.0615,
+      -0.6743
+     ],
+     "max": [
+      -6.3667,
+      1.2516,
+      -0.5088
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_3_flame_torch_flame",
+     "min": [
+      -1.4852,
+      1.2794,
+      -2.5072
+     ],
+     "max": [
+      -1.2379,
+      1.8394,
+      -2.2472
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_3_torch_stick",
+     "min": [
+      -1.505,
+      0.1305,
+      -2.4961
+     ],
+     "max": [
+      -1.2182,
+      1.3083,
+      -2.2583
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_4_flame_torch_flame",
+     "min": [
+      5.3809,
+      1.7012,
+      2.1462
+     ],
+     "max": [
+      5.6281,
+      2.2612,
+      2.4062
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_4_torch_stick",
+     "min": [
+      5.369,
+      0.5475,
+      2.1958
+     ],
+     "max": [
+      5.64,
+      1.7349,
+      2.3566
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_5_flame_torch_flame",
+     "min": [
+      13.921,
+      1.6805,
+      2.2318
+     ],
+     "max": [
+      14.1683,
+      2.2405,
+      2.4918
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_5_torch_stick",
+     "min": [
+      13.9261,
+      0.5314,
+      2.221
+     ],
+     "max": [
+      14.1632,
+      1.7096,
+      2.5026
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_6_flame_torch_flame",
+     "min": [
+      19.3211,
+      1.2829,
+      2.5424
+     ],
+     "max": [
+      19.5684,
+      1.8429,
+      2.8024
+     ]
+    },
+    {
+     "part": "beach_torches_proxy_6_torch_stick",
+     "min": [
+      19.3941,
+      0.1229,
+      2.5948
+     ],
+     "max": [
+      19.4954,
+      1.3228,
+      2.7499
+     ]
+    }
+   ]
+  },
+  "cargo_hold": {
+   "source": "cloud/blender/props_vehicles.py:cargo_hold",
+   "boxes": [
+    {
+     "part": "cargo_hold_proxy_crew0_crew_boot",
+     "min": [
+      -2.4592,
+      0.01,
+      -2.8468
+     ],
+     "max": [
+      -2.0098,
+      0.11,
+      -2.4832
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew0_crew_cloth",
+     "min": [
+      -2.6858,
+      0.0354,
+      -3.5144
+     ],
+     "max": [
+      -2.0581,
+      0.7425,
+      -2.6218
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew0_crew_skin",
+     "min": [
+      -2.5516,
+      0.47,
+      -3.4718
+     ],
+     "max": [
+      -2.1672,
+      1.0065,
+      -2.8356
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew1_crew_boot",
+     "min": [
+      -1.4511,
+      0.01,
+      -3.2916
+     ],
+     "max": [
+      -1.0371,
+      0.11,
+      -2.994
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew1_crew_cloth_b",
+     "min": [
+      -1.5964,
+      0.0354,
+      -3.9675
+     ],
+     "max": [
+      -0.9773,
+      0.7225,
+      -3.1284
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew1_crew_skin",
+     "min": [
+      -1.398,
+      0.5,
+      -3.8403
+     ],
+     "max": [
+      -1.1421,
+      0.9065,
+      -3.345
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew1_crew_vest",
+     "min": [
+      -1.5224,
+      0.3215,
+      -3.9727
+     ],
+     "max": [
+      -1.0976,
+      0.6785,
+      -3.6263
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew2_crew_boot",
+     "min": [
+      3.4132,
+      0.07,
+      -2.7066
+     ],
+     "max": [
+      3.7748,
+      0.17,
+      -2.2744
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew2_crew_cloth_c",
+     "min": [
+      2.1149,
+      -0.0098,
+      -2.6568
+     ],
+     "max": [
+      3.6005,
+      0.3498,
+      -1.8169
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew2_crew_skin",
+     "min": [
+      1.8866,
+      0.0935,
+      -2.4573
+     ],
+     "max": [
+      2.8672,
+      0.3465,
+      -1.8701
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew3_crew_boot",
+     "min": [
+      -1.385,
+      0.01,
+      -7.24
+     ],
+     "max": [
+      -1.015,
+      0.11,
+      -6.98
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew3_crew_cloth",
+     "min": [
+      -1.4928,
+      0.0556,
+      -7.1142
+     ],
+     "max": [
+      -0.9072,
+      1.0825,
+      -6.3311
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew3_crew_skin",
+     "min": [
+      -1.3675,
+      0.55,
+      -6.9687
+     ],
+     "max": [
+      -1.0325,
+      1.3265,
+      -6.4279
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew3_crew_vest",
+     "min": [
+      -1.4096,
+      0.6815,
+      -6.674
+     ],
+     "max": [
+      -0.9904,
+      1.0385,
+      -6.326
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew4_crew_boot",
+     "min": [
+      1.6464,
+      0.01,
+      -5.0404
+     ],
+     "max": [
+      2.1069,
+      0.11,
+      -4.6491
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew4_crew_cloth_b",
+     "min": [
+      1.5737,
+      0.0548,
+      -5.0687
+     ],
+     "max": [
+      2.1351,
+      1.5225,
+      -4.6356
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew4_crew_skin",
+     "min": [
+      1.682,
+      1.17,
+      -4.9917
+     ],
+     "max": [
+      1.9925,
+      1.7665,
+      -4.6282
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew5_crew_boot",
+     "min": [
+      2.8981,
+      0.01,
+      -5.5161
+     ],
+     "max": [
+      3.365,
+      0.11,
+      -5.101
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew5_crew_cloth_c",
+     "min": [
+      2.9751,
+      0.0354,
+      -6.1065
+     ],
+     "max": [
+      3.6961,
+      0.7425,
+      -5.2371
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew5_crew_skin",
+     "min": [
+      3.1204,
+      0.47,
+      -6.0588
+     ],
+     "max": [
+      3.5842,
+      1.0065,
+      -5.4401
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew6_crew_boot",
+     "min": [
+      -6.99,
+      0.01,
+      0.805
+     ],
+     "max": [
+      -6.73,
+      0.11,
+      1.195
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew6_crew_cloth",
+     "min": [
+      -6.8598,
+      0.0354,
+      0.68
+     ],
+     "max": [
+      -5.9751,
+      0.7425,
+      1.32
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_crew6_crew_skin",
+     "min": [
+      -6.6487,
+      0.47,
+      0.8525
+     ],
+     "max": [
+      -6.0179,
+      1.0065,
+      1.1475
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_crate",
+     "min": [
+      -3.178,
+      0.0,
+      -7.7242
+     ],
+     "max": [
+      4.6065,
+      1.2,
+      8.2174
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_daylight",
+     "min": [
+      -9.0,
+      11.325,
+      1.69
+     ],
+     "max": [
+      9.0,
+      11.375,
+      2.31
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_floor",
+     "min": [
+      -9.3,
+      -0.3,
+      -12.3
+     ],
+     "max": [
+      9.3,
+      0.0,
+      12.3
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_rib",
+     "min": [
+      -9.0,
+      0.0,
+      -12.51
+     ],
+     "max": [
+      10.625,
+      11.0,
+      12.0
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_sack",
+     "min": [
+      -8.1021,
+      -0.0745,
+      -11.6507
+     ],
+     "max": [
+      7.5668,
+      1.3414,
+      11.1926
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_steel",
+     "min": [
+      5.72,
+      0.0,
+      -11.68
+     ],
+     "max": [
+      6.28,
+      11.0,
+      -11.62
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_hold_wall",
+     "min": [
+      -9.3,
+      -0.1435,
+      -12.3
+     ],
+     "max": [
+      9.3,
+      11.8,
+      12.3
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_lamp_hold_bulb",
+     "min": [
+      0.424,
+      4.4,
+      -1.078
+     ],
+     "max": [
+      0.576,
+      4.56,
+      -0.922
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_lamp_hold_shade",
+     "min": [
+      0.12,
+      4.475,
+      -1.38
+     ],
+     "max": [
+      0.88,
+      4.825,
+      -0.62
+     ]
+    },
+    {
+     "part": "cargo_hold_proxy_lamp_hold_steel",
+     "min": [
+      0.487,
+      4.8,
+      -1.015
+     ],
+     "max": [
+      0.513,
+      10.8,
+      -0.985
+     ]
+    }
+   ]
+  },
+  "coastguard": {
+   "source": "cloud/blender/props_vehicles.py:coastguard",
+   "boxes": [
+    {
+     "part": "coastguard_proxy_cg_antifoul",
+     "min": [
+      -4.032,
+      -2.5,
+      -24.0
+     ],
+     "max": [
+      4.032,
+      1.3497,
+      24.0
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_blue",
+     "min": [
+      -3.6677,
+      0.2106,
+      10.2134
+     ],
+     "max": [
+      3.6677,
+      2.7344,
+      12.0866
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_deck",
+     "min": [
+      -4.2003,
+      2.4,
+      -24.0
+     ],
+     "max": [
+      4.2003,
+      4.2319,
+      24.0
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_glass",
+     "min": [
+      -3.15,
+      3.6852,
+      -5.22
+     ],
+     "max": [
+      3.15,
+      6.95,
+      7.05
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_grey",
+     "min": [
+      -4.1203,
+      2.4,
+      -20.4
+     ],
+     "max": [
+      4.1203,
+      13.5,
+      20.402
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_hull",
+     "min": [
+      -4.2003,
+      -1.3,
+      -24.0
+     ],
+     "max": [
+      4.2003,
+      4.25,
+      24.0
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_orange",
+     "min": [
+      -3.8399,
+      0.0221,
+      9.0992
+     ],
+     "max": [
+      3.8399,
+      2.8431,
+      11.5008
+     ]
+    },
+    {
+     "part": "coastguard_proxy_cg_super",
+     "min": [
+      -3.1,
+      2.4,
+      -10.1
+     ],
+     "max": [
+      3.1,
+      7.6,
+      7.2
+     ]
+    },
+    {
+     "part": "coastguard_proxy_radar_cg_grey",
+     "min": [
+      -1.1,
+      13.49,
+      2.41
+     ],
+     "max": [
+      1.1,
+      13.71,
+      2.59
+     ]
+    },
+    {
+     "part": "coastguard_proxy_searchlight_cg_beam",
+     "min": [
+      -9.0,
+      -1.0,
+      6.2
+     ],
+     "max": [
+      9.0,
+      17.0,
+      126.2
+     ]
+    },
+    {
+     "part": "coastguard_proxy_searchlight_cg_grey",
+     "min": [
+      -0.32,
+      7.68,
+      5.925
+     ],
+     "max": [
+      0.32,
+      8.32,
+      6.475
+     ]
+    },
+    {
+     "part": "coastguard_proxy_searchlight_cg_lens",
+     "min": [
+      -0.27,
+      7.73,
+      6.475
+     ],
+     "max": [
+      0.27,
+      8.27,
+      6.505
+     ]
+    },
+    {
+     "part": "coastguard_proxy_text_p",
+     "min": [
+      -4.25,
+      1.2719,
+      -5.11
+     ],
+     "max": [
+      -4.23,
+      1.9019,
+      1.1117
+     ]
+    },
+    {
+     "part": "coastguard_proxy_text_s",
+     "min": [
+      4.23,
+      1.2719,
+      -5.1118
+     ],
+     "max": [
+      4.25,
+      1.9019,
+      1.1099
+     ]
+    }
+   ]
+  },
+  "helicopter": {
+   "source": "cloud/blender/props_vehicles.py:helicopter",
+   "boxes": [
+    {
+     "part": "helicopter_proxy_heli_black",
+     "min": [
+      -1.86,
+      -0.13,
+      -0.93
+     ],
+     "max": [
+      2.11,
+      3.98,
+      3.35
+     ]
+    },
+    {
+     "part": "helicopter_proxy_heli_body",
+     "min": [
+      -2.0752,
+      0.0077,
+      -8.932
+     ],
+     "max": [
+      2.0752,
+      4.7775,
+      6.5
+     ]
+    },
+    {
+     "part": "helicopter_proxy_heli_dayglo",
+     "min": [
+      -0.8458,
+      0.0077,
+      -8.1
+     ],
+     "max": [
+      0.8458,
+      3.25,
+      8.5
+     ]
+    },
+    {
+     "part": "helicopter_proxy_heli_glass",
+     "min": [
+      -1.03,
+      1.33,
+      -1.9
+     ],
+     "max": [
+      1.03,
+      2.57,
+      7.831
+     ]
+    },
+    {
+     "part": "helicopter_proxy_rotor_main_heli_black",
+     "min": [
+      -8.01,
+      3.5486,
+      -8.3107
+     ],
+     "max": [
+      9.7,
+      3.6514,
+      10.3107
+     ]
+    },
+    {
+     "part": "helicopter_proxy_rotor_main_heli_rotor_disc",
+     "min": [
+      -9.8,
+      3.59,
+      -8.8
+     ],
+     "max": [
+      9.8,
+      3.61,
+      10.8
+     ]
+    },
+    {
+     "part": "helicopter_proxy_rotor_tail_heli_black",
+     "min": [
+      -0.32,
+      2.925,
+      -8.975
+     ],
+     "max": [
+      -0.28,
+      4.675,
+      -7.225
+     ]
+    },
+    {
+     "part": "helicopter_proxy_rotor_tail_heli_rotor_disc",
+     "min": [
+      -0.31,
+      2.25,
+      -9.65
+     ],
+     "max": [
+      -0.29,
+      5.35,
+      -6.55
+     ]
+    },
+    {
+     "part": "helicopter_proxy_cable_heli_cable",
+     "min": [
+      1.9327,
+      -5.55,
+      2.38
+     ],
+     "max": [
+      1.9673,
+      2.45,
+      2.42
+     ]
+    },
+    {
+     "part": "helicopter_proxy_strop_heli_dayglo",
+     "min": [
+      1.716,
+      -6.16,
+      2.16
+     ],
+     "max": [
+      2.184,
+      -6.04,
+      2.64
+     ]
+    },
+    {
+     "part": "helicopter_proxy_survivor_crew_boot",
+     "min": [
+      1.795,
+      -7.46,
+      2.35
+     ],
+     "max": [
+      2.105,
+      -7.36,
+      2.61
+     ]
+    },
+    {
+     "part": "helicopter_proxy_survivor_crew_cloth",
+     "min": [
+      1.6955,
+      -7.4254,
+      2.23
+     ],
+     "max": [
+      2.2045,
+      -5.5479,
+      2.5931
+     ]
+    },
+    {
+     "part": "helicopter_proxy_survivor_crew_skin",
+     "min": [
+      1.8516,
+      -6.1562,
+      2.3179
+     ],
+     "max": [
+      2.0484,
+      -5.52,
+      2.5421
+     ]
+    },
+    {
+     "part": "helicopter_proxy_survivor_crew_vest",
+     "min": [
+      1.7404,
+      -6.4085,
+      2.226
+     ],
+     "max": [
+      2.1596,
+      -6.0515,
+      2.574
+     ]
+    }
+   ]
+  },
+  "primrose": {
+   "source": "cloud/blender/props_vehicles.py:primrose",
+   "boxes": [
+    {
+     "part": "primrose_proxy_bridge_glass_rain",
+     "min": [
+      -7.86,
+      19.85,
+      -58.5
+     ],
+     "max": [
+      7.86,
+      21.0,
+      -55.47
+     ]
+    },
+    {
+     "part": "primrose_proxy_bulbs_pr_bulb",
+     "min": [
+      -0.2376,
+      21.1594,
+      -60.2437
+     ],
+     "max": [
+      0.2376,
+      29.55,
+      62.2437
+     ]
+    },
+    {
+     "part": "primrose_proxy_name_p",
+     "min": [
+      -10.1464,
+      2.4112,
+      42.976
+     ],
+     "max": [
+      -10.1064,
+      4.6512,
+      57.1552
+     ]
+    },
+    {
+     "part": "primrose_proxy_name_s",
+     "min": [
+      10.1064,
+      2.4112,
+      42.8448
+     ],
+     "max": [
+      10.1464,
+      4.6512,
+      57.024
+     ]
+    },
+    {
+     "part": "primrose_proxy_name_stern",
+     "min": [
+      -3.512,
+      4.7056,
+      -75.07
+     ],
+     "max": [
+      3.5776,
+      5.8256,
+      -75.03
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_antifoul",
+     "min": [
+      -11.5,
+      -7.5,
+      -75.0
+     ],
+     "max": [
+      11.5,
+      3.95,
+      75.0
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_black",
+     "min": [
+      -2.98,
+      4.7,
+      -69.45
+     ],
+     "max": [
+      2.8222,
+      27.5,
+      66.7
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_crane",
+     "min": [
+      -11.1355,
+      6.5,
+      -29.95
+     ],
+     "max": [
+      2.0,
+      27.9676,
+      57.5605
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_deck",
+     "min": [
+      -11.5011,
+      6.5,
+      -75.0
+     ],
+     "max": [
+      11.5011,
+      9.9244,
+      75.0
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_gauge",
+     "min": [
+      -5.4666,
+      19.4831,
+      -56.63
+     ],
+     "max": [
+      5.4666,
+      19.6169,
+      -56.61
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_grey",
+     "min": [
+      -11.6,
+      6.5,
+      -71.25
+     ],
+     "max": [
+      11.6,
+      28.7,
+      65.2
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_hull",
+     "min": [
+      -11.5011,
+      -3.5,
+      -75.0
+     ],
+     "max": [
+      11.5011,
+      11.0711,
+      75.0
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_steel",
+     "min": [
+      -11.3811,
+      6.5,
+      -69.88
+     ],
+     "max": [
+      11.3811,
+      27.8194,
+      65.6343
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_white",
+     "min": [
+      -11.61,
+      7.5,
+      -71.0
+     ],
+     "max": [
+      11.61,
+      26.3,
+      62.3
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_window_dark",
+     "min": [
+      -10.57,
+      8.6,
+      -69.8
+     ],
+     "max": [
+      10.57,
+      17.9,
+      36.05
+     ]
+    },
+    {
+     "part": "primrose_proxy_pr_window_lit",
+     "min": [
+      -10.57,
+      8.6,
+      -69.8
+     ],
+     "max": [
+      10.57,
+      17.9,
+      -48.93
+     ]
+    },
+    {
+     "part": "primrose_proxy_radar_pr_grey",
+     "min": [
+      -1.6,
+      28.75,
+      -60.125
+     ],
+     "max": [
+      1.6,
+      29.05,
+      -59.875
+     ]
+    }
+   ]
+  },
+  "rotor_wash": {
+   "source": "cloud/blender/props_vehicles.py:rotor_wash",
+   "boxes": [
+    {
+     "part": "rotor_wash_proxy_rotor_spray",
+     "min": [
+      -15.0,
+      0.29,
+      -15.0
+     ],
+     "max": [
+      15.0,
+      1.21,
+      15.0
+     ]
+    }
+   ]
+  }
+ }
+}

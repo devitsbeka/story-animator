@@ -1,0 +1,43 @@
+{
+ "schema": "factory.goldens/1",
+ "about": "Canonical renders (render recipes) that every renderer / asset / rig change is compared against. References live in the gitignored store (<library_store>/goldens/refs); their hashes and metrics are in factory/goldens/baseline.json. See factory/lessons/README.md.",
+ "defaults": {"res": "360x640", "samples": 8, "threads": 2, "engine": "CYCLES", "seed": 0, "lib": "curated", "timeout_s": 1500},
+ "input_groups": {
+  "golden_tooling": ["factory/goldens/render.py"],
+  "renderer": ["cloud/blender/render_episode.py", "cloud/blender/lighting.py", "cloud/blender/materials.py", "cloud/blender/oceanfx.py", "cloud/blender/storm.py"],
+  "hero_rig": ["cloud/blender/cloudrig_adapter.py", "cloud/blender/acting.py", "cloud/blender/face.py", "cloud/blender/eyes.py", "factory/characters/*", "cloud/blender/test/golden_hero.py"],
+  "yacht": ["assets/props/yacht.glb", "studio/public/assets/props/yacht.glb", "studio/src/kit/yacht3d.ts", "cloud/blender/props.py"],
+  "vehicles": ["cloud/blender/props_vehicles.py"],
+  "world_kits": ["factory/worlds/*", "factory/worlds/**", "cloud/blender/set_assembly.py"]
+ },
+ "goldens": {
+  "hero_turnaround": {"kind": "hero", "mode": "turnaround", "inputs": ["@hero_rig", "@golden_tooling"],
+                       "thresholds": {"ssim_min": 0.985}, "rubric": "hero model appeal and silhouette from front, side and back: proportions, wardrobe detail, no broken geometry"},
+  "hero_pose_sheet": {"kind": "hero", "mode": "pose", "inputs": ["@hero_rig", "@golden_tooling"],
+                       "thresholds": {"ssim_min": 0.985}, "rubric": "pose quality: balance, weight, natural hands (relaxed curl, never splayed), seated pelvis on the seat, upright or forward spine"},
+  "hero_face_sheet": {"kind": "hero", "mode": "face", "inputs": ["@hero_rig", "@golden_tooling"],
+                       "thresholds": {"ssim_min": 0.985}, "rubric": "each expression reads instantly and appealingly (brows, lids, mouth corners, slight asymmetry); upper lid covers the top of the iris unless fear/shock"},
+  "yacht_turnaround": {"kind": "synthetic", "builder": "yacht_turnaround", "inputs": ["@yacht", "@renderer", "@golden_tooling"],
+                        "rubric": "yacht detail: bevels, real sub-parts, material variation; reads as a hero asset in medium shots"},
+  "sentinel_A01a": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [30], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                     "thresholds": {"ssim_min": 0.96}, "rubric": "establishing shot: the lone yacht at night, clear silhouette, cinematic moonlight"},
+  "sentinel_A02": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [100], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                    "thresholds": {"ssim_min": 0.96}, "rubric": "hero at the helm: readable face, not brown (camera outside geometry), motivated light"},
+  "sentinel_B11": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [770], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                    "thresholds": {"ssim_min": 0.96}, "rubric": "aground on the reef: story context, hero pose, surf"},
+  "sentinel_C13": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [868], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                    "thresholds": {"ssim_min": 0.96}, "rubric": "Mayday close-up: radio in hand (palm contact), face framed forehead-to-chin, emotion reads"},
+  "sentinel_C21": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [1450], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                    "thresholds": {"ssim_min": 0.96}, "rubric": "stay with your boat: hero + boat + island context, consistent key"},
+  "sentinel_E31": {"kind": "episode", "spec": "episodes/sentinel/episode_v5.json", "frames": [2190], "inputs": ["@yacht", "@renderer", "@hero_rig", "@golden_tooling"],
+                    "thresholds": {"ssim_min": 0.96}, "rubric": "dawn escape: tide lift, warm dawn key, hero at the helm (D23-D26 primrose set shots do not render: unknown world kit primrose)"},
+  "kit_jungle_clearing": {"kind": "episode", "spec": "episodes/world_kits/jungle_clearing/episode.json", "frames": [112], "lib": "full",
+                           "inputs": ["@world_kits", "@renderer", "@golden_tooling", "episodes/world_kits/jungle_clearing/*"], "thresholds": {"ssim_min": 0.96}, "rubric": "jungle clearing set: depth, firelight, readable hero"},
+  "kit_desert_canyon": {"kind": "episode", "spec": "episodes/world_kits/desert_canyon/episode.json", "frames": [112], "lib": "full",
+                         "inputs": ["@world_kits", "@renderer", "@golden_tooling", "episodes/world_kits/desert_canyon/*"], "thresholds": {"ssim_min": 0.96}, "rubric": "desert canyon set: scale, warm light, readable hero"},
+  "kit_snow_mountain_ridge": {"kind": "episode", "spec": "episodes/world_kits/snow_mountain_ridge/episode.json", "frames": [112], "lib": "curated", "lib_note": "full library OOMs (>15 GB cgroup) with the fir scatter; curated keeps the set build without the heavy scatter",
+                               "inputs": ["@world_kits", "@renderer", "@golden_tooling", "episodes/world_kits/snow_mountain_ridge/*"], "thresholds": {"ssim_min": 0.96}, "rubric": "snow ridge set: exposure on snow, cold palette, readable hero"},
+  "kit_abandoned_city_street": {"kind": "episode", "spec": "episodes/world_kits/abandoned_city_street/episode.json", "frames": [112], "lib": "full",
+                                 "inputs": ["@world_kits", "@renderer", "@golden_tooling", "episodes/world_kits/abandoned_city_street/*"], "thresholds": {"ssim_min": 0.96}, "rubric": "abandoned street set: practicals, depth, readable hero"}
+ }
+}

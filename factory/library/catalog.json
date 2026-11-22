@@ -1047,7 +1047,9 @@
     "joggers",
     "face-rig"
    ],
-   "episodes": []
+   "episodes": [],
+   "tier": "hero",
+   "tier_note": "Blender Studio production rig (CloudRig, face rig) re-dressed"
   },
   "int:island_sentinel": {
    "id": "int:island_sentinel",
@@ -1065,7 +1067,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "OSM coastline + scattered library trees; distant set"
   },
   "int:ocean_fft": {
    "id": "int:ocean_fft",
@@ -1101,7 +1105,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props_vehicles.py builder"
   },
   "int:prop_beacon": {
    "id": "int:prop_beacon",
@@ -1117,7 +1123,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:prop_coastguard_patrol": {
    "id": "int:prop_coastguard_patrol",
@@ -1136,7 +1144,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props_vehicles.py builder"
   },
   "int:prop_helicopter_rescue": {
    "id": "int:prop_helicopter_rescue",
@@ -1155,7 +1165,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props_vehicles.py builder"
   },
   "int:prop_helm": {
    "id": "int:prop_helm",
@@ -1171,7 +1183,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:prop_lamp": {
    "id": "int:prop_lamp",
@@ -1187,7 +1201,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:prop_phone": {
    "id": "int:prop_phone",
@@ -1201,7 +1217,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:prop_primrose": {
    "id": "int:prop_primrose",
@@ -1222,7 +1240,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props_vehicles.py builder; seen only in wide/archival shots so far"
   },
   "int:prop_radio": {
    "id": "int:prop_radio",
@@ -1238,7 +1258,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:prop_switches": {
    "id": "int:prop_switches",
@@ -1253,7 +1275,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props.py builder (primitive parts)"
   },
   "int:set_cargo_hold": {
    "id": "int:set_cargo_hold",
@@ -1273,7 +1297,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "cloud/blender/props_vehicles.py builder"
   },
   "int:sky_night": {
    "id": "int:sky_night",
@@ -1368,7 +1394,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "previs",
+   "tier_note": "box-built WebGL-kit placeholder hull/cabin (L008); upgrade in the polish sprint"
   },
   "ph:asphalt_02": {
    "id": "ph:asphalt_02",
@@ -4127,7 +4155,9 @@
    ],
    "episodes": [
     "sentinel"
-   ]
+   ],
+   "tier": "hero",
+   "tier_note": "Blender Studio production rig"
   }
  }
 }

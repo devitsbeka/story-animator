@@ -43,6 +43,14 @@ class BudgetExceeded(Exception):
     pass
 
 
+class CostCeilingExceeded(BudgetExceeded):  # quality_gate (L014): one stage over its own ceiling
+    pass
+
+
+class RegressionBlocked(Exception):  # quality_gate: lessons/goldens regress check failed at a gate
+    pass
+
+
 @dataclasses.dataclass
 class Options:
     idea: str = ""
@@ -68,6 +76,9 @@ class Options:
     previs_shots: tuple = ()
     budget: float = None             # USD ceiling for this episode
     max_qc_fixes: int = 1
+    shot_gate_pose: str = "warn"     # quality_gate: Blender pose QC in the per-shot gate: enforce | warn | off (auto-off when stubbed / no Blender)
+    regress: str = "enforce"         # quality_gate: lessons/goldens regress check at previs + publish: enforce | warn | off
+    deliver: bool = True             # quality_gate (L006): PUBLISH produces final/delivery/{episode,episode_mobile}.mp4
     parallel_stages: int = 2
     farm_poll_s: int = 60
 
@@ -181,6 +192,131 @@ class Pipeline:
         b = self.o.budget
         if b is not None and self.st.spent > b:
             raise BudgetExceeded(f"spent ${self.st.spent:.2f} > budget ${b:.2f} before stage {stage}")
+        self.check_ceiling(stage)
+
+    # >>> quality_gate (L014): per-stage cost ceiling + attempts alert
+    def check_ceiling(self, stage, after=False):
+        cap = costs.stage_ceilings().get(stage)
+        spent = float(self.st.stage(stage).get("costUSD") or 0)
+        self.st.doc.setdefault("costCeilings", {})[stage] = cap
+        if cap is not None and (spent > cap if after else spent >= cap and spent > 0):
+            self.st.update_stage(stage, ceilingExceeded={"spentUSD": round(spent, 4), "ceilingUSD": cap})
+            raise CostCeilingExceeded(f"stage {stage} spent ${spent:.2f} {'>' if after else '>='} its ceiling ${cap:.2f}")
+
+    def shot_gate(self, gate, max_tries=2):
+        """Per-shot checks (factory/direction/shot_checks.py: FRAME-CROP, FRAME-EYES, COLLIDE, VIS, + TIER at final
+        quality) on EVERY shot before previs approval and before render. Failing shots go back to stage 4 with the
+        failing rules as feedback (max `max_tries` re-directs), then the gate blocks (enforce) or records (warn)."""
+        if self.o.regress == "off":
+            return {"ok": True, "skipped": True}
+        import sys as _sys
+        d = os.path.join(ROOT, "factory", "direction")
+        if d not in _sys.path:
+            _sys.path.insert(0, d)
+        import shot_checks
+        quality = "final" if (gate == "render" and self.o.quality == "final") else "preview"
+        hist = self.st.doc.setdefault("shotGate", {}).setdefault(gate, {"tries": 0, "history": []})
+        while True:
+            ep = _read(self.p("episode.json"))
+            res = shot_checks.check_episode(ep, quality)
+            fails = {s: r for s, r in res["failing"].items()}
+            pose = self.shot_gate_pose(gate, hist["tries"])
+            if pose is not None:
+                hist.setdefault("pose", []).append({"try": hist["tries"], "failing": pose["failing"], "mode": self.o.shot_gate_pose,
+                                                    "report": pose.get("report"), "error": pose.get("error")})
+                if self.o.shot_gate_pose == "enforce":
+                    for sid, rules in pose["failing"].items():
+                        fails.setdefault(sid, []).extend(rules)
+                    res["findings"] = res["findings"] + pose["findings"]
+                elif pose["failing"]:
+                    self.log(f"shot gate [{gate}] pose QC (warn): {len(pose['failing'])} shot(s): {dict(list(pose['failing'].items())[:4])}")
+            hist["history"].append({"try": hist["tries"], "failing": fails})
+            hist["ok"] = not fails
+            self.st.save()
+            if not fails:
+                self.log(f"shot gate [{gate}]: all {len(ep['shots'])} shots pass")
+                return res
+            self.log(f"shot gate [{gate}]: {len(fails)} failing shot(s): {dict(list(fails.items())[:6])}")
+            if self.o.regress != "enforce":
+                return res
+            if hist["tries"] >= max_tries:
+                raise RegressionBlocked(f"shot gate before {gate}: {len(fails)} shot(s) still failing after {max_tries} "
+                                        f"re-direct(s): {dict(list(fails.items())[:8])}")
+            hist["tries"] += 1
+            t0 = time.time()
+            fb = {"qc_decision": f"SHOT_GATE_{gate.upper()}", "score": None,
+                  "failing_rules": [{"id": f["rule"], "section": "FRAMING", "measured": f["measured"], "expected": f["expected"],
+                                     "detail": f"shot {f['shot']}"} for f in res["findings"] if f["status"] == "fail"][:40],
+                  "shots_to_fix": sorted(fails)}
+            self.log(f"shot gate [{gate}]: re-directing {sorted(fails)} (try {hist['tries']}/{max_tries})")
+            r = self.stage_direct(t0, feedback=fb)
+            self.st.add_cost("direct", r.get("usd", 0.0), time.time() - t0)
+            self.check_ceiling("direct", after=True)
+
+    def shot_gate_pose(self, gate, attempt):
+        """Blender pose QC (cloud/blender/test/pose_qc.py: seat contact, spine, palms, wrists, finger curl, feet flat +
+        natural ankle, grip contact; at the render gate over the full clip with FACE-LIFE) on every hero shot.
+        -> {"failing": {shot: [rules]}, "findings": [...]} or None when off / the stage is stubbed / no Blender."""
+        mode = self.o.shot_gate_pose
+        stage = "previs" if gate == "previs" else "render"
+        blender = self.o.blender or os.environ.get("BLENDER", "/opt/blender/blender-4.2.3-linux-x64/blender")
+        if mode == "off" or self.stub(stage) or not os.path.exists(blender.split()[0]):
+            return None
+        out = self.p("qc", f"pose_qc_{gate}_{attempt}.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        cmd = [*blender.split(), "-b", "--python-exit-code", "1", "--factory-startup", "-P",
+               os.path.join(ROOT, "cloud", "blender", "test", "pose_qc.py"), "--", "--spec", self.p("episode.json"),
+               "--max-frames", "1", "--out", out] + (["--full-clip"] if gate == "render" else [])
+        try:
+            import subprocess as _sp
+            p = _sp.run(cmd, capture_output=True, text=True, timeout=3600, cwd=ROOT)
+            if p.returncode or not os.path.exists(out):
+                raise RuntimeError(f"rc={p.returncode}: {(p.stdout + p.stderr)[-600:]}")
+            doc = _read(out)
+        except Exception as e:  # noqa: BLE001 - a pose QC that cannot run is recorded, never silently 'ok'
+            self.log(f"shot gate [{gate}] pose QC did not run: {e}")
+            return {"failing": {}, "findings": [], "error": str(e)[:800]}
+        fs = [dict(f, expected=f.get("expected"), measured=f.get("measured")) for f in doc.get("findings") or [] if f.get("status") == "fail"]
+        failing = {}
+        for f in fs:
+            failing.setdefault(f["shot"], [])
+            if f["rule"] not in failing[f["shot"]]:
+                failing[f["shot"]].append(f["rule"])
+        return {"failing": failing, "findings": fs, "report": _rel(out)}
+
+    def regress(self, gate):
+        """Lessons + canon + goldens regress check (factory/lessons/regress.py) at the previs approval gate and before publish.
+        Options.regress: enforce (blocking rules stop the gate) | warn (record only) | off."""
+        if self.o.regress == "off":
+            return {"ok": True, "skipped": True}
+        from factory.lessons import regress as lreg
+        # the film-craft canon pass (python3 -m factory.canon pass) runs inside episode_regress; at publish it also
+        # sees the plates and the final video
+        kw = {}
+        if gate == "publish":
+            vid, pl = self.p("final", "episode.mp4"), self.p("plates")
+            kw = {"video": vid if os.path.exists(vid) else None, "plates": pl if os.path.isdir(pl) else None}
+        rep = lreg.episode_regress(self.p("episode.json"), gate=gate, quality=self.o.quality, **kw)
+        self.st.doc.setdefault("regress", {})[gate] = {k: rep.get(k) for k in ("ok", "mode", "blocking", "warnings", "lessons", "canon")}
+        self.st.save()
+        for w in rep["warnings"]:
+            self.log(f"regress[{gate}] warn {w[:160]}")
+        if not rep["ok"]:
+            self.log(f"regress[{gate}] BLOCKING: {rep['blocking']}")
+            if self.o.regress == "enforce":
+                raise RegressionBlocked(f"regress check before {gate} failed: {rep['blocking']}")
+        return rep
+
+    def attempts_alert(self, stage, res):
+        s = self.st.stage(stage)
+        n = max(int(s.get("attempts") or 0), int((res or {}).get("llmAttempts") or 0))
+        if n >= costs.ATTEMPT_ALERT:
+            alerts = self.st.doc.setdefault("alerts", [])
+            alerts.append({"stage": stage, "attempts": n, "costUSD": s.get("costUSD"), "kind": "attempts"})
+            self.st.event(f"ALERT: stage {stage} took {n} attempts (cost ${float(s.get('costUSD') or 0):.2f}); "
+                          f"check the cache TTL / drafting checklist (L014)", level="warn")
+            self.log(f"ALERT: stage {stage} took {n} attempts")
+    # <<< quality_gate
 
     # ------------------------------------------------------------------ executor
     def run(self):
@@ -271,6 +407,8 @@ class Pipeline:
         st.add_cost(name, usd, time.time() - t0)
         st.update_stage(name, status=DONE, finished=time.strftime("%Y-%m-%dT%H:%M:%S"), artifacts=arts, info=res)
         self.log(f"stage {name}: done in {time.time() - t0:.1f}s (${usd:.3f})")
+        self.attempts_alert(name, res)   # quality_gate (L014)
+        self.check_ceiling(name, after=True)
 
     def _artifacts_ok(self, name):
         arts = self.st.stage(name).get("artifacts") or []
@@ -391,6 +529,7 @@ class Pipeline:
 
     # ------------------------------------------------------------------ 6 previs + gate
     def stage_previs(self, t0):
+        self.shot_gate("previs")   # quality_gate: every shot passes the per-shot checks (or is re-directed) before boards
         ep = _read(self.p("episode.json"))
         bdir = self.p("boards")
         # keyframes already on disk are reused (render_keys skips them), so re-entering after approval is cheap
@@ -399,6 +538,10 @@ class Pipeline:
                               samples=self.o.previs_samples, workers=self.o.workers, blender=self.o.blender, log=self.log)
         self.st.update_stage("previs", info={k: v for k, v in info.items() if k != "keys_dir"},
                              artifacts=[_rel(info["contact_sheet"]), _rel(info["animatic"])])
+        if info.get("missing"):  # quality_gate (L012): every shot renders; a board with holes is not reviewable
+            raise RuntimeError(f"previs: {len(info['missing'])} keyframe(s) did not render: {info['missing'][:8]} "
+                               f"(logs in {os.path.join(bdir, 'logs')}) - no silent render failures (L012)")
+        self.regress("previs")   # quality_gate: lessons + goldens regress check before the approval gate
         if self.o.auto_approve and not self.approved():
             self.approve(by="auto (--auto-approve)")
         if not self.approved():
@@ -421,6 +564,8 @@ class Pipeline:
         return self._abs(info.get("plates")) if info.get("plates") else self.p("plates")
 
     def stage_render(self, t0, shots=None):
+        if not shots:
+            self.shot_gate("render")   # quality_gate: again before spending render time (TIER blocks at final quality)
         ep = _read(self.p("episode.json"))
         spec_path = self.p("episode.json")
         plates = self.p("plates")
@@ -500,9 +645,24 @@ class Pipeline:
                 continue
             hist.append(entry)
             final = dec if dec in ("PUBLISH", "RETURN") else ("RETURN" if dec == "AUTO_FIX" else dec)
+            # >>> quality_gate: regress check before publish, then the delivery copies (L006) or a refusal
+            arts, extra = [path], {}
+            if final == "PUBLISH":
+                try:
+                    self.regress("publish")
+                except RegressionBlocked as e:
+                    final = "RETURN"
+                    entry["regress"] = str(e)
+                    rep = dict(rep, hard_failures=list(rep.get("hard_failures") or []) + ["REGRESS"])
+                if final == "PUBLISH" and self.o.deliver:
+                    from factory import deliver as deliver_mod
+                    d = deliver_mod.deliver_or_raise(self.p("final", "episode.mp4"), self.p("final", "delivery"), log=self.log)
+                    arts += [d["outputs"]["final"]["path"], d["outputs"]["mobile"]["path"]]
+                    extra["delivery"] = {k: _rel(o["path"]) for k, o in d["outputs"].items()}
             self._record_qc(hist, final, rep)
-            return {"artifacts": [path], "decision": final, "rawDecision": dec, "iterations": len(hist),
-                    "score": rep.get("engagement_score")}
+            return {"artifacts": arts, "decision": final, "rawDecision": dec, "iterations": len(hist),
+                    "score": rep.get("engagement_score"), **extra}
+            # <<< quality_gate
 
     def _record_qc(self, hist, final, rep=None):
         q = self.st.doc["qc"]
@@ -594,7 +754,8 @@ def failing_shots(rep, shot_ids):
 def plan_fix(rep, ep):
     """AUTO_FIX -> which stages to re-run: TECH-only failures re-render (7) the failing shots; anything in a scored
     section or FRAMING re-directs (4) then re-renders the failing + changed shots."""
-    fails = [r for r in rep.get("rules", []) if r.get("status") == "fail"]
+    # DELIVERY (master encode profile) is fixed by factory/deliver.py at publish, not by re-directing / re-rendering
+    fails = [r for r in rep.get("rules", []) if r.get("status") == "fail" and r.get("section") != "DELIVERY"]
     stages = sorted({SECTION_STAGE.get(r.get("section"), 4) for r in fails}) or [7]
     if 4 in stages and 7 not in stages:
         stages.append(7)

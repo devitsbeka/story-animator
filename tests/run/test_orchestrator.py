@@ -17,7 +17,8 @@ SENTINEL = os.path.join(ROOT, "episodes", "sentinel", "episode_v4.json")
 
 
 def opts(tmp_path, **kw):
-    base = dict(idea=IDEA, offline=True, stubs=QUICK_STUBS, auto_approve=True, episodes_dir=str(tmp_path / "eps"))
+    base = dict(idea=IDEA, offline=True, stubs=QUICK_STUBS, auto_approve=True, episodes_dir=str(tmp_path / "eps"),
+                regress="warn")  # quality_gate: the recorded Sentinel fixture has a camera inside the cabin (C28); see test_regress_*
     base.update(kw)
     return Options(**base)
 
@@ -34,7 +35,7 @@ def rule(rid, section, status="fail", measured=None, detail=None, hard=False):
 def test_offline_sentinel_chain_cli_then_resume(tmp_path):
     eps = tmp_path / "eps"
     r = cli(IDEA, "--format", "short", "--style", "pixar_night_survival", "--render", "local", "--quality", "preview",
-            "--offline", "--stub", "previs,render,finish", "--auto-approve", "--episodes-dir", str(eps), "--episode-id", "sen")
+            "--offline", "--stub", "previs,render,finish", "--auto-approve", "--regress", "warn", "--episodes-dir", str(eps), "--episode-id", "sen")
     assert r.returncode in (0, 4), r.stdout[-3000:] + r.stderr[-3000:]
     d = eps / "sen"
     run = json.loads((d / "run.json").read_text())
@@ -70,7 +71,7 @@ def test_offline_sentinel_chain_cli_then_resume(tmp_path):
 
 def test_approval_gate_pauses_then_resumes(tmp_path):
     eps = tmp_path / "eps"
-    common = ["--offline", "--stub", "previs,render,finish,mix", "--episodes-dir", str(eps), "--episode-id", "gate"]
+    common = ["--offline", "--stub", "previs,render,finish,mix", "--regress", "warn", "--episodes-dir", str(eps), "--episode-id", "gate"]
     r = cli(IDEA, *common)
     assert r.returncode == 3, r.stdout + r.stderr
     run = json.loads((eps / "gate" / "run.json").read_text())
@@ -219,7 +220,7 @@ def test_local_render_shards_jobs_and_runs_workers(tmp_path):
     n = sum(s["to"] - s["from"] for s in spec["shots"])
     assert res["frames"] == n and len(list((tmp_path / "plates").glob("*/*.png"))) == n
     cmd = render.blender_cmd(js[0], str(sp), "/x", "blender", 2)
-    assert cmd[:5] == ["blender", "-b", "--factory-startup", "-P", render.RENDER_PY]
+    assert cmd[:7] == ["blender", "-b", "--python-exit-code", "1", "--factory-startup", "-P", render.RENDER_PY]  # L012
     assert ["--start", str(js[0]["frameStart"])] == cmd[cmd.index("--start"):cmd.index("--start") + 2] and "--skip-existing" in cmd
 
 
@@ -322,7 +323,7 @@ def test_batch_runs_ideas_concurrently_under_a_budget(tmp_path):
     items = batch.read_ideas(str(ideas))
     assert len(items) == 2 and items[1]["format"] == "short"
     # online-sized estimates (~$1.92 each) against a $2 ceiling: the second idea must wait for the first to finish
-    doc = batch.run_batch(items, ["--offline", "--stub", "previs,render,finish,mix", "--auto-approve"], str(tmp_path / "eps"),
+    doc = batch.run_batch(items, ["--offline", "--stub", "previs,render,finish,mix", "--auto-approve", "--regress", "warn"], str(tmp_path / "eps"),
                           offline=False, max_parallel=2, budget=2.0, log=lambda m: None, cwd=ROOT)
     st = [it["status"] for it in doc["items"]]
     assert all(s in ("published", "returned") for s in st), [open(it["log"]).read()[-2000:] for it in doc["items"]]

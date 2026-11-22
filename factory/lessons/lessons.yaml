@@ -53,9 +53,9 @@
   symptom: Video would not play / stalled after 11 s on phone.
   root_cause: 43 MB file without faststart; poor streaming profile.
   rule: Deliverables are H.264 High, yuv420p, +faststart, keyframe every 1 s, capped bitrate; a mobile-safe copy accompanies every delivery.
-  check: QC video rules (codec/profile/faststart/GOP) on every final; delivery script refuses otherwise.
+  check: factory/qc/delivery.py (H.264 High, yuv420p, moov-before-mdat, GOP <= 1 s, bitrate cap; QC section DELIVERY) + factory/deliver.py (final + mobile copies, refuses and deletes on failure; run at publish by factory/run); tests/qc/test_delivery.py fails on the original non-faststart long-GOP file
   gate: [qc, deliver]
-  status: open
+  status: closed
 
 - id: L007
   found: QC, 2026-11-21
@@ -71,45 +71,49 @@
   symptom: Boat is low detail.
   root_cause: Hero vehicle was a box-built placeholder from the early WebGL kit.
   rule: Any asset that appears in close or medium shots must meet the hero-asset bar (bevels, real sub-parts, materials with variation); placeholders are allowed only in previs and are flagged.
-  check: asset gate: per-asset 'tier' in catalog (placeholder|previs|hero); shots whose camera distance < 10 m to an asset require tier=hero; golden turnaround renders reviewed.
+  check: 'catalog ''tier'' (placeholder|previs|hero) + factory/direction/asset_tier.py: camera < 10 m to a non-hero asset or any placeholder -> shot_validator TIER warns in previs, fails in final (regress check before publish); golden yacht_turnaround; tests/direction/test_asset_tier.py'
   gate: [library, direct, merge]
-  status: open
+  status: closed
 
 - id: L009
   found: user, 2026-11-22
   symptom: When sitting he leans backwards against a blank white box.
   root_cause: Sit stance tuned for the previous rig; seated against an undetailed cabin wall.
   rule: Seated poses sit on a real seat surface (pelvis contact), upright or forward-leaning unless the story says otherwise; backs only rest on detailed surfaces.
-  check: pose QC: pelvis-to-seat contact distance < 3 cm, spine pitch within the stance's allowed range; golden pose sheet regression.
+  check: 'cloud/blender/test/pose_qc.py + cloud/blender/pose_rules.py: seat gap <= 3 cm, spine pitch per stance (fails v5 C21/C22: pitch -9 deg, gap 10-14 cm); golden hero_pose_sheet. Not yet run automatically at previs (slow lesson check: python -m factory.lessons check --slow)'
   gate: [direct, merge]
-  status: open
+  regression_cases: [d_sit_rock_sneeze, j_sit_log, l009_abandoned_sit, s_sit_bench, y_sit_deck]
+  status: partially-closed
 
 - id: L010
   found: user, 2026-11-22
   symptom: Hands in weird positions; fingers splayed.
   root_cause: Finger controls never driven; hand targets proportion-mapped from the old rig.
   rule: Every pose has an explicit hand shape (relaxed curl default, never flat-splayed); holding = palm contact with the object.
-  check: pose QC: finger curl > threshold unless the shape is open_palm; hand-to-prop contact distance < 2 cm for grips; golden hand sheet regression.
+  check: 'pose_qc.py finger curl >= 20 deg unless open_palm (fails every v5 shot: 4.7 deg, fingers never driven), palm->prop surface <= 3.5 cm for grips (radio passes at 9-12 mm). Not yet run automatically at previs'
   gate: [direct, merge]
-  status: open
+  regression_cases: [c_radio_mouth, j_phone, l010_desert_grip, s_beacon, y_radio_shout]
+  status: partially-closed
 
 - id: L011
   found: user, 2026-11-22
   symptom: Weird expressions.
   root_cause: Emotion poses roughly calibrated on the new rig; no eye convergence/darts.
   rule: Every emotion reads instantly and appealingly (clear brow shape, lid tension, mouth corners, 5-15% asymmetry); eyes converge on a target.
-  check: golden face sheet regression + vision rubric FACE-2 per emotion (must name the intended emotion).
+  check: golden hero_face_sheet (SSIM + vision 'better/same/worse' review on change); FACE-2 per-emotion vision rubric in QC not yet automated
   gate: [merge, qc]
-  status: open
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
+  status: partially-closed
 
 - id: L012
   found: user + review, 2026-11-22
   symptom: Shots rendered brown/black; close-ups crop the face; some shots failed to render.
   root_cause: Cameras inside geometry; framing tuned for the old hero's proportions; OOM on full island.
   rule: Cameras never inside geometry; close-ups frame forehead-to-chin with headroom using the actual rig's head metrics; every shot renders (no silent failures).
-  check: camera collision check vs yacht/set mesh proxies; framing check with rig head metrics; render runner fails the run on any missing plate; memory budget per shot (island LOD).
+  check: factory/direction/mesh_proxy.py (yacht glTF proxies + Blender-exported prop proxies) -> shot_validator PROXY, blocks the previs/publish regress check (catches v3/v5 A02, A04); render runner/previs fail on any missing plate (blender --python-exit-code 1); farm worker/orchestrator already fail on missing plates. Rig-head-metric close-up framing + per-shot memory budget still open
   gate: [direct, render, qc]
-  status: open
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
+  status: partially-closed
 
 - id: L013
   found: lead, 2026-11-22
@@ -125,9 +129,9 @@
   symptom: Live run cost $5.04 mostly on retries; prompt cache expired between attempts.
   root_cause: 5-minute cache TTL vs 13-minute attempts; checklist only applied after drafting.
   rule: Use 1-hour cache on recipe blocks; put the blocking checklist in the drafting prompt; cheaper model/effort for mechanical stages; per-stage cost ceiling.
-  check: run.json cost per stage vs ceiling; alert when attempts > 2.
+  check: 'factory/run: per-stage cost ceilings (costs.STAGE_CEILINGS_USD, FACTORY_STAGE_CEILINGS_JSON) stop the run (budget_exceeded) and a stage at its ceiling is never re-started; >= 2 attempts -> run.json alerts + ALERT event; tests/run/test_cost_ceiling.py'
   gate: [run]
-  status: open
+  status: closed
 
 - id: L015
   found: lead (Runpod smoke test), 2026-11-22
@@ -142,7 +146,7 @@
   found: lead (Runpod smoke test), 2026-11-22
   symptom: Night sky stars smear into streaks under camera motion blur and read as rain.
   root_cause: Final profile enables motion blur; handheld camera rotation during the shutter smears point-like stars.
-  rule: Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur.
+  rule: "Stars/sky must not streak: shorter shutter on night shots with camera rotation, or sky excluded from motion blur, or stars rendered as soft discs that survive blur."
   check: golden 'night sky under motion' frame + vision rubric SKY-1 ("no streaks in the sky unless it rains").
   gate: [merge, qc]
   status: open
@@ -154,15 +158,17 @@
   rule: Every frame's hands have a valid palm orientation for the pose (relaxed = palms toward thighs, thumbs forward; grips wrap the object; rails = palms down) and a finger shape (relaxed curl by default).
   check: pose_qc palm-normal vs per-shape target (< 25 deg), wrist bend limit, finger curl > threshold; hands close-up golden sheet; vision rubric HANDS-1 on every hero shot keyframe.
   gate: [direct, merge, qc]
+  regression_cases: [c_doorway_sneeze, d_sit_rock_sneeze, j_sit_log, s_sit_bench, y_sit_deck]
   status: open
 
 - id: L018
   found: user, 2026-11-22
   symptom: Facial expressions look like a dummy/mannequin even when the emotion is posed.
   root_cause: Expressions were static held poses; no facial life, no anticipation/overlap, weak eye behaviour.
-  rule: Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth.
+  rule: "Faces are performances: continuous micro-life during holds, brows lead and mouth follows on transitions, eyes dart before expression changes, saccades every 0.5-2 s, never a dead flat neutral mouth."
   check: face-channel temporal variance over every hero shot > threshold (no frozen face > 0.5 s); golden face CLIP (not still) compared over time; vision rubric FACE-3 'reads as alive, not a mannequin' on sampled clip frames.
   gate: [direct, merge, qc]
+  regression_cases: [c_radio_mouth, d_sit_rock_sneeze, j_shush_close, s_crouch_close, y_radio_shout]
   status: open
 
 - id: L019
@@ -172,13 +178,14 @@
   rule: Glazing is real tinted glass with frames and gaskets that reflects the environment; lit windows glow from interior lights behind the glass, never from emissive panels; doors have frames, hardware and thresholds.
   check: asset gate scans hero-tier assets for emissive materials on glass-named objects (fail); golden 'salon door + windows at night' close-up regression; vision rubric ASSET-2 'windows/doors read as real'.
   gate: [asset, merge]
+  regression_cases: [c_hands_up, d_wave, j_walk, s_brace_wide, y_rail_fear]
   status: open
 
 - id: L020
   found: lead (waterspout previs), 2026-11-22
   symptom: 7 of 38 previs keyframes failed; the director had chosen EEVEE for them and EEVEE crashed headless (EGL_BAD_MATCH).
   root_cause: egl_available() only checked that libEGL exists, so the automatic EEVEE->Cycles fallback never triggered on GPU-less machines.
-  rule: Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board.
+  rule: "Engine choice is validated against the machine: EEVEE only with a working GPU context; otherwise fall back to Cycles automatically. A failed keyframe never ships as a 'no key' board."
   check: egl_available() requires a GPU device node/driver (FORCE_EEVEE=1 override); previs stage fails the run if any key is missing; test renders an EEVEE-tagged shot on CPU and asserts Cycles fallback.
   gate: [previs, render, merge]
   status: partially-closed
@@ -191,3 +198,13 @@
   check: compile applies series defaults; the asset-tier check (L008) blocks previs/placeholder assets within 10 m of camera; test asserts a compiled episode uses hero_v4 + proc:yacht_v2.
   gate: [direct, merge]
   status: partially-closed
+
+- id: L022
+  found: quality_gate stress suite, 2026-11-22
+  symptom: 'Stress suite: the renderer has no kneel, crouch, walk, rope or bench/rock/log sit vocabulary; prompts asking for them fall back to stand/down/sit_deck'
+  root_cause: acting.py STANCES/POSES cover only the Sentinel story (stand, brace, helm, sit_deck, down + hand-target poses)
+  rule: Every stance/hand use a director may ask for exists in the acting vocabulary (or the director is told it does not); no silent fallback
+  check: stress VOCAB rule on every scenario (factory/goldens/stress); director vocabulary in prompts
+  gate: [direct, merge]
+  regression_cases: [d_sit_rock_sneeze, j_sit_log, l022_abandoned_vocab, l022_sea_vocab, s_sit_bench]
+  status: open
