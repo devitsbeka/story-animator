@@ -509,7 +509,10 @@ def check_shotplan(plan, story, bd, man, words=None):
             rep.hard(f"V-prop.{s['id']}", p["prop"] in voc["props"], f"{s['id']}: prop {p['prop']!r} has no builder in cloud/blender/props.py")
     # props on screen must be resolved in the manifest
     man_ok = {e["render_key"][5:] for e in man["entries"] if e.get("render_key", "").startswith("prop:")}
-    rep.hard("M-props-resolved", used_props <= man_ok, f"props used but not resolved (render_key prop:<name>) in manifest.json: {sorted(used_props - man_ok)}")
+    # a prop built in code (cloud/blender/props.py builder, passed to the renderer by name) needs no library entry;
+    # only file-backed props must be resolved in the manifest (the helm of yacht_v2 was blocked although it is built)
+    unresolved = sorted(used_props - man_ok - set(voc["props"]))
+    rep.hard("M-props-resolved", not unresolved, f"props used but not resolved (render_key prop:<name>) in manifest.json: {unresolved}")
     rep.check("H-1-offset", off <= 9, f"audio_offset_frames {off} puts the first word after 0.3 s (H-1)")
     rep.hard("INTEGRITY.world_island", plan["world"]["island"] is None or plan["world"]["island"] in ("near", "far"), "world.island preset")
 
