@@ -72,6 +72,15 @@ def candidates(rules=()):
     for t in (0.08, -0.08, 0.15, -0.15):
         for r in (0.25, 0.5):
             yield {"tilt": t, "rise": r}
+    # boxed in (cockpit under the hardtop): lower the camera, swing wider, or combine a swing with a dolly
+    for r in (-0.2, -0.4):
+        yield {"rise": r}
+        for d in (0.18, 0.35):
+            yield {"rise": r, "dolly": d}
+    for o in (50, -50, 60, -60, 75, -75, 90, -90):
+        yield {"orbit_deg": o}
+        for d in (0.18, 0.35):
+            yield {"orbit_deg": o, "dolly": d}
 
 
 def _fails(ep, shot):

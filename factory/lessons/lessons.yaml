@@ -253,3 +253,12 @@
   check: "tests/direction/test_camera_fix.py (all 15 waterspout v2 failures fixed by geometry, rise <= 1 m); factory/run/pipeline.py shot_gate runs camera_fix before re-direct and books a failed re-direct's cost."
   gate: [previs, render, merge]
   status: closed
+
+- id: L028
+  found: lead (waterspout v2 previs), 2026-11-22
+  symptom: "3 of 37 waterspout v2 keyframes rendered pure black (S12, S22, S26) although every shot had passed the shot gate; the board looked complete."
+  root_cause: "The per-shot COLLIDE check tested cameras against the boxes of the superseded yacht.glb while episodes render proc:yacht_v2 (its accurate signed-distance proxy was only used by the shot validator), so geometry repairs moved cameras into the v2 hardtop; previs had no pixel check and reused cached keys regardless of shot changes."
+  rule: "Collision checks use the proxy of the yacht the episode actually renders (yacht_v2 -> factory/direction/yacht_proxy.json SDF, 0.12 m clearance over the whole move). Every previs key is checked for near-black (mean luma < 0.02) unless the shot declares an intentional black; a black key counts as missing (L012). Cached keys are valid only for the exact shot spec they were rendered from (hash sidecar)."
+  check: "mesh_proxy.set_yacht_model + SDF hits; factory/run/previs.py black_keys + _cached/_stamp; tests/direction/test_camera_fix.py; re-render of waterspout v2 S05/S06/S12/S18/S22/S26/S29."
+  gate: [previs, render, merge]
+  status: closed

@@ -18,26 +18,74 @@ def key_frame(shot):
     return int(k) if k is not None and a <= int(k) < b else (a + b - 1) // 2
 
 
+
+def _shot_hash(spec, s):
+    """L028: a cached key is only valid for the exact shot it was rendered from (camera repairs, re-directs)."""
+    import hashlib
+    blob = json.dumps({"shot": s, "world": spec.get("world"), "assets": spec.get("assets")}, sort_keys=True, default=str)
+    return hashlib.sha1(blob.encode()).hexdigest()[:16]
+
+
+def _cached(spec, keys_dir, s):
+    png = os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png")
+    hp = png + ".hash"
+    if not os.path.isfile(png):
+        return False
+    if not os.path.isfile(hp) or open(hp).read().strip() != _shot_hash(spec, s):
+        os.remove(png)          # stale: rendered from an older version of this shot
+        return False
+    return True
+
+
+def _stamp(spec, keys_dir, sel):
+    for s in sel:
+        png = os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png")
+        if os.path.isfile(png):
+            with open(png + ".hash", "w") as fh:
+                fh.write(_shot_hash(spec, s))
+
+
+def black_keys(spec, keys_dir, sel, thresh=0.02):
+    """L028: keys whose mean luminance < thresh (a camera inside geometry renders black) unless the shot declares an
+    intentional black (direction.black / fade)."""
+    try:
+        from PIL import Image, ImageStat
+    except ImportError:
+        return []
+    out = []
+    for s in sel:
+        d = s.get("direction") or {}
+        if d.get("black") or d.get("fade") in ("in", "out", "black"):
+            continue
+        png = os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png")
+        if os.path.isfile(png):
+            m = ImageStat.Stat(Image.open(png).convert("L")).mean[0] / 255.0
+            if m < thresh:
+                out.append(s["id"])
+    return out
+
+
 def render_keys(spec, spec_path, keys_dir, shots=None, res="144x256", samples=4, engine="EEVEE", workers=1,
                 threads=2, blender=None, log_dir=None, stub=False, log=print, backend="local", compute=None):
     sel = [s for s in spec["shots"] if not shots or s["id"] in shots]
     if stub:
         return _stub_keys(sel, keys_dir, res)
     if backend == "compute":   # >>> compute_broker: one frame per shot, spread over the free providers
-        todo = [(key_frame(s), key_frame(s)) for s in sel
-                if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))]
+        todo = [(key_frame(s), key_frame(s)) for s in sel if not _cached(spec, keys_dir, s)]
         if todo:
             if compute is None:
                 from factory.compute import api as compute
             log(f"[previs] {len(todo)} keyframe(s) through the compute broker at {res}, {samples} spp")
             compute.render(spec_path, "preview", frames=todo, res=res, samples=samples, dest=keys_dir, log=log)
-        missing = [s["id"] for s in sel if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))]
-        return {"keys": len(sel) - len(missing), "missing": missing, "failed": [], "backend": "compute"}
+        _stamp(spec, keys_dir, sel)
+        blk = black_keys(spec, keys_dir, sel)
+        missing = [s["id"] for s in sel if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))] + blk
+        return {"keys": len(sel) - len(missing), "missing": missing, "failed": [], "black": blk, "backend": "compute"}
     # <<< compute_broker
     cmds = []
     for s in sel:
         f = key_frame(s)
-        if os.path.isfile(os.path.join(keys_dir, s["id"], f"{f:04d}.png")):
+        if _cached(spec, keys_dir, s):
             continue
         job = {"frameStart": f, "frameEnd": f, "quality": "preview", "engine": engine, "res": res, "samples": samples}
         cmds.append((f"key_{s['id']}_{f:04d}", render.blender_cmd(job, spec_path, keys_dir, blender, threads)))
@@ -45,8 +93,10 @@ def render_keys(spec, spec_path, keys_dir, shots=None, res="144x256", samples=4,
     env.setdefault("LIBRARY_STORE", os.path.join(render.ROOT, "library_store"))
     log(f"[previs] rendering {len(cmds)} keyframe(s) at {res}, {samples} spp ({len(sel) - len(cmds)} cached)")
     rcs = render.run_cmds(cmds, workers, log_dir, env, log=log) if cmds else {}
-    missing = [s["id"] for s in sel if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))]
-    return {"keys": len(sel) - len(missing), "missing": missing, "failed": sorted(k for k, v in rcs.items() if v)}
+    _stamp(spec, keys_dir, sel)
+    blk = black_keys(spec, keys_dir, sel)
+    missing = [s["id"] for s in sel if not os.path.isfile(os.path.join(keys_dir, s["id"], f"{key_frame(s):04d}.png"))] + blk
+    return {"keys": len(sel) - len(missing), "missing": missing, "failed": sorted(k for k, v in rcs.items() if v), "black": blk}
 
 
 def _stub_keys(shots, keys_dir, res):

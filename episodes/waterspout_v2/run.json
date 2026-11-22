@@ -46,9 +46,9 @@
   "parallel_stages": 2,
   "farm_poll_s": 60
  },
- "status": "running",
+ "status": "failed",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:23:55+00:00",
+ "updated": "2026-11-22T14:41:57+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -183,13 +183,24 @@
    }
   },
   "previs": {
-   "status": "running",
+   "status": "failed",
    "started": "2026-11-22T14:23:22",
    "attempts": 2,
-   "error": null,
+   "error": "RegressionBlocked: regress check before previs failed: [\"CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]\", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']",
    "costUSD": 0.0,
-   "seconds": 954.08,
-   "finished": "2026-11-22T14:20:42"
+   "seconds": 2068.55,
+   "finished": "2026-11-22T14:41:57",
+   "info": {
+    "contact_sheet": "/home/user/story-animator/episodes/waterspout_v2/boards/contact_sheet.png",
+    "animatic": "/home/user/story-animator/episodes/waterspout_v2/boards/animatic.mp4",
+    "keys": 37,
+    "missing": [],
+    "failed": []
+   },
+   "artifacts": [
+    "episodes/waterspout_v2/boards/contact_sheet.png",
+    "episodes/waterspout_v2/boards/animatic.mp4"
+   ]
   },
   "render": {
    "status": "pending"
@@ -222,7 +233,7 @@
   "budgetUSD": 11.0
  },
  "time": {
-  "totalSeconds": 4116.04,
+  "totalSeconds": 5230.51,
   "byStage": {
    "develop": 1746.65,
    "breakdown": 177.74,
@@ -230,7 +241,7 @@
    "voice": 30.83,
    "direct": 1171.16,
    "sound": 33.8,
-   "previs": 954.08,
+   "previs": 2068.55,
    "render": 0.0,
    "finish": 0.0,
    "qc": 0.0
@@ -262,7 +273,7 @@
   "sound": 0.25,
   "previs": 0.5
  },
- "error": "StageFailed: stage direct failed validation after retries: [CAN-C2a] no sequence reserves a close-up for the decisive reaction",
+ "error": "RegressionBlocked: regress check before previs failed: [\"CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]\", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']",
  "alerts": [
   {
    "stage": "develop",
@@ -481,5 +492,94 @@
  },
  "notes": [
   "2026-11-22: +$3.01 booked to direct: failed shot-gate re-directs during previs were unrecorded (lesson L027)"
- ]
+ ],
+ "regress": {
+  "previs": {
+   "ok": false,
+   "mode": "previs",
+   "blocking": [
+    "CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]",
+    "CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s",
+    "CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)"
+   ],
+   "warnings": [
+    "TIER: prop:lamp (previs): 22 shots; yacht (previs): 29 shots; prop:radio (previs): 1 shots",
+    "CANON-MANUAL: 1 canon rule(s) need a human review per .claude/skills/film-craft-canon/SKILL.md: ['CAN-L3']",
+    "GOLDENS: stale goldens (run `python -m factory.goldens compare`): ['hero_face_sheet', 'hero_pose_sheet', 'hero_turnaround', 'kit_abandoned_city_street', 'kit_desert_canyon', 'kit_jungle_clearing', 'kit_snow_mountain_ridge', 'sentinel_A01a', 'sentinel_A02', 'sentinel_B11', 'sentinel_C13', 'sentinel_C21', 'sen"
+   ],
+   "lessons": {
+    "total": 27,
+    "closed": 13,
+    "open": [
+     "L001",
+     "L009",
+     "L010",
+     "L011",
+     "L012",
+     "L015",
+     "L016",
+     "L017",
+     "L018",
+     "L019",
+     "L020",
+     "L021",
+     "L022",
+     "L025"
+    ],
+    "automated": [
+     "L001",
+     "L002",
+     "L003",
+     "L004",
+     "L005",
+     "L006",
+     "L007",
+     "L008",
+     "L009",
+     "L010",
+     "L011",
+     "L012",
+     "L013",
+     "L014",
+     "L015",
+     "L017",
+     "L018",
+     "L019",
+     "L020",
+     "L021",
+     "L022"
+    ],
+    "not_automated": [
+     "L016",
+     "L026",
+     "L023",
+     "L024",
+     "L025",
+     "L027"
+    ]
+   },
+   "canon": {
+    "rc": 1,
+    "summary": {
+     "PASS": 13,
+     "FAIL": 3,
+     "MANUAL": 1
+    },
+    "report": "/home/user/story-animator/episodes/waterspout_v2/qc/canon_previs.json",
+    "fail": [
+     "CAN-N3",
+     "CAN-N4",
+     "CAN-S1"
+    ],
+    "manual": [
+     "CAN-L3"
+    ],
+    "details": {
+     "CAN-S1": "CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)",
+     "CAN-N3": "CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]",
+     "CAN-N4": "CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s"
+    }
+   }
+  }
+ }
 }

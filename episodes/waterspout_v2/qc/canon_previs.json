@@ -1,0 +1,560 @@
+{
+ "episode": "/home/user/story-animator/episodes/waterspout_v2/episode.json",
+ "rules": {
+  "CAN-S1": {
+   "desc": "threat shown to audience before the character notices",
+   "status": "FAIL",
+   "detail": "CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)",
+   "sub": {
+    "CAN-S1a": {
+     "status": "FAIL",
+     "detail": "T1: on screen 0.93 s in the audience-only window (< 1.0 s)"
+    },
+    "CAN-S1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S1c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S1d": {
+     "status": "PASS",
+     "detail": "ok"
+    }
+   }
+  },
+  "CAN-S2": {
+   "desc": "knowledge timeline: who knows / who can act / audience question",
+   "status": "PASS",
+   "detail": "{'PASS': 6}",
+   "sub": {
+    "CAN-S2a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S2b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S2c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S2d": {
+     "status": "PASS",
+     "detail": "longest unchanged stretch 9.5 s"
+    },
+    "CAN-S2e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S2f": {
+     "status": "PASS",
+     "detail": "ok"
+    }
+   }
+  },
+  "CAN-S3": {
+   "desc": "ticking clock the viewer can feel",
+   "status": "PASS",
+   "detail": "{'PASS': 5}",
+   "sub": {
+    "CAN-S3a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S3b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S3c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S3d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-S3e": {
+     "status": "PASS",
+     "detail": "ok"
+    }
+   }
+  },
+  "CAN-C1": {
+   "desc": "wide establishes geography before coverage",
+   "status": "PASS",
+   "detail": "CAN-C1c: shot_validator C5 (advisory): S04 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S13 crosses the line in 'sea@isl(None,None,None)' (side +1 vs -1); S14 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S18 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S19 crosses the line in 'sea@isl; CAN-C1v: shot_validator: sea@isl(None,None,None): coverage starts at S05 with no wide holding hero + boat + island first",
+   "sub": {
+    "CAN-C1a": {
+     "status": "PASS",
+     "detail": "shot_validator C3/C4 pass"
+    },
+    "CAN-C1c": {
+     "status": "WARN",
+     "detail": "shot_validator C5 (advisory): S04 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S13 crosses the line in 'sea@isl(None,None,None)' (side +1 vs -1); S14 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S18 crosses the line in 'sea@isl(None,None,None)' (side -1 vs +1); S19 crosses the line in 'sea@isl"
+    },
+    "CAN-C1b": {
+     "status": "PASS",
+     "detail": "12 establishing shots"
+    },
+    "CAN-C1v": {
+     "status": "WARN",
+     "detail": "shot_validator: sea@isl(None,None,None): coverage starts at S05 with no wide holding hero + boat + island first"
+    }
+   }
+  },
+  "CAN-C2": {
+   "desc": "close-up reserved for the decisive reaction",
+   "status": "PASS",
+   "detail": "CAN-C2v: shot_validator: S08 casual CU (MCU->CU) in sea@isl(None,None,None) (reserved: None); S14 casual CU (ECU->ECU) in sea@isl(None,None,None) (reserved: None); S25 casual CU (CU->ECU) in sea@isl(None,None,None) (reserved: None); S30 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None); S37 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None)",
+   "sub": {
+    "CAN-C2a-episode": {
+     "status": "PASS",
+     "detail": "CU+ECU <= 25%, no run > 3"
+    },
+    "CAN-C2a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-C2b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-C2c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-C2v": {
+     "status": "WARN",
+     "detail": "shot_validator: S08 casual CU (MCU->CU) in sea@isl(None,None,None) (reserved: None); S14 casual CU (ECU->ECU) in sea@isl(None,None,None) (reserved: None); S25 casual CU (CU->ECU) in sea@isl(None,None,None) (reserved: None); S30 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None); S37 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None)"
+    }
+   }
+  },
+  "CAN-H1": {
+   "desc": "impact handheld: subject escapes frame, camera catches up late",
+   "status": "PASS",
+   "detail": "CAN-H1v: shot_validator: S09: impact shot (shake 26.0 px) without impact_handheld (locked-off impact)",
+   "sub": {
+    "CAN-H1a": {
+     "status": "PASS",
+     "detail": "1 impact shot(s) declare reactive handheld"
+    },
+    "CAN-H1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-H1c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-H1d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-H1e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-H1f": {
+     "status": "PASS",
+     "detail": "shot_validator exempts H1/C11 inside impact windows (['S09'])"
+    },
+    "CAN-H1g": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-H1v": {
+     "status": "WARN",
+     "detail": "shot_validator: S09: impact shot (shake 26.0 px) without impact_handheld (locked-off impact)"
+    }
+   }
+  },
+  "CAN-E1": {
+   "desc": "action information order: obstacle(aud) -> obstacle(char) -> impact -> cost",
+   "status": "PASS",
+   "detail": "{'PASS': 9}",
+   "sub": {
+    "CAN-E1a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1f": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1h": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1g": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-E1i": {
+     "status": "PASS",
+     "detail": "no time_cut shots"
+    }
+   }
+  },
+  "CAN-P1": {
+   "desc": "turn-then-change: expression change never inside a head turn",
+   "status": "PASS",
+   "detail": "{'PASS': 6, 'MANUAL': 1}",
+   "sub": {
+    "CAN-P1a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-P1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-P1d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-P1e": {
+     "status": "PASS",
+     "detail": "fast turns carry a blink"
+    },
+    "CAN-P1c": {
+     "status": "PASS",
+     "detail": "no pose/stance/emotion change in the first/last 10 f of 33 hero shots"
+    },
+    "CAN-P1f": {
+     "status": "MANUAL",
+     "detail": "bounce-apex timing needs the baked head track (acting bake)"
+    },
+    "CAN-P1g": {
+     "status": "PASS",
+     "detail": "reserved CU logs turn_then_change; sound-off review stays manual"
+    }
+   }
+  },
+  "CAN-P2": {
+   "desc": "living faces + correct hands (L010/L011/L017/L018)",
+   "status": "PASS",
+   "detail": "{'PASS': 1, 'MANUAL': 3}",
+   "sub": {
+    "CAN-P2c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-P2a": {
+     "status": "MANUAL",
+     "detail": "blink cadence (CV >= 0.35) needs the baked face track"
+    },
+    "CAN-P2b": {
+     "status": "MANUAL",
+     "detail": "eyes-lead-head needs gaze keys (cloudrig_adapter face_at)"
+    },
+    "CAN-P2d": {
+     "status": "MANUAL",
+     "detail": "hands: lessons L010/L017 checks on renders"
+    }
+   }
+  },
+  "CAN-L1": {
+   "desc": "discovery map: light reveals the story detail when intended",
+   "status": "PASS",
+   "detail": "{'PASS': 2, 'MANUAL': 4}",
+   "sub": {
+    "CAN-L1a": {
+     "status": "PASS",
+     "detail": "7 discoveries"
+    },
+    "CAN-L1e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-L1f": {
+     "status": "MANUAL",
+     "detail": "eyeline to the discovery needs gaze keys; audience-first gaze_away_from is checked in CAN-S1a/E1b"
+    },
+    "CAN-L1b": {
+     "status": "MANUAL",
+     "detail": "needs plates (--plates)"
+    },
+    "CAN-L1c": {
+     "status": "MANUAL",
+     "detail": "needs plates (--plates)"
+    },
+    "CAN-L1d": {
+     "status": "MANUAL",
+     "detail": "needs plates (--plates)"
+    }
+   }
+  },
+  "CAN-L2": {
+   "desc": "night continuity wide<->close, motivated light",
+   "status": "PASS",
+   "detail": "{'PASS': 3, 'MANUAL': 4}",
+   "sub": {
+    "CAN-L2a": {
+     "status": "PASS",
+     "detail": "key holds across cuts (37 shots)"
+    },
+    "CAN-L2d": {
+     "status": "PASS",
+     "detail": "key:fill >= 4:1 (azimuth vs camera needs plates)"
+    },
+    "CAN-L2g": {
+     "status": "PASS",
+     "detail": "key/practical hue separation >= 120 deg"
+    },
+    "CAN-L2b": {
+     "status": "MANUAL",
+     "detail": "needs plates / the Blender light rig"
+    },
+    "CAN-L2c": {
+     "status": "MANUAL",
+     "detail": "needs plates / the Blender light rig"
+    },
+    "CAN-L2e": {
+     "status": "MANUAL",
+     "detail": "needs plates / the Blender light rig"
+    },
+    "CAN-L2f": {
+     "status": "MANUAL",
+     "detail": "needs plates / the Blender light rig"
+    }
+   }
+  },
+  "CAN-L3": {
+   "desc": "depth separation, rim on dark subjects",
+   "status": "MANUAL",
+   "detail": "{'MANUAL': 7}",
+   "sub": {
+    "CAN-L3a": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3b": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3c": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3d": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3e": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3f": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    },
+    "CAN-L3g": {
+     "status": "MANUAL",
+     "detail": "needs plates with depth/masks"
+    }
+   }
+  },
+  "CAN-T1": {
+   "desc": "look-dev test frame (boat + one lamp + water) approved first",
+   "status": "PASS",
+   "detail": "{'PASS': 2, 'MANUAL': 3}",
+   "sub": {
+    "CAN-T1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-T1a": {
+     "status": "PASS",
+     "detail": "look-dev test planned (starboard stern three-quarter, 28 mm, yacht centred, cabin lamp glowing in the companionway); approval required before render"
+    },
+    "CAN-T1c": {
+     "status": "MANUAL",
+     "detail": "look-dev frame not rendered yet"
+    },
+    "CAN-T1d": {
+     "status": "MANUAL",
+     "detail": "locks are recorded at approval"
+    },
+    "CAN-T1e": {
+     "status": "MANUAL",
+     "detail": "night colour cues / open shadows need plates"
+    }
+   }
+  },
+  "CAN-N1": {
+   "desc": "three-column script (picture | narration | sound)",
+   "status": "PASS",
+   "detail": "{'PASS': 4}",
+   "sub": {
+    "CAN-N1a": {
+     "status": "PASS",
+     "detail": "33 rows"
+    },
+    "CAN-N1b": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N1d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N1c": {
+     "status": "PASS",
+     "detail": "ok"
+    }
+   }
+  },
+  "CAN-N2": {
+   "desc": "sound-before-words + reserved narration gaps filled by sound",
+   "status": "PASS",
+   "detail": "{'PASS': 7}",
+   "sub": {
+    "CAN-N2b": {
+     "status": "PASS",
+     "detail": "15 gaps"
+    },
+    "CAN-N2f-plan": {
+     "status": "PASS",
+     "detail": "planned line spans 80% of runtime"
+    },
+    "CAN-N2a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N2c": {
+     "status": "PASS",
+     "detail": "15 gaps measured in the voiced words"
+    },
+    "CAN-N2d": {
+     "status": "PASS",
+     "detail": "every gap filled"
+    },
+    "CAN-N2e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N2f": {
+     "status": "PASS",
+     "detail": "voiced speech 61%, densest 20 s window 66%"
+    }
+   }
+  },
+  "CAN-N3": {
+   "desc": "key word vs reveal order honoured; no talking over reactions",
+   "status": "FAIL",
+   "detail": "CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]",
+   "sub": {
+    "CAN-N3a": {
+     "status": "PASS",
+     "detail": "34 operative-word cuts in window [measured words]"
+    },
+    "CAN-N3b": {
+     "status": "PASS",
+     "detail": "all 18 lines honour their reveal order [measured words]"
+    },
+    "CAN-N3c": {
+     "status": "PASS",
+     "detail": "perception order consistent (or <2 visible things named)"
+    },
+    "CAN-N3d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N3e": {
+     "status": "FAIL",
+     "detail": "silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]"
+    }
+   }
+  },
+  "CAN-N4": {
+   "desc": "narrator authority; redundant lines cut",
+   "status": "FAIL",
+   "detail": "CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s",
+   "sub": {
+    "CAN-N4a": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N4b": {
+     "status": "PASS",
+     "detail": "omniscient narrator (timing governed by N3b)"
+    },
+    "CAN-N4c": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N4d": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N4f": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N4e": {
+     "status": "PASS",
+     "detail": "ok"
+    },
+    "CAN-N4f-pace": {
+     "status": "FAIL",
+     "detail": "block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s"
+    },
+    "CAN-N4g": {
+     "status": "MANUAL",
+     "detail": "no animatic_tryout record yet (scratch VO against the animatic, then re-run N2c/N3)"
+    }
+   }
+  }
+ },
+ "checks": {
+  "shot_validator": {
+   "rc": 0,
+   "tail": "ver in frame: []\n[PASS] LENS lens language: non-CU shots mostly 18-60 mm (<= 30% longer): 2/37 non-CU shots on > 60 mm equivalent\n[FAIL] OCC  hero not hidden behind the hull (camera->chest ray clear of the hull below deck): S04@176; S10@512; S12@714; S17@910; S19@1049; S22@1230; S26@1518; S31@1796\n[FAIL] VIS  subject in front of the camera and inside the frame: not visible on some frames: ['S14', 'S25', 'S30', 'S37']\n[WARN] TIER assets within 10 m of the camera are tier hero; placeholders previs-only (mode previs): prop:lamp (previs): 22 shots; yacht (previs): 29 shots; prop:radio (previs): 1 shots\n[PASS] PROXY camera not inside yacht/prop geometry (mesh proxies): ok\n[FAIL] CAN-C1 wide establishes geography (hero + boat + threat/tree line in one composition) before coverage: sea@isl(None,None,None): coverage starts at S05 with no wide holding hero + boat + island first\n[FAIL] CAN-C2 close-up reserved for the decisive reaction beat (director marks reserved_close_up): S08 casual CU (MCU->CU) in sea@isl(None,None,None) (reserved: None); S14 casual CU (ECU->ECU) in sea@isl(None,None,None) (reserved: None); S25 casual CU (CU->ECU) in sea@isl(None,None,None) (reserved: None); S30 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None); S37 casual CU (CU->CU) in sea@isl(None,None,None) (reserved: None)\n[FAIL] CAN-H1 impact handheld: subject briefly escapes frame, camera catches up a few frames late: S09: impact shot (shake 26.0 px) without impact_handheld (locked-off impact)\n"
+  },
+  "lighting_continuity": {
+   "rc": 0,
+   "tail": "\"key_az\": -147.3, \"key_el\": 33.5, \"d_az\": 0.0, \"d_el\": 0.0, \"dawn\": 0.0, \"key_fill\": 6.5, \"hue_sep_practical\": 166.5, \"event\": null, \"cheat\": null}\n{\"shot\": \"S35\", \"seq\": \"S\", \"preset\": \"moonlight_practical_mix\", \"key_az\": -147.3, \"key_el\": 33.5, \"d_az\": 0.0, \"d_el\": 0.0, \"dawn\": 0.0, \"key_fill\": 6.5, \"hue_sep_practical\": 166.5, \"event\": null, \"cheat\": null}\n{\"shot\": \"S36\", \"seq\": \"S\", \"preset\": \"moonlight_practical_mix\", \"key_az\": -147.3, \"key_el\": 33.5, \"d_az\": 0.0, \"d_el\": 0.0, \"dawn\": 0.0, \"key_fill\": 6.5, \"hue_sep_practical\": 166.5, \"event\": null, \"cheat\": null}\n{\"shot\": \"S37\", \"seq\": \"S\", \"preset\": \"moonlight_practical_mix\", \"key_az\": -147.3, \"key_el\": 33.5, \"d_az\": 0.0, \"d_el\": 0.0, \"dawn\": 0.0, \"key_fill\": 6.5, \"hue_sep_practical\": 166.5, \"event\": null, \"cheat\": null}\n0 problem(s)\n"
+  },
+  "lighting_canon": {
+   "rc": 0,
+   "rules": [
+    "CAN-L1",
+    "CAN-L2"
+   ]
+  },
+  "canon_checks": {
+   "rc": 0,
+   "meta": {
+    "words": "measured",
+    "sound": true,
+    "shotplan": true,
+    "story": true,
+    "stage": "plan"
+   }
+  }
+ },
+ "summary": {
+  "PASS": 13,
+  "FAIL": 3,
+  "MANUAL": 1
+ }
+}

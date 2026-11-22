@@ -245,6 +245,22 @@ def prop_boxes(p):
     return out
 
 
+YACHT_MODEL = "proc:yacht_v2"   # set from the episode (shot_checks.check_episode) - which yacht the shots see
+MARGIN_V2 = 0.12                # camera body + near plane clearance from any v2 surface (m)
+
+
+def set_yacht_model(ep):
+    global YACHT_MODEL
+    YACHT_MODEL = str(((ep.get("assets") or {}).get("props") or {}).get("yacht") or "assets/props/yacht.glb")
+
+
+def _v2_proxy():
+    try:
+        return G.yacht_proxy()
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def shot_hits(shot, step=3):
     """-> [(frame, [parts])] for sampled frames where the camera is inside a proxy (yacht or props)."""
     f0, f1 = shot["from"], shot["to"] - 1
@@ -256,7 +272,15 @@ def shot_hits(shot, step=3):
         hits = []
         body = G.YachtFrame(y, f).world_to_body(cam) if y else None
         if body is not None:
-            hits += yacht_hits(body)
+            sdf = _v2_proxy() if YACHT_MODEL.startswith("proc:yacht_v2") else None
+            if sdf is not None:
+                # L028: the procedural yacht_v2 is checked against its own signed-distance proxy (yacht_proxy.json,
+                # exported from the real Blender model incl. hardtop, salon, helm); the old GLB boxes are for the
+                # superseded yacht.glb only - checking v2 cameras against them let cameras into the v2 roof (black keys)
+                if sdf.sdf(body) < MARGIN_V2:
+                    hits.append("yacht_v2")
+            else:
+                hits += yacht_hits(body)
         for b in pboxes:
             p = body if b["attach"] == "yacht" else cam
             if p is not None and inside_box(p, b):

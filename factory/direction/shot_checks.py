@@ -55,6 +55,8 @@ def head_points(shot, a, f):
 
 def check_shot(ep, shot, quality="preview"):
     """-> list of findings {shot, rule, status, measured, expected} (status pass|fail|skip)."""
+    import mesh_proxy as _mp
+    _mp.set_yacht_model(ep)
     W, H = ep.get("width", 1080), ep.get("height", 1920)
     aspect = W / H
     key = int(shot.get("keyFrame", (shot["from"] + shot["to"] - 1) // 2))
@@ -102,6 +104,8 @@ def check_shot(ep, shot, quality="preview"):
 
 def check_episode(ep, quality="preview", shots=None):
     """-> {"findings": [...], "failing": {shot: [rules]}, "ok": bool}"""
+    import mesh_proxy
+    mesh_proxy.set_yacht_model(ep)
     fs = []
     for s in ep["shots"]:
         if shots and s["id"] not in shots:

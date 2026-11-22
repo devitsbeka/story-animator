@@ -62,7 +62,8 @@ def test_shot_gate_redirects_twice_then_blocks(tmp_path):
     doc = pipe.run()
     assert doc["status"] == "failed" and doc["stages"]["previs"]["status"] == "failed"
     err = doc["stages"]["previs"]["error"]
-    assert "RegressionBlocked" in err and "shot gate before previs" in err and "COLLIDE" in err
+    # since L027 the geometry repair fixes what it can (COLLIDE) first; what remains still blocks after 2 re-directs
+    assert "RegressionBlocked" in err and "shot gate before previs" in err and "still failing after 2 re-direct" in err
     sg = doc["shotGate"]["previs"]
     assert sg["tries"] == 2 and len(sg["history"]) == 3 and "C28" in sg["history"][0]["failing"]
     assert doc["stages"]["render"]["status"] == "pending"

@@ -126,3 +126,17 @@
 14:36:59 [waterspout_v2] [render] key_S27_1607: rc=0 (104.5s)
 14:37:30 [waterspout_v2] [render] key_S28_1670: rc=0 (98.9s)
 14:37:56 [waterspout_v2] [render] key_S29_1725: rc=0 (93.6s)
+14:38:20 [waterspout_v2] [render] key_S30_1775: rc=0 (81.3s)
+14:38:46 [waterspout_v2] [render] key_S31_1822: rc=0 (76.2s)
+14:39:30 [waterspout_v2] [render] key_S32_1874: rc=0 (93.6s)
+14:39:56 [waterspout_v2] [render] key_S33_1927: rc=0 (95.9s)
+14:40:24 [waterspout_v2] [render] key_S34_1984: rc=0 (98.0s)
+14:41:01 [waterspout_v2] [render] key_S35_2035: rc=0 (91.5s)
+14:41:28 [waterspout_v2] [render] key_S36_2084: rc=0 (91.5s)
+14:41:53 [waterspout_v2] [render] key_S37_2136: rc=0 (89.3s)
+14:41:57 [waterspout_v2] regress[previs] warn TIER: prop:lamp (previs): 22 shots; yacht (previs): 29 shots; prop:radio (previs): 1 shots
+14:41:57 [waterspout_v2] regress[previs] warn CANON-MANUAL: 1 canon rule(s) need a human review per .claude/skills/film-craft-canon/SKILL.md: ['CAN-L3']
+14:41:57 [waterspout_v2] regress[previs] warn GOLDENS: stale goldens (run `python -m factory.goldens compare`): ['hero_face_sheet', 'hero_pose_sheet', 'hero_turnaround', 'kit_abandoned_city_street', 'kit_de
+14:41:57 [waterspout_v2] regress[previs] BLOCKING: ["CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']
+14:41:57 [waterspout_v2] stage previs: FAILED RegressionBlocked: regress check before previs failed: ["CANON:CAN-N3: CAN-N3e: silence: P-5 hard silence before the pa (64.20-64.70 s): words ['you.'] [measured words]", 'CANON:CAN-N4: CAN-N4f-pace: block L02-L02: 2.10 w/s; block L10-L10: 2.11 w/s; block L12-L12: 4.29 w/s', 'CANON:CAN-S1: CAN-S1a: T1: on screen 0.93 s in the audience-only window (< 1.0 s)']
+14:41:57 [waterspout_v2] run status: failed  cost $10.22  time 5231s
