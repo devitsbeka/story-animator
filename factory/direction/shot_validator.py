@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import camgeo as G  # noqa: E402
 
 TIGHT = {"CU", "ECU"}
+COL_CLEAR = 0.15        # polish_camera: minimum air (m) between the lens and any yacht surface
 WIDE = {"WS", "EWS"}
 CENTRE_TOL = 0.08
 
@@ -49,6 +50,25 @@ def actor_point(shot, a, f, h_frac):
     h = a.get("height", 1.8)
     loc = a["local"]
     return G.YachtFrame(shot.get("yacht"), f).body_to_world([loc[0], loc[1] + h * h_frac, loc[2]])
+
+
+# >>> polish_camera: the hero's real landmarks (factory/direction/hero_profile_*.json, measured from the rig)
+GENERIC_FRAC = {"eye": 1.64 / 1.8, "chest": 1.3 / 1.8, "top": 1.0, "brow": 1.68 / 1.8, "chin": 1.5 / 1.8, "waist": 1.0 / 1.8}
+
+
+def actor_landmark(shot, a, f, name):
+    """world point of a hero landmark: measured performance track > profile stance/rest > generic 1.8 m human."""
+    prof = G.hero_profile(a.get("asset"))
+    h = a.get("height", 1.8)
+    loc = a["local"]
+    if prof is not None:
+        st = ((a.get("perf") or {}).get("stance") or [[0, None]])[0][1]
+        q = prof.local(name, h, shot.get("id"), f, st)
+        if q is not None:
+            q = G.rot_yv(a.get("rotY", 0.0), q)
+            return G.YachtFrame(shot.get("yacht"), f).body_to_world([loc[0] + q[0], loc[1] + q[1], loc[2] + q[2]])
+    return actor_point(shot, a, f, GENERIC_FRAC[name])
+# <<< polish_camera
 
 
 def track_at(track, f):
@@ -137,7 +157,7 @@ def analyse_shot(ep, shot):
         subj = lambda f: track_at(trk, f)
     elif a is not None:
         subj_kind, subj_h = "hero", a.get("height", 1.8)
-        subj = lambda f: actor_point(shot, a, f, 1.3 / 1.8)
+        subj = lambda f: actor_landmark(shot, a, f, "chest")
     else:
         subj_kind, subj_h = "look", 1.8
         subj = lambda f: G.camera_world(shot, f, jitter=False)[1]
@@ -152,18 +172,27 @@ def analyse_shot(ep, shot):
         rec = {"f": f, "sx": sx, "sy": sy, "depth": depth, "fov": fov, "frame_h": fh, "cam": cam,
                "size": G.classify_size(fh, subj_h) if depth > 0 else "behind"}
         if a is not None:
-            E = actor_point(shot, a, f, 1.64 / 1.8)
+            E = actor_landmark(shot, a, f, "eye")
             ex, ey, ed = G.project(cam, look, roll, fov, aspect, E)
             rec["eye"] = (ex, ey)
-            Hc = actor_point(shot, a, f, 1.3 / 1.8)
+            Hc = actor_landmark(shot, a, f, "chest")
             hx, hy, hd = G.project(cam, look, roll, fov, aspect, Hc)
             rec["hero"] = (hx, hy, hd)
             rec["hero_fh"] = G.frame_height_at(max(hd, 1e-3), fov)
+            rec["face"] = {n: G.project(cam, look, roll, fov, aspect, actor_landmark(shot, a, f, n))[:2] for n in ("top", "brow", "chin")}
+            rec["eye_p"] = E
         samples.append(rec)
 
-    # shot size: median frame height over the shot
+    # shot size: median frame height over the shot (a profiled hero: by his real head / torso proportions)
     fhs = sorted(s["frame_h"] for s in samples if s["depth"] > 0) or [0.0]
-    size = G.classify_size(fhs[len(fhs) // 2], subj_h)
+    prof = G.hero_profile(a.get("asset")) if a is not None else None
+    if prof is not None and subj_kind == "hero":
+        for s_ in samples:
+            if s_["depth"] > 0:
+                s_["size"] = prof.classify(s_["frame_h"], subj_h)
+        size = prof.classify(fhs[len(fhs) // 2], subj_h)
+    else:
+        size = G.classify_size(fhs[len(fhs) // 2], subj_h)
     lens = statistics.median(G.vfov_to_lens(s["fov"], aspect) for s in samples)
     dxs = [abs(s["sx"] - 0.5) for s in samples if s["sx"] is not None and s["f"] >= centre_from]
     behind = [s["f"] for s in samples if s["sx"] is None]
@@ -191,20 +220,38 @@ def analyse_shot(ep, shot):
             break
     rate = sum(m_frames) / max(1e-6, (f1 - f0) / fps)
 
-    # collisions
+    # collisions (polish_camera: against the real yacht geometry when the proxy exists, every frame)
     col = []
     yacht = shot.get("yacht")
-    for s in samples:
+    P = G.yacht_proxy() if yacht else None
+    col_frames = [{"f": f, "cam": G.camera_world(shot, f, jitter=True)[0]} for f in range(f0, f1 + 1)] if P else samples
+    for s in col_frames:
         if s["cam"][1] < 0.25:
             col.append((s["f"], "under water"))
         elif yacht:
             b = G.YachtFrame(yacht, s["f"]).world_to_body(s["cam"])
-            if abs(b[0]) < 2.0 and -7.5 < b[2] < 6.5 and b[1] < 1.25:
+            if P is not None:
+                dd = P.sdf(b)
+                if dd < 0:
+                    col.append((s["f"], f"inside yacht geometry ({dd:+.2f} m)"))
+                elif dd < COL_CLEAR:
+                    col.append((s["f"], f"lens {dd:.2f} m from a surface"))
+            elif abs(b[0]) < 2.0 and -7.5 < b[2] < 6.5 and b[1] < 1.25:
                 col.append((s["f"], "inside hull"))
 
     # hull occlusion: the camera -> hero chest ray passing through the hull below deck (transom, topsides)
     occ = []
-    if a is not None and yacht:
+    if a is not None and yacht and P is not None:
+        if not d.get("ots"):
+            for s in samples:                     # camera -> face sight line through the real geometry
+                yf = G.YachtFrame(yacht, s["f"])
+                cb, eb = yf.world_to_body(s["cam"]), yf.world_to_body(s["eye_p"])
+                L = G.norm(G.sub(eb, cb))
+                ex_, ey_ = s.get("eye") or (None, None)
+                if L > 0.3 and ex_ is not None and 0 <= ex_ <= 1 and 0 <= ey_ <= 1:
+                    if P.blocked(cb, G.add(cb, G.mul(G.sub(eb, cb), (L - 0.18) / L)), 0.0) is not None:
+                        occ.append(s["f"])
+    elif a is not None and yacht:
         for s in samples[::2]:
             yf = G.YachtFrame(yacht, s["f"])
             Hc = actor_point(shot, a, s["f"], 1.3 / 1.8)
@@ -237,6 +284,25 @@ def analyse_shot(ep, shot):
         s1, a1 = side_at(samples[-1])
         side = {"start": s0, "end": s1, "az_start": round(a0, 1), "az_end": round(a1, 1), "facing": yaw}
 
+    # face crop (polish_camera): on hero shots framed MS or tighter, brow..chin inside, cap top inside (headroom)
+    crop = []
+    if a is not None and subj_kind == "hero" and not exempt and not d.get("ots"):
+        for s in samples:
+            fc = s.get("face")
+            if not fc or s.get("size") not in ("ECU", "CU", "MCU", "MS") or s["f"] < centre_from:
+                continue
+            u = (s["f"] - f0) / max(1, f1 - f0)       # a tilt frames the hands on purpose until it reaches the face
+            if (d.get("preset") == "tilt_up" and u < 0.7) or (d.get("preset") == "tilt_down" and u > 0.3):
+                continue
+            (tx, ty), (bx, by), (cx, cy) = fc["top"], fc["brow"], fc["chin"]
+            if None in (tx, bx, cx):
+                crop.append((s["f"], "face behind camera"))
+            elif s["size"] != "ECU" and ty < -0.005:
+                crop.append((s["f"], f"cap cropped (top {ty:.2f})"))
+            elif not (0.2 <= bx <= 0.8) and s["size"] in ("CU", "MCU"):
+                crop.append((s["f"], f"face off-centre (x {bx:.2f})"))
+            elif by < 0.0 or cy > 1.0 or not (0 <= bx <= 1):
+                crop.append((s["f"], f"face cropped (brow {by:.2f}, chin {cy:.2f})"))
     key = shot.get("keyFrame", (f0 + f1) // 2)
     ks = min(samples, key=lambda s: abs(s["f"] - key))
     # story anchors on screen at the key frame (no occlusion test): island coast, fires, the yacht
@@ -264,6 +330,9 @@ def analyse_shot(ep, shot):
         "hero_size_key": G.classify_size(ks["hero_fh"], 1.8) if ks.get("hero") and ks["hero"][2] > 0 else None,
         "first_sx": samples[0]["sx"], "last_sx": samples[-1]["sx"],
         "motion_rate": round(rate, 4), "static_at": static_at, "collisions": col[:5], "occluded": occ, "side": side,
+        "face_crop": crop[:4],
+        "key_top_y": round(ks["face"]["top"][1], 3) if ks.get("face") and ks["face"]["top"][1] is not None else None,
+        "key_chin_y": round(ks["face"]["chin"][1], 3) if ks.get("face") and ks["face"]["chin"][1] is not None else None,
         "has_hero": a is not None, "anchors": anchors, "fires_lit": bool(lit), "preset": d.get("preset"), "motivation": d.get("motivation"),
         "pov": bool(d.get("pov")), "insert": bool(d.get("insert")), "ots": bool(d.get("ots")), "exempt": exempt,
         "line_cross": d.get("line_cross"), "long_take": bool(d.get("long_take")), "time_jump": bool(d.get("time_jump")),
@@ -463,8 +532,17 @@ def validate(ep):
                   "fail" if stat else ("warn" if slow else "pass"), f"static: {stat}; slow: {slow}", [s.split("@")[0] for s in stat]))
     # collisions
     col = [f"{x['id']}:{x['collisions'][0][1]}@{x['collisions'][0][0]}" for x in A if x["collisions"]]
-    R.append(rule("COL", "camera not under water / inside the hull", "fail" if col else "pass", "; ".join(col) if col else "ok",
-                  [c.split(":")[0] for c in col]))
+    R.append(rule("COL", "camera not under water / inside the yacht (walls, consoles, cabin: real-geometry proxy)", "fail" if col else "pass",
+                  "; ".join(col) if col else "ok", [c.split(":")[0] for c in col]))
+    # >>> polish_camera: face framing + set references
+    fc = [f"{x['id']}@{x['face_crop'][0][0]}: {x['face_crop'][0][1]}" for x in A if x.get("face_crop")]
+    R.append(rule("FACE", "hero face never cropped on MS-and-tighter (brow..chin inside, cap inside = headroom)",
+                  "fail" if fc else "pass", "; ".join(fc) if fc else "ok", [c.split("@")[0] for c in fc]))
+    kits = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "worlds", "kits")
+    badset = [s_["id"] for s_ in shots if isinstance(s_.get("set"), str) and not os.path.exists(os.path.join(kits, s_["set"] + ".json"))]
+    R.append(rule("SET", "every shot 'set' names a world kit (the renderer exits on an unknown kit)", "fail" if badset else "pass",
+                  f"unknown kits on {badset}" if badset else "ok", badset))
+    # <<< polish_camera
     # story context: hero shots must also show where we are (island / fires), not just a man against black water
     hs = [x for x in A if x["has_hero"]]
     ctx = [x for x in hs if x["anchors"]["island"] or x["anchors"]["fires"]]

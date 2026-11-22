@@ -1839,6 +1839,52 @@ def select_camera(spec, work, args):
 # <<< docuseries
 
 
+# >>> polish_camera hook: OOM guard. Root cause of the C20/C28/E32/E33 (v4) render failures: no error in the logs,
+# the kernel's memory-cgroup OOM killer (dmesg "Memory cgroup out of memory: Killed process ... (blender)") took
+# them mid-render. An island shot peaks at ~6.5-7.3 GB RSS (3 Poly Haven trees = 3.9 M verts at LOD0, the island,
+# 81-169 ocean tiles) and the 4-core / 15 GB machine runs several agents' Blender processes in ONE memory cgroup,
+# so whichever process grew last was killed. Fix: (1) one render_episode at a time per machine (flock), (2) do not
+# start building until MemAvailable covers the shot's expected peak; plus the island footprint itself (the
+# island_lod workstream, cloud/blender/scatter_lod.py). RENDER_LOCK=0 / RENDER_MEM_GB=0 disable.
+def _mem_available_gb():
+    try:
+        with open("/proc/meminfo") as fh:
+            for line in fh:
+                if line.startswith("MemAvailable:"):
+                    return int(line.split()[1]) / 1048576.0
+    except OSError:
+        pass
+    return None
+
+
+def _memory_gate(work):
+    import fcntl
+    if os.environ.get("RENDER_LOCK", "1") != "0":
+        path = os.environ.get("RENDER_LOCK_FILE", "/tmp/story-animator-render.lock")
+        global _RENDER_LOCK_FH
+        _RENDER_LOCK_FH = open(path, "a+")
+        t0 = time.time()
+        fcntl.flock(_RENDER_LOCK_FH, fcntl.LOCK_EX)          # released when this process exits
+        if time.time() - t0 > 1:
+            log(f"render lock acquired after {time.time() - t0:.0f}s")
+    island = any(("island" in s and s["island"]) or (SPEC.get("world") or {}).get("island") for s, _ in work)
+    need = float(os.environ.get("RENDER_MEM_GB", "7.5" if (island and LIB_STORE) else "4.0"))
+    if need <= 0:
+        return
+    t0 = time.time()
+    while True:
+        avail = _mem_available_gb()
+        if avail is None or avail >= need or time.time() - t0 > float(os.environ.get("RENDER_MEM_WAIT_S", "1800")):
+            break
+        time.sleep(10)
+    if time.time() - t0 > 1:
+        log(f"memory gate: waited {time.time() - t0:.0f}s for {need:.1f} GB (now {avail:.1f} GB available)")
+
+
+_RENDER_LOCK_FH = None
+# <<< polish_camera hook
+
+
 def main():
     global ROOT, SPEC
     args = parse_args()
@@ -1850,6 +1896,7 @@ def main():
         raise SystemExit("--start must be <= --end")
     work = shots_for_range(SPEC, args.start, args.end)
     work = select_camera(SPEC, work, args)  # docuseries hook
+    _memory_gate(work)  # polish_camera hook: OOM guard (shared-memory machines)
     if not work:
         raise SystemExit(f"no shot covers frames {args.start}..{args.end}" + (" with a vertical camera" if args.camera == "vertical" else ""))
     t_all = time.time()

@@ -75,7 +75,7 @@ def pair(v):
 class Subject:
     """What the shot is about. point(f, aim) -> world point; facing(f) -> world yaw (rotY convention)."""
 
-    def __init__(self, point_fn, facing_fn=None, height=1.8, kind="hero", yacht=None, floor=0.6, name=None):
+    def __init__(self, point_fn, facing_fn=None, height=1.8, kind="hero", yacht=None, floor=0.6, name=None, profile=None):
         self._p = point_fn
         self._yaw = facing_fn or (lambda f: 0.0)
         self.height = height
@@ -83,6 +83,18 @@ class Subject:
         self.yacht = yacht
         self.floor = floor          # minimum world camera height (water / deck clearance)
         self.name = name or kind
+        self.profile = profile      # >>> polish_camera: camgeo.HeroProfile (real head size / eye height) or None
+
+    def frame_h(self, size):
+        """size name or metres -> frame height at the subject; a profiled hero uses his measured landmarks."""
+        if self.profile is not None and isinstance(size, str):
+            return self.profile.frame_h(size, self.height)
+        return frame_h_of(size, self.height)
+
+    def classify(self, frame_h):
+        if self.profile is not None:
+            return self.profile.classify(frame_h, self.height)
+        return G.classify_size(frame_h, self.height)
 
     def point(self, f, aim=None):
         return self._p(f, aim)
@@ -91,19 +103,32 @@ class Subject:
         return self._yaw(f)
 
 
-def hero_subject(yacht, local, rotY, height=1.8, name="hero", stance=None):
-    """A character standing on the yacht (feet at `local`, facing rotY in yacht space)."""
+PROFILE_AIMS = {"eye": "eye", "brow": "brow", "chin": "chin", "head_top": "top", "top": "top", "chest": "chest", "waist": "waist"}
+
+
+def hero_subject(yacht, local, rotY, height=1.8, name="hero", stance=None, profile=None, shot_id=None, acting_stance=None):
+    """A character standing on the yacht (feet at `local`, facing rotY in yacht space).
+    profile (camgeo.HeroProfile): aim points come from the rig's measured landmarks; with shot_id they follow the
+    measured performance of that shot (head lowered by a brace / look-down / lean), else acting_stance's pose."""
     def pt(f, aim):
         aim = aim or "chest"
         if aim == "chest" and stance == "sit":
             aim = "sit"
+        if profile is not None and isinstance(aim, str) and (aim in PROFILE_AIMS or aim in ("face", "sit")):
+            if aim == "face":
+                a, b = profile.local("brow", height, shot_id, f, acting_stance), profile.local("chin", height, shot_id, f, acting_stance)
+                q = G.vlerp(a, b, 0.5)
+            else:
+                q = profile.local(PROFILE_AIMS.get(aim, "chest"), height, shot_id, f, acting_stance)
+            q = G.rot_yv(rotY, q)
+            return G.YachtFrame(yacht, f).body_to_world([local[0] + q[0], local[1] + q[1], local[2] + q[2]])
         h = AIM_H[aim] * height / 1.8 if isinstance(aim, str) else float(aim)
         return G.YachtFrame(yacht, f).body_to_world([local[0], local[1] + h, local[2]])
 
     def yaw(f):
         return (yacht["heading"] if yacht else 0.0) + rotY
 
-    return Subject(pt, yaw, height, "hero", yacht, floor=0.6, name=name)
+    return Subject(pt, yaw, height, "hero", yacht, floor=0.6, name=name, profile=profile)
 
 
 def object_subject(yacht, local, size=0.3, facing=0.0, name="object"):
@@ -157,6 +182,9 @@ def _finish(name, keys_world, subj_track, subj, *, motivation, emotion, sizes, l
     yacht = subj.yacht if subj is not None else None
     if space is None:
         space = "yacht" if yacht else "world"
+    col = None
+    if COLLIDE and yacht:                       # polish_camera: never inside walls / consoles, face never occluded
+        keys_world, col = avoid_collisions(keys_world, subj_track, yacht, aspect)
     keys = []
     for k in keys_world:
         cam, look = k["cam"], k["look"]
@@ -174,9 +202,112 @@ def _finish(name, keys_world, subj_track, subj, *, motivation, emotion, sizes, l
                      "height": subj.height if subj else 1.8,
                      "track": [[f, [round(x, 3) for x in p]] for f, p in subj_track]},
          "pov": False, "insert": False, "handheld": handheld}
+    if col:
+        d["collision_fix"] = col
     if extra:
         d.update(extra)
     return {"camera": {"space": space, "keys": keys, "handheld": handheld, "drift": drift}, "direction": d}
+
+
+# >>> polish_camera: collision avoidance against the yacht proxy (camgeo.YachtProxy, exported from the real geometry)
+COLLIDE = True
+CLEARANCE = 0.22        # metres of air around the lens (near clip + no wall filling the frame edge)
+LOS_MARGIN = 0.03       # the camera -> subject sight line keeps this far from any surface
+
+
+def _rot_between(a, b, v):
+    """rotate v by the rotation taking unit a to unit b (Rodrigues)."""
+    ax = G.cross(a, b)
+    s_ = G.norm(ax)
+    c = max(-1.0, min(1.0, G.dot(a, b)))
+    if s_ < 1e-9:
+        return list(v)
+    k = G.mul(ax, 1 / s_)
+    ang = math.atan2(s_, c)
+    return G.add(G.add(G.mul(v, math.cos(ang)), G.mul(G.cross(k, v), math.sin(ang))), G.mul(k, G.dot(k, v) * (1 - math.cos(ang))))
+
+
+def _cam_ok(P, yf, cam, S):
+    b = yf.world_to_body(cam)
+    if P.sdf(b) < CLEARANCE:
+        return False
+    sb = yf.world_to_body(S)
+    L = G.norm(G.sub(sb, b))
+    if L < 0.3:
+        return True
+    end = G.add(b, G.mul(G.sub(sb, b), (L - 0.18) / L))     # stop short of the subject itself
+    return P.blocked(b, end, LOS_MARGIN) is None
+
+
+def avoid_collisions(keys_world, track, yacht, aspect=ASPECT, proxy=None):
+    """Move every key whose lens is inside / against the yacht (or whose sight line to the subject crosses it)
+    to the nearest clear spot: slide along the camera->subject line and/or rise, the slide smoothed over
+    neighbouring keys (no pops), the fov widened to keep the frame height at the subject, and the look turned
+    with the camera so the subject keeps its screen position. Returns (keys, report or None)."""
+    P = proxy or G.yacht_proxy()
+    if P is None or not keys_world:
+        return keys_world, None
+    tr = {f: p for f, p in track}
+    sol = []
+    bad = 0
+    for k in keys_world:
+        S = tr.get(k["f"], k["look"])
+        yf = G.YachtFrame(yacht, k["f"])
+        cam = k["cam"]
+        if _cam_ok(P, yf, cam, S):
+            sol.append((0.0, 0.0))
+            continue
+        bad += 1
+        best = None
+        D = G.norm(G.sub(S, cam))
+        for dz in (0.0, 0.15, 0.3, 0.45, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0):
+            for i in range(0, 18):
+                t = i * 0.05
+                if D * (1 - t) < 0.45:
+                    break
+                c = G.add(G.add(cam, G.mul(G.sub(S, cam), t)), [0, dz, 0])
+                if _cam_ok(P, yf, c, S):
+                    cost = t * D + 0.8 * dz
+                    if best is None or cost < best[0]:
+                        best = (cost, t, dz)
+                    break
+        sol.append((best[1], best[2]) if best else (0.0, 0.0))
+    if not bad:
+        return keys_world, None
+    n = len(sol)
+    W = 4
+    mx = [tuple(max(sol[j][c] for j in range(max(0, i - W), min(n, i + W + 1))) for c in (0, 1)) for i in range(n)]
+    sm = [tuple(sum(mx[j][c] for j in range(max(0, i - W), min(n, i + W + 1))) / (min(n, i + W + 1) - max(0, i - W)) for c in (0, 1)) for i in range(n)]
+    out, worst, fails = [], [0.0, 0.0], []
+    for k, (t, dz), raw in zip(keys_world, sm, sol):
+        S = tr.get(k["f"], k["look"])
+        yf = G.YachtFrame(yacht, k["f"])
+        cam = k["cam"]
+
+        def moved(tt, zz):
+            return G.add(G.add(cam, G.mul(G.sub(S, cam), tt)), [0, zz, 0])
+        c = moved(t, dz)
+        if not _cam_ok(P, yf, c, S):
+            c = moved(*raw)
+            t, dz = raw
+            if not _cam_ok(P, yf, c, S):
+                fails.append(k["f"])
+        if t == 0 and dz == 0:
+            out.append(k)
+            continue
+        worst = [max(worst[0], t * G.norm(G.sub(S, cam))), max(worst[1], dz)]
+        d0, d1 = G.norm(G.sub(S, cam)), G.norm(G.sub(S, c))
+        fh = G.frame_height_at(d0, k["fov"])
+        fov = max(k["fov"], min(100.0, math.degrees(2 * math.atan(fh / (2 * max(0.05, d1))))))
+        look = G.add(c, _rot_between(G.unit(G.sub(S, cam)), G.unit(G.sub(S, c)), G.sub(k["look"], cam)))
+        kk = dict(k)
+        kk.update({"cam": c, "look": look, "fov": fov})
+        out.append(kk)
+    rep = {"keys_moved": sum(1 for t, z in sm if t or z), "max_slide_m": round(worst[0], 3), "max_rise_m": round(worst[1], 3)}
+    if fails:
+        rep["unresolved_frames"] = fails[:8]
+    return out, rep
+# <<< polish_camera
 
 
 def _clear(cam, floor):
@@ -193,7 +324,8 @@ def _orbit(name, f0, f1, subj, *, az=(0, 0), el=(3, 3), size=("MS", "MS"), dist=
     az, el, size, roll = pair(az), pair(el), pair(size), pair(roll)
     s0 = size[0]
     lens = pair(lens if lens is not None else pick_lens(emotion, s0 if isinstance(s0, str) else None))
-    fh = (frame_h_of(size[0], subj.height), frame_h_of(size[1], subj.height))
+    fh = (subj.frame_h(size[0]), subj.frame_h(size[1]))
+    eye_max = 1.3 * subj.profile.frame_h("MS", subj.height) if subj.profile is not None else 1.1 * subj.height / 1.8
     keys, track = [], []
     for f in _frames(f0, f1):
         u = (f - f0) / max(1, f1 - f0)
@@ -206,7 +338,7 @@ def _orbit(name, f0, f1, subj, *, az=(0, 0), el=(3, 3), size=("MS", "MS"), dist=
         D = G.lerp(dist[0], dist[1], e) if dist else G.distance_for(fhe, vfov)
         a = math.radians(G.lerp(az[0], az[1], e))
         elv = math.radians(G.lerp(el[0], el[1], e))
-        cur_aim = aim or ("eye" if subj.kind == "hero" and fhe <= 1.1 * subj.height / 1.8 else None)
+        cur_aim = aim or ("eye" if subj.kind == "hero" and fhe <= eye_max else None)
         S = subj.point(f, cur_aim)
         S_cam = subj.point(max(f0, f - lag), cur_aim) if lag else S
         yaw = subj.facing(f) + a
@@ -214,19 +346,23 @@ def _orbit(name, f0, f1, subj, *, az=(0, 0), el=(3, 3), size=("MS", "MS"), dist=
         cam = _clear(cam, subj.floor)
         look = list(S)
         if headroom and subj.kind == "hero" and cur_aim == "eye":
-            look[1] -= 0.10 * G.frame_height_at(G.norm(G.sub(S, cam)), vfov)   # eyes at ~0.40 from the top
+            if subj.profile is not None:     # polish_camera: eyes exactly on the eye line (0.38 from the top)
+                look = _place_y(cam, S, vfov, G.EYE_LINE)
+            else:
+                look[1] -= 0.10 * G.frame_height_at(G.norm(G.sub(S, cam)), vfov)   # eyes at ~0.40 from the top
         keys.append({"f": f, "cam": cam, "look": look, "fov": vfov, "roll": G.lerp(roll[0], roll[1], e)})
         track.append((f, S))
-    sizes = [s if isinstance(s, str) else G.classify_size(s, subj.height) for s in size]
+    sizes = [s if isinstance(s, str) else subj.classify(s) for s in size]
     return _finish(name, keys, track, subj, motivation=motivation, emotion=emotion, sizes=sizes, lenses=lens,
                    handheld=handheld, extra=extra, aspect=aspect, space=space)
 
 
 def _line(name, f0, f1, subj, cam_a, cam_b, *, lens=35, emotion="neutral", ease="move", aim=None,
           motivation="follow_subject", look_a=None, look_b=None, track_look=False, extra=None, handheld=0.1,
-          aspect=ASPECT, space=None, path=None):
+          aspect=ASPECT, space=None, path=None, aims=None):
     """Camera along a straight line (or Catmull-Rom `path` of world points), look locked on the subject
-    (or interpolated look_a -> look_b, in which case the look IS the subject track)."""
+    (or interpolated look_a -> look_b, in which case the look IS the subject track; or, with aims=(from, to),
+    interpolated between two of the subject's aim points evaluated every frame, so a tilt follows a moving head)."""
     lens = pair(lens)
     keys, track = [], []
     for f in _frames(f0, f1):
@@ -234,7 +370,10 @@ def _line(name, f0, f1, subj, cam_a, cam_b, *, lens=35, emotion="neutral", ease=
         e = G.EASE[ease](u)
         cam = catmull(path, e) if path else G.vlerp(cam_a, cam_b, e)
         cam = _clear(cam, subj.floor)
-        if look_a is not None:
+        if aims is not None:
+            look = G.vlerp(subj.point(f, aims[0]), subj.point(f, aims[1]), e)
+            S = look
+        elif look_a is not None:
             look = G.vlerp(look_a, look_b, e)
             S = look
         else:
@@ -245,7 +384,7 @@ def _line(name, f0, f1, subj, cam_a, cam_b, *, lens=35, emotion="neutral", ease=
         track.append((f, S))
     fh0 = G.frame_height_at(G.norm(G.sub(track[0][1], keys[0]["cam"])), keys[0]["fov"])
     fh1 = G.frame_height_at(G.norm(G.sub(track[-1][1], keys[-1]["cam"])), keys[-1]["fov"])
-    sizes = [G.classify_size(fh0, subj.height), G.classify_size(fh1, subj.height)]
+    sizes = [subj.classify(fh0), subj.classify(fh1)]
     return _finish(name, keys, track, subj, motivation=motivation, emotion=emotion, sizes=sizes, lenses=lens,
                    handheld=handheld, extra=extra, aspect=aspect, space=space)
 
@@ -286,7 +425,7 @@ def _sph(S, yaw, D, el_deg):
 def _setup(subj, f, az, el, size, lens, aim=None, aspect=ASPECT):
     """Static camera placement: returns (cam, S, vfov, D, right_vector)."""
     vfov = G.lens_to_vfov(lens, aspect)
-    D = G.distance_for(frame_h_of(size, subj.height), vfov)
+    D = G.distance_for(subj.frame_h(size), vfov)
     S = subj.point(f, aim)
     yaw = subj.facing(f) + math.radians(az)
     cam = _sph(S, yaw, D, el)
@@ -523,7 +662,9 @@ def whip_pan(f0, f1, subj_from, subj_to, whip=8, size="MCU", az=25, angle="eye",
     frames = sorted(set(_frames(f0, f1)) | set(range(f0, min(fw, f1) + 1)))   # every frame through the whip
     for f in frames:
         A, B = subj_from.point(f, None), subj_to.point(f, "eye" if subj_to.kind == "hero" else None)
-        if subj_to.kind == "hero":   # eyes at ~0.40 from the top
+        if subj_to.kind == "hero" and subj_to.profile is not None:   # eyes on the eye line (0.38 from the top)
+            B = _place_y(cam0, B, vfov, G.EYE_LINE)
+        elif subj_to.kind == "hero":   # eyes at ~0.40 from the top
             B = [B[0], B[1] - 0.10 * G.frame_height_at(G.norm(G.sub(B, cam0)), vfov), B[2]]
         if f < fw:
             w = G.EASE["crashIn"]((f - f0) / whip) if f > f0 else 0.0
@@ -552,7 +693,8 @@ def _tilt(name, f0, f1, subj, aim_from, aim_to, size="MS", az=15, angle="eye", e
     cam0, _, vfov, D, _ = _setup(subj, f0, az, e, size, lens, aim_to)
     A, B = subj.point(f0, aim_from), subj.point(f0, aim_to)
     cam1 = G.add(cam0, G.mul(G.sub(B, cam0), creep))
-    return _line(name, f0, f1, subj, cam0, cam1, lens=lens, emotion=emotion, ease=ease, look_a=A, look_b=B,
+    # polish_camera: the tilt follows the performance (A04: he leans 0.25 m into the switch panel while it tilts)
+    return _line(name, f0, f1, subj, cam0, cam1, lens=lens, emotion=emotion, ease=ease, look_a=A, look_b=B, aims=(aim_from, aim_to),
                  motivation="character_attention", aspect=aspect, **kw)
 
 

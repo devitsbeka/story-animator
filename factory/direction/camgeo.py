@@ -304,3 +304,163 @@ def classify_size(frame_h, subject_h=1.8):
 
 def tighter(a, b):
     return SIZE_ORDER.index(a) < SIZE_ORDER.index(b)
+
+
+# ------------------------------------------------------------------ >>> polish_camera: hero profile + yacht collision proxy
+import base64 as _b64  # noqa: E402
+import zlib as _zlib  # noqa: E402
+import json as _json  # noqa: E402
+import os as _os  # noqa: E402
+
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+EYE_LINE = 0.38          # eyes this far from the top of frame on MS and tighter (PIXAR_RECIPE 3.1, C7 band 0.30-0.45)
+
+
+class HeroProfile:
+    """The hero's real proportions, measured from the rig (factory/direction/measure_hero_profile.py).
+
+    rest: fractions of the total height (cap top = 1): eye, brow, chin, top, shoulder, chest, waist, hips ...
+    stances / shots: actor-local landmark points (spec space, actor at rotY 0, height = profile height) for each
+    stance and, per shot id, a track [[f, {eye, brow, chin, top, chest, waist}], ...] of the real performance.
+    """
+
+    def __init__(self, data):
+        self.d = data
+        self.asset = data.get("asset")
+        self.height = float(data.get("height", 1.8))
+        self.rest = data["rest"]
+        self.stances = data.get("stances", {})
+        self.shots = data.get("shots", {})
+
+    @classmethod
+    def load(cls, path=None):
+        path = path or _os.path.join(_HERE, "hero_profile_jay.json")
+        with open(path) as fh:
+            return cls(_json.load(fh))
+
+    def local(self, name, h=1.8, shot_id=None, f=None, stance=None):
+        """actor-local landmark (spec space, actor height h, facing +z at rotY 0), or None if unknown."""
+        k = h / self.height
+        trk = self.shots.get(shot_id) if shot_id else None
+        if trk and f is not None and name in trk[0][1]:
+            if f <= trk[0][0]:
+                return mul(trk[0][1][name], k)
+            if f >= trk[-1][0]:
+                return mul(trk[-1][1][name], k)
+            for (fa, la), (fb, lb) in zip(trk, trk[1:]):
+                if fa <= f <= fb:
+                    return mul(vlerp(la[name], lb[name], (f - fa) / max(1e-9, fb - fa)), k)
+        if stance and stance in self.stances and name in self.stances[stance]:
+            return mul(self.stances[stance][name], k)
+        frac = self.rest.get(name)
+        if frac is None:
+            return None
+        return [0.0, frac * h, 0.0]
+
+    def frame_h(self, size, h=1.8, eye_line=EYE_LINE):
+        """Frame height at the subject (m) for a shot size from the real landmarks, eyes at `eye_line` from the top:
+        ECU eyes; CU forehead-to-chin with the cap inside (headroom); MCU to mid-chest; MS waist up."""
+        if not isinstance(size, str):
+            return float(size)
+        r = self.rest
+        eye, top, chin, chest, waist = (r[k] * h for k in ("eye", "top", "chin", "chest", "waist"))
+        need_top = (top - eye + 0.012 * h) / eye_line                    # cap (+ a little air) inside the top edge
+        if size == "ECU":
+            return 1.1 * (eye - chin)
+        if size == "CU":
+            return max(need_top, (eye - chin + 0.03 * h) / (1 - eye_line))
+        if size == "MCU":
+            return max(need_top, (eye - (chest - 0.03 * h)) / (1 - eye_line))
+        if size == "MS":
+            return max(need_top, (eye - (waist - 0.03 * h)) / (1 - eye_line))
+        return SIZE_FRAME_H[size] * h / 1.8
+
+    def size_bounds(self, h=1.8):
+        fh = {s: self.frame_h(s, h) for s in SIZE_ORDER}
+        out = [(a, math.sqrt(fh[a] * fh[b]) if a != "WS" else 18.0 * h / 1.8) for a, b in zip(SIZE_ORDER, SIZE_ORDER[1:])]
+        return out + [("EWS", float("inf"))]
+
+    def classify(self, frame_h, h=1.8):
+        for name, hi in self.size_bounds(h):
+            if frame_h < hi:
+                return name
+        return "EWS"
+
+
+_PROFILES = {}
+
+
+def hero_profile(asset):
+    """Measured profile for a character asset id (hero_v4 -> hero_profile_jay.json), None if not measured."""
+    if asset not in _PROFILES:
+        p = None
+        for fn in sorted(_os.listdir(_HERE)):
+            if fn.startswith("hero_profile_") and fn.endswith(".json"):
+                hp = HeroProfile.load(_os.path.join(_HERE, fn))
+                if hp.asset == asset:
+                    p = hp
+                    break
+        _PROFILES[asset] = p
+    return _PROFILES[asset]
+
+
+class YachtProxy:
+    """Signed-distance grid of the yacht + its mounted props (factory/direction/export_yacht_proxy.py), in yacht
+    body coordinates. sdf(p): metres, < 0 inside a solid, capped at 1.27; blocked(a, b): line of sight."""
+
+    def __init__(self, data):
+        self.cell = float(data["cell"])
+        self.o = data["origin"]
+        self.n = data["dims"]
+        raw = _zlib.decompress(_b64.b64decode(data["sdf_zb64"])) if "sdf_zb64" in data else _b64.b64decode(data["sdf_b64"])
+        self.v = [b - 256 if b > 127 else b for b in raw]
+        self.source = data.get("source")
+
+    @classmethod
+    def load(cls, path=None):
+        with open(path or _os.path.join(_HERE, "yacht_proxy.json")) as fh:
+            return cls(_json.load(fh))
+
+    def _at(self, i, j, k):
+        nx, ny, nz = self.n
+        if not (0 <= i < nx and 0 <= j < ny and 0 <= k < nz):
+            return 127
+        return self.v[(i * ny + j) * nz + k]
+
+    def sdf(self, p):
+        g = [(p[a] - self.o[a]) / self.cell for a in range(3)]
+        i, j, k = (int(math.floor(x)) for x in g)
+        fx, fy, fz = g[0] - i, g[1] - j, g[2] - k
+        acc = 0.0
+        for di, wx in ((0, 1 - fx), (1, fx)):
+            for dj, wy in ((0, 1 - fy), (1, fy)):
+                for dk, wz in ((0, 1 - fz), (1, fz)):
+                    w = wx * wy * wz
+                    if w:
+                        acc += w * self._at(i + di, j + dj, k + dk)
+        return acc / 100.0
+
+    def blocked(self, a, b, margin=0.0):
+        """first fraction t of the segment a->b inside a solid (sdf < margin), else None (sphere-traced)."""
+        L = norm(sub(b, a))
+        if L < 1e-6:
+            return None
+        t, step = 0.0, self.cell * 0.4
+        while t < L:
+            d = self.sdf(add(a, mul(sub(b, a), t / L)))
+            if d < margin:
+                return t / L
+            t += max(step, (d - margin) * 0.9)
+        return None
+
+
+_PROXY = {}
+
+
+def yacht_proxy(path=None):
+    key = path or "default"
+    if key not in _PROXY:
+        p = path or _os.path.join(_HERE, "yacht_proxy.json")
+        _PROXY[key] = YachtProxy.load(p) if _os.path.exists(p) else None
+    return _PROXY[key]
+# <<< polish_camera
