@@ -48,7 +48,7 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T14:23:22+00:00",
+ "updated": "2026-11-22T14:23:55+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -343,6 +343,10 @@
        "FRAME-CROP"
       ]
      }
+    },
+    {
+     "try": 1,
+     "failing": {}
     }
    ],
    "pose": [
@@ -380,9 +384,99 @@
      "mode": "warn",
      "report": "episodes/waterspout_v2/qc/pose_qc_previs_0.json",
      "error": null
+    },
+    {
+     "try": 1,
+     "failing": {
+      "S02": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S05": [
+       "POSE-PALM.R"
+      ],
+      "S08": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S15": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S30": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S36": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ],
+      "S37": [
+       "POSE-PALM.L",
+       "POSE-PALM.R"
+      ]
+     },
+     "mode": "warn",
+     "report": "episodes/waterspout_v2/qc/pose_qc_previs_1.json",
+     "error": null
     }
    ],
-   "ok": false
+   "ok": true,
+   "camera_repairs": [
+    {
+     "try": 1,
+     "fixed": {
+      "S04": {
+       "orbit_deg": 40
+      },
+      "S05": {
+       "rise": 0.25
+      },
+      "S06": {
+       "dolly": 0.18
+      },
+      "S08": {
+       "tilt": 0.08
+      },
+      "S09": {
+       "orbit_deg": 30
+      },
+      "S12": {
+       "rise": 0.25
+      },
+      "S14": {
+       "dolly": -0.2,
+       "tilt": 0.3
+      },
+      "S15": {
+       "tilt": 0.04
+      },
+      "S18": {
+       "dolly": 0.26
+      },
+      "S22": {
+       "rise": 0.5
+      },
+      "S25": {
+       "dolly": -0.2,
+       "tilt": 0.3
+      },
+      "S26": {
+       "rise": 0.5
+      },
+      "S29": {
+       "dolly": 0.26
+      },
+      "S30": {
+       "tilt": 0.12
+      },
+      "S37": {
+       "widen": 0.12
+      }
+     },
+     "still": []
+    }
+   ]
   }
  },
  "notes": [

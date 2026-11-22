@@ -1,0 +1,1435 @@
+{
+ "schema": "factory.pose_qc/1",
+ "spec": "episodes/waterspout_v2/episode.json",
+ "measurements": [
+  {
+   "shot": "S01",
+   "frame": 19,
+   "stance": "brace",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 6.09214532767578,
+   "finger_curl_deg": {
+    "L": 141.874997260138,
+    "R": 141.87494091107735
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.061777687425895,
+    "R": 12.068558357724426
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -6.699693777534321e-08,
+     "ankle_dev_deg": 18.58704159967988
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -6.699693777534321e-08,
+     "ankle_dev_deg": 19.5579734807647
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S02",
+   "frame": 68,
+   "stance": "brace",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 4.505076009515186,
+   "finger_curl_deg": {
+    "L": 65.34744300199337,
+    "R": 65.34751663997035
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 10.673077285757243,
+    "R": 10.668503620334272
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -5.58933187733146e-07,
+     "ankle_dev_deg": 19.257732025229288
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -4.397238981823648e-07,
+     "ankle_dev_deg": 20.748939905961493
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 152.24169275029598,
+    "R": 151.2353053572296
+   }
+  },
+  {
+   "shot": "S03",
+   "frame": 137,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.5096668336905914,
+   "finger_curl_deg": {
+    "L": 141.8745468945396,
+    "R": 141.87460836624211
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.989278644480795,
+    "R": 11.987141649044228
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -5.05933419603366e-08,
+     "ankle_dev_deg": 12.854996584043448
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -5.05933419603366e-08,
+     "ankle_dev_deg": 13.865789449124463
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S04",
+   "frame": 201,
+   "stance": "down",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 63.24228960586418,
+   "finger_curl_deg": {
+    "L": 141.87512020354305,
+    "R": 141.87476033795116
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 26.84284663627792,
+    "R": 18.576647759310422
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 5.33252206475983,
+     "gap_m": -2.5282052007469247e-08,
+     "ankle_dev_deg": 24.06212123836211
+    },
+    "R": {
+     "tilt_deg": 1.98060630268925,
+     "gap_m": -2.5282052007469247e-08,
+     "ankle_dev_deg": 24.197953210386146
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S05",
+   "frame": 271,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 3.0382588556776664,
+   "finger_curl_deg": {
+    "L": 141.8748111374831,
+    "R": 104.94847341347169
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [
+    {
+     "prop": "radio",
+     "hand": "R",
+     "dist_m": 0.00546855401462006,
+     "palm_angle_deg": 93.10619495408154
+    }
+   ],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.986746351846012,
+    "R": 4.512190305345088
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 5.874409048090001e-08,
+     "ankle_dev_deg": 13.201847250475026
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 5.874409048090001e-08,
+     "ankle_dev_deg": 12.98043983833989
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S06",
+   "frame": 342,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.5788341993859534,
+   "finger_curl_deg": {
+    "L": 141.87487815871435,
+    "R": 141.87476076483796
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.991629083328926,
+    "R": 11.985957464996876
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -2.8620172898286e-09,
+     "ankle_dev_deg": 10.024757437286922
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 1.1634727226095265e-07,
+     "ankle_dev_deg": 14.112994485754726
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S08",
+   "frame": 437,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.8085481857307073,
+   "finger_curl_deg": {
+    "L": 141.87493365400135,
+    "R": 141.87488925777174
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.120178366150443,
+    "R": 12.125121715562239
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.35718004689076244,
+     "gap_m": 3.880122356747506e-08,
+     "ankle_dev_deg": -1.4643993882399116
+    },
+    "R": {
+     "tilt_deg": 0.43700724248505174,
+     "gap_m": 3.880122356747506e-08,
+     "ankle_dev_deg": -1.6047666058728396
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 152.33283479458063,
+    "R": 151.71929256181673
+   }
+  },
+  {
+   "shot": "S09",
+   "frame": 484,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 4.376430371115567,
+   "finger_curl_deg": {
+    "L": 141.875004517214,
+    "R": 154.1156090435504
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.985579243271587,
+    "R": 22.909525108375167
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -6.453638246028959e-07,
+     "ankle_dev_deg": 13.120069395542473
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -6.453638246028959e-07,
+     "ankle_dev_deg": 13.14950751086522
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S10",
+   "frame": 576,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.30537349036840794,
+   "finger_curl_deg": {
+    "L": 141.8748627907887,
+    "R": 141.8747594841775
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.991547121058884,
+    "R": 11.987766611353283
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 7.218158071253811e-08,
+     "ankle_dev_deg": 10.966456108724088
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 4.2980944936488186e-07,
+     "ankle_dev_deg": 13.706762154679055
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S12",
+   "frame": 718,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.46039408834657464,
+   "finger_curl_deg": {
+    "L": 141.87480814927534,
+    "R": 141.87502458089466
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.988390719888693,
+    "R": 11.98788101702188
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -8.572594811795398e-08,
+     "ankle_dev_deg": 13.01383946338126
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -2.0493523766873523e-07,
+     "ankle_dev_deg": 12.84460103612669
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S13",
+   "frame": 755,
+   "stance": "brace",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 6.053642136353854,
+   "finger_curl_deg": {
+    "L": 141.87444657613617,
+    "R": 141.87456439689933
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.072886136337274,
+    "R": 12.058688734373757
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -9.290302287467966e-07,
+     "ankle_dev_deg": 17.53500122220116
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -9.290302287467966e-07,
+     "ankle_dev_deg": 20.409622938184427
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S14",
+   "frame": 798,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 1.8526157264111376,
+   "finger_curl_deg": {
+    "L": 141.87485297239178,
+    "R": 141.87483290871108
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.09133874615371,
+    "R": 12.107322242585186
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.7209853986344115e-08,
+     "ankle_dev_deg": 12.727804801319465
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.7209853986344115e-08,
+     "ankle_dev_deg": 11.901857345746507
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S15",
+   "frame": 844,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.4134033373100434,
+   "finger_curl_deg": {
+    "L": 68.94354080165625,
+    "R": 68.94357964835716
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.362865773999646,
+    "R": 11.336228036236596
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -2.2770614549472157e-07,
+     "ankle_dev_deg": 1.3630257205785625
+    },
+    "R": {
+     "tilt_deg": 0.03956468118525214,
+     "gap_m": -2.2770614549472157e-07,
+     "ankle_dev_deg": -1.1551830641350946
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 174.40486430504362,
+    "R": 173.668720176678
+   }
+  },
+  {
+   "shot": "S17",
+   "frame": 953,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": -1.858205952397067,
+   "finger_curl_deg": {
+    "L": 141.8747816822923,
+    "R": 141.87486193701505
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.988966163326266,
+    "R": 11.98705883300054
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -4.256649788203504e-08,
+     "ankle_dev_deg": 11.40951681980448
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -4.256649788203504e-08,
+     "ankle_dev_deg": 12.491678331522948
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S18",
+   "frame": 1018,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 4.7515658144423325,
+   "finger_curl_deg": {
+    "L": 141.8748149794645,
+    "R": 141.87479747710478
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.986450946164409,
+    "R": 11.98737131415507
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 1.0833729202630593e-07,
+     "ankle_dev_deg": 14.70807471719209
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 1.0833729202630593e-07,
+     "ankle_dev_deg": 14.201670831749013
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S19",
+   "frame": 1077,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 4.5092834799947115,
+   "finger_curl_deg": {
+    "L": 141.8749878686279,
+    "R": 154.11574479356014
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.98569450271383,
+    "R": 22.57521296171243
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.6282839698789076e-07,
+     "ankle_dev_deg": 13.86462831696555
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.6282839698789076e-07,
+     "ankle_dev_deg": 13.321150164707646
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S20",
+   "frame": 1133,
+   "stance": "brace",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 6.597872384990488,
+   "finger_curl_deg": {
+    "L": 141.87494261862463,
+    "R": 141.8748030266335
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.077048282862751,
+    "R": 12.061843427996656
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 2.922548159034477e-08,
+     "ankle_dev_deg": 18.858493807863695
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 2.922548159034477e-08,
+     "ankle_dev_deg": 21.744924920921918
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S22",
+   "frame": 1277,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": -1.6770457478002043,
+   "finger_curl_deg": {
+    "L": 141.8751599040176,
+    "R": 141.87506172004828
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.986664389575973,
+    "R": 11.987766611353283
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.7170872279592686e-07,
+     "ankle_dev_deg": 12.961219686015482
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.7170872279592686e-07,
+     "ankle_dev_deg": 12.327945036739408
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S23",
+   "frame": 1357,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 1.8435395016315443,
+   "finger_curl_deg": {
+    "L": 141.87479406201018,
+    "R": 171.27231954487934
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.987568535867354,
+    "R": 8.961531771268659
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 4.3138996819180875e-07,
+     "ankle_dev_deg": 11.596739135143693
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 4.3138996819180875e-07,
+     "ankle_dev_deg": 12.928345985540204
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S24",
+   "frame": 1428,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 2.2505788662775186,
+   "finger_curl_deg": {
+    "L": 141.87470612332464,
+    "R": 141.87479662333112
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.110155063543449,
+    "R": 12.118697922647842
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -5.336346831086303e-08,
+     "ankle_dev_deg": 2.263203672051233
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -5.336346831086303e-08,
+     "ankle_dev_deg": -0.04199200301724204
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S25",
+   "frame": 1484,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 1.7325009748967386,
+   "finger_curl_deg": {
+    "L": 141.8748367506925,
+    "R": 141.87474411625186
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.091713552784414,
+    "R": 12.087132203398628
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.3349839367293725e-07,
+     "ankle_dev_deg": 12.294716166427293
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.4289104122156004e-08,
+     "ankle_dev_deg": 11.415541046652422
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S26",
+   "frame": 1544,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.6752476529186484,
+   "finger_curl_deg": {
+    "L": 141.87505019410406,
+    "R": 141.87543780733947
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.988999460498471,
+    "R": 11.985431540430785
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.4498982361388357e-06,
+     "ankle_dev_deg": 13.338259788578526
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.4498982361388357e-06,
+     "ankle_dev_deg": 14.522785345387987
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S27",
+   "frame": 1607,
+   "stance": "brace",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 6.147775871586061,
+   "finger_curl_deg": {
+    "L": 141.8749195667362,
+    "R": 141.87478467050005
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.062725376173235,
+    "R": 12.066385503794715
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.5558334620635605e-07,
+     "ankle_dev_deg": 18.607354582271498
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -3.6374056655574805e-08,
+     "ankle_dev_deg": 19.824139122530937
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S28",
+   "frame": 1670,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.5624196558969521,
+   "finger_curl_deg": {
+    "L": 141.8747961964443,
+    "R": 141.87474326247823
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.99074201251047,
+    "R": 11.987634276438115
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -2.2172653579843882e-07,
+     "ankle_dev_deg": 12.711077668042108
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.0251724624765757e-07,
+     "ankle_dev_deg": 15.248971057943749
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S29",
+   "frame": 1725,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 2.738087636721971,
+   "finger_curl_deg": {
+    "L": 141.87503439929162,
+    "R": 141.87514923184702
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.987749535880358,
+    "R": 11.985726946112388
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -6.245876171817599e-08,
+     "ankle_dev_deg": 11.295097490828425
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.8166805126895724e-07,
+     "ankle_dev_deg": 12.524422258404002
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S30",
+   "frame": 1775,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 3.1402817852348512,
+   "finger_curl_deg": {
+    "L": 68.94352564717403,
+    "R": 68.94351881698486
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.364581859028613,
+    "R": 11.364772250551727
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": -4.4385636677191087e-07,
+     "ankle_dev_deg": 3.016730631854543
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -4.4385636677191087e-07,
+     "ankle_dev_deg": 1.7721403914839868
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 174.70050221307847,
+    "R": 173.8766994369049
+   }
+  },
+  {
+   "shot": "S31",
+   "frame": 1822,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 4.396722781441329,
+   "finger_curl_deg": {
+    "L": 141.87476759502715,
+    "R": 154.11585578413417
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.98569450271383,
+    "R": 22.60296914295207
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 2.432926633488819e-07,
+     "ankle_dev_deg": 13.367028545362615
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": 2.432926633488819e-07,
+     "ankle_dev_deg": 13.04514222034743
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S32",
+   "frame": 1874,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.4044463201813396,
+   "finger_curl_deg": {
+    "L": 141.87486151012826,
+    "R": 141.87481199125676
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.991136455935038,
+    "R": 11.987289351885028
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 3.218797148818453e-07,
+     "ankle_dev_deg": 10.461035770521477
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -3.574815377049845e-08,
+     "ankle_dev_deg": 13.783178311113161
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S33",
+   "frame": 1923,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": -3.255498549923834,
+   "finger_curl_deg": {
+    "L": 141.87489352663997,
+    "R": 141.87470783087193
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 12.007858466570521,
+    "R": 12.003507636069223
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.12194655762716466,
+     "gap_m": -3.481534980309675e-07,
+     "ankle_dev_deg": -6.205097087362361
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -3.481534980309675e-07,
+     "ankle_dev_deg": -3.23295393040965
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S34",
+   "frame": 1984,
+   "stance": "helm",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.9006973845581293,
+   "finger_curl_deg": {
+    "L": 141.87491572475477,
+    "R": 141.8748516917313
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.989065201069232,
+    "R": 11.985661205541627
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.0,
+     "gap_m": 2.3646378544128765e-07,
+     "ankle_dev_deg": 10.620684612181364
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -1.954793660274845e-09,
+     "ankle_dev_deg": 13.667556868843178
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S35",
+   "frame": 2034,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 3.566766545601367,
+   "finger_curl_deg": {
+    "L": 68.94355766368577,
+    "R": 68.94366801392954
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 5.596536196937503,
+    "R": 7.79152805040829
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.027976454840372228,
+     "gap_m": -4.4292392065159447e-07,
+     "ankle_dev_deg": -1.0915940029622746
+    },
+    "R": {
+     "tilt_deg": 0.33337841177842825,
+     "gap_m": -8.529605199925072e-08,
+     "ankle_dev_deg": -1.5439232807463696
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": null,
+    "R": null
+   }
+  },
+  {
+   "shot": "S36",
+   "frame": 2084,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.8021357152417784,
+   "finger_curl_deg": {
+    "L": 68.94350558349335,
+    "R": 68.94342810353496
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.306515859573395,
+    "R": 11.395441507472377
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.4215087428454995,
+     "gap_m": -9.841548020972368e-09,
+     "ankle_dev_deg": -3.323645182209077
+    },
+    "R": {
+     "tilt_deg": 0.0,
+     "gap_m": -9.841548020972368e-09,
+     "ankle_dev_deg": 3.3787921295677563
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 170.340136767699,
+    "R": 173.01337718619362
+   }
+  },
+  {
+   "shot": "S37",
+   "frame": 2136,
+   "stance": "stand",
+   "seated": false,
+   "seat_gap_m": null,
+   "spine_pitch_deg": 0.17282778378764152,
+   "finger_curl_deg": {
+    "L": 68.94340441131627,
+    "R": 68.94344133702646
+   },
+   "hand_shape": {
+    "L": "unset",
+    "R": "unset"
+   },
+   "grips": [],
+   "allow_lean_back": false,
+   "wrist_bend_deg": {
+    "L": 11.361358009740366,
+    "R": 11.335168503141599
+   },
+   "face_life": null,
+   "feet": {
+    "L": {
+     "tilt_deg": 0.28116017483065275,
+     "gap_m": -4.672007314354687e-08,
+     "ankle_dev_deg": -1.4176672339386798
+    },
+    "R": {
+     "tilt_deg": 0.5020211451517586,
+     "gap_m": -4.672007314354687e-08,
+     "ankle_dev_deg": -1.7469233330683167
+    }
+   },
+   "relaxed_palm_deg": {
+    "L": 174.77497859578827,
+    "R": 173.48772016367266
+   }
+  }
+ ],
+ "findings": [
+  {
+   "shot": "S02",
+   "frame": 68,
+   "stance": "brace",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 152.2,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S02",
+   "frame": 68,
+   "stance": "brace",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 151.2,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S05",
+   "frame": 271,
+   "stance": "helm",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 93.1,
+   "expected": "palm normal within 75.0 deg of the held radio (palm faces the object)"
+  },
+  {
+   "shot": "S08",
+   "frame": 437,
+   "stance": "stand",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 152.3,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S08",
+   "frame": 437,
+   "stance": "stand",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 151.7,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S15",
+   "frame": 844,
+   "stance": "stand",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 174.4,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S15",
+   "frame": 844,
+   "stance": "stand",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 173.7,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S30",
+   "frame": 1775,
+   "stance": "stand",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 174.7,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S30",
+   "frame": 1775,
+   "stance": "stand",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 173.9,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S36",
+   "frame": 2084,
+   "stance": "stand",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 170.3,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S36",
+   "frame": 2084,
+   "stance": "stand",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 173.0,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S37",
+   "frame": 2136,
+   "stance": "stand",
+   "rule": "POSE-PALM.L",
+   "status": "fail",
+   "measured": 174.8,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  },
+  {
+   "shot": "S37",
+   "frame": 2136,
+   "stance": "stand",
+   "rule": "POSE-PALM.R",
+   "status": "fail",
+   "measured": 173.5,
+   "expected": "relaxed hand: palm faces the thigh (normal within 50.0 deg of the body midline)"
+  }
+ ],
+ "summary": {
+  "checked": 370,
+  "failed": 13,
+  "ok": false,
+  "by_rule": {
+   "POSE-PALM": [
+    "S02",
+    "S05",
+    "S08",
+    "S15",
+    "S30",
+    "S36",
+    "S37"
+   ]
+  }
+ }
+}
