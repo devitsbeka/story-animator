@@ -1,0 +1,149 @@
+{
+ "audio": "/home/user/story-animator/episodes/waterspout_v2/audio/narration.mp3",
+ "words": "/home/user/story-animator/episodes/waterspout_v2/audio/narration.words.json",
+ "max_splice_s": 0.8,
+ "inserts": [],
+ "gaps": [
+  {
+   "id": "G01",
+   "after_line": "L01",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 2.67,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G02",
+   "after_line": "L02",
+   "purpose": "reaction",
+   "planned_s": 1.0,
+   "measured_s": 0.96,
+   "at_s": 6.58,
+   "ok": true,
+   "before_s": 0.96
+  },
+  {
+   "id": "G03",
+   "after_line": "L04",
+   "purpose": "reaction",
+   "planned_s": 1.0,
+   "measured_s": 0.96,
+   "at_s": 12.94,
+   "ok": true,
+   "before_s": 0.96
+  },
+  {
+   "id": "G04",
+   "after_line": "L05",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 16.49,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G05",
+   "after_line": "L06",
+   "purpose": "music_swell",
+   "planned_s": 0.8,
+   "measured_s": 0.76,
+   "at_s": 20.56,
+   "ok": true,
+   "before_s": 0.76
+  },
+  {
+   "id": "G06",
+   "after_line": "L07",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 25.25,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G07",
+   "after_line": "L09",
+   "purpose": "key_sfx",
+   "planned_s": 1.3,
+   "measured_s": 1.31,
+   "at_s": 31.89,
+   "ok": true,
+   "before_s": 1.31
+  },
+  {
+   "id": "G08",
+   "after_line": "L10",
+   "purpose": "key_sfx",
+   "planned_s": 0.8,
+   "measured_s": 0.77,
+   "at_s": 37.94,
+   "ok": true,
+   "before_s": 0.77
+  },
+  {
+   "id": "G09",
+   "after_line": "L11",
+   "purpose": "reaction",
+   "planned_s": 1.0,
+   "measured_s": 0.95,
+   "at_s": 43.23,
+   "ok": true,
+   "before_s": 0.95
+  },
+  {
+   "id": "G10",
+   "after_line": "L12",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.59,
+   "at_s": 46.28,
+   "ok": true,
+   "before_s": 0.59
+  },
+  {
+   "id": "G11",
+   "after_line": "L13",
+   "purpose": "music_swell",
+   "planned_s": 0.8,
+   "measured_s": 0.77,
+   "at_s": 49.83,
+   "ok": true,
+   "before_s": 0.77
+  },
+  {
+   "id": "G12",
+   "after_line": "L14",
+   "purpose": "key_sfx",
+   "planned_s": 0.6,
+   "measured_s": 0.58,
+   "at_s": 54.23,
+   "ok": true,
+   "before_s": 0.58
+  },
+  {
+   "id": "G13",
+   "after_line": "L15",
+   "purpose": "reaction",
+   "planned_s": 1.4,
+   "measured_s": 1.41,
+   "at_s": 58.44,
+   "ok": true,
+   "before_s": 1.41
+  },
+  {
+   "id": "G14",
+   "after_line": "L16",
+   "purpose": "key_sfx",
+   "planned_s": 1.0,
+   "measured_s": 0.95,
+   "at_s": 64.18,
+   "ok": true,
+   "before_s": 0.95
+  }
+ ],
+ "ok": true
+}

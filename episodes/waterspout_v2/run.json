@@ -49,7 +49,7 @@
  },
  "status": "running",
  "created": "2026-11-22T13:08:32+00:00",
- "updated": "2026-11-22T13:42:05+00:00",
+ "updated": "2026-11-22T13:42:36+00:00",
  "stages": {
   "develop": {
    "status": "done",
@@ -84,10 +84,23 @@
    "status": "pending"
   },
   "voice": {
-   "status": "running",
+   "status": "done",
    "started": "2026-11-22T13:42:05",
    "attempts": 1,
-   "error": null
+   "error": null,
+   "costUSD": 0.2526,
+   "seconds": 30.83,
+   "finished": "2026-11-22T13:42:36",
+   "artifacts": [
+    "episodes/waterspout_v2/audio/narration.mp3",
+    "episodes/waterspout_v2/audio/narration.words.json"
+   ],
+   "info": {
+    "audio": "episodes/waterspout_v2/audio/narration.mp3",
+    "words": "episodes/waterspout_v2/audio/narration.words.json",
+    "provider": "factory.voice",
+    "chars": 842
+   }
   },
   "direct": {
    "status": "pending"
@@ -113,12 +126,12 @@
   "iterations": []
  },
  "cost": {
-  "totalUSD": 2.8883,
+  "totalUSD": 3.1409,
   "byStage": {
    "develop": 2.8883,
    "breakdown": 0.0,
    "library": 0.0,
-   "voice": 0.0,
+   "voice": 0.2526,
    "direct": 0.0,
    "sound": 0.0,
    "previs": 0.0,
@@ -129,12 +142,12 @@
   "budgetUSD": 10.0
  },
  "time": {
-  "totalSeconds": 1746.65,
+  "totalSeconds": 1777.48,
   "byStage": {
    "develop": 1746.65,
    "breakdown": 0.0,
    "library": 0.0,
-   "voice": 0.0,
+   "voice": 30.83,
    "direct": 0.0,
    "sound": 0.0,
    "previs": 0.0,
